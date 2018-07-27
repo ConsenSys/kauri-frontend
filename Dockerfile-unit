@@ -1,0 +1,23 @@
+FROM gcr.io/kauri-197812/kauri-contract-abis:latest-dev
+
+# RUN apt-get update && apt upgrade && \
+#   apt install -y bash git openssh-client
+# RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/app/packages/kauri-web
+# RUN mkdir -p /usr/src/app/packages/kauri-components
+WORKDIR /usr/src/app/packages/kauri-web
+
+COPY packages/kauri-web/package.json /usr/src/app/packages/kauri-web/
+COPY packages/kauri-web/yarn.lock /usr/src/app/packages/kauri-web/
+RUN yarn
+
+COPY ./packages/kauri-web /usr/src/app/packages/kauri-web
+
+ENV GETH_BLOCKCHAIN=35.231.60.112:8545
+ENV MONOLITH_EXTERNAL_API=api.dev.kauri.io
+ENV MONOLITH_API=api.dev.kauri.io
+ENV CI=true
+ENV DEV_SEED_WORDS="${DEV_SEED_WORDS}"
+
+EXPOSE 3000
+CMD "npm" "run" "test:unit"

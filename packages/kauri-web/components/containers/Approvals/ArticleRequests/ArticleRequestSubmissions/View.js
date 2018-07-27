@@ -7,7 +7,7 @@ import { Divider } from 'antd'
 import type { ApproveArticlePayload } from '../../../Article/Module'
 
 type Props = {
-  data: { searchArticles: { content: Array<?ArticleDTO> } },
+  data: { searchArticles: { content: Array<?ArticleDTO>, totalElements: ?number } },
   routeChangeAction: string => void,
   approveArticleAction: ApproveArticlePayload => void,
   rejectArticleAction: string => void,

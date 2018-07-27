@@ -59,7 +59,7 @@ export const submitArticleEpic = (
       Observable.fromPromise(
         apolloClient.mutate({
           mutation: submitArticle,
-          variables: { request_id, text, subject, sub_category, category, metadata },
+          variables: { request_id, text, subject, sub_category, category, metadata, author_id: web3.eth.accounts[0] },
         })
       )
         .do(h => console.log(h))

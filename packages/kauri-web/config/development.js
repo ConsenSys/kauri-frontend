@@ -6,8 +6,8 @@ module.exports = {
   monolithApi,
   monolithExternalApi,
   gethBlockchain: '35.231.60.112:8545',
-  KauriCoreArtifact: '/Users/rej156/Documents/flow/smart-contracts/build/contracts/KauriCore.json',
-  WalletArtifact: '/Users/rej156/Documents/flow/smart-contracts/build/contracts/Wallet.json',
+  KauriCoreArtifact: '../../../../flow/smart-contracts/build/contracts/KauriCore.json',
+  WalletArtifact: '../../../../flow/smart-contracts/build/contracts/Wallet.json',
 }
 
 // module.exports = {

@@ -35,7 +35,12 @@ export const Details = styled.div`
   display: flex;
   flex-direction: column;
   width: ${props => (props.categoryArticle && '85%') || '75%'};
-  width: ${props => (props.type === 'approval' || props.type === 'personal' || props.type === 'approved') && '60%'};
+  width: ${props =>
+    (props.type === 'approval' ||
+      props.type === 'personal' ||
+      props.type === 'approved' ||
+      props.type === 'published') &&
+    '60%'};
   ${props => props.userId && personalSubmittedArticleWidth};
 `
 
@@ -84,6 +89,7 @@ export const Content = styled.div`
     (props.type === 'with request' ||
       props.type === 'approval' ||
       props.type === 'personal' ||
+      props.type === 'published' ||
       props.type === 'approved') &&
     '100%'};
 `
@@ -163,7 +169,7 @@ export default ({
   article: {
     article_id,
     date_updated,
-    versions,
+    comments,
     date_created,
     text,
     status,
@@ -228,18 +234,12 @@ export default ({
           <p>{status}</p>
         )}
         {type !== 'approval' &&
-          status !== 'APPROVED' &&
-          (status !== 'PRE_APPROVED' ? (
+          status !== 'PUBLISHED' &&
+          (status !== 'APPROVED' && (
             <Badge>
-              <strong>
-                {Array.isArray(versions)
-                  ? versions[versions.length - 1] && versions[versions.length - 1].comments.length.toString()
-                  : 0}
-              </strong>
+              <strong>{Array.isArray(comments) ? comments.length.toString() : 0}</strong>
               <span>Comments</span>
             </Badge>
-          ) : (
-            <p>{status}</p>
           ))}
       </Badges>
     </SubmittedArticle.SubmittedArticleDetails>

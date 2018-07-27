@@ -60,5 +60,5 @@ let postTypeOfString = postType : postType =>
 
 let jsComponent =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~postType=postTypeOfString(jsProps |. postType), [||])
+    make(~postType=postTypeOfString(jsProps |. postTypeGet), [||])
   );

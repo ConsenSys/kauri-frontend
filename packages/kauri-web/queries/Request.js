@@ -277,10 +277,8 @@ export const searchOpenRequestsWithSubmissions = gql`
         sub_category
         category
         content_hash
-        versions(version: "ALL") {
-          comments {
-            date_created
-          }
+        comments {
+          date_created
         }
         user {
           username

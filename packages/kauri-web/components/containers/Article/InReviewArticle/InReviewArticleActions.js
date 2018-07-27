@@ -44,7 +44,7 @@ export default ({
   isTopicOwner,
   isContributor,
   updateUnsubmittedArticle,
-  submitFinalisedArticle,
+  publishArticle,
   approveArticle,
   rejectArticle,
   preApproveArticle,
@@ -57,9 +57,17 @@ export default ({
     <Middle>
       {status === 'IN_REVIEW' &&
         isTopicOwner && (
-          <ActionBadge onClick={preApproveArticle}>
+          <ActionBadge onClick={approveArticle}>
             <ActionIcon />
             <strong>APPROVE ARTICLE</strong>
+          </ActionBadge>
+        )}
+      {/* TODO: PUBLISH ARTICLE DIRECTLY IF CONTRIBUTOR + TOPIC OWNER */}
+      {status === 'APPROVED' &&
+        isContributor && (
+          <ActionBadge onClick={publishArticle}>
+            <ActionIcon />
+            <strong>{'PUBLISH ARTICLE'}</strong>
           </ActionBadge>
         )}
     </Middle>
@@ -72,26 +80,10 @@ export default ({
           </ActionBadge>
         )}
       {status === 'IN_REVIEW' &&
-        isContributor && (
-          <ActionBadge onClick={submitFinalisedArticle}>
-            <ActionIcon />
-            <strong>{isTopicOwner ? 'PUBLISH ARTICLE' : 'SUBMIT FOR PUBLISHING'}</strong>
-          </ActionBadge>
-        )}
-
-      {status !== 'REJECTED' &&
         isTopicOwner && (
           <ActionBadge onClick={rejectArticle}>
             <ActionIcon />
             <strong>REJECT ARTICLE</strong>
-          </ActionBadge>
-        )}
-      {status === 'SUBMITTED' &&
-        isTopicOwner && (
-          <ActionBadge onClick={approveArticle}>
-            <ActionIcon />
-            {/* PUBLISH === APPROVE ARTICLE AFTER FINALISED */}
-            <strong>PUBLISH ARTICLE</strong>
           </ActionBadge>
         )}
     </PullRight>

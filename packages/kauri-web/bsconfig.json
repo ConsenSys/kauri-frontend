@@ -1,0 +1,32 @@
+{
+  "name": "kauri-web",
+  "reason": {
+    "react-jsx": 2
+  },
+  "sources": [
+    {
+      "dir": "components",
+      "subdirs": true
+    },
+    {
+      "dir": "lib/ReasonMLTypings",
+      "subdirs": true
+    },
+    {
+      "dir": "queries",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "commonjs",
+      "in-source": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "namespace": true,
+  "bs-dependencies": ["reason-react"],
+  "ppx-flags": ["graphql_ppx/ppx"],
+  "bsc-flags": ["-bs-super-errors"],
+  "refmt": 3
+}

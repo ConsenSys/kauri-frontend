@@ -1,6 +1,3 @@
 [submodule "kauri-ops"]
 	path = kauri-ops
-	url = git@github.com:ConsenSys/kauri-ops.git
-[submodule "packages/kauri-web/kauri-ops"]
-	path = packages/kauri-web/kauri-ops
-	url = git@github.com:ConsenSys/kauri-ops.git
+	url = https://github.com/ConsenSys/kauri-ops.git

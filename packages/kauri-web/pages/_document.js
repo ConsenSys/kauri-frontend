@@ -2,6 +2,8 @@ import React from 'react'
 import Document, { Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 import Helmet from 'react-helmet'
+import { renderStaticOptimized } from 'glamor/server'
+import { rehydrate } from 'glamor'
 import RedraftImageCss from '../static/css/redraft-image.css'
 import inlinePlugin from 'draft-js-inline-toolbar-plugin/lib/plugin.css'
 import megadraftEditor from 'megadraft/dist/css/megadraft.css'
@@ -34,9 +36,25 @@ if (isProduction) {
 export default class MyDocument extends Document {
   static async getInitialProps ({ renderPage }) {
     const sheet = new ServerStyleSheet()
-    const page = renderPage(App => props => sheet.collectStyles(<App {...props} />))
+    const page = renderPage(App => props => <App {...props} />)
     const styleTags = sheet.getStyleElement()
-    return { ...page, styleTags, helmet: Helmet.renderStatic() }
+    const styles = renderStaticOptimized(() => page.html || page.errorHtml)
+    return {
+      ...page,
+      styleTags,
+      ...styles,
+      helmet: Helmet.renderStatic(),
+    }
+  }
+
+  constructor (props) {
+    super(props)
+    const { __NEXT_DATA__, ids } = this.props
+    if (typeof window !== 'undefined') {
+      rehydrate(window.__NEXT_DATA__.ids)
+    } else {
+      __NEXT_DATA__.ids = ids
+    }
   }
 
   // should render on <html>
@@ -82,6 +100,7 @@ export default class MyDocument extends Document {
           <link rel='stylesheet' href='https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css' />
           <link rel='stylesheet' type='text/css' href='/static/styles.css' />
           <script defer src='https://use.fontawesome.com/releases/v5.0.6/js/all.js' />
+          <style dangerouslySetInnerHTML={{ __html: this.props.css }} />
           {this.props.styleTags}
         </Head>
         <body {...this.helmetBodyAttrComponents}>

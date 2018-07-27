@@ -3,20 +3,39 @@
   "reason": {
     "react-jsx": 2
   },
-  "sources": {
-    "dir": "components",
-    "subdirs": true
-  },
+  "sources": [
+    {
+      "dir": "components",
+      "subdirs": true
+    },
+    {
+      "dir": "stories",
+      "subdirs": true
+    },
+    {
+      "dir": "lib/bs-storybook",
+      "subdirs": true
+    }
+  ],
   "package-specs": [
     {
       "module": "es6",
       "in-source": true
     }
   ],
-  "ppx-flags": ["./bs-ppx-css\\ --as-ppx"],
+  "ppx-flags": [
+    "./bs-ppx-css\\ --as-ppx"
+  ],
   "suffix": ".bs.js",
   "namespace": true,
-  "bs-dependencies": ["reason-react", "bs-storybook", "bs-css", "bs-luxon", "vrroom"],
-  "bsc-flags": ["-bs-super-errors"],
+  "bs-dependencies": [
+    "reason-react",
+    "bs-css",
+    "bs-luxon",
+    "vrroom"
+  ],
+  "bsc-flags": [
+    "-bs-super-errors"
+  ],
   "refmt": 3
 }

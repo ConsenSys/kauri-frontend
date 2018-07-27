@@ -8,6 +8,7 @@ export const submitArticle = gql`
     $sub_category: String
     $category: String
     $metadata: Map_String_StringScalar
+    $author_id: String
   ) {
     submitArticle(
       request_id: $request_id
@@ -16,6 +17,8 @@ export const submitArticle = gql`
       sub_category: $sub_category
       category: $category
       metadata: $metadata
+      author_id: $author_id
+      draft: false
     ) {
       hash
     }
@@ -48,7 +51,9 @@ export const getArticle = gql`
   query getArticle($article_id: String) {
     getArticle(id: $article_id) {
       article_id
+      article_version
       user_id
+      category
       request_id
       date_created
       date_updated
@@ -57,23 +62,17 @@ export const getArticle = gql`
       status
       subject
       sub_category
-      category
       content_hash
-      versions(version: "ALL") {
-        text
-        version
+      comments {
+        comment_id
         date_created
-        comments {
-          comment_id
-          date_created
-          comment
-          highlight_from
-          highlight_to
-          anchor_key
-          focus_key
-          user {
-            username
-          }
+        comment
+        highlight_from
+        highlight_to
+        anchor_key
+        focus_key
+        user {
+          username
         }
       }
       user {
@@ -136,17 +135,13 @@ export const searchApprovedArticles = gql`
         sub_category
         subject
         text
-        versions(version: "ALL") {
-          version
+        comments {
           date_created
-          comments {
-            date_created
-            comment
-            highlight_from
-            highlight_to
-            anchor_key
-            focus_key
-          }
+          comment
+          highlight_from
+          highlight_to
+          anchor_key
+          focus_key
         }
       }
     }
@@ -169,17 +164,13 @@ export const globalSearchApprovedCategoryArticles = gql`
         sub_category
         subject
         text
-        versions(version: "ALL") {
-          version
+        comments {
           date_created
-          comments {
-            date_created
-            comment
-            highlight_from
-            highlight_to
-            anchor_key
-            focus_key
-          }
+          comment
+          highlight_from
+          highlight_to
+          anchor_key
+          focus_key
         }
       }
     }
@@ -202,17 +193,13 @@ export const globalSearchApprovedArticles = gql`
         sub_category
         subject
         text
-        versions(version: "ALL") {
-          version
+        comments {
           date_created
-          comments {
-            date_created
-            comment
-            highlight_from
-            highlight_to
-            anchor_key
-            focus_key
-          }
+          comment
+          highlight_from
+          highlight_to
+          anchor_key
+          focus_key
         }
       }
     }
@@ -234,10 +221,8 @@ export const searchPersonalSubmittedArticles = gql`
         category
         sub_category
         subject
-        versions(version: "ALL") {
-          comments {
-            date_created
-          }
+        comments {
+          date_created
         }
         user {
           username
@@ -254,6 +239,7 @@ export const searchPendingArticles = gql`
         article_id
         user_id
         request_id
+        article_version
         date_created
         date_updated
         tip
@@ -263,10 +249,8 @@ export const searchPendingArticles = gql`
         category
         sub_category
         subject
-        versions(version: "ALL") {
-          comments {
-            date_created
-          }
+        comments {
+          date_created
         }
         user {
           username
@@ -302,9 +286,9 @@ export const rejectArticle = gql`
   }
 `
 
-export const searchApprovedArticleHistory = gql`
-  query searchApprovedArticleHistory($userId: String, $categories: [String]) {
-    searchArticles(filter: { category_in: $categories, status_in: [APPROVED], moderator_eq: $userId }) {
+export const searchPublishedArticleHistory = gql`
+  query searchPublishedArticleHistory($userId: String, $categories: [String]) {
+    searchArticles(filter: { category_in: $categories, status_in: [PUBLISHED], moderator_eq: $userId }) {
       content {
         article_id
         user_id
@@ -317,10 +301,8 @@ export const searchApprovedArticleHistory = gql`
         category
         sub_category
         subject
-        versions(version: "ALL") {
-          comments {
-            date_created
-          }
+        comments {
+          date_created
         }
         user {
           username
