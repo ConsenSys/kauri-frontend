@@ -27,14 +27,14 @@ let renderPublishedArticles = searchArticles =>
   switch (searchArticles |? (x => x##content)) {
   | Some(content) =>
     content
-    |> Js.Array.map(article
+    |. Belt.Array.map(article
          /* This switch statement is slightly annoying, may use @bsRecord instead =_= */
          =>
            <Control.IfSome option=(article |? (article => article##subject))>
-             ...(subject => <p key=subject> (subject |. text) </p>)
+             ...(subject => <p key=subject> (subject ++ "hmph" |. text) </p>)
            </Control.IfSome>
          )
-    |> ReasonReact.array
+    |. ReasonReact.array
   | None => <p> ("No articles found boo" |. text) </p>
   };
 
