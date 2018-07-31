@@ -1,3 +1,5 @@
+open Vrroom;
+
 let (|?) = (a, b) =>
   switch (a) {
   | None => None
@@ -22,32 +24,41 @@ module Styles = {
 };
 
 let renderPublishedArticles = searchArticles =>
-  switch (searchArticles |? (searchArticles => searchArticles##content)) {
-  | Some(articles) => Js.log(articles)
-  | None => Js.log("No articles found boo")
+  switch (searchArticles |? (x => x##content)) {
+  | Some(content) =>
+    content
+    |> Js.Array.map(article
+         /* This switch statement is slightly annoying, may use @bsRecord instead =_= */
+         =>
+           switch (article |? (x => x##subject)) {
+           | Some(subject) => <p key=subject> (subject |. text) </p>
+           | None => <p> ("NO subject" |. text) </p>
+           }
+         )
+    |> ReasonReact.array
+  | None => <p> ("No articles found boo" |. text) </p>
   };
 
 let make = _children => {
   ...component,
   render: _self =>
     Article_Queries.(
-      Vrroom.(
-        <div className=Styles.container>
-          <SearchPublishedArticlesQuery>
-            ...(
-                 ({result}) =>
-                   switch (result) {
-                   | Loading => <div> (ReasonReact.string("Loading")) </div>
-                   | Error(error) =>
-                     <div> (ReasonReact.string(error##message)) </div>
-                   | Data(response) =>
-                     renderPublishedArticles(response##searchArticles);
-                     <div> (ReasonReact.string("Data found")) </div>;
-                   }
-               )
-          </SearchPublishedArticlesQuery>
-        </div>
-      )
+      <div className=Styles.container>
+        <SearchPublishedArticlesQuery>
+          ...(
+               ({result}) =>
+                 switch (result) {
+                 | Loading => <div> (ReasonReact.string("Loading")) </div>
+                 | Error(error) =>
+                   <div> (ReasonReact.string(error##message)) </div>
+                 | Data(response) =>
+                   <div>
+                     (renderPublishedArticles(response##searchArticles))
+                   </div>
+                 }
+             )
+        </SearchPublishedArticlesQuery>
+      </div>
     ),
 };
 
