@@ -30,10 +30,9 @@ let renderPublishedArticles = searchArticles =>
     |> Js.Array.map(article
          /* This switch statement is slightly annoying, may use @bsRecord instead =_= */
          =>
-           switch (article |? (x => x##subject)) {
-           | Some(subject) => <p key=subject> (subject |. text) </p>
-           | None => <p> ("NO subject" |. text) </p>
-           }
+           <Control.IfSome option=(article |? (article => article##subject))>
+             ...(subject => <p key=subject> (subject |. text) </p>)
+           </Control.IfSome>
          )
     |> ReasonReact.array
   | None => <p> ("No articles found boo" |. text) </p>
