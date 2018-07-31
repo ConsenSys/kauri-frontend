@@ -27,7 +27,7 @@ let renderPublishedArticles = content =>
   switch (content) {
   | Some(content) =>
     content
-    |. Belt.Array.map(article
+    |> Js.Array.map(article
          /* This switch statement is slightly annoying, may use @bsRecord instead =_= */
          =>
            <Control.IfSome option=(article |? (article => article##subject))>
