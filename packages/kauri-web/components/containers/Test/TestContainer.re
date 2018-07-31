@@ -8,11 +8,11 @@ let (|?) = (a, b) =>
 
 let (|??) = (a, b) =>
   switch (a) {
-  | None => "" |. text
+  | None => ReasonReact.null
   | Some(a) =>
     switch (b(a)) {
     | Some(a) => a |. text
-    | None => "" |. text
+    | None => ReasonReact.null
     }
   };
 
