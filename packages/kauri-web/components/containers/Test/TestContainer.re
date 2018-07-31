@@ -6,6 +6,16 @@ let (|?) = (a, b) =>
   | Some(a) => b(a)
   };
 
+let (|??) = (a, b) =>
+  switch (a) {
+  | None => "" |. text
+  | Some(a) =>
+    switch (b(a)) {
+    | Some(a) => a |. text
+    | None => "" |. text
+    }
+  };
+
 let component = ReasonReact.statelessComponent("Test");
 
 module Styles = {
@@ -23,17 +33,13 @@ module Styles = {
     |> Css.style;
 };
 
-let renderPublishedArticles = content =>
-  switch (content) {
+let renderPublishedArticles = response =>
+  switch (response##searchArticles |? (x => x##content)) {
   | Some(content) =>
     content
-    |> Js.Array.map(article
-         /* This switch statement is slightly annoying, may use @bsRecord instead =_= */
-         =>
-           <Control.IfSome option=(article |? (article => article##subject))>
-             ...(subject => <p key=subject> (subject |. text) </p>)
-           </Control.IfSome>
-         )
+    |> Js.Array.map(article =>
+         <p> (article |?? (article => article##subject)) </p>
+       )
     |. ReasonReact.array
   | None => <p> ("No articles found boo" |. text) </p>
   };
@@ -51,13 +57,7 @@ let make = _children => {
                  | Error(error) =>
                    <div> (ReasonReact.string(error##message)) </div>
                  | Data(response) =>
-                   <div>
-                     (
-                       renderPublishedArticles(
-                         response##searchArticles |? (x => x##content),
-                       )
-                     )
-                   </div>
+                   <div> (renderPublishedArticles(response)) </div>
                  }
              )
         </SearchPublishedArticlesQuery>
