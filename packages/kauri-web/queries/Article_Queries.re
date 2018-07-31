@@ -99,3 +99,20 @@ module SubmitForReview = [%graphql
 ];
 
 module SubmitForReviewMutation = ReasonApollo.CreateMutation(SubmitForReview);
+
+module SearchPublishedArticles = [%graphql
+  {|
+      query searchPublishedArticles {
+          searchArticles(
+            filter: { status_in: [ PUBLISHED ] }
+          ) {
+            content {
+              subject
+            }
+          }
+      }
+    |}
+];
+
+module SearchPublishedArticlesQuery =
+  ReasonApollo.CreateQuery(SearchPublishedArticles);
