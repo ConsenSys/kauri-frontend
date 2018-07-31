@@ -4,7 +4,7 @@ let (|?) = (a, b) =>
   | Some(a) => b(a)
   };
 
-let component = ReasonReact.statelessComponent("Greeting");
+let component = ReasonReact.statelessComponent("Test");
 
 module Styles = {
   let container =
@@ -50,3 +50,5 @@ let make = _children => {
       )
     ),
 };
+
+let default = ReasonReact.wrapReasonForJs(~component, () => make([||]));
