@@ -23,15 +23,15 @@ module Styles = {
     |> Css.style;
 };
 
-let renderPublishedArticles = searchArticles =>
-  switch (searchArticles |? (x => x##content)) {
+let renderPublishedArticles = content =>
+  switch (content) {
   | Some(content) =>
     content
     |. Belt.Array.map(article
          /* This switch statement is slightly annoying, may use @bsRecord instead =_= */
          =>
            <Control.IfSome option=(article |? (article => article##subject))>
-             ...(subject => <p key=subject> (subject ++ "hmph" |. text) </p>)
+             ...(subject => <p key=subject> (subject |. text) </p>)
            </Control.IfSome>
          )
     |. ReasonReact.array
@@ -52,7 +52,11 @@ let make = _children => {
                    <div> (ReasonReact.string(error##message)) </div>
                  | Data(response) =>
                    <div>
-                     (renderPublishedArticles(response##searchArticles))
+                     (
+                       renderPublishedArticles(
+                         response##searchArticles |? (x => x##content),
+                       )
+                     )
                    </div>
                  }
              )
