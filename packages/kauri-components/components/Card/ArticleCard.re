@@ -16,14 +16,18 @@ module Styles = {
     |> Css.style;
 
   let container =
-    Css.([%css {|
+    Css.(
+      [%css
+        {|
     {
       padding: 11px 14px 11px 14px;
       display: flexBox;
       flex-direction: column;
       flex: 1;
   }
-  |}])
+  |}
+      ]
+    )
     |> Css.style;
 
   let footer =
@@ -39,15 +43,9 @@ module Styles = {
     )
     |> Css.style;
 
-  let content =
-  Css.(
-    [%css
-      {|{
+  let content = Css.([%css {|{
         flex: 1;
-      }|}
-    ]
-  )
-  |> Css.style;
+      }|}]) |> Css.style;
 };
 
 let make =
