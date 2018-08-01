@@ -57,7 +57,7 @@ export default ({
 
   return (
     <SubmitArticleFormContent>
-      <SubmitArticleFormContainer>
+      <SubmitArticleFormContainer type='approved article'>
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type='outline'>

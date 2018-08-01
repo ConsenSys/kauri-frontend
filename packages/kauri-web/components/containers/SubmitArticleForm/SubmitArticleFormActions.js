@@ -10,7 +10,7 @@ const SubmitArticleFormActions = styled.section`
   flex-direction: row;
   height: 76px;
   width: 100%;
-  background-color: ${props => props.theme.secondaryColor};
+  background-color: ${props => props.theme.primaryTextColor};
   padding: 36px ${props => props.theme.padding};
 `
 

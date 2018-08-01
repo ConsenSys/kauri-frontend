@@ -47,7 +47,7 @@ class SubmitArticleFormText extends React.Component<Props, State> {
       }
     } else {
       this.state = {
-        editorState: null,
+        editorState: { markdown: 'Write markdown content here!', text: 'Write markdown content here' },
       }
     }
   }
@@ -97,9 +97,9 @@ export const SubmitArticleFormHeadings = ({ editorState }) => {
     typeof editorState === 'object' &&
     (editorState.markdown
       ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
-          .getBlocksAsArray()
-          .map(block => block.toJS())
-          .filter(block => block.type.includes('header'))
+        .getBlocksAsArray()
+        .map(block => block.toJS())
+        .filter(block => block.type.includes('header'))
       : editorState.blocks && editorState.blocks.filter(block => block.type.includes('header')))
 
   return (
@@ -139,6 +139,14 @@ export const OutlineLabel = styled.h3`
   line-height: 24px;
 `
 
+export const RandomLineThatGoesAcrossTheContent = styled.div`
+  width: 100%;
+  height: 48px;
+  left: 0;
+  position: absolute;
+  border-bottom: 1px solid #c8ccd0;
+`
+
 export default class extends React.Component<
   {
     getFieldDecorator: (string, any) => any => any,
@@ -167,6 +175,7 @@ export default class extends React.Component<
     } = this.props
     return (
       <SubmitArticleFormContent>
+        <RandomLineThatGoesAcrossTheContent />
         <SubmitArticleFormContainer onClick={() => this.setState({ focused: true })}>
           <SubmitArticleFormText
             getFieldError={getFieldError}
@@ -175,7 +184,7 @@ export default class extends React.Component<
             getFieldDecorator={getFieldDecorator}
           />
         </SubmitArticleFormContainer>
-        <SubmitArticleFormDetails type='outline'>
+        <SubmitArticleFormDetails isSubmitting type='outline'>
           <OutlineLabel>Outline</OutlineLabel>
           <Divider style={{ margin: '20px 0' }} />
           <SubmitArticleFormHeadings

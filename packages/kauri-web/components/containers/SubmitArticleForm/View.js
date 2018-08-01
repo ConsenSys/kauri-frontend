@@ -1,12 +1,13 @@
 // @flow
 import React from 'react'
+import styled from 'styled-components'
 import { Form } from 'antd'
 import SubmitArticleFormActions from './SubmitArticleFormActions'
 import SubmitArticleFormHeader from './SubmitArticleFormHeader'
 import SubmitArticleFormContent from './SubmitArticleFormContent'
+import { formatMetadata } from './Module'
 
 import type { EditArticlePayload, SubmitArticlePayload } from './Module'
-import { formatMetadata } from './Module'
 import type { ShowNotificationPayload } from '../../../lib/Module'
 
 type Props =
@@ -245,6 +246,7 @@ class SubmitArticleForm extends React.Component<Props> {
             (this.props.data && this.props.data.getRequest && this.props.data.getRequest.sub_category) ||
             (this.props.data && this.props.data.getArticle && this.props.data.getArticle.sub_category)
           }
+          status={this.props.data && this.props.data.getArticle && this.props.data.getArticle.status}
           subject={this.props.data && this.props.data.getArticle && this.props.data.getArticle.subject}
           metadata={this.props.data && this.props.data.getArticle && this.props.data.getArticle.metadata}
           isKauriTopicOwner={isKauriTopicOwner}
