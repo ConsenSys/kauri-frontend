@@ -5,12 +5,12 @@
     "build": "bsb -make-world",
     "dev": "bsb -make-world -w",
     "clean": "bsb -clean-world",
-    "start:storybook": "start-storybook -p 6006",
-    "storybook": "concurrently \"npm run build\" \"npm run start:storybook\"",
-    "storybook:dev": "concurrently \"npm run dev\" \"npm run start:storybook\"",
-    "test:chromatic": "chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006",
-    "test:chromatic-auto-accept-changes": "chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006 --auto-accept-changes",
-    "test": "npm run test:chromatic",
+    "start:storybook": "STORYBOOK=true start-storybook -p 6006",
+    "storybook": "concurrently \"npm run build\" \"STORYBOOK=true npm run start:storybook\"",
+    "storybook:dev": "concurrently \"npm run dev\" \"STORYBOOK=true npm run start:storybook\"",
+    "test:chromatic": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006",
+    "test:chromatic-auto-accept-changes": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006 --auto-accept-changes",
+    "test": "STORYBOOK=true npm run test:chromatic",
     "postinstall": "esy build && rm -rf bs-ppx-css && ln -s $(esy which bs-ppx-css) bs-ppx-css"
   },
   "author": {

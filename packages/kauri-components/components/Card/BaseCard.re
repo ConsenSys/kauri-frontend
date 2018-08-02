@@ -16,6 +16,7 @@ module Styles = {
           box-shadow: 0 0 4px 0 rgba(0,0,0,0.11);
           transition-property: "all";
           transition-duration: 300;
+          margin: 10px;
       }
       :hover {
         box-shadow: 0 0 10px 0 rgba(0,0,0,0.22);
@@ -26,8 +27,12 @@ module Styles = {
     |> Css.style;
 };
 
-let make = (_children) => {
+let make = children => {
   ...component,
   render: _self =>
-    <div className=Styles.card> (_children |> ReasonReact.array) </div>,
+    ReasonReact.createDomElement(
+      "div",
+      ~props={"key": "1", "className": Styles.card},
+      children,
+    ),
 };

@@ -10,6 +10,7 @@ export const menuHeaderHeight = 76
 
 const StyledContent = styled(Content)`
   padding-top: 0px;
+  background: #f2f2f2;
   min-height: calc(100vh - ${menuHeaderHeight}px);
 `
 

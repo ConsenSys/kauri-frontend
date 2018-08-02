@@ -26,14 +26,14 @@ const ConsenSysLogoIcon = styled.span`
   font-size: 13px;
 `
 
-const PrivacyPolicy = ConsenSysLogoIcon.withComponent('a').extend`
+const PrivacyPolicy = styled(ConsenSysLogoIcon)`
   margin-left: 10px;
   margin-right: 3px;
   font-weight: normal;
   font-size: 10px;
 `
 
-const TermsOfService = PrivacyPolicy.extend`
+const TermsOfService = styled(PrivacyPolicy)`
   margin-left: 0px;
 `
 

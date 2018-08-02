@@ -10,6 +10,8 @@ myStory.add("Base Card", () =>
 
 myStory.add("Article Card", () =>
   <ArticleCard
+    articleVersion=1
+    articleId="1"
     date="3 June 2099"
     title="This is a title, possibly should support two lines"
     content="This is the content body, should be longer of course. Like a Lorem Ipsum, Bacon Summit or something like that"
@@ -22,6 +24,8 @@ myStory.add("Article Card", () =>
 
 myStory.add("Article Card with Image", () =>
   <ArticleCard
+    articleVersion=1
+    articleId="1"
     date="3 June 2099"
     title="Debugging a Dapp using Remix - Mist - Geth"
     content="The ultimate goal of this tutorial is to debug transactions that have been created by a dapp front end.
@@ -66,11 +70,12 @@ myStory.add("Community Card With Image", () =>
 
 myStory.add("Collection Card", () =>
   <CollectionCard
+    collectionId="1"
     collectionName="Build a DAPP from 0 to Mainnet"
     collectionDescription="A walkthrough for every stage of dapp development. From Smart Contract to deployment"
-    followers="319"
+    /* followers="319" */
     articles="58"
-    upvotes="39k"
+    /* upvotes="39k" */
     lastUpdated="Last Updated 3 June 2099"
     curatorImage="https://pbs.twimg.com/profile_images/939416633419821057/AgqO1tTQ.jpg"
   />
