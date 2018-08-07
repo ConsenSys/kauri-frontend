@@ -15,7 +15,8 @@ const StyledMenu = styled(Menu)`
   display: flex;
   height: ${menuHeaderHeight}px !important;
   line-height: ${menuHeaderHeight}px !important;
-  background-color: ${props => props.confirmationPage && props.theme.secondaryColor};
+  background-color: ${props => props.navcolor ? props.navcolor : props.confirmationPage && props.theme.secondaryColor};
+  border-bottom-color: ${props => props.navcolor} !important;
 `
 
 const ProfileContainer = styled.div`
@@ -41,6 +42,7 @@ const StyledMenuItem = styled(Menu.Item)`
 const LogoImage = styled.img`
   height: 30px;
   width: 30px;
+  z-index: 10;
 `
 
 const LogoWrapper = styled.div`
@@ -91,10 +93,12 @@ class Logo extends React.Component {
 
 export default class Navbar extends React.Component {
   render () {
-    const { userId, routeChangeAction, user, url, confirmationPage } = this.props
+    const { userId, routeChangeAction, user, url, confirmationPage, navcolor } = this.props;
+
+    console.log(navcolor);
 
     return (
-      <StyledMenu confirmationPage={confirmationPage} selectedKeys={[url.pathname]} theme='dark' mode='horizontal'>
+      <StyledMenu confirmationPage={confirmationPage} selectedKeys={[url.pathname]} theme='dark' mode='horizontal' navcolor={navcolor}>
         <Logo routeChangeAction={routeChangeAction} alt='logo' />
         <StyledMenuItem key='/'>
           <Link href='/'>

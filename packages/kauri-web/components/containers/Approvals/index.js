@@ -10,12 +10,15 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-  connect(mapStateToProps, { startDriverStepsAction }),
+  connect(
+    mapStateToProps,
+    { startDriverStepsAction }
+  ),
   graphql(searchPendingArticles, {
     options: ({ categories }) => ({
       variables: {
         filter: {
-          status_in: ['IN_REVIEW', 'SUBMITTED'],
+          status_in: ['IN_REVIEW'],
           category_in: categories,
         },
       },

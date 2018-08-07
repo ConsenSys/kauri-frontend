@@ -147,7 +147,9 @@ type State = {
   funds: number,
 }
 
-export const openNotificationWithIcon = ({ notificationType, message, description }: ShowNotificationPayload): void =>
+export const openNotificationWithIcon = ({
+  payload: { notificationType, message, description },
+}: ShowNotificationPayload): void =>
   notification[notificationType]({
     placement: 'topLeft',
     message,
@@ -211,7 +213,7 @@ export const HIDE_INTRO_BANNER_SUCCESS: string = 'HIDE_INTRO_BANNER_SUCCESS'
 
 export const showNotificationAction = (payload: ShowNotificationPayload): ShowNotificationAction => ({
   type: SHOW_NOTIFICATION,
-  ...payload,
+  payload,
 })
 
 export const fetchEthUsdPriceAction = (): FetchEthUsdPriceAction => ({
@@ -225,7 +227,7 @@ export const setEthUsdPriceAction = (payload: SetEthUsdPricePayload): SetEthUsdP
 
 export const showConfirmationModalAction = (payload: ShowConfirmationModalPayload): ShowConfirmationModalAction => ({
   type: SHOW_CONFIRMATION_MODAL,
-  ...payload,
+  payload,
 })
 
 export const routeChangeAction = (payload: RouteChangePayload): RouteChangeAction => ({

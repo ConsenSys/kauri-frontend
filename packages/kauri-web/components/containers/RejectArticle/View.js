@@ -66,6 +66,7 @@ class RejectArticle extends React.Component<Props, { feedback: string }> {
     typeof this.props.data.getArticle.article_id === 'string' &&
     this.props.rejectArticleAction({
       article_id: this.props.data.getArticle.article_id,
+      article_version: this.props.data.getArticle.article_version,
       rejection_cause: this.state.feedback,
     })
 

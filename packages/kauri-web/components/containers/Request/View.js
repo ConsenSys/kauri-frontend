@@ -326,7 +326,8 @@ class Request extends Component<Props, State> {
       <section>
         <HeaderStrip>
           <GoBack routeChangeAction={routeChangeAction} />
-          {(getRequest.status !== 'EXPIRED') && (getRequest.status !== 'CLOSED') && <ContributeToBounty type='request' toggleBanner={this.toggleBanner} />}
+          {getRequest.status !== 'EXPIRED' &&
+            getRequest.status !== 'CLOSED' && <ContributeToBounty type='request' toggleBanner={this.toggleBanner} />}
           <BountyActions>
             <Bounty bounty={getRequest.bounty} />
             <UsdPrice bounty={getRequest.bounty} ethUsdPrice={ethUsdPrice} />
@@ -455,38 +456,46 @@ class Request extends Component<Props, State> {
                   (typeof personalSubmittedArticle === 'object' &&
                   personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
                     <RequestActionBadge
-                      action={() => routeChangeAction(`/article/${personalSubmittedArticle.article_id}`)}
+                      action={() =>
+                        routeChangeAction(
+                          `/article/${personalSubmittedArticle.article_id}/article-version/${
+                            personalSubmittedArticle.article_version
+                          }`
+                        )
+                      }
                       label='View Article'
-                      />
-                    ) : (
-                      <PositiveRequestActionBadge
-                        alone
-                        type={!getRequest.is_flagged ? 'secondary' : ''}
-                        width='auto'
-                        action={() =>
-                          typeof personalSubmittedArticle === 'object' &&
+                    />
+                  ) : (
+                    <PositiveRequestActionBadge
+                      alone
+                      type={!getRequest.is_flagged ? 'secondary' : ''}
+                      width='auto'
+                      action={() =>
+                        typeof personalSubmittedArticle === 'object' &&
                         personalSubmittedArticle.status === 'SUBMISSION_IN_PROGRESS'
-                            ? submitArticleAction({
-                              article_id: personalSubmittedArticle.article_id,
-                              request_id: personalSubmittedArticle.request_id,
-                              text: personalSubmittedArticle.text,
-                              subject: personalSubmittedArticle.subject,
-                              sub_category: personalSubmittedArticle.sub_category,
-                            })
-                            : routeChangeAction(`/request/${getRequest.request_id}/submit-article`)
-                        }
-                        label='Write Article'
-                      />
-                    ))}
+                          ? submitArticleAction({
+                            article_id: personalSubmittedArticle.article_id,
+                            request_id: personalSubmittedArticle.request_id,
+                            text: personalSubmittedArticle.text,
+                            subject: personalSubmittedArticle.subject,
+                            sub_category: personalSubmittedArticle.sub_category,
+                          })
+                          : routeChangeAction(`/request/${getRequest.request_id}/submit-article`)
+                      }
+                      label='Write Article'
+                    />
+                  ))}
                 {getRequest.status === 'CLOSED' && (
                   <RequestActionBadge
-                    action={() =>
+                    action={() => {
+                      const satisfyingArticle =
+                        searchArticles.content &&
+                        searchArticles.content.length > 0 &&
+                        searchArticles.content.find(article => article.status === 'PUBLISHED')
                       routeChangeAction(
-                        `/article/${searchArticles.content &&
-                          searchArticles.content.length > 0 &&
-                          searchArticles.content.find(article => article.status === 'APPROVED').article_id}`
+                        `/article/${satisfyingArticle.article_id}/article-version/${satisfyingArticle.article_version}`
                       )
-                    }
+                    }}
                     label='View Article'
                   />
                 )}

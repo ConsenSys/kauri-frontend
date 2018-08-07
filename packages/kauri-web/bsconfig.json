@@ -1,0 +1,36 @@
+{
+  "name": "kauri-web",
+  "reason": {
+    "react-jsx": 2
+  },
+  "sources": [
+    {
+      "dir": "components",
+      "subdirs": true
+    },
+    {
+      "dir": "../kauri-components/components",
+      "subdirs": true
+    },
+    {
+      "dir": "lib/ReasonMLTypings",
+      "subdirs": true
+    },
+    {
+      "dir": "queries",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "commonjs",
+      "in-source": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "namespace": true,
+  "bs-dependencies": ["reason-react", "bs-css", "vrroom", "bs-moment"],
+  "ppx-flags": ["graphql_ppx/ppx", "./bs-ppx-css\\ --as-ppx"],
+  "bsc-flags": ["-bs-super-errors"],
+  "refmt": 3
+}

@@ -1,0 +1,19 @@
+{
+  presets: [['env', { modules: 'commonjs' }], 'flow', 'next/babel'],
+  plugins: [
+    'transform-decorators-legacy',
+    [
+      'import',
+      {
+        libraryName: 'antd',
+      },
+    ],
+    ['styled-components', { ssr: true, displayName: true, preprocess: false }],
+  ],
+  env: {
+    test: {
+      plugins: [],
+      presets: [['env', { modules: 'commonjs' }], 'next/babel'],
+    },
+  },
+}

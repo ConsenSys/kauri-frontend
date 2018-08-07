@@ -32,6 +32,7 @@ type Classification =
   | {
       resource: Resource | string,
       resourceID: string,
+      resourceVersion: string,
       resourceAction: ?string,
     }
 
@@ -74,7 +75,9 @@ const classifyURL = (urlSplit: Array<string>): Classification => {
   } else {
     const resource = urlSplit[0]
     const resourceID = urlSplit[1]
-    const resourceAction = urlSplit[2]
+    const resourceVersion = urlSplit[3]
+    const resourceAction = urlSplit[4]
+    // console.log(urlSplit)
     // console.log('classifyURL', {
     //   resource,
     //   resourceID,
@@ -83,6 +86,7 @@ const classifyURL = (urlSplit: Array<string>): Classification => {
     return {
       resource,
       resourceID,
+      resourceVersion,
       resourceAction,
     }
   }
@@ -93,7 +97,13 @@ const fetchResource = (classification: *, apolloClient: *): Promise<*> => {
   if (resource === 'request') {
     return apolloClient.query({ query: getRequestForAnalytics, variables: { request_id: classification.resourceID } })
   } else if (resource === 'article') {
-    return apolloClient.query({ query: getArticleForAnalytics, variables: { article_id: classification.resourceID } })
+    return apolloClient.query({
+      query: getArticleForAnalytics,
+      variables: {
+        article_id: classification.resourceID,
+        article_version: parseInt(classification.resourceVersion),
+      },
+    })
   } else {
     throw new Error('Unknown resource tracking attempt')
   }
@@ -113,6 +123,7 @@ const handleFetchedResource = (
         ...getRequest,
         resource: classification.resource,
         resourceID: classification.resourceID,
+        resourceVersion: classification.resourceVersion,
         resourceAction: classification.resourceAction,
       },
     }
@@ -124,6 +135,7 @@ const handleFetchedResource = (
         ...getRequest,
         resource: classification.resource,
         resourceID: classification.resourceID,
+        resourceVersion: classification.resourceVersion,
         resourceAction: classification.resourceAction,
       },
     })

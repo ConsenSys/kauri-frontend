@@ -10,10 +10,10 @@ module.exports = {
   gethBlockchain: '35.231.60.112:8545',
   KauriCoreArtifact: process.env.CI
     ? '/contracts/KauriCore.json'
-    : '/Users/rej156/Documents/flow/smart-contracts/build/contracts/KauriCore.json',
+    : '../../../../flow/smart-contracts/build/contracts/KauriCore.json',
   WalletArtifact: process.env.CI
     ? '/contracts/Wallet.json'
-    : '/Users/rej156/Documents/flow/smart-contracts/build/contracts/Wallet.json',
+    : '../../../../flow/smart-contracts/build/contracts/Wallet.json',
   devSeedWords: process.env.DEV_SEED_WORDS,
 }
 

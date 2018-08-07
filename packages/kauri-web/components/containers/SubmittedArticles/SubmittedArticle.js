@@ -35,7 +35,12 @@ export const Details = styled.div`
   display: flex;
   flex-direction: column;
   width: ${props => (props.categoryArticle && '85%') || '75%'};
-  width: ${props => (props.type === 'approval' || props.type === 'personal' || props.type === 'approved') && '60%'};
+  width: ${props =>
+    (props.type === 'approval' ||
+      props.type === 'personal' ||
+      props.type === 'approved' ||
+      props.type === 'published') &&
+    '60%'};
   ${props => props.userId && personalSubmittedArticleWidth};
 `
 
@@ -84,6 +89,7 @@ export const Content = styled.div`
     (props.type === 'with request' ||
       props.type === 'approval' ||
       props.type === 'personal' ||
+      props.type === 'published' ||
       props.type === 'approved') &&
     '100%'};
 `
@@ -154,7 +160,6 @@ type Props = {
   userId?: string,
   routeChangeAction: string => void,
   approveArticleAction?: ApproveArticlePayload => void,
-  rejectArticleAction?: string => void,
 }
 
 export default ({
@@ -162,8 +167,9 @@ export default ({
   routeChangeAction,
   article: {
     article_id,
+    article_version,
     date_updated,
-    versions,
+    comments,
     date_created,
     text,
     status,
@@ -178,23 +184,26 @@ export default ({
   categoryTab,
   type,
   approveArticleAction,
-  rejectArticleAction,
 }: Props) => (
   <SubmittedArticle>
     <SubmittedArticle.SubmittedArticleDetails>
       <SubmittedArticle.CategoryBadge
-        onClick={() => routeChangeAction(`/article/${article_id}`)}
+        onClick={() => routeChangeAction(`/article/${article_id}/article-version/${article_version}`)}
         category={category}
         theme={theme}
       >
-        <SubmittedArticle.CategoryAvatar src={`/static/images/${category}/avatar.png`} alt='logo' />
-        <SubmittedArticle.CategoryName>{category}</SubmittedArticle.CategoryName>
+        {category && <SubmittedArticle.CategoryAvatar src={`/static/images/${category}/avatar.png`} alt='logo' />}
+        <SubmittedArticle.CategoryName>
+          {category || (user && user.username) || 'Unknown Writer'}
+        </SubmittedArticle.CategoryName>
       </SubmittedArticle.CategoryBadge>
       <SubmittedArticle.Details type={type} userId={userId} categoryTab={categoryTab}>
         <SubmittedArticle.Content type={type}>
           <SubmittedArticle.Header>
-            <Link route={`/article/${article_id}`}>
-              <SubmittedArticle.Subject href={`/article/${article_id}`}>{subject}</SubmittedArticle.Subject>
+            <Link route={`/article/${article_id}/article-version/${article_version}`}>
+              <SubmittedArticle.Subject href={`/article/${article_id}/article-version/${article_version}`}>
+                {subject}
+              </SubmittedArticle.Subject>
             </Link>
           </SubmittedArticle.Header>
           <DescriptionRow record={{ text }} />
@@ -228,18 +237,12 @@ export default ({
           <p>{status}</p>
         )}
         {type !== 'approval' &&
-          status !== 'APPROVED' &&
-          (status !== 'PRE_APPROVED' ? (
+          status !== 'PUBLISHED' &&
+          (status !== 'APPROVED' && (
             <Badge>
-              <strong>
-                {Array.isArray(versions)
-                  ? versions[versions.length - 1] && versions[versions.length - 1].comments.length.toString()
-                  : 0}
-              </strong>
+              <strong>{Array.isArray(comments) ? comments.length.toString() : 0}</strong>
               <span>Comments</span>
             </Badge>
-          ) : (
-            <p>{status}</p>
           ))}
       </Badges>
     </SubmittedArticle.SubmittedArticleDetails>

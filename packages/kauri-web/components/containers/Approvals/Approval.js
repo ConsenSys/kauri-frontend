@@ -14,7 +14,6 @@ import type { ApproveArticlePayload } from '../Article/Module'
 type Props = {
   routeChangeAction: string => void,
   approveArticleAction: ApproveArticlePayload => void,
-  rejectArticleAction: string => void,
 } & ArticleDTO
 
 const Approval = styled.div`
@@ -80,9 +79,9 @@ const Username = styled.strong`
 `
 
 export default (props: Props) => (
-  <Approval key={props.article_id}>
+  <Approval key={`${props.article_id}-${props.article_version}`}>
     <Approval.CategoryBadge
-      onClick={() => props.routeChangeAction(`/article/${props.article_id}`)}
+      onClick={() => props.routeChangeAction(`/article/${props.article_id}/article-version/${props.article_version}`)}
       category={props.category}
       theme={theme}
     >
@@ -90,8 +89,10 @@ export default (props: Props) => (
       <Approval.CategoryName>{props.category}</Approval.CategoryName>
     </Approval.CategoryBadge>
     <Approval.Details>
-      <Link route={`/article/${props.article_id}`}>
-        <Approval.Subject href={`/article/${props.article_id}`}>{props.subject}</Approval.Subject>
+      <Link route={`/article/${props.article_id}/article-version/${props.article_version}`}>
+        <Approval.Subject href={`/article/${props.article_id}/article-version/${props.article_version}`}>
+          {props.subject}
+        </Approval.Subject>
       </Link>
       <Approval.Content type='approval'>
         <Approval.Dates>

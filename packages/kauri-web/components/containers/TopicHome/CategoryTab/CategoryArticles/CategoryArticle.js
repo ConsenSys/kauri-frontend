@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 import { Link } from '../../../../../routes'
-import { CategoryBadge, CategoryAvatar, Subject } from '../../../OpenRequests/OpenRequest'
+import { CategoryBadge, CategoryAvatar, CategoryName, Subject } from '../../../OpenRequests/OpenRequest'
 import CategoryBreadcrumbs from '../../../../common/CategoryBreadcrumbs'
 import {
   SubmittedArticle as Container,
@@ -59,21 +59,28 @@ export default ({
   sub_category,
   category,
   article_id,
+  article_version,
   subject,
   tip,
   text,
   date_updated,
   ethUsdPrice,
+  user,
 }: Props) => (
   <CategoryArticle>
-    <TopicArticleBadge onClick={() => routeChangeAction(`/article/${article_id}`)} category={category} theme={theme}>
-      <CategoryAvatar height={46} src={`/static/images/${category}/avatar.png`} alt='logo' />
+    <TopicArticleBadge
+      onClick={() => routeChangeAction(`/article/${article_id}/article-version/${article_version}`)}
+      category={category}
+      theme={theme}
+    >
+      {!category && <CategoryName>{(user && user.username) || 'Unknown Writer'}</CategoryName>}
+      {category && <CategoryAvatar height={46} src={`/static/images/${category}/avatar.png`} alt='logo' />}
     </TopicArticleBadge>
     <Details categoryArticle>
       <Header>
         <RestrictToOneLine>
-          <Link route={`/article/${article_id}`}>
-            <Subject href={`/article/${article_id}`} type='topicHomepage'>
+          <Link route={`/article/${article_id}/article-version/${article_version}`}>
+            <Subject href={`/article/${article_id}/article-version/${article_version}`} type='topicHomepage'>
               {subject}
             </Subject>
           </Link>

@@ -8,10 +8,16 @@ class ArticleApprovedPage extends React.Component {
   render () {
     return (
       <App confirmationPage url={this.props.url}>
-        <ArticleApproved article_id={this.props.url.query.article_id} />
+        <ArticleApproved
+          article_id={this.props.url.query.article_id}
+          article_version={this.props.url.query.article_version}
+        />
       </App>
     )
   }
 }
 
-export default compose(withData, withApollo)(ArticleApprovedPage)
+export default compose(
+  withData,
+  withApollo
+)(ArticleApprovedPage)

@@ -15,26 +15,17 @@ type Props = {
   userId: string,
   routeChangeAction: string => void,
   approveArticleAction: ApproveArticlePayload => void,
-  rejectArticleAction: string => void,
 }
 
 const NoRequestsWithSubmissions = () => <p>No articles to review found, inbox zero! Hurray!</p>
 
-const ArticlesWithoutRequests = ({
-  articles,
-  ethUsdPrice,
-  userId,
-  routeChangeAction,
-  approveArticleAction,
-  rejectArticleAction,
-}: *) =>
+const ArticlesWithoutRequests = ({ articles, ethUsdPrice, userId, routeChangeAction, approveArticleAction }: *) =>
   articles.map(article => (
     <SubmittedArticle
-      key={article.article_id}
+      key={`${article.article_id}-${article.article_version}`}
       type='approval'
       routeChangeAction={routeChangeAction}
       approveArticleAction={approveArticleAction}
-      rejectArticleAction={rejectArticleAction}
       ethUsdPrice={ethUsdPrice}
       article={article}
       userId={userId}
@@ -46,7 +37,6 @@ export default ({
   ethUsdPrice,
   userId,
   routeChangeAction,
-  rejectArticleAction,
   approveArticleAction,
 }: Props) => (
   <Container>
@@ -59,7 +49,6 @@ export default ({
               routeChangeAction={routeChangeAction}
               ethUsdPrice={ethUsdPrice}
               articles={searchArticles && searchArticles.content}
-              rejectArticleAction={rejectArticleAction}
               approveArticleAction={approveArticleAction}
             />
           )}

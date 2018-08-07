@@ -1,5 +1,4 @@
 import React from 'react'
-import { withApollo, compose } from 'react-apollo'
 import withData from '../lib/with-data'
 import App from '../layouts/App'
 import TopicHome from '../components/containers/TopicHome'
@@ -14,4 +13,4 @@ class TopicHomePage extends React.Component {
   }
 }
 
-export default compose(withData, withApollo)(TopicHomePage)
+export default compose(withData)(TopicHomePage)

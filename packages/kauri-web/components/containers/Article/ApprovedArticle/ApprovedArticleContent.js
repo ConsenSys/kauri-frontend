@@ -12,6 +12,8 @@ import DatePosted from '../../../common/DatePosted'
 import { SubmitArticleFormHeadings, OutlineLabel } from '../../SubmitArticleForm/SubmitArticleFormContent'
 import DescriptionRow from '../../Requests/DescriptionRow'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
+import { PositiveActionBadge } from '../../../common/ActionButton'
+import ShareArticleButton from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
@@ -21,7 +23,21 @@ const Username = styled.strong`
   color: ${props => props.theme.primaryColor};
 `
 
-export default ({ text, username }: { text?: string, username?: ?string }) => {
+export default ({
+  text,
+  username,
+  routeChangeAction,
+  article_id,
+  article_version,
+  subject,
+}: {
+  text?: string,
+  username?: ?string,
+  routeChangeAction: string => void,
+  article_id: string,
+  subject?: string,
+  article_version: number,
+}) => {
   let editorState = typeof text === 'string' && JSON.parse(text)
   editorState =
     editorState && typeof editorState.markdown === 'string'
@@ -57,6 +73,20 @@ export default ({ text, username }: { text?: string, username?: ?string }) => {
           <span>WRITTEN BY</span>
           <Username>{username || 'Unknown writer'}</Username>
         </DatePosted>
+        <Divider style={{ margin: '20px 0' }} />
+        <PositiveActionBadge
+          type='primary'
+          width={'210px'}
+          onClick={() => routeChangeAction(`/article/${article_id}/article-version/${article_version}/update-article`)}
+        >
+          Update article
+        </PositiveActionBadge>
+        <ShareArticleButton
+          url={`https://${
+            process.env.monolithExternalApi.includes('rinkeby') ? 'rinkeby.kauri.io/' : 'dev.kauri.io/'
+          }/article/${article_id}/article-version/${article_version}`}
+          title={subject}
+        />
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>
   )

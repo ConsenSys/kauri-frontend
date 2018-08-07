@@ -93,7 +93,7 @@ const ForVersionInputField = ArticleSubject.extend`
   margin-top: 10px;
 `
 
-const ForVersionInput = ({ getFieldDecorator, getFieldError }: *) => (
+const ForVersionInput = ({ getFieldDecorator, getFieldError, forVersion }: *) => (
   <ForVersionInputContainer>
     <ForVersion>FOR VERSION</ForVersion>
     {getFieldDecorator('version', {
@@ -103,6 +103,7 @@ const ForVersionInput = ({ getFieldDecorator, getFieldError }: *) => (
           whitespace: true,
         },
       ],
+      initialValue: forVersion,
     })(
       <ForVersionInputField
         placeholder='E.G. 1.0.0'
@@ -166,11 +167,11 @@ const SubmitArticleFormSubject = ({
         }}
       />
     )}
-    {metadata && typeof metadata.FOR_VERSION === 'string' ? (
-      metadata && metadata.FOR_VERSIOn && <ForVersion> {`VERSION ${metadata && metadata.FOR_VERSION}`}</ForVersion>
-    ) : (
-      <ForVersionInput getFieldDecorator={getFieldDecorator} getFieldError={getFieldError} />
-    )}
+    <ForVersionInput
+      forVersion={metadata && metadata.FOR_VERSION}
+      getFieldDecorator={getFieldDecorator}
+      getFieldError={getFieldError}
+    />
   </SubmitArticleFormSubjectContainer>
 )
 

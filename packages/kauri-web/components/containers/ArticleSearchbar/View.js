@@ -67,15 +67,22 @@ export default class Complete extends React.Component<any, any> {
     handleSearch$.next(text)
   }
 
-  onSelect = (article_id: string) => this.props.routeChangeAction(`/article/${article_id}`)
+  onSelect = (articleRoute: string) => {
+    const article_version = articleRoute.split('article_version/')[1]
+    const article_id = articleRoute.split('/article/')[1].split('/article_version')[0]
+    this.props.routeChangeAction(`/article/${article_id}/article-version/${article_version}`)
+  }
 
   renderOption = (article: ArticleDTO) =>
     article.subject !== 'No articles found' ? (
-      <Option key={article.article_id} value={article.article_id}>
+      <Option
+        key={`/article/${article.article_id}/article-version/${article.article_version}`}
+        value={`/article/${article.article_id}/article-version/${article.article_version}`}
+      >
         {typeof article.subject === 'string' && article.subject.length && article.subject.substr(0, 50).concat('...')}
       </Option>
     ) : (
-      <Option disabled key={article.article_id} value={article.article_id}>
+      <Option disabled key={'No articles found'} value={'No articles found'}>
         No articles found
       </Option>
     )

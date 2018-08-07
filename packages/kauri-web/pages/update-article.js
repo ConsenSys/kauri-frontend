@@ -12,7 +12,10 @@ class ViewArticle extends React.Component {
   render () {
     return (
       <AppWithoutNavbar url={this.props.url}>
-        <SubmitArticle article_id={this.props.url.query['article_id']} />
+        <SubmitArticle
+          article_id={this.props.url.query['article_id']}
+          article_version={this.props.url.query['article_version']}
+        />
       </AppWithoutNavbar>
     )
   }

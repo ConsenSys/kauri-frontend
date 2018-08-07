@@ -77,7 +77,7 @@ const Container = styled.div`
   flex-direction: column;
   height: ${props => props.height || '76'}px;
   width: ${props => props.width || '76'}px;
-  box-shadow: 0 0 0 1px ${props => props.theme[props.category].borderColor};
+  box-shadow: 0 0 0 1px ${props => props.theme[props.category] && props.theme[props.category].borderColor};
   border-radius: 4px;
   background-color: #ffffff;
   ${props => props.individualCategory && individualCategoryCss};
@@ -103,13 +103,15 @@ export const Avatar = styled.img`
 
 const CategoryBadge = props => (
   <CategoryBadge.Container {...props}>
-    <CategoryBadge.Avatar
-      avatarWidth={props.avatarWidth}
-      avatarHeight={props.avatarHeight}
-      src={`/static/images/${props.category}/avatar.png`}
-      alt='logo'
-    />
-    <CategoryBadge.Name>{props.category}</CategoryBadge.Name>
+    {props.category && (
+      <CategoryBadge.Avatar
+        avatarWidth={props.avatarWidth}
+        avatarHeight={props.avatarHeight}
+        src={`/static/images/${props.category}/avatar.png`}
+        alt='logo'
+      />
+    )}
+    <CategoryBadge.Name>{props.category || props.username || 'Unknown Writer'}</CategoryBadge.Name>
   </CategoryBadge.Container>
 )
 

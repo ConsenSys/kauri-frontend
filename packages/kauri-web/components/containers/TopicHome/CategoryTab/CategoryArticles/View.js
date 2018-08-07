@@ -46,9 +46,9 @@ class CategoryArticles extends Component<Props> {
               .map(
                 (article, index, articles) =>
                   index !== articles.length - 1 ? (
-                    <div key={article.article_id}>
+                    <div key={`${article.article_id}-${article.article_version}`}>
                       <CategoryArticle
-                        key={article.article_id}
+                        key={`${article.article_id}-${article.article_version}`}
                         {...article}
                         ethUsdPrice={ethUsdPrice}
                         routeChangeAction={routeChangeAction}
@@ -57,7 +57,7 @@ class CategoryArticles extends Component<Props> {
                     </div>
                   ) : (
                     <CategoryArticle
-                      key={article.article_id}
+                      key={`${article.article_id}-${article.article_version}`}
                       {...article}
                       ethUsdPrice={ethUsdPrice}
                       routeChangeAction={routeChangeAction}

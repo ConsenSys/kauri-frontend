@@ -16,6 +16,7 @@ type Props = {
   requestPage?: boolean,
   recentRequest?: boolean,
   openRequest?: boolean,
+  type?: 'article card',
 }
 
 const styles = {
@@ -69,12 +70,23 @@ const openRequestCss = css`
 
 const MaxThreeLines = styled.div`
   ${props => !props.fullText && hideAtomicBlock};
-  ${props => !props.fullText && maxThreeLinesCss};
+  ${props => !props.fullText && props.type !== 'article card' && maxThreeLinesCss};
   margin-top: 2px;
   word-wrap: break-word;
   overflow-wrap: break-word;
   min-height: ${props => props.requestPage && '30vh'};
   ${props => props.openRequest && openRequestCss};
+`
+
+const truncateArticleCardCss = css`
+  font-size: 14px;
+  line-height: 18px;
+  max-height: 230px;
+  overflow-y: auto;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
 `
 
 const truncateWithEllipsis = css`
@@ -125,16 +137,19 @@ const pruneInlineStyles = child =>
 
 const TruncateWithEllipsis = styled.div`
   ${TruncateWithEllipsisCss};
-  ${props => !props.fullText && truncateWithEllipsis};
+  ${props => !props.fullText && props.type !== 'article card' && truncateWithEllipsis};
   ${props => props.recentRequest && recentRequest};
+  ${props => props.type === 'article card' && truncateArticleCardCss};
 `
 
-const addBreaklines = (children, keys, fullText, recentRequest) =>
-  children.map((child, i) => (
-    <TruncateWithEllipsis recentRequest={recentRequest} fullText={fullText} key={keys && keys[i]}>
-      {child[1].length === 0 && fullText ? <br /> : pruneInlineStyles(child)}
-    </TruncateWithEllipsis>
-  ))
+const addBreaklines = (children, keys, fullText, recentRequest, type = 'article card') =>
+  children.map((child, i) => {
+    return (
+      <TruncateWithEllipsis type={type} recentRequest={recentRequest} fullText={fullText} key={keys && keys[i]}>
+        {child[1].length === 0 && fullText ? <br /> : pruneInlineStyles(child)}
+      </TruncateWithEllipsis>
+    )
+  })
 
 class WithHover extends React.Component<*, { isHovered: boolean }> {
   state = {
@@ -300,7 +315,7 @@ const HeaderThree = HeaderTwo.extend`
 const BlockQuoteContainer = styled.div`
   display: flex;
   flex-direction: column;
-  ${props => !props.fullText && truncateWithEllipsis};
+  ${props => !props.fullText && props.type !== 'article card' && truncateWithEllipsis};
 `
 
 const FirstQuote = styled.span`
@@ -319,7 +334,7 @@ const BlockQuoteContent = styled.i`
   padding: 0 2em;
   font-size: 16px;
   color: ${props => props.theme.primaryTextcolor};
-  ${props => !props.fullText && truncateWithEllipsis};
+  ${props => !props.fullText && props.type !== 'article card' && truncateWithEllipsis};
   ${props => !props.fullText && hideAtomicBlock};
 `
 
@@ -359,7 +374,8 @@ export const blocks = (
   fullText: ?boolean,
   recentRequest?: boolean,
   openRequest?: boolean,
-  inReviewArticle?: boolean
+  inReviewArticle?: boolean,
+  type?: 'article card'
 ) => ({
   // Rendering blocks like this along with cleanup results in a single p tag for each paragraph
   // adding an empty block closes current paragraph and starts a new one
@@ -371,7 +387,7 @@ export const blocks = (
             {pruneInlineStyles(child)}
           </ListItem>
         ))
-        : addBreaklines(children, keys, fullText, recentRequest)}
+        : addBreaklines(children, keys, fullText, recentRequest, type)}
     </ul>
   ),
   'ordered-list-item': (children, { keys }) => (
@@ -382,16 +398,16 @@ export const blocks = (
             {pruneInlineStyles(child)}
           </ListItem>
         ))
-        : addBreaklines(children, keys, fullText)}
+        : addBreaklines(children, keys, fullText, recentRequest, type)}
     </ol>
   ),
   atomic: fullText && getAtomic,
-  unstyled: (children, { keys }) => addBreaklines(children, keys, fullText, recentRequest),
+  unstyled: (children, { keys }) => addBreaklines(children, keys, fullText, recentRequest, type),
   blockquote: (children, { keys }) => <BlockQuote fullText={fullText} key={keys[0]} children={children} />,
   'header-one': (children, { keys }) =>
     fullText
       ? children.map((child, i) => <HeaderTwo key={keys[i]}>{child}</HeaderTwo>)
-      : addBreaklines(children, keys, fullText),
+      : addBreaklines(children, keys, fullText, recentRequest, type),
   'header-two': (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
@@ -414,19 +430,19 @@ export const blocks = (
   'header-three': (children, { keys }) =>
     fullText
       ? children.map((child, i) => <HeaderThree key={keys[i]}>{child}</HeaderThree>)
-      : addBreaklines(children, keys, fullText),
+      : addBreaklines(children, keys, fullText, recentRequest, type),
   'header-four': (children, { keys }) =>
     fullText
       ? children.map((child, i) => <HeaderThree key={keys[i]}>{child}</HeaderThree>)
-      : addBreaklines(children, keys, fullText),
+      : addBreaklines(children, keys, fullText, recentRequest, type),
   'header-five': (children, { keys }) =>
     fullText
       ? children.map((child, i) => <HeaderThree key={keys[i]}>{child}</HeaderThree>)
-      : addBreaklines(children, keys, fullText),
+      : addBreaklines(children, keys, fullText, recentRequest, type),
   'header-six': (children, { keys }) =>
     fullText
       ? children.map((child, i) => <HeaderThree key={keys[i]}>{child}</HeaderThree>)
-      : addBreaklines(children, keys, fullText),
+      : addBreaklines(children, keys, fullText, recentRequest, type),
 })
 
 const ColouredLink = styled.a`
@@ -455,9 +471,10 @@ export const options = {
 }
 
 export default compose(withErrorCatch())(
-  ({ record: { text }, fullText, requestPage, recentRequest, openRequest, inReviewArticleComment }): Props => (
-    <MaxThreeLines requestPage={requestPage} fullText={fullText} key={text} openRequest={openRequest}>
+  ({ record: { text }, fullText, requestPage, recentRequest, openRequest, inReviewArticleComment, type }): Props => (
+    <MaxThreeLines type={type} requestPage={requestPage} fullText={fullText} key={text} openRequest={openRequest}>
       {/* {console.log(EditorState.createWithContent(convertFromRaw(JSON.parse(text))))} */}
+      {/* {console.log(type)} */}
       {typeof text === 'string' && text.charAt(0) === '{' ? (
         fullText && JSON.parse(text).markdown ? (
           <div
@@ -471,7 +488,7 @@ export default compose(withErrorCatch())(
             (JSON.parse(text).markdown && getRawStateFromMarkdown(JSON.parse(text).markdown)) || JSON.parse(text),
             {
               inline: Boolean(fullText) && inline,
-              blocks: blocks(fullText, recentRequest),
+              blocks: blocks(fullText, recentRequest, type),
               entities: Boolean(fullText) && entities,
             },
             options

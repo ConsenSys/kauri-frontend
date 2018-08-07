@@ -52,7 +52,7 @@ export const ApprovedArticleSubject = ({
 }: *) => (
   <ApprovedArticleSubjectContainer type={type}>
     <ArticleChosenDetails>
-      <ArticleChosenCategory>{chosenCategory}</ArticleChosenCategory>
+      <ArticleChosenCategory>{chosenCategory || 'Personal'}</ArticleChosenCategory>
       <ArticleChosenSubcategory>{chosenSubcategory}</ArticleChosenSubcategory>
     </ArticleChosenDetails>
     <ArticleSubject style={{ width: '100%' }} type='article'>

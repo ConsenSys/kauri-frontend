@@ -10,11 +10,15 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default compose(
-  connect(mapStateToProps, { routeChangeAction }),
+  connect(
+    mapStateToProps,
+    { routeChangeAction }
+  ),
   graphql(getArticle, {
-    options: ({ article_id }) => ({
+    options: ({ article_id, article_version }) => ({
       variables: {
         article_id,
+        article_version,
       },
     }),
   }),

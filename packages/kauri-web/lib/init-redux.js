@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import fetch from 'isomorphic-unfetch'
 import Web3 from 'web3'
-import web3PersonalSign from './web3-personal-sign'
+import web3PersonalSign, { personalSign } from './web3-personal-sign'
 import getGasPrice from './web3-get-gas-price'
 import { rootReducer, rootEpic } from './root'
 import apolloSubscriber from './apollo-subscriber'
@@ -27,6 +27,7 @@ function create (apollo, initialState = {}, context = {}) {
     fetch,
     apolloSubscriber,
     web3PersonalSign,
+    personalSign,
     getGasPrice,
     driverJS: global.window ? new Driver({ showButtons: true }) : {},
   }

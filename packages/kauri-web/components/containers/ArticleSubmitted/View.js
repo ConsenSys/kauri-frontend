@@ -51,14 +51,17 @@ class ArticleSubmitted extends React.Component<Props> {
           <span> can:</span>
         </Capitalize>
         <PossibleActions>
-          <PossibleActionBadge action='Approved' description='Article is added to the knowledge base' />
+          <PossibleActionBadge
+            action='Approved'
+            description='Article is ready to be added to the knowledge base after publishing'
+          />
           <PossibleActionBadge action='Changes' description='Article requires changes' />
           <PossibleActionBadge action='Rejected' description='Article is not suitable for the knowledgebase' />
         </PossibleActions>
         {typeof data.getArticle.request_id === 'string' && (
           <BountyStatement>
             <span>
-              If approved, you will be rewarded <ArticleBounty request_id={data.getArticle.request_id} />
+              If published, you will be rewarded <ArticleBounty request_id={data.getArticle.request_id} />
             </span>
           </BountyStatement>
         )}

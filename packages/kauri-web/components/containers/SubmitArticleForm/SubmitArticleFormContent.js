@@ -97,9 +97,9 @@ export const SubmitArticleFormHeadings = ({ editorState }) => {
     typeof editorState === 'object' &&
     (editorState.markdown
       ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
-        .getBlocksAsArray()
-        .map(block => block.toJS())
-        .filter(block => block.type.includes('header'))
+          .getBlocksAsArray()
+          .map(block => block.toJS())
+          .filter(block => block.type.includes('header'))
       : editorState.blocks && editorState.blocks.filter(block => block.type.includes('header')))
 
   return (
@@ -155,7 +155,16 @@ export default class extends React.Component<
   }
 
   render () {
-    const { getFieldDecorator, setFieldsValue, getFieldValue, getFieldError, text, article_id } = this.props
+    const {
+      getFieldDecorator,
+      setFieldsValue,
+      getFieldValue,
+      getFieldError,
+      text,
+      article_id,
+      category,
+      subCategory,
+    } = this.props
     return (
       <SubmitArticleFormContent>
         <SubmitArticleFormContainer onClick={() => this.setState({ focused: true })}>

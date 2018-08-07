@@ -11,6 +11,7 @@ export const menuHeaderHeight = 76
 const StyledContent = styled(Content)`
   padding-top: 0px;
   min-height: calc(100vh - ${menuHeaderHeight}px);
+  background: #f2f2f2;
 `
 
 const StyledHeader = styled(Header)`
@@ -20,6 +21,7 @@ const StyledHeader = styled(Header)`
   }
   line-height: ${menuHeaderHeight}px;
   min-height: ${menuHeaderHeight}px;
+  background-color: ${props => props.navcolor}
 `
 
 const mapStateToProps = (state, ownProps) => ({
@@ -32,13 +34,13 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 export default connect(mapStateToProps)(
-  ({ children, modalTitle, modalChildren, modalOpen, onOk, onCancel, footer, url, confirmationPage }) => (
+  ({ children, modalTitle, modalChildren, modalOpen, onOk, onCancel, footer, url, confirmationPage, navcolor }) => (
     <Layout className='layout'>
       <Modal title={modalTitle} visible={modalOpen} onOk={onOk} onCancel={onCancel} footer={footer}>
         {modalChildren}
       </Modal>
-      <StyledHeader>
-        <Navbar confirmationPage={confirmationPage} url={url} />
+      <StyledHeader navcolor={navcolor}>
+        <Navbar confirmationPage={confirmationPage} url={url} navcolor={navcolor}/>
       </StyledHeader>
       <StyledContent>{children}</StyledContent>
       <StyledFooter />
