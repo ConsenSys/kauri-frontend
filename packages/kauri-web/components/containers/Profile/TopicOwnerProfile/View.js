@@ -68,7 +68,7 @@ export const StyledTabs = styled(Tabs)`
 `
 
 class TopicOwnerProfile extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       activeKey: this.props.defaultTab || 'profile',
@@ -76,7 +76,7 @@ class TopicOwnerProfile extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     let setIntervalId
     const checkForSmartContractInitialisation = () => {
       console.log('checked')
@@ -100,32 +100,6 @@ class TopicOwnerProfile extends Component {
     }
   }
 
-  eraseCookieFromAllPaths = name => {
-    // This function will attempt to remove a cookie from all paths.
-
-    // do a simple pathless delete first.
-    document.cookie = name + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT;'
-    document.cookie = name + `=; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/; domain=.${window.location.hostname}`
-  }
-
-  deleteAllCookies = callback => {
-    let cookies = document.cookie.split(';')
-    for (let i = 0; i < cookies.length; i++) {
-      let cookie = cookies[i]
-      let eqPos = cookie.indexOf('=')
-      let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
-      console.log(name)
-      this.eraseCookieFromAllPaths(name)
-    }
-    callback && setTimeout(() => callback(), 700)
-  }
-
-  logout = () => {
-    this.deleteAllCookies(() => {
-      window.location.href = '/'
-    })
-  }
-
   onChange = activeKey => {
     Router.pushRoute(`/profile?tab=${activeKey}`)
     this.setState({ activeKey, loggingOut: true }, () => {
@@ -133,7 +107,7 @@ class TopicOwnerProfile extends Component {
     })
   }
 
-  render () {
+  render() {
     return (
       <Fragment>
         <NetworkBanner key='network banner' tab='' type='profileTab' loggingOut={this.state.loggingOut} />
@@ -191,10 +165,6 @@ class TopicOwnerProfile extends Component {
             key='flagged requests'
           >
             <FlaggedRequests />
-          </TabPane>
-
-          <TabPane tab={<span>Logout</span>} key='logout'>
-            <span />
           </TabPane>
         </StyledTabs>
       </Fragment>

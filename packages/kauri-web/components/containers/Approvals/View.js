@@ -4,8 +4,8 @@ import { Tabs } from 'antd'
 import { TopicHomeTabs as ApprovalsTabs } from '../TopicHome/View'
 import { TabLabelContainer } from '../../common/TabIcon'
 import ArticleRequests from './ArticleRequests'
-import PendingApprovalArticles from './PendingApprovalArticles'
-import ApprovedArticleHistory from './ApprovedArticleHistory'
+import ApprovedArticles from './ApprovedArticles'
+import PublishedArticleHistory from './PublishedArticleHistory'
 import ArticlesWithoutRequests from './ArticlesWithoutRequests'
 import { Router } from '../../../routes'
 
@@ -63,24 +63,24 @@ class Approvals extends Component<Props, { activeKey: string }> {
 
         <TabPane
           tab={
-            <TabLabelContainer id='publish'>
-              <span>Publish</span>
+            <TabLabelContainer id='approved'>
+              <span>Awaiting Publication</span>
             </TabLabelContainer>
           }
-          key='publish'
+          key='approved'
         >
-          <PendingApprovalArticles />
+          <ApprovedArticles />
         </TabPane>
 
         <TabPane
           tab={
-            <TabLabelContainer id='approval-history'>
-              <span>Approval History</span>
+            <TabLabelContainer id='published-history'>
+              <span>Published History</span>
             </TabLabelContainer>
           }
-          key='approval history'
+          key='published history'
         >
-          <ApprovedArticleHistory />
+          <PublishedArticleHistory />
         </TabPane>
 
         <span

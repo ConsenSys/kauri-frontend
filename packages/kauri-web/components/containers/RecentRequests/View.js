@@ -92,7 +92,6 @@ const Label = styled.strong`
   text-transform: capitalize;
 `
 
-// TODO: Add nested param id for categoryId as a new route for requests page
 const AllArticlesBadge = ({ count, category, recentCategoryRequests }: *) => (
   <Link route={`/requests${category ? `?category=${category}` : ''}`}>
     <AllArticlesContainer>

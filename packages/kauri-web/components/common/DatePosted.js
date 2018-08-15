@@ -17,6 +17,7 @@ const DatePosted = styled.div`
     text-transform: uppercase !important;
   }
   ${props => props.recentRequest && recentRequestCss};
+  cursor: ${props => props.type === 'written by' && 'pointer'};
 `
 
 export default DatePosted

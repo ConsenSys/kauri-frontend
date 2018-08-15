@@ -8,10 +8,16 @@ class ArticleRejectedPage extends React.Component {
   render () {
     return (
       <App confirmationPage url={this.props.url}>
-        <ArticleRejected article_id={this.props.url.query.article_id} />
+        <ArticleRejected
+          article_id={this.props.url.query.article_id}
+          article_version={this.props.url.query.article_version}
+        />
       </App>
     )
   }
 }
 
-export default compose(withData, withApollo)(ArticleRejectedPage)
+export default compose(
+  withData,
+  withApollo
+)(ArticleRejectedPage)

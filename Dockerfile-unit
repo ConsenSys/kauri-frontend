@@ -1,0 +1,17 @@
+FROM gcr.io/kauri-197812/kauri-contract-abis:latest-dev
+
+# setup workspace
+RUN mkdir -p /usr/src/app
+
+COPY . /usr/src/app
+WORKDIR /usr/src/app/packages/kauri-web
+RUN yarn install
+
+ENV GETH_BLOCKCHAIN=35.231.60.112:8545
+ENV MONOLITH_EXTERNAL_API=api.dev.kauri.io
+ENV MONOLITH_API=api.dev.kauri.io
+ENV CI=true
+ENV DEV_SEED_WORDS="${DEV_SEED_WORDS}"
+
+EXPOSE 3000
+CMD "npm" "run" "test:unit"

@@ -31,7 +31,7 @@ const ArticleTipAmount = ActionBadge.extend`
 
 const EthTipAmount = styled.h3`
   color: #ffffff;
-  font-size: 20px;
+  font-size: 20px !important;
   font-weight: bold;
   line-height: 26px;
 `

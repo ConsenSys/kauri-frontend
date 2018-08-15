@@ -61,4 +61,4 @@ const web3PersonalSign = (id, data, gqlMutation) =>
     )
 
 export default web3PersonalSign
-export { loginPersonalSign }
+export { loginPersonalSign, personalSign }

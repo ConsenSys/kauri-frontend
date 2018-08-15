@@ -1,44 +1,51 @@
 {
   "name": "kauri-components",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "scripts": {
     "build": "bsb -make-world",
+    "dev": "bsb -make-world -w",
     "clean": "bsb -clean-world",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "storybook": "start-storybook -p 6006",
-    "start": "concurrently \"bsb -make-world -w\" \"yarn run storybook\"",
-    "postinstall": "esy build && rm -rf bs-ppx-css && ln -s $(esy which bs-ppx-css) bs-ppx-css"
+    "start:storybook": "STORYBOOK=true start-storybook -p 6006",
+    "storybook": "concurrently \"npm run build\" \"STORYBOOK=true npm run start:storybook\"",
+    "storybook:dev": "concurrently \"npm run dev\" \"STORYBOOK=true npm run start:storybook\"",
+    "test:chromatic": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006",
+    "test:chromatic-auto-accept-changes": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006 --auto-accept-changes",
+    "test": "STORYBOOK=true npm run test:chromatic"
   },
   "author": {
     "name": "Eric Juta"
   },
   "license": "MIT",
-  "dependencies": {
-    "luxon": "^1.3.1",
-    "ppx_bs_css": "github:astrada/ppx_bs_css#36a3675"
-  },
   "esy": {},
-  "devDependencies": {
-    "@esy-ocaml/merlin": "*",
-    "@storybook/addon-actions": "latest",
-    "@storybook/addon-knobs": "latest",
-    "@storybook/addon-links": "latest",
-    "@storybook/addons": "latest",
-    "@storybook/react": "latest",
+  "dependencies": {
+    "@glennsl/bs-revamp": "^0.1.1",
     "bs-css": "^7.0.1",
-    "bs-luxon": "^0.3.0",
-    "bs-platform": "^3.1.5",
-    "bs-storybook": "^0.1.2",
+    "bs-moment": "^0.3.0",
+    "bs-webapi": "^0.11.0",
+    "dependency-env": "^0.1.1",
+    "moment": "2.20.1",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-share": "^2.2.0",
+    "react-tippy": "^1.2.2"
+  },
+  "devDependencies": {
+    "@storybook/addon-knobs": "3.4.8",
+    "@storybook/addons": "3.4.8",
+    "@storybook/core": "3.4.8",
+    "@storybook/react": "3.4.8",
+    "babel-core": "^6.0.0",
+    "babel-runtime": "^6.0.0",
+    "bs-platform": "^4.0.3",
     "concurrently": "^3.6.0",
-    "ocaml": "~4.2.3000",
-    "reason-react": ">=0.4.0",
+    "reason-react": "^0.5.0",
+    "storybook-chromatic": "^1.0.0",
     "vrroom": "glennsl/vrroom"
   },
   "peerDependencies": {
-    "ocaml": "~4.2.3000"
-  },
-  "resolutions": {
-    "@opam/gen": "0.5.0"
+    "@storybook/addons": "3.4.8",
+    "@storybook/core": "3.4.8",
+    "@storybook/react": "3.4.8"
   },
   "_registry": "npm",
   "_loc": "/Users/rej156/Documents/flow-frontend-boilerplate/node_modules/kauri-components/package.json",

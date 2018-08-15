@@ -65,8 +65,11 @@ const RestrictToTwoLines = styled.div`
 const RecentArticle = (article: ArticleDTO) => (
   <ArticleBadge>
     <RestrictToTwoLines>
-      <Link route={`/article/${article.article_id}`}>
-        <ArticleBadge.Subject href={`/article/${article.article_id}`} type='topicHomepage'>
+      <Link route={`/article/${article.article_id}/article-version/${article.article_version}`}>
+        <ArticleBadge.Subject
+          href={`/article/${article.article_id}/article-version/${article.article_version}`}
+          type='topicHomepage'
+        >
           {article.subject}
         </ArticleBadge.Subject>
       </Link>
@@ -111,8 +114,8 @@ const ViewAll = styled.a`
 const Count = ({ count, category }: { count: ?number, category: string }) => (
   <Count.Container>
     <Count.Label>{`${count} Articles`}</Count.Label>
-    <Link route={`/topic/${category}`}>
-      <ViewAll href={`/topic/${category}`}>VIEW ALL</ViewAll>
+    <Link route={`/community/${category}`}>
+      <ViewAll href={`/community/${category}`}>VIEW ALL</ViewAll>
     </Link>
   </Count.Container>
 )
@@ -135,7 +138,7 @@ const renderArticles = (
 ) => (
   <Topic.WidgetContainer>
     <RecentArticles.CategoryBadge
-      onClick={() => routeChangeAction(`/topic/${category}`)}
+      onClick={() => routeChangeAction(`/community/${category}`)}
       theme={theme}
       category={category}
       height='120'
@@ -149,7 +152,9 @@ const renderArticles = (
         articles.content.length > 0 && <RecentArticles.Header>RECENT ARTICLES</RecentArticles.Header>}
       <RecentArticles.ArticlesContainer>
         {articles && articles.content && articles.content.length > 0 ? (
-          articles.content.map(article => <RecentArticle key={article.article_id} {...article} />)
+          articles.content.map(article => (
+            <RecentArticle key={`${article.article_id}-${article.article_version}`} {...article} />
+          ))
         ) : (
           <p>No recent articles.</p>
         )}

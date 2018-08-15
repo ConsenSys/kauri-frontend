@@ -2,10 +2,8 @@
 import React from 'react'
 import ApprovedArticle from './ApprovedArticle/View'
 import InReviewArticle from './InReviewArticle/View'
-import { editorStateFromRaw } from 'megadraft'
-import { getAllBlocks } from 'draftjs-utils'
 
-import type { ApproveArticlePayload, SubmitFinalisedArticlePayload, DeleteArticleCommentPayload } from './Module'
+import type { DeleteArticleCommentPayload } from './Module'
 import type { AddCommentPayload } from '../AddCommentForm/Module'
 
 type ArticleProps = {
@@ -13,94 +11,70 @@ type ArticleProps = {
   data: {
     getArticle: ArticleDTO,
   },
-  approveArticleAction: ApproveArticlePayload => void,
-  submitFinalisedArticleAction: SubmitFinalisedArticlePayload => void,
+  approveArticleAction: any => void,
   routeChangeAction: string => void,
-  rejectArticleAction: string => void,
+  rejectArticleAction: (string, string) => void,
   addCommentAction: (AddCommentPayload, callback: any) => void,
   personalUsername: ?string,
   deleteArticleCommentAction: DeleteArticleCommentPayload => void,
+  publishArticleAction: any => void,
 }
 
 class Article extends React.Component<ArticleProps> {
   approveArticle = () => {
-    if (this.props.data.getArticle) {
+    if (typeof this.props.data.getArticle === 'object') {
       if (
-        this.props.data.getArticle.versions &&
         typeof this.props.data.getArticle.article_id === 'string' &&
-        typeof this.props.data.getArticle.request_id === 'string' &&
+        typeof this.props.data.getArticle.article_version === 'number' &&
         typeof this.props.data.getArticle.user_id === 'string' &&
-        typeof this.props.data.getArticle.content_hash === 'string'
+        typeof this.props.data.getArticle.category === 'string' &&
+        typeof this.props.data.getArticle.content_hash === 'string' &&
+        typeof this.props.data.getArticle.request_id === 'string'
       ) {
-        const approveArticlePayload: ApproveArticlePayload = {
+        const approveArticlePayload = {
           article_id: this.props.data.getArticle.article_id,
-          request_id: this.props.data.getArticle.request_id,
+          article_version: this.props.data.getArticle.article_version,
           user_id: this.props.data.getArticle.user_id,
+          category: this.props.data.getArticle.category,
           content_hash: this.props.data.getArticle.content_hash,
+          request_id: this.props.data.getArticle.request_id,
         }
 
+        console.log(approveArticlePayload)
         this.props.approveArticleAction(approveArticlePayload)
       } else if (
         typeof this.props.data.getArticle.article_id === 'string' &&
+        typeof this.props.data.getArticle.article_version === 'number' &&
         typeof this.props.data.getArticle.user_id === 'string' &&
+        typeof this.props.data.getArticle.category === 'string' &&
         typeof this.props.data.getArticle.content_hash === 'string'
       ) {
-        const approveArticlePayload: ApproveArticlePayload = {
+        const approveArticlePayload = {
           article_id: this.props.data.getArticle.article_id,
-          request_id: '',
+          article_version: this.props.data.getArticle.article_version,
           user_id: this.props.data.getArticle.user_id,
+          category: this.props.data.getArticle.category,
           content_hash: this.props.data.getArticle.content_hash,
+          request_id: '',
         }
 
+        console.log(approveArticlePayload)
         this.props.approveArticleAction(approveArticlePayload)
       }
     }
   }
 
-  submitFinalisedArticle = () => {
-    if (this.props.data.getArticle) {
-      if (
-        this.props.data.getArticle.versions &&
-        typeof this.props.data.getArticle.article_id === 'string' &&
-        typeof this.props.data.getArticle.request_id === 'string' &&
-        typeof this.props.data.getArticle.category === 'string' &&
-        typeof this.props.data.getArticle.user_id === 'string' &&
-        typeof this.props.data.getArticle.content_hash === 'string'
-      ) {
-        const submitFinalisedArticlePayload: SubmitFinalisedArticlePayload = {
-          article_id: this.props.data.getArticle.article_id,
-          request_id: this.props.data.getArticle.request_id,
-          content_hash: this.props.data.getArticle.content_hash,
-          category: this.props.data.getArticle.category,
-          user_id: this.props.data.getArticle.user_id,
-        }
-
-        this.props.submitFinalisedArticleAction(submitFinalisedArticlePayload)
-      } else if (
-        typeof this.props.data.getArticle.article_id === 'string' &&
-        typeof this.props.data.getArticle.category === 'string' &&
-        typeof this.props.data.getArticle.user_id === 'string' &&
-        typeof this.props.data.getArticle.content_hash === 'string'
-      ) {
-        const submitFinalisedArticlePayload: SubmitFinalisedArticlePayload = {
-          article_id: this.props.data.getArticle.article_id,
-          request_id: '',
-          content_hash: this.props.data.getArticle.content_hash,
-          category: this.props.data.getArticle.category,
-          user_id: this.props.data.getArticle.user_id,
-        }
-
-        this.props.submitFinalisedArticleAction(submitFinalisedArticlePayload)
-      }
-    }
-  }
-
-  rejectArticle = () => this.props.rejectArticleAction(this.props.data.getArticle.article_id)
+  rejectArticle = () =>
+    this.props.rejectArticleAction(this.props.data.getArticle.article_id, this.props.data.getArticle.article_version)
 
   updateUnsubmittedArticle = () => {
     if (this.props.routeChangeAction) {
       if (this.props.data.getArticle && typeof this.props.data.getArticle.article_id === 'string') {
-        this.props.routeChangeAction(`/article/${this.props.data.getArticle.article_id}/update-article`)
+        this.props.routeChangeAction(
+          `/article/${this.props.data.getArticle.article_id}/article-version/${
+            this.props.data.getArticle.article_version
+          }/update-article`
+        )
       }
     }
   }
@@ -118,7 +92,11 @@ class Article extends React.Component<ArticleProps> {
         }
 
         this.props.addCommentAction(preApproveArticlePayload, () =>
-          this.props.routeChangeAction(`/article/${this.props.data.getArticle.article_id}/article-approved`)
+          this.props.routeChangeAction(
+            `/article/${this.props.data.getArticle.article_id}/article-version/${
+              this.props.data.getArticle.article_version
+            }/article-approved`
+          )
         )
       }
     }
@@ -136,20 +114,56 @@ class Article extends React.Component<ArticleProps> {
     }
   }
 
+  publishArticle = () => {
+    if (typeof this.props.data.getArticle === 'object') {
+      console.log(this.props.data.getArticle)
+      if (
+        typeof this.props.data.getArticle.article_id === 'string' &&
+        typeof this.props.data.getArticle.article_version === 'number' &&
+        typeof this.props.data.getArticle.content_hash === 'string' &&
+        typeof this.props.data.getArticle.category === 'string' &&
+        typeof this.props.data.getArticle.user_id === 'string' &&
+        typeof this.props.data.getArticle.signature === 'string'
+      ) {
+        const {
+          article_id,
+          article_version,
+          content_hash,
+          category,
+          user_id,
+          signature,
+          request_id,
+        } = this.props.data.getArticle
+        // TODO FIX ROUTE MATCHING FOR CONFIRMATION PAGE VS ID
+        const publishArticlePayload = {
+          article_id,
+          article_version,
+          request_id: request_id || '',
+          content_hash,
+          category,
+          user_id,
+          signature,
+        }
+        console.log('publishArticlePayload, ', publishArticlePayload)
+        this.props.publishArticleAction(publishArticlePayload)
+      }
+    }
+  }
+
   render () {
-    return this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'APPROVED' ? (
+    return this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'PUBLISHED' ? (
       <ApprovedArticle {...this.props} />
     ) : (
       <InReviewArticle
         {...this.props}
         updateUnsubmittedArticle={this.updateUnsubmittedArticle}
-        submitFinalisedArticle={this.submitFinalisedArticle}
         approveArticle={this.approveArticle}
         rejectArticle={this.rejectArticle}
         preApproveArticle={this.preApproveArticle}
         addCommentAction={this.props.addCommentAction}
         personalUsername={this.props.personalUsername}
         deleteArticleComment={this.deleteArticleComment}
+        publishArticle={this.publishArticle}
       />
     )
   }

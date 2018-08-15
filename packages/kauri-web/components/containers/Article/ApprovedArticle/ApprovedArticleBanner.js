@@ -134,6 +134,7 @@ export default class ApprovedArticleBanner extends React.Component<Props, { boun
       request_id,
       article_id,
       user_id,
+      article_version,
     } = this.props
     const { bounty } = this.state
     return (
@@ -169,7 +170,7 @@ export default class ApprovedArticleBanner extends React.Component<Props, { boun
           <ContributeButton
             onClick={() => {
               type === 'article'
-                ? tipArticleAction({ article_id, request_id, user_id, bounty }, toggleBanner)
+                ? tipArticleAction({ article_id, article_version, request_id, user_id, bounty }, toggleBanner)
                 : addToBountyAction({ request_id, bounty }, toggleBanner)
             }}
           >

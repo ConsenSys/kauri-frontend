@@ -51,6 +51,9 @@ const UserBadge = Badge.extend`
   }
   > :last-child {
     text-transform: lowercase;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `
 
@@ -169,7 +172,6 @@ const AskAQuestion = styled(Button)`
 
 const GeneralActions = BountyActions.extend`
   flex-direction: column;
-  background-color: #ffffff;
   > * {
     margin-bottom: 10px;
   }
@@ -177,13 +179,6 @@ const GeneralActions = BountyActions.extend`
     margin-bottom: 0px;
   }
 `
-
-const RequestActionBadge = ({ label, action }: *) => (
-  <ActionBadge type='action' onClick={action}>
-    {/* <Icon type='trophy' /> */}
-    <span>{label}</span>
-  </ActionBadge>
-)
 
 const RequestHeader = styled.div`
   display: flex;
@@ -326,7 +321,8 @@ class Request extends Component<Props, State> {
       <section>
         <HeaderStrip>
           <GoBack routeChangeAction={routeChangeAction} />
-          {(getRequest.status !== 'EXPIRED') && (getRequest.status !== 'CLOSED') && <ContributeToBounty type='request' toggleBanner={this.toggleBanner} />}
+          {getRequest.status !== 'EXPIRED' &&
+            getRequest.status !== 'CLOSED' && <ContributeToBounty type='request' toggleBanner={this.toggleBanner} />}
           <BountyActions>
             <Bounty bounty={getRequest.bounty} />
             <UsdPrice bounty={getRequest.bounty} ethUsdPrice={ethUsdPrice} />
@@ -407,7 +403,9 @@ class Request extends Component<Props, State> {
                   getRequest.user_id === userId &&
                   (typeof getRequest.total_submissions === 'number' && getRequest.total_submissions < 1) &&
                   (typeof getRequest.total_flag === 'number' && getRequest.total_flag < 1) && (
-                    <RequestActionBadge
+                    <PositiveRequestActionBadge
+                      type='secondary'
+                      width='auto'
                       action={() => routeChangeAction(`/request/${getRequest.request_id}/update-request`)}
                       label='Update'
                     />
@@ -454,39 +452,49 @@ class Request extends Component<Props, State> {
                   getRequest.status !== 'EXPIRED' &&
                   (typeof personalSubmittedArticle === 'object' &&
                   personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
-                    <RequestActionBadge
-                      action={() => routeChangeAction(`/article/${personalSubmittedArticle.article_id}`)}
+                    <PositiveRequestActionBadge
+                      type='secondary'
+                      action={() =>
+                        routeChangeAction(
+                          `/article/${personalSubmittedArticle.article_id}/article-version/${
+                            personalSubmittedArticle.article_version
+                          }`
+                        )
+                      }
                       label='View Article'
-                      />
-                    ) : (
-                      <PositiveRequestActionBadge
-                        alone
-                        type={!getRequest.is_flagged ? 'secondary' : ''}
-                        width='auto'
-                        action={() =>
-                          typeof personalSubmittedArticle === 'object' &&
+                    />
+                  ) : (
+                    <PositiveRequestActionBadge
+                      alone
+                      type={!getRequest.is_flagged ? 'secondary' : ''}
+                      width='auto'
+                      action={() =>
+                        typeof personalSubmittedArticle === 'object' &&
                         personalSubmittedArticle.status === 'SUBMISSION_IN_PROGRESS'
-                            ? submitArticleAction({
-                              article_id: personalSubmittedArticle.article_id,
-                              request_id: personalSubmittedArticle.request_id,
-                              text: personalSubmittedArticle.text,
-                              subject: personalSubmittedArticle.subject,
-                              sub_category: personalSubmittedArticle.sub_category,
-                            })
-                            : routeChangeAction(`/request/${getRequest.request_id}/submit-article`)
-                        }
-                        label='Write Article'
-                      />
-                    ))}
+                          ? submitArticleAction({
+                            article_id: personalSubmittedArticle.article_id,
+                            request_id: personalSubmittedArticle.request_id,
+                            text: personalSubmittedArticle.text,
+                            subject: personalSubmittedArticle.subject,
+                            sub_category: personalSubmittedArticle.sub_category,
+                          })
+                          : routeChangeAction(`/request/${getRequest.request_id}/submit-article`)
+                      }
+                      label='Write Article'
+                    />
+                  ))}
                 {getRequest.status === 'CLOSED' && (
-                  <RequestActionBadge
-                    action={() =>
+                  <PositiveRequestActionBadge
+                    type='secondary'
+                    action={() => {
+                      const satisfyingArticle =
+                        searchArticles.content &&
+                        searchArticles.content.length > 0 &&
+                        searchArticles.content.find(article => article.status === 'PUBLISHED')
                       routeChangeAction(
-                        `/article/${searchArticles.content &&
-                          searchArticles.content.length > 0 &&
-                          searchArticles.content.find(article => article.status === 'APPROVED').article_id}`
+                        `/article/${satisfyingArticle.article_id}/article-version/${satisfyingArticle.article_version}`
                       )
-                    }
+                    }}
                     label='View Article'
                   />
                 )}
@@ -505,7 +513,7 @@ class Request extends Component<Props, State> {
                 <UserBadge>
                   <span>REQUESTED BY</span>
                   {/* <Link to=''> */}
-                  <a>{getRequest && getRequest.user && getRequest.user.username}</a>
+                  <a>{(getRequest && getRequest.user && getRequest.user.username) || getRequest.user_id}</a>
                   {/* </Link> */}
                 </UserBadge>
               </GeneralActions>

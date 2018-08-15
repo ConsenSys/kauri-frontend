@@ -1,0 +1,16 @@
+{
+  "javascript.validate.enable": false,
+  "typescript.validate.enable": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "json.schemas": [
+    {
+      "fileMatch": ["bsconfig.json"],
+      "url": "https://bucklescript.github.io/bucklescript/docson/build-schema.json"
+    }
+  ],
+  "reason.diagnostics.tools": ["bsb", "merlin"],
+  "reason.path.ocamlmerlin": "ocamlmerlin",
+  "reason_language_server.cross_file_as_you_type": true,
+  "reason_language_server.opens_codelens": true,
+  "reason_language_server.per_value_codelens": true
+}

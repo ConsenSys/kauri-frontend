@@ -1,8 +1,11 @@
-# flow-frontend-boilerplate
-
-This repo is a collection of thoughts.
+# Kauri Web
 
 Ideally to be cleaned up and git tagged for a public truffle-box in due time.
+
+## Dependencies
+
+- [ ] brew install yarn
+- [ ] npm i -g reason-cli@3.3.2-macos-betabeta
 
 ## Corresponds with the below
 

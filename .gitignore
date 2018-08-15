@@ -1,6 +1,6 @@
 node_modules/
 build/
-config/local*
+packages/kauri-web/config/local*
 static/workbox/
 npm-debug.log
 .next
@@ -12,9 +12,14 @@ client-secret.json
 credentials.tar.gz
 bundles
 .fliphub
-packages/kauri-components/lib
+packages/kauri-components/lib/bs
+packages/kauri-web/lib/bs
+packages/kauri-web/lib/kauri-components
 lerna-debug.log
 lerna-error.log
 *.bs.js
 .merlin
 bs-ppx-css
+.bsb.lock
+esy.lock
+Dockerfile-local

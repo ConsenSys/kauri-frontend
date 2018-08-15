@@ -128,7 +128,7 @@ export default class ArticleRequest extends React.Component<Props, State> {
 
     return (
       <ArticleRequestContainer>
-        {!this.state.allArticlesRejected && (
+        {!this.state.allArticlesRejected ? (
           <Fragment>
             <Request
               showArticleRequestSubmissions={this.state.showArticleRequestSubmissions}
@@ -144,6 +144,8 @@ export default class ArticleRequest extends React.Component<Props, State> {
             )}
             <Divider />
           </Fragment>
+        ) : (
+          <p>No articles with requests to approve. Inbox Zero!</p>
         )}
       </ArticleRequestContainer>
     )

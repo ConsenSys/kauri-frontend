@@ -8,10 +8,16 @@ class ArticleSubmittedPage extends React.Component {
   render () {
     return (
       <App confirmationPage url={this.props.url}>
-        <ArticleSubmitted article_id={this.props.url.query['article_id']} />
+        <ArticleSubmitted
+          article_id={this.props.url.query['article_id']}
+          article_version={this.props.url.query['article_version']}
+        />
       </App>
     )
   }
 }
 
-export default compose(withData, withApollo)(ArticleSubmittedPage)
+export default compose(
+  withData,
+  withApollo
+)(ArticleSubmittedPage)

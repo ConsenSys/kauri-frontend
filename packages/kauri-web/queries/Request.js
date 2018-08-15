@@ -183,6 +183,7 @@ export const getRequest = gql`
     searchArticles(size: $size, dir: DESC, filter: { request_id_eq: $request_id }) {
       content {
         article_id
+        article_version
         status
         text
         subject
@@ -266,6 +267,7 @@ export const searchOpenRequestsWithSubmissions = gql`
       totalElements
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created
@@ -277,10 +279,8 @@ export const searchOpenRequestsWithSubmissions = gql`
         sub_category
         category
         content_hash
-        versions(version: "ALL") {
-          comments {
-            date_created
-          }
+        comments {
+          date_created
         }
         user {
           username

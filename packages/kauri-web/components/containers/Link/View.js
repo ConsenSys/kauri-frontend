@@ -16,12 +16,12 @@ type LinkProps = {
 
 class Link extends React.Component<LinkProps> {
   render () {
-    // console.log(this.props.children)
     return React.cloneElement(this.props.children, {
       onClick: e => {
         e.preventDefault()
         e.stopPropagation()
         const url = this.props.as || this.props.href || this.props.children.props.href
+        // TODO: REACTIVATE ANALYTICS TRACKING SOON DUE TO NEW ROUTING
         this.props.trackAnalyticsAction({ url })
         Router.pushRoute(url)
       },

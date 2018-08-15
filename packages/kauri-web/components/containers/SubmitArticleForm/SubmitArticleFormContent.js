@@ -1,14 +1,14 @@
 // @flow
 import React, { Fragment } from 'react'
-import { EditorState, convertFromHTML, ContentState } from 'draft-js'
+import { EditorState, ContentState } from 'draft-js'
 import SharedEditor from '../../common/SharedEditor'
 import styled from 'styled-components'
-import { Divider } from 'antd'
 import {
   CreateRequestContent as SubmitArticleFormContent,
   CreateRequestContainer as SubmitArticleFormContainer,
 } from '../CreateRequestForm/CreateRequestContent'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../lib/markdown-converter-helper'
+import Outline from '../../../../kauri-components/components/Typography/Outline.bs'
 import { ApprovedArticleDetails as SubmitArticleFormDetails } from '../Article/ApprovedArticle/ApprovedArticleContent'
 
 import type { EditArticlePayload, SubmitArticlePayload } from './Module'
@@ -47,7 +47,7 @@ class SubmitArticleFormText extends React.Component<Props, State> {
       }
     } else {
       this.state = {
-        editorState: null,
+        editorState: { markdown: 'Write markdown content here!', text: 'Write markdown content here' },
       }
     }
   }
@@ -91,16 +91,8 @@ const OutlineHeader = styled.h5`
   }
 `
 
-export const SubmitArticleFormHeadings = ({ editorState }) => {
+export const SubmitArticleFormHeadings = ({ editorState }: *) => {
   // typeof editorState === 'object' && console.log(contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown)))
-  const outlineHeadings =
-    typeof editorState === 'object' &&
-    (editorState.markdown
-      ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
-        .getBlocksAsArray()
-        .map(block => block.toJS())
-        .filter(block => block.type.includes('header'))
-      : editorState.blocks && editorState.blocks.filter(block => block.type.includes('header')))
 
   return (
     <div>
@@ -139,6 +131,14 @@ export const OutlineLabel = styled.h3`
   line-height: 24px;
 `
 
+export const RandomLineThatGoesAcrossTheContent = styled.div`
+  width: 100%;
+  height: 48px;
+  left: 0;
+  position: absolute;
+  border-bottom: 1px solid #c8ccd0;
+`
+
 export default class extends React.Component<
   {
     getFieldDecorator: (string, any) => any => any,
@@ -147,6 +147,8 @@ export default class extends React.Component<
     getFieldError: string => any,
     text?: string,
     article_id?: string,
+    username?: ?string,
+    userId?: ?string,
   },
   { focused: boolean }
 > {
@@ -155,9 +157,36 @@ export default class extends React.Component<
   }
 
   render () {
-    const { getFieldDecorator, setFieldsValue, getFieldValue, getFieldError, text, article_id } = this.props
+    const {
+      getFieldDecorator,
+      setFieldsValue,
+      getFieldValue,
+      getFieldError,
+      text,
+      article_id,
+      category,
+      subCategory,
+      username,
+      userId,
+    } = this.props
+
+    const editorState =
+      getFieldValue('text') && typeof getFieldValue('text') === 'string' && JSON.parse(getFieldValue('text'))
+
+    const outlineHeadings =
+      typeof editorState === 'object' &&
+      (editorState.markdown
+        ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
+          .getBlocksAsArray()
+          .map(block => block.toJS())
+          .filter(block => block.type.includes('header'))
+          .map(header => header.text)
+        : editorState.blocks &&
+          editorState.blocks.filter(block => block.type.includes('header')).map(header => header.text))
+
     return (
       <SubmitArticleFormContent>
+        <RandomLineThatGoesAcrossTheContent />
         <SubmitArticleFormContainer onClick={() => this.setState({ focused: true })}>
           <SubmitArticleFormText
             getFieldError={getFieldError}
@@ -166,14 +195,8 @@ export default class extends React.Component<
             getFieldDecorator={getFieldDecorator}
           />
         </SubmitArticleFormContainer>
-        <SubmitArticleFormDetails type='outline'>
-          <OutlineLabel>Outline</OutlineLabel>
-          <Divider style={{ margin: '20px 0' }} />
-          <SubmitArticleFormHeadings
-            editorState={
-              getFieldValue('text') && typeof getFieldValue('text') === 'string' && JSON.parse(getFieldValue('text'))
-            }
-          />
+        <SubmitArticleFormDetails isSubmitting type='outline'>
+          <Outline pageType='SubmittingArticle' headings={outlineHeadings || []} username={username || userId} />
         </SubmitArticleFormDetails>
       </SubmitArticleFormContent>
     )

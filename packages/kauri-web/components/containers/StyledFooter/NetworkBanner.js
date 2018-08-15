@@ -105,8 +105,8 @@ const Overlay = styled.div`
   }};
 `
 
-const UnsupportedNetwork = ({ currentNetworkName, type }) => (
-  <ContainerWithLifeCycle type={type} error>
+const UnsupportedNetwork = ({ currentNetworkName, type, showBanner }) => (
+  <ContainerWithLifeCycle type={type} showBanner={showBanner} error>
     <span>
       {`Please switch to the `}
       <strong>Rinkeby</strong>
@@ -116,8 +116,8 @@ const UnsupportedNetwork = ({ currentNetworkName, type }) => (
   </ContainerWithLifeCycle>
 )
 
-const MetaMaskLocked = ({ type }) => (
-  <ContainerWithLifeCycle type={type} error>
+const MetaMaskLocked = ({ type, showBanner }) => (
+  <ContainerWithLifeCycle type={type} showBanner={showBanner} error>
     <span>Please unlock MetaMask</span>
     <Overlay type={type} />
   </ContainerWithLifeCycle>
@@ -242,7 +242,7 @@ export default class NetworkBanner extends React.Component<
         accountsError: null,
       })
 
-      if (next && userId !== next) {
+      if (next && userId && userId !== next) {
         return this.setState({
           ...this.state,
           accounts,
@@ -300,11 +300,11 @@ export default class NetworkBanner extends React.Component<
     }
 
     if (typeof networkId === 'number' && supportedNetworkIds.indexOf(networkId) < 0) {
-      return <UnsupportedNetwork currentNetworkName={currentNetworkName} type={type} />
+      return <UnsupportedNetwork showBanner={showBanner} currentNetworkName={currentNetworkName} type={type} />
     }
 
     if (Array.isArray(accounts) && accounts.length === 0 && !accountsError && accountsLoaded === true) {
-      return <MetaMaskLocked type={type} />
+      return <MetaMaskLocked showBanner={showBanner} type={type} />
     }
 
     if (accountsError === 'Wrong metamask account') {

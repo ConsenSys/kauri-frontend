@@ -1,0 +1,1 @@
+{"__schema":{"types":[{"kind":"INTERFACE","name":"DTO","possibleTypes":[{"name":"RequestDTO"},{"name":"ArticleDTO"},{"name":"TopicDTO"},{"name":"CollectionDTO"}]}]}}

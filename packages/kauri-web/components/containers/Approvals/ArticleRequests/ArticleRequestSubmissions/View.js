@@ -7,10 +7,9 @@ import { Divider } from 'antd'
 import type { ApproveArticlePayload } from '../../../Article/Module'
 
 type Props = {
-  data: { searchArticles: { content: Array<?ArticleDTO> } },
+  data: { searchArticles: { content: Array<?ArticleDTO>, totalElements: ?number } },
   routeChangeAction: string => void,
   approveArticleAction: ApproveArticlePayload => void,
-  rejectArticleAction: string => void,
   allArticlesAreRejected: () => void,
 }
 
@@ -34,7 +33,6 @@ class ArticleRequestSubmissions extends React.Component<Props> {
     const {
       routeChangeAction,
       approveArticleAction,
-      rejectArticleAction,
       data: {
         searchArticles: { content },
       },
@@ -47,18 +45,16 @@ class ArticleRequestSubmissions extends React.Component<Props> {
               index !== content.length - 1 ? (
                 [
                   <Approval
+                    key={`${article.article_id}-${article.article_version}`}
                     routeChangeAction={routeChangeAction}
-                    rejectArticleAction={rejectArticleAction}
                     approveArticleAction={approveArticleAction}
-                    key={article.article_id}
                     {...article}
                   />,
                   <Divider key={article.article_id + 'divider'} />,
                 ]
               ) : (
                 <Approval
-                  key={article.article_id}
-                  rejectArticleAction={rejectArticleAction}
+                  key={`${article.article_id}-${article.article_version}`}
                   routeChangeAction={routeChangeAction}
                   approveArticleAction={approveArticleAction}
                   {...article}

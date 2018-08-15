@@ -33,28 +33,33 @@ const handleKeyPress = e => {
   if (e.key === 'Enter') e.preventDefault()
 }
 
-export const ArticleSubject = styled(Input)`
+export const InputWrapper = styled.div`
+  margin-left: 10px;
+  position: relative;
+  align-self: auto;
+`
+
+export const ArticleSubject = styled.input`
+  display: inline-block;
+  margin-left: 0px;
   background: none;
   background-color: transparent;
+  border: none;
   color: white;
   height: 45px;
-  font-size: 26px !important;
+  font-size: 26px;
   font-weight: 500;
-  border: 1px solid #fff;
-  margin-left: 20px;
-  :hover {
-    border: 1px solid #fff;
-  }
+  padding: 0;
+  padding-bottom: 2px;
   * {
     border: 1px solid #fff;
-    font-size: 20px !important;
+    font-size: 20px;
     font-weight: 500;
-    :hover {
-      background-color: ${props => props.theme.hoverTextColor} !important;
-    }
   }
   ::-webkit-input-placeholder {
     color: #fff;
+    text-decoration: underline;
+    text-decoration-color: ${props => props.theme.primaryColor};
   }
   :focus::-webkit-input-placeholder {
     text-indent: -999px;
@@ -68,8 +73,26 @@ export const ArticleSubject = styled(Input)`
   ${({ hasErrors }) => hasErrors && errorBorderCss};
 `
 
+const articleUnderlineSpanCss = css`
+  font-size: 26px !important;
+`
+
+export const UnderlineSpan = styled.span`
+  user-select: none;
+  border-top: 3px solid ${props => props.theme.primaryColor};
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  max-width: 100%;
+  height: 0;
+  color: transparent;
+  overflow: hidden;
+  font-size: 12px;
+  ${props => (props.type === 'article' || props.type === 'request') && articleUnderlineSpanCss};
+`
+
 export const ChosenCategory = styled.h4`
-  margin-top: 10px;
+  margin-top: 5px;
   margin-left: 11px;
   color: #fff;
   font-size: 12px;
@@ -93,33 +116,39 @@ const ForVersionInputField = ArticleSubject.extend`
   margin-top: 10px;
 `
 
-const ForVersionInput = ({ getFieldDecorator, getFieldError }: *) => (
+const ForVersionInput = ({ getFieldDecorator, getFieldError, getFieldValue, forVersion }: *) => (
   <ForVersionInputContainer>
     <ForVersion>FOR VERSION</ForVersion>
-    {getFieldDecorator('version', {
-      rules: [
-        {
-          message: 'Please input the for version of the article!',
-          whitespace: true,
-        },
-      ],
-    })(
-      <ForVersionInputField
-        placeholder='E.G. 1.0.0'
-        hasErrors={getFieldError('version') && getFieldError('version').length > 0}
-        style={{
-          width: 100,
-          marginLeft: 10,
-          alignSelf: 'flex-start',
-        }}
-      />
-    )}
+    <InputWrapper>
+      {getFieldDecorator('version', {
+        rules: [
+          {
+            message: 'Please input the for version of the article!',
+            whitespace: true,
+          },
+        ],
+        initialValue: forVersion,
+      })(
+        <ForVersionInputField
+          placeholder='E.G. 1.0.0'
+          hasErrors={getFieldError('version') && getFieldError('version').length > 0}
+          style={{
+            width: 100,
+            alignSelf: 'flex-start',
+          }}
+        />
+      )}
+      <UnderlineSpan>
+        {typeof getFieldValue('version') === 'string' && getFieldValue('version').replace(/ /g, '\u00a0')}
+      </UnderlineSpan>
+    </InputWrapper>
   </ForVersionInputContainer>
 )
 
 const SubmitArticleFormSubject = ({
   getFieldDecorator,
   getFieldError,
+  getFieldValue,
   chosenCategory,
   chosenSubcategory,
   subject,
@@ -143,38 +172,59 @@ const SubmitArticleFormSubject = ({
         <SelectSubCategory getFieldError={getFieldError} getFieldDecorator={getFieldDecorator} />
       )}
     </SubmitArticleFormTopicAndSubcategoryContainer>
-    {getFieldDecorator('subject', {
-      rules: [
-        {
-          required: true,
-          message: 'Please input the subject of the article!',
-          whitespace: true,
-          max: 55,
-        },
-      ],
-      initialValue: subject,
-    })(
-      <ArticleSubject
-        onKeyPress={handleKeyPress}
-        placeholder='Article Title'
-        maxlength={55}
-        hasErrors={getFieldError('subject') && getFieldError('subject').length > 0}
-        style={{
-          width: 830,
-          marginLeft: 10,
-          alignSelf: 'flex-start',
-        }}
-      />
-    )}
-    {metadata && typeof metadata.FOR_VERSION === 'string' ? (
-      metadata && metadata.FOR_VERSIOn && <ForVersion> {`VERSION ${metadata && metadata.FOR_VERSION}`}</ForVersion>
-    ) : (
-      <ForVersionInput getFieldDecorator={getFieldDecorator} getFieldError={getFieldError} />
-    )}
+    <InputWrapper>
+      {getFieldDecorator('subject', {
+        rules: [
+          {
+            required: true,
+            message: 'Please input the subject of the article!',
+            whitespace: true,
+            max: 55,
+          },
+        ],
+        initialValue: subject,
+      })(
+        <ArticleSubject
+          onKeyPress={handleKeyPress}
+          placeholder='Add Article Title'
+          maxlength={55}
+          hasErrors={getFieldError('subject') && getFieldError('subject').length > 0}
+          style={{
+            width: 830,
+            alignSelf: 'flex-start',
+          }}
+        />
+      )}
+      <UnderlineSpan type='article'>
+        {typeof getFieldValue('subject') === 'string' && getFieldValue('subject').replace(/ /g, '\u00a0')}
+      </UnderlineSpan>
+    </InputWrapper>
+    <ForVersionInput
+      forVersion={metadata && metadata.FOR_VERSION}
+      getFieldDecorator={getFieldDecorator}
+      getFieldValue={getFieldValue}
+      getFieldError={getFieldError}
+    />
   </SubmitArticleFormSubjectContainer>
 )
 
-const SubmitArticleFormStatus = ActionBadge
+const SubmitArticleFormStatus = styled.div`
+  display: flex;
+  margin-left: auto;
+  margin-right: 15px;
+  align-items: center;
+  > * {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    color: #fff;
+  }
+  > :nth-child(2) {
+    margin-left: 8px;
+  }
+  opacity: ${props => typeof props.status !== 'string' && 0.6};
+`
 
 export default ({
   category,
@@ -191,6 +241,7 @@ export default ({
     <SubmitArticleFormLogo type='article' theme={theme} chosenCategory={category || getFieldValue('category')} />
     <SubmitArticleFormSubject
       getFieldError={getFieldError}
+      getFieldValue={getFieldValue}
       subject={subject}
       theme={theme}
       chosenCategory={category}
@@ -199,11 +250,9 @@ export default ({
       isKauriTopicOwner={isKauriTopicOwner}
       metadata={metadata}
     />
-    {Boolean(status) && (
-      <SubmitArticleFormStatus>
-        <strong>STATUS</strong>
-        <span>{status}</span>
-      </SubmitArticleFormStatus>
-    )}
+    <SubmitArticleFormStatus status={status}>
+      <strong>STATUS</strong>
+      <span>{(typeof status === 'string' && status.replace(/_/g, ' ')) || 'Not submitted'}</span>
+    </SubmitArticleFormStatus>
   </SubmitArticleFormHeader>
 )

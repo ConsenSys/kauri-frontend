@@ -12,6 +12,7 @@ type State = {}
 
 export type AddCommentPayload = {
   article_id: string,
+  article_version: string,
   comment: string,
   highlight_from?: number,
   highlight_to?: number,
@@ -42,13 +43,13 @@ export const addCommentEpic = (
     .ofType(ADD_COMMENT)
     .switchMap(
       ({
-        payload: { anchor_key, focus_key, highlight_from, highlight_to, comment, article_id },
+        payload: { anchor_key, focus_key, highlight_from, highlight_to, comment, article_id, article_version },
         callback,
       }: AddCommentAction) =>
         Observable.fromPromise(
           apolloClient.mutate({
             mutation: commentArticle,
-            variables: { comment, highlight_from, highlight_to, article_id, anchor_key, focus_key },
+            variables: { comment, highlight_from, highlight_to, article_id, article_version, anchor_key, focus_key },
           })
         )
           .flatMap(({ data: { commentArticle: { hash } } }: { data: { commentArticle: { hash: string } } }) =>
@@ -66,6 +67,7 @@ export const addCommentEpic = (
                   metaData: {
                     resource: 'article',
                     resourceID: article_id,
+                    resourceVersion: article_version,
                     resourceAction: 'add comment for article',
                   },
                 })
@@ -77,6 +79,7 @@ export const addCommentEpic = (
                   metaData: {
                     resource: 'article',
                     resourceID: article_id,
+                    resourceVersion: article_version,
                     resourceAction: 'add comment for article',
                   },
                 }),

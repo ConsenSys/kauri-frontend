@@ -7,7 +7,7 @@ import { searchRequests } from '../../../queries/Request'
 import { globalSearchApprovedArticles } from '../../../queries/Article'
 import { web3GetAccounts, web3Sign, login, message } from '../../../__tests__/lib/test-helpers'
 
-const KauriCoreArtifact = require(config.default.KauriCoreArtifact)
+export const KauriCoreArtifact = require(config.default.KauriCoreArtifact)
 
 describe('tipArticle unit test', async () => {
   let smartContractPayload
@@ -93,16 +93,21 @@ describe('tipArticle unit test', async () => {
 
     smartContractPayload.id = openedRequest.request_id
     smartContractPayload.article_id = approvedArticle.article_id
+    smartContractPayload.article_version = approvedArticle.article_version
     smartContractPayload.weiBounty = web3.fromWei(openedRequest.bounty, 'ether')
     smartContractPayload.options.from = web3Account
     smartContractPayload.options.gasPrice = web3.toWei(1, 'wei')
+    console.log(web3.toWei(smartContractPayload.weiBounty, 'ether'))
+
+    console.info(smartContractPayload)
 
     try {
       result = await KauriCore.tipArticle.sendTransaction(
         smartContractPayload.article_id,
+        smartContractPayload.article_version,
         smartContractPayload.id || '',
         web3Account,
-        smartContractPayload.weiBounty,
+        web3.toWei(smartContractPayload.weiBounty, 'ether'),
         {
           from: smartContractPayload.options.from,
           value: smartContractPayload.options.value,

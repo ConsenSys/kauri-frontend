@@ -1,0 +1,42 @@
+{
+  "name": "kauri-web",
+  "reason": {
+    "react-jsx": 2
+  },
+  "sources": [
+    {
+      "dir": "components",
+      "subdirs": true
+    },
+    {
+      "dir": "../kauri-components/components",
+      "subdirs": true
+    },
+    {
+      "dir": "lib/ReasonMLTypings",
+      "subdirs": true
+    },
+    {
+      "dir": "queries",
+      "subdirs": true
+    },
+    {
+      "dir": "__tests__",
+      "subdirs": true,
+      "type": "dev"
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "commonjs",
+      "in-source": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "namespace": true,
+  "bs-dependencies": ["reason-react", "bs-css", "vrroom", "bs-moment", "bs-webapi", "@glennsl/bs-revamp"],
+  "bs-dev-dependencies": ["bs-enzyme", "@glennsl/bs-jest"],
+  "ppx-flags": ["graphql_ppx/ppx"],
+  "bsc-flags": ["-bs-super-errors", "-bs-g"],
+  "refmt": 3
+}

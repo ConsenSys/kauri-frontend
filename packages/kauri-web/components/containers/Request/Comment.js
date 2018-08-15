@@ -27,7 +27,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   margin-top: 20px;
   padding: 10px;
-  background-color: white;
   margin-top: ${props => props.type && props.type === 'in review article' && '0px'};
 `
 

@@ -19,7 +19,7 @@ class CreateRequestForm extends React.Component<Props, { editorState: any }> {
         editorState: { draftEditorState: newEditorState },
       }
     } else {
-      this.state = { editorState: null }
+      this.state = { editorState: { markdown: 'Write markdown content here!', text: 'Write markdown content here!' } }
     }
   }
 

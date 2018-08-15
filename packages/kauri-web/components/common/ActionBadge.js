@@ -45,7 +45,7 @@ const ActionBadge = styled.div`
     color: #fff;
   }
   > :nth-child(2) {
-    margin-left: 7.5px;
+    margin-left: 8px;
   }
 `
 
@@ -77,7 +77,7 @@ const Container = styled.div`
   flex-direction: column;
   height: ${props => props.height || '76'}px;
   width: ${props => props.width || '76'}px;
-  box-shadow: 0 0 0 1px ${props => props.theme[props.category].borderColor};
+  box-shadow: 0 0 0 1px ${props => props.theme[props.category] && props.theme[props.category].borderColor};
   border-radius: 4px;
   background-color: #ffffff;
   ${props => props.individualCategory && individualCategoryCss};
@@ -103,13 +103,15 @@ export const Avatar = styled.img`
 
 const CategoryBadge = props => (
   <CategoryBadge.Container {...props}>
-    <CategoryBadge.Avatar
-      avatarWidth={props.avatarWidth}
-      avatarHeight={props.avatarHeight}
-      src={`/static/images/${props.category}/avatar.png`}
-      alt='logo'
-    />
-    <CategoryBadge.Name>{props.category}</CategoryBadge.Name>
+    {props.category && (
+      <CategoryBadge.Avatar
+        avatarWidth={props.avatarWidth}
+        avatarHeight={props.avatarHeight}
+        src={`/static/images/${props.category}/avatar.png`}
+        alt='logo'
+      />
+    )}
+    <CategoryBadge.Name>{props.category || props.username || props.userId || 'Unknown Writer'}</CategoryBadge.Name>
   </CategoryBadge.Container>
 )
 
@@ -133,14 +135,14 @@ const ViewAll = styled.a`
 const TotalArticleBadge = props =>
   props.data && props.data.searchArticles ? (
     <Container
-      onClick={() => props.routeChangeAction(`/topic/${props.category}`)}
+      onClick={() => props.routeChangeAction(`/community/${props.category}`)}
       theme={theme}
       category={props.category}
       totalArticles
     >
       <Name>{props.category}</Name>
       <Count>{props.data.searchArticles.totalElements} Articles</Count>
-      <ViewAll href={`/topic/${props.category}`}>VIEW ALL</ViewAll>
+      <ViewAll href={`/community/${props.category}`}>VIEW ALL</ViewAll>
     </Container>
   ) : (
     <Container totalArticles {...props}>

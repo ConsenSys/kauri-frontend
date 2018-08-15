@@ -3,8 +3,10 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { ApolloLink, split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import { InMemoryCache, IntrospectionFragmentMatcher} from 'apollo-cache-inmemory'
 import { getMainDefinition } from 'apollo-utilities'
+import introspectionQueryResultData from '../scripts/fragmentTypes.json'
+
 
 let apolloClient = null
 
@@ -12,6 +14,10 @@ let apolloClient = null
 if (!global.window) {
   global.fetch = fetch
 }
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData
+});
 
 function create (initialState, { getToken }) {
   let httpLink = new HttpLink({
@@ -57,7 +63,7 @@ function create (initialState, { getToken }) {
     initialState,
     connectToDevTools: true,
     ssrMode: !global.window, // Disables forceFetch on the server (so queries are only run once)
-    cache: new InMemoryCache().restore(initialState || {}),
+    cache: new InMemoryCache({ fragmentMatcher }).restore(initialState || {}),
     link,
   })
 }

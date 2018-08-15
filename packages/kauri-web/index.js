@@ -1,4 +1,4 @@
-require('babel-core/register')
+require('@babel/register')
 const express = require('express')
 const compression = require('compression')
 const helmet = require('helmet')

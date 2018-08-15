@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { Link } from '../../routes'
 
@@ -22,14 +22,22 @@ const BreadcrumbSeparator = styled.span`
 
 export default ({ category, sub_category }) => (
   <CategoryBreadcrumbs>
-    <Link route={`/topic/${category}`}>
-      <CategoryBreadcrumb href={`/topic/${category}`}>{category}</CategoryBreadcrumb>
-    </Link>
-    <BreadcrumbSeparator>></BreadcrumbSeparator>
-    <Link route={`/topic/${category}?subcategory=${sub_category || category}`}>
-      <CategoryBreadcrumb href={`/topic/${category}?subcategory=${sub_category || category}`}>
-        {sub_category || category}
-      </CategoryBreadcrumb>
-    </Link>
+    {category ? (
+      <Link route={`/community/${category}`}>
+        <CategoryBreadcrumb href={`/community/${category}`}>{category}</CategoryBreadcrumb>
+      </Link>
+    ) : (
+      <CategoryBreadcrumb>{'Personal'}</CategoryBreadcrumb>
+    )}
+    {(category || sub_category) && (
+      <Fragment>
+        <BreadcrumbSeparator>></BreadcrumbSeparator>
+        <Link route={`/community/${category}?subcategory=${sub_category || category || 'Personal'}`}>
+          <CategoryBreadcrumb href={`/community/${category}?subcategory=${sub_category || category}`}>
+            {sub_category || category}
+          </CategoryBreadcrumb>
+        </Link>
+      </Fragment>
+    )}
   </CategoryBreadcrumbs>
 )

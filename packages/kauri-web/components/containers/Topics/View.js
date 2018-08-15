@@ -24,9 +24,9 @@ class Topics extends Component<Props> {
       <section>
         <Topics.Header />
         <Topics.Content>
-          {this.props.categories
-            .filter(category => category !== 'kauri')
-            .map(category => <Topic key={category} category={category} />)}
+          {this.props.categories.filter(category => category !== 'kauri').map((category, i) => (
+            <Topic key={category + i} category={category} />
+          ))}
         </Topics.Content>
       </section>
     )

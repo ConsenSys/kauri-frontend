@@ -32,6 +32,32 @@ const SearchInput = styled(Input)`
   }
 `
 
+const SearchWrapper = styled.div`
+  width: 300px;
+  margin-bottom: 64px;
+  margin-top: 19px;
+  display: grid;
+  position: relative;
+  > *:not(.certain-category-icon) {
+    opacity: ${props => (props.collapsible ? '0' : '1')};
+    transition: all 0.3s;
+  }
+  &: hover {
+    > * {
+      opacity: 1;
+    }
+  }
+`
+
+const IconOverlay = styled(Icon)`
+  position: absolute;
+  top: 12.5px;
+  right: 12px;
+  height: 17px;
+  width: 17px;
+  font-size: 17px;
+`
+
 const handleSearch$ = new Subject()
 
 export default class Complete extends React.Component<any, any> {
@@ -40,7 +66,7 @@ export default class Complete extends React.Component<any, any> {
   }
 
   componentDidMount () {
-    handleSearch$
+    const sub = handleSearch$
       .debounceTime(300)
       .flatMap(text =>
         this.props.client.query({
@@ -61,21 +87,31 @@ export default class Complete extends React.Component<any, any> {
         }
         this.setState({ dataSource })
       })
+    this.setState({ sub })
+  }
+
+  componentWillUnmount () {
+    this.state.sub.unsubscribe()
   }
 
   handleSearch = (text: string) => {
     handleSearch$.next(text)
   }
 
-  onSelect = (article_id: string) => this.props.routeChangeAction(`/article/${article_id}`)
+  onSelect = (articleRoute: string) => {
+    this.props.routeChangeAction(articleRoute)
+  }
 
   renderOption = (article: ArticleDTO) =>
     article.subject !== 'No articles found' ? (
-      <Option key={article.article_id} value={article.article_id}>
+      <Option
+        key={`/article/${article.article_id}/article-version/${article.article_version}`}
+        value={`/article/${article.article_id}/article-version/${article.article_version}`}
+      >
         {typeof article.subject === 'string' && article.subject.length && article.subject.substr(0, 50).concat('...')}
       </Option>
     ) : (
-      <Option disabled key={article.article_id} value={article.article_id}>
+      <Option disabled key={'No articles found'} value={'No articles found'}>
         No articles found
       </Option>
     )
@@ -84,18 +120,7 @@ export default class Complete extends React.Component<any, any> {
     const { dataSource } = this.state
 
     return (
-      <div
-        className='global-search-wrapper'
-        style={{
-          height: 40,
-          width: 300,
-          marginLeft: 'auto',
-          marginRight: 15,
-          alignSelf: 'center',
-          backgroundColor: 'transparent',
-          display: 'flex',
-        }}
-      >
+      <SearchWrapper collapsible={this.props.collapsible} className='global-search-wrapper'>
         <AutoComplete
           className='global-search'
           size='large'
@@ -109,7 +134,8 @@ export default class Complete extends React.Component<any, any> {
             suffix={<Icon type='search' className='certain-category-icon' />}
           />
         </AutoComplete>
-      </div>
+        <IconOverlay type='search' className='certain-category-icon' />
+      </SearchWrapper>
     )
   }
 }

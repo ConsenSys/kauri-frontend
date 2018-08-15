@@ -9,10 +9,11 @@ import {
 } from '../../CreateRequestForm/CreateRequestHeader'
 import { InReviewArticleStatus as ApprovedArticleStatus } from '../InReviewArticle/InReviewArticleHeader'
 import { ChosenCategory, ForVersion } from '../../SubmitArticleForm/SubmitArticleFormHeader'
+import PostedDate from '../../../../../kauri-components/components/Typography/PostedDate.bs'
 import theme from '../../../../lib/theme-config'
 
 export const ArticleSubject = styled.h3`
-  margin-left: 19px;
+  margin-left: 10px;
   margin-bottom: 0px;
   background: none;
   background-color: transparent;
@@ -52,7 +53,7 @@ export const ApprovedArticleSubject = ({
 }: *) => (
   <ApprovedArticleSubjectContainer type={type}>
     <ArticleChosenDetails>
-      <ArticleChosenCategory>{chosenCategory}</ArticleChosenCategory>
+      <ArticleChosenCategory>{chosenCategory || 'Personal'}</ArticleChosenCategory>
       <ArticleChosenSubcategory>{chosenSubcategory}</ArticleChosenSubcategory>
     </ArticleChosenDetails>
     <ArticleSubject style={{ width: '100%' }} type='article'>
@@ -66,6 +67,7 @@ export const PullRight = styled.div`
   display: flex;
   margin-left: auto;
   margin-right: 11px;
+  align-items: center;
 `
 
 export default ({ category, sub_category, date_updated, subject, metadata }: *) => (
@@ -80,10 +82,7 @@ export default ({ category, sub_category, date_updated, subject, metadata }: *) 
       chosenSubcategory={sub_category}
     />
     <PullRight>
-      <ApprovedArticleStatus>
-        <span>POSTED</span>
-        <strong>{moment(date_updated).format('DD/MM/YYYY')}</strong>
-      </ApprovedArticleStatus>
+      <PostedDate dateType='FromNow' date_field={date_updated} />
     </PullRight>
   </ApprovedArticleSecondaryHeader>
 )

@@ -7,7 +7,7 @@ export default graphql(totalArticlesCount, {
     variables: {
       filter: {
         category_in: category,
-        status_in: ['APPROVED'],
+        status_in: ['PUBLISHED'],
       },
     },
   }),

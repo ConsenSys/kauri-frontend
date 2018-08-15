@@ -97,8 +97,6 @@ const persistStateToLocalStorage = (getState: any) => ({ payload }: { payload: a
   window.localStorage.setItem('redux', JSON.stringify({ localStorage: state.localStorage }))
 }
 
-// TODO: implement finishedDriverStepsAction and Reducer to trigger via skip button or end of startDriverStepsEpic
-
 export const startDriverStepsEpic = (
   action$: Observable<StartDriverStepsAction>,
   { getState }: any,

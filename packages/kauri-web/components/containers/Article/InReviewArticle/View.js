@@ -6,6 +6,7 @@ import Header from './InReviewArticleHeader'
 import Content from './InReviewArticleContent'
 import Footer from '../ApprovedArticle/ApprovedArticleFooter'
 import NetworkBanner from '../../StyledFooter/NetworkBanner'
+import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
 
 type Props =
   | {
@@ -14,7 +15,6 @@ type Props =
       data: { getArticle?: ArticleDTO },
       topics?: Array<?string>,
       updateUnsubmittedArticle: () => void,
-      submitFinalisedArticle: () => void,
       approveArticle: () => void,
       toggleModalAction: any,
       rejectArticle: () => void,
@@ -22,6 +22,7 @@ type Props =
       addCommentAction: any,
       deleteArticleComment: any,
       personalUsername: ?string,
+      publishArticle: () => void,
     }
   | any
 
@@ -61,6 +62,7 @@ class InReviewArticle extends React.Component<Props, State> {
     const props = this.props
     return (
       <section>
+        <ScrollToTopOnMount />
         <NetworkBanner type='withActionsHeader' />
         <InReviewArticle.Actions
           {...props.data.getArticle}
@@ -74,24 +76,28 @@ class InReviewArticle extends React.Component<Props, State> {
           }
           isContributor={props.address === props.data.getArticle.user_id}
           updateUnsubmittedArticle={props.updateUnsubmittedArticle}
-          submitFinalisedArticle={props.submitFinalisedArticle}
           approveArticle={props.approveArticle}
           rejectArticle={props.rejectArticle}
           preApproveArticle={props.preApproveArticle}
+          publishArticle={props.publishArticle}
         />
         <InReviewArticle.Header {...props.data.getArticle} />
         <InReviewArticle.Content
           loaded={() => this.setState({ ...this.state.editorState, loaded: true })}
           category={props.data.getArticle.category}
           text={props.data.getArticle.text}
-          comments={props.data.getArticle.versions[props.data.getArticle.versions.length - 1].comments}
+          comments={props.data.getArticle.comments}
+          routeChangeAction={props.routeChangeAction}
           onEditorChange={this.onEditorChange}
           editorState={this.state.editorState}
           toggleModalAction={this.props.toggleModalAction}
           article_id={props.data.getArticle.article_id}
+          article_version={props.data.getArticle.article_version}
           addCommentAction={props.addCommentAction}
           deleteArticleComment={props.deleteArticleComment}
           personalUsername={props.personalUsername}
+          username={props.data.getArticle && props.data.getArticle.user && props.data.getArticle.user.username}
+          userId={props.data.getArticle && props.data.getArticle.user_id}
         />
         <InReviewArticle.Footer
           type='in review article'

@@ -1,11 +1,11 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { Select, Input } from 'antd'
+import { Select } from 'antd'
 import theme, { categories } from '../../../lib/theme-config'
 import { ActionBadge, Badge } from '../../common/ActionBadge'
 import { PositiveRequestActionBadge } from '../../common/ActionButton'
 import GreenArrow from '../../common/GreenArrow'
-import { ChosenCategory } from '../SubmitArticleForm/SubmitArticleFormHeader'
+import { ChosenCategory, InputWrapper, UnderlineSpan } from '../SubmitArticleForm/SubmitArticleFormHeader'
 
 const config = require('../../../config')
 const Option = Select.Option
@@ -15,7 +15,7 @@ const CreateRequestActions = styled.div`
   flex-direction: row;
   height: 76px;
   width: 100%;
-  background-color: ${props => props.theme.secondaryColor};
+  background-color: ${props => props.theme.primaryTextColor};
   padding: 36px ${props => props.theme.padding};
 `
 
@@ -37,7 +37,7 @@ export const CreateRequestSecondaryHeader = styled.div`
   background-color: ${props =>
     props.chosenCategory
       ? theme[props.chosenCategory] && theme[props.chosenCategory].primaryColor
-      : props.theme.primaryColor};
+      : props.theme.primaryTextColor};
   ${props => props.type === 'article' && articleHeaderCss};
 `
 
@@ -96,9 +96,6 @@ export const TopicActionsContainer = styled.div`
   flex-direction: column;
   margin-top: 3px;
   margin-left: 12px;
-  > :nth-child(2) {
-    align-self: center;
-  }
   width: ${props => props.type === 'createRequest' && '95%'};
   width: ${props => props.type === 'in review article' && '100%'};
 `
@@ -129,12 +126,29 @@ const ChooseTopicSelect = styled(Select)`
   ${props => props.hasErrors && errorBorderCss};
 `
 
-export const ChooseTopic = ({ getFieldDecorator, getFieldError, chosenCategory, isKauriTopicOwner }) =>
+const renderCategoryOptions = type => {
+  const categoryOptions = categories
+  if (type !== 'request' && !categoryOptions.find(category => category === 'personal')) {
+    categoryOptions.unshift('personal')
+  }
+  return categoryOptions.map(
+    category =>
+      category === 'personal' ? (
+        <Option key={category} value={null}>
+          {category.charAt(0).toUpperCase() + category.slice(1)}
+        </Option>
+      ) : (
+        <Option key={category} value={category.toLowerCase()}>
+          {category.charAt(0).toUpperCase() + category.slice(1)}
+        </Option>
+      )
+  )
+}
+
+export const ChooseTopic = ({ getFieldDecorator, getFieldError, chosenCategory, isKauriTopicOwner, type }) =>
   getFieldDecorator('category', {
     rules: [
       {
-        required: true,
-        message: 'Please input the topic of the request!',
         whitespace: true,
       },
     ],
@@ -148,13 +162,9 @@ export const ChooseTopic = ({ getFieldDecorator, getFieldError, chosenCategory, 
         hasErrors={getFieldError('category')}
         style={{ width: 126 }}
         showSearch
-        placeholder='CHOOSE TOPIC'
+        placeholder={'Choose Topic'}
       >
-        {categories.map(category => (
-          <Option key={category} value={category.toLowerCase()}>
-            {category.charAt(0).toUpperCase() + category.slice(1)}
-          </Option>
-        ))}
+        {renderCategoryOptions(type)}
       </ChooseTopicSelect>
     )
   )
@@ -192,27 +202,26 @@ export const SelectSubCategory = ({ getFieldDecorator, getFieldError, chosenSubC
     )
   )
 
-export const RequestSubject = styled(Input)`
+export const RequestSubject = styled.input`
+  display: inline-block;
   background: none;
   background-color: transparent;
+  border: none;
   color: white;
-  font-size: 20px !important;
+  height: 45px;
+  font-size: 26px;
   font-weight: 500;
-  border: 1px solid #fff;
-  margin-left: 10px;
-  :hover {
-    border: 1px solid #fff;
-  }
+  padding: 0;
+  padding-bottom: 2px;
   * {
     border: 1px solid #fff;
-    font-size: 20px !important;
+    font-size: 20px;
     font-weight: 500;
-    :hover {
-      background-color: ${props => props.theme.hoverTextColor} !important;
-    }
   }
   ::-webkit-input-placeholder {
     color: #fff;
+    text-decoration: underline;
+    text-decoration-color: ${props => props.theme.primaryColor};
   }
   :focus::-webkit-input-placeholder {
     text-indent: -999px;
@@ -235,18 +244,18 @@ export const ChooseTopicAndSubcategoryContainer = styled.div`
 
 const CreateRequestDetails = styled.div`
   display: flex;
-  align-self: auto !important;
+  align-self: auto;
   justify-content: space-between;
   > :last-child {
     > * {
       color: #fff;
-      opacity: 0.6;
     }
   }
 `
 
 const Badges = styled.div`
   display: flex;
+  opacity: 0.6;
   > div {
     margin-left: 15px;
   }
@@ -255,6 +264,7 @@ const Badges = styled.div`
 const CreateRequestTopicActions = ({
   getFieldDecorator,
   getFieldError,
+  getFieldValue,
   subject,
   chosenCategory,
   chosenSubCategory,
@@ -262,6 +272,7 @@ const CreateRequestTopicActions = ({
   <TopicActionsContainer type='createRequest'>
     <ChooseTopicAndSubcategoryContainer>
       <ChooseTopic
+        type='request'
         getFieldError={getFieldError}
         chosenCategory={chosenCategory}
         getFieldDecorator={getFieldDecorator}
@@ -273,28 +284,33 @@ const CreateRequestTopicActions = ({
       />
     </ChooseTopicAndSubcategoryContainer>
     <CreateRequestDetails>
-      {getFieldDecorator('subject', {
-        rules: [
-          {
-            required: true,
-            message: 'Please input the subject of the request!',
-            whitespace: true,
-            max: 60,
-          },
-        ],
-        initialValue: subject,
-        defaultValue: subject,
-      })(
-        <RequestSubject
-          onKeyPress={handleKeyPress}
-          maxlength={60}
-          placeholder='Request Title'
-          hasErrors={getFieldError('subject') && getFieldError('subject').length > 0}
-          style={{
-            width: 850,
-          }}
-        />
-      )}
+      <InputWrapper>
+        {getFieldDecorator('subject', {
+          rules: [
+            {
+              required: true,
+              message: 'Please input the subject of the request!',
+              whitespace: true,
+              max: 60,
+            },
+          ],
+          initialValue: subject,
+          defaultValue: subject,
+        })(
+          <RequestSubject
+            onKeyPress={handleKeyPress}
+            maxlength={60}
+            placeholder='Add Request Title'
+            hasErrors={getFieldError('subject') && getFieldError('subject').length > 0}
+            style={{
+              width: 850,
+            }}
+          />
+        )}
+        <UnderlineSpan type='request'>
+          {typeof getFieldValue('subject') === 'string' && getFieldValue('subject').replace(/ /g, '\u00a0')}
+        </UnderlineSpan>
+      </InputWrapper>
       {!subject && (
         <Badges>
           <Badge>
@@ -343,6 +359,7 @@ export default ({ getFieldDecorator, getFieldError, getFieldValue, routeChangeAc
         chosenCategory={data && data.getRequest && data.getRequest.category}
         chosenSubCategory={data && data.getRequest && data.getRequest.sub_category}
         getFieldDecorator={getFieldDecorator}
+        getFieldValue={getFieldValue}
         getFieldError={getFieldError}
       />
     </CreateRequestSecondaryHeader>
