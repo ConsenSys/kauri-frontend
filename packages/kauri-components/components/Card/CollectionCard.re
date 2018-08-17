@@ -93,6 +93,28 @@ module Styles = {
     );
 };
 
+let cardContent = (~collectionName, ~imageURL, ~collectionDescription) =>
+  <>
+    <Heading
+      text=collectionName
+      color=(
+        switch (imageURL) {
+        | Some(_) => "FFFFFF"
+        | None => "1E2428"
+        }
+      )
+    />
+    <Paragraph
+      color=(
+        switch (imageURL) {
+        | Some(_) => "FFFFFF"
+        | None => "1E2428"
+        }
+      )
+      text=collectionDescription
+    />
+  </>;
+
 let make =
     (
       ~heading="collection",
@@ -101,8 +123,7 @@ let make =
       ~articles,
       ~lastUpdated=?,
       ~curatorImage=?,
-      ~changeRoute=?,
-      ~collectionId: string,
+      ~linkComponent=?,
       ~imageURL,
       ~cardHeight=?,
       _children,
@@ -110,16 +131,7 @@ let make =
   ...component,
   render: _self =>
     <BaseCard>
-      <div
-        onClick=(
-          _ =>
-            switch (changeRoute) {
-            | Some(changeRoute) =>
-              changeRoute({j|/collection/$collectionId|j})
-            | None => ()
-            }
-        )
-        className=(Styles.collectionCardContainer(~heightProp=cardHeight))>
+      <div className=(Styles.collectionCardContainer(~heightProp=cardHeight))>
         <div
           className=(
             Styles.collectionCardContent(
@@ -141,24 +153,24 @@ let make =
               )
               text=heading
             />
-            <Heading
-              text=collectionName
-              color=(
-                switch (imageURL) {
-                | Some(_) => "FFFFFF"
-                | None => "1E2428"
-                }
-              )
-            />
-            <Paragraph
-              color=(
-                switch (imageURL) {
-                | Some(_) => "FFFFFF"
-                | None => "1E2428"
-                }
-              )
-              text=collectionDescription
-            />
+            (
+              switch (linkComponent) {
+              | Some(linkComponent) =>
+                linkComponent(
+                  cardContent(
+                    ~collectionName,
+                    ~collectionDescription,
+                    ~imageURL,
+                  ),
+                )
+              | None =>
+                cardContent(
+                  ~collectionName,
+                  ~collectionDescription,
+                  ~imageURL,
+                )
+              }
+            )
             <img
               className=Styles.image
               src=(
@@ -170,7 +182,13 @@ let make =
             />
             (
               switch (lastUpdated) {
-              | Some(string) => <Label text=string />
+              | Some(string) =>
+                <Label
+                  color=
+                    imageURL
+                    ->Belt.Option.mapWithDefault("1E2428", (_ => "FFFFFF"))
+                  text=string
+                />
               | None => ReasonReact.null
               }
             )
@@ -198,6 +216,7 @@ type jsProps = {
   articles: string,
   lastUpdated: string,
   imageURL: Js.Nullable.t(string),
+  linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
   changeRoute: string => unit,
   cardHeight: int,
 };
@@ -205,13 +224,12 @@ type jsProps = {
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~changeRoute=jsProps->changeRouteGet,
       ~heading=jsProps->headingGet,
       ~collectionName=jsProps->collectionNameGet,
       ~articles=jsProps->articlesGet,
       ~lastUpdated=jsProps->lastUpdatedGet,
-      ~collectionId=jsProps->collectionIdGet,
       ~imageURL=jsProps->imageURLGet->Js.Nullable.toOption,
+      ~linkComponent=jsProps->linkComponentGet,
       ~cardHeight=jsProps->cardHeightGet,
       ~collectionDescription=jsProps->collectionDescriptionGet,
       [||],

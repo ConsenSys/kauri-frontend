@@ -13,5 +13,6 @@
   "reason.path.ocamlmerlin": "ocamlmerlin",
   "reason_language_server.cross_file_as_you_type": true,
   "reason_language_server.dependencies_codelens": true,
-  "reason_language_server.per_value_codelens": true
+  "reason_language_server.per_value_codelens": true,
+  "reason_language_server.reloadOnChange": true
 }

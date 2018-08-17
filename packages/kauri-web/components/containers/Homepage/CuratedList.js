@@ -82,6 +82,11 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     key={card.id}
                     collectionName={card.name}
                     articles={articles}
+                    linkComponent={childrenProps => (
+                      <Link useAnchorTag route={`/collection/${card.id}`}>
+                        {childrenProps}
+                      </Link>
+                    )}
                     lastUpdated={moment(card.date_created).fromNow()}
                     collectionId={card.id}
                     imageURL={card.background}

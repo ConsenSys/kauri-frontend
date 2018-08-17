@@ -15,7 +15,7 @@ myStory.add("Base Card", () =>
 
 myStory.add("Article Card", () =>
   <ArticleCard
-    userId="0x"
+    userId="0x133733713371337"
     date="3 June 2099"
     title="This is a title, possibly should support two lines"
     content="This is the content body, should be longer of course. Like a Lorem Ipsum, Bacon Summit or something like that"
@@ -26,7 +26,7 @@ myStory.add("Article Card", () =>
 
 myStory.add("Article Card with Image", () =>
   <ArticleCard
-    userId="1"
+    userId="0x133733713371337"
     cardHeight=500
     date="3 June 2099"
     title="Debugging a Dapp using Remix - Mist - Geth"
@@ -70,7 +70,6 @@ myStory.add("Community Card With Image", () =>
 
 myStory.add("Collection Card", () =>
   <CollectionCard
-    collectionId="1"
     imageURL=None
     collectionName="Build a DAPP from 0 to Mainnet"
     collectionDescription="A walkthrough for every stage of dapp development. From Smart Contract to deployment"
@@ -82,7 +81,6 @@ myStory.add("Collection Card", () =>
 
 myStory.add("Collection Card With Image", () =>
   <CollectionCard
-    collectionId="1"
     collectionName="Build a DAPP from 0 to Mainnet"
     collectionDescription="A walkthrough for every stage of dapp development. From Smart Contract to deployment"
     articles="58"
@@ -99,7 +97,6 @@ myStory.add("Collection Card With Image", () =>
 myStory.add("All Cards", () =>
   <div className=Styles.container>
     <CollectionCard
-      collectionId="1"
       collectionName="Build a DAPP from 0 to Mainnet"
       collectionDescription="A walkthrough for every stage of dapp development. From Smart Contract to deployment"
       articles="58"
@@ -113,7 +110,6 @@ myStory.add("All Cards", () =>
       )
     />
     <CollectionCard
-      collectionId="1"
       imageURL=None
       collectionName="Build a DAPP from 0 to Mainnet"
       collectionDescription="A walkthrough for every stage of dapp development. From Smart Contract to deployment"
@@ -138,7 +134,7 @@ myStory.add("All Cards", () =>
       views="39k"
     />
     <ArticleCard
-      userId="1"
+      userId="0x133733713371337"
       cardHeight=500
       date="3 June 2099"
       title="Debugging a Dapp using Remix - Mist - Geth"
@@ -158,7 +154,7 @@ Any code editor you want - in order to write your front end :)"
       profileImage="https://randomuser.me/api/portraits/women/51.jpg"
     />
     <ArticleCard
-      userId="0x"
+      userId="0x133733713371337"
       date="3 June 2099"
       title="This is a title, possibly should support two lines"
       content="This is the content body, should be longer of course. Like a Lorem Ipsum, Bacon Summit or something like that"
