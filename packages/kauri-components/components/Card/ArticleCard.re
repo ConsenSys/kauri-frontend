@@ -60,7 +60,7 @@ let cardContent = (~title, ~content, ~cardHeight) =>
           {|
                   (() => {
                     if (process.env.STORYBOOK !== 'true') {
-                      var DescriptionRow = require("../../../kauri-web/components/common/DescriptionRow.js").default;
+                      var DescriptionRow = require("../DescriptionRow/DescriptionRow.js").default;
                       return React.createElement(DescriptionRow, { record: { text: content }, type: 'article card', cardHeight: cardHeight }, null);
                     }
                   })()

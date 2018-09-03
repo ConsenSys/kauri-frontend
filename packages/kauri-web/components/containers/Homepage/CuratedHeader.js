@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 import theme from '../../../lib/theme-config'
-import { Link } from '../../../routes'
+const Link = process.env.STORYBOOK
+  ? ({ children }) => {
+    return children
+  }
+  : require('../../../routes').Link
 
 const Header = styled.div`
   flex: 1;

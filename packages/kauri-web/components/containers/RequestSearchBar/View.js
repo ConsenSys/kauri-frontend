@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { searchRequests } from '../../../queries/Request'
+import { globalSearchOpenRequests } from '../../../queries/Request'
 import { Icon, Input, AutoComplete } from 'antd'
 import { Subject } from 'rxjs/Subject'
 
@@ -63,15 +63,21 @@ const handleSearch$ = new Subject()
 export default class Complete extends React.Component<any, any> {
   state = {
     dataSource: [],
+    sub: null,
   }
 
   componentDidMount () {
     const sub = handleSearch$
       .debounceTime(300)
-      .flatMap(text =>
+      .flatMap((full_text) =>
         this.props.client.query({
-          query: searchRequests,
-          variables: { text },
+          query: globalSearchOpenRequests,
+          variables: {
+            filter: {
+              full_text,
+              status_in: ['OPENED', 'IN_PUBLICATION_PERIOD'],
+            },
+          },
         })
       )
       .map(
@@ -102,7 +108,7 @@ export default class Complete extends React.Component<any, any> {
     this.props.routeChangeAction(requestRoute)
   }
 
-  renderOption = (request: requestDTO) =>
+  renderOption = (request: RequestDTO) =>
     request.subject !== 'No requests found' ? (
       <Option key={`/request/${request.request_id}`} value={`/request/${request.request_id}`}>
         {typeof request.subject === 'string' && request.subject.length && request.subject.substr(0, 50).concat('...')}

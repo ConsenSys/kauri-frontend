@@ -1,11 +1,14 @@
 import styled from 'styled-components'
 import moment from 'moment'
-import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard.bs'
-import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard.bs'
+import { ArticleCard, CollectionCard } from '@kauri/components'
 import CommunityCardConnection from '../../connections/Community/CommunityCard_Connection.bs'
 import theme from '../../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
-import { Link } from '../../../routes'
+const Link = process.env.STORYBOOK
+  ? ({ children }) => {
+    return children
+  }
+  : require('../../../routes').Link
 
 const Title = styled.h2`
   font-weight: 300;
