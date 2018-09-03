@@ -1,4 +1,6 @@
 const path = require('path')
+const webpack = require('webpack')
+const babelConfig = require('../../kauri-web/babel.config')
 
 // Export a function. Accept the base config as the only param.
 module.exports = (storybookBaseConfig, configType) => {
@@ -8,8 +10,11 @@ module.exports = (storybookBaseConfig, configType) => {
 
   // Make whatever fine-grained changes you need
   // console.log(storybookBaseConfig)
-  const webpack = require('webpack')
   storybookBaseConfig.plugins.push(new webpack.EnvironmentPlugin(['STORYBOOK']))
+
+  storybookBaseConfig.module.rules[0].use[0].loader = require.resolve('babel-loader')
+  storybookBaseConfig.module.rules[0].use[0].options.presets = babelConfig.presets
+  storybookBaseConfig.module.rules[0].use[0].options.plugins = babelConfig.plugins
 
   // Return the altered config
   return storybookBaseConfig

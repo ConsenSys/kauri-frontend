@@ -1,6 +1,6 @@
 open Vrroom;
 
-[@bs.val] external scrollToTop : (int, int) => unit = "window.scrollTo";
+[@bs.val] external scrollToTop: (int, int) => unit = "window.scrollTo";
 let component = ReasonReact.statelessComponent("ScrollToTopOnMount");
 
 let make = _children => {

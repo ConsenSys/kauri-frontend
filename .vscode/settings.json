@@ -8,11 +8,9 @@
       "url": "https://bucklescript.github.io/bucklescript/docson/build-schema.json"
     }
   ],
-  "reason.path.bsb": "./packages/kauri-web/node_modules/bs-platform/lib/bsb.exe",
   "reason.diagnostics.tools": ["merlin", "bsb"],
   "reason.path.ocamlmerlin": "ocamlmerlin",
   "reason_language_server.cross_file_as_you_type": true,
   "reason_language_server.dependencies_codelens": true,
-  "reason_language_server.per_value_codelens": true,
-  "flow.pathToFlow": "./packages/kauri-web/node_modules/.bin/flow"
+  "reason_language_server.per_value_codelens": true
 }

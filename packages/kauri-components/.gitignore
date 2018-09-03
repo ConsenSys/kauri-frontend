@@ -20,3 +20,4 @@ lerna-error.log
 .bsb.lock
 esy.lock
 Dockerfile-local
+yarn.lock

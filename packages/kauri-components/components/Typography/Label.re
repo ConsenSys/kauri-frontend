@@ -7,7 +7,6 @@ module Styles = {
         fontSize(em(0.7)),
         textTransform(uppercase),
         fontWeight(600),
-        lineHeight(1.6),
         noMargin
         ->Belt.Option.mapWithDefault(unsafe("margin", "10px 0px 10px 0px"), _ =>
             unsafe("margin", "0px")

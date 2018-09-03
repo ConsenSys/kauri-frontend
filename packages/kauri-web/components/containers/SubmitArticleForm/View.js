@@ -6,6 +6,7 @@ import SubmitArticleFormActions from './SubmitArticleFormActions'
 import SubmitArticleFormHeader from './SubmitArticleFormHeader'
 import SubmitArticleFormContent from './SubmitArticleFormContent'
 import { formatMetadata } from './Module'
+import { ScrollToTopButton } from '@kauri/components'
 
 import type { EditArticlePayload, SubmitArticlePayload } from './Module'
 import type { ShowNotificationPayload } from '../../../lib/Module'
@@ -209,6 +210,7 @@ class SubmitArticleForm extends React.Component<Props> {
 
     return (
       <Form>
+        <ScrollToTopButton />
         <SubmitArticleForm.Actions
           {...this.props.form}
           categories={this.props.categories}
