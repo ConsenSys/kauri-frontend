@@ -106,6 +106,7 @@ export class SharedEditor extends React.Component<*> {
 
   render () {
     const { editorState, handleChange, readOnly } = this.props
+
     return (
       <div className='container'>
         <ReactMde

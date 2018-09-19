@@ -52,17 +52,10 @@ let draftArticleEpic =
                 ReduxObservable.Dependencies.subscribeToOffchainEvent,
               );
 
-          let (resourceID, subject, category, text, sub_category, request_id) =
+          let (resourceID, subject, text) =
             draftArticleAction
             ->DraftArticle.payloadGet
-            ->DraftArticle.(
-                idGet,
-                subjectGet,
-                categoryGet,
-                textGet,
-                sub_categoryGet,
-                request_idGet,
-              );
+            ->DraftArticle.(idGet, subjectGet, textGet);
 
           let metaDataResult =
             switch (
@@ -83,11 +76,7 @@ let draftArticleEpic =
               ~id=resourceID,
               ~subject,
               ~text,
-              ~category,
-              ~sub_category,
               ~metadata=Js.Json.parseExn(metadataString),
-              ~draft=true,
-              ~request_id,
               (),
             );
 

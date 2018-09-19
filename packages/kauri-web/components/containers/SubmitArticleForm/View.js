@@ -11,18 +11,32 @@ import ScrollToTopButton from '../../../../kauri-components/components/ScrollToT
 import type { EditArticlePayload, SubmitArticlePayload } from './Module'
 import type { ShowNotificationPayload } from '../../../lib/Module'
 
+type Owner = {
+  id: string,
+  name: string,
+}
+
+type PublishArticlePayload = {
+  id: string,
+  version: number,
+  contentHash: string,
+  dateCreated: string,
+  contributor: string,
+  owner: ?Owner
+};
+
 type Props =
   | any
   | {
       draftArticleAction: any => void,
       submitArticleAction: SubmitArticlePayload => void,
       editArticleAction: EditArticlePayload => void,
-      submitForReviewAction: any => void,
+      publishArticleAction: PublishArticlePayload => void,
       categories: Array<?string>,
       userId: string,
       article_id?: string,
       request_id: string,
-      data: any,
+      data?: ?{ getArticle?: ArticleDTO },
       article?: any,
       form: any,
       handleFormChange: ({ text: string }) => void,
@@ -32,7 +46,7 @@ type Props =
       username?: ?string,
     }
 
-type SubmitArticleVariables = { subject: string, text: string, sub_category?: string, version?: string }
+type SubmitArticleVariables = { subject: string, text: string, owner: ?Owner, sub_category?: string, version?: string }
 
 class SubmitArticleForm extends React.Component<Props> {
   static Header = SubmitArticleFormHeader
@@ -79,7 +93,7 @@ class SubmitArticleForm extends React.Component<Props> {
   handleSubmit = (submissionType: string) => (e: any) => {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll(
-      async (formErr, { text, subject, sub_category, category, version }: SubmitArticleVariables) => {
+      async (formErr, { text, subject, sub_category, owner, version }: SubmitArticleVariables) => {
         const { networkName } = await this.getNetwork()
         if (networkName !== 'Rinkeby' && networkName !== 'Kauri Dev') {
           return this.props.showNotificationAction({
@@ -88,91 +102,92 @@ class SubmitArticleForm extends React.Component<Props> {
             description: 'Please switch to the correct Ethereum network!',
           })
         }
+        const { submitArticleAction, editArticleAction, article_id } = this.props
         if (!formErr) {
           if (submissionType === 'submit/update') {
-            const { submitArticleAction, editArticleAction, request_id, data, article_id } = this.props
+            // if (typeof request_id === 'string') {
+            //   if (typeof article_id === 'string') {
+            //     return editArticleAction({
+            //       request_id: data.getArticle.request_id,
+            //       text,
+            //       article_id,
+            //       article_version: this.props.data.getArticle.article_version,
+            //       subject,
+            //     })
+            //   } else {
+            //     return submitArticleAction({
+            //       request_id,
+            //       text,
+            //       subject,
+            //       category: data.getRequest.category,
+            //       sub_category: data.getRequest.sub_category,
+            //       metadata: formatMetadata({ version }),
+            //     })
+            //   }
+            // }
+            if (typeof article_id === 'string' && submissionType === 'submit/update') {
+              const { id, version, status }: ArticleDTO = this.props.data.getArticle
 
-            if (typeof request_id === 'string') {
-              if (typeof article_id === 'string') {
-                return editArticleAction({
-                  request_id: data.getArticle.request_id,
-                  text,
-                  article_id,
-                  article_version: this.props.data.getArticle.article_version,
-                  subject,
-                })
-              } else {
-                return submitArticleAction({
-                  request_id,
-                  text,
-                  subject,
-                  category: data.getRequest.category,
-                  sub_category: data.getRequest.sub_category,
-                  metadata: formatMetadata({ version }),
-                })
-              }
-            } else if (typeof article_id === 'string') {
-              const currentArticle: ArticleDTO = this.props.data.getArticle
-              if (currentArticle.status === 'PUBLISHED') {
+              if (status === 'PUBLISHED') {
                 // Here I am really submitting a new article with updates for an already existing article!
+                // Not my published article, I clicked Update article version, I create a new article and self publish it AIO
                 return submitArticleAction({
-                  article_id,
+                  id,
                   text,
                   subject,
-                  sub_category: currentArticle.sub_category,
-                  category: currentArticle.category,
                   metadata: formatMetadata({ version }),
+                  selfPublish: true,
                 })
-              } else if (currentArticle.status === 'IN_REVIEW') {
+              } else if (status === 'DRAFT') {
                 // If I own the article and it's not already published... I can edit it!
+                // Draft -> draft
                 return editArticleAction({
                   text,
                   article_id,
-                  article_version: currentArticle.article_version,
-                  subject,
-                  sub_category,
-                })
-              } else if (currentArticle.status === 'DRAFT') {
-                // If I own the article and it's not already published... I can edit it!
-                return editArticleAction({
-                  text,
-                  article_id,
-                  article_version: currentArticle.article_version,
+                  article_version: version,
                   subject,
                   sub_category,
                 })
               }
+              // else if (currentArticle.status === 'IN_REVIEW') {
+              //   // If I own the article and it's not already published... I can edit it!
+              //   // Update
+              //   return editArticleAction({
+              //     text,
+              //     article_id,
+              //     article_version: currentArticle.version,
+              //     subject,
+              //     sub_category,
+              //   })
+              // }
             } else {
+              // Fresh article, self publish directly
               return submitArticleAction({
-                request_id,
                 text,
                 subject,
-                sub_category,
-                category,
                 metadata: formatMetadata({ version }),
+                selfPublish: true,
               })
             }
           } else if (submissionType === 'draft') {
+            const { id, version }: ArticleDTO = this.props.data.getArticle
             if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'DRAFT') {
-              const currentArticle: ArticleDTO = this.props.data.getArticle
+              // Draft -> Draft Version updated
 
-              const submitForReviewPayload = {
-                id: currentArticle.article_id,
-                article_version: currentArticle.article_version,
-                category: currentArticle.category,
-              }
-              // console.log('submitForReviewPayload', submitForReviewPayload)
-              this.props.submitForReviewAction(submitForReviewPayload)
-            } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id) {
-              const currentArticle: ArticleDTO = this.props.data.getArticle
-
+              return editArticleAction({
+                text,
+                article_id: id,
+                article_version: version,
+                subject,
+                sub_category,
+              })
+            } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.id) {
               const draftArticlePayload = {
+                id,
+                version,
                 subject,
                 text,
-                category: currentArticle.category,
-                sub_category: currentArticle.sub_category,
                 metadata: formatMetadata({ version }),
-                request_id: currentArticle.request_id,
               }
               // console.log('draftArticlePayload', draftArticlePayload)
               this.props.draftArticleAction(draftArticlePayload)
@@ -180,10 +195,7 @@ class SubmitArticleForm extends React.Component<Props> {
               const draftArticlePayload = {
                 subject,
                 text,
-                category,
-                sub_category,
                 metadata: formatMetadata({ version }),
-                request_id: this.props.request_id,
               }
               // console.log('draftArticlePayload', draftArticlePayload)
               this.props.draftArticleAction(draftArticlePayload)
@@ -216,51 +228,51 @@ class SubmitArticleForm extends React.Component<Props> {
           categories={this.props.categories}
           handleSubmit={this.handleSubmit}
           routeChangeAction={routeChangeAction}
-          text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.text}
+          text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.content}
           status={this.props.data && this.props.data.getArticle && this.props.data.getArticle.status}
           category={
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.category) ||
-            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
+            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.owner && this.props.data.getArticle.owner.id)
+            // (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
           }
           userId={this.props.userId}
-          authorId={this.props.data && this.props.data.getArticle && this.props.data.getArticle.user_id}
+          authorId={this.props.data && this.props.data.getArticle && this.props.data.getArticle.authorId}
         />
         <SubmitArticleForm.Header
           {...this.props.form}
           category={
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.category) ||
-            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
+            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.owner && this.props.data.getArticle.owner.id)
+            // || (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
           }
           subCategory={
             (this.props.data && this.props.data.getRequest && this.props.data.getRequest.sub_category) ||
             (this.props.data && this.props.data.getArticle && this.props.data.getArticle.sub_category)
           }
           status={this.props.data && this.props.data.getArticle && this.props.data.getArticle.status}
-          subject={this.props.data && this.props.data.getArticle && this.props.data.getArticle.subject}
-          metadata={this.props.data && this.props.data.getArticle && this.props.data.getArticle.metadata}
+          subject={this.props.data && this.props.data.getArticle && this.props.data.getArticle.title}
+          metadata={this.props.data && this.props.data.getArticle && this.props.data.getArticle.attributes}
           isKauriTopicOwner={isKauriTopicOwner}
         />
         <SubmitArticleForm.Content
           {...this.props.form}
           category={
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.category) ||
-            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
+            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.owner && this.props.data.getArticle.owner.id)
+            // (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
           }
           subCategory={
             (this.props.data && this.props.data.getRequest && this.props.data.getRequest.sub_category) ||
             (this.props.data && this.props.data.getArticle && this.props.data.getArticle.sub_category)
           }
-          article_id={this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id}
-          text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.text}
+          article_id={this.props.data && this.props.data.getArticle && this.props.data.getArticle.id}
+          text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.content}
           username={
             (this.props.data &&
               this.props.data.getArticle &&
-              this.props.data.getArticle.user &&
-              this.props.data.getArticle.user.username) ||
+              this.props.data.getArticle.author &&
+              this.props.data.getArticle.author.name) ||
             this.props.username
           }
           userId={
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.user_id) || this.props.userId
+            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.authorId) || this.props.userId
           }
         />
       </Form>

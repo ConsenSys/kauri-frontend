@@ -6,6 +6,7 @@ import { Router } from '../routes'
 import { categories } from './theme-config'
 import { SET_WALLET_AVAILABLE_FUNDS } from '../components/containers/Profile/TopicOwnerProfile/Module'
 import createReducer from './createReducer'
+import { getMyProfile } from '../queries/Profile_Queries.bs'
 
 import type { SetWalletAvailableFundsAction } from '../components/containers/Profile/TopicOwnerProfile/Module'
 const config = require('../config').default
@@ -182,21 +183,6 @@ export const fetchEthUsdPrice = (fetch: any): Promise<any> =>
     .then(res => res.json())
     .catch(err => console.error(err))
 
-export const fetchUserDetails = (fetch: any, parsedToken: string, hostName: string): Promise<any> =>
-  fetch(
-    `http${global.window ? 's' : ''}://${config.getApiURL(hostName)}/auth`,
-    {
-      method: 'get',
-      headers: {
-        Accept: 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'X-Auth-Token': `Bearer ${parsedToken}`,
-      },
-    }
-  )
-    .then(res => res.json())
-    .catch(err => console.error(err))
-
 export const FETCH_ETH_USD_PRICE: string = 'FETCH_ETH_USD_PRICE'
 
 export const SET_USER_DETAILS: string = 'SET_USER_DETAILS'
@@ -287,11 +273,17 @@ export const ethUsdPriceEpic = (action$: Observable<FetchEthUsdPriceAction>, _: 
     .map(({ USD }) => USD)
     .map(price => setEthUsdPriceAction({ price }))
 
-export const userDetailsEpic = (action$: Observable<FetchUserDetailsAction>, { getState }: any, { fetch }: Dependencies) =>
+export const userDetailsEpic = (action$: Observable<FetchUserDetailsAction>, { getState }: any, { fetch, apolloClient }: Dependencies) =>
   action$
     .ofType(FETCH_USER_DETAILS)
     .take(1)
-    .flatMap(({ payload: { parsedToken } }) => fetchUserDetails(fetch, parsedToken, getState().app && getState().app.hostName))
+    .mergeMap(({ payload: { parsedToken } }) =>
+      apolloClient.query({
+        query: getMyProfile,
+        variables: {},
+      })
+    )
+    .map(({ data: { getMyProfile } }) => getMyProfile)
     .map(user => setUserDetailsAction(user))
 
 export const showNotificationEpic = (

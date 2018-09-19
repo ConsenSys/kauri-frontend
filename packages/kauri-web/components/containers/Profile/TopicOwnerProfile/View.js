@@ -134,9 +134,9 @@ class TopicOwnerProfile extends Component {
             }
             key='my articles'
           >
-            <SubmittedArticles userId={this.props.user && this.props.user.address} />
+            <SubmittedArticles userId={this.props.user && this.props.user.id} />
           </TabPane>
-          <TabPane
+          {/* <TabPane
             tab={
               <TabLabelContainer>
                 <span>My Requests</span>
@@ -144,7 +144,7 @@ class TopicOwnerProfile extends Component {
             }
             key='my requests'
           >
-            <OpenRequests profile userId={this.props.user && this.props.user.address} />
+            <OpenRequests profile userId={this.props.user && this.props.user.id} />
           </TabPane>
           <TabPane
             tab={
@@ -165,7 +165,7 @@ class TopicOwnerProfile extends Component {
             key='flagged requests'
           >
             <FlaggedRequests />
-          </TabPane>
+          </TabPane> */}
         </StyledTabs>
       </Fragment>
     )

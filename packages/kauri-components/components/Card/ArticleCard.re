@@ -55,7 +55,9 @@ let cardContent = (~title, ~content, ~cardHeight) =>
   <>
     <Heading cardHeight text=title />
     {
-      content->(String.sub(0, 2))->(String.contains('{')) ?
+      content
+      |> Js.String.substring(~from=0, ~to_=2)
+      |> Js.String.includes("{") ?
         [%raw
           {|
                   (() => {
@@ -76,9 +78,13 @@ let publicProfile = (~pageType, ~username, ~userId) =>
     username=
       username
       ->Belt.Option.getWithDefault(
-          String.sub(userId, 0, 11)
+          Js.String.substring(~from=0, ~to_=11, userId)
           ++ "..."
-          ++ String.sub(userId, String.length(userId) - 13, 11),
+          ++ Js.String.substring(
+               ~from=Js.String.length(userId) - 13,
+               ~to_=11,
+               userId,
+             ),
         )
   />;
 

@@ -59,7 +59,7 @@ export const ApprovedArticleSubject = ({
     <ArticleSubject chosenCategory={chosenCategory} style={{ width: '100%' }} type='article'>
       {subject}
     </ArticleSubject>
-    {metadata && metadata.FOR_VERSION && <ForVersion>{`FOR VERSION ${metadata && metadata.FOR_VERSION}`}</ForVersion>}
+    {/* {metadata && metadata.FOR_VERSION && <ForVersion>{`FOR VERSION ${metadata && metadata.FOR_VERSION}`}</ForVersion>} */}
   </ApprovedArticleSubjectContainer>
 )
 
@@ -70,19 +70,19 @@ export const PullRight = styled.div`
   align-items: center;
 `
 
-export default ({ category, sub_category, date_updated, subject, metadata }: *) => (
+export default ({ category, sub_category, datePublished, title, attributes }: *) => (
   <ApprovedArticleSecondaryHeader type='article' theme={theme} chosenCategory={category}>
     {category && <ApprovedArticleLogo type='article' theme={theme} chosenCategory={category} />}
     <ApprovedArticleSubject
       type='article'
-      metadata={metadata}
-      subject={subject}
+      metadata={attributes}
+      subject={title}
       theme={theme}
       chosenCategory={category}
       chosenSubcategory={sub_category}
     />
     <PullRight>
-      <PostedDate dateType='FromNow' date_field={date_updated} />
+      <PostedDate dateType='FromNow' date_field={datePublished} />
     </PullRight>
   </ApprovedArticleSecondaryHeader>
 )

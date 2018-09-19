@@ -2,21 +2,22 @@
 external linkComponent: Link.linkComponent = "Link";
 
 [@bs.deriving abstract]
-type user = {
-  username: Js.Nullable.t(string),
-  user_id: string,
+type author = {
+  name: Js.Nullable.t(string),
+  id: string,
 };
 
 [@bs.deriving abstract]
 type article = {
-  article_id: string,
-  date_created: string,
-  subject: string,
-  text: string,
+  id: string,
+  authorId: string,
+  datePublished: string,
+  title: string,
+  content: string,
   imageURL: string,
-  user,
-  profileImage: string,
-  article_version: int,
+  author,
+  profileImage: Js.Nullable.t(string),
+  version: int,
 };
 
 module Styles = {
@@ -58,9 +59,9 @@ let make = (~name, ~description="", ~articles, _children) => {
             Js.Array.map(
               article => {
                 let (articleId, articleVersion) =
-                  article->(article_idGet, article_versionGet);
+                  article->(idGet, versionGet);
                 <ArticleCard
-                  key=article->article_idGet
+                  key=article->idGet
                   articleId
                   articleVersion
                   linkComponent={
@@ -70,24 +71,24 @@ let make = (~name, ~description="", ~articles, _children) => {
                         linkComponent
                         toSlug={
                           route |> Js.String.includes("article") ?
-                            Js.Nullable.return(article->subjectGet) :
+                            Js.Nullable.return(article->titleGet) :
                             Js.Nullable.null
                         }
                         route>
                         ...childrenProps
                       </Link>
                   }
-                  title=article->subjectGet
-                  content=article->textGet
+                  title=article->titleGet
+                  content=article->contentGet
                   cardHeight=500
                   imageURL=article->imageURLGet
                   date=
                     article
-                    ->date_createdGet
+                    ->datePublishedGet
                     ->MomentRe.moment
                     ->MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)))
-                  username=article->userGet->usernameGet->Js.Nullable.toOption
-                  userId=article->userGet->user_idGet
+                  username=article->authorGet->nameGet->Js.Nullable.toOption
+                  userId=article->authorIdGet
                 />;
               },
               articles,

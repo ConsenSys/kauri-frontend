@@ -19,6 +19,7 @@ type LinkProps = {
 const A = styled.a`
   text-decoration: none;
   color: inherit;
+  width: 100%;
   :hover {
     color: inherit;
   }
@@ -28,11 +29,12 @@ class Link extends React.Component<LinkProps> {
   handleClick = (e, url) => {
     e.preventDefault()
     e.stopPropagation()
-    this.props.trackAnalyticsAction({ url })
+    // TODO: Uncomment again later
+    // this.props.trackAnalyticsAction({ url })
     Router.pushRoute(url)
   }
 
-  render() {
+  render () {
     let url = this.props.as || this.props.href || this.props.children.props.href
     const slug = this.props.toSlug ? slugify(this.props.toSlug, { lower: true }) : null;
     if (slug) url += `/${slug}`;

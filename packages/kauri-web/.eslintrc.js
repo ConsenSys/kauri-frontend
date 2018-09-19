@@ -1,7 +1,7 @@
 module.exports = {
   parser: 'babel-eslint',
   extends: ['standard', 'standard-react', 'plugin:flowtype/recommended', 'plugin:ramda/recommended'],
-  plugins: ['flowtype', 'jest', 'graphql', 'ramda'],
+  plugins: ['flowtype', 'jest', 'ramda'],
   rules: {
     'no-debugger': 0,
     'react/no-unused-prop-types': 0,

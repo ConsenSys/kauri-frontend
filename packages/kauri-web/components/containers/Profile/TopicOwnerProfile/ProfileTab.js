@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import styled from 'styled-components'
 import { Button } from 'antd'
@@ -23,11 +24,6 @@ const PersonalDetail = styled.div`
       color: ${props => (props.type === 'address' ? '#0BA986;' : '#1e2428;')};
     }
   }
-`
-
-const ProfileBadge = styled.div`
-  display: flex;
-  margin-right: 19px;
 `
 
 const ProfileHeader = styled.h2`
@@ -121,7 +117,7 @@ const ProfileAddressContainer = styled.div`
 
 export default ({
   topics,
-  address,
+  id,
   username,
   email,
   category,
@@ -150,10 +146,10 @@ export default ({
         )}
         <PersonalDetail type='address'>
           <span>Address</span>
-          <span>{address}</span>
+          <span>{id}</span>
         </PersonalDetail>
       </ProfileAddressContainer>
-      <ProfileUserDetails>
+      {/* <ProfileUserDetails>
         <PersonalDetail>
           <span>Username</span>
           <span>{username}</span>
@@ -162,7 +158,7 @@ export default ({
           <span>Email</span>
           <span>{email}</span>
         </PersonalDetail>
-      </ProfileUserDetails>
+      </ProfileUserDetails> */}
     </ProfileDetails>
     <ProfileBalance>
       <ProfileHeader>Your Kauri Balance</ProfileHeader>

@@ -15,7 +15,7 @@ export default compose(
     { routeChangeAction }
   ),
   graphql(getArticle, {
-    options: ({ article_id, article_version }) => ({ variables: { article_id, article_version } }),
+    options: ({ article_id, article_version }) => ({ variables: { id: article_id, version: article_version, published: true } }),
   }),
   withLoading()
 )(ArticleApproved)

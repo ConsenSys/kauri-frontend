@@ -26,6 +26,7 @@ type Props =
       deleteArticleComment: any,
       personalUsername: ?string,
       publishArticle: () => void,
+      userId?: string
     }
   | any
 
@@ -39,20 +40,25 @@ class InReviewArticle extends React.Component<Props, State> {
 
   constructor (props: Props) {
     super(props)
-    if (props.data && props.data.getArticle && props.data.getArticle.text) {
-      const newEditorUsed = JSON.parse(props.data.getArticle.text).markdown
+    if (props.data && props.data.getArticle && props.data.getArticle.content) {
+      const newEditorUsed = JSON.parse(props.data.getArticle.content).markdown
       if (newEditorUsed) {
-        const rawData = ContentState.createFromText(JSON.parse(props.data.getArticle.text).markdown)
+        const rawData = ContentState.createFromText(JSON.parse(props.data.getArticle.content).markdown)
         const newEditorState = EditorState.createWithContent(rawData)
         this.state = {
-          editorState: { draftEditorState: newEditorState, markdown: JSON.parse(props.data.getArticle.text).markdown },
+          editorState: { draftEditorState: newEditorState, markdown: JSON.parse(props.data.getArticle.content).markdown },
           loaded: false,
         }
+        return
       } else {
         this.state = {
           loaded: false,
         }
+        return
       }
+    }
+    this.state = {
+      loaded: false,
     }
   }
 
@@ -71,6 +77,8 @@ class InReviewArticle extends React.Component<Props, State> {
 
   render () {
     const props = this.props
+    if (!this.props.data && !this.props.data.getArticle) return
+
     return (
       <section>
         <ScrollToTopOnMount />
@@ -83,10 +91,10 @@ class InReviewArticle extends React.Component<Props, State> {
           isTopicOwner={
             props.topics &&
             props.topics.find(
-              category => props.data && props.data.getArticle && props.data.getArticle.category === category
+              category => props.data && props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id === category
             )
           }
-          isContributor={props.address === props.data.getArticle.user_id}
+          isContributor={props.userId === (props.data && props.data.getArticle && props.data.getArticle.authorId)}
           updateUnsubmittedArticle={props.updateUnsubmittedArticle}
           approveArticle={props.approveArticle}
           rejectArticle={props.rejectArticle}
@@ -96,28 +104,28 @@ class InReviewArticle extends React.Component<Props, State> {
         <InReviewArticle.Header {...props.data.getArticle} />
         <InReviewArticle.Content
           loaded={() => this.setState({ ...this.state.editorState, loaded: true })}
-          category={props.data.getArticle.category}
-          text={props.data.getArticle.text}
-          status={props.data.getArticle.status}
-          comments={props.data.getArticle.comments}
+          category={props.data && props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id}
+          text={props.data && props.data.getArticle && props.data.getArticle && props.data.getArticle.content}
+          status={props.data && props.data.getArticle && props.data.getArticle && props.data.getArticle.status}
+          comments={props.data && props.data.getArticle && props.data.getArticle && props.data.getArticle.comments}
           routeChangeAction={props.routeChangeAction}
           onEditorChange={this.onEditorChange}
           editorState={this.state.editorState}
           toggleModalAction={this.props.toggleModalAction}
-          article_id={props.data.getArticle.article_id}
-          article_version={props.data.getArticle.article_version}
+          article_id={props.data && props.data.getArticle && props.data.getArticle && props.data.getArticle.id}
+          article_version={props.data.getArticle && props.data.getArticle && props.data.getArticle.version}
           addCommentAction={props.addCommentAction}
           deleteArticleComment={props.deleteArticleComment}
           personalUsername={props.personalUsername}
-          username={props.data.getArticle && props.data.getArticle.user && props.data.getArticle.user.username}
-          userId={props.data.getArticle && props.data.getArticle.user_id}
+          username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.name}
+          userId={props.data.getArticle && props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.id}
         />
         <InReviewArticle.Footer
           type='in review article'
-          date_updated={props.data.getArticle.date_updated}
-          username={props.data.getArticle.user && props.data.getArticle.user.username}
-          metadata={props.data.getArticle && props.data.getArticle.metadata}
-          content_hash={props.data.getArticle && props.data.getArticle && props.data.getArticle.content_hash}
+          date_updated={props.data && props.data.getArticle && props.data.getArticle.datePublished}
+          username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author && props.data.getArticle.author.name}
+          metadata={props.data.getArticle && props.data.getArticle.attributes}
+          content_hash={props.data.getArticle && props.data.getArticle && props.data.getArticle.contentHash}
         />
       </section>
     )

@@ -37,9 +37,12 @@ module Styles = {
       fontSize(px(14)),
       fontWeight(700),
       overflow(hidden),
-      maxWidth(px(200)),
+      maxWidth(px(220)),
       color(hex(colorProp)),
       textTransform(`lowercase),
+      whiteSpace(`preWrap),
+      overflow(`hidden),
+      textOverflow(`ellipsis),
     ];
 
   let username = (~colorProp, ~pageType) =>
@@ -66,7 +69,11 @@ let make = (~username, ~profileImage=?, ~color="1E2428", ~pageType, _children) =
         | Some(string) => <img className=Styles.image src=string />
         | _ =>
           <div className={Styles.imagePlaceholder(~colorProp=color)}>
-            {ReasonReact.string(String.sub(username, 0, 1))}
+            {
+              ReasonReact.string(
+                Js.String.substring(~from=0, ~to_=1, username),
+              )
+            }
           </div>
         }
       }
@@ -77,9 +84,17 @@ let make = (~username, ~profileImage=?, ~color="1E2428", ~pageType, _children) =
 };
 
 [@bs.deriving abstract]
-type jsProps = {username: string};
+type jsProps = {
+  username: string,
+  color: string,
+};
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~username=jsProps->usernameGet, ~pageType=None, [||])
+    make(
+      ~username=jsProps->usernameGet,
+      ~pageType=None,
+      ~color=jsProps->colorGet,
+      [||],
+    )
   );

@@ -75,7 +75,7 @@ export const createRequestEpic = (
             apolloSubscriber(hash)
           )
           .do(h => console.log(h))
-          .switchMap(({ data: { command_output: { id, content_hash } } }) =>
+          .switchMap(({ data: { output: { id, content_hash } } }) =>
             web3PersonalSign(id, id + web3.eth.accounts[0] + content_hash, storeRequestOwnershipSignature)
               .flatMap(() => getGasPrice())
               .flatMap(gasPrice =>

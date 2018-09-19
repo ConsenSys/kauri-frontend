@@ -41,7 +41,7 @@ type generateApproveArticleHashPayload = {
   contributor: string,
 };
 
-[@bs.module "../../../lib/generate-approve-article-hash.js"]
+[@bs.module "../../../lib/generate-publish-article-hash.js"]
 /* (id, version, content_hash, category, request_id, contributor) => "" */
 external _generateApproveArticleHash:
   (string, int, string, string, string, string) => string =
@@ -113,7 +113,7 @@ let approveArticleEpic =
                 let approveArticleMutation =
                   Article_Queries.ApproveArticle.make(
                     ~article_id=resourceID,
-                    ~article_version,
+                    ~version=article_version,
                     ~signature,
                     (),
                   );

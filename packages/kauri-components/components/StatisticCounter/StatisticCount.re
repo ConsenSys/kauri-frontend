@@ -8,7 +8,7 @@ module Styles = {
         maxWidth(px(150)),
       ])
     );
-  let count =
+  let count = (~pageType) =>
     Css.(
       style([
         color(hex("ffffff")),
@@ -16,11 +16,17 @@ module Styles = {
         fontWeight(500),
         margin(px(0)),
         marginBottom(px(6)),
+        opacity(Belt.Option.mapWithDefault(pageType, 1.0, _pageType => 0.2)),
       ])
     );
-  let name =
+  let name = (~pageType) =>
     Css.(
-      style([color(hex("ffffff")), fontSize(px(11)), fontWeight(700)])
+      style([
+        color(hex("ffffff")),
+        fontSize(px(11)),
+        fontWeight(700),
+        opacity(Belt.Option.mapWithDefault(pageType, 1.0, _pageType => 0.2)),
+      ])
     );
 };
 
@@ -48,14 +54,16 @@ let pluraliseName = (count, name) =>
   };
 let component = ReasonReact.statelessComponent("Heading");
 
-let make = (~name, ~count, _children) => {
+let make = (~name, ~count, ~pageType, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
     Vrroom.(
       <div className=Styles.container>
-        <h3 className=Styles.count> (count |> pluraliseCount |> text) </h3>
-        <span className=Styles.name>
-          (name |> pluraliseName(count) |> String.uppercase |> text)
+        <h3 className={Styles.count(~pageType)}>
+          {count |> pluraliseCount |> text}
+        </h3>
+        <span className={Styles.name(~pageType)}>
+          {name |> pluraliseName(count) |> String.uppercase |> text}
         </span>
       </div>
     ),

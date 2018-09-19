@@ -103,12 +103,12 @@ export default class Complete extends React.Component<any, any> {
   }
 
   renderOption = (article: ArticleDTO) =>
-    article.subject !== 'No articles found' ? (
+    article.title !== 'No articles found' ? (
       <Option
-        key={`/article/${article.article_id}/v${article.article_version}`}
-        value={`/article/${article.article_id}/v${article.article_version}`}
+        key={`/article/${article.id}/v${article.version}`}
+        value={`/article/${article.id}/v${article.version}`}
       >
-        {typeof article.subject === 'string' && article.subject.length && article.subject.substr(0, 50).concat('...')}
+        {typeof article.title === 'string' && article.title.length && article.title.substr(0, 50).concat('...')}
       </Option>
     ) : (
       <Option disabled key={'No articles found'} value={'No articles found'}>

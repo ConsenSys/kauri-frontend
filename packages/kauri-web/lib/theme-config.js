@@ -90,7 +90,7 @@ export const categories = Object.keys({
   zeppelin,
 })
 
-const themeConfig = {
+const colors = {
   padding: 'calc((100vw - 1280px) / 2)',
   paddingTop: '2.5em',
   primaryColor: '#0BA986',
@@ -103,6 +103,33 @@ const themeConfig = {
   disabledBackgroundColor: '#D6D6D6',
   contentBorder: '1px solid rgba(30, 36, 40, 0.19)',
   errorRedColor: '#C03030',
+  bgPrimary: '#1E2428',
+  textPrimary: '#1E2428',
+  primary: '#0BA986',
+  primaryDark: '#11856B',
+  secondary: '#11856B',
+  secondaryBlue: 'rgb(81, 123, 162, 1)',
+  secondaryBlueDark: 'rgb(81, 118, 142, 1)',
+  white: '#FFFFFF',
+}
+
+const fontSizes = [ 11, 13, 16, 20, 24, 32, 48, 64, 72 ]
+
+const breakpoints = [ '500px', '52em', '64em' ]
+
+const space = [
+  0, 4, 8, 16, 32, 64, 128, 256, 512,
+]
+
+const themeConfig = {
+  space,
+  fontSizes,
+  breakpoints,
+  colors,
+  bg: colors,
+  ...colors, // TODO: Deprecate across the app
+  padding: 'calc((100vw - 1280px) / 2)',
+  paddingTop: '2.5em',
   metamask,
   // ethereum,
   uport,

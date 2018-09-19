@@ -14,6 +14,7 @@ import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markd
 import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
+import userIdTrim from '../../../../lib/userid-trim'
 
 const config = require('../../../../config').default
 
@@ -81,7 +82,8 @@ export default ({
   address?: string,
   hostName: string,
 }) => {
-  let editorState = typeof text === 'string' && JSON.parse(text)
+  let editorState = typeof text === 'string' && text[0] === '{' && JSON.parse(text)
+  if (!editorState) return <SubmitArticleFormContent><p><span>{text}</span></p></SubmitArticleFormContent>
   editorState =
     editorState && typeof editorState.markdown === 'string'
       ? editorState
@@ -102,7 +104,7 @@ export default ({
   const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
 
   const canUpdateArticle = config.updateArticleWhitelistedAddresses.find(
-    whiteListedAddress => whiteListedAddress.toLowerCase() === (typeof address === 'string' && address.toLowerCase())
+    whiteListedAddress => (whiteListedAddress.toLowerCase() === (typeof address === 'string' && address.toLowerCase())) || process.env.NODE_ENV === 'development'
   )
 
   return (
@@ -119,7 +121,7 @@ export default ({
             </Link>
           )}
           headings={outlineHeadings || []}
-          username={(typeof username === 'string' && username) || userId}
+          username={username || userIdTrim(userId)}
           userId={userId}
           routeChangeAction={routeChangeAction}
         />

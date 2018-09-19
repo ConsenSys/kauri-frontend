@@ -20,7 +20,6 @@ import { tipArticleEpic, rejectArticleEpic, deleteArticleCommentEpic } from '../
 import {
   approveArticleEpic,
   publishArticleEpic,
-  submitForReviewEpic,
 } from '../components/containers/Article/Article_Module.bs'
 import { submitArticleEpic, editArticleEpic } from '../components/containers/SubmitArticleForm/Module'
 import { addCommentEpic } from '../components/containers/AddCommentForm/Module'
@@ -76,7 +75,6 @@ const epics = [
   approveArticleEpic,
   publishArticleEpic,
   draftArticleEpic,
-  submitForReviewEpic,
 ]
 
 export const rootEpic = combineEpics(...epics)

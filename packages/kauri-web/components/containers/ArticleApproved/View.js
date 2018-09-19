@@ -14,7 +14,7 @@ import { Helmet } from 'react-helmet'
 import R from 'ramda'
 
 type Props = {
-  data?: { getArticle?: ArticleDTO },
+  data: { getArticle: ArticleDTO },
   routeChangeAction: string => void,
   type: 'published' | 'approved' | 'drafted' | 'updated',
 }
@@ -40,9 +40,9 @@ const ArticleApprovedActionButtons = ActionButtons.extend`
 class ArticleApproved extends React.Component<Props> {
   render () {
     const { data, routeChangeAction, type } = this.props
-    const article = data && typeof data.getArticle === 'object' && data.getArticle
+    const article = data.getArticle
     const subjectCopy = R.cond([
-      [R.equals('updated'), R.always('has been updated')],
+      [R.equals('updated'), R.always('draft has been updated')],
       [R.equals('drafted'), R.always('draft has been saved')],
       [R.equals('published'), R.always('is now live')],
       [R.equals('approved'), R.always('now needs publishing from author before going live')],
@@ -56,26 +56,26 @@ class ArticleApproved extends React.Component<Props> {
           <title>{`Kauri - Article ${capitalize(type)}`}</title>
         </Helmet>
         <ArticleApprovedConfirmationLogoBadge
-          chosenCategory={data && typeof data.getArticle === 'object' && data.getArticle.category}
+          chosenCategory={data && typeof data.getArticle === 'object' && data.getArticle.owner && data.getArticle.owner.id}
           confirmationMessage={type}
         />
         <ConfirmationSubject>{`The article ${subjectCopy}`}</ConfirmationSubject>
         <ArticleCard
-          changeRoute={routeChangeAction}
-          key={article.article_id}
-          date={moment(article.date_created).format('D MMM YYYY')}
-          title={article.subject}
-          content={article.text}
-          userId={article.user.user_id}
-          username={article.user.username}
-          articleId={article.article_id}
-          articleVersion={article.article_version}
+          key={article.id}
+          articleId={article.id}
+          articleVersion={article.version}
+          date={moment(article.datePublished || article.dateCreated).format('D MMM YYYY')}
+          title={article.title}
+          content={article.content}
+          userId={article.author && article.author.id}
+          username={article.author && article.author.name}
           cardHeight={500}
           linkComponent={(childrenProps, route) => (
-            <Link toSlug={route.includes('article') && article.subject} useAnchorTag route={route}>
+            <Link toSlug={route.includes('article') && article.title} useAnchorTag route={route}>
               {childrenProps}
             </Link>
           )}
+          changeRoute={routeChangeAction}
         />
         <ArticleApprovedActionButtons>
           <PositiveRequestActionBadge

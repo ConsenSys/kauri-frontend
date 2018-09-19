@@ -1,0 +1,9 @@
+[ignore]
+.*/node_modules/.*
+[lints]
+all=warn
+[options]
+include_warnings=true
+[libs]
+flow-typed
+[include]

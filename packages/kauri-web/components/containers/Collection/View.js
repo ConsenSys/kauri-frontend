@@ -11,7 +11,7 @@ import rake from 'rake-js'
 
 type Props = {
   data: {
-    collection?: CollectionDTO,
+    getCollection?: CollectionDTO,
   },
   routeChangeAction: string => void,
   hostName: string,
@@ -34,11 +34,11 @@ const HeaderContainer = styled(ContentContainer)`
   flex-wrap: wrap;
 `
 
-class CollectionPage extends Component<Props> {
+class CollectionPage extends Component<Props, { trianglify: string }> {
   constructor (props) {
     super(props)
     this.state = {
-      trianglify: null,
+      trianglify: '',
     }
   }
   componentDidMount () {
@@ -57,8 +57,8 @@ class CollectionPage extends Component<Props> {
   }
 
   render () {
-    if (!this.props.data || !this.props.data.collection) return null
-    const { name, background, description, date_created, date_updated, owner, sections } = this.props.data.collection
+    if (!this.props.data || !this.props.data.getCollection) return null
+    const { name, background, description, dateCreated, owner, sections } = this.props.data.getCollection
     const { routeChangeAction, hostName } = this.props
     const extractedKeywords = rake(description, { language: 'english' })
     const bg = background || this.state.trianglifyBg
@@ -69,7 +69,7 @@ class CollectionPage extends Component<Props> {
         <Helmet>
           <title>{name} - Kauri</title>
           <meta name='description' content={`${description.slice(0, 151)}...`} />
-          <meta name='keywords' content={extractedKeywords.map(i => i)} />
+          <meta name='keywords' content={extractedKeywords.map(keyword => keyword)} />
           <link rel='canonical' href={url} />
         </Helmet>
         <ScrollToTopOnMount />
@@ -77,14 +77,14 @@ class CollectionPage extends Component<Props> {
           <CollectionHeader
             name={name}
             description={description}
-            updated={date_updated || date_created}
-            username={owner.username}
+            updated={dateCreated}
+            username={owner.name}
             linkComponent={childrenProps => (
-              <Link useAnchorTag route={`/public-profile/${owner && owner.user_id}`}>
+              <Link useAnchorTag route={`/public-profile/${owner && owner.id}`}>
                 {childrenProps}
               </Link>
             )}
-            userId={owner.user_id}
+            userId={owner.id}
             url={url}
             profileImage={owner.profileImage}
             routeChangeAction={routeChangeAction}
@@ -92,12 +92,12 @@ class CollectionPage extends Component<Props> {
         </HeaderContainer>
         <ContentContainer>
           {sections &&
-            sections.map(i => (
+            sections.map(section => (
               <CollectionSection
-                name={i.name}
-                key={i.name}
-                description={i.description}
-                articles={i.articles}
+                key={section.name}
+                name={section.name}
+                description={section.description}
+                articles={section.resources}
               />
             ))}
         </ContentContainer>

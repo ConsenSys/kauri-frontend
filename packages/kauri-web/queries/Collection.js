@@ -1,77 +1,78 @@
 import gql from 'graphql-tag'
+import { Article } from './Article'
 
-export const globalCollectionDetails = gql`
-  query collection($id: String) {
-    collection(id: $id) {
+export const Collection = gql`
+  fragment Collection on CollectionDTO {
+    id
+    name
+    description
+    background
+    dateCreated
+    owner {
       id
       name
-      background
-      date_updated
-      date_created
-      description
-      owner {
-        user_id
-        username
+    } 
+    sections {
+      name 
+      description 
+      resources {
+       ...Article
       }
-      sections {
-        name
-        description
-        article_id
-        articles {
-          article_id
-          article_version
-          user {
-            user_id
-            username
-          }
-          date_created
-          request_id
-          status
-          tip
-          text
-          subject
-        }
-      }
+    } 
+    resourceIdentifier {
+      type
+      id
     }
+  }
+
+  ${Article}
+`
+
+export const globalCollectionDetails = gql`
+  query getCollection($id: String) { 
+    getCollection(id: $id) {
+       id name description background dateCreated owner {
+       id name } sections {
+       name description resources {
+       ...on ArticleDTO {
+         authorId
+      id, version, title, content, dateCreated, datePublished, author {
+       id name }, status, attributes, vote {
+       totalVote } } } }, resourceIdentifier {
+      type, id} } 
   }
 `
 
 export const getCollectionForAnalytics = gql`
   query getCollectionForAnalytics($id: String) {
-    collection(id: $id) {
+    getCollection(id: $id) {
       id
       name
-      background
-      date_updated
-      date_created
+      dateCreated
       description
       owner {
-        user_id
-        username
+        id
+        name
       }
       sections {
         name
         description
-        article_id
-        articles {
-          article_id
-          article_version
-          user_id
-          request_id
-          date_created
-          date_updated
-          tip
-          status
-          subject
-          sub_category
-          category
-          content_hash
-          user {
-            user_id
-            username
+        ...on ArticleDTO {
+          id
+          title
+          version
+          authorId
+          author {
+            id
+            name
           }
-          metadata
+          datePublished
+          status
         }
+      }
+      resourceIdentifier {
+        type
+        id
       }
     }
   }

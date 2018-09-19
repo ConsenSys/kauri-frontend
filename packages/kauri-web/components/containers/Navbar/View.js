@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Button, Icon } from 'antd'
+import { Menu, Icon } from 'antd'
 import styled, { css } from 'styled-components'
 import { Link } from '../../../routes'
 import Web3Status from '../Web3Status'
@@ -69,22 +69,6 @@ const Text = styled.a`
   color: #fff;
   :hover {
     color: ${props => props.theme.primaryColor} !important;
-  }
-`
-
-const GlobalCreateRequestButton = styled(Button)`
-  align-self: center;
-  width: 134px;
-  height: 40px !important;
-  background-color: #262c35 !important;
-  border-color: #0ba986 !important;
-  color: #fff !important;
-  font-size: 11px !important;
-  font-weight: bold !important;
-  line-height: 16px !important;
-  :hover {
-    background-color: ${props => props.theme.primaryColor} !important;
-    border-color: ${props => props.theme.primaryColor} !important;
   }
 `
 
@@ -196,14 +180,14 @@ class Navbar extends React.Component {
         {user &&
           user.topics &&
           user.topics.length > 0 && (
-            <StyledMenuItem onlyDesktop key='/approvals'>
-              <Link href={'/approvals'}>
-                <Text href='/approvals' pathname={router.pathname} link='/approvals'>
+          <StyledMenuItem onlyDesktop key='/approvals'>
+            <Link href={'/approvals'}>
+              <Text href='/approvals' pathname={router.pathname} link='/approvals'>
                   Approvals
-                </Text>
-              </Link>
-            </StyledMenuItem>
-          )}
+              </Text>
+            </Link>
+          </StyledMenuItem>
+        )}
 
         <StyledMenuItem onlyDesktop key='/communities'>
           <Link href='/communities'>
@@ -213,13 +197,13 @@ class Navbar extends React.Component {
           </Link>
         </StyledMenuItem>
 
-        <StyledMenuItem onlyDesktop key='/requests'>
+        {/* <StyledMenuItem onlyDesktop key='/requests'>
           <Link href='/requests'>
             <Text href='/requests' pathname={router.pathname} link='/requests'>
               Requests
             </Text>
           </Link>
-        </StyledMenuItem>
+        </StyledMenuItem> */}
 
         <Spacer />
         <StyledMenuItem onlyDesktop>
@@ -243,12 +227,12 @@ class Navbar extends React.Component {
                   Write Article
                 </TooltipItem>
               </Link>
-              <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
-              <Link route={userId ? '/create-request' : '/login'}>
+              {/* <div style={{ width: '100%', border: '1px solid #f2f2f2' }} /> */}
+              {/* <Link route={userId ? '/create-request' : '/login'}>
                 <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>
                   Write Request
                 </TooltipItem>
-              </Link>
+              </Link> */}
             </TooltipItemContainer>
           </Tooltip>
         </StyledMenuItem>

@@ -20,122 +20,76 @@ declare type GraphQLResponseErrorLocation = {
   Query root type
 */
 declare type Query = {
-  downvoteArticle: ?MutationResponse;
-  commentArticle: ?MutationResponse;
-  createRequest: ?MutationResponse;
-  getRequest: ?RequestDTO;
+  getCommunity: ?CommunityDTO;
+  searchCommunities: ?Page_CommunityDTO;
+  editArticleVersion: ?MutationResponse;
+  addUser: ?MutationResponse;
   getAllCuratedList: ?Array<CuratedListDTO>;
-  getUser: ?UserDTO;
+  getUser: ?PublicUserDTO;
+  submitArticleVersion: ?MutationResponse;
   createCuratedList: ?MutationResponse;
+  submitResource: ?MutationResponse;
+  countVote: ?VoteStatDTO;
   searchArticles: ?Page_ArticleDTO;
-  deleteArticleComment: ?MutationResponse;
-  getTopic: ?TopicDTO;
   searchCollections: ?Page_CollectionDTO;
+  removeResource: ?MutationResponse;
   addResourceToCuratedList: ?MutationResponse;
-  composeCollection: ?MutationResponse;
-  searchRequests: ?Page_RequestDTO;
-  storeArticleValidationSignature: ?MutationResponse;
-  editArticle: ?MutationResponse;
-  downvoteRequest: ?MutationResponse;
-  getRequestComment: ?Array<CommentDTO>;
+  approveResource: ?MutationResponse;
+  getComment: ?Page_CommentDTO;
+  vote: ?MutationResponse;
+  addComment: ?MutationResponse;
   approveArticle: ?MutationResponse;
+  getMyProfile: ?UserDTO;
+  getCollection: ?CollectionDTO;
+  resource: ?AbstractResourceDTO;
   getArticle: ?ArticleDTO;
   removeCuratedList: ?MutationResponse;
-  deleteRequestComment: ?MutationResponse;
-  editRequest: ?MutationResponse;
-  removeCollection: ?MutationResponse;
-  collection: ?CollectionDTO;
-  storeRequestOwnershipSignature: ?MutationResponse;
+  publishArticle: ?MutationResponse;
+  resources: ?Array<AbstractResourceDTO>;
   getCuratedList: ?CuratedListDTO;
-  storeArticleOwnershipSignature: ?MutationResponse;
-  addHeaderToCuratedList: ?MutationResponse;
   removeResourceFromCuratedList: ?MutationResponse;
-  upvoteArticle: ?MutationResponse;
+  addHeaderToCuratedList: ?MutationResponse;
+  submitNewArticle: ?MutationResponse;
   submitArticle: ?MutationResponse;
-  upvoteRequest: ?MutationResponse;
-  commentRequest: ?MutationResponse;
+  getArticleProof: ?ArticleProof;
+  checkpointArticles: ?MutationResponse;
   rejectArticle: ?MutationResponse;
-  getArticleComment: ?Array<CommentDTO>;
   createCollection: ?MutationResponse;
 }
 
-declare type MutationResponse = {
-  hash: ?string;
-  message: ?string;
-  success: ?boolean;
-}
-
-declare type RequestDTO = {
-  bounty: ?number;
-  category: ?string;
-  comments: ?Array<CommentDTO>;
-  content_hash: ?string;
-  date_created: ?any;
-  date_updated: ?any;
-  dead_line: ?any;
-  is_flagged: ?boolean;
-  metadata: ?any;
-  request_id: ?string;
-  short_description: ?string;
-  status: ?RequestStatus;
-  sub_category: ?string;
-  subject: ?string;
-  text: ?string;
-  total_flag: ?number;
-  total_submissions: ?number;
-  total_vote: ?number;
-  type: ?ResourceType;
-  user: ?UserDTO;
-  user_id: ?string;
-}
-
-declare type CommentDTO = {
-  anchor_key: ?string;
-  comment: ?string;
-  comment_id: ?number;
-  date_created: ?any;
-  focus_key: ?string;
-  highlight_from: ?number;
-  highlight_to: ?number;
-  user: ?UserDTO;
-  user_id: ?string;
-}
-
-declare type UserDTO = {
-  user_id: ?string;
-  username: ?string;
-}
-
-declare type RequestStatus = "CLOSED" | "CREATED" | "EXPIRED" | "FULFILLED" | "IN_PUBLICATION_PERIOD" | "OPENED" | "REFUNDED";
-
-declare type ResourceType = "ARTICLE" | "COLLECTION" | "REQUEST" | "TOPIC";
-
-declare type DTO = RequestDTO | ArticleDTO | TopicDTO | CollectionDTO;
-
-declare type CuratedListDTO = {
-  date_created: ?any;
+declare type CommunityDTO = {
+  approved: ?Array<AbstractResourceDTO>;
+  approvedId: ?Array<ResourceIdentifier>;
+  avatar: ?string;
+  creator: ?PublicUserDTO;
+  creatorId: ?string;
+  dateCreated: ?any;
+  dateUpdated: ?any;
   description: ?string;
-  featured: ?boolean;
-  header: ?DTO;
-  header_id: ?ResourceDTO;
+  id: ?string;
+  members: ?Array<CommunityMemberDTO>;
+  membersId: ?any;
+  metadataLocator: ?string;
+  name: ?string;
+  pending: ?Array<AbstractResourceDTO>;
+  pendingId: ?Array<ResourceIdentifier>;
+  resourceIdentifier: ?ResourceIdentifier;
+  social: ?any;
+  status: ?CommunityStatus;
+  website: ?string;
+}
+
+declare type PublicUserDTO = {
+  articles: ?Page_ArticleDTO;
+  avatar: ?string;
+  communities: ?Array<CommunityDTO>;
   id: ?string;
   name: ?string;
-  owner_id: ?string;
-  resource_id: ?Array<ResourceDTO>;
-  resources: ?Array<DTO>;
+  resourceIdentifier: ?ResourceIdentifier;
+  social: ?any;
+  title: ?string;
+  website: ?string;
 }
-
-declare type ResourceDTO = {
-  id: ?string;
-  type: ?ResourceType;
-}
-
-declare type ResourceDTOInput = {
-  id: ?string;
-  type: ?ResourceTypeInput;
-}
-
-declare type ResourceTypeInput = "ARTICLE" | "COLLECTION" | "REQUEST" | "TOPIC";
 
 declare type Page_ArticleDTO = {
   content: ?Array<ArticleDTO>;
@@ -150,69 +104,155 @@ declare type Page_ArticleDTO = {
 }
 
 declare type ArticleDTO = {
-  article_id: ?string;
-  article_version: ?number;
-  category: ?string;
-  comments: ?Array<CommentDTO>;
-  content_hash: ?string;
-  date_created: ?any;
-  date_updated: ?any;
-  metadata: ?any;
-  moderator: ?UserDTO;
-  rejection_cause: ?string;
-  request_id: ?string;
-  short_description: ?string;
+  attributes: ?any;
+  author: ?PublicUserDTO;
+  authorId: ?string;
+  checkpoint: ?string;
+  comments: ?Page_CommentDTO;
+  content: ?string;
+  contentHash: ?string;
+  dateCreated: ?any;
+  datePublished: ?any;
+  id: ?string;
+  owner: ?AbstractResourceDTO;
+  ownerId: ?ResourceIdentifier;
+  resourceIdentifier: ?ResourceIdentifier;
   signature: ?string;
   status: ?ArticleStatus;
-  sub_category: ?string;
-  subject: ?string;
-  text: ?string;
-  tip: ?number;
-  total_vote: ?number;
-  type: ?ResourceType;
-  user: ?UserDTO;
-  user_id: ?string;
+  title: ?string;
+  version: ?number;
+  vote: ?VoteStatDTO;
 }
 
-declare type ArticleStatus = "APPROVED" | "DRAFT" | "IN_REVIEW" | "PUBLISHED" | "REJECTED" | "SUBMITTED";
+declare type Page_CommentDTO = {
+  content: ?Array<CommentDTO>;
+  first: ?boolean;
+  last: ?boolean;
+  number: ?number;
+  numberOfElements: ?number;
+  size: ?number;
+  sort: ?Sort;
+  totalElements: ?any;
+  totalPages: ?number;
+}
+
+declare type CommentDTO = {
+  author: ?PublicUserDTO;
+  authorId: ?string;
+  body: ?string;
+  id: ?string;
+  parent: ?AbstractResourceDTO;
+  parentId: ?ResourceIdentifier;
+  posted: ?any;
+  resourceIdentifier: ?ResourceIdentifier;
+}
+
+declare type AbstractResourceDTO = CommunityDTO | PublicUserDTO | ArticleDTO | CommentDTO | CommunityMemberDTO | CuratedListDTO | CollectionDTO | UserDTO;
+
+declare type ArticleStatus = "DRAFT" | "PENDING" | "PUBLISHED" | "REJECTED";
+
+declare type VoteStatDTO = {
+  parentId: ?ResourceIdentifier;
+  totalVote: ?any;
+}
 
 declare type Sort = {
 
 }
 
 declare type ArticleFilterInput = {
-  date_updated_gt: ?any;
-  total_contribution_lt: ?number;
-  user_id_eq: ?string;
-  total_contribution_gt: ?number;
-  article_id_in: ?Array<string>;
-  category_in: ?Array<string>;
-  date_created_lt: ?any;
-  sub_category_in: ?Array<string>;
-  status_in: ?Array<ArticleStatusInput>;
-  full_text: ?string;
-  article_version_eq: ?number;
-  moderator_eq: ?string;
-  date_created_gt: ?any;
-  date_updated_lt: ?any;
-  total_vote_lt: ?number;
-  article_id_eq: ?string;
-  request_id_eq: ?string;
-  moderator: ?string;
-  subject_ct: ?string;
-  total_vote_gt: ?number;
-  text_ct: ?string;
-  latest_version: ?boolean;
+  idEquals: ?string;
+  statusIn: ?Array<ArticleStatusInput>;
+  checkpointEquals: ?string;
+  ownerEquals: ?string;
+  ownerIdEquals: ?string;
+  dateCreatedLessThan: ?any;
+  dateCreatedGreaterThan: ?any;
+  fullText: ?string;
+  authorIdEquals: ?string;
+  latestVersion: ?boolean;
 }
 
-declare type ArticleStatusInput = "APPROVED" | "DRAFT" | "IN_REVIEW" | "PUBLISHED" | "REJECTED" | "SUBMITTED";
+declare type ArticleStatusInput = "DRAFT" | "PENDING" | "PUBLISHED" | "REJECTED";
 
 declare type DirectionInput = "ASC" | "DESC";
 
-declare type TopicDTO = {
+declare type ResourceIdentifier = {
   id: ?string;
   type: ?ResourceType;
+  version: ?number;
 }
+
+declare type ResourceType = "ARTICLE" | "COLLECTION" | "COMMENT" | "COMMUNITY" | "CURATED_LIST" | "REQUEST" | "USER";
+
+declare type CommunityMemberDTO = {
+  articles: ?Page_ArticleDTO;
+  avatar: ?string;
+  communities: ?Array<CommunityDTO>;
+  id: ?string;
+  name: ?string;
+  resourceIdentifier: ?ResourceIdentifier;
+  role: ?CommunityPermission;
+  social: ?any;
+  title: ?string;
+  website: ?string;
+}
+
+declare type CommunityPermission = "ADMIN" | "CURATOR";
+
+declare type CommunityStatus = "CLOSED" | "CREATED" | "OPENED";
+
+declare type Page_CommunityDTO = {
+  content: ?Array<CommunityDTO>;
+  first: ?boolean;
+  last: ?boolean;
+  number: ?number;
+  numberOfElements: ?number;
+  size: ?number;
+  sort: ?Sort;
+  totalElements: ?any;
+  totalPages: ?number;
+}
+
+declare type CommunityFilterInput = {
+  dateUpdatedLessThan: ?any;
+  dateUpdatedGreaterThan: ?any;
+  nameContain: ?string;
+  membersIncludes: ?string;
+  dateCreatedLessThan: ?any;
+  nameContains: ?string;
+  dateCreatedGreaterThan: ?any;
+  fullText: ?string;
+}
+
+declare type MutationResponse = {
+  hash: ?string;
+  message: ?string;
+  success: ?boolean;
+}
+
+declare type CuratedListDTO = {
+  dateCreated: ?any;
+  description: ?string;
+  featured: ?boolean;
+  header: ?AbstractResourceDTO;
+  headerId: ?ResourceIdentifier;
+  id: ?string;
+  name: ?string;
+  owner: ?PublicUserDTO;
+  ownerId: ?string;
+  resourceIdentifier: ?ResourceIdentifier;
+  resources: ?Array<AbstractResourceDTO>;
+  resourcesId: ?Array<ResourceIdentifier>;
+}
+
+declare type ResourceIdentifierInput = {
+  id: ?string;
+  type: ?ResourceTypeInput;
+  version: ?number;
+}
+
+declare type ResourceTypeInput = "ARTICLE" | "COLLECTION" | "COMMENT" | "COMMUNITY" | "CURATED_LIST" | "REQUEST" | "USER";
 
 declare type Page_CollectionDTO = {
   content: ?Array<CollectionDTO>;
@@ -228,110 +268,89 @@ declare type Page_CollectionDTO = {
 
 declare type CollectionDTO = {
   background: ?string;
-  date_created: ?any;
-  date_updated: ?any;
+  dateCreated: ?any;
+  dateUpdated: ?any;
   description: ?string;
   id: ?string;
   name: ?string;
-  owner: ?UserDTO;
-  owner_id: ?string;
+  owner: ?PublicUserDTO;
+  ownerId: ?string;
+  resourceIdentifier: ?ResourceIdentifier;
   sections: ?Array<SectionDTO>;
-  type: ?ResourceType;
+  vote: ?VoteStatDTO;
 }
 
 declare type SectionDTO = {
-  article_id: ?Array<string>;
-  articles: ?Array<ArticleDTO>;
   description: ?string;
   name: ?string;
+  resources: ?Array<AbstractResourceDTO>;
+  resourcesId: ?Array<ResourceIdentifier>;
 }
 
 declare type CollectionFilterInput = {
-  date_updated_gt: ?any;
-  date_created_gt: ?any;
-  name_ct: ?string;
-  date_created_lt: ?any;
-  description_ct: ?string;
-  owner_id_eq: ?string;
-  date_updated_lt: ?any;
-  full_text: ?string;
+  dateUpdatedLessThan: ?any;
+  dateUpdatedGreaterThan: ?any;
+  ownerIdEqual: ?string;
+  descriptionContains: ?string;
+  dateCreatedLessThan: ?any;
+  nameContains: ?string;
+  dateCreatedGreaterThan: ?any;
+  fullText: ?string;
+}
+
+declare type UserDTO = {
+  articles: ?Page_ArticleDTO;
+  avatar: ?string;
+  communities: ?Array<CommunityDTO>;
+  email: ?string;
+  id: ?string;
+  name: ?string;
+  resourceIdentifier: ?ResourceIdentifier;
+  social: ?any;
+  title: ?string;
+  website: ?string;
+}
+
+declare type ArticleProof = {
+  articleLeafHash: ?string;
+  checkpointHash: ?string;
+  checkpointMerkleRoot: ?string;
+  proofHashes: ?Array<string>;
 }
 
 declare type SectionDTOInput = {
   description: ?string;
-  article_id: ?Array<string>;
   name: ?string;
+  resourcesId: ?Array<ResourceIdentifierInput>;
 }
-
-declare type Page_RequestDTO = {
-  content: ?Array<RequestDTO>;
-  first: ?boolean;
-  last: ?boolean;
-  number: ?number;
-  numberOfElements: ?number;
-  size: ?number;
-  sort: ?Sort;
-  totalElements: ?any;
-  totalPages: ?number;
-}
-
-declare type RequestFilterInput = {
-  date_updated_gt: ?any;
-  total_contribution_lt: ?number;
-  user_id_eq: ?string;
-  total_contribution_gt: ?number;
-  category_in: ?Array<string>;
-  date_created_lt: ?any;
-  total_flag_lt: ?number;
-  total_submissions_lt: ?number;
-  sub_category_in: ?Array<string>;
-  full_text: ?string;
-  total_submissions_gt: ?number;
-  status_in: ?Array<RequestStatusInput>;
-  dead_line_gt: ?any;
-  date_created_gt: ?any;
-  total_flag_gt: ?number;
-  date_updated_lt: ?any;
-  total_vote_lt: ?number;
-  dead_line_lt: ?any;
-  subject_ct: ?string;
-  total_vote_gt: ?number;
-  text_ct: ?string;
-}
-
-declare type RequestStatusInput = "CLOSED" | "CREATED" | "EXPIRED" | "FULFILLED" | "IN_PUBLICATION_PERIOD" | "OPENED" | "REFUNDED";
 
 /**
   Mutation root type
 */
 declare type Mutation = {
   getEvent: ?boolean;
-  downvoteArticle: ?MutationResponse;
-  commentArticle: ?MutationResponse;
-  createRequest: ?MutationResponse;
-  createCuratedList: ?MutationResponse;
-  deleteArticleComment: ?MutationResponse;
-  addResourceToCuratedList: ?MutationResponse;
-  composeCollection: ?MutationResponse;
-  storeArticleValidationSignature: ?MutationResponse;
-  editArticle: ?MutationResponse;
-  downvoteRequest: ?MutationResponse;
-  approveArticle: ?MutationResponse;
+  editArticleVersion: ?MutationResponse;
   removeCuratedList: ?MutationResponse;
-  submitForReview: ?MutationResponse;
-  deleteRequestComment: ?MutationResponse;
-  editRequest: ?MutationResponse;
-  removeCollection: ?MutationResponse;
-  storeRequestOwnershipSignature: ?MutationResponse;
-  storeArticleOwnershipSignature: ?MutationResponse;
-  addHeaderToCuratedList: ?MutationResponse;
+  submitArticleVersion: ?MutationResponse;
+  publishArticle: ?MutationResponse;
+  createCuratedList: ?MutationResponse;
+  submitResource: ?MutationResponse;
+  removeResource: ?MutationResponse;
+  addResourceToCuratedList: ?MutationResponse;
   removeResourceFromCuratedList: ?MutationResponse;
-  upvoteArticle: ?MutationResponse;
+  addHeaderToCuratedList: ?MutationResponse;
+  composeCollection: ?MutationResponse;
+  submitNewArticle: ?MutationResponse;
   submitArticle: ?MutationResponse;
-  upvoteRequest: ?MutationResponse;
-  commentRequest: ?MutationResponse;
+  approveResource: ?MutationResponse;
+  createCommunity: ?MutationResponse;
+  checkpointArticles: ?MutationResponse;
   rejectArticle: ?MutationResponse;
+  vote: ?MutationResponse;
+  addComment: ?MutationResponse;
+  approveArticle: ?MutationResponse;
   createCollection: ?MutationResponse;
+  saveUser: ?MutationResponse;
 }
 
 /**

@@ -12,7 +12,7 @@ import View from './View'
 const mapStateToProps = (state, ownProps) => ({
   ethUsdPrice: state.app.ethUsdPrice,
   topics: state.app && state.app.user && state.app.user.topics,
-  address: state.app && state.app.user && state.app.user.address,
+  userId: state.app && state.app.user && state.app.user.id,
   personalUsername: state.app && state.app.user && state.app.user.username,
   hostName: state.app && state.app.hostName,
 })
@@ -34,10 +34,10 @@ export default compose(
     }
   ),
   graphql(getArticle, {
-    options: ({ article_id, article_version }) => ({
+    options: ({ id, version }) => ({
       variables: {
-        article_id,
-        article_version,
+        id,
+        version: parseInt(version),
       },
     }),
   }),
