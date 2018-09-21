@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: REGISTRY/flow-frontend:TAG
+        image: REGISTRY/kauri-frontend:TAG
         imagePullPolicy: Always
         env:
           - name: TIMESTAMP
