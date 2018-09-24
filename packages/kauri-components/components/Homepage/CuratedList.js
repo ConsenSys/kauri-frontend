@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 import ArticleCard from '../Card/ArticleCard.bs'
 import CollectionCard from '../Card/CollectionCard.bs'
-import theme from '../theme-config'
+import theme from '../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
 
 const Link = ({ children }) => {
