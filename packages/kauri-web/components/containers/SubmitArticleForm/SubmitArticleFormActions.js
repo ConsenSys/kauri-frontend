@@ -29,8 +29,8 @@ type Props = {
 }
 
 const setupImageUploader = (setFieldsValue, getFieldDecorator) => {
-  getFieldDecorator('background');
-  TriggerImageUploader(setFieldsValue);
+  getFieldDecorator('attributes');
+  TriggerImageUploader(setFieldsValue, 'attributes');
 };
 
 export default ({

@@ -126,7 +126,7 @@ class SubmitArticleForm extends React.Component<Props> {
             //   }
             // }
             if (typeof article_id === 'string' && submissionType === 'submit/update') {
-              const { id, version, status }: ArticleDTO = this.props.data.getArticle
+              const { id, version, status }: ArticleDTO = this.props.data && this.props.data.getArticle;
 
               if (status === 'PUBLISHED') {
                 // Here I am really submitting a new article with updates for an already existing article!
@@ -170,7 +170,7 @@ class SubmitArticleForm extends React.Component<Props> {
               })
             }
           } else if (submissionType === 'draft') {
-            const { id, version }: ArticleDTO = this.props.data.getArticle
+            const { id, version }: ArticleDTO = this.props.data && this.props.data.getArticle;
             if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'DRAFT') {
               // Draft -> Draft Version updated
 
@@ -219,6 +219,9 @@ class SubmitArticleForm extends React.Component<Props> {
 
   render () {
     const { routeChangeAction, isKauriTopicOwner, form } = this.props
+
+    console.log(form.getFieldsValue());
+
     return (
       <Form>
         <ScrollToTopButton />
