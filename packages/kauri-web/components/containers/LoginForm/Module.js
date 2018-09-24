@@ -80,14 +80,12 @@ export const registerEpic = (action$: Observable<RegisterAction>, store: any, { 
           .do(({ token }: FinalLoginResponse) => {
             console.log(token)
             console.log(window.web3.eth.accounts[0])
-            if (process.env.e2eTesting || process.env.NODE_ENV !== 'production') {
-              document.cookie = cookie.serialize('TOKEN', token, {
-                maxAge: 30 * 24 * 60 * 60, // 30 days
-              })
-              document.cookie = cookie.serialize('USER_ID', window.web3.eth.accounts[0], {
-                maxAge: 30 * 24 * 60 * 60, // 30 days
-              })
-            }
+            document.cookie = cookie.serialize('TOKEN', token, {
+              maxAge: 30 * 24 * 60 * 60, // 30 days
+            })
+            document.cookie = cookie.serialize('USER_ID', window.web3.eth.accounts[0], {
+              maxAge: 30 * 24 * 60 * 60, // 30 days
+            })
           })
           .mergeMapTo(
             Observable.of(
