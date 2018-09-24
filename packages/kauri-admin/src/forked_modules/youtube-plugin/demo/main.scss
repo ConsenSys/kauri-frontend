@@ -1,0 +1,33 @@
+/*
+ * Copyright (c) 2017, Globo.com (https://github.com/globocom)
+ *
+ * License: MIT
+ */
+
+@import "../src/styles/plugin.scss";
+
+body {
+  margin: 0;
+}
+
+.content {
+  font-family: Open Sans, Sans-serif;
+
+  header {
+    background: #212121;
+    color: #fff;
+    padding: 0 20px;
+    margin-bottom: 40px;
+    line-height: 70px;
+
+    h1 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+  }
+
+  .editor {
+    margin: 0 auto;
+    max-width: 960px;
+  }
+}
