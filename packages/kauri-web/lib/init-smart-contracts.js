@@ -1,27 +1,26 @@
+// @flow
 import { Observable } from 'rxjs/Observable'
 import contract from 'truffle-contract'
-
-const KauriCoreArtifact = require(process.env.KauriCoreArtifact)
-const WalletArtifact = require(process.env.WalletArtifact)
-const TopicModeratorArtifact = require(process.env.TopicModeratorArtifact)
+import superagent from 'superagent'
+const request = superagent.agent()
+const config = require('../config').default
 
 let smartContracts
 
 export const initSmartContracts = web3 => {
-  let KauriCore = contract(KauriCoreArtifact)
-  let Wallet = contract(WalletArtifact)
-  let TopicModerator = contract(TopicModeratorArtifact)
   if (typeof web3 !== 'undefined') {
-    KauriCore.setProvider(web3.currentProvider)
-    Wallet.setProvider(web3.currentProvider)
-    TopicModerator.setProvider(web3.currentProvider)
-    const smartContractsToDeploy = {
-      KauriCore: KauriCore.deployed(),
-      Wallet: Wallet.deployed(),
-      TopicModerator: TopicModerator.deployed(),
-    }
+    const smartContractNames = ['KauriCore', 'Wallet', 'TopicModerator', 'Community']
+    const smartContractFetchObservables = smartContractNames.map(smartContractName =>
+      Observable.fromPromise(request.get(`https://${config.getApiURL()}/smartcontract/${smartContractName}/all`)))
+    const smartContractsToDeploy = {}
 
-    return Observable.concat(...Object.values(smartContractsToDeploy))
+    Observable.forkJoin(smartContractFetchObservables).map(abiJSONs => {
+      smartContractNames.map((smartContractName) => {
+        const smartContractWithProvider = contract(abiJSONs[smartContractName]).setProvider(web3.currentProvider)
+        smartContractsToDeploy[smartContractName] = smartContractWithProvider.deployed()
+      })
+      return smartContractsToDeploy
+    }).concat(...Object.values(smartContractsToDeploy))
       .reduce((current, next, index) => {
         current[Object.keys(smartContractsToDeploy)[index]] = next
         return current
