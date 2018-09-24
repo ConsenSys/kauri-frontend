@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import WebService from 'kauri-admin/src/components/WebService';
+import WebService from '../../components/WebService';
+import { CreateCuratedList, AddItemToList, AddHeader } from '../../components/modals';
 import { ScaleLoader } from 'react-spinners';
-import { CuratedList } from 'kauri-components';
-import { CreateCuratedList, AddItemToList, AddHeader } from 'kauri-admin/src/components/modals';
+import CuratedList from '../../../../kauri-components/components/Homepage/CuratedList';
 import styled from "styled-components";
 
 const Sidebar = styled.div`
@@ -14,9 +14,9 @@ const Sidebar = styled.div`
 `;
 
 const Container = styled.div`
-display: flex;
-flex-direction: row;
-position: relative;
+  display: flex;
+  flex-direction: row;
+  position: relative;
 `;
 
 const ListContainer = styled.div`

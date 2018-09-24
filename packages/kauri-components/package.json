@@ -28,7 +28,8 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-share": "^2.2.0",
-    "react-tippy": "^1.2.2"
+    "react-tippy": "^1.2.2",
+    "styled-components": "3.4.5"
   },
   "devDependencies": {
     "@storybook/addon-knobs": "4.0.0-alpha.18",

@@ -49,6 +49,8 @@ module.exports = {
   appIndexJs: resolveApp('src/index.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
+  kauriComponents: resolveApp('../kauri-components'),
+  kauriWeb: resolveApp('../kauri-web'),
   testsSetup: resolveApp('src/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
@@ -59,7 +61,9 @@ let checkForMonorepo = true;
 
 
 
-module.exports.srcPaths = [module.exports.appSrc];
+module.exports.srcPaths = [module.exports.appSrc, module.exports.kauriComponents];
+
+// console.log(resolveApp('../kauri-components'))
 
 module.exports.useYarn = fs.existsSync(
   path.join(module.exports.appPath, 'yarn.lock')
