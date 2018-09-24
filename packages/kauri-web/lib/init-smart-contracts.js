@@ -9,7 +9,7 @@ let smartContracts
 
 export const initSmartContracts = web3 => {
   if (typeof web3 !== 'undefined') {
-    const smartContractNames = ['KauriCore', 'Wallet', 'TopicModerator', 'Community']
+    const smartContractNames = ['KauriCore', 'Wallet', 'Community']
     const smartContractFetchObservables = smartContractNames.map(smartContractName =>
       Observable.fromPromise(request.get(`https://${config.getApiURL()}/smartcontract/${smartContractName}/all`)))
     const smartContractsToDeploy = {}
