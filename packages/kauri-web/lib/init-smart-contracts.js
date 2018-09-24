@@ -17,21 +17,34 @@ export const initSmartContracts = web3 => {
           .then(({ body }) => body)
       )
     )
-    const smartContractsToDeploy = {}
+    const smartContracts = {}
 
-    Observable.forkJoin(smartContractFetchObservables).map(abiJSONs => {
+    Observable.forkJoin(smartContractFetchObservables).map(abiJSONs =>
       smartContractNames.map((smartContractName) => {
         const fetchedSmartContract = abiJSONs.find((abiJSON) => abiJSON.contractName === smartContractName)
         const smartContractWithProvider = contract(fetchedSmartContract)
         smartContractWithProvider.setProvider(web3.currentProvider)
-        smartContractWithProvider.deployed()
-        smartContractsToDeploy[smartContractName] = smartContractWithProvider
+        return smartContractWithProvider.deployed()
       })
-      return smartContractsToDeploy
-    })
+    )
+      .mergeMap((smartContractsToDeploy) =>
+        Observable.of(
+          ...smartContractsToDeploy.map((sc) => sc)
+        )
+      )
+      .combineAll()
+      .map((arrayOfSmartContractsToDeploy) => {
+        smartContractNames.map(
+          (smartContractName, index) => {
+            smartContracts[smartContractNames[index]] = arrayOfSmartContractsToDeploy[index]
+          }
+        )
+        return smartContracts
+      })
       .subscribe(result => {
-        smartContracts = result
+        // console.log(result)
         window.smartContracts = result
+        return result
       })
   }
 }
