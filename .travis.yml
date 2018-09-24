@@ -6,6 +6,7 @@ branches:
   only:
   - master
   - development
+  - dev2
 cache:
   directories:
   - "$HOME/google-cloud-sdk/"
@@ -74,6 +75,21 @@ jobs:
       -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
     - cd scripts
     - if [ "$AUTHOR_NAME" != "Travis CI User" ]; then bash ./deploy.sh ${FRONTEND_VERSION}-SNAPSHOT;
+      fi
+  - stage: deploy-dev2
+    if: "(NOT type IN (pull_request) AND (branch = dev2))"
+    install:
+    - cd kauri-ops
+    - source env_setup.sh --config-file config/config-dev2.json
+    - cd ..
+    - gcloud config set project $GOOGLE_PROJECT_ID
+    - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
+    - kubectl config set-context $(kubectl config current-context) --namespace=${TARGET_ENV}
+    script:
+    - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head
+      -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
+    - cd scripts
+    - if [ "$AUTHOR_NAME" != "Travis CI User" ]; then bash ./deploy.sh ${FRONTEND_VERSION}-SNAPSHOT-DEV2;
       fi
   - stage: git-tag
     if: "(NOT type IN (pull_request) AND (branch = master))"

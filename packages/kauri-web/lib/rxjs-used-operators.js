@@ -6,6 +6,7 @@ import {
   reduce,
   map,
   mapTo,
+  concat,
   mergeMap,
   mergeMapTo,
   switchMap,

@@ -24,7 +24,7 @@
     "bs-webapi": "^0.11.0",
     "dependency-env": "^0.1.1",
     "moment": "2.20.1",
-    "next": "7.0.0-canary.11",
+    "next": "7.0.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-share": "^2.2.0",
@@ -84,7 +84,7 @@
     "reason-react": "^0.5.0",
     "storybook-chromatic": "latest",
     "vrroom": "glennsl/vrroom",
-    "webpack": "4.17.1"
+    "webpack": "4.19.0"
   },
   "_registry": "npm",
   "_loc": "/Users/rej156/Documents/flow-frontend-boilerplate/node_modules/kauri-components/package.json",
