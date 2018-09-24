@@ -11,20 +11,24 @@ export const initSmartContracts = web3 => {
   if (typeof web3 !== 'undefined') {
     const smartContractNames = ['KauriCore', 'Wallet', 'Community']
     const smartContractFetchObservables = smartContractNames.map(smartContractName =>
-      Observable.fromPromise(request.get(`https://${config.getApiURL()}/smartcontract/${smartContractName}/all`)))
+      Observable.fromPromise(
+        request
+          .get(`https://${config.getApiURL()}/smartcontract/${smartContractName}/all`)
+          .then(({ body }) => body)
+      )
+    )
     const smartContractsToDeploy = {}
 
     Observable.forkJoin(smartContractFetchObservables).map(abiJSONs => {
       smartContractNames.map((smartContractName) => {
-        const smartContractWithProvider = contract(abiJSONs[smartContractName]).setProvider(web3.currentProvider)
-        smartContractsToDeploy[smartContractName] = smartContractWithProvider.deployed()
+        const fetchedSmartContract = abiJSONs.find((abiJSON) => abiJSON.contractName === smartContractName)
+        const smartContractWithProvider = contract(fetchedSmartContract)
+        smartContractWithProvider.setProvider(web3.currentProvider)
+        smartContractWithProvider.deployed()
+        smartContractsToDeploy[smartContractName] = smartContractWithProvider
       })
       return smartContractsToDeploy
-    }).concat(...Object.values(smartContractsToDeploy))
-      .reduce((current, next, index) => {
-        current[Object.keys(smartContractsToDeploy)[index]] = next
-        return current
-      }, {})
+    })
       .subscribe(result => {
         smartContracts = result
         window.smartContracts = result
