@@ -14,6 +14,7 @@ import Input from '../../../../kauri-components/components/Input/Input'
 import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
 import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton'
 import setImageUploader from '../../common/ImageUploader'
+import AddSection from './AddSection'
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 
@@ -169,6 +170,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
           </CreateCollectionMetaDetails>
         </Stack>
       </PrimaryHeaderSection>
+      <AddSection values={values} />
       <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} />
     </Form>
   </Section>

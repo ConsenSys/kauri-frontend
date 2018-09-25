@@ -13,11 +13,15 @@ export type FormState = {
   // description: string,
 }
 
+const emptySection: SectionDTO = { name: '', description: undefined, resourcesId: [], resources: undefined }
+
 export default compose(
   withFormik({
     mapPropsToValues: () => ({
       name: '',
-      sections: [],
+      sections: [
+        emptySection,
+      ],
       background: undefined,
       description: undefined,
       // description: '',
