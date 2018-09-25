@@ -13,6 +13,7 @@ import CuratorHeaderLabel from '../../../../kauri-components/components/Typograp
 import Input from '../../../../kauri-components/components/Input/Input'
 import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
 import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton'
+import setImageUploader from '../../common/ImageUploader'
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 
@@ -29,7 +30,8 @@ type Props = {
     description: ?string
   },
   values: FormState,
-  isSubmitting: boolean
+  isSubmitting: boolean,
+  setFieldValue: (string, any) => void
 }
 
 const Section = styled.section`
@@ -103,7 +105,14 @@ const ErrorMessageRenderer = styled.h2`
   color: #ffffff !important;
 `
 
-export default ({ touched, errors, values, isSubmitting }: Props) =>
+const handleBackgroundSetFormField = (setFieldValue) => () => setImageUploader(
+  (payload) => {
+    setFieldValue('background', payload.background.background)
+  },
+  'background'
+)
+
+export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props) =>
   <Section>
     <Form>
       <ActionsSection>
@@ -111,7 +120,9 @@ export default ({ touched, errors, values, isSubmitting }: Props) =>
           <TertiaryButton icon={<img src='https://png.icons8.com/flat_round/50/000000/back.png' />}>Cancel Collection</TertiaryButton>
         </Stack>
         <Stack alignItems={['', 'center']} justifyContent={['', 'center']}>
-          <TertiaryButton icon={<UploadIcon />} handleClick={() => alert('clicked')}>Background Image</TertiaryButton>
+          <TertiaryButton icon={<UploadIcon />} handleClick={handleBackgroundSetFormField(setFieldValue)}>
+            Background Image
+          </TertiaryButton>
         </Stack>
         <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
           <PrimaryButton disabled={isSubmitting} type='submit'>Create</PrimaryButton>
