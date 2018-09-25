@@ -43,7 +43,6 @@ let renderArticleCards = (~response) =>
       content
       |> Js.Array.map(article => {
            open Article_Resource;
-           Js.log(article.attributes);
            let {
              articleId,
              articleVersion,
@@ -53,6 +52,7 @@ let renderArticleCards = (~response) =>
              date,
              username,
              userId,
+             background
            } =
              make(article);
            <ArticleCard
@@ -66,6 +66,7 @@ let renderArticleCards = (~response) =>
              date
              username={Some(username)}
              userId
+             imageURL={Js.Nullable.toOption(background)}
              linkComponent=(
                (childrenProps, route) =>
                  <Link

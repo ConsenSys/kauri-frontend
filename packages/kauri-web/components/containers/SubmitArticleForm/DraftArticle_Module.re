@@ -7,9 +7,9 @@ module DraftArticle = {
   let actionType = "DRAFT_ARTICLE";
 
   [@bs.deriving abstract]
-  type metadata = {
-    [@bs.as "FOR_VERSION"]
-    forVersion: option(string),
+  type attributes = {
+    [@bs.as "background"]
+    background: option(string),
   };
 
   [@bs.deriving abstract]
@@ -57,26 +57,26 @@ let draftArticleEpic =
             ->DraftArticle.payloadGet
             ->DraftArticle.(idGet, subjectGet, textGet);
 
-          let metaDataResult =
+          let attributesResult =
             switch (
               draftArticleAction
               ->DraftArticle.payloadGet
-              ->DraftArticle.metadataGet
-              ->DraftArticle.forVersionGet
+              ->DraftArticle.attributesGet
+              ->DraftArticle.backgroundGet
             ) {
             | Some("") => "{}"
-            | Some(forVersion) => {j|{"FOR_VERSION": "$(forVersion)"}|j}
+            | Some(background) => {j|{"background": "$(background)"}|j}
             | None => "{}"
             };
 
-          let metadataString = metaDataResult;
+          let attributesString = attributesResult;
 
           let draftArticleMutation =
             Article_Queries.DraftArticle.make(
               ~id=resourceID,
               ~subject,
               ~text,
-              ~metadata=Js.Json.parseExn(metadataString),
+              ~attributes=Js.Json.parseExn(attributesString),
               (),
             );
 

@@ -60,6 +60,7 @@ let renderArticleCards = (~response) =>
              articleId
              articleVersion
              cardHeight=500
+             imageURL=None
              linkComponent=(
                (childrenProps, route) =>
                  <Link useAnchorTag=true linkComponent route>
