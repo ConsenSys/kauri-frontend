@@ -172,8 +172,8 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
       </PrimaryHeaderSection>
       <ContentSection>
         <AddSection values={values} />
+        <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} />
       </ContentSection>
 
-      {/* <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} /> */}
     </Form>
   </Section>

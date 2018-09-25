@@ -26,22 +26,16 @@ export default ({ values }: *) =>
               <br />
 
               {
-                section && section.resourcesId && section.resourcesId.map(
+                section && section.resourcesId && Array.isArray(section.resourcesId) && section.resourcesId.map(
                   (resource, resourceIndex) =>
                   <>
                     <Field type='text' placeholder='Section Resource ID' name={`sections[${index}].resourcesId[${resourceIndex}].id`} />
-                    <button
-                      type='button'
-                      onClick={() =>
-                        arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${resourceIndex + 1}]`, emptyArticleResource)} // insert new empty resource after existing
-                    >
-                      Add resource
-                    </button>
+
                     <button
                       type='button'
                       onClick={() =>
                         arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId`,
-                          Array.isArray(section.resourcesId) && R.drop(resourceIndex, section.resourcesId))} // Remove current resource index
+                          Array.isArray(section.resourcesId) && (!resourceIndex ? section.resourcesId.splice(1) : R.remove(resourceIndex, resourceIndex, section.resourcesId)))} // Remove current resource index
                     >
                       Remove resource
                     </button>
@@ -49,6 +43,13 @@ export default ({ values }: *) =>
                   </>
                 )
               }
+              <button
+                type='button'
+                onClick={() =>
+                  arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${values.sections[index].resourcesId.length}]`, emptyArticleResource)} // insert new empty resource after existing
+              >
+                      Add resource
+              </button>
 
             </div>
           ))
