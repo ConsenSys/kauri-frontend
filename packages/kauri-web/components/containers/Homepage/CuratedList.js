@@ -72,6 +72,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
             switch (card && card.resourceIdentifier && typeof card.resourceIdentifier.type === 'string' && card.resourceIdentifier.type) {
               case 'ARTICLE': {
                 const articleCard: ArticleDTO = card
+                console.log(articleCard);
                 return (
                   <ArticleCard
                     changeRoute={routeChangeAction}
@@ -84,6 +85,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     articleId={articleCard.id}
                     articleVersion={articleCard.version}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
+                    imageURL={articleCard.attributes && articleCard.attributes.background}
                     linkComponent={(childrenProps, route) => (
                       <Link toSlug={route.includes('article') && articleCard.title} useAnchorTag route={route}>
                         {childrenProps}
