@@ -71,8 +71,6 @@ class ApprovedArticle extends React.Component<Props, State> {
     })
     const hostName = `https://${props.hostName}`
 
-    console.log(this.props);
-
     return (
       <ArticleContent>
         <Helmet>

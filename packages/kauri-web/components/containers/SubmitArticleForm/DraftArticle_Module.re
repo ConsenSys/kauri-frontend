@@ -19,7 +19,7 @@ module DraftArticle = {
     text: string,
     category: string,
     sub_category: string,
-    metadata,
+    attributes,
     request_id: string,
   };
 

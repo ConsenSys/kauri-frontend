@@ -43,6 +43,7 @@ let renderArticleCards = (~response) =>
       content
       |> Js.Array.map(article => {
            open Article_Resource;
+           Js.log(article.attributes);
            let {
              articleId,
              articleVersion,
