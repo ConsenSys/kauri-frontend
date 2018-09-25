@@ -5,6 +5,10 @@ import GreenArrow from '../../common/GreenArrow'
 import { ActionBadge } from '../../common/ActionBadge'
 import { PositiveRequestActionBadge } from '../../common/ActionButton';
 import TriggerImageUploader from '../../common/ImageUploader';
+import { AddTagButton, PrimaryButton, TertiaryButton } from '../../../../kauri-components/components/Button';
+import Stack from 'stack-styled';
+const UploadIcon = () => <img src='https://png.icons8.com/color/50/000000/upload.png' />;
+
 
 const SubmitArticleFormActions = styled.section`
   display: flex;
@@ -46,11 +50,9 @@ export default ({
       <GreenArrow direction={'left'} />
       <span>Cancel Article</span>
     </ActionBadge>
-    <ContainerRow
-      onClick={() => setupImageUploader(setFieldsValue, getFieldDecorator)}
-      style={{ color: 'white' }}>
-        UPLOAD BACKGROUND
-    </ContainerRow>
+      <Stack alignItems={['', 'center']} justifyContent={['', 'center']} style={{ alignSelf: 'center' }}>
+        <TertiaryButton icon={<UploadIcon />} handleClick={() => setupImageUploader(setFieldsValue, getFieldDecorator)}>Upload Background</TertiaryButton>
+      </Stack>
     <ContainerRow>
       <PositiveRequestActionBadge type='secondary' action={handleSubmit('draft')}>
         <span>Save draft</span>

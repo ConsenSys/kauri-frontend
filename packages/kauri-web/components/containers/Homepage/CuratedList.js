@@ -72,7 +72,6 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
             switch (card && card.resourceIdentifier && typeof card.resourceIdentifier.type === 'string' && card.resourceIdentifier.type) {
               case 'ARTICLE': {
                 const articleCard: ArticleDTO = card
-                console.log(articleCard);
                 return (
                   <ArticleCard
                     changeRoute={routeChangeAction}
