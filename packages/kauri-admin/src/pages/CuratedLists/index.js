@@ -3,6 +3,8 @@ import WebService from '../../components/WebService';
 import { CreateCuratedList, AddItemToList, AddHeader } from '../../components/modals';
 import { ScaleLoader } from 'react-spinners';
 import CuratedList from '../../../../kauri-components/components/Homepage/CuratedList';
+import {Button} from '../../components/common/button.js';
+// import CuratedList from '../../components/CuratedList';
 import styled from "styled-components";
 
 const Sidebar = styled.div`
@@ -31,7 +33,7 @@ const ListWrapper = styled.div`
     box-shadow: 0px 0px 0px 2px #00d2ec;
     z-index: 9;
 
-    & > .delete-list-button {
+    & > .list-button {
       opacity: 1;
     }
   }
@@ -52,6 +54,24 @@ const DeleteList = styled.div`
 
   &:hover {
     background: red;
+  }
+`;
+
+const AddToList = styled.div`
+  transition: all 0.3s;
+  background: lightblue;
+  color: white;
+  border-radius: 4px;
+  padding: 10px;
+  opacity: 0;
+  position: absolute;
+  top: 10px;
+  right: 110px;
+  z-index: 10;
+  cursor: pointer;
+
+  &:hover {
+    background: blue;
   }
 `;
 
@@ -108,17 +128,17 @@ class CuratedLists extends Component {
   }
 
   async searchArticles(payload) {
-    const articles = await this.state.ws.executeQuery('searchArticles', { nameContains: payload.val, latestVersion: true, status_in: ["PUBLISHED"] }, 10, payload);
+    const articles = await this.state.ws.executeQuery('searchArticles', { fullText: payload.val, latestVersion: true, statusIn: ["PUBLISHED"] }, 10, payload);
     return articles;
   }
 
   async searchRequests(payload) {
-    const requests = await this.state.ws.executeQuery('searchRequests', { nameContains: payload.val }, 10, payload);
+    const requests = await this.state.ws.executeQuery('searchRequests', { fullText: payload.val }, 10, payload);
     return requests;
   }
 
   async searchCollections(payload) {
-    const collections = await this.state.ws.executeQuery('searchCollections', { nameContains: payload.val }, 10, payload);
+    const collections = await this.state.ws.executeQuery('searchCollections', { fullText: payload.val }, 10, payload);
     return collections;
   }
 
@@ -143,11 +163,13 @@ class CuratedLists extends Component {
     return (
       <div className="curatedLists" style={{ paddingBottom: 50 }}>
         <h1 className="Title">Curated Lists</h1>
+        <Button onClick={() => this.setState({ modal: 'CreateCuratedList' })}>Create New List</Button>
         <Container>
           <ListContainer>
           {content && content.map(i =>
           <ListWrapper key={i.id} >
-            <DeleteList onClick={() => this.removeListReq({ id: i.id })} className="delete-list-button">Delete List</DeleteList>
+            <AddToList onClick={() => this.setState({ modal: 'AddItemToList', selectedList: i.id})} className="list-button">Add to List</AddToList>
+            <DeleteList onClick={() => this.removeListReq({ id: i.id })} className="list-button">Delete List</DeleteList>
             <CuratedList
               routeChangeAction={this.props.routeChangeAction}
               content={i}
@@ -157,6 +179,7 @@ class CuratedLists extends Component {
           </ListContainer>
           <Sidebar>Here you will edit the content</Sidebar>
         </Container>
+        {console.log(this.state.selectedList)}
         {!content && <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}><ScaleLoader /></div>}
         <CreateCuratedList
           createList={payload => this.createListReq(payload)}
