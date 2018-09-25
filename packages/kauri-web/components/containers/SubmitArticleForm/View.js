@@ -170,8 +170,8 @@ class SubmitArticleForm extends React.Component<Props> {
               })
             }
           } else if (submissionType === 'draft') {
-            const { id, version }: ArticleDTO = this.props.data.getArticle
             if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'DRAFT') {
+              const { id, version }: ArticleDTO = this.props.data.getArticle
               // Draft -> Draft Version updated
 
               return editArticleAction({
@@ -182,6 +182,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 sub_category,
               })
             } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.id) {
+              const { id, version }: ArticleDTO = this.props.data.getArticle
               const draftArticlePayload = {
                 id,
                 version,
