@@ -116,7 +116,7 @@ const handleBackgroundSetFormField = (setFieldValue) => () => setImageUploader(
 export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props) =>
   <Section>
     <Form>
-      <ActionsSection>
+      <ActionsSection backgroundURL={values.background}>
         <Stack alignItems={['', 'center']} >
           <TertiaryButton icon={<img src='https://png.icons8.com/flat_round/50/000000/back.png' />}>Cancel Collection</TertiaryButton>
         </Stack>
@@ -130,7 +130,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
         </Stack>
       </ActionsSection>
 
-      <PrimaryHeaderSection>
+      <PrimaryHeaderSection backgroundURL={values.background}>
         <CreateCollectionDetails mb={2}>
           <ProfileHeaderLabel header='Collection' />
           <Field type='text' name='name' render={({ field }) => <Input {...field} type='text' placeHolder='Add collection title' fontSize={5} />} />
