@@ -6,6 +6,7 @@ import Stack from 'stack-styled'
 import { space } from 'styled-system'
 import ActionsSection from '../../../../kauri-components/components/Section/ActionsSection'
 import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection'
+import ContentSection from '../../../../kauri-components/components/Section/ContentSection'
 import ProfileHeaderLabel from '../../../../kauri-components/components/PublicProfile/ProfileHeaderLabel.bs'
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs'
 import UserWidgetSmall from '../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
@@ -38,7 +39,6 @@ type Props = {
 const Section = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 0px ${props => props.theme.padding};
 `
 
 const CreateCollectionDetails = styled.div`
@@ -170,7 +170,10 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
           </CreateCollectionMetaDetails>
         </Stack>
       </PrimaryHeaderSection>
-      <AddSection values={values} />
-      <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} />
+      <ContentSection>
+        <AddSection values={values} />
+      </ContentSection>
+
+      {/* <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} /> */}
     </Form>
   </Section>

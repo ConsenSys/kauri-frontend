@@ -12,6 +12,7 @@ const TertiaryButton = styled.button`
   text-transform: uppercase;
   color: #fff;
   opacity: ${props => props.disabled ? '0.5' : '1'};
+  padding: 0px;
   > :first-child {
     height: 18px;
     width: 18px;

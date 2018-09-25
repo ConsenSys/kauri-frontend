@@ -13,7 +13,15 @@ export type FormState = {
   // description: string,
 }
 
-const emptySection: SectionDTO = { name: '', description: undefined, resourcesId: [{ type: 'ARTICLE', id: '' }], resources: undefined }
+const emptyArticleResource = { type: 'ARTICLE', id: '', version: undefined }
+
+const emptySection: SectionDTO = {
+  name: '',
+  description: undefined,
+  resourcesId: [
+    emptyArticleResource,
+  ],
+  resources: undefined }
 
 export default compose(
   withFormik({

@@ -6,7 +6,8 @@ import { bgColor } from 'styled-system'
 
 const PrimaryHeaderSectionStack = styled(Stack)`
   ${bgColor};
-  min-height: 270px;
+  height: 100%;
+  padding: 0px ${props => props.theme.padding}
 `
 
 const PrimaryHeaderSection = ({ bg = 'bgPrimary', children }) =>

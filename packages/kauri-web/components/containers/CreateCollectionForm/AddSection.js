@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { FieldArray, Field } from 'formik';
 import R from 'ramda'
 
-const emptyResource = { type: 'ARTICLE', id: '' }
-const emptySection: SectionDTO = { name: '', description: undefined, resourcesId: [emptyResource], resources: undefined }
+const emptyArticleResource = { type: 'ARTICLE', id: '', version: undefined }
+const emptySection: SectionDTO = { name: '', description: undefined, resourcesId: [emptyArticleResource], resources: undefined }
 
 export default ({ values }: *) =>
   <FieldArray
@@ -33,7 +33,7 @@ export default ({ values }: *) =>
                     <button
                       type='button'
                       onClick={() =>
-                        arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${resourceIndex + 1}]`, emptyResource)} // insert new empty resource after existing
+                        arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${resourceIndex + 1}]`, emptyArticleResource)} // insert new empty resource after existing
                     >
                       Add resource
                     </button>
