@@ -13,7 +13,7 @@ class CollectionConnection extends React.Component<Props> {
       this.props.data &&
       this.props.data.getCollection
         ? <p>Update Collection form goes here</p>
-        : <CreateCollectionForm />
+        : <CreateCollectionForm {...this.props} />
     )
   }
 }
