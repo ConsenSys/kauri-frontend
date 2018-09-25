@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import CreateCollectionForm from '../../containers/CreateCollectionForm'
 
 type Props = {
   userId: string,
@@ -12,7 +13,7 @@ class CollectionConnection extends React.Component<Props> {
       this.props.data &&
       this.props.data.getCollection
         ? <p>Update Collection form goes here</p>
-        : <p>Create Collection form goes here</p>
+        : <CreateCollectionForm />
     )
   }
 }
