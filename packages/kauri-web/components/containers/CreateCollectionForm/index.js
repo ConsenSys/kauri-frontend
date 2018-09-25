@@ -2,15 +2,15 @@
 import React from 'react'
 import { compose } from 'recompose'
 import { withFormik } from 'formik'
-import Yup from 'yup'
+import * as Yup from 'yup'
 import CreateCollectionForm from './View'
 
 export type FormState = {
-  email: string,
-  password: string,
-  newsletter: boolean,
-  editor: string,
-  test: string,
+  name: string,
+  background: ?string;
+  description: ?string;
+  sections: Array<SectionDTO>;
+  // description: string,
 }
 
 export default compose(
@@ -40,9 +40,22 @@ export default compose(
   // })
   withFormik({
     mapPropsToValues: () => ({
-      email: 'lol',
+      name: '',
+      sections: [],
+      background: undefined,
+      description: undefined,
+      // description: '',
     }),
-    handleSubmit: (values: FormState, { }) => {
+    validationSchema: Yup.object().shape({
+      name: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      description: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!'),
+    }),
+    handleSubmit: (values: FormState, { resetForm, setErrors, setSubmitting }) => {
       console.log(values)
     },
   })

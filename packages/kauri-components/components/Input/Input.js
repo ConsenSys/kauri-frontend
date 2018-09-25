@@ -77,12 +77,12 @@ export default class extends React.Component<Props, State> {
   }
 
   render () {
-    const { placeHolder, fontSize, handleChange = this.handleChange } = this.props
-    const { value } = this.state
+    const { placeHolder, fontSize, handleChange = this.handleChange, onChange, name } = this.props
+    const value = this.props.value || this.state.value
 
     return (
       <InputWrapper>
-        <Input fontWeight={500} placeholder={placeHolder} color='white' onChange={({ target: { value } }) => handleChange(value)} fontSize={fontSize} value={value} />
+        <Input fontWeight={500} placeholder={placeHolder} color='white' onChange={onChange || (({ target: { value } }) => handleChange(value))} fontSize={fontSize} value={value} name={name} />
         <UnderlineSpan fontSize={fontSize}>
           {value.replace(/ /g, '\u00a0')}
         </UnderlineSpan>

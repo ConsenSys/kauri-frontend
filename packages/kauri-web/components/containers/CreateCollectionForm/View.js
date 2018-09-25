@@ -1,31 +1,35 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Form, Field, FieldArray } from 'formik'
+import { Form, Field, FieldArray, ErrorMessage } from 'formik'
 import Stack from 'stack-styled'
 import { space } from 'styled-system'
 import ActionsSection from '../../../../kauri-components/components/Section/ActionsSection'
 import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection'
-import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
-import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
-import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton'
-import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 import ProfileHeaderLabel from '../../../../kauri-components/components/PublicProfile/ProfileHeaderLabel.bs'
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs'
 import UserWidgetSmall from '../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
 import CuratorHeaderLabel from '../../../../kauri-components/components/Typography/CuratorHeaderLabel'
 import Input from '../../../../kauri-components/components/Input/Input'
+import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
+import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton'
+// import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
+// import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 
 import type { FormState } from './index'
 
 type Props = {
   userId: string,
   touched: {
-    email: boolean
+    name: boolean,
+    description: boolean
   },
   errors: {
-    email: ?string
-  }
+    name: ?string,
+    description: ?string
+  },
+  values: FormState,
+  isSubmitting: boolean
 }
 
 const Section = styled.section`
@@ -81,7 +85,25 @@ const CreateCollectionCurators = styled.div`
 
 const UploadIcon = () => <img src='https://png.icons8.com/color/50/000000/upload.png' />
 
-export default ({ touched, errors }: Props) =>
+const DisplayFormikState = props =>
+  <div style={{ margin: '1rem 0', background: '#f6f8fa', padding: '.5rem' }}>
+    <strong>Injected Formik props (the form's state)</strong>
+    <div>
+      <code>errors:</code> {JSON.stringify(props.errors, null, 2)}
+    </div>
+    <div>
+      <code>values:</code> {JSON.stringify(props.values, null, 2)}
+    </div>
+    <div>
+      <code>isSubmitting:</code> {JSON.stringify(props.isSubmitting, null, 2)}
+    </div>
+  </div>
+
+const ErrorMessageRenderer = styled.h2`
+  color: #ffffff !important;
+`
+
+export default ({ touched, errors, values, isSubmitting }: Props) =>
   <Section>
     <Form>
       <ActionsSection>
@@ -92,21 +114,26 @@ export default ({ touched, errors }: Props) =>
           <TertiaryButton icon={<UploadIcon />} handleClick={() => alert('clicked')}>Background Image</TertiaryButton>
         </Stack>
         <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
-          <PrimaryButton type='submit'>Create</PrimaryButton>
+          <PrimaryButton disabled={isSubmitting} type='submit'>Create</PrimaryButton>
         </Stack>
       </ActionsSection>
 
       <PrimaryHeaderSection>
         <CreateCollectionDetails mb={2}>
           <ProfileHeaderLabel header='Collection' />
-          <Input placeHolder='Add collection title' fontSize={5} />
-          <Input placeHolder='Add description' fontSize={3} />
-          <AddTagButton color='white' />
+          <Field type='text' name='name' render={({ field }) => <Input {...field} type='text' placeHolder='Add collection title' fontSize={5} />} />
+          {/* <ErrorMessage name='name' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
+          <Field type='text' name='description' render={(({ field }) => <Input {...field} placeHolder='Add description' fontSize={3} />)} />
+          {/* <ErrorMessage name='description' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
+
+          {/* TODO: WAIT FOR BACKEND */}
+          {/* <AddTagButton color='white' /> */}
           <CreateCollectionActionsPlaceHolder mr={3}>
             <PrimaryButton>Follow Collection</PrimaryButton>
-            <TertiaryButton>Up vote</TertiaryButton>
+            {/* <TertiaryButton>Up vote</TertiaryButton> */}
             <TertiaryButton>Share</TertiaryButton>
           </CreateCollectionActionsPlaceHolder>
+
         </CreateCollectionDetails>
         <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
           <CreateCollectionMetaDetails mb={4}>
@@ -125,11 +152,12 @@ export default ({ touched, errors }: Props) =>
               <CuratorHeaderLabel>Curator</CuratorHeaderLabel>
               <CreateCollectionCurators mr={3}>
                 <UserWidgetSmall color='FFFFFF' username={'davodesign84'} />
-                <AddMemberButton />
+                {/* <AddMemberButton /> */}
               </CreateCollectionCurators>
             </CreateCollectionCuratorDetails>
           </CreateCollectionMetaDetails>
         </Stack>
       </PrimaryHeaderSection>
+      <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} />
     </Form>
   </Section>
