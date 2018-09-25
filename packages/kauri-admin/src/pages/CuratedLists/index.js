@@ -108,7 +108,7 @@ class CuratedLists extends Component {
   }
 
   async searchArticles(payload) {
-    const articles = await this.state.ws.executeQuery('searchArticles', { nameContains: payload.val, latest_version: true, status_in: ["PUBLISHED"] }, 10, payload);
+    const articles = await this.state.ws.executeQuery('searchArticles', { nameContains: payload.val, latestVersion: true, status_in: ["PUBLISHED"] }, 10, payload);
     return articles;
   }
 
