@@ -2,8 +2,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FieldArray, Field } from 'formik';
+import R from 'ramda'
 
-const emptySection: SectionDTO = { name: '', description: undefined, resourcesId: [], resources: undefined }
+const emptyResource = { type: 'ARTICLE', id: '' }
+const emptySection: SectionDTO = { name: '', description: undefined, resourcesId: [emptyResource], resources: undefined }
 
 export default ({ values }: *) =>
   <FieldArray
@@ -12,25 +14,46 @@ export default ({ values }: *) =>
       <div>
         {/* {console.log(arrayHelpers)} */}
         {values.sections && values.sections.length > 0 && (
-          values.sections.map((section, index) => (
+          values.sections.map((section: SectionDTO, index) => (
             <div key={index}>
-              <Field name={`sections.${index}.name`} />
+              <Field type='text' placeholder='Section Name' name={`sections.${index}.name`} />
               <button
                 type='button'
                 onClick={() => arrayHelpers.remove(index)} // remove a section from the list
               >
-            -
+              Remove section
               </button>
-              <button
-                type='button'
-                onClick={() => arrayHelpers.insert(index, emptySection)} // insert an empty string at a position
-              >
-            +
-              </button>
+              <br />
+
+              {
+                section && section.resourcesId && section.resourcesId.map(
+                  (resource, resourceIndex) =>
+                  <>
+                    <Field type='text' placeholder='Section Resource ID' name={`sections[${index}].resourcesId[${resourceIndex}].id`} />
+                    <button
+                      type='button'
+                      onClick={() =>
+                        arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${resourceIndex + 1}]`, emptyResource)} // insert new empty resource after existing
+                    >
+                      Add resource
+                    </button>
+                    <button
+                      type='button'
+                      onClick={() =>
+                        arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId`,
+                          Array.isArray(section.resourcesId) && R.drop(resourceIndex, section.resourcesId))} // Remove current resource index
+                    >
+                      Remove resource
+                    </button>
+                    <br />
+                  </>
+                )
+              }
+
             </div>
           ))
         )}
-        <button type='button' onClick={() => arrayHelpers.push('')}>
+        <button type='button' onClick={() => arrayHelpers.push(emptySection)}>
           {/* show this when user has removed all sections from the list */}
         Add a section
         </button>
