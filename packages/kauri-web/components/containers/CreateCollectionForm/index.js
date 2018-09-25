@@ -38,4 +38,12 @@ export default compose(
   //     }, 2000)
   //   },
   // })
+  withFormik({
+    mapPropsToValues: () => ({
+      email: 'lol',
+    }),
+    handleSubmit: (values: FormState, { }) => {
+      console.log(values)
+    },
+  })
 )(CreateCollectionForm)

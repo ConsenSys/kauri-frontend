@@ -15,7 +15,7 @@ storiesOf('Button', module)
     <PrimaryButton handleClick={() => alert('clicked')}>Create</PrimaryButton>
   ))
   .add('PrimaryButton with icon', () => (
-    <PrimaryButton icon={<UploadIcon />}handleClick={() => alert('clicked')}>Create</PrimaryButton>
+    <PrimaryButton icon={<UploadIcon />} handleClick={() => alert('clicked')}>Create</PrimaryButton>
   ))
   .add('PrimaryButton Disabled', () => (
     <PrimaryButton disabled handleClick={() => alert('clicked')}>Create</PrimaryButton>

@@ -89,10 +89,10 @@ export default ({ touched, errors }: Props) =>
           <TertiaryButton icon={<img src='https://png.icons8.com/flat_round/50/000000/back.png' />}>Cancel Collection</TertiaryButton>
         </Stack>
         <Stack alignItems={['', 'center']} justifyContent={['', 'center']}>
-          <TertiaryButton icon={<UploadIcon />}handleClick={() => alert('clicked')}>Background Image</TertiaryButton>
+          <TertiaryButton icon={<UploadIcon />} handleClick={() => alert('clicked')}>Background Image</TertiaryButton>
         </Stack>
         <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
-          <PrimaryButton>Create</PrimaryButton>
+          <PrimaryButton type='submit'>Create</PrimaryButton>
         </Stack>
       </ActionsSection>
 

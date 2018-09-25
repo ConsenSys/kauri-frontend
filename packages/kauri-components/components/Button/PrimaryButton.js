@@ -42,10 +42,11 @@ type Props = {
   children: React.ChildrenArray<T>,
   handleClick: any => void,
   disabled?: boolean,
+  type: string
 }
 
-export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, space = 2, color = 'white', handleClick, text, children, icon, disabled }: Props) =>
-  <PrimaryButton disabled={disabled} mr={space} onClick={handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
+export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, space = 2, color = 'white', type = 'submit', handleClick, text, children, icon, disabled }: Props) =>
+  <PrimaryButton type={type} disabled={disabled} mr={space} onClick={handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
     {icon}
     {children || text}
   </PrimaryButton>
