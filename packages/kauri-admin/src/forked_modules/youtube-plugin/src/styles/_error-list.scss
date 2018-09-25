@@ -1,0 +1,19 @@
+/*
+ * Copyright (c) 2017, Globo.com (https://github.com/globocom)
+ *
+ * License: MIT
+ */
+
+.bs-error-list {
+  list-style: none;
+  margin: 0;
+  margin-top: 0.5rem;
+  padding: 0;
+  color: #e83f26;
+  font-family: $font-default;
+  font-size: 0.875rem;
+  letter-spacing: -0.01562rem;
+  line-height: 1rem;
+  -webkit-font-smoothing: antialiased;
+  transition: all ease-in-out .20s;
+}

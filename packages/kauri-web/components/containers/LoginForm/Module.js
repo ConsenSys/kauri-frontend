@@ -62,7 +62,7 @@ export const registerEpic = (action$: Observable<RegisterAction>, store: any, { 
     Observable.fromPromise(
       request
       // http://api.dev2.kauri.io/web3auth/api/login?app_id=kauri&client_id=kauri-gateway
-        .get(`https://${config.getApiURL((store.getState().app && store.getState().app.hostName))}/web3auth/api/login?app_id=${config.appId}&client_id=${config.clientId}`)
+        .get(`https://${config.getApiURL()}/web3auth/api/login?app_id=${config.appId}&client_id=${config.clientId}`)
     )
       .map(res => res.body)
       .do(h => console.log(h))
@@ -71,7 +71,7 @@ export const registerEpic = (action$: Observable<RegisterAction>, store: any, { 
           .map((signature: string) => registerSignaturePayload(window.web3.eth.accounts[0], signature, id))
           .mergeMap((payload) =>
             request
-              .post(`https://${config.getApiURL((store.getState().app && store.getState().app.hostName))}/web3auth/api/login`)
+              .post(`https://${config.getApiURL()}/web3auth/api/login`)
               .send(payload)
           )
           .map(res => res.body)
@@ -80,14 +80,12 @@ export const registerEpic = (action$: Observable<RegisterAction>, store: any, { 
           .do(({ token }: FinalLoginResponse) => {
             console.log(token)
             console.log(window.web3.eth.accounts[0])
-            if (process.env.e2eTesting || process.env.NODE_ENV !== 'production') {
-              document.cookie = cookie.serialize('TOKEN', token, {
-                maxAge: 30 * 24 * 60 * 60, // 30 days
-              })
-              document.cookie = cookie.serialize('USER_ID', window.web3.eth.accounts[0], {
-                maxAge: 30 * 24 * 60 * 60, // 30 days
-              })
-            }
+            document.cookie = cookie.serialize('TOKEN', token, {
+              maxAge: 30 * 24 * 60 * 60, // 30 days
+            })
+            document.cookie = cookie.serialize('USER_ID', window.web3.eth.accounts[0], {
+              maxAge: 30 * 24 * 60 * 60, // 30 days
+            })
           })
           .mergeMapTo(
             Observable.of(

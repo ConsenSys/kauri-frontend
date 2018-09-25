@@ -34,12 +34,12 @@ const getApiURL = (hostName = global.window && global.window.location.host) => {
   } else if (hostName.includes('beta')) {
     apiURL = (global.window)
       ? `api.beta.kauri.io`
-      : apiURL = `monolith.uat:8080`
+      : apiURL = `monolith.uat:8081`
   } else {
     const env = hostName.split('.')[0]
     apiURL = (global.window)
       ? `api.${env}.kauri.io`
-      : apiURL = `monolith.${env}:8080`
+      : apiURL = `monolith.${env}:8081`
   }
 
   // Local config override if exists
