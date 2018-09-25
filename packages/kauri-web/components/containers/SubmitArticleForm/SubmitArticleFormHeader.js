@@ -22,7 +22,7 @@ type Props = {
   status?: string,
   subject?: ?string,
   isKauriTopicOwner: boolean,
-  metadata?: ArticleMetadataDTO,
+  attributes?: ArticleattributesDTO,
 }
 
 const errorBorderCss = css`
@@ -153,7 +153,7 @@ const SubmitArticleFormSubject = ({
   chosenSubcategory,
   subject,
   isKauriTopicOwner,
-  metadata,
+  attributes,
 }: *) => (
   <SubmitArticleFormSubjectContainer>
     <SubmitArticleFormTopicAndSubcategoryContainer>
@@ -221,7 +221,7 @@ export default ({
   subject,
   getFieldValue,
   isKauriTopicOwner,
-  metadata,
+  attributes,
 }: Props) => (
   <SubmitArticleFormHeader type='article' theme={theme} chosenCategory={category || getFieldValue('category')}>
     {category && (
@@ -236,7 +236,7 @@ export default ({
       chosenSubcategory={subCategory}
       getFieldDecorator={getFieldDecorator}
       isKauriTopicOwner={isKauriTopicOwner}
-      metadata={metadata}
+      attributes={attributes}
     />
     <SubmitArticleFormStatus status={status}>
       <strong>STATUS</strong>

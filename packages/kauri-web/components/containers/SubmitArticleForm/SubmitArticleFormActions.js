@@ -49,7 +49,7 @@ export default ({
     <ContainerRow
       onClick={() => setupImageUploader(setFieldsValue, getFieldDecorator)}
       style={{ color: 'white' }}>
-        Test
+        UPLOAD BACKGROUND
     </ContainerRow>
     <ContainerRow>
       <PositiveRequestActionBadge type='secondary' action={handleSubmit('draft')}>

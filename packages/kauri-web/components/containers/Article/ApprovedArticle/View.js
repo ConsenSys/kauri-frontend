@@ -62,6 +62,7 @@ class ApprovedArticle extends React.Component<Props, State> {
   render () {
     const props = this.props
     if (!props.data.getArticle) return
+    console.log(props.data.getArticle);
     const { title, id, content } = props.data.getArticle
     const articleContent = content[0] === '{' && JSON.parse(content).markdown ? JSON.parse(content).markdown : content
     const articleKeywords = rake(articleContent, {
@@ -69,6 +70,8 @@ class ApprovedArticle extends React.Component<Props, State> {
       delimiters: ['#', '##', '###', '####', '\n', '\n\n'],
     })
     const hostName = `https://${props.hostName}`
+
+    console.log(this.props);
 
     return (
       <ArticleContent>
