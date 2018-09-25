@@ -1,0 +1,181 @@
+html, body {
+  height: 100%;
+  font-family: Roboto;
+}
+
+.App {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+.Main {
+  height: 100%;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Title {
+  padding: 5px;
+  margin-left: 5px;
+}
+.Section {
+  padding: 5px;
+  margin: 5px;
+}
+
+.Error {
+  color: red;
+  font-weight: bold;
+}
+
+.hero-widget {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.hero-widget .icon {
+  display: block;
+  font-size: 96px;
+  line-height: 96px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.hero-widget var {
+  display: block;
+  height: 64px;
+  font-size: 64px;
+  line-height: 64px;
+  font-style: normal;
+}
+.hero-widget label {
+  font-size: 17px;
+}
+.hero-widget .options {
+  margin-top: 10px;
+}
+
+.editor {
+  font-family: Roboto;
+  font-size: 14px !important;
+  min-height: 15em;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  cursor: text;
+  padding: 16px;
+  border-radius: 2px;
+  margin-bottom: 2em;
+  box-shadow: inset 0px 1px 8px -3px #ababab;
+  background: #fefefe;
+}
+
+.paragraph,
+#megadraft-editor .DraftEditor-root,
+.megadraft-editor .DraftEditor-root,
+.megadraft-editor .toolbar {
+  font-family: Roboto-Regular, Roboto !important;
+  font-size: 14px !important;
+  letter-spacing: initial !important;
+  line-height: initial !important;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.megadraft-editor .DraftEditor-root,
+.megadraft-editor .toolbar {
+  line-height: initial !important;
+}
+
+.paragraph {
+  margin-top: 0px !important;
+}
+
+.global-search-wrapper .ant-select-selection {
+  background-color: transparent !important;
+}
+
+.ant-input-number-input-wrap > .ant-input-number-input {
+  text-align: center;
+  color: #0ba986;
+}
+.ant-calendar-picker > div > input {
+  color: #1e2428;
+  text-align: center;
+}
+
+.ant-select-dropdown-menu-item-active {
+  background-color: #fafafa;
+}
+
+.ant-select-dropdown-menu-item-selected,
+.ant-select-dropdown-menu-item-selected:hover {
+  background-color: #fafafa;
+}
+
+.has-error .ant-form-explain,
+.has-error .ant-form-split {
+  color: #f5222d;
+  padding-top: 13px;
+  font-size: 13px;
+}
+
+code,
+.solidity {
+  margin: 20px 0;
+  padding-left: 1.5em !important;
+  text-align: left;
+  line-height: 23px;
+  font-size: 14px;
+  font-family: Roboto;
+  * {
+    font-size: 14px;
+    line-height: 23px;
+    font-family: Roboto;
+  }
+}
+
+.dropdown__wrapper {
+  display: none;
+}
+
+.megadraft-editor .sidemenu__button:before {
+  background-color: #1e2428 !important;
+}
+
+.megadraft-editor .sidemenu__button--open:before {
+  background-color: #0ba986 !important;
+}
+
+.megadraft-editor .editor__link {
+  color: #0ba986 !important;
+}

@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.org/websocket-services: "kauri-admin"
+    kubernetes.io/tls-acme: "true"
+  name: kauri-admin-ingress
+  namespace: uat
+spec:
+  tls:
+  - hosts:
+    - admin.kauri.io
+    secretName: kauri-admin-tls
+  rules:
+    - host: admin.kauri.io
+      http:
+        paths:
+          - backend:
+              serviceName: kauri-admin
+              servicePort: 80
+            path: /
