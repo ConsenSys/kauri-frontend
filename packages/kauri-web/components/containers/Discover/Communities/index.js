@@ -69,7 +69,7 @@ class Communities extends Component<Props> {
       <ContentContainer>
         <Helmet>
           <title>Kauri - {pageTitle}</title>
-          <meta name='description' content={pageTitle} />
+          <meta name='description' content="Discover the most bleeding edge projects in the blockchain and open source world" />
           <meta name='keywords' content='ethereum, blockchain, learn to code, developer documentation' />
           <link rel='canonical' href={`https://${this.props.hostName}`} />
         </Helmet>
