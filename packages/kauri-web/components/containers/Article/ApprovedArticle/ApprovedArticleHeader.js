@@ -48,7 +48,7 @@ export const ApprovedArticleSubject = ({
   chosenCategory,
   chosenSubcategory,
   subject,
-  metadata,
+  attributes,
   type = 'article',
 }: *) => (
   <ApprovedArticleSubjectContainer chosenCategory={chosenCategory} type={type}>
@@ -59,7 +59,7 @@ export const ApprovedArticleSubject = ({
     <ArticleSubject chosenCategory={chosenCategory} style={{ width: '100%' }} type='article'>
       {subject}
     </ArticleSubject>
-    {/* {metadata && metadata.FOR_VERSION && <ForVersion>{`FOR VERSION ${metadata && metadata.FOR_VERSION}`}</ForVersion>} */}
+    {/* {attributes && attributes.FOR_VERSION && <ForVersion>{`FOR VERSION ${attributes && attributes.FOR_VERSION}`}</ForVersion>} */}
   </ApprovedArticleSubjectContainer>
 )
 
@@ -71,11 +71,11 @@ export const PullRight = styled.div`
 `
 
 export default ({ category, sub_category, datePublished, title, attributes }: *) => (
-  <ApprovedArticleSecondaryHeader type='article' theme={theme} chosenCategory={category}>
+  <ApprovedArticleSecondaryHeader style={{ background: attributes && attributes.background ? `url(${attributes.background.replace('dev2', 'beta')}) center center` : '#1E2428', backgroundSize: 'cover'}} type='article' theme={theme} chosenCategory={category}>
     {category && <ApprovedArticleLogo type='article' theme={theme} chosenCategory={category} />}
     <ApprovedArticleSubject
       type='article'
-      metadata={attributes}
+      attributes={attributes}
       subject={title}
       theme={theme}
       chosenCategory={category}
