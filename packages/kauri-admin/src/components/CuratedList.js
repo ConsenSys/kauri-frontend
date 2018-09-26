@@ -16,7 +16,7 @@ const Header = ({ header }) => {
   }
 };
 
-const CuratedList = ({ addItem, addHeaderModal, editCuratedList, removeHeader, removeResource, removeList, curatedList: { id, name, description, header, resources, owner_id, featured } }) =>
+const CuratedList = ({ addItem, addHeaderModal, editCuratedList, removeHeader, removeResource, removeList, content: { id, name, description, header, resources, owner_id, featured } }) =>
   <tr>
     <td><input onChange={() => editCuratedList({
       id,

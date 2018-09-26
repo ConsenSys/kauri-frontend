@@ -47,7 +47,7 @@ class SubmitArticleFormText extends React.Component<Props, State> {
       }
     } else {
       this.state = {
-        editorState: { markdown: 'Write markdown content here!', text: 'Write markdown content here' },
+        editorState: { markdown: 'Write markdown content here!', text: 'Write markdown content here!' },
       }
     }
   }

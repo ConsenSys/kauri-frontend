@@ -9,12 +9,13 @@ type author = {
 
 [@bs.deriving abstract]
 type article = {
+  attributes: Js.Nullable.t({. "background": Js.Nullable.t(string)}),
   id: string,
   authorId: string,
   datePublished: string,
   title: string,
   content: string,
-  imageURL: string,
+  imageURL: Js.Nullable.t(string),
   author,
   profileImage: Js.Nullable.t(string),
   version: int,
@@ -64,6 +65,17 @@ let make = (~name, ~description="", ~articles, _children) => {
                   key=article->idGet
                   articleId
                   articleVersion
+                  /* Js.Nullable.t({. "background": Js.Nullable.t(string)}), */
+                  imageURL={
+                    switch(article->attributesGet->Js.Nullable.toOption) {
+                    | Some(attributes) => 
+                      switch(Js.Nullable.toOption(attributes##background)) {
+                        | Some(background) => Some(background)
+                        | None => None
+                      }
+                    | None => None
+                    }
+                  }
                   linkComponent={
                     (childrenProps, route) =>
                       <Link
@@ -81,7 +93,7 @@ let make = (~name, ~description="", ~articles, _children) => {
                   title=article->titleGet
                   content=article->contentGet
                   cardHeight=500
-                  imageURL=article->imageURLGet
+                  /* imageURL=article->imageURLGet->Js.Nullable.toOption */
                   date=
                     article
                     ->datePublishedGet

@@ -22,7 +22,7 @@ type Props = {
   status?: string,
   subject?: ?string,
   isKauriTopicOwner: boolean,
-  metadata?: ArticleMetadataDTO,
+  attributes?: ArticleattributesDTO,
 }
 
 const errorBorderCss = css`
@@ -153,7 +153,7 @@ const SubmitArticleFormSubject = ({
   chosenSubcategory,
   subject,
   isKauriTopicOwner,
-  metadata,
+  attributes,
 }: *) => (
   <SubmitArticleFormSubjectContainer>
     <SubmitArticleFormTopicAndSubcategoryContainer>
@@ -212,6 +212,13 @@ const SubmitArticleFormStatus = styled.div`
   opacity: ${props => typeof props.status !== 'string' && 0.6};
 `
 
+const getBG = (getFieldValue, attributes) => {
+  const formValue = getFieldValue('attributes');
+  if (formValue && formValue.background) return `url(${formValue.background.replace('dev2', 'beta')}) center center`;
+  if (attributes && attributes.background) return `url(${attributes.background.replace('dev2', 'beta')}) center center`;
+  return '#1E2428';
+}
+
 export default ({
   category,
   subCategory,
@@ -221,9 +228,9 @@ export default ({
   subject,
   getFieldValue,
   isKauriTopicOwner,
-  metadata,
+  attributes,
 }: Props) => (
-  <SubmitArticleFormHeader type='article' theme={theme} chosenCategory={category || getFieldValue('category')}>
+  <SubmitArticleFormHeader style={{ background: getBG(getFieldValue, attributes), backgroundSize: 'cover'}} type='article' theme={theme} chosenCategory={category || getFieldValue('category')}>
     {category && (
       <SubmitArticleFormLogo type='article' theme={theme} chosenCategory={category || getFieldValue('category')} />
     )}
@@ -236,7 +243,7 @@ export default ({
       chosenSubcategory={subCategory}
       getFieldDecorator={getFieldDecorator}
       isKauriTopicOwner={isKauriTopicOwner}
-      metadata={metadata}
+      attributes={attributes}
     />
     <SubmitArticleFormStatus status={status}>
       <strong>STATUS</strong>

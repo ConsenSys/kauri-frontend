@@ -45,14 +45,14 @@ export const submitArticle = gql`
     $article_id: String
     $text: String
     $subject: String
-    $metadata: Map_String_StringScalar,
+    $attributes: Map_String_StringScalar,
     $version: Int
   ) {
     submitArticle(
       id: $article_id
       content: $text
       title: $subject
-      attributes: $metadata
+      attributes: $attributes
       version: $version
     ) {
       hash
@@ -175,7 +175,7 @@ export const globalSearchApprovedArticles = gql`
 
 export const searchPersonalSubmittedArticles = gql`
   query searchPersonalSubmittedArticles($size: Int = 500, $userId: String) {
-    searchArticles(size: $size, dir: DESC, filter: { authorIdEquals: $userId }) {
+    searchArticles(size: $size, dir: DESC, filter: { authorIdEquals: $userId, statusIn: [PUBLISHED], latestVersion: true, }) {
       content {
         ...Article
       }

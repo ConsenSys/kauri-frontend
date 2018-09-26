@@ -60,6 +60,14 @@ let keyGet = article =>
 let articleIdGet = article => article |? (x => x##id) |> default("");
 let articleVersionGet = article => article |? (x => x##version) |> default(1);
 
+let backgroundGet = article =>
+  article
+  |? (article => article##attributes)
+  |? (article => Js.Json.decodeObject(article))
+  |? (attributes => Js.Dict.get(attributes, "background"))
+  |? (background => Js.Json.decodeString(background))
+  |> (background => Js.Nullable.fromOption(background));
+
 let titleGet = article =>
   article |? (article => article##title) |> default("");
 
@@ -75,10 +83,11 @@ type articleResource = {
   date: string,
   username: string,
   userId: string,
+  background: Js.Nullable.t(string),
 };
 
 let make = article => {
-  let (key, articleId, articleVersion, title, content, date, username, userId) =
+  let (key, articleId, articleVersion, title, content, date, username, userId, background) =
     article
     ->(
         keyGet,
@@ -89,8 +98,9 @@ let make = article => {
         dateUpdatedGet,
         usernameGet,
         userIdGet,
+        backgroundGet,
       );
-  {key, articleId, articleVersion, title, content, date, username, userId};
+  {key, articleId, articleVersion, title, content, date, username, userId, background};
 };
 
 /* Extra getters  */

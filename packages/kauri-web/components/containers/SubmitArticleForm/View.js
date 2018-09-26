@@ -1,15 +1,14 @@
 // @flow
-import React from 'react'
-import styled from 'styled-components'
-import { Form } from 'antd'
-import SubmitArticleFormActions from './SubmitArticleFormActions'
-import SubmitArticleFormHeader from './SubmitArticleFormHeader'
-import SubmitArticleFormContent from './SubmitArticleFormContent'
-import { formatMetadata } from './Module'
-import ScrollToTopButton from '../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton'
+import React from 'react';
+import { Form } from 'antd';
+import SubmitArticleFormActions from './SubmitArticleFormActions';
+import SubmitArticleFormHeader from './SubmitArticleFormHeader';
+import SubmitArticleFormContent from './SubmitArticleFormContent';
+import { AttributesPayload } from './Module';
+import ScrollToTopButton from '../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton';
 
-import type { EditArticlePayload, SubmitArticlePayload } from './Module'
-import type { ShowNotificationPayload } from '../../../lib/Module'
+import type { EditArticlePayload, SubmitArticlePayload } from './Module';
+import type { ShowNotificationPayload } from '../../../lib/Module';
 
 type Owner = {
   id: string,
@@ -46,7 +45,7 @@ type Props =
       username?: ?string,
     }
 
-type SubmitArticleVariables = { subject: string, text: string, owner: ?Owner, sub_category?: string, version?: string }
+type SubmitArticleVariables = { subject: string, text: string, owner: ?Owner, sub_category?: string, version?: string, attributes: AttributesPayload }
 
 class SubmitArticleForm extends React.Component<Props> {
   static Header = SubmitArticleFormHeader
@@ -93,7 +92,7 @@ class SubmitArticleForm extends React.Component<Props> {
   handleSubmit = (submissionType: string) => (e: any) => {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll(
-      async (formErr, { text, subject, sub_category, owner, version }: SubmitArticleVariables) => {
+      async (formErr, { text, subject, sub_category, attributes }: SubmitArticleVariables) => {
         const { networkName } = await this.getNetwork()
         if (networkName !== 'Rinkeby' && networkName !== 'Kauri Dev') {
           return this.props.showNotificationAction({
@@ -121,12 +120,12 @@ class SubmitArticleForm extends React.Component<Props> {
             //       subject,
             //       category: data.getRequest.category,
             //       sub_category: data.getRequest.sub_category,
-            //       metadata: formatMetadata({ version }),
+            //       attributes,
             //     })
             //   }
             // }
             if (typeof article_id === 'string' && submissionType === 'submit/update') {
-              const { id, version, status }: ArticleDTO = this.props.data.getArticle
+              const { id, version, status }: ArticleDTO = this.props.data && this.props.data.getArticle;
 
               if (status === 'PUBLISHED') {
                 // Here I am really submitting a new article with updates for an already existing article!
@@ -135,7 +134,7 @@ class SubmitArticleForm extends React.Component<Props> {
                   id,
                   text,
                   subject,
-                  metadata: formatMetadata({ version }),
+                  attributes,
                   selfPublish: true,
                 })
               } else if (status === 'DRAFT') {
@@ -147,6 +146,7 @@ class SubmitArticleForm extends React.Component<Props> {
                   article_version: version,
                   subject,
                   sub_category,
+                  attributes,
                 })
               }
               // else if (currentArticle.status === 'IN_REVIEW') {
@@ -165,11 +165,12 @@ class SubmitArticleForm extends React.Component<Props> {
               return submitArticleAction({
                 text,
                 subject,
-                metadata: formatMetadata({ version }),
+                attributes,
                 selfPublish: true,
               })
             }
           } else if (submissionType === 'draft') {
+            const { id, version }: ArticleDTO = this.props.data && this.props.data.getArticle;
             if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'DRAFT') {
               const { id, version }: ArticleDTO = this.props.data.getArticle
               // Draft -> Draft Version updated
@@ -180,6 +181,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 article_version: version,
                 subject,
                 sub_category,
+                attributes,
               })
             } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.id) {
               const { id, version }: ArticleDTO = this.props.data.getArticle
@@ -188,7 +190,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 version,
                 subject,
                 text,
-                metadata: formatMetadata({ version }),
+                attributes,
               }
               // console.log('draftArticlePayload', draftArticlePayload)
               this.props.draftArticleAction(draftArticlePayload)
@@ -196,7 +198,7 @@ class SubmitArticleForm extends React.Component<Props> {
               const draftArticlePayload = {
                 subject,
                 text,
-                metadata: formatMetadata({ version }),
+                attributes,
               }
               // console.log('draftArticlePayload', draftArticlePayload)
               this.props.draftArticleAction(draftArticlePayload)
@@ -219,7 +221,7 @@ class SubmitArticleForm extends React.Component<Props> {
   }
 
   render () {
-    const { routeChangeAction, isKauriTopicOwner } = this.props
+    const { routeChangeAction, isKauriTopicOwner, form } = this.props;
 
     return (
       <Form>
@@ -250,7 +252,7 @@ class SubmitArticleForm extends React.Component<Props> {
           }
           status={this.props.data && this.props.data.getArticle && this.props.data.getArticle.status}
           subject={this.props.data && this.props.data.getArticle && this.props.data.getArticle.title}
-          metadata={this.props.data && this.props.data.getArticle && this.props.data.getArticle.attributes}
+          attributes={this.props.data && this.props.data.getArticle && this.props.data.getArticle.attributes}
           isKauriTopicOwner={isKauriTopicOwner}
         />
         <SubmitArticleForm.Content

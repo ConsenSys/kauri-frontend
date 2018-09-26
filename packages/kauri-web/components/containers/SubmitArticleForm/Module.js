@@ -9,21 +9,20 @@ import { publishArticleAction } from './PublishArticle_Module.bs'
 import type { Classification } from '../Link/Module'
 import type { Dependencies } from '../../../lib/Module'
 
-export type MetadataPayload = {
+export type AttributesPayload = {
   version?: string,
+  background?: string,
 }
 
 export type SubmitArticlePayload = {
   article_id?: string,
   subject: string,
   text: string,
-  metadata?: MetadataPayload,
+  attributes?: AttributesPayload,
   selfPublish?: boolean,
 }
 
-export type EditArticlePayload = { article_id: string, article_version: number, text: string, subject: string }
-
-export const formatMetadata = ({ version }: MetadataPayload) => ({ FOR_VERSION: version })
+export type EditArticlePayload = { article_id: string, article_version: number, text: string, subject: string, attributes: AttributesPayload }
 
 export type SubmitArticleAction = { type: 'SUBMIT_ARTICLE', payload: SubmitArticlePayload }
 
@@ -50,7 +49,7 @@ export const submitArticleEpic = (
 ) =>
   action$
     .ofType(SUBMIT_ARTICLE)
-    .switchMap(({ payload: { request_id, text, subject, article_id, metadata, selfPublish } }) =>
+    .switchMap(({ payload: { request_id, text, subject, article_id, attributes, selfPublish } }) =>
       Observable.fromPromise(
         apolloClient.mutate({
           mutation: submitArticle,
@@ -58,7 +57,7 @@ export const submitArticleEpic = (
             article_id,
             text,
             subject,
-            metadata,
+            attributes,
           },
         })
       )
@@ -95,7 +94,7 @@ export const submitArticleEpic = (
               ),
               trackMixpanelAction({
                 event: 'Offchain',
-                metaData: {
+                attributes: {
                   resource: 'article',
                   resourceID: id,
                   resourceVersion: version,
@@ -134,7 +133,7 @@ export const editArticleEpic = (
       Observable.fromPromise(
         apolloClient.mutate({
           mutation: editArticle,
-          variables: { article_id, article_version, text, subject },
+          variables: { article_id, article_version, text, subject, attributes },
         })
       )
         .flatMap(({ data: { editArticleVersion: { hash } } }: { data: { editArticle: { hash: string } } }) =>
@@ -146,7 +145,7 @@ export const editArticleEpic = (
             routeChangeAction(`/article/${id}/v${version}/article-updated`),
             trackMixpanelAction({
               event: 'Offchain',
-              metaData: {
+              attributes: {
                 resource: 'article',
                 resourceID: id,
                 resourceVersion: version,

@@ -100,7 +100,7 @@ let make =
       ~content: string,
       ~articleId,
       ~articleVersion,
-      ~imageURL=?,
+      ~imageURL,
       ~pageType=?,
       ~linkComponent=?,
       ~username,
@@ -171,6 +171,7 @@ type jsProps = {
   username: Js.Nullable.t(string),
   userId: string,
   cardHeight: int,
+  imageURL: Js.Nullable.t(string)
 };
 
 let default =
@@ -182,6 +183,7 @@ let default =
       ~title=jsProps->titleGet,
       ~content=jsProps->contentGet,
       ~username=jsProps->usernameGet->Js.Nullable.toOption,
+      ~imageURL=jsProps -> imageURLGet -> Js.Nullable.toOption,
       ~userId=jsProps->userIdGet,
       ~cardHeight=jsProps->cardHeightGet,
       ~linkComponent=jsProps->linkComponentGet,
