@@ -92,7 +92,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                 )
               case 'COLLECTION':
                 const articles = card.sections.reduce((acc, item) => {
-                  if(typeof item.length === 'number') acc += item.length;
+                  if (typeof item.length === 'number') acc += item.length;
                   return acc
                 }, 0)
                 return (
@@ -105,7 +105,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     articles={articles}
                     lastUpdated={moment(card.dateCreated).fromNow()}
                     collectionId={card.id}
-                    imageURL={card.background}
+                    imageURL={card.background && card.background.replace('dev2', 'beta')}
                     profileImage={card.profileImage}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     collectionDescription={card.description}

@@ -7,6 +7,7 @@ import { bgColor, height } from 'styled-system'
 const ActionsSectionStack = styled(Stack)`
   ${bgColor};
   ${height};
+  padding: 0px ${props => props.theme.padding};
 `
 
 const ActionsSection = ({ height = '50px', bg = 'bgPrimary', children }) =>

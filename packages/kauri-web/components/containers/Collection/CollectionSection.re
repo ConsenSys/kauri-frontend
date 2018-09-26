@@ -115,7 +115,7 @@ let make = (~name, ~description="", ~articles, _children) => {
 [@bs.deriving abstract]
 type jsProps = {
   name: string,
-  description: string,
+  description: Js.Nullable.t(string),
   articles: Js.Nullable.t(array(article)),
 };
 
@@ -123,7 +123,11 @@ let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
       ~name=jsProps->nameGet,
-      ~description=jsProps->descriptionGet,
+      ~description=
+        Belt.Option.getWithDefault(
+          jsProps->descriptionGet |> Js.Nullable.toOption,
+          "",
+        ),
       ~articles=jsProps |> articlesGet |> Js.Nullable.toOption,
       [||],
     )

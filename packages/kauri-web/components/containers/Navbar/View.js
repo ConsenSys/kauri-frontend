@@ -119,8 +119,9 @@ const Chevron = styled.span`
 `
 
 const TooltipDivider = styled.div`
-width: 100%;
-border: 1px solid #f2f2f2`;
+  width: 100%;
+  border: 1px solid #f2f2f2;
+`
 
 const deleteAllCookies = callback => {
   let cookies = document.cookie.split(';')
@@ -205,19 +206,19 @@ class Navbar extends React.Component {
             }
           >
             <TooltipItemContainer>
-              <Link route="/communities">
+              <Link route='/communities'>
                 <TooltipItem href='/communities' pathname={router.pathname} link='/communities'>
                  Discover Communities
                 </TooltipItem>
               </Link>
               <TooltipDivider />
-              <Link route="/collections">
+              <Link route='/collections'>
                 <TooltipItem href='/collections' pathname={router.pathname} link='/collections'>
                  Discover Collections
                 </TooltipItem>
               </Link>
               <TooltipDivider />
-              <Link route="/articles">
+              <Link route='/articles'>
                 <TooltipItem href='/articles' pathname={router.pathname} link='/articles'>
                  Discover Articles
                 </TooltipItem>
@@ -225,7 +226,6 @@ class Navbar extends React.Component {
             </TooltipItemContainer>
           </Tooltip>
         </StyledMenuItem>
-        
 
         {/* <StyledMenuItem onlyDesktop key='/requests'>
           <Link href='/requests'>
@@ -257,6 +257,16 @@ class Navbar extends React.Component {
                   Write Article
                 </TooltipItem>
               </Link>
+              {userId && (
+                <>
+                  <TooltipDivider />
+                  <Link route={'/create-collection'}>
+                    <TooltipItem href='/create-collection' pathname={router.pathname} link='/create-collection'>
+                    Create Collection
+                    </TooltipItem>
+                  </Link>
+                </>
+              )}
               {/* <Link route={userId ? '/create-request' : '/login'}>
                 <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>
                   Write Request

@@ -8,7 +8,6 @@ import { Link } from '../../../../routes';
 import moment from 'moment';
 import userIdTrim from '../../../../lib/userid-trim';
 
-
 type Props = {
   data: {
     searchArticles?: {
@@ -83,7 +82,7 @@ class Collections extends Component<Props> {
       <ContentContainer>
         <Helmet>
           <title>Kauri - {pageTitle}</title>
-          <meta name='description' content="Discover the best collections of blockchain related articles, tutorials and how-to guides" />
+          <meta name='description' content='Discover the best collections of blockchain related articles, tutorials and how-to guides' />
           <meta name='keywords' content='ethereum, blockchain, learn to code, developer documentation' />
           <link rel='canonical' href={`https://${this.props.hostName}`} />
         </Helmet>
@@ -93,32 +92,32 @@ class Collections extends Component<Props> {
           <CollectionSearch />
         </CollectionsHeader>
         <CollectionsContainer>
-        {searchCollections.content.map(collection => {
-          const articleCount = collection.sections && collection.sections.reduce(
-          (current, next) => {
-            current += next.resources && next.resources.length
-            return current
-          }, 0);
-          return <CollectionCard
-            changeRoute={this.props.routeChangeAction}
-            key={collection.id}
-            collectionName={collection.name}
-            username={collection.owner && (collection.owner.name || userIdTrim(collection.owner.id))}
-            userId={collection.owner && collection.owner.id}
-            articles={articleCount}
-            lastUpdated={moment(collection.dateCreated).fromNow()}
-            collectionId={collection.id}
-            imageURL={collection.background}
-            profileImage={collection.profileImage}
-            cardHeight={500}
-            collectionDescription={collection.description}
-            linkComponent={(childrenProps, route) => (
-              <Link toSlug={route.includes('collection') && collection.name} useAnchorTag route={route}>
-                {childrenProps}
-              </Link>
-            )}
-          />
-        })}
+          {searchCollections.content.map(collection => {
+            const articleCount = collection.sections && collection.sections.reduce(
+              (current, next) => {
+                current += next.resources && next.resources.length
+                return current
+              }, 0);
+            return <CollectionCard
+              changeRoute={this.props.routeChangeAction}
+              key={collection.id}
+              collectionName={collection.name}
+              username={collection.owner && (collection.owner.name || userIdTrim(collection.owner.id))}
+              userId={collection.owner && collection.owner.id}
+              articles={articleCount}
+              lastUpdated={moment(collection.dateCreated).fromNow()}
+              collectionId={collection.id}
+              imageURL={collection.background && collection.background.replace('dev2', 'beta')}
+              profileImage={collection.profileImage}
+              cardHeight={500}
+              collectionDescription={collection.description}
+              linkComponent={(childrenProps, route) => (
+                <Link toSlug={route.includes('collection') && collection.name} useAnchorTag route={route}>
+                  {childrenProps}
+                </Link>
+              )}
+            />
+          })}
         </CollectionsContainer>
       </ContentContainer>
     )

@@ -15,6 +15,7 @@ const Input = styled.input`
   border: none;
   background: transparent;
   width: 100%;
+  text-align: ${props => props.textAlign};
   ${fontSize};
   ${fontWeight};
   ${color};
@@ -29,7 +30,7 @@ const Input = styled.input`
     outline: none;
   }
   ::-webkit-input-placeholder {
-    color: #fff;
+    ${color};
     text-decoration: underline;
     text-decoration-color: ${props => props.theme.colors.primary};
   }
@@ -37,7 +38,7 @@ const Input = styled.input`
     text-indent: -999px;
   }
   ::-moz-placeholder {
-    color: #fff;
+    ${color};
   }
   :focus::-moz-placeholder {
     text-indent: -999px;
@@ -77,15 +78,15 @@ export default class extends React.Component<Props, State> {
   }
 
   render () {
-    const { placeHolder, fontSize, handleChange = this.handleChange } = this.props
-    const { value } = this.state
+    const { color = 'white', placeHolder, fontSize, fontWeight = 500, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name, hideUnderline = false, textAlign = 'left' } = this.props
+    const value = this.props.value || this.state.value
 
     return (
       <InputWrapper>
-        <Input fontWeight={500} placeholder={placeHolder} color='white' onChange={({ target: { value } }) => handleChange(value)} fontSize={fontSize} value={value} />
-        <UnderlineSpan fontSize={fontSize}>
+        <Input onBlur={onBlur} color={color} fontWeight={fontWeight} placeholder={placeHolder} onChange={onChange} fontSize={fontSize} value={value} name={name} textAlign={textAlign} />
+        {!hideUnderline && <UnderlineSpan fontSize={fontSize}>
           {value.replace(/ /g, '\u00a0')}
-        </UnderlineSpan>
+        </UnderlineSpan> }
       </InputWrapper>
     )
   }
