@@ -161,9 +161,8 @@ export const globalSearchApprovedCategoryArticles = gql`
 `
 
 export const globalSearchApprovedArticles = gql`
-  query globalSearchApprovedArticles($size: Int = 500, $text: String) {
-    searchArticles(size: $size, dir: DESC, filter: { fullText: $text, statusIn: [PUBLISHED] }) {
-      totalElements
+  query globalSearchApprovedArticles($size: Int = 100, $text: String) {
+    searchArticles(size: $size, sort: "title", dir: DESC, filter: { fullText: $text, statusIn: [PUBLISHED] }) {
       content {
         ...Article
       }

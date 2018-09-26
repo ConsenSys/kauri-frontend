@@ -4,19 +4,19 @@ import { connect } from 'react-redux'
 import withData from '../lib/with-data'
 import { routeChangeAction } from '../lib/Module'
 import App from '../layouts/App'
-import Communities from '../components/containers/Discover/Communities'
+import Collections from '../components/containers/Discover/Collections'
 import { withRouter } from 'next/router';
 
-const ConnectedCommunities = connect(
+const Connectedcollections = connect(
   () => ({}),
   { routeChangeAction }
-)(Communities)
+)(Collections)
 
-class CommunitiesPage extends React.Component {
+class CollectionsPage extends React.Component {
   render() {
     return (
       <App url={this.props.router}>
-        <ConnectedCommunities routeChangeAction={this.props.routeChangAction} url={this.props.router} />
+        <Connectedcollections routeChangeAction={this.props.routeChangAction} url={this.props.router} />
       </App>
     )
   }
@@ -28,4 +28,4 @@ export default compose(
   // withApollo exposes `this.props.client` used when logging out
   withApollo,
   withRouter,
-)(CommunitiesPage)
+)(CollectionsPage)

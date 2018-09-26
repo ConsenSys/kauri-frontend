@@ -118,6 +118,11 @@ const Chevron = styled.span`
   margin-left: 10px;
 `
 
+const TooltipDivider = styled.div`
+  width: 100%;
+  border: 1px solid #f2f2f2;
+`
+
 const deleteAllCookies = callback => {
   let cookies = document.cookie.split(';')
   for (let i = 0; i < cookies.length; i++) {
@@ -189,12 +194,37 @@ class Navbar extends React.Component {
           </StyledMenuItem>
         )}
 
-        <StyledMenuItem onlyDesktop key='/communities'>
-          <Link href='/communities'>
-            <Text href='/communities' pathname={router.pathname} link='/communities'>
-              Communities
-            </Text>
-          </Link>
+        <StyledMenuItem>
+          <Tooltip
+            header={
+              <Text link='/dropdown-selector-null'>
+                <CreateResourceTooltipReference>
+                  Discover
+                  <Chevron>›</Chevron>
+                </CreateResourceTooltipReference>
+              </Text>
+            }
+          >
+            <TooltipItemContainer>
+              <Link route='/communities'>
+                <TooltipItem href='/communities' pathname={router.pathname} link='/communities'>
+                 Discover Communities
+                </TooltipItem>
+              </Link>
+              <TooltipDivider />
+              <Link route='/collections'>
+                <TooltipItem href='/collections' pathname={router.pathname} link='/collections'>
+                 Discover Collections
+                </TooltipItem>
+              </Link>
+              <TooltipDivider />
+              <Link route='/articles'>
+                <TooltipItem href='/articles' pathname={router.pathname} link='/articles'>
+                 Discover Articles
+                </TooltipItem>
+              </Link>
+            </TooltipItemContainer>
+          </Tooltip>
         </StyledMenuItem>
 
         {/* <StyledMenuItem onlyDesktop key='/requests'>
@@ -229,7 +259,7 @@ class Navbar extends React.Component {
               </Link>
               {userId && (
                 <>
-                  <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
+                  <TooltipDivider />
                   <Link route={'/create-collection'}>
                     <TooltipItem href='/create-collection' pathname={router.pathname} link='/create-collection'>
                     Create Collection
