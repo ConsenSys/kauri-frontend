@@ -78,7 +78,7 @@ export const getCollectionForAnalytics = gql`
   }
 `
 
-export const GetLatestCollections = gql`
+export const getLatestCollections = gql`
   query searchCollections {
     searchCollections (size: 100) {
         content {

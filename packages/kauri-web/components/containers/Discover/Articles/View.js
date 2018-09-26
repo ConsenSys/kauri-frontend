@@ -27,21 +27,22 @@ const ContentContainer = styled.section`
 `
 
 const ArticlesHeader = styled.div`
-  background-color: #1e2428;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  color: white;
-  padding: 20px;
+background-color: ${props => props.theme.colors.primaryTextColor};
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+color: ${props => props.theme.colors.white};
+padding: ${props => props.theme.space[3]}px;
+padding-bottom: ${props => props.theme.space[5]}px;
 `
 const KauriTitle = styled.h1`
-  color: white;
-  font-weight: 300;
-  font-size: 32px;
-  margin-top: 45px;
-  margin-bottom: 12px;
+color: white;
+font-weight: 300;
+font-size: ${props => props.theme.fontSizes[5]}px;
+margin-top: ${props => props.theme.space[4]}px;
+margin-bottom: ${props => props.theme.space[3]}px;
 
   @media (max-width: 500px) {
     width: 300px;
