@@ -14,7 +14,7 @@ const withBackgroundURLCss = css`
 
 const PrimaryHeaderSectionStack = styled(Stack)`
   ${bgColor};
-  height: 100%;
+  min-height: 250px;
   padding: 0px ${props => props.theme.padding};
   ${props => props.backgroundURL && withBackgroundURLCss};
 `

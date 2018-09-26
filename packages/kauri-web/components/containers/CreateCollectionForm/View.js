@@ -116,7 +116,7 @@ const handleBackgroundSetFormField = (setFieldValue) => () => setImageUploader(
 export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props) =>
   <Section>
     <Form>
-      <ActionsSection bg={typeof values.background === 'string' && 'transparent'}>
+      <ActionsSection bg={(typeof values.background === 'string' && 'transparent') || 'bgPrimary'}>
         <Stack alignItems={['', 'center']} >
           <TertiaryButton icon={<img src='https://png.icons8.com/flat_round/50/000000/back.png' />}>Cancel Collection</TertiaryButton>
         </Stack>
