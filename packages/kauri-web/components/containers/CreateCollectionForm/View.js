@@ -153,10 +153,25 @@ type Props = {
   },
   values: FormState,
   isSubmitting: boolean,
-  setFieldValue: (string, any) => void
+  setFieldValue: (string, any) => void,
+  validateForm: () => Promise<any>,
+  showNotificationAction: ({ notificationType: string, message: string, description: string }) => void
 }
 
-export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props) =>
+const validateOnSubmit = (validateForm, showNotificationAction) => validateForm().then(errors => {
+  const capitalize = (s) => R.compose(R.toUpper, R.head)(s) + R.tail(s)
+  if (Object.keys(errors).length > 0) {
+    Object.keys(errors).map(errKey =>
+      showNotificationAction({
+        notificationType: 'error',
+        message: `${capitalize(errKey)} Validation error!`,
+        description: errors[errKey],
+      })
+    )
+  }
+})
+
+export default ({ touched, errors, values, isSubmitting, setFieldValue, validateForm, showNotificationAction }: Props) =>
   <Section>
     <Form>
       <ActionsSection bg={(typeof values.background === 'string' && 'transparent') || 'bgPrimary'}>
@@ -169,7 +184,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
           </TertiaryButton>
         </Stack>
         <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
-          <PrimaryButton disabled={isSubmitting} type='submit'>Create</PrimaryButton>
+          <PrimaryButton disabled={isSubmitting} type='submit' onClick={() => validateOnSubmit(validateForm, showNotificationAction)}>Create</PrimaryButton>
         </Stack>
       </ActionsSection>
 

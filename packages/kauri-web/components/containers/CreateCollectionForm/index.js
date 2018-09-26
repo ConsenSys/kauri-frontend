@@ -1,9 +1,11 @@
 // @flow
 import React from 'react'
+import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
 import CreateCollectionForm from './View'
+import { showNotificationAction } from '../../../lib/Module'
 
 export type FormState = {
   name: string,
@@ -24,6 +26,7 @@ const emptySection: SectionDTO = {
   resources: undefined }
 
 export default compose(
+  connect(() => ({}), { showNotificationAction }),
   withFormik({
     mapPropsToValues: () => ({
       name: '',
@@ -43,8 +46,9 @@ export default compose(
         .min(2, 'Too Short!')
         .max(50, 'Too Long!'),
     }),
-    handleSubmit: (values: FormState, { resetForm, setErrors, setSubmitting }) => {
+    handleSubmit: (values: FormState, { props, setErrors, resetForm, setSubmitting }) => {
       console.log(values)
+      console.log(props)
       // if (values.email === 'yomi@gmail.io') {
       //   setErrors({ email: 'That email is already taken' })
       // } else {
