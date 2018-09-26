@@ -223,6 +223,8 @@ class SubmitArticleForm extends React.Component<Props> {
   render () {
     const { routeChangeAction, isKauriTopicOwner, form } = this.props;
 
+    console.log(this.props);
+
     return (
       <Form>
         <ScrollToTopButton />

@@ -212,6 +212,13 @@ const SubmitArticleFormStatus = styled.div`
   opacity: ${props => typeof props.status !== 'string' && 0.6};
 `
 
+const getBG = (getFieldValue, attributes) => {
+  const formValue = getFieldValue('attributes');
+  if (formValue && formValue.background) return `url(${formValue.background.replace('dev2', 'beta')}) center center`;
+  if (attributes && attributes.background) return `url(${attributes.background.replace('dev2', 'beta')}) center center`;
+  return '#1E2428';
+}
+
 export default ({
   category,
   subCategory,
@@ -223,7 +230,7 @@ export default ({
   isKauriTopicOwner,
   attributes,
 }: Props) => (
-  <SubmitArticleFormHeader style={{ background: `url(${getFieldValue('attributes') && getFieldValue('attributes').background.replace('dev2','beta') || attributes && attributes.background.replace('dev2','beta')}) center center`, backgroundSize: 'cover'}} type='article' theme={theme} chosenCategory={category || getFieldValue('category')}>
+  <SubmitArticleFormHeader style={{ background: getBG(getFieldValue, attributes), backgroundSize: 'cover'}} type='article' theme={theme} chosenCategory={category || getFieldValue('category')}>
     {category && (
       <SubmitArticleFormLogo type='article' theme={theme} chosenCategory={category || getFieldValue('category')} />
     )}
