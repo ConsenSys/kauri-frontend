@@ -26,3 +26,22 @@ export const getCommunity = gql`
     }
   }
 `
+
+export const getAllCommunities = gql`
+  query searchCommunities {
+    searchCommunities {
+      content {
+        id
+        dateCreated
+        dateUpdated
+        creatorId
+        name
+        description
+        status
+        website
+        avatar
+        social
+      }
+    }
+  }
+`

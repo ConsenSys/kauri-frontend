@@ -11,10 +11,7 @@ import userIdTrim from '../../../../lib/userid-trim';
 
 type Props = {
   data: {
-    searchArticles?: {
-      content: Array<?ArticleDTO>,
-    },
-    searchCollections: ?Array<CuratedListDTO>
+    searchCollections: ?Array<CollectionDTO>
   },
   hostName: string,
   routeChangeAction: string => void,
@@ -70,7 +67,6 @@ class Collections extends Component<Props> {
   static ContentContainer = ContentContainer
 
   render () {
-    console.log(this.props.data);
     if (!this.props.data || !this.props.data.searchCollections) {
       return null
     } // TODO replace with an error message if exists

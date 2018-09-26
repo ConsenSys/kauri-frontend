@@ -1,13 +1,10 @@
-[@bs.module "../../../lib/theme-config.js"]
-external themeConfig: ThemeConfig.themeConfig = "default";
-[@bs.module "../../../lib/theme-config.js"]
-external communities: ThemeConfig.communities = "categories";
 let component = ReasonReact.statelessComponent("Community");
 
 let make =
     (
       ~communityName,
       ~communityId,
+      ~communityDescription,
       /* ~followers, */
       /* ~views, */
       ~communityLogo,
@@ -30,14 +27,11 @@ let make =
              | Data(response) =>
                let articles =
                  response->Article_Resource.articlesCountGet |> string_of_int;
-               let description =
-                 ThemeConfig.getCommunityConfig(themeConfig, communityId)
-                 ->ThemeConfig.(descriptionGet);
                switch (linkComponent) {
                | Some(link) =>
                  <CommunityCard
                    communityName
-                   communityDescription=description
+                   communityDescription=communityDescription
                    articles
                    communityLogo
                    cardHeight
@@ -48,7 +42,7 @@ let make =
                | None =>
                  <CommunityCard
                    communityName
-                   communityDescription=description
+                   communityDescription=communityDescription
                    articles
                    communityLogo
                    /* followers */
@@ -66,6 +60,7 @@ let make =
 type jsProps = {
   heading: string,
   communityName: string,
+  communityDescription: string,
   communityId: string,
   followers: string,
   articles: string,
@@ -80,6 +75,7 @@ let default =
     make(
       ~communityName=jsProps->communityNameGet,
       ~communityId=jsProps->communityIdGet,
+      ~communityDescription=jsProps->communityDescriptionGet,
       /* ~followers=jsProps->followersGet, */
       /* ~views=jsProps->viewsGet, */
       ~communityLogo=jsProps->communityLogoGet,
