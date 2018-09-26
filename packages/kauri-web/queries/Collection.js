@@ -89,3 +89,15 @@ export const GetLatestCollections = gql`
 
   ${Collection}
 `;
+
+export const searchCollections = gql`
+  query searchCollections ($filter: CollectionFilterInput) {
+    searchCollections (size: 10, filter: $filter) {
+        content {
+          ...Collection
+        }
+    }
+  }
+
+  ${Collection}
+`;

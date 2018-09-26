@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import CollectionSearch from './CollectionSearch'
+import ArticleSearchbar from '../../ArticleSearchbar'
 import { Helmet } from 'react-helmet';
-import CollectionCard from '../../../../../kauri-components/components/Card/CollectionCard.bs'
+import ArticleCard from '../../../../../kauri-components/components/Card/ArticleCard.bs'
 import { Link } from '../../../../routes';
 import moment from 'moment';
 import userIdTrim from '../../../../lib/userid-trim';
@@ -14,7 +14,7 @@ type Props = {
     searchArticles?: {
       content: Array<?ArticleDTO>,
     },
-    searchCollections: ?Array<CuratedListDTO>
+    searchArticles: ?Array<CuratedListDTO>
   },
   hostName: string,
   routeChangeAction: string => void,
@@ -26,7 +26,7 @@ const ContentContainer = styled.section`
   flex-direction: column;
 `
 
-const CollectionsHeader = styled.div`
+const ArticlesHeader = styled.div`
   background-color: #1e2428;
   width: 100%;
   display: flex;
@@ -56,7 +56,7 @@ const KauriDescription = styled.div`
   }
 `;
 
-export const CollectionsContainer = styled.div`
+export const ArticlesContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -70,13 +70,13 @@ class Collections extends Component<Props> {
 
   render () {
     console.log(this.props.data);
-    if (!this.props.data || !this.props.data.searchCollections) {
+    if (!this.props.data || !this.props.data.searchArticles) {
       return null
     } // TODO replace with an error message if exists
 
-    const { searchCollections } = this.props.data
+    const { searchArticles } = this.props.data
 
-    const pageTitle = 'Discover Collections';
+    const pageTitle = 'Discover Articles';
 
     return (
       <ContentContainer>
@@ -86,39 +86,33 @@ class Collections extends Component<Props> {
           <meta name='keywords' content='ethereum, blockchain, learn to code, developer documentation' />
           <link rel='canonical' href={`https://${this.props.hostName}`} />
         </Helmet>
-        <CollectionsHeader>
+        <ArticlesHeader>
           <KauriTitle>{pageTitle}</KauriTitle>
-          <KauriDescription>Users' and Communities' Collections</KauriDescription>
-          <CollectionSearch />
-        </CollectionsHeader>
-        <CollectionsContainer>
-        {searchCollections.content.map(collection => {
-          const articleCount = collection.sections && collection.sections.reduce(
-          (current, next) => {
-            current += next.resources && next.resources.length
-            return current
-          }, 0);
-          return <CollectionCard
+          <KauriDescription>Articles, Tutorials and Collections</KauriDescription>
+          <ArticleSearchbar />
+        </ArticlesHeader>
+        <ArticlesContainer>
+        {searchArticles.content.map(article => {
+          return <ArticleCard
             changeRoute={this.props.routeChangeAction}
-            key={collection.id}
-            collectionName={collection.name}
-            username={collection.owner && (collection.owner.name || userIdTrim(collection.owner.id))}
-            userId={collection.owner && collection.owner.id}
-            articles={articleCount}
-            lastUpdated={moment(collection.dateCreated).fromNow()}
-            collectionId={collection.id}
-            imageURL={collection.background}
-            profileImage={collection.profileImage}
+            key={article.id}
+            date={moment(article.dateCreated).format('D MMM YYYY')}
+            title={article.title}
+            content={article.content}
+            userId={article.author && article.author.id}
+            username={article.author && (article.author.name || userIdTrim(article.author.id))}
+            articleId={article.id}
+            articleVersion={article.version}
             cardHeight={500}
-            collectionDescription={collection.description}
+            imageURL={article.attributes && article.attributes.background}
             linkComponent={(childrenProps, route) => (
-              <Link toSlug={route.includes('collection') && collection.name} useAnchorTag route={route}>
+              <Link toSlug={route.includes('article') && article.title} useAnchorTag route={route}>
                 {childrenProps}
               </Link>
             )}
           />
         })}
-        </CollectionsContainer>
+        </ArticlesContainer>
       </ContentContainer>
     )
   }
