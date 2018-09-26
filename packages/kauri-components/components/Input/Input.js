@@ -15,6 +15,7 @@ const Input = styled.input`
   border: none;
   background: transparent;
   width: 100%;
+  text-align: ${props => props.textAlign};
   ${fontSize};
   ${fontWeight};
   ${color};
@@ -77,15 +78,15 @@ export default class extends React.Component<Props, State> {
   }
 
   render () {
-    const { color = '#fff', placeHolder, fontSize, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name } = this.props
+    const { color = '#fff', placeHolder, fontSize, fontWeight = 500, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name, hideUnderline = false, textAlign = 'left' } = this.props
     const value = this.props.value || this.state.value
 
     return (
       <InputWrapper>
-        <Input onBlur={onBlur} color={color} fontWeight={500} placeholder={placeHolder} onChange={onChange} fontSize={fontSize} value={value} name={name} />
-        <UnderlineSpan fontSize={fontSize}>
+        <Input onBlur={onBlur} color={color} fontWeight={fontWeight} placeholder={placeHolder} onChange={onChange} fontSize={fontSize} value={value} name={name} textAlign={textAlign} />
+        {!hideUnderline && <UnderlineSpan fontSize={fontSize}>
           {value.replace(/ /g, '\u00a0')}
-        </UnderlineSpan>
+        </UnderlineSpan> }
       </InputWrapper>
     )
   }

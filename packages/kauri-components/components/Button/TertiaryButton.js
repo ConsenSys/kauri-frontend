@@ -19,7 +19,7 @@ const TertiaryButton = styled.button`
     ${space};
   }
   :hover {
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${props => props.theme.colors.primary};
   }
   ${fontSize};
   ${fontWeight};

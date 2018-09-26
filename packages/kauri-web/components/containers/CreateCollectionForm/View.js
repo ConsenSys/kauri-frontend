@@ -7,7 +7,6 @@ import Stack from 'stack-styled'
 import R from 'ramda'
 import ActionsSection from '../../../../kauri-components/components/Section/ActionsSection'
 import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection'
-// import ContentSection from '../../../../kauri-components/components/Section/ContentSection'
 import ProfileHeaderLabel from '../../../../kauri-components/components/PublicProfile/ProfileHeaderLabel.bs'
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs'
 import UserWidgetSmall from '../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
@@ -17,6 +16,8 @@ import PrimaryButton from '../../../../kauri-components/components/Button/Primar
 import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton'
 import ArticleCard from '../../connections/ArticleCard'
 import setImageUploader from '../../common/ImageUploader'
+// import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
+// import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 
 import type { FormState } from './index'
 
@@ -25,6 +26,11 @@ const emptySection: SectionDTO = { name: '', description: undefined, resourcesId
 const AddIcon = () => <img src='https://png.icons8.com/ios-glyphs/50/000000/plus-math.png' />
 const RemoveIcon = () => <img src='https://png.icons8.com/windows/50/000000/delete-sign.png' />
 
+const Section = styled.section`
+  display: flex;
+  flex-direction: column;
+`
+
 const ResourcesSection = styled.section`
   display: flex;
   flex-direction: row;
@@ -32,7 +38,7 @@ const ResourcesSection = styled.section`
   justify-content: center;
 `
 
-const SectionSection = styled.section`
+const ResourceSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,34 +46,20 @@ const SectionSection = styled.section`
   ${space};
 `
 
-// import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
-// import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
+const SectionSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  :not(:first-child) { ${space}; }
+`
+
 const ContentSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0px ${props => props.theme.padding};
-`
-
-type Props = {
-  userId: string,
-  touched: {
-    name: boolean,
-    description: boolean
-  },
-  errors: {
-    name: ?string,
-    description: ?string
-  },
-  values: FormState,
-  isSubmitting: boolean,
-  setFieldValue: (string, any) => void
-}
-
-const Section = styled.section`
-  display: flex;
-  flex-direction: column;
+  padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
 `
 
 const CreateCollectionDetails = styled.div`
@@ -78,6 +70,12 @@ const CreateCollectionDetails = styled.div`
   }
 `
 
+const AddAnotherSectionContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${space};
+`
 const CreateCollectionActionsPlaceHolder = styled.div`
   display: flex;
   mix-blend-mode: normal;
@@ -142,6 +140,21 @@ const handleBackgroundSetFormField = (setFieldValue) => () => setImageUploader(
   'background'
 )
 
+type Props = {
+  userId: string,
+  touched: {
+    name: boolean,
+    description: boolean
+  },
+  errors: {
+    name: ?string,
+    description: ?string
+  },
+  values: FormState,
+  isSubmitting: boolean,
+  setFieldValue: (string, any) => void
+}
+
 export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props) =>
   <Section>
     <Form>
@@ -199,6 +212,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
           </CreateCollectionMetaDetails>
         </Stack>
       </PrimaryHeaderSection>
+
       <ContentSection justifyContent={['', 'center']} alignItems={['', 'start']}>
         <FieldArray
           name='sections'
@@ -207,34 +221,54 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
               {/* {console.log(arrayHelpers)} */}
               {values.sections && values.sections.length > 0 && (
                 values.sections.map((section: SectionDTO, index) => (
-                  <SectionSection key={index} mt={4} mb={2} >
+                  <SectionSection key={index} mt={4}>
                     <Field type='text' name={`sections.${index}.name`}
-                      render={({ field }) => <Input {...field} type='text' placeHolder='Section Name' fontSize={3} color={'primaryTextColor'} />}
+                      render={
+                        ({ field }) =>
+                          <Input {...field}
+                            type='text'
+                            placeHolder='Section Name'
+                            fontSize={4}
+                            fontWeight={300}
+                            color={'primaryTextColor'}
+                            hideUnderline
+                            textAlign={'center'}
+                          />
+                      }
                     />
                     <TertiaryButton color='primaryTextColor' icon={<RemoveIcon />} onClick={() => arrayHelpers.remove(index)}>
-                Remove section
+                      Remove section
                     </TertiaryButton>
-                    <br />
+
                     <ResourcesSection>
                       {
                         section && section.resourcesId && Array.isArray(section.resourcesId) && section.resourcesId.map(
                           (resource, resourceIndex) =>
-                            <div key={resourceIndex}>
-                              <ArticleCard
-                                id={R.path(['sections', index, 'resourcesId', resourceIndex, 'id'], values)}
-                                version={parseInt(R.path(['sections', index, 'resourcesId', resourceIndex, 'version'], values))}
+                            <ResourceSection key={resourceIndex} my={3} p={3} mr={3}>
+                              {
+                                R.path(['sections', index, 'resourcesId', resourceIndex, 'version'], values) &&
+                                <div id='article-card'>
+                                  <ArticleCard
+                                    id={R.path(['sections', index, 'resourcesId', resourceIndex, 'id'], values)}
+                                    version={parseInt(R.path(['sections', index, 'resourcesId', resourceIndex, 'version'], values))}
+                                    cardHeight={500}
+                                  />
+                                </div>
+                              }
+                              <Field type='text' name={`sections[${index}].resourcesId[${resourceIndex}].id`}
+                                render={({ field }) => <Input {...field} type='text' color='primaryTextColor' placeHolder='Article ID' fontSize={3} />}
                               />
-                              <Field type='text' placeholder='Resource ID' name={`sections[${index}].resourcesId[${resourceIndex}].id`} />
-                              <Field type='text' placeholder='Resource Version' name={`sections[${index}].resourcesId[${resourceIndex}].version`} />
+                              <Field type='text' name={`sections[${index}].resourcesId[${resourceIndex}].version`}
+                                render={({ field }) => <Input {...field} type='text' color='primaryTextColor' placeHolder='Article Version' fontSize={3} />}
+                              />
                               <TertiaryButton color='primaryTextColor' icon={<RemoveIcon />}
                                 onClick={() =>
                                   arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId`,
                                     Array.isArray(section.resourcesId) && (!resourceIndex ? section.resourcesId.splice(1) : R.remove(resourceIndex, resourceIndex, section.resourcesId)))} // Remove current resource index
                               >
-                      Remove resource
+                                Remove resource
                               </TertiaryButton>
-                              <br />
-                            </div>
+                            </ResourceSection>
                         )
                       }
                       <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${values.sections[index].resourcesId.length}]`, emptyArticleResource)}>
@@ -245,13 +279,17 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
                   </SectionSection>
                 ))
               )}
-              <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => arrayHelpers.push(emptySection)}>
+              <AddAnotherSectionContainer mt={4}>
+                <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => arrayHelpers.push(emptySection)}>
                 Add Another section
-              </TertiaryButton>
+                </TertiaryButton>
+              </AddAnotherSectionContainer>
             </Fragment>
           )}
         />
-        <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} />
+
+        {/* <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} /> */}
+
       </ContentSection>
 
     </Form>
