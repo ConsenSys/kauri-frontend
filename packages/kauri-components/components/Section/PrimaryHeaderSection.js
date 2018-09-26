@@ -5,11 +5,12 @@ import Stack from 'stack-styled'
 import { bgColor } from 'styled-system'
 
 const withBackgroundURLCss = css`
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 140px 120px inset;
+  background: ${props => props.backgroundURL && `url(${props.backgroundURL.replace('dev2', 'beta')}) center center`};
+  background-size: cover;
   margin-top: -76px;
   padding-top: 106px;
   padding-bottom: 50px;
-  background: ${props => props.backgroundURL && `url(${props.backgroundURL}) center center`};
+  box-shadow: inset 0px 0px 140px 120px rgba(0,0,0,0.5);
 `
 
 const PrimaryHeaderSectionStack = styled(Stack)`
