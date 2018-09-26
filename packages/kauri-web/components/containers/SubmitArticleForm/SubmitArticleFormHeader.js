@@ -223,7 +223,7 @@ export default ({
   isKauriTopicOwner,
   attributes,
 }: Props) => (
-  <SubmitArticleFormHeader type='article' theme={theme} chosenCategory={category || getFieldValue('category')}>
+  <SubmitArticleFormHeader style={{ background: `url(${getFieldValue('attributes') && getFieldValue('attributes').background.replace('dev2','beta') || attributes && attributes.background.replace('dev2','beta')}) center center`, backgroundSize: 'cover'}} type='article' theme={theme} chosenCategory={category || getFieldValue('category')}>
     {category && (
       <SubmitArticleFormLogo type='article' theme={theme} chosenCategory={category || getFieldValue('category')} />
     )}
