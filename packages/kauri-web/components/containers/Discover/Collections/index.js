@@ -19,7 +19,7 @@ const ContentContainer = styled.section`
   flex-direction: column;
 `
 
-const CommunitiesHeader = styled.div`
+const CollectionsHeader = styled.div`
   background-color: #1e2428;
   width: 100%;
   display: flex;
@@ -59,7 +59,7 @@ export const CommunitiesContainer = styled.div`
   padding-bottom: 0;
 `;
 
-class Communities extends Component<Props> {
+class Collections extends Component<Props> {
   static ContentContainer = ContentContainer
 
   render () {
@@ -73,10 +73,10 @@ class Communities extends Component<Props> {
           <meta name='keywords' content='ethereum, blockchain, learn to code, developer documentation' />
           <link rel='canonical' href={`https://${this.props.hostName}`} />
         </Helmet>
-        <CommunitiesHeader>
+        <CollectionsHeader>
           <KauriTitle>{pageTitle}</KauriTitle>
           <KauriDescription>Articles, Tutorials and Collections</KauriDescription>
-        </CommunitiesHeader>
+        </CollectionsHeader>
         <CommunitiesContainer>
         {communities.map(community => (
             <CommunityCardConnection
@@ -99,4 +99,4 @@ class Communities extends Component<Props> {
   }
 }
 
-export default Communities
+export default Collections
