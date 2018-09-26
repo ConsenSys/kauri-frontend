@@ -83,7 +83,7 @@ export const createCollectionEpic = (
                     message: 'Collection created!',
                     description: 'Your collection is now available for viewing!',
                   }),
-                  routeChangeAction(`/collection/${id}/collection-created`),
+                  routeChangeAction(`/collection/${id}`),
                   trackMixpanelAction({
                     event: 'Offchain',
                     metaData: {
