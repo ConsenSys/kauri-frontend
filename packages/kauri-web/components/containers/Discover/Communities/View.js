@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import ArticleSearchbar from '../../ArticleSearchbar'
+import CommunitySearch from './CommunitySearch'
 import { Helmet } from 'react-helmet';
-import ArticleCard from '../../../../../kauri-components/components/Card/ArticleCard.bs'
+import CommunityCardConnection from '../../../connections/Community/CommunityCard_Connection.bs';
 import { Link } from '../../../../routes';
 import moment from 'moment';
 import userIdTrim from '../../../../lib/userid-trim';
@@ -11,10 +11,10 @@ import userIdTrim from '../../../../lib/userid-trim';
 
 type Props = {
   data: {
-    searchArticles?: {
+    searchCommunities?: {
       content: Array<?ArticleDTO>,
     },
-    searchArticles: ?Array<CuratedListDTO>
+    searchCommunities: ?Array<CuratedListDTO>
   },
   hostName: string,
   routeChangeAction: string => void,
@@ -26,7 +26,7 @@ const ContentContainer = styled.section`
   flex-direction: column;
 `
 
-const ArticlesHeader = styled.div`
+const CommunitiesHeader = styled.div`
 background-color: ${props => props.theme.colors.primaryTextColor};
 width: 100%;
 display: flex;
@@ -57,7 +57,7 @@ const KauriDescription = styled.div`
   }
 `;
 
-export const ArticlesContainer = styled.div`
+export const CommunitiesContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -66,56 +66,52 @@ export const ArticlesContainer = styled.div`
   padding-bottom: 0;
 `;
 
-class Collections extends Component<Props> {
+class Communities extends Component<Props> {
   static ContentContainer = ContentContainer
 
   render () {
-    if (!this.props.data || !this.props.data.searchArticles) {
+    if (!this.props.data || !this.props.data.searchCommunities) {
       return null
     } // TODO replace with an error message if exists
 
-    const { searchArticles } = this.props.data
+    const { searchCommunities } = this.props.data
 
-    const pageTitle = 'Discover Articles';
+    const pageTitle = 'Discover Communities';
 
     return (
       <ContentContainer>
         <Helmet>
           <title>Kauri - {pageTitle}</title>
-          <meta name='description' content="Discover blockchain related articles, tutorials and how-to guides" />
+          <meta name='description' content="Discover the best Communities of blockchain related articles, tutorials and how-to guides" />
           <meta name='keywords' content='ethereum, blockchain, learn to code, developer documentation' />
           <link rel='canonical' href={`https://${this.props.hostName}`} />
         </Helmet>
-        <ArticlesHeader>
+        <CommunitiesHeader>
           <KauriTitle>{pageTitle}</KauriTitle>
-          <KauriDescription>Articles, Tutorials and Collections</KauriDescription>
-          <ArticleSearchbar />
-        </ArticlesHeader>
-        <ArticlesContainer>
-        {searchArticles.content.map(article => {
-          return <ArticleCard
+          <KauriDescription>Users' and Communities' Communities</KauriDescription>
+          <CommunitySearch />
+        </CommunitiesHeader>
+        <CommunitiesContainer>
+        {searchCommunities.content.map(community => {
+          return <CommunityCardConnection
             changeRoute={this.props.routeChangeAction}
-            key={article.id}
-            date={moment(article.dateCreated).format('D MMM YYYY')}
-            title={article.title}
-            content={article.content}
-            userId={article.author && article.author.id}
-            username={article.author && (article.author.name || userIdTrim(article.author.id))}
-            articleId={article.id}
-            articleVersion={article.version}
-            cardHeight={500}
-            imageURL={article.attributes && article.attributes.background}
-            linkComponent={(childrenProps, route) => (
-              <Link toSlug={route.includes('article') && article.title} useAnchorTag route={route}>
+            key={community.id}
+            communityName={community.name}
+            communityDescription={community.description || ''}
+            communityId={community.id}
+            communityHeight={500}
+            communityLogo={`/static/images/${community.id}/avatar.png`}
+            linkComponent={childrenProps => (
+            <Link useAnchorTag route={`/community/${community.id}`}>
                 {childrenProps}
-              </Link>
+            </Link>
             )}
-          />
+        />
         })}
-        </ArticlesContainer>
+        </CommunitiesContainer>
       </ContentContainer>
     )
   }
 }
 
-export default Collections
+export default Communities

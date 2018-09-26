@@ -26,3 +26,41 @@ export const getCommunity = gql`
     }
   }
 `
+
+export const getAllCommunities = gql`
+  query searchCommunities {
+    searchCommunities {
+      content {
+        id
+        dateCreated
+        dateUpdated
+        creatorId
+        name
+        description
+        status
+        website
+        avatar
+        social
+      }
+    }
+  }
+`
+
+export const searchCommunities = gql`
+  query searchCommunities($filter: CommunityFilterInput) {
+    searchCommunities(size: 10, filter: $filter) {
+      content {
+        id
+        dateCreated
+        dateUpdated
+        creatorId
+        name
+        description
+        status
+        website
+        avatar
+        social
+      }
+    }
+  }
+`
