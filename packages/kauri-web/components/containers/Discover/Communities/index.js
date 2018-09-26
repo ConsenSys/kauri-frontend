@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import ArticleSearchbar from '../../ArticleSearchbar'
 import { Helmet } from 'react-helmet';
 import { Link } from '../../../../routes'
 import { metamask, makerdao, ens, kauri, uport, dharma, aragon, remix, toshi, zeppelin} from '../../../../lib/theme-config';
@@ -29,6 +28,7 @@ const HomePageHeader = styled.div`
   flex-direction: column;
   color: white;
   padding: 20px;
+  padding-bottom: 80px;
 `
 const KauriTitle = styled.h1`
   color: white;
@@ -76,7 +76,6 @@ class Homepage extends Component<Props> {
         <HomePageHeader>
           <KauriTitle>{pageTitle}</KauriTitle>
           <KauriDescription>Articles, Tutorials and Collections</KauriDescription>
-          <ArticleSearchbar />
         </HomePageHeader>
         <CommunitiesContainer>
         {communities.map(community => (
