@@ -60,22 +60,11 @@ export const createCollectionEpic = (
                 },
               })
             )
-              .do(() => callback && callback())
               .flatMap(({ data: { composeCollection: { hash } } }) =>
                 Observable.fromPromise(apolloSubscriber(hash))
               )
               .do(h => console.log(h))
               .flatMap(() => apolloClient.resetStore())
-              .catch(err => {
-                console.error(err)
-                return Observable.of(
-                  showNotificationAction({
-                    notificationType: 'error',
-                    message: 'Submission error',
-                    description: 'Please try again!',
-                  })
-                )
-              })
               .mergeMap(() =>
                 Observable.of(
                   showNotificationAction({
@@ -95,6 +84,17 @@ export const createCollectionEpic = (
                   })
                 )
               )
+              .do(() => callback && callback())
+              .catch(err => {
+                console.error(err)
+                return Observable.of(
+                  showNotificationAction({
+                    notificationType: 'error',
+                    message: 'Submission error',
+                    description: 'Please try again!',
+                  })
+                )
+              })
           )
       }
     )

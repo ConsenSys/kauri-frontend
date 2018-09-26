@@ -52,14 +52,7 @@ export default compose(
       console.log(props)
       props.createCollectionAction(values, () => {
         setSubmitting(false)
-        resetForm()
       })
-      // if (values.email === 'yomi@gmail.io') {
-      //   setErrors({ email: 'That email is already taken' })
-      // } else {
-      //   resetForm()
-      // }
-      // setSubmitting(false)
     },
   })
 )(CreateCollectionForm)

@@ -255,6 +255,20 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue, validate
                           />
                       }
                     />
+                    <Field type='text' name={`sections.${index}.description`}
+                      render={
+                        ({ field }) =>
+                          <Input {...field}
+                            type='text'
+                            placeHolder='Section description'
+                            fontSize={2}
+                            fontWeight={300}
+                            color={'primaryTextColor'}
+                            hideUnderline
+                            textAlign={'center'}
+                          />
+                      }
+                    />
                     <TertiaryButton color='primaryTextColor' icon={<RemoveIcon />} onClick={() => arrayHelpers.remove(index)}>
                       Remove section
                     </TertiaryButton>
