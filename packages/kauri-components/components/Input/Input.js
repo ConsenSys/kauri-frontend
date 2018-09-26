@@ -78,7 +78,7 @@ export default class extends React.Component<Props, State> {
   }
 
   render () {
-    const { color = '#fff', placeHolder, fontSize, fontWeight = 500, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name, hideUnderline = false, textAlign = 'left' } = this.props
+    const { color = 'white', placeHolder, fontSize, fontWeight = 500, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name, hideUnderline = false, textAlign = 'left' } = this.props
     const value = this.props.value || this.state.value
 
     return (
