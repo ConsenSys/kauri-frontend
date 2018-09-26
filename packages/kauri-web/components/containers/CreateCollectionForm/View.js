@@ -31,6 +31,13 @@ const ResourcesSection = styled.section`
   justify-content: center;
 `
 
+const SectionSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 const ContentSection = styled.section`
@@ -194,11 +201,11 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
         <FieldArray
           name='sections'
           render={arrayHelpers => (
-            <div>
+            <Fragment>
               {/* {console.log(arrayHelpers)} */}
               {values.sections && values.sections.length > 0 && (
                 values.sections.map((section: SectionDTO, index) => (
-                  <div key={index}>
+                  <SectionSection key={index}>
                     <Field type='text' name={`sections.${index}.name`}
                       render={({ field }) => <Input {...field} type='text' placeHolder='Section Name' fontSize={3} color={'primaryTextColor'} />}
                     />
@@ -211,6 +218,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
                         section && section.resourcesId && Array.isArray(section.resourcesId) && section.resourcesId.map(
                           (resource, resourceIndex) =>
                             <div key={resourceIndex}>
+                              <p>Article card goes here</p>
                               <Field type='text' placeholder='Section Resource ID' name={`sections[${index}].resourcesId[${resourceIndex}].id`} />
                               <TertiaryButton color='primaryTextColor' icon={<RemoveIcon />}
                                 onClick={() =>
@@ -228,13 +236,13 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
                       </TertiaryButton>
                     </ResourcesSection>
 
-                  </div>
+                  </SectionSection>
                 ))
               )}
               <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => arrayHelpers.push(emptySection)}>
                 Add Another section
               </TertiaryButton>
-            </div>
+            </Fragment>
           )}
         />
         <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} />
