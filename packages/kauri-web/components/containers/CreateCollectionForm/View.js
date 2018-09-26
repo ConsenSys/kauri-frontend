@@ -1,9 +1,9 @@
 // @flow
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
+import { space } from 'styled-system'
 import { Form, Field, FieldArray, ErrorMessage } from 'formik'
 import Stack from 'stack-styled'
-import { space } from 'styled-system'
 import R from 'ramda'
 import ActionsSection from '../../../../kauri-components/components/Section/ActionsSection'
 import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection'
@@ -15,6 +15,7 @@ import CuratorHeaderLabel from '../../../../kauri-components/components/Typograp
 import Input from '../../../../kauri-components/components/Input/Input'
 import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
 import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton'
+import ArticleCard from '../../connections/ArticleCard'
 import setImageUploader from '../../common/ImageUploader'
 
 import type { FormState } from './index'
@@ -36,6 +37,7 @@ const SectionSection = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  ${space};
 `
 
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
@@ -205,7 +207,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
               {/* {console.log(arrayHelpers)} */}
               {values.sections && values.sections.length > 0 && (
                 values.sections.map((section: SectionDTO, index) => (
-                  <SectionSection key={index}>
+                  <SectionSection key={index} mt={4} mb={2} >
                     <Field type='text' name={`sections.${index}.name`}
                       render={({ field }) => <Input {...field} type='text' placeHolder='Section Name' fontSize={3} color={'primaryTextColor'} />}
                     />
@@ -218,8 +220,12 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
                         section && section.resourcesId && Array.isArray(section.resourcesId) && section.resourcesId.map(
                           (resource, resourceIndex) =>
                             <div key={resourceIndex}>
-                              <p>Article card goes here</p>
-                              <Field type='text' placeholder='Section Resource ID' name={`sections[${index}].resourcesId[${resourceIndex}].id`} />
+                              <ArticleCard
+                                id={R.path(['sections', index, 'resourcesId', resourceIndex, 'id'], values)}
+                                version={parseInt(R.path(['sections', index, 'resourcesId', resourceIndex, 'version'], values))}
+                              />
+                              <Field type='text' placeholder='Resource ID' name={`sections[${index}].resourcesId[${resourceIndex}].id`} />
+                              <Field type='text' placeholder='Resource Version' name={`sections[${index}].resourcesId[${resourceIndex}].version`} />
                               <TertiaryButton color='primaryTextColor' icon={<RemoveIcon />}
                                 onClick={() =>
                                   arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId`,
