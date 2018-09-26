@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import withData from '../lib/with-data'
 import { routeChangeAction } from '../lib/Module'
 import App from '../layouts/App'
-import Communities from '../components/connections/Communities/Communities.bs'
+import Communities from '../components/containers/Discover/Communities'
 import { withRouter } from 'next/router';
 
 const ConnectedCommunities = connect(
