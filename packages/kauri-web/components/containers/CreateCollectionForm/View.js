@@ -1,7 +1,7 @@
 // @flow
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { space } from 'styled-system'
+import { space, bg } from 'styled-system'
 import { Form, Field, FieldArray, ErrorMessage } from 'formik'
 import Stack from 'stack-styled'
 import R from 'ramda'
@@ -58,8 +58,9 @@ const ContentSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
+  min-height: calc(100vh - 270px);
+  ${bg};
 `
 
 const CreateCollectionDetails = styled.div`
@@ -213,7 +214,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
         </Stack>
       </PrimaryHeaderSection>
 
-      <ContentSection justifyContent={['', 'center']} alignItems={['', 'start']}>
+      <ContentSection bg='tertiaryBackgroundColor'>
         <FieldArray
           name='sections'
           render={arrayHelpers => (
