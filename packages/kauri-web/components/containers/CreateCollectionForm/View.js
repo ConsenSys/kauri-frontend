@@ -1,12 +1,13 @@
 // @flow
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { Form, Field, FieldArray, ErrorMessage } from 'formik'
 import Stack from 'stack-styled'
 import { space } from 'styled-system'
+import R from 'ramda'
 import ActionsSection from '../../../../kauri-components/components/Section/ActionsSection'
 import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection'
-import ContentSection from '../../../../kauri-components/components/Section/ContentSection'
+// import ContentSection from '../../../../kauri-components/components/Section/ContentSection'
 import ProfileHeaderLabel from '../../../../kauri-components/components/PublicProfile/ProfileHeaderLabel.bs'
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs'
 import UserWidgetSmall from '../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
@@ -15,11 +16,30 @@ import Input from '../../../../kauri-components/components/Input/Input'
 import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
 import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton'
 import setImageUploader from '../../common/ImageUploader'
-import AddSection from './AddSection'
-// import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
-// import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 
 import type { FormState } from './index'
+
+const emptyArticleResource = { type: 'ARTICLE', id: '', version: undefined }
+const emptySection: SectionDTO = { name: '', description: undefined, resourcesId: [emptyArticleResource], resources: undefined }
+const AddIcon = () => <img src='https://png.icons8.com/ios-glyphs/50/000000/plus-math.png' />
+const RemoveIcon = () => <img src='https://png.icons8.com/windows/50/000000/delete-sign.png' />
+
+const ResourcesSection = styled.section`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`
+
+// import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
+// import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
+const ContentSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px ${props => props.theme.padding};
+`
 
 type Props = {
   userId: string,
@@ -135,7 +155,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
           <ProfileHeaderLabel header='Collection' />
           <Field type='text' name='name' render={({ field }) => <Input {...field} type='text' placeHolder='Add collection title' fontSize={5} />} />
           {/* <ErrorMessage name='name' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
-          <Field type='text' name='description' render={(({ field }) => <Input {...field} placeHolder='Add description' fontSize={3} />)} />
+          <Field type='text' name='description' render={(({ field }) => <Input {...field} type='text' placeHolder='Add description' fontSize={3} />)} />
           {/* <ErrorMessage name='description' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
 
           {/* TODO: WAIT FOR BACKEND */}
@@ -170,8 +190,53 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue }: Props)
           </CreateCollectionMetaDetails>
         </Stack>
       </PrimaryHeaderSection>
-      <ContentSection>
-        <AddSection values={values} />
+      <ContentSection justifyContent={['', 'center']} alignItems={['', 'start']}>
+        <FieldArray
+          name='sections'
+          render={arrayHelpers => (
+            <div>
+              {/* {console.log(arrayHelpers)} */}
+              {values.sections && values.sections.length > 0 && (
+                values.sections.map((section: SectionDTO, index) => (
+                  <div key={index}>
+                    <Field type='text' name={`sections.${index}.name`}
+                      render={({ field }) => <Input {...field} type='text' placeHolder='Section Name' fontSize={3} color={'primaryTextColor'} />}
+                    />
+                    <TertiaryButton color='primaryTextColor' icon={<RemoveIcon />} onClick={() => arrayHelpers.remove(index)}>
+                Remove section
+                    </TertiaryButton>
+                    <br />
+                    <ResourcesSection>
+                      {
+                        section && section.resourcesId && Array.isArray(section.resourcesId) && section.resourcesId.map(
+                          (resource, resourceIndex) =>
+                            <div key={resourceIndex}>
+                              <Field type='text' placeholder='Section Resource ID' name={`sections[${index}].resourcesId[${resourceIndex}].id`} />
+                              <TertiaryButton color='primaryTextColor' icon={<RemoveIcon />}
+                                onClick={() =>
+                                  arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId`,
+                                    Array.isArray(section.resourcesId) && (!resourceIndex ? section.resourcesId.splice(1) : R.remove(resourceIndex, resourceIndex, section.resourcesId)))} // Remove current resource index
+                              >
+                      Remove resource
+                              </TertiaryButton>
+                              <br />
+                            </div>
+                        )
+                      }
+                      <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${values.sections[index].resourcesId.length}]`, emptyArticleResource)}>
+                        Add resource
+                      </TertiaryButton>
+                    </ResourcesSection>
+
+                  </div>
+                ))
+              )}
+              <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => arrayHelpers.push(emptySection)}>
+                Add Another section
+              </TertiaryButton>
+            </div>
+          )}
+        />
         <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} />
       </ContentSection>
 

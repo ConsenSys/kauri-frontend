@@ -10,8 +10,8 @@ const ContentSectionStack = styled(Stack)`
   padding: 0px ${props => props.theme.padding};
 `
 
-const ContentSection = ({ bg = 'tertiaryBackgroundColor', children }) =>
-  <ContentSectionStack bg={bg} alignItems={['', 'start']} gridAutoFlow={['', 'row']}>
+const ContentSection = ({ bg = 'tertiaryBackgroundColor', alignItems = ['', 'start'], justifyContent = ['', 'start'], children }) =>
+  <ContentSectionStack bg={bg} alignItems={alignItems} justifyContent={justifyContent} gridAutoFlow={['', 'row']}>
     {children}
   </ContentSectionStack>
 

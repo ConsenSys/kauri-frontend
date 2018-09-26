@@ -29,7 +29,7 @@ const Input = styled.input`
     outline: none;
   }
   ::-webkit-input-placeholder {
-    color: #fff;
+    ${color};
     text-decoration: underline;
     text-decoration-color: ${props => props.theme.colors.primary};
   }
@@ -37,7 +37,7 @@ const Input = styled.input`
     text-indent: -999px;
   }
   ::-moz-placeholder {
-    color: #fff;
+    ${color};
   }
   :focus::-moz-placeholder {
     text-indent: -999px;
@@ -77,12 +77,12 @@ export default class extends React.Component<Props, State> {
   }
 
   render () {
-    const { placeHolder, fontSize, handleChange = this.handleChange, onChange, name } = this.props
+    const { color = '#fff', placeHolder, fontSize, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name } = this.props
     const value = this.props.value || this.state.value
 
     return (
       <InputWrapper>
-        <Input fontWeight={500} placeholder={placeHolder} color='white' onChange={onChange || (({ target: { value } }) => handleChange(value))} fontSize={fontSize} value={value} name={name} />
+        <Input onBlur={onBlur} color={color} fontWeight={500} placeholder={placeHolder} onChange={onChange} fontSize={fontSize} value={value} name={name} />
         <UnderlineSpan fontSize={fontSize}>
           {value.replace(/ /g, '\u00a0')}
         </UnderlineSpan>
