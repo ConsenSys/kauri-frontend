@@ -31,7 +31,7 @@ let make =
                | Some(link) =>
                  <CommunityCard
                    communityName
-                   communityDescription=communityDescription
+                   communityDescription
                    articles
                    communityLogo
                    cardHeight
@@ -42,7 +42,7 @@ let make =
                | None =>
                  <CommunityCard
                    communityName
-                   communityDescription=communityDescription
+                   communityDescription
                    articles
                    communityLogo
                    /* followers */
