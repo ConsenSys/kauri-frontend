@@ -5,7 +5,7 @@ import withData from '../lib/with-data'
 import AppWithoutNavbar from '../layouts/AppWithoutNavbar'
 import CreateCollectionConnection from '../components/connections/CreateCollection'
 
-class WriteArticle extends React.Component {
+class CreateCollection extends React.Component {
   render () {
     return (
       <AppWithoutNavbar url={this.props.router}>
@@ -19,4 +19,4 @@ export default compose(
   withData,
   withApollo,
   withRouter
-)(WriteArticle)
+)(CreateCollection)
