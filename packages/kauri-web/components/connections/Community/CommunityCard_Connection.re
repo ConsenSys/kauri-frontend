@@ -7,6 +7,7 @@ let component = ReasonReact.statelessComponent("Community");
 let make =
     (
       ~communityName,
+      ~communityId,
       /* ~followers, */
       /* ~views, */
       ~communityLogo,
@@ -30,7 +31,7 @@ let make =
                let articles =
                  response->Article_Resource.articlesCountGet |> string_of_int;
                let description =
-                 ThemeConfig.getCommunityConfig(themeConfig, communityName)
+                 ThemeConfig.getCommunityConfig(themeConfig, communityId)
                  ->ThemeConfig.(descriptionGet);
                switch (linkComponent) {
                | Some(link) =>
@@ -65,6 +66,7 @@ let make =
 type jsProps = {
   heading: string,
   communityName: string,
+  communityId: string,
   followers: string,
   articles: string,
   views: string,
@@ -77,6 +79,7 @@ let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
       ~communityName=jsProps->communityNameGet,
+      ~communityId=jsProps->communityIdGet,
       /* ~followers=jsProps->followersGet, */
       /* ~views=jsProps->viewsGet, */
       ~communityLogo=jsProps->communityLogoGet,

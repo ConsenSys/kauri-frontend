@@ -77,3 +77,27 @@ export const getCollectionForAnalytics = gql`
     }
   }
 `
+
+export const getLatestCollections = gql`
+  query searchCollections {
+    searchCollections (size: 100) {
+        content {
+          ...Collection
+        }
+    }
+  }
+
+  ${Collection}
+`;
+
+export const searchCollections = gql`
+  query searchCollections ($filter: CollectionFilterInput) {
+    searchCollections (size: 10, filter: $filter) {
+        content {
+          ...Collection
+        }
+    }
+  }
+
+  ${Collection}
+`;
