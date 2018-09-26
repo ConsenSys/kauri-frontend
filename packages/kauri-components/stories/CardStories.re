@@ -20,6 +20,7 @@ myStory.add("Article Card", () =>
     articleVersion="23479843279324"
     date="3 June 2099"
     title="This is a title, possibly should support two lines"
+    imageURL=None
     content="This is the content body, should be longer of course. Like a Lorem Ipsum, Bacon Summit or something like that"
     tags=[|"test", "foo", "bar", "ethereum"|]
     username={Some("nelsonpimieeeenta")}
@@ -44,7 +45,11 @@ myStory.add("Article Card with Image", () =>
     Mist - this is the Ethereum dapp browser. We will use it to browse our front end.
     Remix - this is the Ethereum IDE. We will use it to develop our Solidity contract.
     Any code editor you want - in order to write your front end :)"
-    imageURL="https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
+    imageURL={
+      Some(
+        "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80",
+      )
+    }
     tags=[|"test", "foo", "bar", "ethereum"|]
     username={Some("etherealcoder")}
     /* profileImage="https://randomuser.me/api/portraits/women/51.jpg" */
@@ -163,7 +168,11 @@ Geth - this is the center piece and provides the blockchain environment. We will
 Mist - this is the Ethereum dapp browser. We will use it to browse our front end.
 Remix - this is the Ethereum IDE. We will use it to develop our Solidity contract.
 Any code editor you want - in order to write your front end :)"
-      imageURL="https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
+      imageURL={
+        Some(
+          "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80",
+        )
+      }
       tags=[|"test", "foo", "bar", "ethereum"|]
       username=None
       /* profileImage="https://randomuser.me/api/portraits/women/51.jpg" */
@@ -176,6 +185,7 @@ Any code editor you want - in order to write your front end :)"
       title="This is a title, possibly should support two lines"
       content="This is the content body, should be longer of course. Like a Lorem Ipsum, Bacon Summit or something like that"
       tags=[|"test", "foo", "bar", "ethereum"|]
+      imageURL=None
       username={Some("nelsonpimieeeenta")}
     />
   </div>
