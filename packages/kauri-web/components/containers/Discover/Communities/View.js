@@ -70,7 +70,6 @@ class Communities extends Component<Props> {
   static ContentContainer = ContentContainer
 
   render () {
-    console.log(this.props);
     if (!this.props.data || !this.props.data.searchCommunities) {
       return null
     } // TODO replace with an error message if exists
@@ -94,7 +93,6 @@ class Communities extends Component<Props> {
         </CommunitiesHeader>
         <CommunitiesContainer>
         {searchCommunities.content.map(community => {
-          console.log(community)
           return <CommunityCardConnection
             changeRoute={this.props.routeChangeAction}
             key={community.id}

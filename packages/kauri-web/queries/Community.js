@@ -45,3 +45,22 @@ export const getAllCommunities = gql`
     }
   }
 `
+
+export const searchCommunities = gql`
+  query searchCommunities($filter: CommunityFilterInput) {
+    searchCommunities(size: 10, filter: $filter) {
+      content {
+        id
+        dateCreated
+        dateUpdated
+        creatorId
+        name
+        description
+        status
+        website
+        avatar
+        social
+      }
+    }
+  }
+`
