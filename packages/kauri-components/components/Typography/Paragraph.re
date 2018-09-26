@@ -16,7 +16,7 @@ module Styles = {
 
 let getLineClamp = (~text, ~cardHeight) =>
   switch (text, cardHeight) {
-  | (text, cardHeight) when String.length(text) > 65 && cardHeight <= 290 =>
+  | (text, cardHeight) when Js.String.length(text) > 65 && cardHeight <= 290 =>
     (text |> Js.String.substring(~from=0, ~to_=65)) ++ "..."
   | (text, _) => text
   };

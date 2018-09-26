@@ -6,6 +6,7 @@ import { withFormik } from 'formik'
 import * as Yup from 'yup'
 import CreateCollectionForm from './View'
 import { showNotificationAction } from '../../../lib/Module'
+import { createCollectionAction } from './Module'
 
 export type FormState = {
   name: string,
@@ -26,7 +27,7 @@ const emptySection: SectionDTO = {
   resources: undefined }
 
 export default compose(
-  connect(() => ({}), { showNotificationAction }),
+  connect(() => ({}), { showNotificationAction, createCollectionAction }),
   withFormik({
     mapPropsToValues: () => ({
       name: '',
@@ -49,6 +50,10 @@ export default compose(
     handleSubmit: (values: FormState, { props, setErrors, resetForm, setSubmitting }) => {
       console.log(values)
       console.log(props)
+      props.createCollectionAction(values, () => {
+        setSubmitting(false)
+        resetForm()
+      })
       // if (values.email === 'yomi@gmail.io') {
       //   setErrors({ email: 'That email is already taken' })
       // } else {

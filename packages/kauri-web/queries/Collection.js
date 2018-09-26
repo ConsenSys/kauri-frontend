@@ -77,3 +77,19 @@ export const getCollectionForAnalytics = gql`
     }
   }
 `
+
+export const createCollection = gql`
+  mutation createCollection($name: String, $description: String, $background: String) {
+    createCollection (name: $name, description: $description, background: $background) {
+      hash
+    }
+  }
+`
+
+export const composeCollection = gql`
+  mutation composeCollection($id: String, $sections: [SectionDTOInput]) {
+    composeCollection (id: $id, sections: $sections) {
+      hash
+    }
+  }
+`

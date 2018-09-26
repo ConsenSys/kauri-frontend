@@ -20,6 +20,7 @@ import setImageUploader from '../../common/ImageUploader'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 
 import type { FormState } from './index'
+import type { CreateCollectionPayload } from './Module'
 
 const emptyArticleResource = { type: 'ARTICLE', id: '', version: undefined }
 const emptySection: SectionDTO = { name: '', description: undefined, resourcesId: [emptyArticleResource], resources: undefined }
@@ -155,11 +156,13 @@ type Props = {
   isSubmitting: boolean,
   setFieldValue: (string, any) => void,
   validateForm: () => Promise<any>,
-  showNotificationAction: ({ notificationType: string, message: string, description: string }) => void
+  showNotificationAction: ({ notificationType: string, message: string, description: string }) => void,
+  createCollectionAction: CreateCollectionPayload => void
 }
 
 const validateOnSubmit = (validateForm, showNotificationAction) => validateForm().then(errors => {
   const capitalize = (s) => R.compose(R.toUpper, R.head)(s) + R.tail(s)
+
   if (Object.keys(errors).length > 0) {
     Object.keys(errors).map(errKey =>
       showNotificationAction({
