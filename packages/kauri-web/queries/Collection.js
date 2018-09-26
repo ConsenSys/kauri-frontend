@@ -77,3 +77,15 @@ export const getCollectionForAnalytics = gql`
     }
   }
 `
+
+export const GetLatestCollections = gql`
+  query searchCollections {
+    searchCollections (size: 100) {
+        content {
+          ...Collection
+        }
+    }
+  }
+
+  ${Collection}
+`;

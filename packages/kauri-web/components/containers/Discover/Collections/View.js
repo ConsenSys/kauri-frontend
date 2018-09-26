@@ -1,0 +1,129 @@
+// @flow
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import ArticleSearchbar from '../../ArticleSearchbar'
+import { Helmet } from 'react-helmet';
+import CollectionCard from '../../../../../kauri-components/components/Card/CollectionCard.bs'
+import { Link } from '../../../../routes';
+import moment from 'moment';
+import userIdTrim from '../../../../lib/userid-trim'
+
+
+
+
+type Props = {
+  data: {
+    searchArticles?: {
+      content: Array<?ArticleDTO>,
+    },
+    searchCollections: ?Array<CuratedListDTO>
+  },
+  hostName: string,
+  routeChangeAction: string => void,
+}
+
+const ContentContainer = styled.section`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`
+
+const CollectionsHeader = styled.div`
+  background-color: #1e2428;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+  padding: 20px;
+`
+const KauriTitle = styled.h1`
+  color: white;
+  font-weight: 300;
+  font-size: 32px;
+  margin-top: 45px;
+  margin-bottom: 12px;
+
+  @media (max-width: 500px) {
+    width: 300px;
+    margin: auto;
+  }
+`
+
+const KauriDescription = styled.div`
+  @media (max-width: 500px) {
+    width: 300px;
+    margin: auto;
+  }
+`;
+
+export const CollectionsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex: 1;
+  flex-wrap: wrap;
+  padding-bottom: 0;
+`;
+
+class Collections extends Component<Props> {
+  static ContentContainer = ContentContainer
+
+  render () {
+    console.log(this.props.data);
+    if (!this.props.data || !this.props.data.searchCollections) {
+      return null
+    } // TODO replace with an error message if exists
+
+    const { searchCollections } = this.props.data
+
+    const pageTitle = 'Discover Collections';
+
+    return (
+      <ContentContainer>
+        <Helmet>
+          <title>Kauri - {pageTitle}</title>
+          <meta name='description' content={pageTitle} />
+          <meta name='keywords' content='ethereum, blockchain, learn to code, developer documentation' />
+          <link rel='canonical' href={`https://${this.props.hostName}`} />
+        </Helmet>
+        <CollectionsHeader>
+          <KauriTitle>{pageTitle}</KauriTitle>
+          <KauriDescription>Users' and Communities' Collections</KauriDescription>
+          <ArticleSearchbar />
+        </CollectionsHeader>
+        <CollectionsContainer>
+        {searchCollections.content.map(collection => {
+          const articleCount = collection.sections && collection.sections.reduce(
+          (current, next) => {
+            current += next.resources && next.resources.length
+            return current
+          }, 0);
+          return <CollectionCard
+            changeRoute={this.props.routeChangeAction}
+            key={collection.id}
+            collectionName={collection.name}
+            username={collection.owner && (collection.owner.name || userIdTrim(collection.owner.id))}
+            userId={collection.owner && collection.owner.id}
+            articles={articleCount}
+            lastUpdated={moment(collection.dateCreated).fromNow()}
+            collectionId={collection.id}
+            imageURL={collection.background}
+            profileImage={collection.profileImage}
+            cardHeight={500}
+            collectionDescription={collection.description}
+            linkComponent={(childrenProps, route) => (
+              <Link toSlug={route.includes('collection') && collection.name} useAnchorTag route={route}>
+                {childrenProps}
+              </Link>
+            )}
+          />
+        })}
+        </CollectionsContainer>
+      </ContentContainer>
+    )
+  }
+}
+
+export default Collections
