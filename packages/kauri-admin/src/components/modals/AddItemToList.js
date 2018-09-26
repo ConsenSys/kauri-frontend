@@ -41,7 +41,7 @@ class AddArticle extends Component {
               bsStyle="link"
               style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
               key={i.id}>
-              {i.subject}
+              {i.title}
             </Button>
           )}
         </div>
@@ -145,7 +145,7 @@ class AddRequest extends Component {
               bsStyle="link"
               style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
               key={i.id}>
-              {i.subject}
+              {i.title}
             </Button>
           )}
         </div>

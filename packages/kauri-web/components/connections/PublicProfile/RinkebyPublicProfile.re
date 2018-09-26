@@ -52,6 +52,7 @@ let renderArticleCards = (~response) =>
              date,
              username,
              userId,
+             background
            } =
              make(article);
            <ArticleCard
@@ -65,6 +66,7 @@ let renderArticleCards = (~response) =>
              date
              username={Some(username)}
              userId
+             imageURL={Js.Nullable.toOption(background)}
              linkComponent=(
                (childrenProps, route) =>
                  <Link

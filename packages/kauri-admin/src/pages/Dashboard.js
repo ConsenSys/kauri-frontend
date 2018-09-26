@@ -43,7 +43,7 @@ class Dashboard extends Component {
     try {
       console.log(this.state.topic)
       // noArticleWritten
-      const filter = this.state.topic ? { category_in: this.state.topic, latest_version: true } : { latest_version: true };
+      const filter = this.state.topic ? { category_in: this.state.topic, latestVersion: true } : { latestVersion: true };
       var articles = await this.state.ws.executeQuery('searchArticles', filter, 1000)
       this.setState({ noArticleWritten: articles.totalElements })
 

@@ -84,13 +84,13 @@ export const getAllCuratedList = (payload, maxResult, filter) => ({
 });
 
 export const createCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation createCuratedList($name: String, $description: String, $featured: Boolean, $resources: [ResourceDTOInput]) { createCuratedList (name: $name, description: $description, featured: $featured, resources: $resources) {hash}    }",
+    query: "mutation createCuratedList($name: String, $description: String, $featured: Boolean, $resources: [ResourceIdentifierInput]) { createCuratedList (name: $name, description: $description, featured: $featured, resources: $resources) {hash}    }",
     variables: payload,
     operationName: "createCuratedList"
 });
 
 export const editCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation createCuratedList($id: String, $name: String, $description: String, $featured: Boolean, $resources: [ResourceDTOInput]) { createCuratedList (id: $id, name: $name, description: $description, featured: $featured, resources: $resources) {hash}    }",
+    query: "mutation createCuratedList($id: String, $name: String, $description: String, $featured: Boolean, $resources: [ResourceIdentifierInput]) { createCuratedList (id: $id, name: $name, description: $description, featured: $featured, resources: $resources) {hash}    }",
     variables: payload,
     operationName: "createCuratedList"
 });
@@ -102,19 +102,19 @@ export const removeCuratedList = (payload, maxResult, filter) => ({
 });
 
 export const addResourceToCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation addResourceToCuratedList($id: String,  $resource: ResourceDTOInput) { addResourceToCuratedList (id: $id, resource: $resource) {hash}    }",
+    query: "mutation addResourceToCuratedList($id: String,  $resource: ResourceIdentifierInput) { addResourceToCuratedList (id: $id, resource: $resource) {hash}    }",
     variables: payload,
     operationName: "addResourceToCuratedList"
 });
 
 export const removeResourceFromCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation removeResourceFromCuratedList($id: String, $resource: ResourceDTOInput) { removeResourceFromCuratedList (id: $id, resource: $resource) {hash} }",
+    query: "mutation removeResourceFromCuratedList($id: String, $resource: ResourceIdentifierInput) { removeResourceFromCuratedList (id: $id, resource: $resource) {hash} }",
     variables: payload,
     operationName: "removeResourceFromCuratedList"
 });
 
 export const addHeaderToCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation addHeaderToCuratedList($id: String, $resource: ResourceDTOInput) { addHeaderToCuratedList (id: $id, resource: $resource) {hash}    }",
+    query: "mutation addHeaderToCuratedList($id: String, $resource: ResourceIdentifierInput) { addHeaderToCuratedList (id: $id, resource: $resource) {hash}    }",
     variables: payload,
     operationName: "addHeaderToCuratedList"
 });

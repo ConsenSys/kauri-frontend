@@ -38,8 +38,7 @@ const sectionGenerator = (state) => {
   state.selectedCollection.sections.push({
     name: 'test',
     description: 'test',
-    articles: [],
-    id: [],
+    resourcesId: [],
   });
   return state;
 };
@@ -52,7 +51,7 @@ const prepPayload = (selectedCollection) => {
   const filteredSections = collection.sections.map(i => ({
     name: i.name,
     description: i.description,
-    id: i.articles ? i.articles.map(j => j.id) : [],
+    resourcesId: i.resources ? i.resources.map(j => ({ type: "ARTICLE", id: j.id })) : [],
   }));
   collection.sections = filteredSections;
   return collection;
@@ -99,7 +98,7 @@ const Collection = ({ updateCollBg, updateCollDescription, updateCollName, addAr
     {sections.map((i, key) => <Section addArticle={addArticle} searchArticles={searchArticles} removeArticle={removeArticle} edit={edit} removeSection={removeSection} key={key} index={key} section={i} />)}
   </CollectionContainer >;
 
-const Section = ({ addArticle, searchArticles, removeArticle, edit, removeSection, index, section: { name, description, articles } }) =>
+const Section = ({ addArticle, searchArticles, removeArticle, edit, removeSection, index, section: { name, description, resources } }) =>
   <div style={{ marginBottom: 40 }}>
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <FormControl
@@ -116,8 +115,8 @@ const Section = ({ addArticle, searchArticles, removeArticle, edit, removeSectio
       value={description}
       onChange={(e) => edit(index, 'description', e.target.value)}
     />
-    {articles && articles.map(i =>
-      <div key={`${i.id}-${i.article_version}`} style={{ marginLeft: 20 }}>{i.subject} <Glyphicon onClick={() => removeArticle(index, i.id)} glyph="trash" /></div>)}
+    {resources && resources.map(i =>
+      <div key={`${i.id}-${i.version}`} style={{ marginLeft: 20 }}>{i.title} <Glyphicon onClick={() => removeArticle(index, i.id)} glyph="trash" /></div>)}
     <AddArticle index={index} addArticle={addArticle} searchArticles={searchArticles} />
   </div>;
 
@@ -158,7 +157,7 @@ class AddArticle extends Component {
               bsStyle="link"
               style={{ outline: 'none' }}
               key={i.id}>
-              {i.subject} - version {i.article_version}
+              {i.title} - version {i.version}
             </Button>
           )}
         </div>
@@ -198,7 +197,7 @@ class Collections extends Component {
   }
 
   async searchArticles(payload) {
-    const articles = await this.state.ws.executeQuery('searchArticles', { nameContains: payload.val, latest_version: true, status_in: ["PUBLISHED"] }, 10, payload);
+    const articles = await this.state.ws.executeQuery('searchArticles', { fullText: payload.val, latestVersion: true, statusIn: ["PUBLISHED"] }, 10, payload);
     return articles;
   }
 
@@ -221,15 +220,13 @@ class Collections extends Component {
 
   addArticle(sectionIndex, article) {
     const coll = { ...this.state.selectedCollection };
-    coll.sections[sectionIndex].id.push(article.id);
-    coll.sections[sectionIndex].articles ? coll.sections[sectionIndex].articles.push(article) : coll.sections[sectionIndex].articles = [article];
+    coll.sections[sectionIndex].resources.push({ type: "ARTICLE", id: article.id, title: article.title});
     this.setState({ selectedCollection: coll });
   }
 
   removeArticle(sectionIndex, id) {
     const coll = { ...this.state.selectedCollection };
-    coll.sections[sectionIndex].articles = coll.sections[sectionIndex].articles.filter(i => i.id !== id);
-    coll.sections[sectionIndex].id = coll.sections[sectionIndex].id.filter(i => i !== id);
+    coll.sections[sectionIndex].resources = coll.sections[sectionIndex].resourcesId.filter(i => i.id !== id);
     this.setState({ selectedCollection: coll });
   }
 
@@ -246,14 +243,14 @@ class Collections extends Component {
   }
 
   async composeCollectionReq() {
-    await this.state.ws.executeQuery('createCollection', {}, 1000, this.state.selectedCollection)
+    await this.state.ws.executeQuery('createCollection', {}, 1000, this.state.selectedCollection) // To ensure editing name / description
     await this.state.ws.executeQuery('composeCollection', {}, 1000, prepPayload(this.state.selectedCollection));
     this.fetchCollections();
   }
 
   render() {
     const { content, selectedCollection } = this.state;
-    console.log(this.state);
+    console.log(selectedCollection);
     return (
       <Container >
         <aside style={{ maxWidth: 260 }}>
