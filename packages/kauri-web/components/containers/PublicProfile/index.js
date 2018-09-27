@@ -32,7 +32,9 @@ export default compose(
     name: 'CollectionQuery',
     options: ({userId}) => ({
       variables: {
-        userId
+        filter: {
+          ownerIdEqual: userId,
+        }
       },
     }),
   }),

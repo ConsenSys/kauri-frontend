@@ -117,8 +117,8 @@ export const searchCollections = gql`
 `;
 
 export const getCollectionsForUser = gql`
-  query searchCollections ($userId: String) {
-    searchCollections (filter: { ownerIdEqual: $userId } ) {
+  query searchCollections ($filter: CollectionFilterInput) {
+    searchCollections (filter: $filter) {
         content {
           ...Collection
         }
