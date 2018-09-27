@@ -4,9 +4,13 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
+import { graphql } from 'react-apollo'
 import CreateCollectionForm from './View'
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
 import { createCollectionAction } from './Module'
+import withLoading from '../../../lib/with-loading'
+import withApolloError from '../../../lib/with-apollo-error'
+import { getCollection } from '../../../queries/Collection'
 
 export type FormState = {
   name: string,
@@ -28,6 +32,14 @@ const emptySection: SectionDTO = {
 
 export default compose(
   connect(() => ({}), { showNotificationAction, createCollectionAction, routeChangeAction }),
+  graphql(getCollection, {
+    options: ({ id }) => ({
+      variables: {
+        id,
+      },
+    }),
+    skip: ({ id }) => !id,
+  }),
   withFormik({
     mapPropsToValues: () => ({
       name: '',
@@ -54,5 +66,7 @@ export default compose(
         setSubmitting(false)
       })
     },
-  })
+  }),
+  withLoading(),
+  withApolloError()
 )(CreateCollectionForm)
