@@ -8,6 +8,7 @@ import withLoading from '../../../lib/with-loading'
 const mapStateToProps = (state, ownProps) => {
   return {
     hostName: state.app && state.app.hostName,
+    userId: state.app && state.app.user && state.app.user.id,
   }
 }
 

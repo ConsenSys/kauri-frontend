@@ -28,7 +28,7 @@ export const BaseButtonCss = css`
 }
 `
 
-const bgHover = ({ theme: { bg: { primaryDark } } }) => primaryDark
+const bgHover = (props) => props.theme && props.theme.colors.primaryDark
 
 const PrimaryButton = styled.button`
   ${BaseButtonCss};
