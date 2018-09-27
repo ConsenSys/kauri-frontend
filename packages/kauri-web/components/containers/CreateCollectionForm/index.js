@@ -5,7 +5,7 @@ import { compose } from 'recompose'
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
 import CreateCollectionForm from './View'
-import { showNotificationAction } from '../../../lib/Module'
+import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
 import { createCollectionAction } from './Module'
 
 export type FormState = {
@@ -27,7 +27,7 @@ const emptySection: SectionDTO = {
   resources: undefined }
 
 export default compose(
-  connect(() => ({}), { showNotificationAction, createCollectionAction }),
+  connect(() => ({}), { showNotificationAction, createCollectionAction, routeChangeAction }),
   withFormik({
     mapPropsToValues: () => ({
       name: '',

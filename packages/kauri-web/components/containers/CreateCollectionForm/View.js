@@ -157,7 +157,8 @@ type Props = {
   setFieldValue: (string, any) => void,
   validateForm: () => Promise<any>,
   showNotificationAction: ({ notificationType: string, message: string, description: string }) => void,
-  createCollectionAction: CreateCollectionPayload => void
+  createCollectionAction: CreateCollectionPayload => void,
+  routeChangeAction: string => void
 }
 
 const validateOnSubmit = (validateForm, showNotificationAction) => validateForm().then(errors => {
@@ -174,12 +175,14 @@ const validateOnSubmit = (validateForm, showNotificationAction) => validateForm(
   }
 })
 
-export default ({ touched, errors, values, isSubmitting, setFieldValue, validateForm, showNotificationAction }: Props) =>
+export default ({ touched, errors, values, isSubmitting, setFieldValue, validateForm, showNotificationAction, routeChangeAction }: Props) =>
   <Section>
     <Form>
       <ActionsSection bg={(typeof values.background === 'string' && 'transparent') || 'bgPrimary'}>
         <Stack alignItems={['', 'center']} >
-          <TertiaryButton icon={<img src='https://png.icons8.com/flat_round/50/000000/back.png' />}>Cancel Collection</TertiaryButton>
+          <TertiaryButton
+            onClick={() => routeChangeAction('back')}
+            icon={<img src='https://png.icons8.com/flat_round/50/000000/back.png' />}>Cancel Collection</TertiaryButton>
         </Stack>
         <Stack alignItems={['', 'center']} justifyContent={['', 'center']}>
           <TertiaryButton icon={<UploadIcon />} handleClick={handleBackgroundSetFormField(setFieldValue)}>
