@@ -29,4 +29,5 @@ routes
   .add('community', '/community/:category')
   .add('view-article-version-with-slug', '/article/:article_id/v:article_version/:slug', 'view-article-version')
   .add('create-collection', '/create-collection')
+  .add('update-collection', '/update-collection/:id')
   .add('collection-with-slug', '/collection/:collection_id/:slug', 'collection')
