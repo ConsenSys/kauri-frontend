@@ -15,3 +15,12 @@ export const getUserForAnalytics = gql`
     }
   }
 `
+
+export const getUserAvatar = gql`
+  query getUser($userId: String) {
+    getUser(id: $userId) {
+      id
+      name
+    }
+  }
+`;
