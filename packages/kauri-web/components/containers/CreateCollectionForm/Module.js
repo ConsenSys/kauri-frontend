@@ -17,15 +17,82 @@ export type CreateCollectionPayload = {
   sections: Array<SectionDTO>,
 }
 
+export type ComposeCollectionPayload = {
+  id: string,
+  sections: Array<SectionDTO>,
+  updating?: boolean
+}
+
 type CreateCollectionAction = { type: string, payload: CreateCollectionPayload, callback: any }
 
+type ComposeCollectionAction = { type: string, payload: ComposeCollectionPayload, callback: any }
+
 const CREATE_COLLECTION: string = 'CREATE_COLLECTION'
+
+const COMPOSE_COLLECTION: string = 'COMPOSE_COLLECTION'
 
 export const createCollectionAction = (payload: CreateCollectionPayload, callback: any): CreateCollectionAction => ({
   type: CREATE_COLLECTION,
   payload,
   callback,
 })
+
+export const composeCollectionAction = (payload: ComposeCollectionPayload, callback: any): ComposeCollectionAction => ({
+  type: COMPOSE_COLLECTION,
+  payload,
+  callback,
+})
+
+export const composeCollectionEpic = (
+  action$: Observable<ComposeCollectionAction>,
+  { getState, dispatch }: any,
+  { apolloClient, smartContracts, web3, apolloSubscriber, web3PersonalSign, getGasPrice }: Dependencies
+) => action$.ofType(COMPOSE_COLLECTION).switchMap(({ payload: { id, sections, updating }, callback }: ComposeCollectionAction) =>
+  Observable.fromPromise(
+    apolloClient.mutate({
+      mutation: composeCollection,
+      variables: {
+        id,
+        sections,
+      },
+    })
+  )
+    .flatMap(({ data: { composeCollection: { hash } } }) =>
+      Observable.fromPromise(apolloSubscriber(hash))
+    )
+    .do(h => console.log(h))
+    .flatMap(() => apolloClient.resetStore())
+    .mergeMap(() =>
+      Observable.of(
+        showNotificationAction({
+          notificationType: 'success',
+          message: typeof updating !== 'undefined' ? 'Collection updated!' : 'Collection created!',
+          description: 'Your collection is now available for viewing!',
+        }),
+        routeChangeAction(`/collection/${id}`),
+        trackMixpanelAction({
+          event: 'Offchain',
+          metaData: {
+            resource: 'collection',
+            resourceID: id,
+            resourceVersion: '1',
+            resourceAction: typeof updating !== 'undefined' ? 'update collection' : 'create collection',
+          },
+        })
+      )
+    )
+    .do(() => callback && callback())
+    .catch(err => {
+      console.error(err)
+      return Observable.of(
+        showNotificationAction({
+          notificationType: 'error',
+          message: 'Submission error',
+          description: 'Please try again!',
+        })
+      )
+    })
+)
 
 export const createCollectionEpic = (
   action$: Observable<CreateCollectionAction>,
@@ -50,51 +117,6 @@ export const createCollectionEpic = (
             apolloSubscriber(hash)
           )
           .do(h => console.log(h))
-          .switchMap(({ data: { output: { id } } }) =>
-            Observable.fromPromise(
-              apolloClient.mutate({
-                mutation: composeCollection,
-                variables: {
-                  id,
-                  sections,
-                },
-              })
-            )
-              .flatMap(({ data: { composeCollection: { hash } } }) =>
-                Observable.fromPromise(apolloSubscriber(hash))
-              )
-              .do(h => console.log(h))
-              .flatMap(() => apolloClient.resetStore())
-              .mergeMap(() =>
-                Observable.of(
-                  showNotificationAction({
-                    notificationType: 'success',
-                    message: 'Collection created!',
-                    description: 'Your collection is now available for viewing!',
-                  }),
-                  routeChangeAction(`/collection/${id}`),
-                  trackMixpanelAction({
-                    event: 'Offchain',
-                    metaData: {
-                      resource: 'collection',
-                      resourceID: id,
-                      resourceVersion: '1',
-                      resourceAction: 'create collection',
-                    },
-                  })
-                )
-              )
-              .do(() => callback && callback())
-              .catch(err => {
-                console.error(err)
-                return Observable.of(
-                  showNotificationAction({
-                    notificationType: 'error',
-                    message: 'Submission error',
-                    description: 'Please try again!',
-                  })
-                )
-              })
-          )
+          .map(({ data: { output: { id } } }) => composeCollectionAction({ id, sections }, callback))
       }
     )

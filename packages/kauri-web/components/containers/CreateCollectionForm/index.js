@@ -14,7 +14,6 @@ export type FormState = {
   background: ?string;
   description: ?string;
   sections: Array<SectionDTO>,
-  // description: string,
 }
 
 const emptyArticleResource = { type: 'ARTICLE', id: '', version: undefined }
@@ -39,7 +38,6 @@ export default compose(
       ],
       background: getCollectionField('background', data) || undefined,
       description: getCollectionField('description', data) || undefined,
-      // description: '',
     }),
     validationSchema: Yup.object().shape({
       name: Yup.string()
@@ -53,9 +51,12 @@ export default compose(
     handleSubmit: (values: FormState, { props, setErrors, resetForm, setSubmitting }) => {
       console.log(values)
       console.log(props)
-      props.createCollectionAction(values, () => {
-        setSubmitting(false)
-      })
+      props.data
+        ? props.composeCollectionAction({ ...values, id: props.data.getCollection.id, updating: true }, () => {
+          setSubmitting(false)
+        }) : props.createCollectionAction(values, () => {
+          setSubmitting(false)
+        })
     },
   })
 )(CreateCollectionForm)
