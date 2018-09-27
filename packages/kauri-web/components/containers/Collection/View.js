@@ -15,6 +15,7 @@ type Props = {
   },
   routeChangeAction: string => void,
   hostName: string,
+  userId?: string
 }
 
 const ContentContainer = styled.div`
@@ -58,8 +59,8 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
 
   render () {
     if (!this.props.data || !this.props.data.getCollection) return null
-    const { name, background, description, dateCreated, owner, sections } = this.props.data.getCollection
-    const { routeChangeAction, hostName } = this.props
+    const { id, name, background, description, dateCreated, owner, sections } = this.props.data.getCollection
+    const { userId, routeChangeAction, hostName } = this.props
     const extractedKeywords = rake(description, { language: 'english' })
     const bg = background && background.replace('dev2', 'beta') || this.state.trianglifyBg
     const url = `https://${hostName.replace(/api\./g, '')}/collection/${this.props.id}/${slugify(name, { lower: true })}`;
@@ -75,16 +76,18 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
         <ScrollToTopOnMount />
         <HeaderContainer background={bg}>
           <CollectionHeader
+            id={id}
             name={name}
             description={description}
             updated={dateCreated}
             username={owner.name}
-            linkComponent={childrenProps => (
-              <Link useAnchorTag route={`/public-profile/${owner && owner.id}`}>
+            linkComponent={(childrenProps) => (
+              <Link fullWidth={false} useAnchorTag route={`/public-profile/${owner && owner.id}`}>
                 {childrenProps}
               </Link>
             )}
-            userId={owner.id}
+            userId={userId || ''}
+            ownerId={owner.id}
             url={url}
             profileImage={owner.profileImage}
             routeChangeAction={routeChangeAction}

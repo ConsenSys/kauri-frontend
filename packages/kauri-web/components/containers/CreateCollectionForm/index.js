@@ -5,15 +5,15 @@ import { compose } from 'recompose'
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
 import CreateCollectionForm from './View'
-import { showNotificationAction } from '../../../lib/Module'
-import { createCollectionAction } from './Module'
+import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
+import { createCollectionAction, composeCollectionAction } from './Module'
+import R from 'ramda'
 
 export type FormState = {
   name: string,
   background: ?string;
   description: ?string;
   sections: Array<SectionDTO>,
-  // description: string,
 }
 
 const emptyArticleResource = { type: 'ARTICLE', id: '', version: undefined }
@@ -26,17 +26,18 @@ const emptySection: SectionDTO = {
   ],
   resources: undefined }
 
+const getCollectionField = (field, data) => R.path(['getCollection', field], data)
+
 export default compose(
-  connect(() => ({}), { showNotificationAction, createCollectionAction }),
+  connect(() => ({}), { showNotificationAction, createCollectionAction, composeCollectionAction, routeChangeAction }),
   withFormik({
-    mapPropsToValues: () => ({
-      name: '',
-      sections: [
+    mapPropsToValues: ({ data }) => ({
+      name: getCollectionField('name', data) || '',
+      sections: getCollectionField('sections', data) || [
         emptySection,
       ],
-      background: undefined,
-      description: undefined,
-      // description: '',
+      background: getCollectionField('background', data) || undefined,
+      description: getCollectionField('description', data) || undefined,
     }),
     validationSchema: Yup.object().shape({
       name: Yup.string()
@@ -50,9 +51,31 @@ export default compose(
     handleSubmit: (values: FormState, { props, setErrors, resetForm, setSubmitting }) => {
       console.log(values)
       console.log(props)
-      props.createCollectionAction(values, () => {
-        setSubmitting(false)
-      })
+      if (props.data) {
+        // BACKEND FIX sections.resources -> sections.resourcesId :(
+        const reassignResourcesToResourcesId = R.pipe(
+          R.path(['sections']),
+          R.map(section => ({ ...section,
+            resourcesId: R.map(
+              ({ id, version }) => ({ type: 'ARTICLE', id, version })
+            )(section.resources) })),
+          R.map(section => R.dissocPath(['resources'])(section)),
+          R.map(section => R.dissocPath(['__typename'])(section)),
+        )
+
+        console.log(reassignResourcesToResourcesId(values))
+
+        const payload = { ...values, sections: reassignResourcesToResourcesId(values), id: props.data.getCollection.id, updating: true }
+        console.log(payload)
+
+        props.composeCollectionAction(payload, () => {
+          setSubmitting(false)
+        })
+      } else {
+        props.createCollectionAction(values, () => {
+          setSubmitting(false)
+        })
+      }
     },
   })
 )(CreateCollectionForm)

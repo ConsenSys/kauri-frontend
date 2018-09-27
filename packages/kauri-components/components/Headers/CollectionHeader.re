@@ -31,20 +31,24 @@ module Styles = {
         flex(1),
         alignItems(`center),
         flexDirection(column),
+        selector("> button:last-child", [marginTop(px(24))]),
       ])
     );
 };
 
 let make =
     (
+      ~id,
       ~name,
       ~description,
       ~username,
       ~userId,
+      ~ownerId,
       ~linkComponent=?,
       /* ~profileImage=?, */
       ~updated,
       ~url,
+      ~routeChangeAction=?,
       _children,
     ) => {
   ...component,
@@ -76,6 +80,21 @@ let make =
             )
           )
         }
+        {
+          userId === ownerId ?
+            <PrimaryButton
+              onClick={
+                _ =>
+                  routeChangeAction
+                  ->Belt.Option.getWithDefault(
+                      _ => (),
+                      {j|/collection/$id/update-collection|j},
+                    )
+              }>
+              <span> "Update Collection"->ReasonReact.string </span>
+            </PrimaryButton> :
+            ReasonReact.null
+        }
       </div>
     </div>,
 };
@@ -87,7 +106,9 @@ type jsProps = {
   description: string,
   username: Js.Nullable.t(string),
   url: string,
+  id: string,
   userId: string,
+  ownerId: string,
   profileImage: string,
   updated: string,
   routeChangeAction: string => unit,
@@ -97,14 +118,17 @@ type jsProps = {
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
+      ~id=jsProps->idGet,
       ~name=jsProps->nameGet,
       ~description=jsProps->descriptionGet,
       ~username=jsProps->usernameGet->Js.Nullable.toOption,
       ~userId=jsProps->userIdGet,
+      ~ownerId=jsProps->ownerIdGet,
       ~linkComponent=jsProps->linkComponentGet,
       ~url=jsProps->urlGet,
       /* ~profileImage=jsProps->profileImageGet, */
       ~updated=jsProps->updatedGet,
+      ~routeChangeAction=jsProps->routeChangeActionGet,
       [||],
     )
   );

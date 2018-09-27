@@ -14,12 +14,13 @@ type LinkProps = {
   useAnchorTag?: boolean,
   children: any,
   trackAnalyticsAction: TrackAnalyticsPayload => void,
+  fullWidth?: boolean
 }
 
 const A = styled.a`
   text-decoration: none;
   color: inherit;
-  width: 100%;
+  ${props => props.fullWidth && 'width: 100%;'};
   :hover {
     color: inherit;
   }
@@ -38,9 +39,11 @@ class Link extends React.Component<LinkProps> {
     let url = this.props.as || this.props.href || this.props.children.props.href
     const slug = this.props.toSlug ? slugify(this.props.toSlug, { lower: true }) : null;
     if (slug) url += `/${slug}`;
+    const { fullWidth = true } = this.props
+
     if (this.props.useAnchorTag) {
       return (
-        <A href={url} onClick={(e) => this.handleClick(e, url)}>
+        <A href={url} onClick={(e) => this.handleClick(e, url)} fullWidth={fullWidth}>
           {this.props.children}
         </A>
       )
