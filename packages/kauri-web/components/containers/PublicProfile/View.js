@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs';
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs';
-import Tabs from '../../common/Tabs';
+import Tabs from '../../../../kauri-components/components/Tabs';
 import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard.bs';
 import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard.bs';
 import { Link } from '../../../routes';
