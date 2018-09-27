@@ -7,6 +7,7 @@ import * as Yup from 'yup'
 import CreateCollectionForm from './View'
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
 import { createCollectionAction } from './Module'
+import R from 'ramda'
 
 export type FormState = {
   name: string,
@@ -26,16 +27,18 @@ const emptySection: SectionDTO = {
   ],
   resources: undefined }
 
+const getCollectionField = (field, data) => R.path(['getCollection', field], data)
+
 export default compose(
   connect(() => ({}), { showNotificationAction, createCollectionAction, routeChangeAction }),
   withFormik({
-    mapPropsToValues: () => ({
-      name: '',
-      sections: [
+    mapPropsToValues: ({ data }) => ({
+      name: getCollectionField('name', data) || '',
+      sections: getCollectionField('sections', data) || [
         emptySection,
       ],
-      background: undefined,
-      description: undefined,
+      background: getCollectionField('background', data) || undefined,
+      description: getCollectionField('description', data) || undefined,
       // description: '',
     }),
     validationSchema: Yup.object().shape({

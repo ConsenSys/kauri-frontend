@@ -176,7 +176,7 @@ const validateOnSubmit = (validateForm, showNotificationAction) => validateForm(
   }
 })
 
-export default ({ touched, errors, values, isSubmitting, setFieldValue, validateForm, showNotificationAction, routeChangeAction }: Props) =>
+export default ({ touched, errors, values, isSubmitting, setFieldValue, validateForm, showNotificationAction, routeChangeAction, data }: Props) =>
   <Section>
     <Form>
       <ActionsSection bg={(typeof values.background === 'string' && 'transparent') || 'bgPrimary'}>
@@ -191,7 +191,9 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue, validate
           </TertiaryButton>
         </Stack>
         <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
-          <PrimaryButton disabled={isSubmitting} type='submit' onClick={() => validateOnSubmit(validateForm, showNotificationAction)}>Create</PrimaryButton>
+          <PrimaryButton disabled={isSubmitting} type='submit' onClick={() => validateOnSubmit(validateForm, showNotificationAction)}>
+            {data ? 'Update' : 'Create'}
+          </PrimaryButton>
         </Stack>
       </ActionsSection>
 
