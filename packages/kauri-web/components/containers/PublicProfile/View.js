@@ -63,7 +63,6 @@ const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, routeChangeA
         <Initial>{(UserQuery.getUser.name || UserQuery.getUser.id).substring(0,1)}</Initial>
         <Address>{UserQuery.getUser.id}</Address>
         <Stats>
-            {console.log(ArticlesQuery)}
             {ArticlesQuery && ArticlesQuery.searchArticles.content &&
                 <StatisticsContainer
                     statistics={[{
@@ -102,7 +101,6 @@ const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, routeChangeA
                 />)}
             </ContentContainer>,
             <ContentContainer>
-                {console.log(CollectionQuery)}
                 {CollectionQuery.searchCollections.content.length === 0 && <div>U-oh, no collections here!</div>}
                 {CollectionQuery.searchCollections.content.map(collection => {
                     const articleCount = collection.sections && collection.sections.reduce(
