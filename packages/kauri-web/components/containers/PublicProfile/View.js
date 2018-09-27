@@ -40,6 +40,10 @@ const Initial = styled.div`
     border-radius: 50px;
     font-size: ${props => props.theme.fontSizes[5]}px;
     font-weight: 700;
+
+    @media (max-width: 700px) {
+        display: none;
+    }
 `;
 
 const Address = styled.div`
@@ -61,7 +65,7 @@ const Stats = styled.div`
 const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, routeChangeAction }) => <div>
     <PublicProfileHeader>
         <Initial>{(UserQuery.getUser.name || UserQuery.getUser.id).substring(0,1)}</Initial>
-        <Address>{UserQuery.getUser.id}</Address>
+        <Address>{userIdTrim(UserQuery.getUser.id)}</Address>
         <Stats>
             {ArticlesQuery && ArticlesQuery.searchArticles.content &&
                 <StatisticsContainer
