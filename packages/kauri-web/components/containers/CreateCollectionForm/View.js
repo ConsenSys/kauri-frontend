@@ -158,7 +158,8 @@ type Props = {
   validateForm: () => Promise<any>,
   showNotificationAction: ({ notificationType: string, message: string, description: string }) => void,
   createCollectionAction: CreateCollectionPayload => void,
-  routeChangeAction: string => void
+  routeChangeAction: string => void,
+  data?: { getCollection?: ?CollectionDTO }
 }
 
 const validateOnSubmit = (validateForm, showNotificationAction) => validateForm().then(errors => {

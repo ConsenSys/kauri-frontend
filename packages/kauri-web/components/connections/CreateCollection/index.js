@@ -1,5 +1,5 @@
 
-import View from './View'
+import View from '../../containers/CreateCollectionForm'
 import { connect } from 'react-redux'
 import { graphql, compose } from 'react-apollo'
 import { globalCollectionDetails as getCollection } from '../../../queries/Collection'
