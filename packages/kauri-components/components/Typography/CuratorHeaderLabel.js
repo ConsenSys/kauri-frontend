@@ -1,4 +1,5 @@
-import React from 'react'
+//@flow
+import * as React from 'react'
 import styled from 'styled-components'
 import { fontSize } from 'styled-system'
 
@@ -9,4 +10,9 @@ const CuratorHeaderLabel = styled.span`
   ${fontSize}
 `
 
-export default ({ children, fontSize = 0 }) => <CuratorHeaderLabel fontSize={fontSize}>{children}</CuratorHeaderLabel>
+type Props = {
+  children: React.Node,
+  fontSize?: number,
+};
+
+export default ({ children, fontSize = 0 }: Props) => <CuratorHeaderLabel fontSize={fontSize}>{children}</CuratorHeaderLabel>

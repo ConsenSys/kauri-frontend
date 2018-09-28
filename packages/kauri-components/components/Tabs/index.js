@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 const TabContainer = styled.div``;
@@ -39,7 +39,7 @@ type State = {
     selectedTabIndex: number,
 };
 
-class TabsComponent extends Component<Props, State> {
+class TabsComponent extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -52,6 +52,8 @@ class TabsComponent extends Component<Props, State> {
     }
 
     render () {
+        const index = this.state.selectedTabIndex;
+        const props = this.props;
         return (
             <TabContainer>
                 <Tabs>
@@ -63,7 +65,7 @@ class TabsComponent extends Component<Props, State> {
                             {tab}
                         </Tab>)}
                 </Tabs>
-                {this.props.panels[this.state.selectedTabIndex]}
+                {props.panels[index]}
             </TabContainer>
         );
     }

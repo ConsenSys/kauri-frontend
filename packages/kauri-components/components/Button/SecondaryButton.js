@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react';
 import styled from 'styled-components'
 import { BaseButtonCss } from './PrimaryButton'
 
@@ -14,13 +14,19 @@ const SecondaryButton = styled.button`
 
 type Props = {
   icon?: React.Node,
-  children: React.ChildrenArray<T>,
-  handleClick: any => void,
+  handleClick: () => void,
   disabled?: boolean,
+  fontWeight?: number,
+  fontSize?: number,
+  color?: string,
+  space?: number,
+  text?: string,
+  bg?: string, 
+  children?: React.Node,
 }
 
-export default ({ bg = 'secondaryBlue', fontWeight = 700, fontSize = 0, color = 'white', space = 2, handleClick, text, children, icon, disabled }: Props) =>
+export default ({ bg = 'secondaryBlue', fontWeight = 700, fontSize = 0, color = 'white', space = 2, handleClick, text ='', children, icon, disabled }: Props) =>
   <SecondaryButton disabled={disabled} mr={space} onClick={handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
     {icon}
-    {children || text}
+    {text || children}
   </SecondaryButton>

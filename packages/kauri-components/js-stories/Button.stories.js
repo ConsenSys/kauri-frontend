@@ -12,28 +12,28 @@ const UploadIcon = () => <img src='https://png.icons8.com/color/50/000000/upload
 
 storiesOf('Button', module)
   .add('PrimaryButton', () => (
-    <PrimaryButton handleClick={() => alert('clicked')}>Create</PrimaryButton>
+    <PrimaryButton handleClick={() => alert('clicked')} text="Create" />
   ))
   .add('PrimaryButton with icon', () => (
-    <PrimaryButton icon={<UploadIcon />} handleClick={() => alert('clicked')}>Create</PrimaryButton>
+    <PrimaryButton icon={<UploadIcon />} handleClick={() => alert('clicked')} text="Create" />
   ))
   .add('PrimaryButton Disabled', () => (
-    <PrimaryButton disabled handleClick={() => alert('clicked')}>Create</PrimaryButton>
+    <PrimaryButton disabled handleClick={() => alert('clicked')} text="Create" />
   ))
   .add('SecondaryButton', () => (
-    <SecondaryButton handleClick={() => alert('clicked')}>Create</SecondaryButton>
+    <SecondaryButton handleClick={() => alert('clicked')} text="Create" />
   ))
   .add('SecondaryButton with icon', () => (
-    <SecondaryButton icon={<UploadIcon />}handleClick={() => alert('clicked')}>Create</SecondaryButton>
+    <SecondaryButton icon={<UploadIcon />}handleClick={() => alert('clicked')} text="Create" />
   ))
   .add('SecondaryButton Disabled', () => (
-    <SecondaryButton disabled icon={<UploadIcon />}handleClick={() => alert('clicked')}>Create</SecondaryButton>
+    <SecondaryButton disabled icon={<UploadIcon />}handleClick={() => alert('clicked')} text="Create" />
   ))
   .add('TertiaryButton', () => (
-    <TertiaryButton handleClick={() => alert('clicked')} icon={<UploadIcon />}>Background Image</TertiaryButton>
+    <TertiaryButton handleClick={() => alert('clicked')} icon={<UploadIcon />} text="Background Image" />
   ))
   .add('TertiaryButton Disabled', () => (
-    <TertiaryButton disabled handleClick={() => alert('clicked')} icon={<UploadIcon />}>Background Image</TertiaryButton>
+    <TertiaryButton disabled handleClick={() => alert('clicked')} icon={<UploadIcon />}  text="Background Image" />
   ))
   .add('AddTagButton', () => (
     <AddTagButton handleClick={() => alert('clicked')} />

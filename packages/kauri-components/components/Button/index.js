@@ -1,6 +1,6 @@
 // @flow
 
-const exports = {
+const buttons = {
   PrimaryButton: require('./PrimaryButton').default,
   SecondaryButton: require('./SecondaryButton').default,
   TertiaryButton: require('./TertiaryButton').default,
@@ -9,4 +9,4 @@ const exports = {
   UploadLogoButton: require('./UploadLogoButton').default,
 }
 
-module.exports = exports
+module.exports = buttons;

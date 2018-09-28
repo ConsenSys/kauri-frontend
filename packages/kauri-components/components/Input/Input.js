@@ -65,21 +65,32 @@ type State = {
 type Props = {
   placeHolder?: string,
   fontSize?: number,
-  handleChange: (value: string) => void,
+  handleChange?: (value: string) => void,
+  value?: string,
+  color?: string,
+  fontWeight?: number,
+  onChange?: () => void,
+  onBlur?: () => void,
+  name?: string,
+  hideUnderline?: boolean,
+  textAlign?: string,
 }
 
 export default class extends React.Component<Props, State> {
-  state = {
-    value: '',
+  constructor(props : Props) {
+    super(props);
+    this.state = {
+      value: props.value || '',
+    }
   }
 
-  handleChange = (value) => {
+  handleChange = (value: string) => {
     this.setState({ value })
   }
 
   render () {
     const { color = 'white', placeHolder, fontSize, fontWeight = 500, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name, hideUnderline = false, textAlign = 'left' } = this.props
-    const value = this.props.value || this.state.value
+    const value = this.state.value;
 
     return (
       <InputWrapper>
