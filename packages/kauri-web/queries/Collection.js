@@ -113,6 +113,16 @@ export const searchCollections = gql`
         }
     }
   }
+  ${Collection}
+`;
 
+export const getCollectionsForUser = gql`
+  query searchCollections ($filter: CollectionFilterInput) {
+    searchCollections (filter: $filter) {
+        content {
+          ...Collection
+        }
+    }
+  }
   ${Collection}
 `;

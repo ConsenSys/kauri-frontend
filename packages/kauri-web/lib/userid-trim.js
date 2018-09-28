@@ -1,1 +1,1 @@
-export default (user) => (user).substring(0, 11) + '...' + (user).substring((user).length - 13, 11)
+export default (user) => (user).substring(0, 6) + '...' + (user).substring(38, 42);
