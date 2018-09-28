@@ -103,7 +103,7 @@ class Collections extends Component<Props> {
               articles={articleCount}
               lastUpdated={moment(collection.dateCreated).fromNow()}
               collectionId={collection.id}
-              imageURL={collection.background && collection.background.replace('dev2', 'beta')}
+              imageURL={collection.background && collection.background}
               profileImage={collection.profileImage}
               cardHeight={500}
               collectionDescription={collection.description}

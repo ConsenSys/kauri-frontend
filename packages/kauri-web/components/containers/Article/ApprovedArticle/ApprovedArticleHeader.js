@@ -71,7 +71,7 @@ export const PullRight = styled.div`
 `
 
 export default ({ category, sub_category, datePublished, title, attributes }: *) => (
-  <ApprovedArticleSecondaryHeader style={{ background: attributes && attributes.background ? `url(${attributes.background.replace('dev2', 'beta')}) center center` : '#1E2428', backgroundSize: 'cover'}} type='article' theme={theme} chosenCategory={category}>
+  <ApprovedArticleSecondaryHeader style={{ background: attributes && attributes.background ? `url(${attributes.background}) center center` : '#1E2428', backgroundSize: 'cover'}} type='article' theme={theme} chosenCategory={category}>
     {category && <ApprovedArticleLogo type='article' theme={theme} chosenCategory={category} />}
     <ApprovedArticleSubject
       type='article'
