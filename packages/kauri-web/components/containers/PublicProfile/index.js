@@ -24,7 +24,7 @@ export default compose(
     name: 'UserQuery',
     options: ({userId}) => ({
       variables: {
-          userId
+          userId,
       },
     }),
   }),

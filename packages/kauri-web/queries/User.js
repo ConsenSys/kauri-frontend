@@ -10,8 +10,8 @@ export const User = gql`
 export const getUserForAnalytics = gql`
   query getUser($userId: String) {
     getUser(id: $userId) {
-      user_id
-      username
+      id
+      name
     }
   }
 `

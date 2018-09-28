@@ -63,9 +63,10 @@ const Stats = styled.div`
 `;
 
 const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, routeChangeAction }) => <div>
-    <PublicProfileHeader>
-        <Initial>{(UserQuery.getUser.name || UserQuery.getUser.id).substring(0,1)}</Initial>
-        <Address>{userIdTrim(UserQuery.getUser.id)}</Address>
+    {UserQuery && ArticlesQuery && CollectionQuery && <PublicProfileHeader>
+        {console.log(UserQuery.getUser)}
+        <Initial>{(UserQuery.getUser && UserQuery.getUser.name || UserQuery.getUser.id).substring(0,1)}</Initial>
+        <Address>{UserQuery.getUser && userIdTrim(UserQuery.getUser.id)}</Address>
         <Stats>
             {ArticlesQuery && ArticlesQuery.searchArticles.content &&
                 <StatisticsContainer
@@ -77,9 +78,8 @@ const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, routeChangeA
                         count: CollectionQuery.searchCollections.content.length
                     }]}/>}
         </Stats>
-
-    </PublicProfileHeader>
-    <Tabs
+    </PublicProfileHeader>}
+   {ArticlesQuery && CollectionQuery && <Tabs
         tabs={["Articles", "Collections"]}
         panels={[
             <ContentContainer>
@@ -122,7 +122,7 @@ const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, routeChangeA
                             articles={articleCount}
                             lastUpdated={moment(collection.dateCreated).fromNow()}
                             collectionId={collection.id}
-                            imageURL={collection.background && collection.background.replace('dev2', 'beta')}
+                            imageURL={collection.background && collection.background}
                             profileImage={collection.profileImage}
                             cardHeight={500}
                             collectionDescription={collection.description}
@@ -136,7 +136,7 @@ const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, routeChangeA
                 })}
             </ContentContainer>,
         ]}
-    />
+    />}
 </div>;
 
 export default PublicProfile;

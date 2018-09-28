@@ -62,7 +62,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     const { id, name, background, description, dateCreated, owner, sections } = this.props.data.getCollection
     const { userId, routeChangeAction, hostName } = this.props
     const extractedKeywords = rake(description, { language: 'english' })
-    const bg = background && background.replace('dev2', 'beta') || this.state.trianglifyBg
+    const bg = background && background || this.state.trianglifyBg
     const url = `https://${hostName.replace(/api\./g, '')}/collection/${this.props.id}/${slugify(name, { lower: true })}`;
 
     return (

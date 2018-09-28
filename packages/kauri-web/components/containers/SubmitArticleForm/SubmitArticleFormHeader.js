@@ -214,8 +214,8 @@ const SubmitArticleFormStatus = styled.div`
 
 const getBG = (getFieldValue, attributes) => {
   const formValue = getFieldValue('attributes');
-  if (formValue && formValue.background) return `url(${formValue.background.replace('dev2', 'beta')}) center center`;
-  if (attributes && attributes.background) return `url(${attributes.background.replace('dev2', 'beta')}) center center`;
+  if (formValue && formValue.background) return `url(${formValue.background}) center center`;
+  if (attributes && attributes.background) return `url(${attributes.background}) center center`;
   return '#1E2428';
 }
 
