@@ -1,3 +1,4 @@
+//@flow
 import { connect } from 'react-redux'
 import { compose } from 'react-apollo'
 import { trackAnalyticsAction } from './Module'

@@ -14,7 +14,7 @@ type Props = {
     searchCommunities?: {
       content: Array<?ArticleDTO>,
     },
-    searchCommunities: ?Array<CuratedListDTO>
+    searchCommunities: ?Array<CommunityDTO>
   },
   hostName: string,
   routeChangeAction: string => void,

@@ -6,7 +6,7 @@
   },
   "license": "ISC",
   "scripts": {
-    "get-schema": "yarn send-introspection-query https://api.dev.kauri.io/graphql && node scripts/convertGQLSchemaToFlowTypes.js",
+    "get-schema": "yarn send-introspection-query https://api.dev2.kauri.io/graphql && node scripts/convertGQLSchemaToFlowTypes.js",
     "clean": "bsb -clean-world",
     "dev": "concurrently \"npm run dev:bs\" \"npm run dev:web\"",
     "dev:bs": "bsb -make-world -w",

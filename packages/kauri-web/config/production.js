@@ -1,3 +1,4 @@
+//@flow
 module.exports = {
   KauriCoreArtifact: '/contracts/KauriCore.json',
   WalletArtifact: '/contracts/Wallet.json',

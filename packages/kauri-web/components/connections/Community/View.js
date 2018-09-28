@@ -1,11 +1,11 @@
 // @flow
 import React from 'react'
-import Community from './Community.bs'
+import Community from './Community.bs'; // flowlint-line untyped-import:off
 
 type Props = {
   category: string,
   hostName: string,
-  data?: { getCommunity?: ?CommunityDTO, error: boolean }
+  data?: { getCommunity?: ?CommunityDTO, error?: { message: string} }
 }
 
 class CommunityConnection extends React.Component<Props> {

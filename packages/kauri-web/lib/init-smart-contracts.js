@@ -5,9 +5,13 @@ import superagent from 'superagent'
 const request = superagent.agent()
 const config = require('../config').default
 
-let smartContracts
+let smartContracts;
 
-export const initSmartContracts = web3 => {
+type Web3Props = {
+  currentProvider: string,
+};
+
+export const initSmartContracts = (web3: Web3Props) => {
   if (typeof web3 !== 'undefined') {
     const smartContractNames = ['KauriCore', 'Wallet', 'Community']
     const smartContractFetchObservables = smartContractNames.map(smartContractName =>
