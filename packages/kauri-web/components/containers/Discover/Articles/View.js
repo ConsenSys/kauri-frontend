@@ -64,6 +64,7 @@ export const ArticlesContainer = styled.div`
   flex: 1;
   flex-wrap: wrap;
   padding-bottom: 0;
+  max-width: 1280px;
 `;
 
 class Collections extends Component<Props> {

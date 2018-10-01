@@ -96,7 +96,7 @@ export const composeCollection = gql`
 `
 export const getLatestCollections = gql`
   query searchCollections {
-    searchCollections (size: 100) {
+    searchCollections (size: 100, sort: "dateUpdated", dir: DESC) {
         content {
           ...Collection
         }
