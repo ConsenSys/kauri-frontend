@@ -65,6 +65,7 @@ export default ({
   text,
   username,
   userId,
+  authorId,
   routeChangeAction,
   article_id,
   article_version,
@@ -74,7 +75,8 @@ export default ({
 }: {
   text?: string,
   username?: ?string,
-  userId?: ?string,
+  userId?: string,
+  authorId?: string,
   routeChangeAction: string => void,
   article_id: string,
   subject?: string,
@@ -103,9 +105,7 @@ export default ({
 
   const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
 
-  const canUpdateArticle = config.updateArticleWhitelistedAddresses.find(
-    whiteListedAddress => (whiteListedAddress.toLowerCase() === (typeof address === 'string' && address.toLowerCase())) || process.env.NODE_ENV === 'development'
-  )
+  const canUpdateArticle = typeof authorId === 'string' && typeof userId === 'string' && (userId === authorId)
 
   return (
     <SubmitArticleFormContent>
@@ -116,22 +116,23 @@ export default ({
       <ApprovedArticleDetails type='outline'>
         <Outline
           linkComponent={children => (
-            <Link useAnchorTag route={`/public-profile/${userId}`}>
+            <Link useAnchorTag route={`/public-profile/${authorId}`}>
               {children}
             </Link>
           )}
           headings={outlineHeadings || []}
-          username={username || userIdTrim(userId)}
-          userId={userId}
+          username={username || userIdTrim(authorId)}
+          userId={authorId}
           routeChangeAction={routeChangeAction}
         />
-        <ArticleAction
-          svgIcon={<UpdateArticleSvgIcon />}
-          text={'Update Article'}
-          handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
-        >
+        {canUpdateArticle && (
+          <ArticleAction
+            svgIcon={<UpdateArticleSvgIcon />}
+            text={'Update Article'}
+            handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
+          >
           Update article
-        </ArticleAction>
+          </ArticleAction>) }
         <ShareArticle
           url={`${hostName.replace(/api\./g, '')}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}

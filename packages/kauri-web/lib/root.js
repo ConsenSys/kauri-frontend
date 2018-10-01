@@ -21,7 +21,7 @@ import {
   approveArticleEpic,
   publishArticleEpic,
 } from '../components/containers/Article/Article_Module.bs'
-import { submitArticleEpic, editArticleEpic } from '../components/containers/SubmitArticleForm/Module'
+import { submitArticleEpic, submitArticleVersionEpic, editArticleEpic } from '../components/containers/SubmitArticleForm/Module'
 import { addCommentEpic } from '../components/containers/AddCommentForm/Module'
 import {
   fetchWalletAvailableFundsEpic,
@@ -52,6 +52,7 @@ const epics = [
   routeChangeEpic,
   updateRequestEpic,
   submitArticleEpic,
+  submitArticleVersionEpic,
   editArticleEpic,
   flagRequestEpic,
   addCommentEpic,

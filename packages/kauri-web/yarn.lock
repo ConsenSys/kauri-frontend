@@ -9162,9 +9162,9 @@ next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
-next@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/next/-/next-7.0.0.tgz#c919b325fbce21b6a1d6cd1cc0be148540e77bfd"
+next@7.0.0-canary.20:
+  version "7.0.0-canary.20"
+  resolved "https://registry.yarnpkg.com/next/-/next-7.0.0-canary.20.tgz#43363883ef2f8276d9d45617003776cc8226ceb0"
   dependencies:
     "@babel/core" "7.0.0"
     "@babel/plugin-proposal-class-properties" "7.0.0"
