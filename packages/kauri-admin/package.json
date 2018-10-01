@@ -40,7 +40,7 @@
     "jest": "22.4.3",
     "loader-utils": "^1.1.0",
     "megadraft": "^0.5.2",
-    "next": "7.0.0-canary.20",
+    "next": "7.0.0-canary.16",
     "mini-css-extract-plugin": "^0.4.0",
     "object-assign": "4.1.1",
     "optimize-css-assets-webpack-plugin": "^4.0.1",
