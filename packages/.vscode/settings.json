@@ -7,5 +7,5 @@
         "url": "https://bucklescript.github.io/bucklescript/docson/build-schema.json"
     }],
     "reason.diagnostics.tools": ["merlin", "bsb"],
-    "reason.path.ocamlmerlin": "/usr/local/bin/ocamlmerlin",
+    "reason.path.ocamlmerlin": "/usr/local/bin/ocamlmerlin"
 }
