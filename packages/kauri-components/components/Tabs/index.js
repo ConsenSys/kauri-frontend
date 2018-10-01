@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import { bg } from 'styled-system'
 import styled from 'styled-components';
 
 const TabContainer = styled.div`
@@ -15,8 +14,8 @@ const Tabs = styled.div`
     flex-direction: row;
     align-items: center;
     background-color: ${props => props.theme.bg[props.bg]};
-    ${props => props.padContent && `padding: 0px calc((100vw - 1280px) / 2)`};
-    ${props => props.centerTabs && 'justify-content: center;'};
+    ${props => props.padContent && 'padding: 0px calc((100vw - 1280px) / 2)'};
+    ${props => props.centerTabs && 'justify-content: center'};
 `;
 
 const Panels = styled.div``;
