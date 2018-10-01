@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import ArticleSearchbar from '../../ArticleSearchbar'
 import { Helmet } from 'react-helmet';
-import ArticleCard from '../../../../../kauri-components/components/Card/ArticleCard.bs'
+import ArticleCard from '../../../../../kauri-components/components/Card/ArticleCard.bs';
 import { Link } from '../../../../routes';
 import moment from 'moment';
 import userIdTrim from '../../../../lib/userid-trim';

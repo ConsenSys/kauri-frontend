@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import styled, { css } from 'styled-components'
 import Stack from 'stack-styled'
 import { bgColor } from 'styled-system'
@@ -18,9 +18,15 @@ const PrimaryHeaderSectionStack = styled(Stack)`
   min-height: 250px;
   padding: 0px ${props => props.theme.padding};
   ${props => props.backgroundURL && withBackgroundURLCss};
-`
+`;
 
-const PrimaryHeaderSection = ({ bg = 'bgPrimary', backgroundURL, children }) =>
+type PrimaryHeaderSectionType = {
+  bg?: string,
+  backgroundURL?: string,
+  children?: React.Node
+}
+
+const PrimaryHeaderSection = ({ bg = 'bgPrimary', backgroundURL, children }: PrimaryHeaderSectionType) =>
   <PrimaryHeaderSectionStack backgroundURL={backgroundURL} bg={bg} alignItems={['', 'center']} gridAutoFlow={['', 'column']} gridTemplateColumns='minmax(auto, 1fr) minmax(auto, 1fr)'>
     {children}
   </PrimaryHeaderSectionStack>

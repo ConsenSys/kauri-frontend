@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import styled from 'styled-components'
 import { fontSize, fontWeight, color, space } from 'styled-system'
 
@@ -28,17 +28,20 @@ const UploadLogoButton = styled.button`
   ${color};
 `
 
-const UploadIcon = () => <img src='https://png.icons8.com/color/50/000000/upload.png' />
-
 type Props = {
-  icon: React.Node,
-  children: React.ChildrenArray<T>,
-  handleClick: any => void;
+  icon?: () => React.Node,
+  children?: React.Node,
+  handleClick: () => void;
   disabled?: boolean;
+  fontSize?: number,
+  space?: number,
+  color?: string,
+  height?: string,
+  text?: string,
 }
 
-export default ({ fontSize = 0, space = 2, color = 'textPrimary', height = '100px', icon = <UploadIcon />, text = 'Logo', handleClick, children, disabled }: Props) =>
+export default ({ fontSize = 0, space = 2, color = 'textPrimary', height = '100px', text = 'Logo', handleClick, children, disabled }: Props) =>
   <UploadLogoButton mb={space} height={height} disabled={disabled} onClick={handleClick} color={color} fontSize={fontSize} fontWeight={fontWeight}>
-    {icon}
-    {children || text}
+    <img src='https://png.icons8.com/color/50/000000/upload.png' />
+    {text || children}
   </UploadLogoButton>

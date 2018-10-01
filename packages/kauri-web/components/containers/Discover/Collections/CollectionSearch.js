@@ -1,11 +1,11 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { searchCollections } from '../../../../queries/Collection'
+import { searchCollections } from '../../../../queries/Collection';
 import { Icon, Input, AutoComplete } from 'antd'
 import { Subject } from 'rxjs/Subject'
 import { compose, withApollo } from 'react-apollo'
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { routeChangeAction } from '../../../../lib/Module'
 
 const Option = AutoComplete.Option

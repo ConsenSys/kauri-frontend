@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react'
 import WebService from '../components/WebService'
 import Configuration from '../components/Configuration'

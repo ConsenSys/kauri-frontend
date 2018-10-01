@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import styled from 'styled-components'
 import { fontSize, fontWeight, color, space } from 'styled-system'
 
@@ -27,11 +27,16 @@ const TertiaryButton = styled.button`
 `
 
 type Props = {
-  icon: React.Node,
-  children: React.ChildrenArray<T>,
-  handleClick: any => void,
-  onClick: any => void,
-  disabled?: boolean
+  icon?: React.Node,
+  handleClick?: () => void,
+  onClick?: () => void,
+  disabled?: boolean,
+  type?: string,
+  fontWeight?: number,
+  fontSize?: number,
+  space?: number,
+  color?: string,
+  children?: React.Node,
 }
 
 export default ({ type = 'button', fontWeight = 700, fontSize = 0, space = 2, color = 'white', handleClick, onClick, icon, children, disabled }: Props) =>

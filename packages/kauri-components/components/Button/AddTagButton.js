@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react';
 import styled, { css } from 'styled-components'
 import { space, fontSize, fontWeight, bg, color } from 'styled-system'
 
@@ -35,17 +35,22 @@ const AddTagButton = styled.button`
   }
 `
 
-const AddIcon = () => <img src='https://png.icons8.com/ios-glyphs/50/000000/plus-math.png' />
-
 type Props = {
   icon?: React.Node,
-  children: React.ChildrenArray<T>,
-  handleClick: any => void,
+  handleClick?: () => void,
+  onClick?: () => void,
   disabled?: boolean,
+  bg?: string,
+  fontWeight?: number,
+  fontSize?: number,
+  space?: number,
+  color?: string,
+  text?: string,
+  children?: React.Node,
 }
 
-export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, space = 2, color = 'textPrimary', icon = <AddIcon />, text = 'Add Tag', handleClick, children, disabled }: Props) =>
+export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, space = 2, color = 'textPrimary', text = 'Add Tag', handleClick, children, disabled }: Props) =>
   <AddTagButton disabled={disabled} mr={space} onClick={handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
-    {/* {icon} */}
-    {children || text}
+    <img src='https://png.icons8.com/ios-glyphs/50/000000/plus-math.png' />
+    {text || children}
   </AddTagButton>

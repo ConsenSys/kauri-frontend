@@ -88,7 +88,7 @@ export const categories = Object.keys({
   remix,
   toshi,
   zeppelin,
-})
+});
 
 const themeConfig = {
   padding: 'calc((100vw - 1280px) / 2)',

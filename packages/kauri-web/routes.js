@@ -1,6 +1,7 @@
+//@flow
 const Link = require('./components/containers/Link').default
 
-const nextRoutes = require('next-routes')
+const nextRoutes = require('next-routes');
 
 const Router = nextRoutes().Router
 

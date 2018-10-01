@@ -1,22 +1,10 @@
+//@flow
 import React from 'react'
 
 export default () => (
   <div className='center-horizontally'>
     <div className='lds-css ng-scope'>
       <div className='lds-spinner'>
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
         <style type='text/css'>
           {`
         .center-horizontally {

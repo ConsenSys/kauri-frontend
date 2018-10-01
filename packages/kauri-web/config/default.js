@@ -1,3 +1,5 @@
+//@flow
+
 const hotJarTrackingCode = `(function(h,o,t,j,a,r){h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};' +
   'h._hjSettings={hjid:734967,hjsv:6};' +
   "a=o.getElementsByTagName('head')[0];" +
@@ -26,7 +28,7 @@ const uppyConfig = {
   },
 }
 
-const getApiURL = (hostName = global.window && global.window.location.host) => {
+const getApiURL = (hostName: string = global.window && global.window.location.host) => {
   if (!hostName) return process.env.monolithExternalApi
   let apiURL
   if (hostName.includes('localhost')) {

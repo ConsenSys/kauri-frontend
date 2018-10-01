@@ -1,3 +1,4 @@
+//@flow
 import gql from 'graphql-tag'
 import { Collection } from './Collection'
 import { User } from './User'

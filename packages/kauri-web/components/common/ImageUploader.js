@@ -2,7 +2,7 @@
 import initUppy from '../../lib/init-uppy';
 const config = require('../../config').default;
 
-const TriggerImageUploader = (setFieldsValue, fieldName) => {
+const TriggerImageUploader = (setFieldsValue: { [string] : string} => void, fieldName: string) => {
   const uppy = initUppy();
   uppy.run();
   uppy.on('upload-success', (file, { hash }) => {

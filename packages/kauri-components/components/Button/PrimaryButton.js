@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react';
 import styled, { css } from 'styled-components'
 import { space, fontSize, fontWeight, bg, color } from 'styled-system'
 
@@ -39,14 +39,21 @@ const PrimaryButton = styled.button`
 
 type Props = {
   icon?: React.Node,
-  children: React.ChildrenArray<T>,
-  handleClick: any => void,
+  handleClick?: () => void,
+  onClick?: () => void,
   disabled?: boolean,
-  type: string
+  type?: string,
+  bg?: string,
+  fontWeight?: number,
+  fontSize?: number,
+  space?: number,
+  color?: string,
+  text?: string,
+  children?: React.Node,
 }
 
-export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, space = 2, color = 'white', type = 'submit', onClick, handleClick, text, children, icon, disabled }: Props) =>
+export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, space = 2, color = 'white', type = 'submit', onClick, handleClick, text = '', children, icon, disabled }: Props) =>
   <PrimaryButton type={type} disabled={disabled} mr={space} onClick={onClick || handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
     {icon}
-    {children || text}
+    {text || children}
   </PrimaryButton>

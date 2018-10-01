@@ -17,9 +17,7 @@ type ButtonType = 'primary' | 'ghost' | 'dashed' | 'danger'
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error'
 
-export type User =
-  | any
-  | {
+export type User = {
       address: string,
       userId: string,
       username: string,
@@ -89,7 +87,7 @@ export type SetEthUsdPriceAction = {
 }
 
 export type ToggleModalPayload = {
-  modalTitle?: string | any,
+  modalTitle?: string,
   modalChildren?: any,
   onOk?: () => any,
   onCancel?: () => any,

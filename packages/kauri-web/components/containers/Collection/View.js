@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import CollectionHeader from '../../../../kauri-components/components/Headers/CollectionHeader.bs'
 import CollectionSection from './CollectionSection.bs'
 import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
-import { Link } from '../../../routes'
+import { Link } from '../../../routes';
 import { Helmet } from 'react-helmet'
 import slugify from 'slugify'
 import rake from 'rake-js'

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react';
 import styled, { css } from 'styled-components'
 import { space, bgColor } from 'styled-system'
 
@@ -30,15 +30,17 @@ const AddMemberButton = styled.button`
   ${BaseButtonCss};
 `
 
-const AddIcon = () => <img src='https://png.icons8.com/ios-glyphs/50/000000/plus-math.png' />
-
 type Props = {
-  icon: React.Node,
-  handleClick: any => void,
+  icon?: () => React.Node,
+  handleClick?: () => void,
   disabled?: boolean,
+  bg?: string,
+  fontWeight?: number,
+  fontSize?: number,
+  children?: React.Node,
 }
 
-export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, icon = <AddIcon />, handleClick, disabled }: Props) =>
+export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, handleClick, disabled }: Props) =>
   <AddMemberButton disabled={disabled} mr={space} onClick={handleClick} bg={bg} fontSize={fontSize} fontWeight={fontWeight}>
-    {icon}
-  </AddMemberButton>
+    <img src='https://png.icons8.com/ios-glyphs/50/000000/plus-math.png' />
+  </AddMemberButton>;

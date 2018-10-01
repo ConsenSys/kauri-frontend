@@ -21,23 +21,23 @@ declare type GraphQLResponseErrorLocation = {
 */
 declare type Query = {
   getCommunity: ?CommunityDTO;
-  searchCommunities: ?Page_CommunityDTO;
   editArticleVersion: ?MutationResponse;
+  searchCommunities: ?Page_CommunityDTO;
   addUser: ?MutationResponse;
+  submitArticleVersion: ?MutationResponse;
   getAllCuratedList: ?Array<CuratedListDTO>;
   getUser: ?PublicUserDTO;
-  submitArticleVersion: ?MutationResponse;
   createCuratedList: ?MutationResponse;
   submitResource: ?MutationResponse;
   countVote: ?VoteStatDTO;
   searchArticles: ?Page_ArticleDTO;
   searchCollections: ?Page_CollectionDTO;
-  removeResource: ?MutationResponse;
   addResourceToCuratedList: ?MutationResponse;
+  removeResource: ?MutationResponse;
   approveResource: ?MutationResponse;
   getComment: ?Page_CommentDTO;
-  vote: ?MutationResponse;
   addComment: ?MutationResponse;
+  vote: ?MutationResponse;
   approveArticle: ?MutationResponse;
   getMyProfile: ?UserDTO;
   getCollection: ?CollectionDTO;
@@ -52,8 +52,8 @@ declare type Query = {
   submitNewArticle: ?MutationResponse;
   submitArticle: ?MutationResponse;
   getArticleProof: ?ArticleProof;
-  checkpointArticles: ?MutationResponse;
   rejectArticle: ?MutationResponse;
+  checkpointArticles: ?MutationResponse;
   createCollection: ?MutationResponse;
 }
 
@@ -162,12 +162,12 @@ declare type Sort = {
 
 declare type ArticleFilterInput = {
   idEquals: ?string;
-  statusIn: ?Array<ArticleStatusInput>;
   checkpointEquals: ?string;
   ownerEquals: ?string;
   ownerIdEquals: ?string;
-  dateCreatedLessThan: ?any;
+  statusIn: ?Array<ArticleStatusInput>;
   dateCreatedGreaterThan: ?any;
+  dateCreatedLessThan: ?any;
   fullText: ?string;
   authorIdEquals: ?string;
   latestVersion: ?boolean;
@@ -202,6 +202,12 @@ declare type CommunityPermission = "ADMIN" | "CURATOR";
 
 declare type CommunityStatus = "CLOSED" | "CREATED" | "OPENED";
 
+declare type MutationResponse = {
+  hash: ?string;
+  message: ?string;
+  success: ?boolean;
+}
+
 declare type Page_CommunityDTO = {
   content: ?Array<CommunityDTO>;
   first: ?boolean;
@@ -215,20 +221,14 @@ declare type Page_CommunityDTO = {
 }
 
 declare type CommunityFilterInput = {
+  nameContain: ?string;
   dateUpdatedLessThan: ?any;
   dateUpdatedGreaterThan: ?any;
-  nameContain: ?string;
   membersIncludes: ?string;
-  dateCreatedLessThan: ?any;
-  nameContains: ?string;
   dateCreatedGreaterThan: ?any;
+  nameContains: ?string;
+  dateCreatedLessThan: ?any;
   fullText: ?string;
-}
-
-declare type MutationResponse = {
-  hash: ?string;
-  message: ?string;
-  success: ?boolean;
 }
 
 declare type CuratedListDTO = {
@@ -248,8 +248,8 @@ declare type CuratedListDTO = {
 
 declare type ResourceIdentifierInput = {
   id: ?string;
-  type: ?ResourceTypeInput;
   version: ?number;
+  type: ?ResourceTypeInput;
 }
 
 declare type ResourceTypeInput = "ARTICLE" | "COLLECTION" | "COMMENT" | "COMMUNITY" | "CURATED_LIST" | "REQUEST" | "USER";
@@ -288,13 +288,13 @@ declare type SectionDTO = {
 }
 
 declare type CollectionFilterInput = {
+  ownerIdEqual: ?string;
   dateUpdatedLessThan: ?any;
   dateUpdatedGreaterThan: ?any;
-  ownerIdEqual: ?string;
   descriptionContains: ?string;
-  dateCreatedLessThan: ?any;
-  nameContains: ?string;
   dateCreatedGreaterThan: ?any;
+  nameContains: ?string;
+  dateCreatedLessThan: ?any;
   fullText: ?string;
 }
 
@@ -319,9 +319,9 @@ declare type ArticleProof = {
 }
 
 declare type SectionDTOInput = {
+  resourcesId: ?Array<ResourceIdentifierInput>;
   description: ?string;
   name: ?string;
-  resourcesId: ?Array<ResourceIdentifierInput>;
 }
 
 /**
@@ -330,24 +330,24 @@ declare type SectionDTOInput = {
 declare type Mutation = {
   getEvent: ?boolean;
   editArticleVersion: ?MutationResponse;
-  removeCuratedList: ?MutationResponse;
   submitArticleVersion: ?MutationResponse;
+  removeCuratedList: ?MutationResponse;
   publishArticle: ?MutationResponse;
   createCuratedList: ?MutationResponse;
   submitResource: ?MutationResponse;
-  removeResource: ?MutationResponse;
   addResourceToCuratedList: ?MutationResponse;
+  removeResource: ?MutationResponse;
   removeResourceFromCuratedList: ?MutationResponse;
   addHeaderToCuratedList: ?MutationResponse;
   composeCollection: ?MutationResponse;
   submitNewArticle: ?MutationResponse;
   submitArticle: ?MutationResponse;
   approveResource: ?MutationResponse;
+  rejectArticle: ?MutationResponse;
   createCommunity: ?MutationResponse;
   checkpointArticles: ?MutationResponse;
-  rejectArticle: ?MutationResponse;
-  vote: ?MutationResponse;
   addComment: ?MutationResponse;
+  vote: ?MutationResponse;
   approveArticle: ?MutationResponse;
   createCollection: ?MutationResponse;
   saveUser: ?MutationResponse;

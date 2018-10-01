@@ -1,3 +1,5 @@
+//@flow
+
 const config = Object.assign(
   require('./default'),
   process.env.NODE_ENV === 'test'
@@ -9,5 +11,5 @@ const config = Object.assign(
   require('./local')
 )
 
-exports.default = config
-exports.config = config
+exports.default = config;
+exports.config = config;
