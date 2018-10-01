@@ -62,13 +62,12 @@ const Stats = styled.div`
     }
 `;
 
-const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, routeChangeAction }) => <div>
-    {UserQuery && ArticlesQuery && CollectionQuery && <PublicProfileHeader>
-        {console.log(UserQuery.getUser)}
+const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, DraftsQuery, routeChangeAction, userId }) => <div>
+    {UserQuery && ArticlesQuery && CollectionQuery && DraftsQuery && <PublicProfileHeader>
         <Initial>{(UserQuery.getUser && UserQuery.getUser.name || UserQuery.getUser.id).substring(0,1)}</Initial>
         <Address>{UserQuery.getUser && userIdTrim(UserQuery.getUser.id)}</Address>
         <Stats>
-            {ArticlesQuery && ArticlesQuery.searchArticles.content &&
+            {ArticlesQuery.searchArticles.content &&
                 <StatisticsContainer
                     statistics={[{
                         name: 'Articles',
@@ -79,8 +78,12 @@ const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, routeChangeA
                     }]}/>}
         </Stats>
     </PublicProfileHeader>}
-   {ArticlesQuery && CollectionQuery && <Tabs
-        tabs={["Articles", "Collections"]}
+   {ArticlesQuery && CollectionQuery && DraftsQuery && UserQuery && <Tabs
+        tabs={[
+            `Articles (${ArticlesQuery.searchArticles.content.length})`,
+            UserQuery.getUser.id === '0dc2d3caa812f560887039c74172cbce57284f96' && `My Drafts (${DraftsQuery.searchArticles.content.length})`,
+            `Collections (${CollectionQuery.searchCollections.content.length})`
+        ]}
         panels={[
             <ContentContainer>
                 {ArticlesQuery.searchArticles.content.length === 0 && <div>U-oh, no articles here!</div>}
@@ -103,6 +106,28 @@ const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, routeChangeA
                       </Link>
                     )}
                 />)}
+            </ContentContainer>,
+            UserQuery.getUser.id === '0dc2d3caa812f560887039c74172cbce57284f96' && <ContentContainer>
+            {DraftsQuery.searchArticles.content.length === 0 && <div>U-oh, no drafts here! Have some interesting thought to share? Write your first article :)</div>}
+            {DraftsQuery.searchArticles.content.map(article => 
+                <ArticleCard
+                changeRoute={routeChangeAction}
+                key={article.id}
+                date={moment(article.dateCreated).format('D MMM YYYY')}
+                title={article.title}
+                content={article.content}
+                userId={article.author && article.author.id}
+                username={article.author && (article.author.name || userIdTrim(article.author.id))}
+                articleId={article.id}
+                articleVersion={article.version}
+                cardHeight={500}
+                imageURL={article.attributes && article.attributes.background}
+                linkComponent={(childrenProps, route) => (
+                  <Link toSlug={route.includes('article') && article.title} useAnchorTag route={route}>
+                    {childrenProps}
+                  </Link>
+                )}
+            />)}
             </ContentContainer>,
             <ContentContainer>
                 {CollectionQuery.searchCollections.content.length === 0 && <div>U-oh, no collections here!</div>}

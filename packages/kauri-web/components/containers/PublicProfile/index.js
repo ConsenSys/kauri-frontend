@@ -1,6 +1,6 @@
 import PublicProfile from './View.js'
 import { compose, graphql } from 'react-apollo'
-import { searchPersonalArticles } from '../../../queries/Article';
+import { searchPersonalArticles, searchPersonalDrafts } from '../../../queries/Article';
 import { getUserAvatar } from '../../../queries/User';
 import { getCollectionsForUser } from '../../../queries/Collection';
 import { connect } from 'react-redux'
@@ -30,6 +30,16 @@ export default compose(
   }),
   graphql(getCollectionsForUser, {
     name: 'CollectionQuery',
+    options: ({userId}) => ({
+      variables: {
+        filter: {
+          ownerIdEquals: userId,
+        }
+      },
+    }),
+  }),
+  graphql(searchPersonalDrafts, {
+    name: 'DraftsQuery',
     options: ({userId}) => ({
       variables: {
         filter: {
