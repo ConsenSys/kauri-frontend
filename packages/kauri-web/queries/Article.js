@@ -163,7 +163,7 @@ export const globalSearchApprovedCategoryArticles = gql`
 
 export const globalSearchApprovedArticles = gql`
   query globalSearchApprovedArticles($size: Int = 100, $text: String) {
-    searchArticles(size: $size, sort: "title", dir: DESC, filter: { fullText: $text, statusIn: [PUBLISHED] }) {
+    searchArticles(size: $size, sort: "dateCreated", dir: DESC, filter: { fullText: $text, statusIn: [PUBLISHED] }) {
       content {
         ...Article
       }
@@ -258,7 +258,7 @@ export const deleteArticleComment = gql`
 
 export const searchPersonalArticles = gql`
   query searchPersonalArticles($userId: String) {
-    searchArticles (filter: { authorIdEquals: $userId, statusIn: [ PUBLISHED ], latestVersion: true } ) {
+    searchArticles (sort: "dateCreated", dir: DESC, filter: { authorIdEquals: $userId, statusIn: [ PUBLISHED ], latestVersion: true } ) {
       content {
           id, version, title, content, dateCreated, datePublished, author {
           id, name

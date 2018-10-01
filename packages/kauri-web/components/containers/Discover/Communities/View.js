@@ -64,6 +64,7 @@ export const CommunitiesContainer = styled.div`
   flex: 1;
   flex-wrap: wrap;
   padding-bottom: 0;
+  max-width: 1280px;
 `;
 
 class Communities extends Component<Props> {

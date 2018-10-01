@@ -33,7 +33,7 @@ export default compose(
     options: ({userId}) => ({
       variables: {
         filter: {
-          ownerIdEqual: userId,
+          ownerIdEquals: userId,
         }
       },
     }),
