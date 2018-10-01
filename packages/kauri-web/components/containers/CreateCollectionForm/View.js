@@ -16,6 +16,7 @@ import PrimaryButton from '../../../../kauri-components/components/Button/Primar
 import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton'
 import ArticleCard from '../../connections/ArticleCard'
 import setImageUploader from '../../common/ImageUploader'
+import showFormValidationErrors from '../../../lib/show-form-validation-errors'
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 
@@ -162,20 +163,6 @@ type Props = {
   data?: { getCollection?: ?CollectionDTO }
 }
 
-const validateOnSubmit = (validateForm, showNotificationAction) => validateForm().then(errors => {
-  const capitalize = (s) => R.compose(R.toUpper, R.head)(s) + R.tail(s)
-
-  if (Object.keys(errors).length > 0) {
-    Object.keys(errors).map(errKey =>
-      showNotificationAction({
-        notificationType: 'error',
-        message: `${capitalize(errKey)} Validation error!`,
-        description: errors[errKey],
-      })
-    )
-  }
-})
-
 export default ({ touched, errors, values, isSubmitting, setFieldValue, validateForm, showNotificationAction, routeChangeAction, data }: Props) =>
   <Section>
     <Form>
@@ -191,7 +178,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue, validate
           </TertiaryButton>
         </Stack>
         <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
-          <PrimaryButton disabled={isSubmitting} type='submit' onClick={() => validateOnSubmit(validateForm, showNotificationAction)}>
+          <PrimaryButton disabled={isSubmitting} type='submit' onClick={() => showFormValidationErrors(validateForm, showNotificationAction)}>
             {data ? 'Update' : 'Create'}
           </PrimaryButton>
         </Stack>
