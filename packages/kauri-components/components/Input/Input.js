@@ -90,11 +90,11 @@ export default class extends React.Component<Props, State> {
 
   render () {
     const { color = 'white', placeHolder, fontSize, fontWeight = 500, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name, hideUnderline = false, textAlign = 'left' } = this.props
-    const value = this.state.value;
+    const value = this.props.value || this.state.value;
 
     return (
       <InputWrapper>
-        <Input onBlur={onBlur} color={color} fontWeight={fontWeight} placeholder={placeHolder} onChange={onChange} fontSize={fontSize} value={value} name={name} textAlign={textAlign} />
+        <Input onBlur={onBlur} color={color} fontWeight={fontWeight} placeholder={placeHolder} onChange={onChange || handleChange} fontSize={fontSize} value={value} name={name} textAlign={textAlign} />
         {!hideUnderline && <UnderlineSpan fontSize={fontSize}>
           {value.replace(/ /g, '\u00a0')}
         </UnderlineSpan> }
