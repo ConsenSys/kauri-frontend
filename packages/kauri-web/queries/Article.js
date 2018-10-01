@@ -1,4 +1,4 @@
-//@flow 
+// @flow
 import gql from 'graphql-tag'
 
 export const Article = gql`
@@ -270,3 +270,11 @@ export const searchPersonalArticles = gql`
     }
   }
 `;
+
+export const submitArticleVersion = gql`
+  mutation submitArticleVersion($id: String, $subject: String, $text: String, $attributes: Map_String_StringScalar) {
+    submitArticleVersion (id: $id, title: $subject, content: $text, attributes: $attributes) {
+      hash
+    } 
+  }
+`

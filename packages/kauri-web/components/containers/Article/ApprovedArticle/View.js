@@ -23,6 +23,7 @@ height: 100%;
 
 type Props =
   | {
+    userId?: string,
     routeChangeAction: string => void,
     tipArticleAction: TipArticlePayload => void,
     ethUsdPrice: number,
@@ -104,8 +105,9 @@ class ApprovedArticle extends React.Component<Props, State> {
           subject={props.data.getArticle && props.data.getArticle.title}
           article_id={props.data.getArticle && props.data.getArticle.id}
           article_version={props.data.getArticle && props.data.getArticle.version}
+          authorId={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.id}
           username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.username}
-          userId={props.data.getArticle && props.data.getArticle.authorId}
+          userId={this.props.userId}
           routeChangeAction={props.routeChangeAction}
           address={props.userId}
           hostName={hostName}

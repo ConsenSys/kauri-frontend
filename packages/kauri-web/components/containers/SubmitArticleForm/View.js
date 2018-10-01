@@ -7,7 +7,7 @@ import SubmitArticleFormContent from './SubmitArticleFormContent';
 import { AttributesPayload } from './Module';
 import ScrollToTopButton from '../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton';
 
-import type { EditArticlePayload, SubmitArticlePayload } from './Module';
+import type { EditArticlePayload, SubmitArticlePayload, SubmitArticleVersionPayload } from './Module';
 import type { ShowNotificationPayload } from '../../../lib/Module';
 
 type Owner = {
@@ -29,6 +29,7 @@ type Props =
   | {
       draftArticleAction: any => void,
       submitArticleAction: SubmitArticlePayload => void,
+      submitArticleVersionAction: SubmitArticleVersionPayload => void,
       editArticleAction: EditArticlePayload => void,
       publishArticleAction: PublishArticlePayload => void,
       categories: Array<?string>,
@@ -101,7 +102,7 @@ class SubmitArticleForm extends React.Component<Props> {
             description: 'Please switch to the correct Ethereum network!',
           })
         }
-        const { submitArticleAction, editArticleAction, article_id } = this.props
+        const { submitArticleAction, submitArticleVersionAction, editArticleAction, article_id } = this.props
         if (!formErr) {
           if (submissionType === 'submit/update') {
             // if (typeof request_id === 'string') {
@@ -125,17 +126,19 @@ class SubmitArticleForm extends React.Component<Props> {
             //   }
             // }
             if (typeof article_id === 'string' && submissionType === 'submit/update') {
-              const { id, version, status }: ArticleDTO = this.props.data && this.props.data.getArticle;
+              const { id, version, status, author }: ArticleDTO = this.props.data && this.props.data.getArticle;
 
               if (status === 'PUBLISHED') {
                 // Here I am really submitting a new article with updates for an already existing article!
                 // Not my published article, I clicked Update article version, I create a new article and self publish it AIO
-                return submitArticleAction({
+                console.log(author.id)
+                console.log(this.props.userId)
+                return submitArticleVersionAction({
                   id,
                   text,
                   subject,
                   attributes,
-                  selfPublish: true,
+                  selfPublish: author && typeof author.id === 'string' && (author.id === this.props.userId),
                 })
               } else if (status === 'DRAFT') {
                 // If I own the article and it's not already published... I can edit it!
