@@ -3,20 +3,13 @@ import { compose, graphql } from 'react-apollo'
 import { searchPersonalArticles } from '../../../queries/Article';
 import { getUserAvatar } from '../../../queries/User';
 import { getCollectionsForUser } from '../../../queries/Collection';
-import { connect } from 'react-redux'
-import { routeChangeAction } from '../../../lib/Module'
-import withLoading from '../../../lib/with-loading'
-
-const mapStateToProps = (state, ownProps) => {
-  return { hostName: state.app && state.app.hostName }
-}
 
 export default compose(
   graphql(searchPersonalArticles, {
     name: 'ArticlesQuery',
     options: ({userId}) => ({
       variables: {
-          userId
+        userId,
       },
     }),
   }),
@@ -24,7 +17,7 @@ export default compose(
     name: 'UserQuery',
     options: ({userId}) => ({
       variables: {
-          userId,
+        userId,
       },
     }),
   }),
@@ -34,9 +27,8 @@ export default compose(
       variables: {
         filter: {
           ownerIdEquals: userId,
-        }
+        },
       },
     }),
   }),
-  withLoading()
 )(PublicProfile)

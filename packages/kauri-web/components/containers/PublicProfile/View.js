@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components';
 import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs';
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs';
@@ -6,6 +7,7 @@ import ArticleCard from '../../../../kauri-components/components/Card/ArticleCar
 import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard.bs';
 import { Link } from '../../../routes';
 import moment from 'moment';
+import Loading from '../../common/Loading'
 import userIdTrim from '../../../lib/userid-trim';
 
 const PublicProfileHeader = styled.div`
@@ -28,7 +30,6 @@ const ContentContainer = styled.div`
     padding-bottom: 0;
     padding-top: ${props => props.theme.space[4]}px;
 `;
-
 
 const Initial = styled.div`
     background: #0ba986;
@@ -62,81 +63,85 @@ const Stats = styled.div`
     }
 `;
 
-const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, routeChangeAction }) => <div>
-    {UserQuery && ArticlesQuery && CollectionQuery && <PublicProfileHeader>
-        {console.log(UserQuery.getUser)}
-        <Initial>{(UserQuery.getUser && UserQuery.getUser.name || UserQuery.getUser.id).substring(0,1)}</Initial>
-        <Address>{UserQuery.getUser && userIdTrim(UserQuery.getUser.id)}</Address>
-        <Stats>
+const PublicProfile = ({ UserQuery, ArticlesQuery, CollectionQuery, routeChangeAction }) =>
+  (!UserQuery.loading && !ArticlesQuery.loading && !CollectionQuery.loading) ? <div>
+    <ScrollToTopOnMount />
+    {
+      (
+        <PublicProfileHeader>
+          <Initial>{(UserQuery.getUser && (UserQuery.getUser.name || UserQuery.getUser.id)).substring(0, 1)}</Initial>
+          <Address>{UserQuery.getUser && userIdTrim(UserQuery.getUser.id)}</Address>
+          <Stats>
             {ArticlesQuery && ArticlesQuery.searchArticles.content &&
-                <StatisticsContainer
-                    statistics={[{
-                        name: 'Articles',
-                        count: ArticlesQuery.searchArticles.content.length
-                    }, {
-                        name: 'Collections',
-                        count: CollectionQuery.searchCollections.content.length
-                    }]}/>}
-        </Stats>
-    </PublicProfileHeader>}
-   {ArticlesQuery && CollectionQuery && <Tabs
-        tabs={["Articles", "Collections"]}
-        panels={[
-            <ContentContainer>
-                {ArticlesQuery.searchArticles.content.length === 0 && <div>U-oh, no articles here!</div>}
-                {ArticlesQuery.searchArticles.content.map(article => 
-                    <ArticleCard
-                    changeRoute={routeChangeAction}
-                    key={article.id}
-                    date={moment(article.dateCreated).format('D MMM YYYY')}
-                    title={article.title}
-                    content={article.content}
-                    userId={article.author && article.author.id}
-                    username={article.author && (article.author.name || userIdTrim(article.author.id))}
-                    articleId={article.id}
-                    articleVersion={article.version}
-                    cardHeight={500}
-                    imageURL={article.attributes && article.attributes.background}
-                    linkComponent={(childrenProps, route) => (
-                      <Link toSlug={route.includes('article') && article.title} useAnchorTag route={route}>
-                        {childrenProps}
-                      </Link>
-                    )}
-                />)}
-            </ContentContainer>,
-            <ContentContainer>
-                {CollectionQuery.searchCollections.content.length === 0 && <div>U-oh, no collections here!</div>}
-                {CollectionQuery.searchCollections.content.map(collection => {
-                    const articleCount = collection.sections && collection.sections.reduce(
-                        (current, next) => {
-                            current += next.resources && next.resources.length
-                            return current
-                        }, 0);
-                    return (
-                        <CollectionCard
-                            changeRoute={routeChangeAction}
-                            key={collection.id}
-                            collectionName={collection.name}
-                            username={collection.owner && (collection.owner.name || userIdTrim(collection.owner.id))}
-                            userId={collection.owner && collection.owner.id}
-                            articles={articleCount}
-                            lastUpdated={moment(collection.dateCreated).fromNow()}
-                            collectionId={collection.id}
-                            imageURL={collection.background && collection.background}
-                            profileImage={collection.profileImage}
-                            cardHeight={500}
-                            collectionDescription={collection.description}
-                            linkComponent={(childrenProps, route) => (
-                            <Link toSlug={route.includes('collection') && collection.name} useAnchorTag route={route}>
-                                {childrenProps}
-                            </Link>
-                            )}
-                        />
-                    );
-                })}
-            </ContentContainer>,
-        ]}
-    />}
-</div>;
+            <StatisticsContainer
+              statistics={[{
+                name: 'Articles',
+                count: ArticlesQuery.searchArticles.content.length,
+              }, {
+                name: 'Collections',
+                count: CollectionQuery.searchCollections.content.length,
+              }]} />}
+          </Stats>
+        </PublicProfileHeader>
+      )}
+    <Tabs
+      tabs={['Articles', 'Collections']}
+      panels={[
+        <ContentContainer>
+          {ArticlesQuery.searchArticles.content.length === 0 && <div>U-oh, no articles here!</div>}
+          {ArticlesQuery.searchArticles.content.map(article =>
+            <ArticleCard
+              changeRoute={routeChangeAction}
+              key={article.id}
+              date={moment(article.dateCreated).format('D MMM YYYY')}
+              title={article.title}
+              content={article.content}
+              userId={article.author && article.author.id}
+              username={article.author && (article.author.name || userIdTrim(article.author.id))}
+              articleId={article.id}
+              articleVersion={article.version}
+              cardHeight={500}
+              imageURL={article.attributes && article.attributes.background}
+              linkComponent={(childrenProps, route) => (
+                <Link toSlug={route.includes('article') && article.title} useAnchorTag route={route}>
+                  {childrenProps}
+                </Link>
+              )}
+            />)}
+        </ContentContainer>,
+        <ContentContainer>
+          {CollectionQuery.searchCollections.content.length === 0 && <div>U-oh, no collections here!</div>}
+          {CollectionQuery.searchCollections.content.map(collection => {
+            const articleCount = collection.sections && collection.sections.reduce(
+              (current, next) => {
+                current += next.resources && next.resources.length
+                return current
+              }, 0);
+            return (
+              <CollectionCard
+                changeRoute={routeChangeAction}
+                key={collection.id}
+                collectionName={collection.name}
+                username={collection.owner && (collection.owner.name || userIdTrim(collection.owner.id))}
+                userId={collection.owner && collection.owner.id}
+                articles={articleCount}
+                lastUpdated={moment(collection.dateCreated).fromNow()}
+                collectionId={collection.id}
+                imageURL={collection.background && collection.background}
+                profileImage={collection.profileImage}
+                cardHeight={500}
+                collectionDescription={collection.description}
+                linkComponent={(childrenProps, route) => (
+                  <Link toSlug={route.includes('collection') && collection.name} useAnchorTag route={route}>
+                    {childrenProps}
+                  </Link>
+                )}
+              />
+            );
+          })}
+        </ContentContainer>,
+      ]}
+    />
+  </div> : <Loading />
 
 export default PublicProfile;
