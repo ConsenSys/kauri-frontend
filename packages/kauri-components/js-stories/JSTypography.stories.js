@@ -11,13 +11,17 @@ import {
   H5,
   H6,
   Label,
-  Caption,
-  Username,
-  CTA,
-  StandardContent,
+  ListBulletPoint,
+  ListDashPoint,
+  NavigationText,
+  PageDescription,
+  Title1,
+  Title2,
+  BodyCard,
+  BodyArticle,
 } from '../components/Typography'
 
-const HeadingsSection = styled.section`
+const Section = styled.section`
   display: flex;
   flex-direction: column;
 `
@@ -29,8 +33,11 @@ storiesOf('Typography', module)
     </CuratorHeaderLabel>
   ))
   .add('Headings', () => (
-    <HeadingsSection>
-      All Headings
+    <Section>
+      <Title1>Title1</Title1>
+
+      <Title2>Title2</Title2>
+
       <H1>
       H1
       </H1>
@@ -55,25 +62,28 @@ storiesOf('Typography', module)
       H6
       </H6>
 
-      <Username>
-      Username
-      </Username>
+    </Section>
+  ))
+  .add('Content', () => (
+    <Section>
+      <Label>Label</Label>
 
-      <CTA>
-      CTA
-      </CTA>
+      <NavigationText>
+        Navigation Text
+      </NavigationText>
 
-      <StandardContent>
-      StandardContent
-      </StandardContent>
+      <PageDescription>
+        Page Description
+      </PageDescription>
+      <BodyCard>Body Card</BodyCard>
+      <BodyArticle>Body Article</BodyArticle>
 
-      <Caption>
-      Caption
-      </Caption>
+      <ul>
+        <ListBulletPoint>circle</ListBulletPoint>
+      </ul>
 
-      <Label>
-      Label
-      </Label>
-
-    </HeadingsSection>
+      <ul>
+        <ListDashPoint> dash </ListDashPoint>
+      </ul>
+    </Section>
   ))
