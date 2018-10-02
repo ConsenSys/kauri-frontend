@@ -12,7 +12,7 @@ class PublicProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isEditing: false,
+            isEditing: true,
         }
     }
 
@@ -26,6 +26,7 @@ class PublicProfile extends Component {
         return (
             <div>
                 {this.state.isEditing ? <EditableHeader
+                    avatar={UserQuery.getUser.avatar}
                     userId={userId}
                     username={UserQuery.getUser.name}
                     title={UserQuery.getUser.title}

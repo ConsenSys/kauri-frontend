@@ -1,32 +1,48 @@
 // @flow
 import * as React from 'react'
 import styled from 'styled-components'
-import { fontSize, fontWeight, color, space } from 'styled-system'
+import { fontSize, color, space } from 'styled-system'
 
 const UploadLogoButton = styled.button`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   border: 1px solid ${({theme: { colors: { primary } }}) => primary};
   border-radius: 4px;
-  background-color: transparent;
+  background: ${props => props.bg ? `url(${props.bg}) center center` : 'transparent'};
+  background-size: cover;
   cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'};
   height: ${props => props.height};
   width: ${props => props.height};
+  padding: 0;
   text-transform: uppercase;
   opacity: ${props => props.disabled ? '0.5' : '1'};
-  > :first-child {
-    height: 18px;
-    width: 18px;
-    ${space};
-  }
   :hover {
     border: 2px solid ${({theme: { colors: { primary } }}) => primary};
   }
   ${fontSize};
   ${color};
 `
+
+const Icon = styled.div`
+  background: url(${props => props.src}) center center;
+  background-color: rgba(0,0,0,0.4);
+  width: 100%;
+  height: 100%;
+`;
+
+const Overlay = styled.div`
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  > :first-child {
+    height: 18px;
+    width: 18px;
+    ${space};
+  }
+`;
 
 type Props = {
   icon?: () => React.Node,
@@ -38,10 +54,13 @@ type Props = {
   color?: string,
   height?: string,
   text?: string,
+
 }
 
-export default ({ fontSize = 0, space = 2, color = 'textPrimary', height = '100px', text = 'Logo', handleClick, children, disabled }: Props) =>
-  <UploadLogoButton mb={space} height={height} disabled={disabled} onClick={handleClick} color={color} fontSize={fontSize} fontWeight={fontWeight}>
+export default ({ bg, fontSize = 0, space = 2, color = 'textPrimary', height = '100px', text = 'Logo', handleClick, children, disabled }: Props) =>
+  <UploadLogoButton bg={bg} mb={space} height={height} disabled={disabled} onClick={handleClick} color={color} fontSize={fontSize}>
+    <Overlay>
     <img src='https://png.icons8.com/color/50/000000/upload.png' />
-    {text || children}
+      {text || children}
+    </Overlay>
   </UploadLogoButton>

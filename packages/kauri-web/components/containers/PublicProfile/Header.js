@@ -5,7 +5,7 @@ import StatisticsContainer from '../../../../kauri-components/components/PublicP
 import userIdTrim from '../../../lib/userid-trim';
 
 const PublicProfileHeader = styled.div`
-    height: 190px;
+    height: 300px;
     background-color: #1e2428;
     display: flex;
     align-items: center;

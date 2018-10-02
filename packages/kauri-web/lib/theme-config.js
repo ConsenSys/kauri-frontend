@@ -133,12 +133,12 @@ const colors = {
   white: '#FFFFFF',
 }
 
-const fontSizes = [ 11, 13, 16, 20, 24, 32, 48, 64, 72 ]
+const fontSizes = [ 11, 13, 14, 16, 20, 22, 28, 32 ]
 
 const breakpoints = [ '500px', '52em', '64em' ]
 
 const space = [
-  0, 4, 8, 16, 32, 64, 128, 256, 512,
+  0, 10, 15, 30, 60,
 ]
 
 const themeConfig = {
