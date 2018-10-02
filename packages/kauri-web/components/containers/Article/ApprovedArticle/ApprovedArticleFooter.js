@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Divider } from 'antd'
 import DatePosted from '../../../common/DatePosted'
 const config = require('../../../../config').default
 
@@ -16,7 +15,6 @@ type Props = {
 
 const ArticleFooter = styled.section`
   padding: 0 ${props => props.theme.padding};
-  margin-bottom: 30px;
 `
 
 const Details = styled.div`
@@ -86,6 +84,13 @@ const IPFSIcon = () => (
     </g>
   </svg>
 )
+
+const Divider = styled.div`
+  width: ${props => props.width || '950px'};
+  background-color: ${props => props.theme.colors['divider']};
+  height: 2px;
+  margin: ${props => props.theme.space[5]}px 0px;
+`;
 
 export default ({ username, date_updated, type, metadata, content_hash, hostName }: Props) => (
   <ArticleFooter>

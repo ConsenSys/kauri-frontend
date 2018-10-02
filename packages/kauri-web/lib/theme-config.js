@@ -132,6 +132,7 @@ const colors = {
   secondaryBlue: 'rgb(81, 123, 162, 1)',
   secondaryBlueDark: 'rgb(81, 118, 142, 1)',
   white: '#FFFFFF',
+  divider: '#EBEBEB',
 }
 
 const fontSizes = [ 11, 13, 14, 16, 18, 20, 22, 28 ]
@@ -141,7 +142,7 @@ const fontWeight = [ 300, 'normal', 500, 700 ]
 const breakpoints = [ '500px', '52em', '64em' ]
 
 const space = [
-  0, 4, 8, 16, 32, 64, 128, 256, 512,
+  0, 10, 15, 20, 25, 30, 35, 40,
 ]
 
 const themeConfig = {
