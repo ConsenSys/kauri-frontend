@@ -77,6 +77,16 @@ const typographyTypes: Array<TypographyType> = [
     as: 'span',
     fontWeight: 'bold',
     fontSize: 11,
+    textTransform: 'uppercase',
+  },
+  {
+    name: 'CTA',
+    as: 'span',
+    fontWeight: 'bold',
+    fontSize: 11,
+    textTransform: 'uppercase',
+    color: 'primary',
+    hoverColor: 'hoverTextColor',
   },
   {
     name: 'ListBulletPoint',
@@ -129,7 +139,7 @@ const typographyTypes: Array<TypographyType> = [
 
 let typography = {}
 
-typographyTypes.map(({ name, as, fontWeight, fontSize, textTransform, color, hoverColor, component }) => {
+typographyTypes.map(({ name, as, fontWeight, fontSize, textTransform, color = 'textPrimary', hoverColor, component }) => {
   const styledComponent = typeof as === 'string'
     ? styled[as]`
     margin: 0px;
@@ -164,6 +174,7 @@ const {
   H5,
   H6,
   Label,
+  CTA,
   ListBulletPoint,
   ListDashPoint,
   NavigationText,
@@ -183,6 +194,7 @@ export {
   H5,
   H6,
   Label,
+  CTA,
   ListBulletPoint,
   ListDashPoint,
   NavigationText,

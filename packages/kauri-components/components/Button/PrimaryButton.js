@@ -9,6 +9,7 @@ export const BaseButtonCss = css`
   justify-content: center;
   min-width: 136px;
   max-width: 150px;
+  ${props => typeof props.width !== 'undefined' && `width: ${props.width}; max-width: unset;`};
   height: 40px;
   border-radius: 4px;
   border: none;

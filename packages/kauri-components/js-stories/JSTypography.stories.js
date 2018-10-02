@@ -11,6 +11,7 @@ import {
   H5,
   H6,
   Label,
+  CTA,
   ListBulletPoint,
   ListDashPoint,
   NavigationText,
@@ -67,6 +68,7 @@ storiesOf('Typography', module)
   .add('Content', () => (
     <Section>
       <Label>Label</Label>
+      <CTA>CTA</CTA>
 
       <NavigationText>
         Navigation Text
