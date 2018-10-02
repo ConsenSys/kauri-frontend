@@ -10,11 +10,11 @@ import userIdTrim from '../../../lib/userid-trim';
 import type { HeaderState, HeaderProps } from './types';
 
 const HeaderContainer = styled.div`
-    background-color: #1e2428;
+    background-color: ${props => props.theme.colors.bgPrimary};
     display: flex;
     align-items: flex-start;
-    color: white;
-    padding: 2.5em calc((100vw - 1280px) / 2);
+    color: ${props => props.theme.colors.white};
+    padding: ${props => props.theme.padding};
 `;
 
 const InputsContainers = styled.div`
@@ -63,6 +63,12 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         TriggerImageUploader(() => {}, '', (file, url: string) => this.setState({ avatar: url}));
     }
 
+    handleChange(param: string, value: string) {
+        this.setState({
+            [param]: value
+        });
+    }
+
     render() {
         const { userId: string  } = this.props;
         const { username, title, avatar, website, name, twitter, github} = this.state;
@@ -70,12 +76,12 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
             <HeaderContainer>
                 <StyledUpload bg={avatar} handleClick={() => this.uploadImage()} text="Profile" color="white" />
                 <InputsContainers>
-                    <StyledInput onChange={(e: { target: {value: string }}) => this.setState({ name: e.target.value})} fontWeight="normal" fontSize={6} value={name} placeHolder="Add your full name" />
-                    <StyledInput onChange={(e: { target: {value: string }}) => this.setState({ title: e.target.value})} fontWeight="normal" fontSize={3} value={title} placeHolder="Add job title" />
-                    <StyledInput onChange={(e: { target: {value: string }}) => this.setState({ username: e.target.value })} fontWeight="normal" fontSize={1} value={username}  placeHolder="Add username" />
-                    <StyledInput onChange={(e: { target: {value: string }}) => this.setState({ website: e.target.value })} fontWeight="normal" fontSize={1} value={website}  placeHolder="Add Website" />
-                    <StyledInput onChange={(e: { target: {value: string }}) => this.setState({ twitter: e.target.value })} fontWeight="normal" fontSize={1} value={twitter}  placeHolder="Twitter" />
-                    <StyledInput onChange={(e: { target: {value: string }}) => this.setState({ github: e.target.value })} fontWeight="normal" fontSize={1} value={github}  placeHolder="Github" />
+                    <StyledInput onChange={e => this.handleChange('name', e.target.value)} fontWeight="normal" fontSize={6} value={name} placeHolder="Add your full name" />
+                    <StyledInput onChange={e => this.handleChange('title', e.target.value)} fontWeight="normal" fontSize={3} value={title} placeHolder="Add job title" />
+                    <StyledInput oonChange={e => this.handleChange('username', e.target.value)} fontWeight="normal" fontSize={1} value={username}  placeHolder="Add username" />
+                    <StyledInput onChange={e => this.handleChange('website', e.target.value)} fontWeight="normal" fontSize={1} value={website}  placeHolder="Add Website" />
+                    <StyledInput onChange={e => this.handleChange('twitter', e.target.value)} fontWeight="normal" fontSize={1} value={twitter}  placeHolder="Twitter" />
+                    <StyledInput onChange={e => this.handleChange('github', e.target.value)} fontWeight="normal" fontSize={1} value={github}  placeHolder="Github" />
                 </InputsContainers>
                 <ActionsContainer>
                     <TertiaryButton onClick={() => this.props.toggleEditing()}>Discard</TertiaryButton>

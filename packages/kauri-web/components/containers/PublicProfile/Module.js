@@ -2,16 +2,24 @@
 import { Observable } from 'rxjs/Observable';
 import { saveUserDetails } from '../../../queries/User';
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module';
+import { trackMixpanelAction } from '../Link/Module';
+import type { Dependencies } from '../../../lib/Module';
+import type { HeaderState } from './types';
 
-export const saveUserDetailsAction = (payload) => ({
-    type: "SAVE_USER_DETAILS",
-    payload,
-  });
+
+export type SaveUserDetailActionType = {
+  type: string,
+  payload: HeaderState,
+};
+export const saveUserDetailsAction = (payload: HeaderState) => ({
+  type: "SAVE_USER_DETAILS",
+  payload,
+});
 
   export const saveUserDetailsEpic = (
-    action$,
-    _,
-    { apolloClient, smartContracts, web3, apolloSubscriber }
+    action$: Observable<SaveUserDetailActionType>,
+    _: any,
+    { apolloClient, smartContracts, web3, apolloSubscriber } : Dependencies
   ) =>
     action$
       .ofType("SAVE_USER_DETAILS")
@@ -31,7 +39,15 @@ export const saveUserDetailsAction = (payload) => ({
               },
             },
           })
-        ).catch(err => {
+        ).do(() => apolloClient.resetStore())
+        .do(() => trackMixpanelAction({
+          event: 'Offchain',
+          metaData: {
+            resource: 'public-profile',
+            resourceAction: 'update profile',
+          },
+        }),)
+        .catch(err => {
             console.error(err)
             return Observable.of(
               showNotificationAction({

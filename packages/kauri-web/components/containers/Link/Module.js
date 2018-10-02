@@ -33,8 +33,8 @@ export type Classification =
     }
   | {
       resource: Resource | string,
-      resourceID: string,
-      resourceVersion: string,
+      resourceID?: string,
+      resourceVersion?: string,
       resourceAction: ?string,
     }
 
