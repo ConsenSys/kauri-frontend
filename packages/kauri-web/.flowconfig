@@ -1,5 +1,6 @@
 [ignore]
 .*/node_modules/.*
+.*\.bs.js.*
 [lints]
 all=warn
 [options]

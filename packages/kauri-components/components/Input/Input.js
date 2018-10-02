@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
-import { fontSize, fontWeight, color, background } from 'styled-system'
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const InputWrapper = styled.div`
   display: flex;
@@ -10,16 +9,14 @@ const InputWrapper = styled.div`
   width: 100%;
 `
 
-const Input = styled.input`
+const InputComp = styled.input`
   display: inline-block;
   border: none;
   background: transparent;
   width: 100%;
   text-align: ${props => props.textAlign};
-  ${fontSize};
-  ${fontWeight};
-  ${color};
-  ${background};
+  font-size: ${props => props.theme.fontSizes[props.fontSize]}px;
+  font-weight: ${props => props.fontWeight};
 
   border-width: initial;
   border-style: none;
@@ -30,7 +27,7 @@ const Input = styled.input`
     outline: none;
   }
   ::-webkit-input-placeholder {
-    ${color};
+    color: ${props => props.theme.colors.disabledText};
     text-decoration: underline;
     text-decoration-color: ${props => props.theme.colors.primary};
   }
@@ -38,7 +35,7 @@ const Input = styled.input`
     text-indent: -999px;
   }
   ::-moz-placeholder {
-    ${color};
+    color: ${props => props.theme.colors.disabledText};
   }
   :focus::-moz-placeholder {
     text-indent: -999px;
@@ -47,7 +44,7 @@ const Input = styled.input`
 
 const UnderlineSpan = styled.span`
   user-select: none;
-  border-top: 3px solid ${props => props.theme.primaryColor};
+  border-top: 2px solid ${props => props.theme.primaryColor};
   position: absolute;
   left: 0;
   bottom: 0;
@@ -55,7 +52,7 @@ const UnderlineSpan = styled.span`
   height: 0px;
   color: transparent;
   overflow: hidden;
-  ${fontSize};
+  font-size: ${props => props.theme.fontSizes[props.fontSize]}px;
 `
 
 type State = {
@@ -74,9 +71,10 @@ type Props = {
   name?: string,
   hideUnderline?: boolean,
   textAlign?: string,
+  className: string,
 }
 
-export default class extends React.Component<Props, State> {
+class Input extends React.Component<Props, State> {
   constructor(props : Props) {
     super(props);
     this.state = {
@@ -89,12 +87,21 @@ export default class extends React.Component<Props, State> {
   }
 
   render () {
-    const { color = 'white', placeHolder, fontSize, fontWeight = 500, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name, hideUnderline = false, textAlign = 'left' } = this.props
-    const value = this.state.value;
+    const { className, color = 'white', placeHolder, fontSize = 1, fontWeight = 500, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name, hideUnderline = false, textAlign = 'left' } = this.props
+    const value = this.props.value || this.state.value;
 
     return (
-      <InputWrapper>
-        <Input onBlur={onBlur} color={color} fontWeight={fontWeight} placeholder={placeHolder} onChange={onChange} fontSize={fontSize} value={value} name={name} textAlign={textAlign} />
+      <InputWrapper className={className}>
+        <InputComp
+          onBlur={onBlur}
+          color={color}
+          fontWeight={fontWeight}
+          placeholder={placeHolder}
+          onChange={onChange || handleChange}
+          fontSize={fontSize}
+          value={value}
+          name={name}
+          textAlign={textAlign} />
         {!hideUnderline && <UnderlineSpan fontSize={fontSize}>
           {value.replace(/ /g, '\u00a0')}
         </UnderlineSpan> }
@@ -102,3 +109,5 @@ export default class extends React.Component<Props, State> {
     )
   }
 }
+
+export default Input;

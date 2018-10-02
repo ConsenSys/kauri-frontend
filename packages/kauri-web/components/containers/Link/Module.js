@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable'
 import { getRequestForAnalytics } from '../../../queries/Request'
 import { getArticleForAnalytics } from '../../../queries/Article'
 import { getCollectionForAnalytics } from '../../../queries/Collection'
-import { getUserForAnalytics } from '../../../queries/User'
+import { getUserDetails } from '../../../queries/User'
 import mixpanelBrowser from 'mixpanel-browser'
 
 import type { Dependencies } from '../../../lib/Module'
@@ -33,8 +33,8 @@ export type Classification =
     }
   | {
       resource: Resource | string,
-      resourceID: string,
-      resourceVersion: string,
+      resourceID?: string,
+      resourceVersion?: string,
       resourceAction: ?string,
     }
 
@@ -126,7 +126,7 @@ const fetchResource = (classification: *, apolloClient: *): Promise<*> => {
     })
   } else if (resource === 'public-profile') {
     return apolloClient.query({
-      query: getUserForAnalytics,
+      query: getUserDetails,
       variables: {
         userId: classification.resourceID,
       },

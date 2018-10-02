@@ -270,3 +270,18 @@ export const searchPersonalArticles = gql`
     }
   }
 `;
+
+export const searchPersonalDrafts = gql`
+  query searchPersonalArticles($userId: String) {
+    searchArticles (sort: "dateCreated", dir: DESC, filter: { authorIdEquals: $userId, statusIn: [ DRAFT ], latestVersion: true } ) {
+      content {
+          id, version, title, content, dateCreated, datePublished, author {
+          id, name
+        }
+        status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name }, body }, totalPages, totalElements  }
+        resourceIdentifier { type, id, version }
+      }
+      totalPages totalElements
+    }
+  }
+`;
