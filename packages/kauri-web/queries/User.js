@@ -12,10 +12,12 @@ export const getUserDetails = gql`
   query getUser($userId: String) {
     getUser(id: $userId) {
       id
+      username
       name
+      title
       website
       avatar
-      title
+      social
     }
   }
 `;
@@ -24,15 +26,15 @@ export const getUserDetails = gql`
 export const saveUserDetails = gql`
   mutation saveUser(
     $username: String,
-    $email: String,
+    $name: String,
     $title: String,
     $website: String,
     $avatar: String,
     $social: Map_String_StringScalar
     ) {
       saveUser (
+        name:$name,
         username:$username,
-        email: $email,
         avatar: $avatar,
         title: $title,
         website: $website,

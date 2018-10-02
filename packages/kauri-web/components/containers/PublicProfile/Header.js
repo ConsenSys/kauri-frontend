@@ -2,15 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import { PrimaryButton } from '../../../../kauri-components/components/Button';
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs';
-import userIdTrim from '../../../lib/userid-trim';
+import idTrim from '../../../lib/userid-trim';
 
 const PublicProfileHeader = styled.div`
-    height: 300px;
     background-color: #1e2428;
     display: flex;
-    align-items: center;
     color: white;
     padding: 2.5em calc((100vw - 1280px) / 2);
+
+    @media (max-width: 700px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 
 const Avatar = styled.div`
@@ -24,22 +27,17 @@ const Avatar = styled.div`
     border-radius: 50px;
     font-size: ${props => props.theme.fontSizes[5]}px;
     font-weight: 700;
-
-    @media (max-width: 700px) {
-        display: none;
-    }
+    margin-right: ${props => props.theme.space[2]}px;
+    margin-bottom: ${props => props.theme.space[3]}px;
 `;
 
-const Address = styled.div`
-    font-size: ${props => props.theme.fontSizes[2]}px;
-    font-weight: 700;
-    color:white;
-    margin: ${props => props.theme.space[3]}px;
-    flex: 1;
-`;
+const RightSide = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
 
-const Stats = styled.div`
-    margin-right: 136px;
     h3, span {
         color: white;
         opacity: 1;
@@ -47,33 +45,38 @@ const Stats = styled.div`
 `;
 
 const Details = styled.div`
-    font-size: ${props => props.theme.fontSizes[1]}px;
-    font-weight: 400;
-    color:white;
-    margin: ${props => props.theme.space[3]}px;
-    flex: 1;
+    font-size: ${props => props.theme.fontSizes[props.size]}px;
+    font-weight: ${props => props.weight || 400};
+    color: white;
+    margin-bottom: ${props => props.theme.space[1]}px;
 `;
 
 const DetailsContainer = styled.div`
     display: flex;
     flex-direction: column;
-`;
-
-const Spacer = styled.div`
-    display: flex;
     flex: 1;
+    @media (max-width: 700px) {
+        align-items: center;
+    }
+`;
+
+const StyledButton = styled(PrimaryButton)`
+    margin: ${props => props.theme.space[3]}px;
+    align-self: center;
 `;
 
 
-const ProfileHeader = ({ user, currentUser, collections, articles, toggleEditing }) => <PublicProfileHeader>
-<Avatar avatar={user && user.avatar}>{user && user.avatar ? '' : (user.name || user.id).substring(0,1).toUpperCase()}</Avatar>
+const ProfileHeader = ({ id, avatar, title, username, name, website, github, twitter, currentUser, collections, articles, toggleEditing }, props) =><PublicProfileHeader>
+<Avatar avatar={avatar}>{avatar ? '' : (name || id).substring(0,1).toUpperCase()}</Avatar>
 <DetailsContainer>
-    <Address>{user && user.name ?  `@${user.name.toLowerCase()}` : user.id}</Address>
-    <Details>{user && user.title}</Details>
-    <Details>{user && user.website}</Details>
+    {username && <Details weight={700} size={2}>@{username}</Details>}
+    {name && <Details weight={500} size={5}>{name}</Details>}
+    {title && <Details size={2}>{title}</Details>}
+    {website && <Details>{website}</Details>}
+    {github && <Details size={2}>{github}</Details>}
+    {twitter && <Details>{twitter}</Details>}
 </DetailsContainer>
-<Spacer />
-<Stats>
+<RightSide>
     {articles && collections &&
         <StatisticsContainer
             statistics={[{
@@ -83,8 +86,8 @@ const ProfileHeader = ({ user, currentUser, collections, articles, toggleEditing
                 name: 'Collections',
                 count: collections.length
             }]}/>}
-</Stats>
-{user.id === currentUser && <PrimaryButton onClick={() => toggleEditing()}>Edit Profile</PrimaryButton>}
+</RightSide>
+{id === currentUser && <StyledButton onClick={() => toggleEditing()}>Edit Profile</StyledButton>}
 </PublicProfileHeader>;
 
 
