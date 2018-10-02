@@ -34,7 +34,32 @@ const MetaDetails = styled.div`
 `
 
 storiesOf('Comments', module)
-  .add('Single Comment', () => (
+  .add('Single', () => (
+    <Section>
+      <Label>General Comments</Label>
+      <CommentContainer>
+        <UserWidgetSmall username='0xabcd...hi' />
+        <BodyCard>
+         Nullam consectetur aliquam nunc et vehicula.
+         Phasellus porta est id vehicula ullamcorper.
+         Quisque efficitur lacus ac faucibus luctus.
+         Donec non erat varius, suscipit nisl et, semper arcu.
+         Nunc non ante at neque imperdiet sollicitudin.
+         Duis tincidunt turpis ac urna consectetur eleifend.
+         Curabitur tempor sagittis efficitur.
+        </BodyCard>
+        <MetaDetails>
+          <Label>1 day ago</Label>
+          <CTA onClick={() => alert('reply clicked')}>Reply</CTA>
+        </MetaDetails>
+      </CommentContainer>
+      <SecondaryButton width='100%' handleClick={() => alert('clicked')} color='textPrimary' border={'primary'} borderHover={'hoverTextColor'}>
+        Leave a comment
+      </SecondaryButton>
+    </Section>
+  ))
+
+  .add('List', () => (
     <Section>
       <Label>General Comments</Label>
 
