@@ -1,3 +1,4 @@
+//@flow
 import PublicProfile from './View.js'
 import { compose, graphql } from 'react-apollo'
 import { searchPersonalArticles, searchPersonalDrafts } from '../../../queries/Article';

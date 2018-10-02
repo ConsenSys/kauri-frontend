@@ -1,11 +1,14 @@
+//@flow
+
 import moment from 'moment';
 import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard.bs';
 import Empty from './Empty';
 import { Link } from '../../../routes';
 import userIdTrim from '../../../lib/userid-trim';
 import ContentContainer from './PublicProfileContentContainer';
+import type { CollectionsProps } from './types';
 
-const Collections = ({ collections, routeChangeAction }) =>
+const Collections = ({ collections, routeChangeAction }: CollectionsProps) =>
     collections.content.length > 0 ?
     <ContentContainer>
         {collections.content.map(collection => {
@@ -23,8 +26,7 @@ const Collections = ({ collections, routeChangeAction }) =>
             articles={articleCount}
             lastUpdated={moment(collection.dateCreated).fromNow()}
             collectionId={collection.id}
-            imageURL={collection.background && collection.background}
-            profileImage={collection.profileImage}
+            imageURL={collection.background}
             cardHeight={500}
             collectionDescription={collection.description}
             linkComponent={(childrenProps, route) => (

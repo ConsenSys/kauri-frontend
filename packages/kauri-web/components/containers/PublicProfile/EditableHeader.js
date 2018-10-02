@@ -7,6 +7,7 @@ import PrimaryButton from '../../../../kauri-components/components/Button/Primar
 import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton';
 import TriggerImageUploader from '../../common/ImageUploader';
 import userIdTrim from '../../../lib/userid-trim';
+import type { HeaderState, HeaderProps } from './types';
 
 const HeaderContainer = styled.div`
     background-color: #1e2428;
@@ -38,32 +39,8 @@ const StyledUpload = styled(UploadLogoButton)`
     margin: ${props => props.theme.space[1]}px;
 `;
 
-type State = {
- username: string,
- title: string,
- avatar: string,
- website: string,
- twitter: string,
- github: string,
- name: string,
-};
-
-type Props = {
-    username: string,
-    title: string,
-    avatar: string,
-    website: string,
-    twitter: string,
-    github: string,
-    name: string,
-    userId: string,
-    saveUser: State => void,
-    toggleEditing: () => void,
-    updateHeader: State => void,
-};
-
-class EditableHeader extends Component<Props, State> {
-    constructor(props: Props) {
+class EditableHeader extends Component<HeaderProps, HeaderState> {
+    constructor(props: HeaderProps) {
         super(props);
         this.state = {
             username: props.username,
@@ -83,7 +60,7 @@ class EditableHeader extends Component<Props, State> {
     }
     
     uploadImage() {
-        TriggerImageUploader(null, null, (file, url: string) => this.setState({ avatar: url}));
+        TriggerImageUploader(() => {}, '', (file, url: string) => this.setState({ avatar: url}));
     }
 
     render() {

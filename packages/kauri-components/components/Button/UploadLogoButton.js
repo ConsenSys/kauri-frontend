@@ -57,8 +57,8 @@ type Props = {
 
 }
 
-export default ({ bg, fontSize = 0, space = 2, color = 'textPrimary', height = '100px', text = 'Logo', handleClick, children, disabled }: Props) =>
-  <UploadLogoButton bg={bg} mb={space} height={height} disabled={disabled} onClick={handleClick} color={color} fontSize={fontSize}>
+export default ({ className, bg, fontSize = 0, space = 2, color = 'textPrimary', height = '100px', text = 'Logo', handleClick, children, disabled }: Props) =>
+  <UploadLogoButton className={className} bg={bg} mb={space} height={height} disabled={disabled} onClick={handleClick} color={color} fontSize={fontSize}>
     <Overlay>
     <img src='https://png.icons8.com/color/50/000000/upload.png' />
       {text || children}

@@ -1,8 +1,9 @@
+//@flow
 import React from 'react';
 import styled from 'styled-components';
 import { PrimaryButton } from '../../../../kauri-components/components/Button';
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs';
-import idTrim from '../../../lib/userid-trim';
+import type { HeaderState, HeaderProps } from './types';
 
 const PublicProfileHeader = styled.div`
     background-color: #1e2428;
@@ -66,7 +67,7 @@ const StyledButton = styled(PrimaryButton)`
 `;
 
 
-const ProfileHeader = ({ id, avatar, title, username, name, website, github, twitter, currentUser, collections, articles, toggleEditing }, props) =><PublicProfileHeader>
+const ProfileHeader = ({ id, avatar, title, username, name, website, github, twitter, currentUser, collections, articles, toggleEditing }: HeaderProps) =><PublicProfileHeader>
 <Avatar avatar={avatar}>{avatar ? '' : (name || id).substring(0,1).toUpperCase()}</Avatar>
 <DetailsContainer>
     {username && <Details weight={700} size={2}>@{username}</Details>}

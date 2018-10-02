@@ -1,3 +1,4 @@
+//@flow
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import Tabs from '../../../../kauri-components/components/Tabs';
@@ -5,14 +6,20 @@ import Articles from './Articles';
 import Collections from './Collections';
 import Header from './Header';
 import EditableHeader from './EditableHeader';
+import type {ViewProps, ViewState } from './types';
 
-
-
-class PublicProfile extends Component {
-    constructor(props) {
+class PublicProfile extends Component<ViewProps, ViewState> {
+    constructor(props: ViewProps) {
         super(props);
         this.state = {
             isEditing: false,
+            avatar: "",
+            username: "",
+            name: "",
+            title: "",
+            website: "",
+            twitter: "",
+            github: "",
         }
     }
 
@@ -20,7 +27,7 @@ class PublicProfile extends Component {
         this.setState({ isEditing: !this.state.isEditing});
     }
 
-    updateHeader(newDetails) {
+    updateHeader(newDetails: ViewState) {
         this.setState({...newDetails});
     }
 
@@ -29,7 +36,6 @@ class PublicProfile extends Component {
         if (!UserQuery.getUser || !ArticlesQuery.searchArticles || !CollectionQuery.searchCollections || !DraftsQuery.searchArticles) return null;
         return (
             <div>
-                {console.log(UserQuery)}
                 {this.state.isEditing ? <EditableHeader
                     avatar={UserQuery.getUser.avatar}
                     userId={userId}
@@ -40,13 +46,13 @@ class PublicProfile extends Component {
                     twitter={UserQuery.getUser.social && UserQuery.getUser.social.twitter}
                     github={UserQuery.getUser.social && UserQuery.getUser.social.github}
                     toggleEditing={() => this.toggleEditing()}
-                    updateHeader={newDetails => this.updateHeader(newDetails)}
+                    updateHeader={(newDetails: ViewState) => this.updateHeader(newDetails)}
                     saveUser={this.props.saveUserDetailsAction}
                 /> : <Header
                     articles={ArticlesQuery.searchArticles.content}
                     collections={CollectionQuery.searchCollections.content}
                     currentUser={userId}
-                    id={this.state.id || UserQuery.getUser.id}
+                    id={UserQuery.getUser.id}
                     avatar={this.state.avatar || UserQuery.getUser.avatar}
                     username={this.state.username || UserQuery.getUser.username}
                     name={this.state.name || UserQuery.getUser.name}

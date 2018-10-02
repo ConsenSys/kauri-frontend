@@ -71,6 +71,7 @@ type Props = {
   name?: string,
   hideUnderline?: boolean,
   textAlign?: string,
+  className: string,
 }
 
 class Input extends React.Component<Props, State> {
@@ -86,11 +87,11 @@ class Input extends React.Component<Props, State> {
   }
 
   render () {
-    const { color = 'white', placeHolder, fontSize = 1, fontWeight = 500, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name, hideUnderline = false, textAlign = 'left' } = this.props
+    const { className, color = 'white', placeHolder, fontSize = 1, fontWeight = 500, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name, hideUnderline = false, textAlign = 'left' } = this.props
     const value = this.props.value || this.state.value;
 
     return (
-      <InputWrapper>
+      <InputWrapper className={className}>
         <InputComp
           onBlur={onBlur}
           color={color}

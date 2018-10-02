@@ -1,3 +1,4 @@
+//@flow
 import { Observable } from 'rxjs/Observable';
 import { saveUserDetails } from '../../../queries/User';
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module';

@@ -1,11 +1,14 @@
+//@flow
+
 import moment from 'moment';
 import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard.bs';
 import Empty from './Empty';
 import { Link } from '../../../routes';
 import userIdTrim from '../../../lib/userid-trim';
-import ContentContainer from './PublicProfileContentContainer'
+import ContentContainer from './PublicProfileContentContainer';
+import type { ArticlesProps } from './types';
 
-const Articles = ({ articles, routeChangeAction }) =>
+const Articles = ({ articles, routeChangeAction } : ArticlesProps) =>
     articles.content.length > 0 ?
     <ContentContainer>{articles.content.map(article => 
                 <ArticleCard
@@ -15,7 +18,7 @@ const Articles = ({ articles, routeChangeAction }) =>
                     title={article.title}
                     content={article.content}
                     userId={article.author && article.author.id}
-                    username={article.author && (article.author.name || userIdTrim(article.author.id))}
+                    username={article.author.username || userIdTrim(article.author.id)}
                     articleId={article.id}
                     articleVersion={article.version}
                     cardHeight={500}
