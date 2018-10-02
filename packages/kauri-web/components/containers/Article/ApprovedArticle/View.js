@@ -122,6 +122,8 @@ class ApprovedArticle extends React.Component<Props, State> {
           hostName={hostName}
         />
         <ApprovedArticle.Comments
+          id={props.data.getArticle && props.data.getArticle.id}
+          version={props.data.getArticle && props.data.getArticle.version}
           comments={props.data.getArticle && props.data.getArticle.comments && props.data.getArticle.comments.content}
           userId={this.props.userId}
           username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.name}

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Label, CTA, BodyCard } from '../../../../../kauri-components/components/Typography'
 import SecondaryButton from '../../../../../kauri-components/components/Button/SecondaryButton'
 import UserWidgetSmall from '../../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
+import InReviewArticleGeneralCommentForm from '../../Article/InReviewArticle/InReviewArticleGeneralCommentForm'
 import Stack from 'stack-styled'
 
 const ApprovedArticleCommentsSection = styled.section`
@@ -69,10 +70,12 @@ const Comment = () =>
   </CommentContainer>
 
 type Props = {
-  comments: ?Array<CommentDTO>
+  comments: ?Array<CommentDTO>,
+  id: string,
+  version: number
 }
 
-export default ({ comments }: Props) =>
+export default ({ id, version, addCommentAction, comments }: Props) =>
   <ApprovedArticleCommentsSection>
     <Divider />
     <Content>
@@ -84,6 +87,7 @@ export default ({ comments }: Props) =>
         </CommentsContainer>
       )
       }
+      <InReviewArticleGeneralCommentForm status={'published'} article_id={id} article_version={version} addCommentAction={() => { }} />
       <SecondaryButton width='100%' handleClick={() => alert('clicked')} color='textPrimary' border={'primary'} borderHover={'hoverTextColor'}>
         Leave a comment
       </SecondaryButton>
