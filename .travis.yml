@@ -49,20 +49,20 @@ jobs:
 #     - echo "DEV_SEED_WORDS=${DEV_SEED_WORDS}" > secret.env
 #     - docker run --env-file=secret.env --rm flow-frontend-boilerplate:unit-tests
   - stage: chromaticqa-no-auto-accept-changes
-    if: "((NOT branch = master) AND (branch = development) AND (type IN (pull_request)))"
+    if: "((NOT branch = master) AND (branch = dev2) AND (type IN (pull_request)))"
     script:
     - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components
       .
     - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components
   - stage: chromaticqa-auto-accept-changes
-    if: "((branch = master) OR (branch = development) AND (NOT type IN (pull_request)))"
+    if: "((branch = master) OR (branch = dev2) AND (NOT type IN (pull_request)))"
     script:
     - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components
       .
     - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components npm
       run test:chromatic-auto-accept-changes
   - stage: deploy-dev
-    if: "(NOT type IN (pull_request) AND (branch = development))"
+    if: "(NOT type IN (pull_request) AND (branch = dev2))"
     install:
     - cd kauri-ops
     - source env_setup.sh --config-file config/config-dev.json
