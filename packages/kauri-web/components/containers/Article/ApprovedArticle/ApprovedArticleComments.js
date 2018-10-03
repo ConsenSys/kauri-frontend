@@ -52,7 +52,7 @@ const Divider = styled.div`
   width: ${props => props.width || '950px'};
   background-color: ${props => props.theme.colors['divider']};
   height: 2px;
-  margin-top: ${props => !props.noMarginTop && props.theme.space[5]}px;
+  margin-top: ${props => !props.noMarginTop && props.theme.space[3]}px;
   margin-bottom: ${props => props.theme.space[3]}px;
   @media(max-width: 950px) {
     width: 100%;
