@@ -56,7 +56,7 @@ export type ViewState = {
 
 export type ViewProps = {
     saveUserDetailsAction: () => void,
-    currentUser: string,
+    currentUser?: string,
     ArticlesQuery: {
         searchArticles: {
             content: Array<ArticleDTO>
