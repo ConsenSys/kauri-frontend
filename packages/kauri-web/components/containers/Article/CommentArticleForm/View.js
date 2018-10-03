@@ -32,7 +32,7 @@ const ButtonsContainer = styled.div`
   justify-content: flex-end;
   > button {
     :first-child {
-      margin-right: ${props => props.theme.space[4]}px;
+      margin-right: ${props => props.theme.space[2]}px;
     }
   }
 `

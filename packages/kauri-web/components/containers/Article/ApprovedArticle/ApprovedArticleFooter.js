@@ -15,7 +15,7 @@ type Props = {
 
 const ArticleFooter = styled.section`
   padding: 0 ${props => props.theme.padding};
-  margin-bottom: ${props => props.theme.space[5]}px;
+  margin-bottom: ${props => props.theme.space[3]}px;
 `
 
 const Details = styled.div`
@@ -90,7 +90,7 @@ const Divider = styled.div`
   width: ${props => props.width || '950px'};
   background-color: ${props => props.theme.colors['divider']};
   height: 2px;
-  margin: ${props => props.theme.space[5]}px 0px;
+  margin: ${props => props.theme.space[3]}px 0px;
   @media(max-width: 950px) {
     width: 100%;
   }
