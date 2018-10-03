@@ -26,16 +26,6 @@ const TextArea = styled.textarea`
   ${BodyCardCss};
 `
 
-const Divider = styled.div`
-  width: ${props => props.width || '950px'};
-  background-color: ${props => props.theme.colors['divider']};
-  height: 2px;
-  margin-bottom: ${props => props.theme.space[5]}px;
-  @media(max-width: 950px) {
-    width: 100%;
-  }
-`
-
 const ButtonsContainer = styled.div`
   display: flex;
   margin-top: ${props => props.theme.space[2]}px;
@@ -94,7 +84,6 @@ export default class CommentArticleForm extends React.Component<Props, State> {
           isAddingComment
             ? (
               <TextAreaContainer id='textarea'>
-                <Divider />
                 <Field name='body' render={
                   ({ field }) =>
                     <TextArea
