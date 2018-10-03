@@ -83,8 +83,8 @@ const ProfileHeader = ({ id, avatar, title, username, name, website, github, twi
     {name && <Details weight={500} size={5}>{name}</Details>}
     {title && <Details size={2}>{title}</Details>}
     {<Links>
-        {github && <SocialWebsiteIcon brand="github" height={20} socialURL={github} />}
-        {twitter && <SocialWebsiteIcon brand="twitter" height={20} socialURL={twitter} />}
+        {github && <SocialWebsiteIcon brand="github" height={20} socialURL={`https://www.github.com/${github}`} />}
+        {twitter && <SocialWebsiteIcon brand="twitter" height={20} socialURL={`https://www.twitter.com/${twitter}`} />}
         {website && <a href={website}><Details>{website}</Details></a>}
     </Links>}
 </DetailsContainer>
