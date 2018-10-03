@@ -3,13 +3,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { PrimaryButton } from '../../../../kauri-components/components/Button';
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs';
+import SocialWebsiteIcon from '../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.bs';
 import type { HeaderState, HeaderProps } from './types';
 
 const PublicProfileHeader = styled.div`
     background-color: #1e2428;
     display: flex;
     color: white;
-    padding: 2.5em calc((100vw - 1280px) / 2);
+    padding: 2.5em ${props => props.theme.padding};
 
     @media (max-width: 700px) {
         flex-direction: column;
@@ -66,6 +67,14 @@ const StyledButton = styled(PrimaryButton)`
     align-self: center;
 `;
 
+const Links = styled.div`
+    display: flex;
+    flex-direction: row;
+    & > a {
+        margin-right: ${props => props.theme.space[1]}px;
+    }
+`;
+
 
 const ProfileHeader = ({ id, avatar, title, username, name, website, github, twitter, currentUser, collections, articles, toggleEditing }: HeaderProps) =><PublicProfileHeader>
 <Avatar avatar={avatar}>{avatar ? '' : (name || id).substring(0,1).toUpperCase()}</Avatar>
@@ -73,9 +82,11 @@ const ProfileHeader = ({ id, avatar, title, username, name, website, github, twi
     {username && <Details weight={700} size={2}>@{username}</Details>}
     {name && <Details weight={500} size={5}>{name}</Details>}
     {title && <Details size={2}>{title}</Details>}
-    {website && <Details>{website}</Details>}
-    {github && <Details size={2}>{github}</Details>}
-    {twitter && <Details>{twitter}</Details>}
+    {<Links>
+        {github && <SocialWebsiteIcon brand="github" height={20} socialURL={github} />}
+        {twitter && <SocialWebsiteIcon brand="twitter" height={20} socialURL={twitter} />}
+        {website && <a href={website}><Details>{website}</Details></a>}
+    </Links>}
 </DetailsContainer>
 <RightSide>
     {articles && collections &&

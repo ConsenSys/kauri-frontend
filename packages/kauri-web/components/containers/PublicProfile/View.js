@@ -32,13 +32,13 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     }
 
     render() {
-        const { UserQuery, ArticlesQuery, CollectionQuery, DraftsQuery, routeChangeAction, userId} = this.props;
+        const { UserQuery, ArticlesQuery, CollectionQuery, DraftsQuery, routeChangeAction, currentUser} = this.props;
         if (!UserQuery.getUser || !ArticlesQuery.searchArticles || !CollectionQuery.searchCollections || !DraftsQuery.searchArticles) return null;
         return (
             <div>
                 {this.state.isEditing ? <EditableHeader
                     avatar={UserQuery.getUser.avatar}
-                    userId={userId}
+                    currentUser={currentUser}
                     name={UserQuery.getUser.name}
                     username={UserQuery.getUser.username}
                     title={UserQuery.getUser.title}
@@ -51,7 +51,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 /> : <Header
                     articles={ArticlesQuery.searchArticles.content}
                     collections={CollectionQuery.searchCollections.content}
-                    currentUser={userId}
+                    currentUser={currentUser}
                     id={UserQuery.getUser.id}
                     avatar={this.state.avatar || UserQuery.getUser.avatar}
                     username={this.state.username || UserQuery.getUser.username}
@@ -65,12 +65,12 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 <Tabs
                     tabs={[
                         `Articles (${ArticlesQuery.searchArticles.content.length})`,
-                        UserQuery.getUser.id === userId && `My Drafts (${DraftsQuery.searchArticles.content.length})`,
+                        UserQuery.getUser.id === currentUser && `My Drafts (${DraftsQuery.searchArticles.content.length})`,
                         `Collections (${CollectionQuery.searchCollections.content.length})`
                     ]}
                     panels={[
                         <Articles articles={ArticlesQuery.searchArticles} routeChangeAction={routeChangeAction} />,
-                        UserQuery.getUser.id === userId && <Articles articles={DraftsQuery.searchArticles} routeChangeAction={routeChangeAction} />,
+                        UserQuery.getUser.id === currentUser && <Articles articles={DraftsQuery.searchArticles} routeChangeAction={routeChangeAction} />,
                         <Collections collections={CollectionQuery.searchCollections} routeChangeAction={routeChangeAction} />,
                     ]}
                 />

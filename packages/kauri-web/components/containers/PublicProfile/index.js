@@ -10,7 +10,7 @@ import withLoading from '../../../lib/with-loading';
 import { saveUserDetailsAction } from './Module'
 
 const mapStateToProps = (state, ownProps) => {
-  return { hostName: state.app && state.app.hostName }
+  return { hostName: state.app && state.app.hostName, currentUser: state.app.userId.substring(2) }
 }
 
 export default compose(

@@ -57,4 +57,5 @@ export const saveUserDetailsAction = (payload: HeaderState) => ({
               })
             )
           })
+          .ignoreElements()
       )
