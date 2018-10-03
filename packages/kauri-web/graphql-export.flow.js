@@ -89,6 +89,7 @@ declare type PublicUserDTO = {
   social: ?any;
   title: ?string;
   website: ?string;
+  username?: string,
 }
 
 declare type Page_ArticleDTO = {

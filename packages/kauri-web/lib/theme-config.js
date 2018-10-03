@@ -96,7 +96,7 @@ export const zeppelin = {
   description: `ZeppelinOS is an open-source, distributed platform of tools and services on top of the EVM to develop and manage smart contract applications securely.`,
 }
 
-export const categories: Array<string> = Object.keys({
+export const categories = Object.keys({
   kauri,
   metamask,
   // ethereum,
@@ -143,7 +143,7 @@ const fontWeight = [ 300, 'normal', 500, 700 ]
 const breakpoints = [ '500px', '52em', '64em' ]
 
 const space = [
-  0, 10, 15, 20, 25, 30, 35, 40,
+  0, 10, 15, 30, 60,
 ]
 
 const themeConfig = {

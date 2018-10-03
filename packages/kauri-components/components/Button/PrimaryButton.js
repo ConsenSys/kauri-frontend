@@ -53,8 +53,35 @@ type Props = {
   children?: React.Node,
 }
 
-export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, space = 2, color = 'white', type = 'submit', onClick, handleClick, text = '', children, icon, disabled, width }: Props) =>
-  <PrimaryButton width={width} type={type} disabled={disabled} mr={space} onClick={onClick || handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
-    {icon}
-    {text || children}
-  </PrimaryButton>
+export default (
+  {
+    bg = 'primary',
+    fontWeight = 700,
+    fontSize = 0,
+    space = 2,
+    color = 'white',
+    type = 'submit',
+    onClick,
+    handleClick,
+    text = '',
+    children,
+    icon,
+    disabled,
+    width,
+    className,
+  }: Props) =>
+  <PrimaryButton
+      type={type}
+      disabled={disabled}
+      mr={space}
+      onClick={onClick || handleClick}
+      bg={bg}
+      color={color}
+      fontSize={fontSize}
+      fontWeight={fontWeight}
+      width={width}
+      className={className}
+  >
+      {icon}
+      {text || children}
+    </PrimaryButton>
