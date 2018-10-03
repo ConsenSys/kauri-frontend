@@ -1,10 +1,12 @@
 // @flow
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
+import moment from 'moment'
 import { Label, CTA, BodyCard } from '../../../../../kauri-components/components/Typography'
 import UserWidgetSmall from '../../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
-import InReviewArticleGeneralCommentForm from '../../Article/InReviewArticle/InReviewArticleGeneralCommentForm'
 import CommentArticleForm from '../CommentArticleForm'
+import Link from '../../Link'
+import userIdTrim from '../../../../lib/userid-trim'
 
 const ApprovedArticleCommentsSection = styled.section`
   display: flex;
@@ -56,21 +58,17 @@ const Divider = styled.div`
   }
 `
 
-const Comment = () =>
+const Comment = ({ body, posted, authorId, author: { name, id } }: CommentDTO) =>
   <CommentContainer>
-    <UserWidgetSmall username='0xabcd...hi' />
+    <Link useAnchorTag href={`/public-profile/${id}`}>
+      <UserWidgetSmall username={name || userIdTrim(id)} />
+    </Link>
     <BodyCard>
-   Nullam consectetur aliquam nunc et vehicula.
-   Phasellus porta est id vehicula ullamcorper.
-   Quisque efficitur lacus ac faucibus luctus.
-   Donec non erat varius, suscipit nisl et, semper arcu.
-   Nunc non ante at neque imperdiet sollicitudin.
-   Duis tincidunt turpis ac urna consectetur eleifend.
-   Curabitur tempor sagittis efficitur.
+      {body}
     </BodyCard>
     <MetaDetails>
-      <Label>1 day ago</Label>
-      <CTA>Reply</CTA>
+      <Label>{moment(posted).fromNow()}</Label>
+      {/* <CTA>Reply</CTA> */}
     </MetaDetails>
   </CommentContainer>
 
@@ -80,7 +78,7 @@ type Props = {
   version: number
 }
 
-export default ({ id, version, addCommentAction, comments }: Props) =>
+export default ({ id, version, comments }: Props) =>
   <ApprovedArticleCommentsSection>
     <Divider />
     <Content>
@@ -92,6 +90,6 @@ export default ({ id, version, addCommentAction, comments }: Props) =>
         </CommentsContainer>
       )
       }
-      <CommentArticleForm />
+      <CommentArticleForm id={id} version={version} />
     </Content>
   </ApprovedArticleCommentsSection>

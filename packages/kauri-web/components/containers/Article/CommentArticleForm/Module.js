@@ -1,31 +1,78 @@
 // @flow
 import { Observable } from 'rxjs/Observable'
-const config = require('../config').default
+import { addComment } from '../../../../queries/Article'
+import { showNotificationAction } from '../../../../lib/Module'
+import { trackMixpanelAction } from '../../Link/Module'
 
-export type SetUserDetailsPayload = {
-  user: User,
+export type AddCommentParentPayload = {
+  type: "ARTICLE" | "REQUEST",
+  id: string,
+  version: string,
 }
 
-export type SetEthUsdPriceAction = {
+export type AddCommentPayload = {
+  parent: AddCommentParentPayload,
+  body: string
+}
+
+export type AddCommentAction = {
   type: string,
-  payload: SetEthUsdPricePayload,
+  payload: AddCommentPayload,
+  callback: any
 }
 
-export const HIDE_INTRO_BANNER_SUCCESS: string = 'HIDE_INTRO_BANNER_SUCCESS'
+export const ADD_COMMENT: string = 'ADD_COMMENT'
 
-export const showNotificationAction = (payload: ShowNotificationPayload): ShowNotificationAction => ({
-  type: SHOW_NOTIFICATION,
+export const addCommentAction = (payload: AddCommentPayload, callback: any): AddCommentAction => ({
+  type: ADD_COMMENT,
   payload,
+  callback,
 })
 
-export const hideIntroBannerEpic = (action$: Observable<HideIntroBannerAction>, _: any, dependencies: Dependencies) =>
+export const addCommentEpic = (action$: Observable<AddCommentAction>, _: any, { apolloClient, apolloSubscriber }: Dependencies) =>
   action$
-    .ofType(HIDE_INTRO_BANNER)
-    .do(() => {
-      document.cookie = cookie.serialize('HIDE_INTRO_BANNER', true, {
-        maxAge: 30 * 24 * 60 * 60 * 60, // 30 days
-      })
-    })
-    .mapTo({ type: HIDE_INTRO_BANNER_SUCCESS })
-
-export default createReducer(initialState, handlers)
+    .ofType(ADD_COMMENT)
+    .switchMap(
+      ({ payload: { parent, body }, callback }: AddCommentAction) =>
+        Observable.fromPromise(
+          apolloClient.mutate({
+            mutation: addComment,
+            variables: { parent, body },
+          })
+        )
+          .flatMap(({ data: { addComment: { hash } } }: { data: { addComment: { hash: string } } }) =>
+            apolloSubscriber(hash)
+          )
+          .do(() => apolloClient.resetStore())
+          .do(h => console.log(h))
+          .do(h => (callback ? callback() : null))
+          .mergeMap(
+            () =>
+              Observable.of(
+                trackMixpanelAction({
+                  event: 'Offchain',
+                  metaData: {
+                    resource: 'article',
+                    resourceID: parent.id,
+                    resourceVersion: parent.version,
+                    resourceAction: 'add comment for article',
+                  },
+                }),
+                showNotificationAction({
+                  notificationType: 'success',
+                  message: 'Comment added',
+                  description: `Your comment has been added to the article!`,
+                })
+              )
+          )
+          .catch(err => {
+            console.error(err)
+            return Observable.of(
+              showNotificationAction({
+                notificationType: 'error',
+                message: 'Submission error',
+                description: 'Please try again!',
+              })
+            )
+          })
+    )

@@ -26,6 +26,16 @@ const TextArea = styled.textarea`
   ${BodyCardCss};
 `
 
+const Divider = styled.div`
+  width: ${props => props.width || '950px'};
+  background-color: ${props => props.theme.colors['divider']};
+  height: 2px;
+  margin-bottom: ${props => props.theme.space[5]}px;
+  @media(max-width: 950px) {
+    width: 100%;
+  }
+`
+
 const ButtonsContainer = styled.div`
   display: flex;
   margin-top: ${props => props.theme.space[2]}px;
@@ -63,7 +73,7 @@ type State = {
 
 export default class CommentArticleForm extends React.Component<Props, State> {
   state = {
-    isAddingComment: true,
+    isAddingComment: false,
   }
 
   handleClick = () =>
@@ -75,9 +85,8 @@ export default class CommentArticleForm extends React.Component<Props, State> {
     })
 
   render () {
-    const { showNotificationAction, validateForm, isSubmitting } = this.state
+    const { showNotificationAction, validateForm, isSubmitting } = this.props
     const { isAddingComment } = this.state
-    console.log(this.props)
 
     return (
       <Section>
@@ -85,6 +94,7 @@ export default class CommentArticleForm extends React.Component<Props, State> {
           isAddingComment
             ? (
               <TextAreaContainer id='textarea'>
+                <Divider />
                 <Field name='body' render={
                   ({ field }) =>
                     <TextArea
@@ -100,7 +110,9 @@ export default class CommentArticleForm extends React.Component<Props, State> {
                   </SecondaryButton>
                   <PrimaryButton
                     disabled={isSubmitting}
-                    onClick={() => showFormValidationErrors(validateForm, showNotificationAction)}
+                    onClick={() => {
+                      showFormValidationErrors(validateForm, showNotificationAction, () => this.setState({ isAddingComment: false }))
+                    }}
                     type='submit'>
                     Submit
                   </PrimaryButton>

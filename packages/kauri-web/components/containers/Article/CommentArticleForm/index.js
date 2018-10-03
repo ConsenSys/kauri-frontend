@@ -13,21 +13,16 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 export type FormState = {
-  id: string,
-  version: string,
   body: string
 }
 
 export default compose(
   connect(
     mapStateToProps,
-    { showNotificationAction }
+    { showNotificationAction, addCommentAction }
   ),
   withFormik({
     mapPropsToValues: ({ id, version }) => ({
-      // heh heh pre-populate id and version from data
-      id,
-      version,
       body: '',
     }),
     validationSchema: Yup.object().shape({
@@ -40,9 +35,12 @@ export default compose(
       console.log(props)
       const { addCommentAction } = props
 
-      // addCommentAction(values, () => {
-      //   setSubmitting(false)
-      // })
+      const payload = { ...values, parent: { type: 'ARTICLE', id: props.id, version: props.version } }
+
+      addCommentAction(payload, () => {
+        setSubmitting(false)
+        resetForm()
+      })
     },
   })
 )(View)
