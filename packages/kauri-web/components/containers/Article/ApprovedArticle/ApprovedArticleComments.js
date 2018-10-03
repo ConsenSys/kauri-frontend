@@ -2,16 +2,18 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { Label, CTA, BodyCard } from '../../../../../kauri-components/components/Typography'
-import SecondaryButton from '../../../../../kauri-components/components/Button/SecondaryButton'
 import UserWidgetSmall from '../../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
 import InReviewArticleGeneralCommentForm from '../../Article/InReviewArticle/InReviewArticleGeneralCommentForm'
-import Stack from 'stack-styled'
+import CommentArticleForm from '../CommentArticleForm'
 
 const ApprovedArticleCommentsSection = styled.section`
   display: flex;
   flex-direction: column;
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
   padding-top: 0px;
+  @media(max-width: 950px) {
+    display: none;
+  }
 `
 
 const CommentContainer = styled.section`
@@ -48,7 +50,10 @@ const Divider = styled.div`
   width: ${props => props.width || '950px'};
   background-color: ${props => props.theme.colors['divider']};
   height: 2px;
-  margin: ${props => props.theme.space[5]}px 0px;
+  margin-bottom: ${props => props.theme.space[5]}px;
+  @media(max-width: 950px) {
+    width: 100%;
+  }
 `
 
 const Comment = () =>
@@ -87,9 +92,6 @@ export default ({ id, version, addCommentAction, comments }: Props) =>
         </CommentsContainer>
       )
       }
-      <InReviewArticleGeneralCommentForm status={'published'} article_id={id} article_version={version} addCommentAction={() => { }} />
-      <SecondaryButton width='100%' handleClick={() => alert('clicked')} color='textPrimary' border={'primary'} borderHover={'hoverTextColor'}>
-        Leave a comment
-      </SecondaryButton>
+      <CommentArticleForm />
     </Content>
   </ApprovedArticleCommentsSection>
