@@ -18,7 +18,6 @@ export type HeaderProps = {
     twitter: string,
     github: string,
     name: string,
-    userId: string,
     saveUser: HeaderState => void,
     toggleEditing: () => void,
     updateHeader: HeaderState => void,
@@ -56,7 +55,7 @@ export type ViewState = {
 
 export type ViewProps = {
     saveUserDetailsAction: () => void,
-    userId: string,
+    currentUser?: string,
     ArticlesQuery: {
         searchArticles: {
             content: Array<ArticleDTO>
