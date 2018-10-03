@@ -45,7 +45,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
             ? <EditableHeader
               {...this.state}
               toggleEditing={() => this.toggleEditing()}
-              saveUser={this.props.saveUserDetailsAction}
+              saveUserAction={this.props.saveUserDetailsAction}
             />
             : <Header
               articles={ArticlesQuery.searchArticles.content}

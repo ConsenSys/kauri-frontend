@@ -7,6 +7,8 @@ import PrimaryButton from '../../../../kauri-components/components/Button/Primar
 import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton';
 import SocialWebsiteIcon from '../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.bs';
 import TriggerImageUploader from '../../common/ImageUploader';
+import R from 'ramda'
+
 import type { HeaderState, HeaderProps } from './types';
 
 const HeaderContainer = styled.div`
@@ -63,7 +65,8 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
   }
 
   saveUser () {
-    this.props.saveUser({...this.state});
+    const payload = R.filter(R.is(String), this.state)
+    this.props.saveUserAction(payload);
     this.props.toggleEditing();
   }
 

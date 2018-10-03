@@ -78,7 +78,7 @@ export type HeaderProps = {
   twitter: string,
   github: string,
   name: string,
-  saveUser: HeaderState => void,
+  saveUserAction: HeaderState => void,
   toggleEditing: () => void,
   updateHeader: HeaderState => void,
   id?: string,
