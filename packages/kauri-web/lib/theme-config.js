@@ -133,6 +133,7 @@ const colors = {
   secondaryBlueDark: 'rgb(81, 118, 142, 1)',
   white: '#FFFFFF',
   divider: '#EBEBEB',
+  borderTextArea: '#979797',
 }
 
 const fontSizes = [ 11, 13, 14, 16, 18, 20, 22, 28 ]

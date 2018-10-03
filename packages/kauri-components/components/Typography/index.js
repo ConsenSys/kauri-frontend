@@ -1,7 +1,14 @@
 // @flow
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import type { ReactComponentClass } from 'styled-components'
+
+export const BodyCardCss = css`
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: -0.1px;
+  line-height: 18px;
+`
 
 type TypographyType = {
   name?: string, // START NAME WITH A CAPITAL LETTER NOOB AND NO SPACES
@@ -128,10 +135,7 @@ const typographyTypes: Array<TypographyType> = [
     component:
       // Because Nelson
       styled.span`
-        font-size: 14px;
-        font-weight: normal;
-        letter-spacing: -0.1px;
-        line-height: 18px;
+        ${BodyCardCss};
       `,
   },
 

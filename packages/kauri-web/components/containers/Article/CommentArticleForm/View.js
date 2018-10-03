@@ -1,7 +1,9 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import SecondaryButton from '../../../../../kauri-components/components/Button/SecondaryButton'
+import { Form, Field } from 'formik'
+import { PrimaryButton, SecondaryButton } from '../../../../../kauri-components/components/Button'
+import { BodyCardCss } from '../../../../../kauri-components/components/Typography'
 
 import type { FormState } from './index'
 
@@ -10,9 +12,28 @@ const Section = styled.section`
   width: 100%; 
 `
 
-const TextAreaContainer = styled.div``
+const TextAreaContainer = styled(Form)`
+  width: 100%;
+`
 
 const TextArea = styled.textarea`
+  outline: none;
+  resize: none;
+  border: 1px solid ${props => props.theme.colors['borderTextArea']};
+  border-radius: 4px;
+  width: 100%;
+  ${BodyCardCss};
+`
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  margin-top: ${props => props.theme.space[2]}px;
+  justify-content: flex-end;
+  > button {
+    :first-child {
+      margin-right: ${props => props.theme.space[4]}px;
+    }
+  }
 `
 
 type Props = {
@@ -40,7 +61,7 @@ type State = {
 
 export default class CommentArticleForm extends React.Component<Props, State> {
   state = {
-    isAddingComment: false,
+    isAddingComment: true,
   }
 
   handleClick = () =>
@@ -60,7 +81,19 @@ export default class CommentArticleForm extends React.Component<Props, State> {
           isAddingComment
             ? (
               <TextAreaContainer id='textarea'>
-                <TextArea />
+                <Field name='body' render={
+                  ({ field }) =>
+                    <TextArea
+                      {...field}
+                      placeholder={'Enter your comment here!'}
+                      rows={6}
+                    />
+                }
+                />
+                <ButtonsContainer>
+                  <SecondaryButton color='textPrimary' border={'primary'} onClick={() => this.setState({ isAddingComment: false })}>Cancel</SecondaryButton>
+                  <PrimaryButton type='submit'>Submit</PrimaryButton>
+                </ButtonsContainer>
               </TextAreaContainer>
             )
             : (
