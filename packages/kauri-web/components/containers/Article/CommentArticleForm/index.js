@@ -31,8 +31,10 @@ export default compose(
         .required('Required'),
     }),
     handleSubmit: (values: FormState, { props, setErrors, resetForm, setSubmitting }) => {
-      console.log(values)
-      console.log(props)
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(values)
+        console.log(props)
+      }
       const { addCommentAction } = props
 
       const payload = { ...values, parent: { type: 'ARTICLE', id: props.id, version: props.version } }
