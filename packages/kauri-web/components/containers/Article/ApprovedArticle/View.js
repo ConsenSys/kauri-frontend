@@ -18,8 +18,8 @@ import ScrollToTopButton from '../../../../../kauri-components/components/Scroll
 import type { TipArticlePayload } from '../Module'
 
 const ArticleContent = styled.section`
-background: white;
-height: 100%;
+  background: white;
+  height: 100%;
 `;
 
 type Props =

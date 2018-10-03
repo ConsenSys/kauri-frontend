@@ -3,6 +3,8 @@ import { compose } from 'react-apollo'
 import { connect } from 'react-redux'
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
+import { showNotificationAction } from '../../../../lib/Module'
+import { addCommentAction } from './Module'
 import View from './View'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -19,7 +21,7 @@ export type FormState = {
 export default compose(
   connect(
     mapStateToProps,
-    { }
+    { showNotificationAction }
   ),
   withFormik({
     mapPropsToValues: ({ id, version }) => ({
@@ -38,9 +40,9 @@ export default compose(
       console.log(props)
       const { addCommentAction } = props
 
-      addCommentAction(values, () => {
-        setSubmitting(false)
-      })
+      // addCommentAction(values, () => {
+      //   setSubmitting(false)
+      // })
     },
   })
 )(View)

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Form, Field } from 'formik'
 import { PrimaryButton, SecondaryButton } from '../../../../../kauri-components/components/Button'
 import { BodyCardCss } from '../../../../../kauri-components/components/Typography'
+import showFormValidationErrors from '../../../../lib/show-form-validation-errors'
 
 import type { FormState } from './index'
 
@@ -52,7 +53,8 @@ type Props = {
   values: FormState,
   isSubmitting: boolean,
   setFieldValue: (string, any) => void,
-  validateForm: () => Promise<any>
+  validateForm: () => Promise<any>,
+  showNotificationAction: ({ notificationType: string, message: string, description: string }) => void,
 }
 
 type State = {
@@ -73,7 +75,9 @@ export default class CommentArticleForm extends React.Component<Props, State> {
     })
 
   render () {
+    const { showNotificationAction, validateForm, isSubmitting } = this.state
     const { isAddingComment } = this.state
+    console.log(this.props)
 
     return (
       <Section>
@@ -91,8 +95,15 @@ export default class CommentArticleForm extends React.Component<Props, State> {
                 }
                 />
                 <ButtonsContainer>
-                  <SecondaryButton color='textPrimary' border={'primary'} onClick={() => this.setState({ isAddingComment: false })}>Cancel</SecondaryButton>
-                  <PrimaryButton type='submit'>Submit</PrimaryButton>
+                  <SecondaryButton disabled={isSubmitting} color='textPrimary' border={'primary'} onClick={() => this.setState({ isAddingComment: false })}>
+                    Cancel
+                  </SecondaryButton>
+                  <PrimaryButton
+                    disabled={isSubmitting}
+                    onClick={() => showFormValidationErrors(validateForm, showNotificationAction)}
+                    type='submit'>
+                    Submit
+                  </PrimaryButton>
                 </ButtonsContainer>
               </TextAreaContainer>
             )
