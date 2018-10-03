@@ -43,7 +43,7 @@ const Content = styled.div`
 const CommentsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  > * {
+  > :first-child {
     margin-bottom: ${props => props.theme.space[3]}px;
   }
 `
@@ -52,6 +52,7 @@ const Divider = styled.div`
   width: ${props => props.width || '950px'};
   background-color: ${props => props.theme.colors['divider']};
   height: 2px;
+  margin-top: ${props => !props.noMarginTop && props.theme.space[5]}px;
   margin-bottom: ${props => props.theme.space[5]}px;
   @media(max-width: 950px) {
     width: 100%;
@@ -70,17 +71,19 @@ const Comment = ({ body, posted, authorId, author: { name, id } }: CommentDTO) =
       <Label>{moment(posted).fromNow()}</Label>
       {/* <CTA>Reply</CTA> */}
     </MetaDetails>
+    <Divider />
   </CommentContainer>
 
 type Props = {
   comments: ?Array<CommentDTO>,
   id: string,
-  version: number
+  version: number,
+  userId?: string
 }
 
-export default ({ id, version, comments }: Props) =>
+export default ({ id, version, comments, userId }: Props) =>
   <ApprovedArticleCommentsSection>
-    <Divider />
+    <Divider noMarginTop />
     <Content>
       {Array.isArray(comments) && comments.length > 0 &&
       (
@@ -90,6 +93,6 @@ export default ({ id, version, comments }: Props) =>
         </CommentsContainer>
       )
       }
-      <CommentArticleForm id={id} version={version} />
+      {userId && <CommentArticleForm id={id} version={version} />}
     </Content>
   </ApprovedArticleCommentsSection>
