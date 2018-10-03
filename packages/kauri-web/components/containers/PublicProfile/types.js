@@ -1,31 +1,4 @@
-//@flow
-
-export type HeaderState = {
-    username: string,
-    title: string,
-    avatar: string,
-    website: string,
-    twitter: string,
-    github: string,
-    name: string,
-};
-
-export type HeaderProps = {
-    username: string,
-    title: string,
-    avatar: string,
-    website: string,
-    twitter: string,
-    github: string,
-    name: string,
-    saveUser: HeaderState => void,
-    toggleEditing: () => void,
-    updateHeader: HeaderState => void,
-    id?: string,
-    currentUser?: string,
-    collections?: CollectionsProps,
-    articles?: ArticlesProps,
-};
+// @flow
 
 export type ArticlesProps = {
     articles: {
@@ -40,7 +13,6 @@ export type CollectionsProps = {
     },
     routeChangeAction: () => void,
 };
-
 
 export type ViewState = {
     isEditing?: boolean,
@@ -86,4 +58,31 @@ export type ViewProps = {
         }
     },
     routeChangeAction: () => void,
+};
+
+export type HeaderState = {
+  username: string,
+  title: string,
+  avatar: string,
+  website: string,
+  twitter: string,
+  github: string,
+  name: string,
+};
+
+export type HeaderProps = {
+  username: string,
+  title: string,
+  avatar: string,
+  website: string,
+  twitter: string,
+  github: string,
+  name: string,
+  saveUser: HeaderState => void,
+  toggleEditing: () => void,
+  updateHeader: HeaderState => void,
+  id?: string,
+  currentUser?: string,
+  collections?: CollectionsProps,
+  articles?: ArticlesProps,
 };

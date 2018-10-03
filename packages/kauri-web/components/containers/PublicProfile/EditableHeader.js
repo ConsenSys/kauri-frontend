@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import Input from '../../../../kauri-components/components/Input/Input';
@@ -7,7 +7,6 @@ import PrimaryButton from '../../../../kauri-components/components/Button/Primar
 import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton';
 import SocialWebsiteIcon from '../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.bs';
 import TriggerImageUploader from '../../common/ImageUploader';
-import currentUserTrim from '../../../lib/userid-trim';
 import type { HeaderState, HeaderProps } from './types';
 
 const HeaderContainer = styled.div`
@@ -50,62 +49,61 @@ const Offset = styled.div`
 `;
 
 class EditableHeader extends Component<HeaderProps, HeaderState> {
-    constructor(props: HeaderProps) {
-        super(props);
-        this.state = {
-            username: props.username,
-            title: props.title,
-            avatar: props.avatar,
-            website: props.website,
-            twitter: props.twitter,
-            github: props.github,
-            name: props.name,
-        }
+  constructor (props: HeaderProps) {
+    super(props);
+    this.state = {
+      username: props.username,
+      title: props.title,
+      avatar: props.avatar,
+      website: props.website,
+      twitter: props.twitter,
+      github: props.github,
+      name: props.name,
     }
+  }
 
-    saveUser() {
-        this.props.saveUser({...this.state});
-        this.props.toggleEditing();
-        this.props.updateHeader({ ...this.state });
-    }
-    
-    uploadImage() {
-        TriggerImageUploader(() => {}, '', (file, url: string) => this.setState({ avatar: url}));
-    }
+  saveUser () {
+    this.props.saveUser({...this.state});
+    this.props.toggleEditing();
+  }
 
-    handleChange(param: string, value: string) {
-        this.setState({
-            [param]: value
-        });
-    }
+  uploadImage () {
+    TriggerImageUploader(() => {}, '', (file, url: string) => this.setState({ avatar: url }));
+  }
 
-    render() {
-        const { currentUser: string  } = this.props;
-        const { username, title, avatar, website, name, twitter, github} = this.state;
-        return(
-            <HeaderContainer>
-                <StyledUpload bg={avatar} handleClick={() => this.uploadImage()} text="Profile" color="white" />
-                <InputsContainers>
-                    <StyledInput onChange={e => this.handleChange('name', e.target.value)} fontWeight="normal" fontSize={6} value={name} placeHolder="Add your full name" />
-                    <StyledInput onChange={e => this.handleChange('title', e.target.value)} fontWeight="normal" fontSize={3} value={title} placeHolder="Add job title" />
-                    <StyledInput onChange={e => this.handleChange('username', e.target.value)} fontWeight="normal" fontSize={1} value={username}  placeHolder="Add username" />
-                    <StyledInput onChange={e => this.handleChange('website', e.target.value)} fontWeight="normal" fontSize={1} value={website}  placeHolder="Add Website" />
-                    <Offset>
-                        <SocialWebsiteIcon brand="twitter" />
-                        <StyledInput onChange={e => this.handleChange('twitter', e.target.value)} fontWeight="normal" fontSize={1} value={twitter}  placeHolder="Twitter" />
-                    </Offset>
-                    <Offset>
-                        <SocialWebsiteIcon brand="github" />
-                        <StyledInput onChange={e => this.handleChange('github', e.target.value)} fontWeight="normal" fontSize={1} value={github}  placeHolder="Github" />
-                    </Offset>
-                </InputsContainers>
-                <ActionsContainer>
-                    <TertiaryButton onClick={() => this.props.toggleEditing()}>Discard</TertiaryButton>
-                    <PrimaryButton onClick={() => this.saveUser()}>Save Changes</PrimaryButton>
-                </ActionsContainer>
-            </HeaderContainer>
-        );
-    }
+  handleChange (param: string, value: string) {
+    this.setState({
+      [param]: value,
+    });
+  }
+
+  render () {
+    const { username, title, avatar, website, name, twitter, github } = this.state;
+
+    return (
+      <HeaderContainer>
+        <StyledUpload bg={avatar} handleClick={() => this.uploadImage()} text='Profile' color='white' />
+        <InputsContainers>
+          <StyledInput onChange={e => this.handleChange('name', e.target.value)} fontWeight='normal' fontSize={6} value={name} placeHolder='Add your full name' />
+          <StyledInput onChange={e => this.handleChange('title', e.target.value)} fontWeight='normal' fontSize={3} value={title} placeHolder='Add job title' />
+          <StyledInput onChange={e => this.handleChange('username', e.target.value)} fontWeight='normal' fontSize={1} value={username} placeHolder='Add username' />
+          <StyledInput onChange={e => this.handleChange('website', e.target.value)} fontWeight='normal' fontSize={1} value={website} placeHolder='Add Website' />
+          <Offset>
+            <SocialWebsiteIcon brand='twitter' />
+            <StyledInput onChange={e => this.handleChange('twitter', e.target.value)} fontWeight='normal' fontSize={1} value={twitter} placeHolder='Twitter' />
+          </Offset>
+          <Offset>
+            <SocialWebsiteIcon brand='github' />
+            <StyledInput onChange={e => this.handleChange('github', e.target.value)} fontWeight='normal' fontSize={1} value={github} placeHolder='Github' />
+          </Offset>
+        </InputsContainers>
+        <ActionsContainer>
+          <TertiaryButton onClick={() => this.props.toggleEditing()}>Discard</TertiaryButton>
+          <PrimaryButton onClick={() => this.saveUser()}>Save Changes</PrimaryButton>
+        </ActionsContainer>
+      </HeaderContainer>
+    );
+  }
 };
 
 export default EditableHeader;
