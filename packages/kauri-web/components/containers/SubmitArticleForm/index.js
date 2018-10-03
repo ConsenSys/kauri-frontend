@@ -2,7 +2,7 @@ import { compose, graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import { getArticle } from '../../../queries/Article'
 import { getRequest } from '../../../queries/Request'
-import { submitArticleAction, editArticleAction } from './Module'
+import { submitArticleAction, submitArticleVersionAction, editArticleAction } from './Module'
 import { routeChangeAction, showNotificationAction } from '../../../lib/Module'
 import { draftArticleAction } from './DraftArticle_Module.bs'
 import { publishArticleAction } from './PublishArticle_Module.bs'
@@ -23,6 +23,7 @@ export default compose(
     mapStateToProps,
     {
       submitArticleAction,
+      submitArticleVersionAction,
       editArticleAction,
       routeChangeAction,
       showNotificationAction,
