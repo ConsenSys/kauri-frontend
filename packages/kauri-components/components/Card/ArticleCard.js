@@ -59,7 +59,7 @@ const renderDescriptionRowContent = (content, cardHeight) => {
   }
 }
 
-let getLineClamp = (title, cardHeight) => (title.length(text) > 65 && cardHeight <= 290) ? title.substring(0, 65) + '...' : title
+let getLineClamp = (title, cardHeight) => (title.length > 65 && cardHeight <= 290) ? title.substring(0, 65) + '...' : title
 
 let renderCardContent = (title, content, cardHeight) =>
   <React.Fragment>
