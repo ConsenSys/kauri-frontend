@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "scripts": {
     "build": "bsb -make-world",
-    "dev": "bsb -make-world -w",
+    "dev:bs": "bsb -make-world -w",
     "clean": "bsb -clean-world",
     "start:storybook": "STORYBOOK=true start-storybook -p 6006",
     "storybook": "concurrently \"npm run build\" \"STORYBOOK=true npm run start:storybook\"",
-    "storybook:dev": "concurrently \"npm run dev\" \"STORYBOOK=true npm run start:storybook\"",
+    "dev": "concurrently \"npm run dev:bs\" \"STORYBOOK=true npm run start:storybook\"",
     "test:chromatic": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006",
     "test:chromatic-auto-accept-changes": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006 --auto-accept-changes",
     "test": "STORYBOOK=true npm run test:chromatic"
