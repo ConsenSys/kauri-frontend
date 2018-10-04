@@ -78,6 +78,7 @@ const typographySpecifications: Array<Typography> = [
     as: 'span',
     fontWeight: 'bold',
     fontSize: 13,
+    textTransform: 'uppercase',
   },
   {
     name: 'Label',

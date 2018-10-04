@@ -39,7 +39,7 @@ type Props = {
   children?: React.Node,
 }
 
-export default ({ type = 'button', fontWeight = 700, fontSize = 0, space = 2, color = 'white', handleClick, onClick, icon, children, disabled }: Props) =>
+export default ({ type = 'button', fontWeight = 700, fontSize = 0, space = 1, color = 'white', handleClick, onClick, icon, children, disabled }: Props) =>
   <TertiaryButton type={type} disabled={disabled} onClick={handleClick || onClick} mr={space} color={color} fontSize={fontSize} fontWeight={fontWeight}>
     {icon}
     {children}

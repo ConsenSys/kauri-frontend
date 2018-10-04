@@ -17,7 +17,7 @@ const InputComp = styled.input`
   text-align: ${props => props.textAlign};
   font-size: ${props => props.theme.fontSizes[props.fontSize]}px;
   font-weight: ${props => props.fontWeight};
-
+  color: ${props => props.theme.colors[props.color]};
   border-width: initial;
   border-style: none;
   border-color: initial;
@@ -71,11 +71,11 @@ type Props = {
   name?: string,
   hideUnderline?: boolean,
   textAlign?: string,
-  className: string,
+  className?: string,
 }
 
 class Input extends React.Component<Props, State> {
-  constructor(props : Props) {
+  constructor (props: Props) {
     super(props);
     this.state = {
       value: props.value || '',
