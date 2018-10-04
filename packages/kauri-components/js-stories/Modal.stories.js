@@ -2,9 +2,9 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import styled from 'styled-components'
-import Modal from '../components/Modal'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
+import Modal from '../components/Modal'
 
 const mockStore = configureStore();
 

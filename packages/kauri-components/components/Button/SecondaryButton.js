@@ -13,7 +13,8 @@ const SecondaryButton = styled.button`
 
 type Props = {
   icon?: React.Node,
-  handleClick: () => void,
+  onClick?: () => void,
+  handleClick?: () => void,
   disabled?: boolean,
   fontWeight?: number,
   fontSize?: number,
