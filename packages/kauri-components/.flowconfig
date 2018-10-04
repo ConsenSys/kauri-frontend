@@ -6,4 +6,5 @@ all=warn
 include_warnings=true
 [libs]
 flow-typed
+../kauri-web/graphql-export.flow.js
 [include]
