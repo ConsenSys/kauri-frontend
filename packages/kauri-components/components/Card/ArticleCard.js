@@ -1,6 +1,8 @@
 // @flow
 import * as React from 'react'
 import styled from 'styled-components'
+import BaseCard from './BaseCard'
+import { Label, H1, BodyCard } from '../Typography'
 
 type PageType = 'RinkebyPublicProfile' | 'Collection'
 
@@ -57,13 +59,18 @@ const renderDescriptionRowContent = (content, cardHeight) => {
   }
 }
 
-let renderContent = (content: string, cardHeight, title) =>
+let getLineClamp = (title, cardHeight) => (title.length(text) > 65 && cardHeight <= 290) ? title.substring(0, 65) + '...' : title
+
+let renderCardContent = (title, content, cardHeight) =>
   <React.Fragment>
-    <Heading cardHeight={cardHeight} text={title} />
+    <H1>
+      {getLineClamp(title, cardHeight)}
+    </H1>
     {
-      content.substring(0, 2).includes('{')
-        ? renderDescriptionRowContent(content)
-        : <Paragraph text={content} />
+      content.substring(0, 2).includes('{') ? renderDescriptionRowContent(content)
+        : <BodyCard>
+          {content}
+        </BodyCard>
     }
   </React.Fragment>
 
