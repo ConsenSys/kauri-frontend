@@ -22,7 +22,7 @@ import {
   publishArticleEpic,
 } from '../components/containers/Article/Article_Module.bs'
 import { submitArticleEpic, submitArticleVersionEpic, editArticleEpic } from '../components/containers/SubmitArticleForm/Module'
-import { addCommentEpic } from '../components/containers/AddCommentForm/Module'
+import { addCommentEpic } from '../components/containers/Article/CommentArticleForm/Module'
 import {
   fetchWalletAvailableFundsEpic,
   withdrawWalletAvailableFundsEpic,

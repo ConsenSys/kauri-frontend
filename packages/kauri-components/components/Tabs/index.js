@@ -69,12 +69,12 @@ class TabsComponent extends React.Component<Props, State> {
       >
         <Tabs
           bg={bg}
+          padContent={padContent}
           centerTabs={centerTabs}
         >
           {this.props.tabs.map((tab, index) =>
             <Tab key={index}
               minWidth={minWidth}
-              padContent={padContent}
               selected={index === this.state.selectedTabIndex}
               onClick={() => this.changeTab(index)}
             >

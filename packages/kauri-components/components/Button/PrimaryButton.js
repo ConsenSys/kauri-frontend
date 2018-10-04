@@ -9,6 +9,7 @@ export const BaseButtonCss = css`
   justify-content: center;
   min-width: 136px;
   max-width: 150px;
+  ${props => typeof props.width !== 'undefined' && `width: ${props.width}; max-width: unset;`};
   height: 40px;
   border-radius: 4px;
   border: none;
@@ -52,8 +53,35 @@ type Props = {
   children?: React.Node,
 }
 
-export default ({ className, bg = 'primary', fontWeight = 700, fontSize = 0, space = 2, color = 'white', type = 'submit', onClick, handleClick, text = '', children, icon, disabled }: Props) =>
-  <PrimaryButton className={className} type={type} disabled={disabled} mr={space} onClick={onClick || handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
-    {icon}
-    {text || children}
-  </PrimaryButton>
+export default (
+  {
+    bg = 'primary',
+    fontWeight = 700,
+    fontSize = 0,
+    space = 2,
+    color = 'white',
+    type = 'submit',
+    onClick,
+    handleClick,
+    text = '',
+    children,
+    icon,
+    disabled,
+    width,
+    className,
+  }: Props) =>
+  <PrimaryButton
+      type={type}
+      disabled={disabled}
+      mr={space}
+      onClick={onClick || handleClick}
+      bg={bg}
+      color={color}
+      fontSize={fontSize}
+      fontWeight={fontWeight}
+      width={width}
+      className={className}
+  >
+      {icon}
+      {text || children}
+    </PrimaryButton>

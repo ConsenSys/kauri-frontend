@@ -10,7 +10,7 @@ module Styles = {
         height(px(30)),
         width(px(30)),
         borderRadius(px(15)),
-        marginRight(px(8)),
+        marginRight(px(10)),
       ])
     );
 
@@ -19,8 +19,10 @@ module Styles = {
       style([
         height(px(30)),
         width(px(30)),
+        fontSize(px(11)),
+        fontWeight(700),
         borderRadius(px(15)),
-        marginRight(px(8)),
+        marginRight(px(10)),
         display(`flex),
         alignItems(`center),
         justifyContent(`center),
@@ -34,7 +36,7 @@ module Styles = {
 
   let baseUsername = colorProp =>
     Css.[
-      fontSize(px(14)),
+      fontSize(px(11)),
       fontWeight(700),
       overflow(hidden),
       maxWidth(px(220)),
