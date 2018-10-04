@@ -1,10 +1,11 @@
-//@flow
-import React from 'react';
+// @flow
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { PrimaryButton } from '../../../../kauri-components/components/Button';
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs';
 import SocialWebsiteIcon from '../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.bs';
-import type { HeaderState, HeaderProps } from './types';
+
+import type { HeaderProps } from './types';
 
 const PublicProfileHeader = styled.div`
     background-color: #1e2428;
@@ -19,7 +20,7 @@ const PublicProfileHeader = styled.div`
 `;
 
 const Avatar = styled.div`
-    background: ${props => props.avatar ? `url(${props.avatar}) center center`: '#0ba986'};
+    background: ${props => props.avatar ? `url(${props.avatar}) center center` : '#0ba986'};
     background-size: cover;
     width: 100px;
     height: 100px;
@@ -30,7 +31,6 @@ const Avatar = styled.div`
     font-size: ${props => props.theme.fontSizes[5]}px;
     font-weight: 700;
     margin-right: ${props => props.theme.space[2]}px;
-    margin-bottom: ${props => props.theme.space[3]}px;
 `;
 
 const RightSide = styled.div`
@@ -56,6 +56,7 @@ const Details = styled.div`
 const DetailsContainer = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
     flex: 1;
     @media (max-width: 700px) {
         align-items: center;
@@ -75,33 +76,36 @@ const Links = styled.div`
     }
 `;
 
-
-const ProfileHeader = ({ id, avatar, title, username, name, website, github, twitter, currentUser, collections, articles, toggleEditing }: HeaderProps) =><PublicProfileHeader>
-<Avatar avatar={avatar}>{avatar ? '' : (name || id).substring(0,1).toUpperCase()}</Avatar>
-<DetailsContainer>
-    {username && <Details weight={700} size={2}>@{username}</Details>}
-    {name && <Details weight={500} size={5}>{name}</Details>}
+const ProfileHeader = ({ id, avatar, title, username, name, website, github, twitter, currentUser, collections, articles, toggleEditing }: HeaderProps) => <PublicProfileHeader>
+  <Avatar avatar={avatar}>{avatar ? '' : (name || id).substring(0, 1).toUpperCase()}</Avatar>
+  <DetailsContainer>
+    {username ? (
+      <Fragment>
+        {username && <Details weight={700} size={2}>@{username}</Details>}
+        {name && <Details weight={500} size={5}>{name}</Details>}
+      </Fragment>
+    )
+      : id && <Details weight={700} size={5}>{id}</Details>
+    }
     {title && <Details size={2}>{title}</Details>}
     <Links>
-        {github && <SocialWebsiteIcon brand="github" height={20} socialURL={`https://www.github.com/${github}`} />}
-        {twitter && <SocialWebsiteIcon brand="twitter" height={20} socialURL={`https://www.twitter.com/${twitter}`} />}
-        {website && <a href={website}><Details>{website}</Details></a>}
+      {github && <SocialWebsiteIcon brand='github' height={20} socialURL={`https://www.github.com/${github}`} />}
+      {twitter && <SocialWebsiteIcon brand='twitter' height={20} socialURL={`https://www.twitter.com/${twitter}`} />}
+      {website && <a href={website}><Details>{website}</Details></a>}
     </Links>
-</DetailsContainer>
-<RightSide>
+  </DetailsContainer>
+  <RightSide>
     {articles && collections &&
-        <StatisticsContainer
-            statistics={[{
-                name: 'Articles',
-                count: articles.length
-            }, {
-                name: 'Collections',
-                count: collections.length
-            }]}/>}
-</RightSide>
-{id === currentUser && <StyledButton onClick={() => toggleEditing()}>Edit Profile</StyledButton>}
+    <StatisticsContainer
+      statistics={[{
+        name: 'Articles',
+        count: articles.length,
+      }, {
+        name: 'Collections',
+        count: collections.length,
+      }]} />}
+  </RightSide>
+  {id === currentUser && <StyledButton onClick={() => toggleEditing()}>Edit Profile</StyledButton>}
 </PublicProfileHeader>;
 
-
-
-export default ProfileHeader; 
+export default ProfileHeader;
