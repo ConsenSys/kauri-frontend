@@ -10,7 +10,7 @@ export const BodyCardCss = css`
   line-height: 18px;
 `
 
-type TypographyType = {
+type Typography = {
   name?: string, // START NAME WITH A CAPITAL LETTER NOOB AND NO SPACES
   as?: string,
   fontSize?: 11 | 13 | 14 | 16 | 18 | 20 | 22 | 28,
@@ -21,7 +21,7 @@ type TypographyType = {
   component?: ReactComponentClass<{}>
 }
 
-const typographyTypes: Array<TypographyType> = [
+const typographySpecifications: Array<Typography> = [
   {
     as: 'h1',
     fontWeight: 'bold',
@@ -143,7 +143,7 @@ const typographyTypes: Array<TypographyType> = [
 
 let typography = {}
 
-typographyTypes.map(({ name, as, fontWeight, fontSize, textTransform, color = 'textPrimary', hoverColor, component }) => {
+typographySpecifications.map(({ name, as, fontWeight, fontSize, textTransform, color = 'textPrimary', hoverColor, component }) => {
   const styledComponent = typeof as === 'string'
     ? styled[as]`
     margin: 0px;
