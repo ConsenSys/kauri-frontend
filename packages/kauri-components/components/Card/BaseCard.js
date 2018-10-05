@@ -5,6 +5,7 @@ import styled from 'styled-components'
 const BaseCard = styled.div`
   display: flex;
   flex-direction: column;
+  padding: ${props => props.theme.space[2]}px;
   min-height: 270px;
   width: 290px;
   border-radius: 4px;
@@ -18,7 +19,6 @@ const BaseCard = styled.div`
     box-shadow: 0 6px 10px 0 rgba(0,0,0,0.22);
     transform: translateY(-6px);
   }
-  padding: ${props => props.theme.space[2]}
 `
 
 export default ({ children }: { children: React.Node }) =>
