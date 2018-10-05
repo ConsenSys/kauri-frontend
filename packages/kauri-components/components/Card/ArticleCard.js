@@ -77,12 +77,13 @@ const titleLineHeight = R.cond([
 ])
 
 const contentLineHeight = R.cond([
+  [({ cardWidth, imageURL }) => cardWidth > DEFAULT_CARD_WIDTH && typeof imageURL !== 'string', R.always(14)],
   [({ cardHeight, imageURL }) => cardHeight <= DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(5)],
   [({ cardHeight, imageURL }) => cardHeight > DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(10)],
   [({ imageURL }) => typeof imageURL === 'string', R.always(3)],
 ])
 
-let renderCardContent = (title, content, cardHeight, imageURL) =>
+let renderCardContent = (title, content, cardHeight, cardWidth, imageURL) =>
   <React.Fragment>
     <H1>
       <TextTruncate
@@ -96,7 +97,7 @@ let renderCardContent = (title, content, cardHeight, imageURL) =>
         ? renderDescriptionRowContent(content)
         : <BodyCard>
           <TextTruncate
-            line={contentLineHeight({ cardHeight, imageURL })}
+            line={contentLineHeight({ cardHeight, cardWidth, imageURL })}
             truncateText='…'
             text={content}
           />
@@ -108,6 +109,7 @@ let renderPublicProfile = (pageType, username, userId) =>
   <UserWidgetSmall pageType={pageType} username={username || (userId.substring(0, 11) + '...' + userId.substring(userId.length - 13, 11))} />
 
 const calculateCardHeight = R.cond([
+  [({ cardWidth, imageURL }) => (typeof imageURL !== 'string' && cardWidth > DEFAULT_CARD_WIDTH), R.always(420)],
   [({ cardHeight, imageURL }) => (typeof imageURL === 'string' && cardHeight > DEFAULT_CARD_HEIGHT), ({ cardHeight }) => R.always(cardHeight)],
   [({ cardHeight, imageURL }) => (typeof imageURL === 'string' && cardHeight === DEFAULT_CARD_HEIGHT), R.always(420)],
   [({ cardHeight, imageURL }) => (typeof imageURL !== 'string' && cardHeight > DEFAULT_CARD_HEIGHT), ({ cardHeight }) => R.always(cardHeight)],
@@ -156,8 +158,9 @@ const ArticleCard = (
   }: Props
 ) =>
   <BaseCard
-    imageURL={imageURL} cardWidth={calculateCardWidth({ cardWidth, imageURL })}
-    cardHeight={calculateCardHeight({ cardHeight, imageURL })}
+    imageURL={imageURL}
+    cardWidth={calculateCardWidth({ cardWidth, imageURL })}
+    cardHeight={calculateCardHeight({ cardHeight, cardWidth, imageURL })}
   >
     {typeof imageURL === 'string' && <Image src={imageURL} />}
     <Container imageURL={imageURL}>
@@ -165,8 +168,8 @@ const ArticleCard = (
         <Label>{'Posted ' + date}</Label>
         {
           typeof linkComponent !== 'undefined'
-            ? linkComponent(renderCardContent(title, content, cardHeight, imageURL), `/article/${articleId}/v${articleVersion}`)
-            : renderCardContent(title, content, cardHeight, imageURL)
+            ? linkComponent(renderCardContent(title, content, cardHeight, cardWidth, imageURL), `/article/${articleId}/v${articleVersion}`)
+            : renderCardContent(title, content, cardHeight, cardWidth, imageURL)
         }
       </Content>
       <Divider />
