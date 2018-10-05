@@ -74,8 +74,22 @@ let renderCardContent = (title, content, cardHeight) =>
     }
   </React.Fragment>
 
+const UserWidgetSmall = styled.div`
+  display: flex;
+  height: 10px;
+  width: 10px;
+  background: black;
+`;
+
 let renderPublicProfile = (pageType, username, userId) =>
   <UserWidgetSmall pageType={pageType} username={username || (userId.substring(0, 11) + '...' + userId.substring(userId.length - 13, 11))} />
+
+const Divider = styled.div`
+  width: 100%;
+  background-color: ${props => props.theme.colors['divider']};
+  height: 2px;
+  margin-bottom: ${props => props.theme.space[3]}px;
+`;
 
 const ArticleCard = (
   {

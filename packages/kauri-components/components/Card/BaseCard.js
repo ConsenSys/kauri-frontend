@@ -18,6 +18,7 @@ const BaseCard = styled.div`
     box-shadow: 0 6px 10px 0 rgba(0,0,0,0.22);
     transform: translateY(-6px);
   }
+  padding: ${props => props.theme.space[2]}
 `
 
 export default ({ children }: { children: React.Node }) =>
