@@ -3,8 +3,13 @@ import * as React from 'react'
 import styled, { css } from 'styled-components'
 import BaseCard from './BaseCard'
 import { Label, H1, BodyCard } from '../Typography'
+import theme from '../../lib/theme-config'
 import R from 'ramda'
 import TextTruncate from 'react-text-truncate'
+
+const DEFAULT_CARD_HEIGHT = 290
+const DEFAULT_CARD_WIDTH = 290
+const DEFAULT_CARD_PADDING = theme.space[2]
 
 const Image = styled.img`
   height: 170px;
@@ -20,7 +25,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column; 
   flex: 1;
-  min-width: 262px;
   text-align: left;
   ${props => typeof props.imageURL === 'string' && withImageURLPaddingCss};
 `;
@@ -67,14 +71,14 @@ const renderDescriptionRowContent = (content, cardHeight) => {
 }
 
 const titleLineHeight = R.cond([
-  [({ cardHeight, imageURL }) => cardHeight <= 290 && typeof imageURL !== 'string', R.always(2)],
-  [({ cardHeight, imageURL }) => cardHeight > 290 && typeof imageURL !== 'string', R.always(3)],
+  [({ cardHeight, imageURL }) => cardHeight <= DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(2)],
+  [({ cardHeight, imageURL }) => cardHeight > DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(3)],
   [({ imageURL }) => typeof imageURL === 'string', R.always(2)],
 ])
 
 const contentLineHeight = R.cond([
-  [({ cardHeight, imageURL }) => cardHeight <= 290 && typeof imageURL !== 'string', R.always(8)],
-  [({ cardHeight, imageURL }) => cardHeight > 290 && typeof imageURL !== 'string', R.always(12)],
+  [({ cardHeight, imageURL }) => cardHeight <= DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(5)],
+  [({ cardHeight, imageURL }) => cardHeight > DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(10)],
   [({ imageURL }) => typeof imageURL === 'string', R.always(3)],
 ])
 
@@ -103,6 +107,20 @@ let renderCardContent = (title, content, cardHeight, imageURL) =>
 let renderPublicProfile = (pageType, username, userId) =>
   <UserWidgetSmall pageType={pageType} username={username || (userId.substring(0, 11) + '...' + userId.substring(userId.length - 13, 11))} />
 
+const calculateCardHeight = R.cond([
+  [({ cardHeight, imageURL }) => (typeof imageURL === 'string' && cardHeight > DEFAULT_CARD_HEIGHT), ({ cardHeight }) => R.always(cardHeight)],
+  [({ cardHeight, imageURL }) => (typeof imageURL === 'string' && cardHeight === DEFAULT_CARD_HEIGHT), R.always(420)],
+  [({ cardHeight, imageURL }) => (typeof imageURL !== 'string' && cardHeight > DEFAULT_CARD_HEIGHT), ({ cardHeight }) => R.always(cardHeight)],
+  [({ cardHeight, imageURL }) => (typeof imageURL !== 'string' && cardHeight === DEFAULT_CARD_HEIGHT), R.always(DEFAULT_CARD_HEIGHT - (DEFAULT_CARD_PADDING * 2))],
+])
+
+const calculateCardWidth = R.cond([
+  [({ cardWidth, imageURL }) => (typeof imageURL === 'string' && cardWidth > DEFAULT_CARD_WIDTH), ({ cardWidth }) => R.always(cardWidth)],
+  [({ cardWidth, imageURL }) => (typeof imageURL === 'string' && cardWidth === DEFAULT_CARD_WIDTH), R.always(DEFAULT_CARD_WIDTH)],
+  [({ cardWidth, imageURL }) => (typeof imageURL !== 'string' && cardWidth > DEFAULT_CARD_WIDTH), ({ cardWidth }) => R.always(cardWidth)],
+  [({ cardWidth, imageURL }) => (typeof imageURL !== 'string' && cardWidth === DEFAULT_CARD_WIDTH), R.always(DEFAULT_CARD_WIDTH - (DEFAULT_CARD_PADDING * 2))],
+])
+
 type PageType = 'RinkebyPublicProfile' | 'Collection'
 
 type Props = {
@@ -114,6 +132,7 @@ type Props = {
   username: ?string,
   userId: string,
   cardHeight?: number,
+  cardWidth?: number,
   imageURL?: string,
   linkComponent?: (React.Node, string) => React.Node,
   pageType?: PageType
@@ -131,11 +150,15 @@ const ArticleCard = (
     linkComponent,
     username,
     userId,
-    cardHeight = 290,
+    cardWidth = DEFAULT_CARD_WIDTH,
+    cardHeight = DEFAULT_CARD_HEIGHT,
     children,
   }: Props
 ) =>
-  <BaseCard imageURL={imageURL} cardHeight={(typeof imageURL === 'string' && cardHeight === 290) ? 420 : cardHeight}>
+  <BaseCard
+    imageURL={imageURL} cardWidth={calculateCardWidth({ cardWidth, imageURL })}
+    cardHeight={calculateCardHeight({ cardHeight, imageURL })}
+  >
     {typeof imageURL === 'string' && <Image src={imageURL} />}
     <Container imageURL={imageURL}>
       <Content imageURL={imageURL}>

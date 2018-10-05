@@ -8,10 +8,8 @@ const BaseCard = styled.div`
   display: flex;
   flex-direction: column;
   height: ${props => props.cardHeight}px;
-  width: 290px;
-  max-width: 290px;
+  width: ${props => props.cardWidth}px;
   border-radius: 4px;
-  margin: 15px;
   background: white;
   cursor: pointer;
   box-shadow: 0 0 4px 0 rgba(0,0,0,0.11);
@@ -24,5 +22,12 @@ const BaseCard = styled.div`
   ${props => typeof props.imageURL !== 'string' && withoutImageURLPaddingCss};
 `
 
-export default ({ cardHeight = 290, imageURL, children }: { children: React.Node, cardHeight: number, imageURL?: string }) =>
-  <BaseCard imageURL={imageURL} cardHeight={cardHeight}>{children}</BaseCard>
+type Props = {
+  children: React.Node,
+  cardWidth: number,
+  cardHeight: number,
+  imageURL?: string
+}
+
+export default ({ cardWidth, cardHeight, imageURL, children }: Props) =>
+  <BaseCard cardWidth={cardWidth} imageURL={imageURL} cardHeight={cardHeight}>{children}</BaseCard>
