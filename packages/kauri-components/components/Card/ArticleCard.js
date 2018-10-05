@@ -1,22 +1,40 @@
 // @flow
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import BaseCard from './BaseCard'
 import { Label, H1, BodyCard } from '../Typography'
+import R from 'ramda'
+import TextTruncate from 'react-text-truncate'
 
-const Image = styled.image`
+const Image = styled.img`
   height: 170px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 `;
 
+const withImageURLPaddingCss = css`
+  padding: ${props => props.theme.space[2]}px;
+`
+
 const Container = styled.div`
   display: flex;
   flex-direction: column; 
   flex: 1;
-  max-height: ${props => props.cardHeight || '400'}px;
   min-width: 262px;
   text-align: left;
+  ${props => typeof props.imageURL === 'string' && withImageURLPaddingCss};
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  > span:first-child {
+    margin-bottom: ${props => props.theme.space[2]}px;
+  }
+  > :nth-child(2) {
+    margin-bottom: ${props => props.theme.space[2]}px;
+  }
 `;
 
 const Footer = styled.div`
@@ -24,19 +42,6 @@ const Footer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-`;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow: hidden;
-  > span:first-child {
-    margin-bottom: ${props => props.theme.space[2]}px;
-  }
-  > :nth-child(2) {
-    margin-bottom: ${props => props.theme.space[2]}px;
-  }
 `;
 
 const Divider = styled.div`
@@ -48,9 +53,10 @@ const Divider = styled.div`
 
 const UserWidgetSmall = styled.div`
   display: flex;
-  height: 10px;
-  width: 10px;
+  height: 30px;
+  width: 30px;
   background: black;
+  border-radius: 50%;
 `;
 
 const renderDescriptionRowContent = (content, cardHeight) => {
@@ -60,18 +66,36 @@ const renderDescriptionRowContent = (content, cardHeight) => {
   }
 }
 
-let getLineClamp = (title, cardHeight) => (title.length > 65 && cardHeight <= 290) ? title.substring(0, 65) + '...' : title
+const titleLineHeight = R.cond([
+  [({ cardHeight, imageURL }) => cardHeight <= 290 && typeof imageURL !== 'string', R.always(2)],
+  [({ cardHeight, imageURL }) => cardHeight > 290 && typeof imageURL !== 'string', R.always(3)],
+  [({ imageURL }) => typeof imageURL === 'string', R.always(2)],
+])
 
-let renderCardContent = (title, content, cardHeight) =>
+const contentLineHeight = R.cond([
+  [({ cardHeight, imageURL }) => cardHeight <= 290 && typeof imageURL !== 'string', R.always(8)],
+  [({ cardHeight, imageURL }) => cardHeight > 290 && typeof imageURL !== 'string', R.always(12)],
+  [({ imageURL }) => typeof imageURL === 'string', R.always(3)],
+])
+
+let renderCardContent = (title, content, cardHeight, imageURL) =>
   <React.Fragment>
     <H1>
-      {getLineClamp(title, cardHeight)}
+      <TextTruncate
+        line={titleLineHeight({ cardHeight, imageURL })}
+        truncateText='…'
+        text={title}
+      />
     </H1>
     {
       content.substring(0, 2).includes('{')
         ? renderDescriptionRowContent(content)
         : <BodyCard>
-          {content}
+          <TextTruncate
+            line={contentLineHeight({ cardHeight, imageURL })}
+            truncateText='…'
+            text={content}
+          />
         </BodyCard>
     }
   </React.Fragment>
@@ -82,18 +106,17 @@ let renderPublicProfile = (pageType, username, userId) =>
 type PageType = 'RinkebyPublicProfile' | 'Collection'
 
 type Props = {
-  article: ArticleDTO,
   date: string,
   title: string,
   articleId: string,
   articleVersion: string,
   content: string,
-  linkComponent?: (React.Node, string) => React.Node,
   username: ?string,
   userId: string,
-  cardHeight: number,
-  imageURL: ?string,
-  pageType: PageType
+  cardHeight?: number,
+  imageURL?: string,
+  linkComponent?: (React.Node, string) => React.Node,
+  pageType?: PageType
 }
 
 const ArticleCard = (
@@ -112,15 +135,15 @@ const ArticleCard = (
     children,
   }: Props
 ) =>
-  <BaseCard>
-    <Container>
-      {typeof imageURL === 'string' && <Image src={imageURL} />}
-      <Content>
+  <BaseCard imageURL={imageURL} cardHeight={(typeof imageURL === 'string' && cardHeight === 290) ? 420 : cardHeight}>
+    {typeof imageURL === 'string' && <Image src={imageURL} />}
+    <Container imageURL={imageURL}>
+      <Content imageURL={imageURL}>
         <Label>{'Posted ' + date}</Label>
         {
           typeof linkComponent !== 'undefined'
-            ? linkComponent(renderCardContent(title, content, cardHeight), `/article/${articleId}/v${articleVersion}`)
-            : renderCardContent(title, content, cardHeight)
+            ? linkComponent(renderCardContent(title, content, cardHeight, imageURL), `/article/${articleId}/v${articleVersion}`)
+            : renderCardContent(title, content, cardHeight, imageURL)
         }
       </Content>
       <Divider />
