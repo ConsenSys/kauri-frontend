@@ -13,9 +13,6 @@ const ApprovedArticleCommentsSection = styled.section`
   flex-direction: column;
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
   padding-top: 0px;
-  @media(max-width: 950px) {
-    display: none;
-  }
 `
 
 const CommentContainer = styled.section`
@@ -38,6 +35,10 @@ const MetaDetails = styled.div`
 
 const Content = styled.div`
   width: 950px;
+  @media(max-width: 950px) {
+    width: 100%;
+    padding: 0px 0.5em;
+  }
 `
 
 const CommentsContainer = styled.div`
