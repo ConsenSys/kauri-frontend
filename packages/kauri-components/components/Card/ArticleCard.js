@@ -127,35 +127,34 @@ const calculateCardWidth = R.cond([
 type PageType = 'RinkebyPublicProfile' | 'Collection'
 
 type Props = {
+  id: string,
+  version: string,
+  content: string,
   date: string,
   title: string,
-  articleId: string,
-  articleVersion: string,
-  content: string,
   username: ?string,
   userId: string,
+  imageURL?: string,
   cardHeight?: number,
   cardWidth?: number,
-  imageURL?: string,
   linkComponent?: (React.Node, string) => React.Node,
-  pageType?: PageType
+  pageType?: PageType,
 }
 
 const ArticleCard = (
   {
+    id,
+    version,
+    content,
     date,
     title,
-    content,
-    articleId,
-    articleVersion,
-    imageURL,
-    pageType,
-    linkComponent,
     username,
     userId,
+    imageURL,
     cardWidth = DEFAULT_CARD_WIDTH,
     cardHeight = DEFAULT_CARD_HEIGHT,
-    children,
+    linkComponent,
+    pageType,
   }: Props
 ) =>
   <BaseCard
@@ -169,7 +168,7 @@ const ArticleCard = (
         <Label>{'Posted ' + date}</Label>
         {
           typeof linkComponent !== 'undefined'
-            ? linkComponent(renderCardContent(title, content, cardHeight, cardWidth, imageURL), `/article/${articleId}/v${articleVersion}`)
+            ? linkComponent(renderCardContent(title, content, cardHeight, cardWidth, imageURL), `/article/${id}/v${version}`)
             : renderCardContent(title, content, cardHeight, cardWidth, imageURL)
         }
       </Content>

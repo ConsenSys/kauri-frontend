@@ -9,8 +9,8 @@ storiesOf('ArticleCard', module)
     <ArticleCard
       date={moment(1538734619928).format('D MMM YYYY')}
       title={'Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title'}
-      articleId={'1234567890'}
-      articleVersion={'1'}
+      id={'1234567890'}
+      version={'1'}
       content={
         `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
@@ -32,8 +32,8 @@ storiesOf('ArticleCard', module)
     <ArticleCard
       date={moment(1538734619928).format('D MMM YYYY')}
       title={'Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title'}
-      articleId={'1234567890'}
-      articleVersion={'1'}
+      id={'1234567890'}
+      version={'1'}
       content={
         `
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -59,8 +59,8 @@ storiesOf('ArticleCard', module)
     <ArticleCard
       date={moment(1538734619928).format('D MMM YYYY')}
       title={'Two Line Title Two Line Title Two Line Title Two Line Title'}
-      articleId={'1234567890'}
-      articleVersion={'1'}
+      id={'1234567890'}
+      version={'1'}
       content={
         `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
@@ -85,8 +85,8 @@ storiesOf('ArticleCard', module)
     <ArticleCard
       date={moment(1538734619928).format('D MMM YYYY')}
       title={'Two Line Title Two Line Title Two Line Title Two Line Title'}
-      articleId={'1234567890'}
-      articleVersion={'1'}
+      id={'1234567890'}
+      version={'1'}
       content={
         `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
@@ -112,8 +112,8 @@ storiesOf('ArticleCard', module)
     <ArticleCard
       date={moment(1538734619928).format('D MMM YYYY')}
       title={'Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title'}
-      articleId={'1234567890'}
-      articleVersion={'1'}
+      id={'1234567890'}
+      version={'1'}
       content={
         `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
@@ -159,8 +159,8 @@ storiesOf('ArticleCard', module)
     <ArticleCard
       date={moment(1538734619928).format('D MMM YYYY')}
       title={'Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title'}
-      articleId={'1234567890'}
-      articleVersion={'1'}
+      id={'1234567890'}
+      version={'1'}
       content={
         `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
