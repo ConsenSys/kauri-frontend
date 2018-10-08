@@ -36,9 +36,11 @@ import localStorage, {
 import { draftArticleEpic } from '../components/containers/SubmitArticleForm/DraftArticle_Module.bs'
 import { createCollectionEpic, composeCollectionEpic } from '../components/containers/CreateCollectionForm/Module'
 import { saveUserDetailsEpic } from '../components/containers/PublicProfile/Module';
+import modal from '../../kauri-components/components/Modal/Module'
 
 export const rootReducer = {
   app,
+  modal,
   createRequests,
   register,
   localStorage,

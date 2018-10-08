@@ -12,11 +12,9 @@ const ModalChildren = () => <marquee>Because Nelson!</marquee>
 
 storiesOf('Modal', module)
   .addDecorator(getStory => <Provider store={mockStore({
-    app: {
-      modal: {
-        isModalOpen: true,
-        children: <ModalChildren />,
-      },
+    modal: {
+      isModalOpen: true,
+      children: <ModalChildren />,
     },
   })}>{getStory()}</Provider>)
   .add('opened', () => (

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { closeModalAction } from './Module'
 import Modal from './View'
 
-const mapStateToProps = ({ app: { modal: { isModalOpen, children } } }) => ({
+const mapStateToProps = ({ modal: { isModalOpen, children } }) => ({
   isModalOpen,
   children,
 })

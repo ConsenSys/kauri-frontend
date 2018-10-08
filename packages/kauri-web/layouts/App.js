@@ -1,9 +1,10 @@
 import React from 'react'
-import { Layout, Modal } from 'antd'
+import { Layout } from 'antd'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Navbar from '../components/containers/Navbar'
 import StyledFooter from '../components/containers/StyledFooter'
+import Modal from '../../kauri-components/components/Modal'
 
 const { Header, Content } = Layout
 export const menuHeaderHeight = 76
@@ -21,24 +22,15 @@ const StyledHeader = styled(Header)`
   }
   line-height: ${menuHeaderHeight}px;
   min-height: ${menuHeaderHeight}px;
-  background-color: ${props => props.navcolor}
+  background-color: ${props => props.navcolor};
 `
 
-const mapStateToProps = (state, ownProps) => ({
-  modalOpen: state.app.modalOpen,
-  modalTitle: state.app.modalTitle,
-  modalChildren: state.app.modalChildren,
-  onOk: state.app.onOk,
-  onCancel: state.app.onCancel,
-  footer: state.app.footer,
-})
+const mapStateToProps = (state, ownProps) => ({ })
 
 export default connect(mapStateToProps)(
-  ({ children, modalTitle, modalChildren, modalOpen, onOk, onCancel, footer, url, confirmationPage, navcolor }) => (
+  ({ children, url, confirmationPage, navcolor }) => (
     <Layout className='layout'>
-      <Modal title={modalTitle} visible={modalOpen} onOk={onOk} onCancel={onCancel} footer={footer}>
-        {modalChildren}
-      </Modal>
+      <Modal />
       <StyledHeader navcolor={navcolor}>
         <Navbar confirmationPage={confirmationPage} url={url} navcolor={navcolor} />
       </StyledHeader>

@@ -172,11 +172,9 @@ const ModalChildren = () =>
 
 storiesOf('Modal', module)
   .addDecorator(getStory => <Provider store={mockStore({
-    app: {
-      modal: {
-        isModalOpen: true,
-        children: <ModalChildren />,
-      },
+    modal: {
+      isModalOpen: true,
+      children: <ModalChildren />,
     },
   })}>{getStory()}</Provider>)
   .add('Choose Article Modal opened', () => (
