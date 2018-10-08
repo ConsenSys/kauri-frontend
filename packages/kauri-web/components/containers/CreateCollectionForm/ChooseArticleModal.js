@@ -64,17 +64,31 @@ export default class ChooseArticleModal extends React.Component<Props, State> {
   }
 
   chooseArticle = (chosenArticle: { id: string, version: string }) => this.setState({
-    chosenArticles: R.union(this.state.chosenArticles, [chosenArticle]),
+    chosenArticles: R.find(
+      ({ id, version }) => chosenArticle.id === id && chosenArticle.version === version
+    )(this.state.chosenArticles)
+      ? R.reduce((current, next) => {
+        if (next.id === chosenArticle.id && next.version === chosenArticle.version) {
+          return current
+        } else {
+          current.push(next)
+          return current
+        }
+      }, [])(this.state.chosenArticles)
+      : R.union(this.state.chosenArticles, [chosenArticle]),
   })
 
   render () {
     const { closeModalAction } = this.props
 
-    return <ContentContainer>
-      <ModalHeader actions={<Actions handleClose={() => closeModalAction()} />} title={<Title />} />
-      <ChooseArticleContent>
-        <ChooseArticleCard />
-      </ChooseArticleContent>
-    </ContentContainer>
+    return (
+      <ContentContainer>
+        {JSON.stringify(this.state)}
+        <ModalHeader actions={<Actions handleClose={() => closeModalAction()} />} title={<Title />} />
+        <ChooseArticleContent>
+          <ChooseArticleCard chosenArticles={this.state.chosenArticles} chooseArticle={this.chooseArticle} />
+        </ChooseArticleContent>
+      </ContentContainer>
+    )
   }
 }
