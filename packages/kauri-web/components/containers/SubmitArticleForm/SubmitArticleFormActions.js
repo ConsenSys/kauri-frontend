@@ -58,7 +58,7 @@ export default ({
         <span>Save draft</span>
       </PositiveRequestActionBadge>
       <PositiveRequestActionBadge type={'primary'} action={handleSubmit('submit/update')}>
-        <span>{authorId !== userId ? 'Publish' : 'Update Article'}</span>
+        <span>Publish Article</span>
       </PositiveRequestActionBadge>
     </ContainerRow>
   </SubmitArticleFormActions>

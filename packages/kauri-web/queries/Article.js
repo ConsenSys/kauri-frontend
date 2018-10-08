@@ -20,7 +20,9 @@ export const Article = gql`
     author {
       id
       name
+      username
     }
+    owner {... on PublicUserDTO {id username name avatar} ...on CommunityDTO {id name} }
     comments {
       content {
         author {
@@ -163,7 +165,7 @@ export const globalSearchApprovedCategoryArticles = gql`
 
 export const globalSearchApprovedArticles = gql`
   query globalSearchApprovedArticles($size: Int = 100, $text: String) {
-    searchArticles(size: $size, sort: "dateCreated", dir: DESC, filter: { fullText: $text, statusIn: [PUBLISHED] }) {
+    searchArticles(size: $size, sort: "dateCreated", dir: DESC, filter: { fullText: $text, statusIn: [PUBLISHED], latestVersion: true }) {
       content {
         ...Article
       }
@@ -258,7 +260,7 @@ export const deleteArticleComment = gql`
 
 export const searchPersonalArticles = gql`
   query searchPersonalArticles($userId: String) {
-    searchArticles (sort: "dateCreated", dir: DESC, filter: { authorIdEquals: $userId, statusIn: [ PUBLISHED ], latestVersion: true } ) {
+    searchArticles (sort: "dateCreated", dir: DESC, filter: { ownerIdEquals: $userId, statusIn: [ PUBLISHED ], latestVersion: true } ) {
       content {
           id, version, title, content, dateCreated, datePublished, author {
           id, name
@@ -272,8 +274,8 @@ export const searchPersonalArticles = gql`
 `;
 
 export const searchPersonalDrafts = gql`
-  query searchPersonalArticles($userId: String) {
-    searchArticles (sort: "dateCreated", dir: DESC, filter: { authorIdEquals: $userId, statusIn: [ DRAFT ], latestVersion: true } ) {
+  query searchArticles($userId: String) {
+    searchArticles (sort: "dateCreated", dir: DESC, filter: { authorIdEquals: $userId, statusIn: [ DRAFT ] } ) {
       content {
           id, version, title, content, dateCreated, datePublished, author {
           id, name
@@ -281,7 +283,6 @@ export const searchPersonalDrafts = gql`
         status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name }, body }, totalPages, totalElements  }
         resourceIdentifier { type, id, version }
       }
-      totalPages totalElements
     }
   }
 `;
