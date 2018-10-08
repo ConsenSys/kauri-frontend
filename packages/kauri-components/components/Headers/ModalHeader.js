@@ -13,7 +13,7 @@ const Container = styled.div`
 
 type Props = {
   title: React.Node,
-  actions: React.Element<React.StatelessFunctionalComponent<{}>>
+  actions: React.Element<React.StatelessFunctionalComponent<{ handleClose: () => void }>>
 }
 
 export default ({ title, actions }: Props) =>

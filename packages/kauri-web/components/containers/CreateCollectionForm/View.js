@@ -300,8 +300,14 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue, validate
                             </ResourceSection>
                         )
                       }
-                      {/* () => arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${values.sections[index].resourcesId.length}]`, emptyArticleResource) */}
-                      <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => openModalAction({ children: <ChooseArticleModal /> })}>
+                      <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => openModalAction(
+                        {
+                          children: <ChooseArticleModal
+                            closeModalAction={() => closeModalAction()}
+                            // () => arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${values.sections[index].resourcesId.length}]`, emptyArticleResource)
+                          />,
+                        }
+                      )}>
                         Add resource
                       </TertiaryButton>
                     </ResourcesSection>
@@ -318,7 +324,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue, validate
           )}
         />
 
-        {/* <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} /> */}
+        <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} />
 
       </ContentSection>
 
