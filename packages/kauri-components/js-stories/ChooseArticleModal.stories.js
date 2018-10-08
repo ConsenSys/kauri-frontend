@@ -141,6 +141,32 @@ const ModalChildren = () =>
         hoverAction={({ id, version }) => alert('hover action', id)}
         viewAction={({ id, version }) => alert('view action', id)}
       />
+      <ArticleCard
+        date={moment(1538734619928).format('D MMM YYYY')}
+        title={'Two Line Title Two Line Title Two Line Title Two Line Title'}
+        id={'1234567890'}
+        version={'1'}
+        content={
+          `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+       Praesent sed cursus purus.
+      In facilisis nulla sed efficitur posuere.
+      Maecenas vestibulum elementum interdum.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Donec non eleifend ex, eu interdum justo.
+      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
+      Nunc nec dui id magna ullamcorper semper.
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit…
+      `
+        }
+        username={'USERNAME GOES HERE'}
+        userId={'HEY'}
+        cardHeight={420}
+        hoverAction={({ id, version }) => alert('hover action', id)}
+        viewAction={({ id, version }) => alert('view action', id)}
+      />
     </ChooseArticleContent>
   </ContentContainer>
 
