@@ -17,6 +17,7 @@ import TertiaryButton from '../../../../kauri-components/components/Button/Terti
 import ArticleCard from '../../connections/ArticleCard'
 import setImageUploader from '../../common/ImageUploader'
 import showFormValidationErrors from '../../../lib/show-form-validation-errors'
+import ChooseArticleModal from './ChooseArticleModal'
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 
@@ -300,7 +301,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue, validate
                         )
                       }
                       {/* () => arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${values.sections[index].resourcesId.length}]`, emptyArticleResource) */}
-                      <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => openModalAction({ children: <p>F U</p> })}>
+                      <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => openModalAction({ children: <ChooseArticleModal /> })}>
                         Add resource
                       </TertiaryButton>
                     </ResourcesSection>

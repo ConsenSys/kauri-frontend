@@ -8,7 +8,6 @@ import { Link } from '../../../../routes';
 import moment from 'moment';
 import userIdTrim from '../../../../lib/userid-trim';
 
-
 type Props = {
   data: {
     searchCommunities?: {
@@ -35,7 +34,7 @@ justify-content: center;
 flex-direction: column;
 color: ${props => props.theme.colors.white};
 padding: ${props => props.theme.space[3]}px;
-padding-bottom: ${props => props.theme.space[5]}px;
+padding-bottom: ${props => props.theme.space[3]}px;
 `
 const KauriTitle = styled.h1`
 color: white;
@@ -83,7 +82,7 @@ class Communities extends Component<Props> {
       <ContentContainer>
         <Helmet>
           <title>Kauri - {pageTitle}</title>
-          <meta name='description' content="Discover the best Communities of blockchain related articles, tutorials and how-to guides" />
+          <meta name='description' content='Discover the best Communities of blockchain related articles, tutorials and how-to guides' />
           <meta name='keywords' content='ethereum, blockchain, learn to code, developer documentation' />
           <link rel='canonical' href={`https://${this.props.hostName}`} />
         </Helmet>
@@ -93,22 +92,22 @@ class Communities extends Component<Props> {
           <CommunitySearch />
         </CommunitiesHeader>
         <CommunitiesContainer>
-        {searchCommunities.content.map(community => {
-          return <CommunityCardConnection
-            changeRoute={this.props.routeChangeAction}
-            key={community.id}
-            communityName={community.name}
-            communityDescription={community.description || ''}
-            communityId={community.id}
-            communityHeight={500}
-            communityLogo={`/static/images/${community.id}/avatar.png`}
-            linkComponent={childrenProps => (
-            <Link useAnchorTag route={`/community/${community.id}`}>
-                {childrenProps}
-            </Link>
-            )}
-        />
-        })}
+          {searchCommunities.content.map(community => {
+            return <CommunityCardConnection
+              changeRoute={this.props.routeChangeAction}
+              key={community.id}
+              communityName={community.name}
+              communityDescription={community.description || ''}
+              communityId={community.id}
+              communityHeight={500}
+              communityLogo={`/static/images/${community.id}/avatar.png`}
+              linkComponent={childrenProps => (
+                <Link useAnchorTag route={`/community/${community.id}`}>
+                  {childrenProps}
+                </Link>
+              )}
+            />
+          })}
         </CommunitiesContainer>
       </ContentContainer>
     )

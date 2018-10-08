@@ -29,7 +29,7 @@ if (isProduction) {
 }
 
 export default class MyDocument extends Document {
-  static async getInitialProps({ renderPage }) {
+  static async getInitialProps ({ renderPage }) {
     const sheet = new ServerStyleSheet()
     const page = renderPage(App => props => <App {...props} />)
     const styleTags = sheet.getStyleElement()
@@ -42,7 +42,7 @@ export default class MyDocument extends Document {
     }
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     const { __NEXT_DATA__, ids } = this.props
     if (typeof window !== 'undefined') {
@@ -53,23 +53,24 @@ export default class MyDocument extends Document {
   }
 
   // should render on <html>
-  get helmetHtmlAttrComponents() {
+  get helmetHtmlAttrComponents () {
     return this.props.helmet.htmlAttributes.toComponent()
   }
 
   // should render on <body>
-  get helmetBodyAttrComponents() {
+  get helmetBodyAttrComponents () {
+    console.log(this.props.helmet.bodyAttributes.toString())
     return this.props.helmet.bodyAttributes.toComponent()
   }
 
   // should render on <head>
-  get helmetHeadComponents() {
+  get helmetHeadComponents () {
     return Object.keys(this.props.helmet)
       .filter(el => el !== 'htmlAttributes' && el !== 'bodyAttributes')
       .map(el => this.props.helmet[el].toComponent())
   }
 
-  get helmetJsx() {
+  get helmetJsx () {
     return (
       <Helmet
         htmlAttributes={{ lang: 'en' }}
@@ -80,7 +81,7 @@ export default class MyDocument extends Document {
     )
   }
 
-  render() {
+  render () {
     return (
       <html {...this.helmetHtmlAttrComponents}>
         <Head>
@@ -90,7 +91,7 @@ export default class MyDocument extends Document {
           <link rel='stylesheet' href='https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css' />
           <script defer src='https://use.fontawesome.com/releases/v5.0.6/js/all.js' />
           <style dangerouslySetInnerHTML={{ __html: this.props.css }} />
-          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1" />
+          <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1' />
           {this.props.styleTags}
         </Head>
         <body {...this.helmetBodyAttrComponents}>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Layout } from 'antd'
 import { connect } from 'react-redux'
+import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 import NetworkBanner from '../components/containers/StyledFooter/NetworkBanner'
 import Modal from '../../kauri-components/components/Modal'
@@ -13,13 +14,16 @@ const StyledContent = styled(Content)`
   min-height: calc(100vh - ${menuHeaderHeight}px);
 `
 
-const mapStateToProps = (state, ownProps) => ({ })
+const mapStateToProps = (state, ownProps) => ({
+  isModalOpen: state.modal.isModalOpen,
+})
 
 export default connect(mapStateToProps)(
-  ({ children }) => (
-    <Layout style={{ overflow: 'auto' }} className='layout'>
+  ({ children, isModalOpen }) => (
+    <Layout style={{ overflow: isModalOpen ? 'hidden' : 'auto' }} className='layout'>
+      <Helmet><body className={isModalOpen ? 'overflow-hidden' : null} /></Helmet>
       <Modal />
-      <StyledContent>
+      <StyledContent style={{ overflow: isModalOpen ? 'hidden' : 'auto' }}>
         <NetworkBanner />
         {children}
       </StyledContent>

@@ -8,7 +8,6 @@ import { Link } from '../../../../routes';
 import moment from 'moment';
 import userIdTrim from '../../../../lib/userid-trim';
 
-
 type Props = {
   data: {
     searchArticles?: {
@@ -35,7 +34,7 @@ justify-content: center;
 flex-direction: column;
 color: ${props => props.theme.colors.white};
 padding: ${props => props.theme.space[3]}px;
-padding-bottom: ${props => props.theme.space[5]}px;
+padding-bottom: ${props => props.theme.space[3]}px;
 `
 const KauriTitle = styled.h1`
 color: white;
@@ -83,7 +82,7 @@ class Collections extends Component<Props> {
       <ContentContainer>
         <Helmet>
           <title>Kauri - {pageTitle}</title>
-          <meta name='description' content="Discover blockchain related articles, tutorials and how-to guides" />
+          <meta name='description' content='Discover blockchain related articles, tutorials and how-to guides' />
           <meta name='keywords' content='ethereum, blockchain, learn to code, developer documentation' />
           <link rel='canonical' href={`https://${this.props.hostName}`} />
         </Helmet>
@@ -93,26 +92,26 @@ class Collections extends Component<Props> {
           <ArticleSearchbar />
         </ArticlesHeader>
         <ArticlesContainer>
-        {searchArticles.content.map(article => {
-          return <ArticleCard
-            changeRoute={this.props.routeChangeAction}
-            key={article.id}
-            date={moment(article.dateCreated).format('D MMM YYYY')}
-            title={article.title}
-            content={article.content}
-            userId={article.author && article.author.id}
-            username={article.author && (article.author.name || userIdTrim(article.author.id))}
-            articleId={article.id}
-            articleVersion={article.version}
-            cardHeight={500}
-            imageURL={article.attributes && article.attributes.background}
-            linkComponent={(childrenProps, route) => (
-              <Link toSlug={route.includes('article') && article.title} useAnchorTag route={route}>
-                {childrenProps}
-              </Link>
-            )}
-          />
-        })}
+          {searchArticles.content.map(article => {
+            return <ArticleCard
+              changeRoute={this.props.routeChangeAction}
+              key={article.id}
+              date={moment(article.dateCreated).format('D MMM YYYY')}
+              title={article.title}
+              content={article.content}
+              userId={article.author && article.author.id}
+              username={article.author && (article.author.name || userIdTrim(article.author.id))}
+              articleId={article.id}
+              articleVersion={article.version}
+              cardHeight={500}
+              imageURL={article.attributes && article.attributes.background}
+              linkComponent={(childrenProps, route) => (
+                <Link toSlug={route.includes('article') && article.title} useAnchorTag route={route}>
+                  {childrenProps}
+                </Link>
+              )}
+            />
+          })}
         </ArticlesContainer>
       </ContentContainer>
     )

@@ -114,10 +114,10 @@ let renderPublicProfile = (pageType, username, userId) =>
 
 const calculateCardHeight = R.cond([
   [({ cardHeight, cardWidth, imageURL }) => (typeof imageURL !== 'string' && cardHeight > DEFAULT_CARD_HEIGHT && cardWidth > DEFAULT_CARD_WIDTH), ({ cardHeight }) => cardHeight],
-  [({ cardHeight, cardWidth, imageURL }) => (typeof imageURL !== 'string' && cardHeight === DEFAULT_CARD_HEIGHT && cardWidth > DEFAULT_CARD_WIDTH), R.always(420 - (DEFAULT_CARD_PADDING * 2))],
+  [({ cardHeight, cardWidth, imageURL }) => (typeof imageURL !== 'string' && cardHeight === DEFAULT_CARD_HEIGHT && cardWidth > DEFAULT_CARD_WIDTH), R.always(420)],
   [({ cardHeight, imageURL }) => (typeof imageURL === 'string' && cardHeight > DEFAULT_CARD_HEIGHT), ({ cardHeight }) => cardHeight],
   [({ cardHeight, imageURL }) => (typeof imageURL === 'string' && cardHeight === DEFAULT_CARD_HEIGHT), R.always(420)],
-  [({ cardHeight, imageURL }) => (typeof imageURL !== 'string' && cardHeight > DEFAULT_CARD_HEIGHT), ({ cardHeight }) => cardHeight - (DEFAULT_CARD_PADDING * 2)],
+  [({ cardHeight, imageURL }) => (typeof imageURL !== 'string' && cardHeight > DEFAULT_CARD_HEIGHT), ({ cardHeight }) => cardHeight],
   [({ cardHeight, imageURL }) => (typeof imageURL !== 'string' && cardHeight === DEFAULT_CARD_HEIGHT), R.always(DEFAULT_CARD_HEIGHT - (DEFAULT_CARD_PADDING * 2))],
 ])
 
@@ -125,7 +125,7 @@ const calculateCardWidth = R.cond([
   [({ cardWidth, imageURL }) => (typeof imageURL === 'string' && cardWidth > DEFAULT_CARD_WIDTH), ({ cardWidth }) => cardWidth],
   [({ cardWidth, imageURL }) => (typeof imageURL === 'string' && cardWidth === DEFAULT_CARD_WIDTH), R.always(DEFAULT_CARD_WIDTH)],
   [({ cardWidth, imageURL }) => (typeof imageURL !== 'string' && cardWidth > DEFAULT_CARD_WIDTH), ({ cardWidth }) => cardWidth - (DEFAULT_CARD_PADDING * 2)],
-  [({ cardWidth, imageURL }) => (typeof imageURL !== 'string' && cardWidth === DEFAULT_CARD_WIDTH), R.always(DEFAULT_CARD_WIDTH - (DEFAULT_CARD_PADDING * 2))],
+  [({ cardWidth, imageURL }) => (typeof imageURL !== 'string' && cardWidth === DEFAULT_CARD_WIDTH), R.always(DEFAULT_CARD_WIDTH)],
 ])
 
 type PageType = 'RinkebyPublicProfile' | 'Collection'

@@ -8,13 +8,6 @@ module.exports = {
     'react/prop-types': 0,
     semi: 0,
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    'graphql/template-strings': [
-      'warn',
-      {
-        env: 'apollo',
-        schemaJson: require('./graphql_schema.json'),
-      },
-    ],
     'comma-dangle': ['error', 'always-multiline'],
     'camelcase': 0
   },

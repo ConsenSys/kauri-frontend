@@ -1,5 +1,6 @@
 import React from 'react'
 import { Layout } from 'antd'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Navbar from '../components/containers/Navbar'
@@ -25,11 +26,12 @@ const StyledHeader = styled(Header)`
   background-color: ${props => props.navcolor};
 `
 
-const mapStateToProps = (state, ownProps) => ({ })
+const mapStateToProps = (state, ownProps) => ({ isModalOpen: state.modal.isModalOpen })
 
 export default connect(mapStateToProps)(
-  ({ children, url, confirmationPage, navcolor }) => (
+  ({ children, url, confirmationPage, navcolor, isModalOpen }) => (
     <Layout className='layout'>
+      <Helmet><body className={isModalOpen ? 'overflow-hidden' : null} /></Helmet>
       <Modal />
       <StyledHeader navcolor={navcolor}>
         <Navbar confirmationPage={confirmationPage} url={url} navcolor={navcolor} />
