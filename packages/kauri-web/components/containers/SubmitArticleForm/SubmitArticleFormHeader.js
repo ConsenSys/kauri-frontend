@@ -214,9 +214,9 @@ const SubmitArticleFormStatus = styled.div`
 
 const getBG = (getFieldValue, attributes) => {
   const formValue = getFieldValue('attributes');
-  if (formValue && formValue.background) return `url(${formValue.background}) center center`;
-  if (attributes && attributes.background) return `url(${attributes.background}) center center`;
-  return '#1E2428';
+  if (formValue && formValue.background) return `background-image: url(${formValue.background}); background-size: cover; background-position: center center;`;
+  if (attributes && attributes.background) return `background-image: url(${attributes.background}); background-size: cover; background-position: center center;`;
+  return 'background: #1E2428;';
 }
 
 export default ({
@@ -230,7 +230,7 @@ export default ({
   isKauriTopicOwner,
   attributes,
 }: Props) => (
-  <SubmitArticleFormHeader style={{ background: getBG(getFieldValue, attributes), backgroundSize: 'cover'}} type='article' theme={theme} chosenCategory={category || getFieldValue('category')}>
+  <SubmitArticleFormHeader bg={getBG(getFieldValue, attributes)} type='article' theme={theme} chosenCategory={category || getFieldValue('category')}>
     {category && (
       <SubmitArticleFormLogo type='article' theme={theme} chosenCategory={category || getFieldValue('category')} />
     )}

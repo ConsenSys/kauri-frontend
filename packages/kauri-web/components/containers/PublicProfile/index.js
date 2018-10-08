@@ -24,7 +24,7 @@ export default compose(
     name: 'ArticlesQuery',
     options: ({userId}) => ({
       variables: {
-          userId
+        userId
       },
     }),
   }),
@@ -32,7 +32,7 @@ export default compose(
     name: 'UserQuery',
     options: ({userId}) => ({
       variables: {
-          userId,
+        userId,
       },
     }),
   }),
@@ -40,9 +40,7 @@ export default compose(
     name: 'CollectionQuery',
     options: ({userId}) => ({
       variables: {
-        filter: {
-          ownerIdEquals: userId,
-        }
+        userId
       },
     }),
   }),
@@ -50,9 +48,7 @@ export default compose(
     name: 'DraftsQuery',
     options: ({userId}) => ({
       variables: {
-        filter: {
-          ownerIdEquals: userId,
-        }
+        userId,
       },
     }),
   }),

@@ -173,11 +173,9 @@ class SubmitArticleForm extends React.Component<Props> {
               })
             }
           } else if (submissionType === 'draft') {
-            const { id, version }: ArticleDTO = this.props.data && this.props.data.getArticle;
             if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'DRAFT') {
-              const { id, version }: ArticleDTO = this.props.data.getArticle
+              const { id, version, attributes }: ArticleDTO = this.props.data.getArticle
               // Draft -> Draft Version updated
-
               return editArticleAction({
                 text,
                 article_id: id,
@@ -187,7 +185,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 attributes,
               })
             } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.id) {
-              const { id, version }: ArticleDTO = this.props.data.getArticle
+              const { id, version, attributes }: ArticleDTO = this.props.data.getArticle
               const draftArticlePayload = {
                 id,
                 version,
@@ -201,7 +199,7 @@ class SubmitArticleForm extends React.Component<Props> {
               const draftArticlePayload = {
                 subject,
                 text,
-                attributes,
+                attributes: attributes ? attributes : {},
               }
               // console.log('draftArticlePayload', draftArticlePayload)
               this.props.draftArticleAction(draftArticlePayload)
