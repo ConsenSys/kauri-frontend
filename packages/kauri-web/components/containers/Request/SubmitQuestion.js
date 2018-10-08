@@ -143,7 +143,7 @@ class SubmitQuestion extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: 'Please input the question for the request!',
+                  message: 'Please input your general comment!',
                   whitespace: true,
                 },
               ],

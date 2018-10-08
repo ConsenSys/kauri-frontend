@@ -3,12 +3,11 @@ import * as React from 'react';
 import styled from 'styled-components'
 import { BaseButtonCss } from './PrimaryButton'
 
-const bgHover = ({ theme: { bg: { secondaryBlueDark } } }) => secondaryBlueDark
-
 const SecondaryButton = styled.button`
   ${BaseButtonCss};
+  border: 1px solid ${props => props.theme.colors[props.border]};
   :hover {
-    background-color: ${bgHover};
+    border: 2px solid ${props => props.theme.colors[props.borderHover]};
   }
 `
 
@@ -18,15 +17,18 @@ type Props = {
   disabled?: boolean,
   fontWeight?: number,
   fontSize?: number,
+  width?: string,
   color?: string,
   space?: number,
   text?: string,
-  bg?: string, 
+  bg?: string,
+  border?: string,
+  borderHover?: string,
   children?: React.Node,
 }
 
-export default ({ bg = 'secondaryBlue', fontWeight = 700, fontSize = 0, color = 'white', space = 2, handleClick, text ='', children, icon, disabled }: Props) =>
-  <SecondaryButton disabled={disabled} mr={space} onClick={handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
+export default ({ width, border = 'white', borderHover = 'primary', bg = 'transparent', fontWeight = 700, fontSize = 0, color = 'white', space = 2, onClick, handleClick, text = '', children, icon, disabled }: Props) =>
+  <SecondaryButton type='button' width={width} disabled={disabled} border={border} borderHover={borderHover} mr={space} onClick={onClick || handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
     {icon}
     {text || children}
   </SecondaryButton>

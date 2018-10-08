@@ -10,6 +10,7 @@ import Content from './ApprovedArticleContent'
 import Header from './ApprovedArticleHeader'
 import Banner from './ApprovedArticleBanner'
 import Footer from './ApprovedArticleFooter'
+import Comments from './ApprovedArticleComments'
 import { hljs } from '../../../../lib/hljs'
 import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
 import ScrollToTopButton from '../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton'
@@ -17,8 +18,8 @@ import ScrollToTopButton from '../../../../../kauri-components/components/Scroll
 import type { TipArticlePayload } from '../Module'
 
 const ArticleContent = styled.section`
-background: white;
-height: 100%;
+  background: white;
+  height: 100%;
 `;
 
 type Props =
@@ -42,6 +43,7 @@ class ApprovedArticle extends React.Component<Props, State> {
   static Content = Content
   static Banner = Banner
   static Footer = Footer
+  static Comments = Comments
 
   state = {
     showBanner: false,
@@ -118,6 +120,14 @@ class ApprovedArticle extends React.Component<Props, State> {
           date_updated={props.data.getArticle && props.data.getArticle && props.data.getArticle.datePublished}
           content_hash={props.data.getArticle && props.data.getArticle && props.data.getArticle.contentHash}
           hostName={hostName}
+        />
+        <ApprovedArticle.Comments
+          id={props.data.getArticle && props.data.getArticle.id}
+          version={props.data.getArticle && props.data.getArticle.version}
+          comments={props.data.getArticle && props.data.getArticle.comments && props.data.getArticle.comments.content}
+          userId={this.props.userId}
+          username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.name}
+          authorId={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.id}
         />
       </ArticleContent>
     )

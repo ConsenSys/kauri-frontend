@@ -294,3 +294,11 @@ export const submitArticleVersion = gql`
     } 
   }
 `
+
+export const addComment = gql`
+  mutation addComment($parent: ResourceIdentifierInput, $body: String) { 
+    addComment (parent: $parent, body: $body) {
+      hash
+    }
+  }
+`
