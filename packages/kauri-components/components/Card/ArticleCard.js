@@ -162,6 +162,7 @@ const HoverContainer = styled.div`
     position: absolute;
     justify-content: center;
     align-items: center;
+    border-radius: 4px;
     background: ${props => props.theme.colors['textPrimary']};
     > :first-child { 
       margin-bottom: ${props => props.theme.space[2]}px;
