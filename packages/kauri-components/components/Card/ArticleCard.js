@@ -4,9 +4,12 @@ import styled, { css } from 'styled-components'
 import BaseCard from './BaseCard'
 import { Label, H1, BodyCard } from '../Typography'
 import theme from '../../lib/theme-config'
+import withToggle from '../../../kauri-web/lib/with-toggle'
 import R from 'ramda'
 import TextTruncate from 'react-text-truncate'
 import { PrimaryButton, SecondaryButton } from '../Button'
+
+import type { ToggleProps } from '../../../kauri-web/lib/with-toggle'
 
 const DEFAULT_CARD_HEIGHT = 290
 const DEFAULT_CARD_WIDTH = 290
@@ -181,14 +184,24 @@ const ArticleCard = (
     pageType,
     hoverAction,
     viewAction,
-  }: Props
+    toggledOn,
+    show,
+    hide,
+  }: Props & ToggleProps
 ) =>
   <BaseCard
     imageURL={imageURL}
     cardWidth={calculateCardWidth({ cardWidth, imageURL })}
     cardHeight={calculateCardHeight({ cardHeight, cardWidth, imageURL })}
+    handleMouseEnter={show}
+    handleMouseLeave={hide}
   >
-    {typeof hoverAction === 'function' && <Hover viewAction={viewAction} hoverAction={hoverAction} id={id} version={version} />}
+    {
+      typeof hoverAction === 'function' &&
+      typeof viewAction === 'function' &&
+      toggledOn === true &&
+      <Hover viewAction={viewAction} hoverAction={hoverAction} id={id} version={version} />
+    }
     {typeof imageURL === 'string' && <Image src={imageURL} />}
     <Container imageURL={imageURL}>
       <Content imageURL={imageURL}>
@@ -213,4 +226,4 @@ const ArticleCard = (
     </Container>
   </BaseCard>
 
-export default ArticleCard
+export default withToggle(ArticleCard)

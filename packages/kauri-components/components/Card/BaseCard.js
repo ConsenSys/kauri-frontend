@@ -27,8 +27,10 @@ type Props = {
   children: React.Node,
   cardWidth: number,
   cardHeight: number,
-  imageURL?: string
+  imageURL?: string,
+  handleMouseEnter?: () => void,
+  handleMouseLeave?: () => void
 }
 
-export default ({ cardWidth, cardHeight, imageURL, children }: Props) =>
-  <BaseCard cardWidth={cardWidth} imageURL={imageURL} cardHeight={cardHeight}>{children}</BaseCard>
+export default ({ cardWidth, cardHeight, imageURL, handleMouseEnter, handleMouseLeave, children }: Props) =>
+  <BaseCard onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} cardWidth={cardWidth} imageURL={imageURL} cardHeight={cardHeight}>{children}</BaseCard>
