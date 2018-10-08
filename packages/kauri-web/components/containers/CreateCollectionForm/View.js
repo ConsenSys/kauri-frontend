@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import * as React from 'react'
 import styled from 'styled-components'
 import { space, bg } from 'styled-system'
 import { Form, Field, FieldArray, ErrorMessage } from 'formik'
@@ -160,10 +160,12 @@ type Props = {
   showNotificationAction: ({ notificationType: string, message: string, description: string }) => void,
   createCollectionAction: CreateCollectionPayload => void,
   routeChangeAction: string => void,
-  data?: { getCollection?: ?CollectionDTO }
+  data?: { getCollection?: ?CollectionDTO },
+  openModalAction: ({ children: React.Node }) => void,
+  closeModalAction: () => void,
 }
 
-export default ({ touched, errors, values, isSubmitting, setFieldValue, validateForm, showNotificationAction, routeChangeAction, data }: Props) =>
+export default ({ touched, errors, values, isSubmitting, setFieldValue, validateForm, showNotificationAction, routeChangeAction, data, openModalAction, closeModalAction }: Props) =>
   <Section>
     <Form>
       <ActionsSection bg={(typeof values.background === 'string' && 'transparent') || 'bgPrimary'}>
@@ -229,7 +231,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue, validate
         <FieldArray
           name='sections'
           render={arrayHelpers => (
-            <Fragment>
+            <React.Fragment>
               {/* {console.log(arrayHelpers)} */}
               {values.sections && values.sections.length > 0 && (
                 values.sections.map((section: SectionDTO, index) => (
@@ -297,7 +299,8 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue, validate
                             </ResourceSection>
                         )
                       }
-                      <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${values.sections[index].resourcesId.length}]`, emptyArticleResource)}>
+                      {/* () => arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${values.sections[index].resourcesId.length}]`, emptyArticleResource) */}
+                      <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => openModalAction({ children: <p>F U</p> })}>
                         Add resource
                       </TertiaryButton>
                     </ResourcesSection>
@@ -310,7 +313,7 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue, validate
                 Add Another section
                 </TertiaryButton>
               </AddAnotherSectionContainer>
-            </Fragment>
+            </React.Fragment>
           )}
         />
 
