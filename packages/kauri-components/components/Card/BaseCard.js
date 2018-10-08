@@ -3,6 +3,7 @@ import * as React from 'react'
 import styled, { css } from 'styled-components'
 
 const withoutImageURLPaddingCss = css`padding: ${props => props.theme.space[2]}px;`
+const chosenArticleCss = css`border: 2px solid ${props => props.theme.colors['primary']};`
 
 const BaseCard = styled.div`
   display: flex;
@@ -17,10 +18,11 @@ const BaseCard = styled.div`
   transition-property: all;
   transition-duration: 300;
   :hover {
-    box-shadow: 0 6px 10px 0 rgba(0,0,0,0.22);
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.22);
     transform: translateY(-6px);
   }
   ${props => typeof props.imageURL !== 'string' && withoutImageURLPaddingCss};
+  ${props => Boolean(props.isChosenArticle) && chosenArticleCss};
 `
 
 type Props = {
@@ -28,9 +30,17 @@ type Props = {
   cardWidth: number,
   cardHeight: number,
   imageURL?: string,
+  isChosenArticle?: boolean,
   handleMouseEnter?: () => void,
   handleMouseLeave?: () => void
 }
 
-export default ({ cardWidth, cardHeight, imageURL, handleMouseEnter, handleMouseLeave, children }: Props) =>
-  <BaseCard onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} cardWidth={cardWidth} imageURL={imageURL} cardHeight={cardHeight}>{children}</BaseCard>
+export default ({ cardWidth, cardHeight, imageURL, handleMouseEnter, handleMouseLeave, isChosenArticle, children }: Props) =>
+  <BaseCard
+    onMouseEnter={handleMouseEnter}
+    onMouseLeave={handleMouseLeave}
+    cardWidth={cardWidth}
+    imageURL={imageURL}
+    cardHeight={cardHeight}
+    isChosenArticle={isChosenArticle}
+  >{children}</BaseCard>

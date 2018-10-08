@@ -145,6 +145,7 @@ type Props = {
   pageType?: PageType,
   hoverAction?: { id: string, version: string } => void,
   viewAction?: { id: string, version: string } => void,
+  isChosenArticle?: boolean,
 }
 
 const HoverContainer = styled.div`
@@ -187,6 +188,7 @@ const ArticleCard = (
     toggledOn,
     show,
     hide,
+    isChosenArticle,
   }: Props & ToggleProps
 ) =>
   <BaseCard
@@ -195,6 +197,7 @@ const ArticleCard = (
     cardHeight={calculateCardHeight({ cardHeight, cardWidth, imageURL })}
     handleMouseEnter={show}
     handleMouseLeave={hide}
+    isChosenArticle={isChosenArticle}
   >
     {
       typeof hoverAction === 'function' &&
