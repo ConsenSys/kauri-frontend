@@ -148,6 +148,11 @@ type Props = {
   isChosenArticle?: boolean,
 }
 
+const shiftMarginDueToNoImageURLCss = css`
+  margin-top: -15px;
+  margin-left: -15px;
+`
+
 const HoverContainer = styled.div`
     display: flex;
     height: 100%;
@@ -161,10 +166,11 @@ const HoverContainer = styled.div`
     > :first-child { 
       margin-bottom: ${props => props.theme.space[2]}px;
     }
+    ${props => !props.hasImageURL && shiftMarginDueToNoImageURLCss};
   `
 
-const Hover = ({ hoverAction, viewAction, id, version }) =>
-  <HoverContainer>
+const Hover = ({ hasImageURL, hoverAction, viewAction, id, version }) =>
+  <HoverContainer hasImageURL={hasImageURL}>
     <PrimaryButton onClick={() => hoverAction({ id, version })}>Choose Article</PrimaryButton>
     <SecondaryButton onClick={() => viewAction({ id, version })}>View Article</SecondaryButton>
   </HoverContainer>
@@ -198,15 +204,17 @@ const ArticleCard = (
     handleMouseEnter={show}
     handleMouseLeave={hide}
     isChosenArticle={isChosenArticle}
+    toggledOn={toggledOn}
   >
     {
       typeof hoverAction === 'function' &&
-      typeof viewAction === 'function' &&
-      toggledOn === true &&
-      <Hover viewAction={viewAction} hoverAction={hoverAction} id={id} version={version} />
+        typeof viewAction === 'function' &&
+        toggledOn === true &&
+        <Hover hasImageURL={imageURL} viewAction={viewAction} hoverAction={hoverAction} id={id} version={version} />
     }
     {typeof imageURL === 'string' && <Image src={imageURL} />}
     <Container imageURL={imageURL}>
+
       <Content imageURL={imageURL}>
         <Label>{'Posted ' + date}</Label>
         {
