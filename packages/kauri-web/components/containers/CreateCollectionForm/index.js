@@ -1,11 +1,11 @@
 // @flow
-import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { withFormik } from 'formik'
 import * as Yup from 'yup'
 import CreateCollectionForm from './View'
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
+import { closeModalAction, openModalAction } from '../../../../kauri-components/components/Modal/Module'
 import { createCollectionAction, composeCollectionAction } from './Module'
 import R from 'ramda'
 
@@ -29,7 +29,16 @@ const emptySection: SectionDTO = {
 const getCollectionField = (field, data) => R.path(['getCollection', field], data)
 
 export default compose(
-  connect(() => ({}), { showNotificationAction, createCollectionAction, composeCollectionAction, routeChangeAction }),
+  connect(
+    () => ({}),
+    {
+      showNotificationAction,
+      createCollectionAction,
+      composeCollectionAction,
+      routeChangeAction,
+      openModalAction,
+      closeModalAction,
+    }),
   withFormik({
     mapPropsToValues: ({ data }) => ({
       name: getCollectionField('name', data) || '',

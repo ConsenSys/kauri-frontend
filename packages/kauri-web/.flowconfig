@@ -12,4 +12,5 @@ flow-typed
 [include]
 graphql-export.flow.js
 node_modules/graphql-tag/index.js.flow
+../kauri-components/components/**/.*
 flow-typed
