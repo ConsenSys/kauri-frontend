@@ -6,6 +6,7 @@ import { Label, H1, BodyCard } from '../Typography'
 import theme from '../../lib/theme-config'
 import R from 'ramda'
 import TextTruncate from 'react-text-truncate'
+import { PrimaryButton, SecondaryButton } from '../Button'
 
 const DEFAULT_CARD_HEIGHT = 290
 const DEFAULT_CARD_WIDTH = 290
@@ -139,7 +140,30 @@ type Props = {
   cardWidth?: number,
   linkComponent?: (React.Node, string) => React.Node,
   pageType?: PageType,
+  hoverAction?: { id: string, version: string } => void,
+  viewAction?: { id: string, version: string } => void,
 }
+
+const HoverContainer = styled.div`
+    display: flex;
+    height: 100%;
+    width: 100%;
+    z-index: 9001;
+    flex-direction: column;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    background: ${props => props.theme.colors['textPrimary']};
+    > :first-child { 
+      margin-bottom: ${props => props.theme.space[2]}px;
+    }
+  `
+
+const Hover = ({ hoverAction, viewAction, id, version }) =>
+  <HoverContainer>
+    <PrimaryButton onClick={() => hoverAction({ id, version })}>Choose Article</PrimaryButton>
+    <SecondaryButton onClick={() => viewAction({ id, version })}>View Article</SecondaryButton>
+  </HoverContainer>
 
 const ArticleCard = (
   {
@@ -155,6 +179,8 @@ const ArticleCard = (
     cardHeight = DEFAULT_CARD_HEIGHT,
     linkComponent,
     pageType,
+    hoverAction,
+    viewAction,
   }: Props
 ) =>
   <BaseCard
@@ -162,6 +188,7 @@ const ArticleCard = (
     cardWidth={calculateCardWidth({ cardWidth, imageURL })}
     cardHeight={calculateCardHeight({ cardHeight, cardWidth, imageURL })}
   >
+    {typeof hoverAction === 'function' && <Hover viewAction={viewAction} hoverAction={hoverAction} id={id} version={version} />}
     {typeof imageURL === 'string' && <Image src={imageURL} />}
     <Container imageURL={imageURL}>
       <Content imageURL={imageURL}>

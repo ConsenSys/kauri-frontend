@@ -13,6 +13,7 @@ const BaseCard = styled.div`
   background: white;
   cursor: pointer;
   box-shadow: 0 0 4px 0 rgba(0,0,0,0.11);
+  position: relative;
   transition-property: all;
   transition-duration: 300;
   :hover {
