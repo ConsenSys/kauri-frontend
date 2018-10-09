@@ -59,7 +59,6 @@ export default class MyDocument extends Document {
 
   // should render on <body>
   get helmetBodyAttrComponents () {
-    console.log(this.props.helmet.bodyAttributes.toString())
     return this.props.helmet.bodyAttributes.toComponent()
   }
 
@@ -71,14 +70,7 @@ export default class MyDocument extends Document {
   }
 
   get helmetJsx () {
-    return (
-      <Helmet
-        htmlAttributes={{ lang: 'en' }}
-        title='Kauri'
-        meta={[{ charSet: 'utf8' }]}
-        script={scripts}
-      />
-    )
+    return <Helmet htmlAttributes={{ lang: 'en' }} title='Kauri' meta={[{ charSet: 'utf8' }]} script={scripts} />
   }
 
   render () {

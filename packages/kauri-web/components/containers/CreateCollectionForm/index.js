@@ -54,8 +54,10 @@ export default compose(
         .max(50, 'Too Long!'),
     }),
     handleSubmit: (values: FormState, { props, setErrors, resetForm, setSubmitting }) => {
-      console.log(values)
-      console.log(props)
+      const logIfDevelopment = value => process.env.NODE_ENV === 'development' && console.log(value)
+      logIfDevelopment(values)
+      logIfDevelopment(props)
+
       if (props.data) {
         // BACKEND FIX sections.resources -> sections.resourcesId :(
         const reassignResourcesToResourcesId = R.pipe(
@@ -68,7 +70,7 @@ export default compose(
           R.map(section => R.dissocPath(['__typename'])(section))
         )
 
-        console.log(reassignResourcesToResourcesId(values))
+        logIfDevelopment(reassignResourcesToResourcesId(values))
 
         const payload = {
           ...values,
@@ -76,7 +78,8 @@ export default compose(
           id: props.data.getCollection.id,
           updating: true,
         }
-        console.log(payload)
+
+        logIfDevelopment(payload)
 
         props.composeCollectionAction(payload, () => {
           setSubmitting(false)
