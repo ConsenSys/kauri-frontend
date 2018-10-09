@@ -4,7 +4,7 @@ import { Form } from 'antd';
 import SubmitArticleFormActions from './SubmitArticleFormActions';
 import SubmitArticleFormHeader from './SubmitArticleFormHeader';
 import SubmitArticleFormContent from './SubmitArticleFormContent';
-import type { AttributesPayload } from './Module';
+import type { AttributesPayload, ApproveArticlePayload } from './Module';
 import ScrollToTopButton from '../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton';
 
 import type { EditArticlePayload, SubmitArticlePayload, SubmitArticleVersionPayload } from './Module';
@@ -38,6 +38,7 @@ type Props = {
       submitArticleVersionAction: SubmitArticleVersionPayload => void,
       editArticleAction: EditArticlePayload => void,
       publishArticleAction: PublishArticlePayload => void,
+      approveArticleAction: ApproveArticlePayload => void,
       categories: Array<?string>,
       userId: string,
       article_id?: string,
@@ -133,7 +134,7 @@ class SubmitArticleForm extends React.Component<Props> {
       async (formErr, { text, subject, attributes }: SubmitArticleVariables) => {
         const { networkName } = await this.getNetwork();
         await this.checkNetwork(networkName);
-        const { submitArticleAction, submitArticleVersionAction, editArticleAction, draftArticleAction, article_id, userId } = this.props;
+        const { submitArticleAction, submitArticleVersionAction, editArticleAction, draftArticleAction, approveArticleAction, article_id, userId } = this.props;
         
         if (formErr) return this.showFormError(formErr);
         
@@ -144,7 +145,7 @@ class SubmitArticleForm extends React.Component<Props> {
         // NEW ARTICLE - WORKING
         if (!articleData && submissionType === 'submit/update') return submitArticleAction({ text, subject, attributes, selfPublish: true });
 
-        const { id, version, status, author, owner } = articleData;
+        const { id, version, status, author, owner, dateCreated, contentHash } = articleData;
 
         switch(status) {
           case "PUBLISHED":
@@ -155,7 +156,7 @@ class SubmitArticleForm extends React.Component<Props> {
               // WORKING
               return submitArticleVersionAction({ id, text, subject, attributes, selfPublish: true });
             } else if (owner && userId !== owner.id) {
-              return submitArticleVersionAction({ id, text, subject, attributes });
+              return submitArticleVersionAction({ id, text, subject, attributes, selfPublish: false });
             } else {
               return this.showGenericError();
             }
@@ -176,7 +177,11 @@ class SubmitArticleForm extends React.Component<Props> {
               return this.showGenericError();
             }
           case "PENDING":
-            if (owner && userId === owner.id) {
+            if (owner && userId === owner.id && submissionType === 'approve') {
+              console.log('approving article');
+              return approveArticleAction({id, version, author: author.id, contentHash, dateCreated });
+            } else if (owner && userId === owner.id && submissionType === 'reject') {
+              console.log('rejecting article');
             } else {
               return this.showGenericError();
             }
@@ -191,8 +196,6 @@ class SubmitArticleForm extends React.Component<Props> {
     const { routeChangeAction, isKauriTopicOwner, form } = this.props;
 
     const articleData = this.props.data && this.props.data.getArticle;
-
-    console.log(articleData);
 
     return (
       <Form>

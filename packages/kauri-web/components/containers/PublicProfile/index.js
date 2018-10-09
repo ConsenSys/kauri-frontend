@@ -1,7 +1,7 @@
 // @flow
 import PublicProfile from './View.js'
 import { compose, graphql } from 'react-apollo'
-import { searchPersonalArticles, searchPersonalDrafts } from '../../../queries/Article';
+import { searchPersonalArticles, searchPersonalDrafts, searchPending, searchAwaitingApproval } from '../../../queries/Article';
 import { getUserDetails } from '../../../queries/User';
 import { getCollectionsForUser } from '../../../queries/Collection';
 import { connect } from 'react-redux';
@@ -40,12 +40,32 @@ export default compose(
     name: 'CollectionQuery',
     options: ({userId}) => ({
       variables: {
-        userId,
+        filter: {
+          ownerIdEquals: userId,
+        }
       },
     }),
   }),
   graphql(searchPersonalDrafts, {
     name: 'DraftsQuery',
+    options: ({userId}) => ({
+      variables: {
+        userId,
+      },
+      fetchPolicy: 'no-cache',
+    }),
+  }),
+  graphql(searchPending, {
+    name: 'PendingQuery',
+    options: ({userId}) => ({
+      variables: {
+        userId,
+      },
+      fetchPolicy: 'no-cache',
+    }),
+  }),
+  graphql(searchAwaitingApproval, {
+    name: 'ApprovalsQuery',
     options: ({userId}) => ({
       variables: {
         userId,

@@ -32,11 +32,11 @@ const generatePublishArticleHash = (id, version, contentHash, contributor, dateC
     return result
   }
 
-  console.log(id)
-  console.log(version)
-  console.log(contentHash)
-  console.log(contributor)
-  console.log(dateCreated)
+  console.log('ID:', id)
+  console.log('VERSION:', version)
+  console.log('CONTENT HASH:', contentHash)
+  console.log('CONTRIBUTOR:', contributor)
+  console.log('DATE CREATED:',dateCreated)
 
   return keccak256(
     web3.padRight(web3.fromAscii(id), 66),
