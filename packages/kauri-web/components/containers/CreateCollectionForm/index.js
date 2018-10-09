@@ -11,8 +11,8 @@ import R from 'ramda'
 
 export type FormState = {
   name: string,
-  background: ?string;
-  description: ?string;
+  background: ?string,
+  description: ?string,
   sections: Array<SectionDTO>,
 }
 
@@ -21,10 +21,9 @@ const emptyArticleResource = { type: 'ARTICLE', id: '', version: undefined }
 const emptySection: SectionDTO = {
   name: '',
   description: undefined,
-  resourcesId: [
-    emptyArticleResource,
-  ],
-  resources: undefined }
+  resourcesId: [emptyArticleResource],
+  resources: undefined,
+}
 
 const getCollectionField = (field, data) => R.path(['getCollection', field], data)
 
@@ -38,13 +37,12 @@ export default compose(
       routeChangeAction,
       openModalAction,
       closeModalAction,
-    }),
+    }
+  ),
   withFormik({
     mapPropsToValues: ({ data }) => ({
       name: getCollectionField('name', data) || '',
-      sections: getCollectionField('sections', data) || [
-        emptySection,
-      ],
+      sections: getCollectionField('sections', data) || [emptySection],
       background: getCollectionField('background', data) || undefined,
       description: getCollectionField('description', data) || undefined,
     }),
@@ -64,17 +62,22 @@ export default compose(
         // BACKEND FIX sections.resources -> sections.resourcesId :(
         const reassignResourcesToResourcesId = R.pipe(
           R.path(['sections']),
-          R.map(section => ({ ...section,
-            resourcesId: R.map(
-              ({ id, version }) => ({ type: 'ARTICLE', id, version })
-            )(section.resources) })),
+          R.map(section => ({
+            ...section,
+            resourcesId: R.map(({ id, version }) => ({ type: 'ARTICLE', id, version }))(section.resourcesId),
+          })),
           R.map(section => R.dissocPath(['resources'])(section)),
-          R.map(section => R.dissocPath(['__typename'])(section)),
+          R.map(section => R.dissocPath(['__typename'])(section))
         )
 
         console.log(reassignResourcesToResourcesId(values))
 
-        const payload = { ...values, sections: reassignResourcesToResourcesId(values), id: props.data.getCollection.id, updating: true }
+        const payload = {
+          ...values,
+          sections: reassignResourcesToResourcesId(values),
+          id: props.data.getCollection.id,
+          updating: true,
+        }
         console.log(payload)
 
         props.composeCollectionAction(payload, () => {

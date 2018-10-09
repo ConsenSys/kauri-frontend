@@ -150,6 +150,35 @@ const handleBackgroundSetFormField = setFieldValue => () =>
     setFieldValue('background', payload.background.background)
   }, 'background')
 
+const renderResourceSection = (index, arrayHelpers, section, values, mappingKey) => (resource, resourceIndex) => (
+  <ResourceSection key={resourceIndex} my={3} p={3} mr={3}>
+    {R.path(['sections', index, mappingKey, resourceIndex, 'version'], values) && (
+      <div id='article-card'>
+        <ArticleCard
+          id={R.path(['sections', index, mappingKey, resourceIndex, 'id'], values)}
+          version={parseInt(R.path(['sections', index, mappingKey, resourceIndex, 'version'], values))}
+          cardHeight={500}
+        />
+      </div>
+    )}
+    <TertiaryButton
+      color='primaryTextColor'
+      icon={<RemoveIcon />}
+      onClick={() =>
+        arrayHelpers.form.setFieldValue(
+          `sections[${index}][${mappingKey}]`,
+          Array.isArray(section[mappingKey]) &&
+            (!resourceIndex
+              ? section[mappingKey].splice(1)
+              : R.remove(resourceIndex, resourceIndex, section[mappingKey]))
+        )
+      } // Remove current resource index
+    >
+      Remove resource
+    </TertiaryButton>
+  </ResourceSection>
+)
+
 type Props = {
   userId: string,
   touched: {
@@ -309,39 +338,15 @@ export default ({
                     </TertiaryButton>
 
                     <ResourcesSection>
-                      {section &&
-                        section.resourcesId &&
-                        Array.isArray(section.resourcesId) &&
-                        section.resourcesId.map((resource, resourceIndex) => (
-                          <ResourceSection key={resourceIndex} my={3} p={3} mr={3}>
-                            {R.path(['sections', index, 'resourcesId', resourceIndex, 'version'], values) && (
-                              <div id='article-card'>
-                                <ArticleCard
-                                  id={R.path(['sections', index, 'resourcesId', resourceIndex, 'id'], values)}
-                                  version={parseInt(
-                                    R.path(['sections', index, 'resourcesId', resourceIndex, 'version'], values)
-                                  )}
-                                  cardHeight={500}
-                                />
-                              </div>
-                            )}
-                            <TertiaryButton
-                              color='primaryTextColor'
-                              icon={<RemoveIcon />}
-                              onClick={() =>
-                                arrayHelpers.form.setFieldValue(
-                                  `sections[${index}].resourcesId`,
-                                  Array.isArray(section.resourcesId) &&
-                                    (!resourceIndex
-                                      ? section.resourcesId.splice(1)
-                                      : R.remove(resourceIndex, resourceIndex, section.resourcesId))
-                                )
-                              } // Remove current resource index
-                            >
-                              Remove resource
-                            </TertiaryButton>
-                          </ResourceSection>
-                        ))}
+                      {section.resourcesId && Array.isArray(section.resourcesId)
+                        ? section.resourcesId.map(
+                          renderResourceSection(index, arrayHelpers, section, values, 'resourcesId')
+                        )
+                        : section.resources &&
+                          Array.isArray(section.resources) &&
+                          section.resources.map(
+                            renderResourceSection(index, arrayHelpers, section, values, 'resources')
+                          )}
                       <TertiaryButton
                         color='primaryTextColor'
                         icon={<AddIcon />}
