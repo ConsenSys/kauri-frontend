@@ -78,7 +78,7 @@ const Web3Unavailable = () => (
 )
 
 class LoginForm extends React.Component<{
-  handleSubmit: (e: any) => void,
+  handleSubmit: (SyntheticEvent<HTMLButtonElement>) => void,
   getFieldDecorator: any,
   type?: string,
 }> {

@@ -25,6 +25,7 @@ export default compose(
       variables: {
         userId,
       },
+      fetchPolicy: 'no-cache',
     }),
   }),
   graphql(getUserDetails, {
@@ -49,6 +50,7 @@ export default compose(
       variables: {
         userId,
       },
+      fetchPolicy: 'no-cache',
     }),
   }),
   withLoading()
