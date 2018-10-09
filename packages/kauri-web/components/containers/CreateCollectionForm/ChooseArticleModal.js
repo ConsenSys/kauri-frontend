@@ -94,7 +94,7 @@ export default class ChooseArticleModal extends React.Component<Props, State> {
 
     return (
       <ContentContainer>
-        {JSON.stringify(this.state)}
+        {/* {JSON.stringify(this.state)} */}
         <ModalHeader
           actions={
             <Actions

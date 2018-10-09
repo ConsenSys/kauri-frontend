@@ -9,15 +9,16 @@ const Container = styled.div`
   > :first-child {
     margin-right: auto;
   }
-`;
+`
 
 type Props = {
   title: React.Node,
-  actions: React.Element<React.StatelessFunctionalComponent<{ handleClose: () => void }>>
+  actions: React.Element<React.StatelessFunctionalComponent<{ handleClose: () => void, handleConfirm: any => void } & any>>,
 }
 
-export default ({ title, actions }: Props) =>
+export default ({ title, actions }: Props) => (
   <Container>
     {title}
     {actions}
   </Container>
+)
