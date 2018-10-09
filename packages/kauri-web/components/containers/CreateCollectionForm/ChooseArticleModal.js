@@ -33,12 +33,19 @@ const CloseIcon = () => (
   <img style={{ rotate: '45deg' }} src='https://png.icons8.com/material-two-tone/50/000000/delete-sign.png' />
 )
 
-const Actions = ({ handleClose }: { handleClose: () => void }) => (
+const Actions = ({ handleClose, handleConfirm, chosenArticles }) => (
   <ActionsContainer>
     <TertiaryButton icon={<CloseIcon />} onClick={() => handleClose()} color='textPrimary'>
       Close
     </TertiaryButton>
-    <PrimaryButton onClick={() => alert('confirm')}>Confirm</PrimaryButton>
+    <PrimaryButton
+      onClick={() => {
+        handleConfirm(chosenArticles)
+        handleClose()
+      }}
+    >
+      Confirm
+    </PrimaryButton>
   </ActionsContainer>
 )
 
@@ -54,6 +61,7 @@ const ContentContainer = styled.section`
 
 type Props = {
   closeModalAction: () => void,
+  confirmModal: (Array<{ id: string, version: string }>) => void,
 }
 
 type State = {
@@ -82,13 +90,19 @@ export default class ChooseArticleModal extends React.Component<Props, State> {
     })
 
   render () {
-    const { closeModalAction } = this.props
+    const { closeModalAction, confirmModal } = this.props
 
     return (
       <ContentContainer>
         {JSON.stringify(this.state)}
         <ModalHeader
-          actions={<Actions handleClose={() => closeModalAction()} />}
+          actions={
+            <Actions
+              chosenArticles={this.state.chosenArticles}
+              handleConfirm={confirmModal}
+              handleClose={() => closeModalAction()}
+            />
+          }
           title={<Title chosenArticles={this.state.chosenArticles} />}
         />
         <ChooseArticleContent>
