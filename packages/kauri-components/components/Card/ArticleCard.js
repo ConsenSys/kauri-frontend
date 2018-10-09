@@ -140,7 +140,7 @@ const calculateCardWidth = R.cond([
   ],
   [
     ({ cardWidth, imageURL }) => typeof imageURL !== 'string' && cardWidth > DEFAULT_CARD_WIDTH,
-    ({ cardWidth }) => cardWidth - DEFAULT_CARD_PADDING * 2,
+    ({ cardWidth }) => cardWidth,
   ],
   [
     ({ cardWidth, imageURL }) => typeof imageURL !== 'string' && cardWidth === DEFAULT_CARD_WIDTH,
