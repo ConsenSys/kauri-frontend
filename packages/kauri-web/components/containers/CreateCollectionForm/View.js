@@ -64,6 +64,9 @@ const SectionSection = styled.section`
   :not(:first-child) {
     ${space};
   }
+  > button:nth-child(4) {
+    margin-top: ${props => props.theme.space[2]}px;
+  }
 `
 
 const ContentSection = styled.section`
@@ -351,7 +354,6 @@ export default ({
                         />
                       )}
                     />
-                    {console.log(arrayHelpers.form)}
                     <TertiaryButton
                       color='primaryTextColor'
                       icon={<AddIcon />}
