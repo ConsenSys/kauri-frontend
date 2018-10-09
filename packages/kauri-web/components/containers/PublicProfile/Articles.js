@@ -14,7 +14,7 @@ const Articles = ({ articles, type, routeChangeAction } : ArticlesProps) =>
         {articles.content.map(article => 
                 <ArticleCard
                     changeRoute={routeChangeAction}
-                    key={article.id}
+                    key={`${article.id}-${article.version}`}
                     date={moment(article.dateCreated).format('D MMM YYYY')}
                     title={article.title}
                     content={article.content}
