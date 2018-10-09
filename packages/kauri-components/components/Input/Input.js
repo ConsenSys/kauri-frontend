@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const InputWrapper = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const InputComp = styled.input`
     outline: none;
   }
   ::-webkit-input-placeholder {
-    color: ${props => props.theme.colors.disabledText};
+    color: ${props => props.theme.colors[props.color]};
     text-decoration: underline;
     text-decoration-color: ${props => props.theme.colors.primary};
   }
@@ -35,7 +35,7 @@ const InputComp = styled.input`
     text-indent: -999px;
   }
   ::-moz-placeholder {
-    color: ${props => props.theme.colors.disabledText};
+    color: ${props => props.theme.colors[props.color]};
   }
   :focus::-moz-placeholder {
     text-indent: -999px;
@@ -56,7 +56,7 @@ const UnderlineSpan = styled.span`
 `
 
 type State = {
-  value: string
+  value: string,
 }
 
 type Props = {
@@ -76,7 +76,7 @@ type Props = {
 
 class Input extends React.Component<Props, State> {
   constructor (props: Props) {
-    super(props);
+    super(props)
     this.state = {
       value: props.value || '',
     }
@@ -87,8 +87,20 @@ class Input extends React.Component<Props, State> {
   }
 
   render () {
-    const { className, color = 'white', placeHolder, fontSize = 1, fontWeight = 500, handleChange = this.handleChange, onChange, onBlur = (({ target: { value } }) => handleChange(value)), name, hideUnderline = false, textAlign = 'left' } = this.props
-    const value = this.props.value || this.state.value;
+    const {
+      className,
+      color = 'white',
+      placeHolder,
+      fontSize = 1,
+      fontWeight = 500,
+      handleChange = this.handleChange,
+      onChange,
+      onBlur = ({ target: { value } }) => handleChange(value),
+      name,
+      hideUnderline = false,
+      textAlign = 'left',
+    } = this.props
+    const value = this.props.value || this.state.value
 
     return (
       <InputWrapper className={className}>
@@ -101,13 +113,12 @@ class Input extends React.Component<Props, State> {
           fontSize={fontSize}
           value={value}
           name={name}
-          textAlign={textAlign} />
-        {!hideUnderline && <UnderlineSpan fontSize={fontSize}>
-          {value.replace(/ /g, '\u00a0')}
-        </UnderlineSpan> }
+          textAlign={textAlign}
+        />
+        {!hideUnderline && <UnderlineSpan fontSize={fontSize}>{value.replace(/ /g, '\u00a0')}</UnderlineSpan>}
       </InputWrapper>
     )
   }
 }
 
-export default Input;
+export default Input

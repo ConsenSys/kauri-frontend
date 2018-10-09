@@ -145,6 +145,16 @@ const ErrorMessageRenderer = styled.h2`
   color: #ffffff !important;
 `
 
+const ShareIcon = () => (
+  <svg role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'>
+    <path
+      fill='#0BA986'
+      d='M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z'
+      className=''
+    />
+  </svg>
+)
+
 const handleBackgroundSetFormField = setFieldValue => () =>
   setImageUploader(payload => {
     setFieldValue('background', payload.background.background)
@@ -249,27 +259,27 @@ export default ({
           <Field
             type='text'
             name='name'
-            render={({ field }) => <Input {...field} type='text' placeHolder='Add collection title' fontSize={5} />}
+            render={({ field }) => <Input {...field} type='text' placeHolder='Add collection title' fontSize={7} />}
           />
           {/* <ErrorMessage name='name' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
           <Field
             type='text'
             name='description'
-            render={({ field }) => <Input {...field} type='text' placeHolder='Add description' fontSize={3} />}
+            render={({ field }) => <Input {...field} type='text' placeHolder='Add description' fontSize={4} />}
           />
           {/* <ErrorMessage name='description' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
 
           {/* TODO: WAIT FOR BACKEND */}
           {/* <AddTagButton color='white' /> */}
           <CreateCollectionActionsPlaceHolder mr={3}>
-            <PrimaryButton>Follow Collection</PrimaryButton>
+            {/* <PrimaryButton>Follow Collection</PrimaryButton> */}
             {/* <TertiaryButton>Up vote</TertiaryButton> */}
-            <TertiaryButton>Share</TertiaryButton>
+            <TertiaryButton icon={<ShareIcon />}>Share</TertiaryButton>
           </CreateCollectionActionsPlaceHolder>
         </CreateCollectionDetails>
         <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
           <CreateCollectionMetaDetails mb={4}>
-            <StatisticsContainer
+            {/* <StatisticsContainer
               pageType='CollectionPage'
               statistics={[
                 { name: 'Followers', count: 0 },
@@ -277,7 +287,7 @@ export default ({
                 { name: 'Views', count: 0 },
                 { name: 'Upvotes', count: 0 },
               ]}
-            />
+            /> */}
             <CreateCollectionCuratorDetails mb={2}>
               <CuratorHeaderLabel>Curator</CuratorHeaderLabel>
               <CreateCollectionCurators mr={3}>
@@ -307,8 +317,8 @@ export default ({
                           {...field}
                           type='text'
                           placeHolder='Section Name'
-                          fontSize={4}
-                          fontWeight={300}
+                          fontSize={5}
+                          fontWeight={500}
                           color={'primaryTextColor'}
                           hideUnderline
                           textAlign={'center'}
