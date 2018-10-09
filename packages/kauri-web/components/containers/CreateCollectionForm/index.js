@@ -16,12 +16,10 @@ export type FormState = {
   sections: Array<SectionDTO>,
 }
 
-const emptyArticleResource = { type: 'ARTICLE', id: '', version: undefined }
-
 const emptySection: SectionDTO = {
   name: '',
   description: undefined,
-  resourcesId: [emptyArticleResource],
+  resourcesId: [],
   resources: undefined,
 }
 

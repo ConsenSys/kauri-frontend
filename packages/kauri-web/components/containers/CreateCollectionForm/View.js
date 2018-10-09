@@ -24,11 +24,10 @@ import ChooseArticleModal from './ChooseArticleModal'
 import type { FormState } from './index'
 import type { CreateCollectionPayload } from './Module'
 
-const emptyArticleResource = { type: 'ARTICLE', id: '', version: undefined }
 const emptySection: SectionDTO = {
   name: '',
   description: undefined,
-  resourcesId: [emptyArticleResource],
+  resourcesId: [],
   resources: undefined,
 }
 const AddIcon = () => <img src='https://png.icons8.com/ios-glyphs/50/000000/plus-math.png' />
@@ -52,6 +51,9 @@ const ResourceSection = styled.section`
   align-items: center;
   justify-content: center;
   ${space};
+  > button:last-child {
+    margin-top: ${props => props.theme.space[1]}px;
+  }
 `
 
 const SectionSection = styled.section`
@@ -161,7 +163,7 @@ const handleBackgroundSetFormField = setFieldValue => () =>
   }, 'background')
 
 const renderResourceSection = (index, arrayHelpers, section, values, mappingKey) => (resource, resourceIndex) => (
-  <ResourceSection key={resourceIndex} my={3} p={3} mr={3}>
+  <ResourceSection key={resourceIndex} my={3} p={2}>
     {R.path(['sections', index, mappingKey, resourceIndex, 'version'], values) && (
       <div id='article-card'>
         <ArticleCard
@@ -186,7 +188,7 @@ const renderResourceSection = (index, arrayHelpers, section, values, mappingKey)
         )
       } // Remove current resource index
     >
-      Remove resource
+      Remove Article
     </TertiaryButton>
   </ResourceSection>
 )
@@ -309,6 +311,14 @@ export default ({
                 values.sections.length > 0 &&
                 values.sections.map((section: SectionDTO, index) => (
                   <SectionSection key={index} mt={4}>
+                    <TertiaryButton
+                      color='primaryTextColor'
+                      icon={<RemoveIcon />}
+                      onClick={() => arrayHelpers.remove(index)}
+                    >
+                      Remove section
+                    </TertiaryButton>
+
                     <Field
                       type='text'
                       name={`sections.${index}.name`}
@@ -341,12 +351,30 @@ export default ({
                         />
                       )}
                     />
+                    {console.log(arrayHelpers.form)}
                     <TertiaryButton
                       color='primaryTextColor'
-                      icon={<RemoveIcon />}
-                      onClick={() => arrayHelpers.remove(index)}
+                      icon={<AddIcon />}
+                      onClick={() =>
+                        openModalAction({
+                          children: (
+                            <ChooseArticleModal
+                              closeModalAction={() => closeModalAction()}
+                              confirmModal={chosenArticles =>
+                                arrayHelpers.form.setFieldValue(
+                                  `sections[${index}].resourcesId`,
+                                  R.union(
+                                    R.path(['sections', index, 'resourcesId'])(arrayHelpers.form.values),
+                                    chosenArticles.map(article => ({ ...article, type: 'ARTICLE' }))
+                                  )
+                                )
+                              }
+                            />
+                          ),
+                        })
+                      }
                     >
-                      Remove section
+                      Add Article
                     </TertiaryButton>
 
                     <ResourcesSection>
@@ -359,27 +387,6 @@ export default ({
                           section.resources.map(
                             renderResourceSection(index, arrayHelpers, section, values, 'resources')
                           )}
-                      <TertiaryButton
-                        color='primaryTextColor'
-                        icon={<AddIcon />}
-                        onClick={() =>
-                          openModalAction({
-                            children: (
-                              <ChooseArticleModal
-                                closeModalAction={() => closeModalAction()}
-                                confirmModal={chosenArticles =>
-                                  arrayHelpers.form.setFieldValue(
-                                    `sections[${index}].resourcesId`,
-                                    chosenArticles.map(article => ({ ...article, type: 'ARTICLE' }))
-                                  )
-                                }
-                              />
-                            ),
-                          })
-                        }
-                      >
-                        Add resource
-                      </TertiaryButton>
                     </ResourcesSection>
                   </SectionSection>
                 ))}
