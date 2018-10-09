@@ -15,30 +15,32 @@ const TitleContainer = styled.div`
     margin-right: ${props => props.theme.space[3]}px;
   }
 `
-const Title = () =>
+const Title = ({ chosenArticles }) => (
   <TitleContainer>
     <NavigationText>Your recent articles</NavigationText>
-    <BodyCard>1 Selected</BodyCard>
+    <BodyCard>{`${Array.isArray(chosenArticles) ? chosenArticles.length : 0} Selected`}</BodyCard>
   </TitleContainer>
+)
 
 const ActionsContainer = styled.div`
   display: flex;
   > :first-child {
     margin-right: ${props => props.theme.space[3]}px;
   }
-`;
+`
 
-const CloseIcon = () => <img style={{ rotate: '45deg' }} src='https://png.icons8.com/material-two-tone/50/000000/delete-sign.png' />
+const CloseIcon = () => (
+  <img style={{ rotate: '45deg' }} src='https://png.icons8.com/material-two-tone/50/000000/delete-sign.png' />
+)
 
-const Actions = ({ handleClose }: { handleClose: () => void }) =>
+const Actions = ({ handleClose }: { handleClose: () => void }) => (
   <ActionsContainer>
     <TertiaryButton icon={<CloseIcon />} onClick={() => handleClose()} color='textPrimary'>
       Close
     </TertiaryButton>
-    <PrimaryButton onClick={() => alert('confirm')}>
-      Confirm
-    </PrimaryButton>
+    <PrimaryButton onClick={() => alert('confirm')}>Confirm</PrimaryButton>
   </ActionsContainer>
+)
 
 const ContentContainer = styled.section`
   display: flex;
@@ -51,11 +53,11 @@ const ContentContainer = styled.section`
 `
 
 type Props = {
-  closeModalAction: () => void
+  closeModalAction: () => void,
 }
 
 type State = {
-  chosenArticles: Array<{ id: string, version: string }>
+  chosenArticles: Array<{ id: string, version: string }>,
 }
 
 export default class ChooseArticleModal extends React.Component<Props, State> {
@@ -63,20 +65,21 @@ export default class ChooseArticleModal extends React.Component<Props, State> {
     chosenArticles: [],
   }
 
-  chooseArticle = (chosenArticle: { id: string, version: string }) => this.setState({
-    chosenArticles: R.find(
-      ({ id, version }) => chosenArticle.id === id && chosenArticle.version === version
-    )(this.state.chosenArticles)
-      ? R.reduce((current, next) => {
-        if (next.id === chosenArticle.id && next.version === chosenArticle.version) {
-          return current
-        } else {
-          current.push(next)
-          return current
-        }
-      }, [])(this.state.chosenArticles)
-      : R.union(this.state.chosenArticles, [chosenArticle]),
-  })
+  chooseArticle = (chosenArticle: { id: string, version: string }) =>
+    this.setState({
+      chosenArticles: R.find(({ id, version }) => chosenArticle.id === id && chosenArticle.version === version)(
+        this.state.chosenArticles
+      )
+        ? R.reduce((current, next) => {
+          if (next.id === chosenArticle.id && next.version === chosenArticle.version) {
+            return current
+          } else {
+            current.push(next)
+            return current
+          }
+        }, [])(this.state.chosenArticles)
+        : R.union(this.state.chosenArticles, [chosenArticle]),
+    })
 
   render () {
     const { closeModalAction } = this.props
@@ -84,7 +87,10 @@ export default class ChooseArticleModal extends React.Component<Props, State> {
     return (
       <ContentContainer>
         {JSON.stringify(this.state)}
-        <ModalHeader actions={<Actions handleClose={() => closeModalAction()} />} title={<Title />} />
+        <ModalHeader
+          actions={<Actions handleClose={() => closeModalAction()} />}
+          title={<Title chosenArticles={this.state.chosenArticles} />}
+        />
         <ChooseArticleContent>
           <ChooseArticleCard chosenArticles={this.state.chosenArticles} chooseArticle={this.chooseArticle} />
         </ChooseArticleContent>
