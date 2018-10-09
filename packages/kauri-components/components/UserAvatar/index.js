@@ -15,6 +15,7 @@ const Container = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: ${props => !props.fullWidth && '100px'};
+    color: ${props => props.color};
   }
 `
 
@@ -56,7 +57,7 @@ type Props = {
 }
 
 export default (props: Props) => (
-  <Container fullWidth={props.fullWidth}>
+  <Container color={typeof props.color === 'string' ? props.color : null || 'textPrimary'} fullWidth={props.fullWidth}>
     <Avatar color={typeof props.color === 'string' ? props.color : null || 'white'}>
       {typeof props.avatar === 'string' ? (
         <ProfileImage avatar={props.avatar} alt='Logo' />

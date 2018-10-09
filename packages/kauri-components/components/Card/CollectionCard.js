@@ -2,7 +2,7 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
 import BaseCard from './BaseCard'
-import { Label, H1, BodyCard } from '../Typography'
+import { Label, H1, H4, BodyCard } from '../Typography'
 import theme from '../../lib/theme-config'
 import withToggle from '../../../kauri-web/lib/with-toggle'
 import R from 'ramda'
@@ -16,32 +16,38 @@ const DEFAULT_CARD_HEIGHT = 290
 const DEFAULT_CARD_WIDTH = 290
 const DEFAULT_CARD_PADDING = theme.space[2]
 
-const Image = styled.img`
-  height: 170px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-`
-
-const withImageURLPaddingCss = css`
+const withImageURLCss = css`
   padding: ${props => props.theme.space[2]}px;
+  background: rgba(30, 36, 40, 0.7);
+  > * {
+    color: white;
+  }
 `
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  text-align: left;
-  ${props => typeof props.imageURL === 'string' && withImageURLPaddingCss};
+`
+
+const Mask = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  > *:not(:last-child) {
+    margin-bottom: ${props => props.theme.space[2]}px;
+  }
+  ${withImageURLCss};
 `
 
 const Content = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   flex: 1;
-  > span:first-child {
-    margin-bottom: ${props => props.theme.space[2]}px;
-  }
-  > :nth-child(2) {
+  background: url(${props => props.imageURL}) center center / cover;
+  > *:not(:last-child) {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
 `
@@ -50,7 +56,11 @@ const Footer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  > * {
+    text-transform: uppercase;
+  }
+  padding: ${props => props.imageURL && props.theme.space[2]}px;
 `
 
 const Divider = styled.div`
@@ -78,14 +88,27 @@ const titleLineHeight = R.cond([
 ])
 
 const contentLineHeight = R.cond([
-  [({ cardWidth, imageURL }) => cardWidth > DEFAULT_CARD_WIDTH && typeof imageURL !== 'string', R.always(12)],
-  [({ cardHeight, imageURL }) => cardHeight <= DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(5)],
-  [({ cardHeight, imageURL }) => cardHeight > DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(10)],
-  [({ imageURL }) => typeof imageURL === 'string', R.always(3)],
+  [({ cardWidth, imageURL }) => cardWidth > DEFAULT_CARD_WIDTH && typeof imageURL !== 'string', R.always(10)],
+  [({ cardHeight, imageURL }) => cardHeight <= DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(3)],
+  [({ cardHeight, imageURL }) => cardHeight > DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(9)],
+  [({ cardHeight, imageURL }) => cardHeight > DEFAULT_CARD_HEIGHT && typeof imageURL === 'string', R.always(8)],
+  [({ imageURL }) => typeof imageURL === 'string', R.always(2)],
 ])
 
-let renderCardContent = (title, content, cardHeight, cardWidth, imageURL) => (
+let renderActualContent = (
+  title,
+  content,
+  cardHeight,
+  cardWidth,
+  imageURL,
+  pageType,
+  username,
+  userId,
+  date,
+  linkComponent
+) => (
   <React.Fragment>
+    <Label>{'Collection'}</Label>
     <H1>
       <TextTruncate line={titleLineHeight({ cardHeight, imageURL })} truncateText='…' text={title} />
     </H1>
@@ -96,11 +119,67 @@ let renderCardContent = (title, content, cardHeight, cardWidth, imageURL) => (
         <TextTruncate line={contentLineHeight({ cardHeight, cardWidth, imageURL })} truncateText='…' text={content} />
       </BodyCard>
     )}
+    {typeof linkComponent !== 'undefined' && typeof pageType !== 'undefined'
+      ? linkComponent(
+        renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), imageURL),
+        `/public-profile/${userId}`
+      )
+      : renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), imageURL)}
+    <Label>{'Updated ' + date}</Label>
   </React.Fragment>
 )
 
-let renderPublicProfile = (pageType, username, userId, cardWidth) => (
-  <UserAvatar fullWidth={cardWidth > DEFAULT_CARD_WIDTH} username={username} userId={userId} />
+let renderCardContent = (
+  title,
+  content,
+  cardHeight,
+  cardWidth,
+  imageURL,
+  pageType,
+  username,
+  userId,
+  date,
+  linkComponent
+) =>
+  typeof imageURL === 'string' ? (
+    <Mask>
+      {renderActualContent(
+        title,
+        content,
+        cardHeight,
+        cardWidth,
+        imageURL,
+        pageType,
+        username,
+        userId,
+        date,
+        linkComponent
+      )}
+    </Mask>
+  ) : (
+    <React.Fragment>
+      {renderActualContent(
+        title,
+        content,
+        cardHeight,
+        cardWidth,
+        imageURL,
+        pageType,
+        username,
+        userId,
+        date,
+        linkComponent
+      )}
+    </React.Fragment>
+  )
+
+let renderPublicProfile = (pageType, username, userId, cardWidth, imageURL) => (
+  <UserAvatar
+    color={typeof imageURL === 'string' ? 'white' : 'textPrimary'}
+    fullWidth={cardWidth > DEFAULT_CARD_WIDTH}
+    username={username}
+    userId={userId}
+  />
 )
 
 const calculateCardHeight = R.cond([
@@ -118,13 +197,16 @@ const calculateCardHeight = R.cond([
     ({ cardHeight, imageURL }) => typeof imageURL === 'string' && cardHeight > DEFAULT_CARD_HEIGHT,
     ({ cardHeight }) => cardHeight,
   ],
-  [({ cardHeight, imageURL }) => typeof imageURL === 'string' && cardHeight === DEFAULT_CARD_HEIGHT, R.always(420)],
   [
     ({ cardHeight, imageURL }) => typeof imageURL !== 'string' && cardHeight > DEFAULT_CARD_HEIGHT,
     ({ cardHeight }) => cardHeight,
   ],
   [
     ({ cardHeight, imageURL }) => typeof imageURL !== 'string' && cardHeight === DEFAULT_CARD_HEIGHT,
+    R.always(DEFAULT_CARD_HEIGHT),
+  ],
+  [
+    ({ cardHeight, imageURL }) => typeof imageURL === 'string' && cardHeight === DEFAULT_CARD_HEIGHT,
     R.always(DEFAULT_CARD_HEIGHT),
   ],
 ])
@@ -187,6 +269,7 @@ type Props = {
   title: string,
   username: ?string,
   userId: string,
+  articleCount: number,
   imageURL?: string,
   cardHeight?: number,
   cardWidth?: number,
@@ -194,10 +277,47 @@ type Props = {
   pageType?: PageType,
   hoverAction?: ({ id: string, version: string }) => void,
   viewAction?: ({ id: string, version: string }) => void,
-  isChosenArticle?: boolean,
+  isChosenCollection?: boolean,
 }
 
-const ArticleCard = ({
+const renderContent = ({
+  imageURL,
+  title,
+  content,
+  cardHeight,
+  cardWidth,
+  id,
+  version,
+  linkComponent,
+  pageType,
+  username,
+  userId,
+  date,
+}) => (
+  <React.Fragment>
+    <Content imageURL={imageURL}>
+      {typeof linkComponent !== 'undefined'
+        ? linkComponent(
+          renderCardContent(title, content, cardHeight, cardWidth, imageURL, pageType, username, userId, date),
+          `/article/${id}/v${version}`
+        )
+        : renderCardContent(
+          title,
+          content,
+          cardHeight,
+          cardWidth,
+          imageURL,
+          pageType,
+          username,
+          userId,
+          date,
+          linkComponent
+        )}
+    </Content>
+  </React.Fragment>
+)
+
+const CollectionCard = ({
   id,
   version,
   content,
@@ -215,7 +335,8 @@ const ArticleCard = ({
   toggledOn,
   show,
   hide,
-  isChosenArticle,
+  isChosenCollection,
+  articleCount,
 }: Props & ToggleProps) => (
   <BaseCard
     imageURL={imageURL}
@@ -223,7 +344,7 @@ const ArticleCard = ({
     cardHeight={calculateCardHeight({ cardHeight, cardWidth, imageURL })}
     handleMouseEnter={show}
     handleMouseLeave={hide}
-    isChosenArticle={isChosenArticle}
+    isChosenArticle={isChosenCollection}
     toggledOn={toggledOn}
     hoverAction={hoverAction}
   >
@@ -232,28 +353,28 @@ const ArticleCard = ({
       toggledOn === true && (
       <Hover hasImageURL={imageURL} viewAction={viewAction} hoverAction={hoverAction} id={id} version={version} />
     )}
-    {typeof imageURL === 'string' && <Image src={imageURL} />}
     <Container imageURL={imageURL}>
-      <Content imageURL={imageURL}>
-        <Label>{'Posted ' + date}</Label>
-        {typeof linkComponent !== 'undefined'
-          ? linkComponent(
-            renderCardContent(title, content, cardHeight, cardWidth, imageURL),
-            `/article/${id}/v${version}`
-          )
-          : renderCardContent(title, content, cardHeight, cardWidth, imageURL)}
-      </Content>
-      <Divider />
-      <Footer>
-        {typeof linkComponent !== 'undefined' && typeof pageType !== 'undefined'
-          ? linkComponent(
-            renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL })),
-            `/public-profile/${userId}`
-          )
-          : renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }))}
+      {renderContent({
+        imageURL,
+        title,
+        content,
+        cardHeight,
+        cardWidth,
+        id,
+        version,
+        linkComponent,
+        pageType,
+        username,
+        userId,
+        date,
+      })}
+      {typeof imageURL !== 'string' && <Divider />}
+      <Footer imageURL={imageURL}>
+        <H4>{parseInt(articleCount) || '0'}</H4>
+        <Label>Articles</Label>
       </Footer>
     </Container>
   </BaseCard>
 )
 
-export default withToggle(ArticleCard)
+export default withToggle(CollectionCard)
