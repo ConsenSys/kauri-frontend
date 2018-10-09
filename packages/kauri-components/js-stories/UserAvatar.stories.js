@@ -20,6 +20,14 @@ storiesOf('UserAvatar', module)
       username={'LongUsernameGoesHere'}
     />
   ))
+  .add('with imageurl, with long username, fullWidth', () => (
+    <UserAvatar
+      avatar={'https://pbs.twimg.com/profile_images/626149701189042177/LWpxKEv3_400x400.png'}
+      userId={'bfecec47dd8bf5f6264a9830a9d26ef387c38a67'}
+      username={'LongUsernameGoesHere'}
+      fullWidth
+    />
+  ))
   .add('without imageurl, with normal username', () => (
     <UserAvatar userId={'bfecec47dd8bf5f6264a9830a9d26ef387c38a67'} username={'rej156'} />
   ))
