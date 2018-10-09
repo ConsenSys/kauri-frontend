@@ -8,6 +8,7 @@ import withToggle from '../../../kauri-web/lib/with-toggle'
 import R from 'ramda'
 import TextTruncate from 'react-text-truncate'
 import { PrimaryButton, SecondaryButton } from '../Button'
+import UserAvatar from '../UserAvatar'
 
 import type { ToggleProps } from '../../../kauri-web/lib/with-toggle'
 
@@ -59,14 +60,6 @@ const Divider = styled.div`
   height: 2px;
 `
 
-const UserWidgetSmall = styled.div`
-  display: flex;
-  height: 30px;
-  width: 30px;
-  background: black;
-  border-radius: 50%;
-`
-
 const renderDescriptionRowContent = (content, cardHeight) => {
   if (process.env.STORYBOOK !== 'true') {
     const DescriptionRow = require('../../../kauri-web/components/common/DescriptionRow.js').default
@@ -106,11 +99,8 @@ let renderCardContent = (title, content, cardHeight, cardWidth, imageURL) => (
   </React.Fragment>
 )
 
-let renderPublicProfile = (pageType, username, userId) => (
-  <UserWidgetSmall
-    pageType={pageType}
-    username={username || userId.substring(0, 11) + '...' + userId.substring(userId.length - 13, 11)}
-  />
+let renderPublicProfile = (pageType, username, userId, cardWidth) => (
+  <UserAvatar fullWidth={cardWidth > DEFAULT_CARD_WIDTH} username={username} userId={userId} />
 )
 
 const calculateCardHeight = R.cond([
@@ -158,26 +148,6 @@ const calculateCardWidth = R.cond([
   ],
 ])
 
-type PageType = 'RinkebyPublicProfile' | 'Collection'
-
-type Props = {
-  id: string,
-  version: string,
-  content: string,
-  date: string,
-  title: string,
-  username: ?string,
-  userId: string,
-  imageURL?: string,
-  cardHeight?: number,
-  cardWidth?: number,
-  linkComponent?: (React.Node, string) => React.Node,
-  pageType?: PageType,
-  hoverAction?: ({ id: string, version: string }) => void,
-  viewAction?: ({ id: string, version: string }) => void,
-  isChosenArticle?: boolean,
-}
-
 const shiftMarginDueToNoImageURLCss = css`
   margin-top: -15px;
   margin-left: -15px;
@@ -206,6 +176,26 @@ const Hover = ({ hasImageURL, hoverAction, viewAction, id, version }) => (
     <SecondaryButton onClick={() => viewAction({ id, version })}>View Article</SecondaryButton>
   </HoverContainer>
 )
+
+type PageType = 'RinkebyPublicProfile' | 'Collection'
+
+type Props = {
+  id: string,
+  version: string,
+  content: string,
+  date: string,
+  title: string,
+  username: ?string,
+  userId: string,
+  imageURL?: string,
+  cardHeight?: number,
+  cardWidth?: number,
+  linkComponent?: (React.Node, string) => React.Node,
+  pageType?: PageType,
+  hoverAction?: ({ id: string, version: string }) => void,
+  viewAction?: ({ id: string, version: string }) => void,
+  isChosenArticle?: boolean,
+}
 
 const ArticleCard = ({
   id,
@@ -256,8 +246,11 @@ const ArticleCard = ({
       <Divider />
       <Footer>
         {typeof linkComponent !== 'undefined' && typeof pageType !== 'undefined'
-          ? linkComponent(renderPublicProfile(pageType, username, userId), `/public-profile/${userId}`)
-          : renderPublicProfile(pageType, username, userId)}
+          ? linkComponent(
+            renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL })),
+            `/public-profile/${userId}`
+          )
+          : renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }))}
       </Footer>
     </Container>
   </BaseCard>
