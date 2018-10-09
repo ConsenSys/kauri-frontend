@@ -157,7 +157,7 @@ const renderResourceSection = (index, arrayHelpers, section, values, mappingKey)
         <ArticleCard
           id={R.path(['sections', index, mappingKey, resourceIndex, 'id'], values)}
           version={parseInt(R.path(['sections', index, mappingKey, resourceIndex, 'version'], values))}
-          cardHeight={500}
+          cardHeight={420}
         />
       </div>
     )}
