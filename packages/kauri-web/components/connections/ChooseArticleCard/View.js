@@ -1,16 +1,6 @@
-// @flow
 import React from 'react'
 import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard'
 import moment from 'moment'
-
-type Props = {
-  data: {
-    searchArticles: { content: Array<ArticleDTO> },
-  },
-  chooseArticle: ({ id: string, version: string }) => void,
-  chosenArticles: Array<string>,
-  viewArticle: ({ id: string, version: string }) => void,
-}
 
 export default ({
   chooseArticle,
@@ -19,7 +9,7 @@ export default ({
   data: {
     searchArticles: { content },
   },
-}: Props) =>
+}) =>
   content.length > 0 ? (
     content.map(article => (
       <ArticleCard
