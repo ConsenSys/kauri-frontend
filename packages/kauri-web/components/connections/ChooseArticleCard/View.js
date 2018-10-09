@@ -34,7 +34,7 @@ export default ({
         imageURL={article.attributes && article.attributes.background}
         cardHeight={420}
         hoverAction={article => chooseArticle(article)}
-        viewAction={({ id, version }) => alert('view action', id)}
+        viewAction={({ id, version }) => window.open(`${window.location.origin}/article/${id}/v${version}`, '_blank')}
         isChosenArticle={chosenArticles.find(({ id, version }) => article.id === id && article.version === version)}
       />
     ))
