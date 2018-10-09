@@ -169,7 +169,9 @@ const renderResourceSection = (index, arrayHelpers, section, values, mappingKey)
           `sections[${index}][${mappingKey}]`,
           Array.isArray(section[mappingKey]) &&
             (!resourceIndex
-              ? section[mappingKey].splice(1)
+              ? section[mappingKey].length > 1
+                ? section[mappingKey].splice(1)
+                : []
               : R.remove(resourceIndex, resourceIndex, section[mappingKey]))
         )
       } // Remove current resource index
