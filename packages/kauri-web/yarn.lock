@@ -11409,6 +11409,12 @@ react-test-renderer@^16.0.0-0, react-test-renderer@^16.1.1:
     prop-types "^15.6.0"
     react-is "^16.4.2"
 
+react-text-truncate@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/react-text-truncate/-/react-text-truncate-0.13.1.tgz#0632cbf8bdd5f7826865c7cc55dc8a2c3a2c9147"
+  dependencies:
+    prop-types "^15.5.7"
+
 react-tippy@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/react-tippy/-/react-tippy-1.2.2.tgz#061467d34d29e7a5a9421822d125c451d6bb5153"
@@ -11617,7 +11623,7 @@ rechoir@^0.6.2:
   dependencies:
     resolve "^1.1.6"
 
-recompose@^0.26.0:
+recompose@0.26.0:
   version "0.26.0"
   resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.26.0.tgz#9babff039cb72ba5bd17366d55d7232fbdfb2d30"
   dependencies:

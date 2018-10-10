@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
-import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard.bs'
+import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard'
 import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard.bs'
 import CommunityCardConnection from '../../connections/Community/CommunityCard_Connection.bs'
 import theme from '../../../lib/theme-config'
@@ -81,12 +81,12 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     content={articleCard.content}
                     userId={articleCard.author && articleCard.author.id}
                     username={articleCard.author && (articleCard.author.name || userIdTrim(articleCard.author.id))}
-                    articleId={articleCard.id}
-                    articleVersion={articleCard.version}
+                    id={articleCard.id}
+                    version={articleCard.version}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     imageURL={articleCard.attributes && articleCard.attributes.background}
                     linkComponent={(childrenProps, route) => (
-                      <Link toSlug={route.includes('article') && articleCard.title} useAnchorTag route={route}>
+                      <Link toSlug={route.includes('article') && articleCard.title} useAnchorTag href={route}>
                         {childrenProps}
                       </Link>
                     )}

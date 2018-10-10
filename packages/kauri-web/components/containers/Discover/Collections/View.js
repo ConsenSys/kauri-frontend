@@ -31,7 +31,7 @@ justify-content: center;
 flex-direction: column;
 color: ${props => props.theme.colors.white};
 padding: ${props => props.theme.space[3]}px;
-padding-bottom: ${props => props.theme.space[5]}px;
+padding-bottom: ${props => props.theme.space[3]}px;
 `
 const KauriTitle = styled.h1`
 color: white;

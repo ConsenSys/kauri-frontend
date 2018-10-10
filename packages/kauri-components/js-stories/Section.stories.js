@@ -79,7 +79,7 @@ storiesOf('Section', module)
     <PrimaryHeaderSection>
       <CreateCollectionDetails mb={2}>
         <ProfileHeaderLabel header='Collection' />
-        <Input placeHolder='Add collection title' fontSize={5} />
+        <Input placeHolder='Add collection title' fontSize={5} value={'Collection Title inputted'} />
         <Input placeHolder='Add description' fontSize={3} />
         <AddTagButton color='white' />
         <CreateCollectionActionsPlaceHolder mr={3}>

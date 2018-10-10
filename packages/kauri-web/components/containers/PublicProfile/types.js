@@ -1,6 +1,7 @@
 // @flow
 
 export type ArticlesProps = {
+    type?: 'toBeApproved',
     articles: {
         content: Array<ArticleDTO>
     },

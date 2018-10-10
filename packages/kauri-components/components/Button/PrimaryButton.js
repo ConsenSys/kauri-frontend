@@ -29,7 +29,7 @@ export const BaseButtonCss = css`
 }
 `
 
-const bgHover = (props) => props.theme && props.theme.colors.primaryDark
+const bgHover = (props) => props.theme && props.theme.colors && props.theme.colors.primaryDark
 
 const PrimaryButton = styled.button`
   ${BaseButtonCss};
@@ -50,6 +50,8 @@ type Props = {
   space?: number,
   color?: string,
   text?: string,
+  width?: string,
+  className?: string,
   children?: React.Node,
 }
 
@@ -70,18 +72,18 @@ export default (
     width,
     className,
   }: Props) =>
-  <PrimaryButton
-      type={type}
-      disabled={disabled}
-      mr={space}
-      onClick={onClick || handleClick}
-      bg={bg}
-      color={color}
-      fontSize={fontSize}
-      fontWeight={fontWeight}
-      width={width}
-      className={className}
+    <PrimaryButton
+    type={type}
+    disabled={disabled}
+    mr={space}
+    onClick={onClick || handleClick}
+    bg={bg}
+    color={color}
+    fontSize={fontSize}
+    fontWeight={fontWeight}
+    width={width}
+    className={className}
   >
-      {icon}
-      {text || children}
-    </PrimaryButton>
+    {icon}
+    {text || children}
+  </PrimaryButton>

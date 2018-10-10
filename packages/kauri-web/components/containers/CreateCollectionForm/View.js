@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import * as React from 'react'
 import styled from 'styled-components'
 import { space, bg } from 'styled-system'
 import { Form, Field, FieldArray, ErrorMessage } from 'formik'
@@ -17,14 +17,19 @@ import TertiaryButton from '../../../../kauri-components/components/Button/Terti
 import ArticleCard from '../../connections/ArticleCard'
 import setImageUploader from '../../common/ImageUploader'
 import showFormValidationErrors from '../../../lib/show-form-validation-errors'
+import ChooseArticleModal from './ChooseArticleModal'
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 
 import type { FormState } from './index'
 import type { CreateCollectionPayload } from './Module'
 
-const emptyArticleResource = { type: 'ARTICLE', id: '', version: undefined }
-const emptySection: SectionDTO = { name: '', description: undefined, resourcesId: [emptyArticleResource], resources: undefined }
+const emptySection: SectionDTO = {
+  name: '',
+  description: undefined,
+  resourcesId: [],
+  resources: undefined,
+}
 const AddIcon = () => <img src='https://png.icons8.com/ios-glyphs/50/000000/plus-math.png' />
 const RemoveIcon = () => <img src='https://png.icons8.com/windows/50/000000/delete-sign.png' />
 
@@ -46,6 +51,9 @@ const ResourceSection = styled.section`
   align-items: center;
   justify-content: center;
   ${space};
+  > button:last-child {
+    margin-top: ${props => props.theme.space[1]}px;
+  }
 `
 
 const SectionSection = styled.section`
@@ -53,7 +61,12 @@ const SectionSection = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  :not(:first-child) { ${space}; }
+  :not(:first-child) {
+    ${space};
+  }
+  > button:nth-child(4) {
+    margin-top: ${props => props.theme.space[2]}px;
+  }
 `
 
 const ContentSection = styled.section`
@@ -118,7 +131,7 @@ const CreateCollectionCurators = styled.div`
 
 const UploadIcon = () => <img src='https://png.icons8.com/color/50/000000/upload.png' />
 
-const DisplayFormikState = props =>
+const DisplayFormikState = props => (
   <div style={{ margin: '1rem 0', background: '#f6f8fa', padding: '.5rem' }}>
     <strong>Injected Formik props (the form's state)</strong>
     <div>
@@ -131,27 +144,67 @@ const DisplayFormikState = props =>
       <code>isSubmitting:</code> {JSON.stringify(props.isSubmitting, null, 2)}
     </div>
   </div>
+)
 
 const ErrorMessageRenderer = styled.h2`
   color: #ffffff !important;
 `
 
-const handleBackgroundSetFormField = (setFieldValue) => () => setImageUploader(
-  (payload) => {
+const ShareIcon = () => (
+  <svg role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'>
+    <path
+      fill='#0BA986'
+      d='M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z'
+      className=''
+    />
+  </svg>
+)
+
+const handleBackgroundSetFormField = setFieldValue => () =>
+  setImageUploader(payload => {
     setFieldValue('background', payload.background.background)
-  },
-  'background'
+  }, 'background')
+
+const renderResourceSection = (index, arrayHelpers, section, values, mappingKey) => (resource, resourceIndex) => (
+  <ResourceSection key={resourceIndex} my={3} p={2}>
+    {R.path(['sections', index, mappingKey, resourceIndex, 'version'], values) && (
+      <div id='article-card'>
+        <ArticleCard
+          id={R.path(['sections', index, mappingKey, resourceIndex, 'id'], values)}
+          version={parseInt(R.path(['sections', index, mappingKey, resourceIndex, 'version'], values))}
+          cardHeight={420}
+        />
+      </div>
+    )}
+    <TertiaryButton
+      color='primaryTextColor'
+      icon={<RemoveIcon />}
+      onClick={() =>
+        arrayHelpers.form.setFieldValue(
+          `sections[${index}][${mappingKey}]`,
+          Array.isArray(section[mappingKey]) &&
+            (!resourceIndex
+              ? section[mappingKey].length > 1
+                ? section[mappingKey].splice(1)
+                : []
+              : R.remove(resourceIndex, resourceIndex, section[mappingKey]))
+        )
+      } // Remove current resource index
+    >
+      Remove Article
+    </TertiaryButton>
+  </ResourceSection>
 )
 
 type Props = {
   userId: string,
   touched: {
     name: boolean,
-    description: boolean
+    description: boolean,
   },
   errors: {
     name: ?string,
-    description: ?string
+    description: ?string,
   },
   values: FormState,
   isSubmitting: boolean,
@@ -160,17 +213,34 @@ type Props = {
   showNotificationAction: ({ notificationType: string, message: string, description: string }) => void,
   createCollectionAction: CreateCollectionPayload => void,
   routeChangeAction: string => void,
-  data?: { getCollection?: ?CollectionDTO }
+  data?: { getCollection?: ?CollectionDTO },
+  openModalAction: ({ children: React.Node }) => void,
+  closeModalAction: () => void,
 }
 
-export default ({ touched, errors, values, isSubmitting, setFieldValue, validateForm, showNotificationAction, routeChangeAction, data }: Props) =>
+export default ({
+  touched,
+  errors,
+  values,
+  isSubmitting,
+  setFieldValue,
+  validateForm,
+  showNotificationAction,
+  routeChangeAction,
+  data,
+  openModalAction,
+  closeModalAction,
+}: Props) => (
   <Section>
     <Form>
       <ActionsSection bg={(typeof values.background === 'string' && 'transparent') || 'bgPrimary'}>
-        <Stack alignItems={['', 'center']} >
+        <Stack alignItems={['', 'center']}>
           <TertiaryButton
             onClick={() => routeChangeAction('back')}
-            icon={<img src='https://png.icons8.com/flat_round/50/000000/back.png' />}>Cancel Collection</TertiaryButton>
+            icon={<img src='https://png.icons8.com/flat_round/50/000000/back.png' />}
+          >
+            Cancel Collection
+          </TertiaryButton>
         </Stack>
         <Stack alignItems={['', 'center']} justifyContent={['', 'center']}>
           <TertiaryButton icon={<UploadIcon />} handleClick={handleBackgroundSetFormField(setFieldValue)}>
@@ -178,7 +248,11 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue, validate
           </TertiaryButton>
         </Stack>
         <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
-          <PrimaryButton disabled={isSubmitting} type='submit' onClick={() => showFormValidationErrors(validateForm, showNotificationAction)}>
+          <PrimaryButton
+            disabled={isSubmitting}
+            type='submit'
+            onClick={() => showFormValidationErrors(validateForm, showNotificationAction)}
+          >
             {data ? 'Update' : 'Create'}
           </PrimaryButton>
         </Stack>
@@ -187,33 +261,38 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue, validate
       <PrimaryHeaderSection backgroundURL={values.background}>
         <CreateCollectionDetails mb={2}>
           <ProfileHeaderLabel header='Collection' />
-          <Field type='text' name='name' render={({ field }) => <Input {...field} type='text' placeHolder='Add collection title' fontSize={5} />} />
+          <Field
+            type='text'
+            name='name'
+            render={({ field }) => <Input {...field} type='text' placeHolder='Add collection title' fontSize={7} />}
+          />
           {/* <ErrorMessage name='name' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
-          <Field type='text' name='description' render={(({ field }) => <Input {...field} type='text' placeHolder='Add description' fontSize={3} />)} />
+          <Field
+            type='text'
+            name='description'
+            render={({ field }) => <Input {...field} type='text' placeHolder='Add description' fontSize={4} />}
+          />
           {/* <ErrorMessage name='description' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
 
           {/* TODO: WAIT FOR BACKEND */}
           {/* <AddTagButton color='white' /> */}
           <CreateCollectionActionsPlaceHolder mr={3}>
-            <PrimaryButton>Follow Collection</PrimaryButton>
+            {/* <PrimaryButton>Follow Collection</PrimaryButton> */}
             {/* <TertiaryButton>Up vote</TertiaryButton> */}
-            <TertiaryButton>Share</TertiaryButton>
+            <TertiaryButton icon={<ShareIcon />}>Share</TertiaryButton>
           </CreateCollectionActionsPlaceHolder>
-
         </CreateCollectionDetails>
         <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
           <CreateCollectionMetaDetails mb={4}>
-            <StatisticsContainer
+            {/* <StatisticsContainer
               pageType='CollectionPage'
-              statistics={
-                [
-                  { 'name': 'Followers', 'count': 0 },
-                  { 'name': 'Articles', 'count': 0 },
-                  { 'name': 'Views', 'count': 0 },
-                  { 'name': 'Upvotes', 'count': 0 },
-                ]
-              }
-            />
+              statistics={[
+                { name: 'Followers', count: 0 },
+                { name: 'Articles', count: 0 },
+                { name: 'Views', count: 0 },
+                { name: 'Upvotes', count: 0 },
+              ]}
+            /> */}
             <CreateCollectionCuratorDetails mb={2}>
               <CuratorHeaderLabel>Curator</CuratorHeaderLabel>
               <CreateCollectionCurators mr={3}>
@@ -229,94 +308,105 @@ export default ({ touched, errors, values, isSubmitting, setFieldValue, validate
         <FieldArray
           name='sections'
           render={arrayHelpers => (
-            <Fragment>
+            <React.Fragment>
               {/* {console.log(arrayHelpers)} */}
-              {values.sections && values.sections.length > 0 && (
+              {values.sections &&
+                values.sections.length > 0 &&
                 values.sections.map((section: SectionDTO, index) => (
                   <SectionSection key={index} mt={4}>
-                    <Field type='text' name={`sections.${index}.name`}
-                      render={
-                        ({ field }) =>
-                          <Input {...field}
-                            type='text'
-                            placeHolder='Section Name'
-                            fontSize={4}
-                            fontWeight={300}
-                            color={'primaryTextColor'}
-                            hideUnderline
-                            textAlign={'center'}
-                          />
-                      }
-                    />
-                    <Field type='text' name={`sections.${index}.description`}
-                      render={
-                        ({ field }) =>
-                          <Input {...field}
-                            type='text'
-                            placeHolder='Section description'
-                            fontSize={2}
-                            fontWeight={300}
-                            color={'primaryTextColor'}
-                            hideUnderline
-                            textAlign={'center'}
-                          />
-                      }
-                    />
-                    <TertiaryButton color='primaryTextColor' icon={<RemoveIcon />} onClick={() => arrayHelpers.remove(index)}>
+                    <TertiaryButton
+                      color='primaryTextColor'
+                      icon={<RemoveIcon />}
+                      onClick={() => arrayHelpers.remove(index)}
+                    >
                       Remove section
                     </TertiaryButton>
 
-                    <ResourcesSection>
-                      {
-                        section && section.resourcesId && Array.isArray(section.resourcesId) && section.resourcesId.map(
-                          (resource, resourceIndex) =>
-                            <ResourceSection key={resourceIndex} my={3} p={3} mr={3}>
-                              {
-                                R.path(['sections', index, 'resourcesId', resourceIndex, 'version'], values) &&
-                                <div id='article-card'>
-                                  <ArticleCard
-                                    id={R.path(['sections', index, 'resourcesId', resourceIndex, 'id'], values)}
-                                    version={parseInt(R.path(['sections', index, 'resourcesId', resourceIndex, 'version'], values))}
-                                    cardHeight={500}
-                                  />
-                                </div>
+                    <Field
+                      type='text'
+                      name={`sections.${index}.name`}
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          type='text'
+                          placeHolder='Section Name'
+                          fontSize={5}
+                          fontWeight={500}
+                          color={'primaryTextColor'}
+                          hideUnderline
+                          textAlign={'center'}
+                        />
+                      )}
+                    />
+                    <Field
+                      type='text'
+                      name={`sections.${index}.description`}
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          type='text'
+                          placeHolder='Section description'
+                          fontSize={2}
+                          fontWeight={300}
+                          color={'primaryTextColor'}
+                          hideUnderline
+                          textAlign={'center'}
+                        />
+                      )}
+                    />
+                    <TertiaryButton
+                      color='primaryTextColor'
+                      icon={<AddIcon />}
+                      onClick={() =>
+                        openModalAction({
+                          children: (
+                            <ChooseArticleModal
+                              closeModalAction={() => closeModalAction()}
+                              confirmModal={chosenArticles =>
+                                arrayHelpers.form.setFieldValue(
+                                  `sections[${index}].resourcesId`,
+                                  R.union(
+                                    R.path(['sections', index, 'resourcesId'])(arrayHelpers.form.values),
+                                    chosenArticles.map(article => ({ ...article, type: 'ARTICLE' }))
+                                  )
+                                )
                               }
-                              <Field type='text' name={`sections[${index}].resourcesId[${resourceIndex}].id`}
-                                render={({ field }) => <Input {...field} type='text' color='primaryTextColor' placeHolder='Article ID' fontSize={3} />}
-                              />
-                              <Field type='text' name={`sections[${index}].resourcesId[${resourceIndex}].version`}
-                                render={({ field }) => <Input {...field} type='text' color='primaryTextColor' placeHolder='Article Version' fontSize={3} />}
-                              />
-                              <TertiaryButton color='primaryTextColor' icon={<RemoveIcon />}
-                                onClick={() =>
-                                  arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId`,
-                                    Array.isArray(section.resourcesId) && (!resourceIndex ? section.resourcesId.splice(1) : R.remove(resourceIndex, resourceIndex, section.resourcesId)))} // Remove current resource index
-                              >
-                                Remove resource
-                              </TertiaryButton>
-                            </ResourceSection>
-                        )
+                            />
+                          ),
+                        })
                       }
-                      <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => arrayHelpers.form.setFieldValue(`sections[${index}].resourcesId[${values.sections[index].resourcesId.length}]`, emptyArticleResource)}>
-                        Add resource
-                      </TertiaryButton>
-                    </ResourcesSection>
+                    >
+                      Add Article
+                    </TertiaryButton>
 
+                    <ResourcesSection>
+                      {section.resourcesId && Array.isArray(section.resourcesId)
+                        ? section.resourcesId.map(
+                          renderResourceSection(index, arrayHelpers, section, values, 'resourcesId')
+                        )
+                        : section.resources &&
+                          Array.isArray(section.resources) &&
+                          section.resources.map(
+                            renderResourceSection(index, arrayHelpers, section, values, 'resources')
+                          )}
+                    </ResourcesSection>
                   </SectionSection>
-                ))
-              )}
+                ))}
               <AddAnotherSectionContainer mt={4}>
-                <TertiaryButton color='primaryTextColor' icon={<AddIcon />} onClick={() => arrayHelpers.push(emptySection)}>
-                Add Another section
+                <TertiaryButton
+                  color='primaryTextColor'
+                  icon={<AddIcon />}
+                  onClick={() => arrayHelpers.push(emptySection)}
+                >
+                  Add Another section
                 </TertiaryButton>
               </AddAnotherSectionContainer>
-            </Fragment>
+            </React.Fragment>
           )}
         />
 
         {/* <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} /> */}
-
       </ContentSection>
-
     </Form>
   </Section>
+)
