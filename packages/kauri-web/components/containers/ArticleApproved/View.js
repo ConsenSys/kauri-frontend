@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
-import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard.bs'
+import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard'
 import { Link } from '../../../routes'
 import { ActionButtons, PositiveRequestActionBadge } from '../../common/ActionButton'
 import { ArticleApprovedConfirmationLogoBadge } from '../../common/ActionBadge'
@@ -62,8 +62,8 @@ class ArticleApproved extends React.Component<Props> {
         <ConfirmationSubject>{`The article ${subjectCopy}`}</ConfirmationSubject>
         <ArticleCard
           key={article.id}
-          articleId={article.id}
-          articleVersion={article.version}
+          id={article.id}
+          version={article.version}
           date={moment(article.datePublished || article.dateCreated).format('D MMM YYYY')}
           title={article.title}
           content={article.content}
@@ -71,7 +71,7 @@ class ArticleApproved extends React.Component<Props> {
           username={article.author && article.author.name}
           cardHeight={500}
           linkComponent={(childrenProps, route) => (
-            <Link toSlug={route.includes('article') && article.title} useAnchorTag route={route}>
+            <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>
               {childrenProps}
             </Link>
           )}

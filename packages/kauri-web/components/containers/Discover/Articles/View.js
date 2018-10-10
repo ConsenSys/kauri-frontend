@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import ArticleSearchbar from '../../ArticleSearchbar'
 import { Helmet } from 'react-helmet';
-import ArticleCard from '../../../../../kauri-components/components/Card/ArticleCard.bs';
+import ArticleCard from '../../../../../kauri-components/components/Card/ArticleCard';
 import { Link } from '../../../../routes';
 import moment from 'moment';
 import userIdTrim from '../../../../lib/userid-trim';
@@ -101,12 +101,12 @@ class Collections extends Component<Props> {
               content={article.content}
               userId={article.owner ? article.owner.id : 'Anonymous'}
               username={article.owner ? (article.owner.username || userIdTrim(article.owner.id)) : 'Anonymous'}
-              articleId={article.id}
-              articleVersion={article.version}
+              id={article.id}
+              version={article.version}
               cardHeight={500}
               imageURL={article.attributes && article.attributes.background}
               linkComponent={(childrenProps, route) => (
-                <Link toSlug={route.includes('article') && article.title} useAnchorTag route={route}>
+                <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>
                   {childrenProps}
                 </Link>
               )}
