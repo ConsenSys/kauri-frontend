@@ -56,19 +56,12 @@ export default ({
         <TertiaryButton icon={<UploadIcon />} handleClick={() => setupImageUploader(setFieldsValue, getFieldDecorator)}>Upload Background</TertiaryButton>
       </Stack>
     <ContainerRow>
-      {status === "PENDING" && userId === owner && <PositiveRequestActionBadge type='secondary' action={handleSubmit('reject')}>
-        <span>Reject Update</span>
-      </PositiveRequestActionBadge>}
-      {status === "PENDING" && userId === owner && <PositiveRequestActionBadge type='primary' action={handleSubmit('approve')}>
-        <span>Approve Update</span>
-      </PositiveRequestActionBadge>}
-
-      {(status === "PUBLISHED" || status === "DRAFT") &&  <PositiveRequestActionBadge type='secondary' action={handleSubmit('draft')}>
+      <PositiveRequestActionBadge type='secondary' action={handleSubmit('draft')}>
         <span>Save draft</span>
-      </PositiveRequestActionBadge>}
-      {(status === "PUBLISHED" || status === "DRAFT") &&  <PositiveRequestActionBadge type={'primary'} action={handleSubmit('submit/update')}>
+      </PositiveRequestActionBadge>
+      <PositiveRequestActionBadge type={'primary'} action={handleSubmit('submit/update')}>
         <span>{!status || owner === userId ? 'Publish Article' : 'Propose Update'}</span>
-      </PositiveRequestActionBadge>}
+      </PositiveRequestActionBadge>
     </ContainerRow>
   </SubmitArticleFormActions>
 )
