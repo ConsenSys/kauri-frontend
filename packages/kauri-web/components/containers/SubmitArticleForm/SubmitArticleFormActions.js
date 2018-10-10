@@ -41,7 +41,9 @@ export default ({
   routeChangeAction,
   handleSubmit,
   userId,
-  authorId,
+  author,
+  owner,
+  status,
   setFieldsValue,
   getFieldDecorator,
 }: Props) => (
@@ -58,7 +60,7 @@ export default ({
         <span>Save draft</span>
       </PositiveRequestActionBadge>
       <PositiveRequestActionBadge type={'primary'} action={handleSubmit('submit/update')}>
-        <span>{authorId !== userId ? 'Publish' : 'Update Article'}</span>
+        <span>{!status || owner === userId ? 'Publish Article' : 'Propose Update'}</span>
       </PositiveRequestActionBadge>
     </ContainerRow>
   </SubmitArticleFormActions>

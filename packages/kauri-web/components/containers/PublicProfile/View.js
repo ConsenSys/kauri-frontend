@@ -36,8 +36,8 @@ class PublicProfile extends Component<ViewProps, ViewState> {
   }
 
   render () {
-    const { UserQuery, ArticlesQuery, CollectionQuery, DraftsQuery, routeChangeAction, currentUser } = this.props;
-    if (!UserQuery.getUser || !ArticlesQuery.searchArticles || !CollectionQuery.searchCollections || !DraftsQuery.searchArticles) return null;
+    const { PendingQuery, UserQuery, ArticlesQuery, CollectionQuery, DraftsQuery, ApprovalsQuery, routeChangeAction, currentUser } = this.props;
+    if (!UserQuery.getUser || !ArticlesQuery.searchArticles || !CollectionQuery.searchCollections || !DraftsQuery.searchArticles || !ApprovalsQuery.searchArticles || !PendingQuery.searchArticles) return null;
     return (
       <div>
         {
@@ -67,11 +67,15 @@ class PublicProfile extends Component<ViewProps, ViewState> {
             `Articles (${ArticlesQuery.searchArticles.content.length})`,
             UserQuery.getUser.id === currentUser && `My Drafts (${DraftsQuery.searchArticles.content.length})`,
             `Collections (${CollectionQuery.searchCollections.content.length})`,
+            `Awaiting Owner Approval (${ApprovalsQuery.searchArticles.content.length})`,
+            `Pending My Approval(${PendingQuery.searchArticles.content.length})`,
           ]}
           panels={[
             <Articles articles={ArticlesQuery.searchArticles} routeChangeAction={routeChangeAction} />,
             UserQuery.getUser.id === currentUser && <Articles articles={DraftsQuery.searchArticles} routeChangeAction={routeChangeAction} />,
             <Collections collections={CollectionQuery.searchCollections} routeChangeAction={routeChangeAction} />,
+            <Articles articles={ApprovalsQuery.searchArticles} routeChangeAction={routeChangeAction} />,
+            <Articles type="toBeApproved" articles={PendingQuery.searchArticles} routeChangeAction={routeChangeAction} />,
           ]}
         />
       </div>

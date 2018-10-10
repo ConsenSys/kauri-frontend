@@ -57,7 +57,7 @@ module ApproveArticleMutation = ReasonApollo.CreateMutation(ApproveArticle);
 
 module DraftArticle = [%graphql
   {|
-    mutation submitArticle($id: String, $subject: String, $text: String, $attributes: Map_String_StringScalar) {
+    mutation submitArticleVersion($id: String, $subject: String, $text: String, $attributes: Map_String_StringScalar) {
       submitArticle (id: $id, title: $subject, content: $text, attributes: $attributes) {
         hash
       }

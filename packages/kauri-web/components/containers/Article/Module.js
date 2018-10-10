@@ -3,8 +3,11 @@
 import { Observable } from 'rxjs/Observable'
 import { trackMixpanelAction } from '../Link/Module'
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
+import generatePublishArticleHash from '../../../lib/generate-publish-article-hash';
+
 import {
   rejectArticle,
+  approveArticle,
   storeArticleValidationSignature,
   deleteArticleComment,
   getArticle,
@@ -12,25 +15,34 @@ import {
 
 import type { Dependencies } from '../../../lib/Module'
 
-export type ApproveArticlePayload = {
-  request_id?: string,
-  user_id: string,
-  article_id: string,
-  content_hash: string,
-}
-
 export type DeleteArticleCommentPayload = {
   article_id: string,
   comment_id: number,
 }
 
+export type ApproveArticlePayload = {
+  id: string,
+  version: number,
+  author: string,
+  contentHash: string,
+  dateCreated: string,
+};
+
+export type RejectArticlePayload = {
+  id: string,
+  version: number,
+  cause: string,
+};
+
+const APPROVE_ARTICLE = 'APPROVE_ARTICLE'
+
+const REJECT_ARTICLE = 'REJECT_ARTICLE'
+
 export type DeleteArticleCommentAction = { type: string, payload: DeleteArticleCommentPayload, callback: any }
 
-export type RejectArticlePayload = { article_id: string, article_version: string, rejection_cause: string }
+export type RejectArticleAction = { type: string, payload: RejectArticlePayload }
 
-export type RejectArticleAction = { type: 'REJECT_ARTICLE', payload: RejectArticlePayload }
-
-export type ApproveArticleAction = { type: 'APPROVE_ARTICLE', payload: ApproveArticlePayload }
+export type ApproveArticleAction = { type: string, payload: ApproveArticlePayload }
 
 export type TipArticlePayload = {
   request_id?: ?string,
@@ -42,28 +54,24 @@ export type TipArticlePayload = {
 
 export type TipArticleAction = { type: 'TIP_ARTICLE', payload: TipArticlePayload, callback: any }
 
-const APPROVE_ARTICLE = 'APPROVE_ARTICLE'
-
 const TIP_ARTICLE = 'TIP_ARTICLE'
-
-const REJECT_ARTICLE = 'REJECT_ARTICLE'
 
 const DELETE_ARTICLE_COMMENT: string = 'DELETE_ARTICLE_COMMENT'
 
 export const approveArticleAction = (payload: ApproveArticlePayload): ApproveArticleAction => ({
   type: APPROVE_ARTICLE,
   payload,
-})
+});
+
+export const rejectArticleAction = (payload: RejectArticlePayload): RejectArticleAction => ({
+  type: REJECT_ARTICLE,
+  payload,
+});
 
 export const tipArticleAction = (payload: TipArticlePayload, callback: any): TipArticleAction => ({
   type: TIP_ARTICLE,
   payload,
   callback,
-})
-
-export const rejectArticleAction = (payload: RejectArticlePayload): RejectArticleAction => ({
-  type: REJECT_ARTICLE,
-  payload,
 })
 
 export const deleteArticleCommentAction = (
@@ -77,66 +85,50 @@ export const deleteArticleCommentAction = (
 
 export const approveArticleEpic = (
   action$: Observable<ApproveArticleAction>,
-  { dispatch }: any,
-  { apolloClient, smartContracts, web3, apolloSubscriber, web3PersonalSign, getGasPrice }: Dependencies
+  { getState }: any,
+  { apolloClient, smartContracts, web3, apolloSubscriber, personalSign }: Dependencies
 ) =>
   action$
     .ofType(APPROVE_ARTICLE)
-    .switchMap(({ payload: { article_id, request_id, user_id, content_hash } }: ApproveArticleAction) =>
-      web3PersonalSign(article_id, article_id + user_id + content_hash, storeArticleValidationSignature)
-        .flatMap(() => getGasPrice())
-        .flatMap(gasPrice =>
-          smartContracts().KauriCore.acceptArticle.sendTransaction(
-            article_id,
-            request_id,
-            user_id,
-            web3.sha3(content_hash).toString('hex'),
-            {
-              from: web3.eth.accounts[0],
-              gas: 250000,
-              gasPrice,
-            }
-          )
-        )
-        .do((transactionHash: string) => {
-          dispatch(routeChangeAction(`/article/${article_id}/article-published`))
-          dispatch(
-            showNotificationAction({
-              notificationType: 'info',
-              message: 'Waiting for it to be mined',
-              description: 'You will get another notification when the block is mined!',
-            })
-          )
-          dispatch(
-            trackMixpanelAction({
-              event: 'Onchain',
-              metaData: {
-                resource: 'article',
-                resourceID: article_id,
-                resourceAction: 'accept article transaction submitted',
-                transactionHash,
-              },
-            })
-          )
+    .switchMap(({ payload: {id, version, contentHash, author, dateCreated} }) =>
+      Observable.fromPromise(personalSign(generatePublishArticleHash(id, version, contentHash, author, dateCreated)))
+      .mergeMap((signature) =>
+        apolloClient.mutate({
+          mutation: approveArticle,
+          variables: {
+            id,
+            version,
+            signature,
+          },
         })
-        .flatMap((transactionHash: string) => apolloSubscriber(transactionHash, 'ArticleAccepted'))
-        .do(h => console.log(h))
-        .do(() => apolloClient.resetStore())
-        .mergeMap(() =>
-          Observable.of(
-            showNotificationAction({
-              notificationType: 'success',
-              message: 'Article publishing has been mined',
-              description: '1 block confirmed!',
-            })
-          )
-        )
+      )
+        .do(h => apolloClient.resetStore())
+        .mergeMap(data =>
+            Observable.of(
+              routeChangeAction(
+                `/article/${id}/v${version}/article-${'published'}`
+              ),
+              trackMixpanelAction({
+                event: 'Offchain',
+                metaData: {
+                  resource: 'article',
+                  resourceID: id,
+                  resourceVersion: version,
+                  resourceAction: 'approved article',
+                },
+              }),
+              showNotificationAction({
+                notificationType: 'success',
+                message: `Article approved`,
+                description: 'The update has been approved!',
+              })
+            ))
         .catch(err => {
           console.error(err)
           return Observable.of(
             showNotificationAction({
               notificationType: 'error',
-              message: 'Submission error',
+              message: 'Approval error',
               description: 'Please try again!',
             })
           )
@@ -221,15 +213,11 @@ export const rejectArticleEpic = (
 ) =>
   action$
     .ofType(REJECT_ARTICLE)
-    .switchMap(({ payload: { article_id, article_version, rejection_cause } }: RejectArticleAction) =>
+    .switchMap(({ payload: { id, version, cause } }: RejectArticleAction) =>
       Observable.fromPromise(
         apolloClient.mutate({
           mutation: rejectArticle,
-          variables: {
-            article_id,
-            article_version,
-            rejection_cause,
-          },
+          variables: { id, version, cause },
         })
       )
         .flatMap(({ data: { rejectArticle: { hash } } }: { data: { rejectArticle: { hash: string } } }) =>

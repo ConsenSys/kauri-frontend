@@ -208,33 +208,24 @@ class Navbar extends React.Component {
             <TooltipItemContainer>
               <Link route='/communities'>
                 <TooltipItem href='/communities' pathname={router.pathname} link='/communities'>
-                 Discover Communities
+                Communities
                 </TooltipItem>
               </Link>
               <TooltipDivider />
               <Link route='/collections'>
                 <TooltipItem href='/collections' pathname={router.pathname} link='/collections'>
-                 Discover Collections
+                 Collections
                 </TooltipItem>
               </Link>
               <TooltipDivider />
               <Link route='/articles'>
                 <TooltipItem href='/articles' pathname={router.pathname} link='/articles'>
-                 Discover Articles
+                Articles
                 </TooltipItem>
               </Link>
             </TooltipItemContainer>
           </Tooltip>
         </StyledMenuItem>
-
-        {/* <StyledMenuItem onlyDesktop key='/requests'>
-          <Link href='/requests'>
-            <Text href='/requests' pathname={router.pathname} link='/requests'>
-              Requests
-            </Text>
-          </Link>
-        </StyledMenuItem> */}
-
         <Spacer />
         <StyledMenuItem onlyDesktop>
           <ArticleSearchbar collapsible />

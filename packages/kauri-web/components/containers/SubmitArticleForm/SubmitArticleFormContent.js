@@ -175,8 +175,6 @@ export default class extends React.Component<
       getFieldError,
       text,
       article_id,
-      category,
-      subCategory,
       username,
       userId,
     } = this.props

@@ -78,7 +78,6 @@ class InReviewArticle extends React.Component<Props, State> {
   render () {
     const props = this.props
     if (!this.props.data && !this.props.data.getArticle) return
-
     return (
       <section>
         <ScrollToTopOnMount />
@@ -88,12 +87,6 @@ class InReviewArticle extends React.Component<Props, State> {
           {...props.data.getArticle}
           routeChangeAction={props.routeChangeAction}
           ethUsdPrice={props.ethUsdPrice}
-          isTopicOwner={
-            props.topics &&
-            props.topics.find(
-              category => props.data && props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id === category
-            )
-          }
           isContributor={props.userId === (props.data && props.data.getArticle && props.data.getArticle.authorId)}
           updateUnsubmittedArticle={props.updateUnsubmittedArticle}
           approveArticle={props.approveArticle}

@@ -76,7 +76,7 @@ export default ({
   text?: string,
   username?: ?string,
   userId?: string,
-  authorId?: string,
+  ownerId?: string,
   routeChangeAction: string => void,
   article_id: string,
   subject?: string,
@@ -103,10 +103,8 @@ export default ({
         .getBlocksAsArray()
         .map(block => block.toJS()))
 
-  const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
-
-  const canUpdateArticle = typeof authorId === 'string' && typeof userId === 'string' && (userId === authorId)
-
+  const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text);
+  
   return (
     <SubmitArticleFormContent>
       <ApprovedArticleHelmet contentState={contentState} blocks={blocks} />
@@ -125,14 +123,13 @@ export default ({
           userId={authorId}
           routeChangeAction={routeChangeAction}
         />
-        {canUpdateArticle && (
           <ArticleAction
             svgIcon={<UpdateArticleSvgIcon />}
             text={'Update Article'}
             handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
           >
           Update article
-          </ArticleAction>) }
+          </ArticleAction>
         <ShareArticle
           url={`${hostName.replace(/api\./g, '')}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}
