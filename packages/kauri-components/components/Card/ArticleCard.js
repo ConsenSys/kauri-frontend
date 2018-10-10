@@ -85,8 +85,9 @@ const contentLineHeight = R.cond([
   [({ imageURL }) => typeof imageURL === 'string', R.always(3)],
 ])
 
-let renderCardContent = (title, content, cardHeight, cardWidth, imageURL) => (
+let renderCardContent = (title, content, cardHeight, cardWidth, imageURL, date) => (
   <React.Fragment>
+    <Label>{'Posted ' + date}</Label>
     <H1>
       <TextTruncate line={titleLineHeight({ cardHeight, imageURL })} truncateText='…' text={title} />
     </H1>
@@ -236,13 +237,12 @@ const ArticleCard = ({
     {typeof imageURL === 'string' && <Image imageURL={imageURL} />}
     <Container imageURL={imageURL}>
       <Content imageURL={imageURL}>
-        <Label>{'Posted ' + date}</Label>
         {typeof linkComponent !== 'undefined'
           ? linkComponent(
-            renderCardContent(title, content, cardHeight, cardWidth, imageURL),
+            renderCardContent(title, content, cardHeight, cardWidth, imageURL, date),
             `/article/${id}/v${version}`
           )
-          : renderCardContent(title, content, cardHeight, cardWidth, imageURL)}
+          : renderCardContent(title, content, cardHeight, cardWidth, imageURL, date)}
       </Content>
       <Divider />
       <Footer>
