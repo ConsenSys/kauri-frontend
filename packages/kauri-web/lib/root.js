@@ -75,9 +75,9 @@ const epics = [
   createCollectionEpic,
   composeCollectionEpic,
   approveArticleEpic,
+  draftArticleEpic,
   // ReasonML epics
   publishArticleEpic,
-  draftArticleEpic,
   saveUserDetailsEpic,
 ]
 
