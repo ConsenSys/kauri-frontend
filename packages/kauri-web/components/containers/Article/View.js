@@ -13,7 +13,7 @@ type ArticleProps = {
   },
   approveArticleAction: any => void,
   routeChangeAction: string => void,
-  rejectArticleAction: (string, string) => void,
+  rejectArticleAction: ({ id: string, version: number, cause: string }) => void,
   addCommentAction: (AddCommentPayload, callback: any) => void,
   personalUsername: ?string,
   deleteArticleCommentAction: DeleteArticleCommentPayload => void,
@@ -23,50 +23,17 @@ type ArticleProps = {
 
 class Article extends React.Component<ArticleProps> {
   approveArticle = () => {
-    if (typeof this.props.data.getArticle === 'object') {
-      if (
-        typeof this.props.data.getArticle.id === 'string' &&
-        typeof this.props.data.getArticle.version === 'number' &&
-        typeof this.props.data.getArticle.user_id === 'string' &&
-        typeof this.props.data.getArticle.category === 'string' &&
-        typeof this.props.data.getArticle.content_hash === 'string' &&
-        typeof this.props.data.getArticle.request_id === 'string'
-      ) {
-        const approveArticlePayload = {
-          id: this.props.data.getArticle.id,
-          version: this.props.data.getArticle.version,
-          user_id: this.props.data.getArticle.user_id,
-          category: this.props.data.getArticle.category,
-          content_hash: this.props.data.getArticle.content_hash,
-          request_id: this.props.data.getArticle.request_id,
-        }
-
-        console.log(approveArticlePayload)
-        this.props.approveArticleAction(approveArticlePayload)
-      } else if (
-        typeof this.props.data.getArticle.id === 'string' &&
-        typeof this.props.data.getArticle.version === 'number' &&
-        typeof this.props.data.getArticle.user_id === 'string' &&
-        typeof this.props.data.getArticle.category === 'string' &&
-        typeof this.props.data.getArticle.content_hash === 'string'
-      ) {
-        const approveArticlePayload = {
-          id: this.props.data.getArticle.id,
-          version: this.props.data.getArticle.version,
-          user_id: this.props.data.getArticle.user_id,
-          category: this.props.data.getArticle.category,
-          content_hash: this.props.data.getArticle.content_hash,
-          request_id: '',
-        }
-
-        console.log(approveArticlePayload)
-        this.props.approveArticleAction(approveArticlePayload)
-      }
-    }
+    const articleData = this.props.data && this.props.data.getArticle;
+    const { id, version, contentHash, author, dateCreated} = articleData;
+    return this.props.approveArticleAction({ id, version, author: author.id, contentHash, dateCreated});
   }
 
-  rejectArticle = () =>
-    this.props.rejectArticleAction(this.props.data.getArticle.id, this.props.data.getArticle.version)
+  rejectArticle = () => {
+    const articleData = this.props.data && this.props.data.getArticle;
+    const { id, version, contentHash, author, dateCreated} = articleData;
+    console.log(id, version, "cause");
+    return this.props.rejectArticleAction({ id, version, cause: "Unfortunately this update was rejected by the owner"});
+  }
 
   updateUnsubmittedArticle = () => {
     if (this.props.routeChangeAction) {

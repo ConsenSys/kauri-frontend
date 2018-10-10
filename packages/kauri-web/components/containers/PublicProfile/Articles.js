@@ -8,17 +8,18 @@ import userIdTrim from '../../../lib/userid-trim';
 import ContentContainer from './PublicProfileContentContainer';
 import type { ArticlesProps } from './types';
 
-const Articles = ({ articles, routeChangeAction } : ArticlesProps) =>
+const Articles = ({ articles, type, routeChangeAction } : ArticlesProps) =>
     articles.content.length > 0 ?
-    <ContentContainer>{articles.content.map(article => 
+    <ContentContainer>
+        {articles.content.map(article => 
                 <ArticleCard
                     changeRoute={routeChangeAction}
-                    key={article.id}
+                    key={`${article.id}-${article.version}`}
                     date={moment(article.dateCreated).format('D MMM YYYY')}
                     title={article.title}
                     content={article.content}
-                    userId={article.author && article.author.id}
-                    username={article.author.username || userIdTrim(article.author.id)}
+                    userId={type !== 'toBeApproved' && article.owner ? article.owner.id : article.author.id}
+                    username={type !== 'toBeApproved' && article.owner ? article.owner.username : article.author.username}
                     articleId={article.id}
                     articleVersion={article.version}
                     cardHeight={500}

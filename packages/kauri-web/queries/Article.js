@@ -63,6 +63,22 @@ export const submitArticle = gql`
   }
 `
 
+export const submitNewArticle = gql`
+mutation submitNewArticle(
+  $title: String,
+  $content: String,
+  $attributes: Map_String_StringScalar
+) {
+    submitNewArticle (
+      title: $title,
+      content: $content,
+      attributes: $attributes
+    ) {
+      hash
+    }
+  }
+`;
+
 export const commentArticle = gql`
   mutation commentArticle(
     $comment: String
@@ -126,8 +142,8 @@ export const getArticleForAnalytics = gql`
 `
 
 export const editArticle = gql`
-  mutation editArticleVersion($article_id: String, $article_version: Int, $text: String, $subject: String) {
-    editArticleVersion(id: $article_id, version: $article_version, content: $text, title: $subject) {
+  mutation editArticleVersion($id: String, $version: Int, $text: String, $subject: String) {
+    editArticleVersion(id: $id, version: $version, content: $text, title: $subject) {
       hash
     }
   }
@@ -214,14 +230,6 @@ export const totalArticlesCount = gql`
   }
 `
 
-export const rejectArticle = gql`
-  mutation rejectArticle($article_id: String, $article_version: Int, $rejection_cause: String) {
-    rejectArticle(id: $article_id, version: $article_version, rejection_cause: $rejection_cause) {
-      hash
-    }
-  }
-`
-
 // TODO: Rewrite approvals
 export const searchPublishedArticleHistory = gql`
   query searchPublishedArticleHistory($userId: String, $categories: [String]) {
@@ -265,6 +273,7 @@ export const searchPersonalArticles = gql`
           id, version, title, content, dateCreated, datePublished, author {
           id, name
         }
+        owner {... on PublicUserDTO {id username name avatar} ...on CommunityDTO {id name} } 
         status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name }, body }, totalPages, totalElements  }
         resourceIdentifier { type, id, version }
       }
@@ -278,8 +287,9 @@ export const searchPersonalDrafts = gql`
     searchArticles (sort: "dateCreated", dir: DESC, filter: { authorIdEquals: $userId, statusIn: [ DRAFT ] } ) {
       content {
           id, version, title, content, dateCreated, datePublished, author {
-          id, name
+          id, username, name
         }
+        owner {... on PublicUserDTO {id username name avatar} ...on CommunityDTO {id name} } 
         status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name }, body }, totalPages, totalElements  }
         resourceIdentifier { type, id, version }
       }
@@ -301,4 +311,66 @@ export const addComment = gql`
       hash
     }
   }
-`
+`;
+
+
+export const searchPending = gql`
+  query searchArticles($userId: String) {
+    searchArticles (sort: "dateCreated", dir: DESC, filter: { ownerIdEquals: $userId, statusIn: [ PENDING ] } ) {
+      content {
+          id, version, title, content, dateCreated, datePublished, author {
+          id, name, username
+        }
+        owner {... on PublicUserDTO {id username name avatar} ...on CommunityDTO {id name} } 
+        status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name }, body }, totalPages, totalElements  }
+        resourceIdentifier { type, id, version }
+      }
+    }
+  }
+`;
+
+
+export const searchAwaitingApproval = gql`
+  query searchArticles($userId: String) {
+    searchArticles (sort: "dateCreated", dir: DESC, filter: { authorIdEquals: $userId, statusIn: [ PENDING ] } ) {
+      content {
+          id, version, title, content, dateCreated, datePublished, author {
+          id, name, username
+        }
+        owner {... on PublicUserDTO {id username name avatar} ...on CommunityDTO {id name} } 
+        status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name }, body }, totalPages, totalElements  }
+        resourceIdentifier { type, id, version }
+      }
+    }
+  }
+`;
+
+export const approveArticle = gql`
+mutation approveArticle(
+  $id: String,
+  $version: Int,
+  $signature: String
+) {
+  approveArticle (
+    id: $id,
+    version: $version,
+    signature: $signature
+  ) {
+    hash
+  }
+}`;
+
+export const rejectArticle = gql`
+mutation rejectArticle(
+  $id: String,
+  $version: Int,
+  $cause: String
+) {
+  rejectArticle (
+    id: $id,
+    version: $version,
+    cause: $cause
+  ) {
+    hash
+  }
+}`;

@@ -76,7 +76,7 @@ export default ({
   text?: string,
   username?: ?string,
   userId?: string,
-  authorId?: string,
+  ownerId?: string,
   routeChangeAction: string => void,
   article_id: string,
   subject?: string,

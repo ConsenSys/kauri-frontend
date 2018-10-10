@@ -38,26 +38,17 @@ export default ({
   request_id,
   status,
   tip,
-  isTopicOwner,
   isContributor,
   updateUnsubmittedArticle,
   publishArticle,
   approveArticle,
   rejectArticle,
-  preApproveArticle,
 }: *) => (
   <InReviewArticleActions>
     <ActionBadge onClick={() => routeChangeAction('back')}>
       <GreenArrow direction='left' />
       <span>Go Back</span>
     </ActionBadge>
-    {status === 'IN_REVIEW' &&
-      isTopicOwner && (
-      <ActionBadge onClick={approveArticle}>
-        <ActionIcon />
-        <strong>APPROVE ARTICLE</strong>
-      </ActionBadge>
-    )}
     {/* TODO: PUBLISH ARTICLE DIRECTLY IF CONTRIBUTOR + TOPIC OWNER */}
     {status === 'APPROVED' &&
       isContributor && (
@@ -81,13 +72,17 @@ export default ({
           <strong>{'PUBLISH ARTICLE'}</strong>
         </ActionBadge>
       )}
-      {status === 'IN_REVIEW' &&
-        isTopicOwner && (
+      {status === 'PENDING' &&
         <ActionBadge onClick={rejectArticle}>
           <ActionIcon />
           <strong>REJECT ARTICLE</strong>
         </ActionBadge>
-      )}
+      }
+      {status === 'PENDING' && 
+        <ActionBadge onClick={approveArticle}>
+          <ActionIcon />
+          <strong>APPROVE ARTICLE</strong>
+        </ActionBadge>}
     </PullRight>
   </InReviewArticleActions>
 )

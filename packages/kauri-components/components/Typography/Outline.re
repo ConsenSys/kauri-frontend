@@ -28,7 +28,7 @@ let make =
           </Vrroom.Fragment>
         }
       }
-      <OutlineHeader text="Author" />
+      <OutlineHeader text="OWNER" />
       {
         Belt.Option.mapWithDefault(
           linkComponent,

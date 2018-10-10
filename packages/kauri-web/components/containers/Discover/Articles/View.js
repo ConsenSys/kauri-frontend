@@ -100,8 +100,8 @@ class Collections extends Component<Props> {
             date={moment(article.dateCreated).format('D MMM YYYY')}
             title={article.title}
             content={article.content}
-            userId={article.author && article.author.id}
-            username={article.author && (article.author.name || userIdTrim(article.author.id))}
+            userId={article.owner ? article.owner.id : 'Anonymous'}
+            username={article.owner ? (article.owner.username || userIdTrim(article.owner.id)) : 'Anonymous'}
             articleId={article.id}
             articleVersion={article.version}
             cardHeight={500}
