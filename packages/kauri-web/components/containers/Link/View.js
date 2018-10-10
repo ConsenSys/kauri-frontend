@@ -9,8 +9,8 @@ import type { TrackAnalyticsPayload } from './Module'
 const Router = nextRoutes().Router
 
 type LinkProps = {
+  href: string,
   as?: ?string,
-  href?: ?string,
   useAnchorTag?: boolean,
   children: any,
   trackAnalyticsAction: TrackAnalyticsPayload => void,

@@ -19,7 +19,7 @@ const DEFAULT_CARD_PADDING = theme.space[2]
 const withImageURLCss = css`
   padding: ${props => props.theme.space[2]}px;
   background: rgba(30, 36, 40, 0.7);
-  > * {
+  > *, a > * {
     color: white;
   }
 `
@@ -35,6 +35,9 @@ const Mask = styled.div`
   flex-direction: column;
   align-items: center;
   flex: 1;
+  > *:nth-child(3) {
+    margin-top: auto;
+  }
   > *:not(:last-child) {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
@@ -47,6 +50,9 @@ const Content = styled.div`
   align-items: center;
   flex: 1;
   background: url(${props => props.imageURL}) center center / cover;
+  > *:nth-child(3) {
+    margin-top: auto;
+  }
   > *:not(:last-child) {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
@@ -70,18 +76,7 @@ const Divider = styled.div`
   height: 2px;
 `
 
-const renderDescriptionRowContent = (content, cardHeight) => {
-  if (process.env.STORYBOOK !== 'true') {
-    const DescriptionRow = require('../../../kauri-web/components/common/DescriptionRow.js').default
-    return React.createElement(
-      DescriptionRow,
-      { record: { text: content }, type: 'article card', cardHeight: cardHeight },
-      null
-    )
-  }
-}
-
-const titleLineHeight = R.cond([
+const nameLineHeight = R.cond([
   [({ cardHeight, imageURL }) => cardHeight <= DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(2)],
   [({ cardHeight, imageURL }) => cardHeight > DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(3)],
   [({ imageURL }) => typeof imageURL === 'string', R.always(2)],
@@ -95,9 +90,28 @@ const contentLineHeight = R.cond([
   [({ imageURL }) => typeof imageURL === 'string', R.always(2)],
 ])
 
+let renderPublicProfile = (pageType, username, userId, cardWidth, imageURL) => (
+  <UserAvatar
+    color={typeof imageURL === 'string' ? 'white' : 'textPrimary'}
+    fullWidth={cardWidth > DEFAULT_CARD_WIDTH}
+    username={username}
+    userId={userId}
+  />
+)
+
+const renderBodyContent = ({ name, cardHeight, cardWidth, imageURL, description }) => <React.Fragment>
+  <H1>
+    <TextTruncate line={nameLineHeight({ cardHeight, imageURL })} truncateText='…' text={name} />
+  </H1>
+  <BodyCard>
+    <TextTruncate line={contentLineHeight({ cardHeight, cardWidth, imageURL })} truncateText='…' text={description} />
+  </BodyCard>
+</React.Fragment>
+
 let renderActualContent = (
-  title,
-  content,
+  id,
+  name,
+  description,
   cardHeight,
   cardWidth,
   imageURL,
@@ -109,17 +123,11 @@ let renderActualContent = (
 ) => (
   <React.Fragment>
     <Label>{'Collection'}</Label>
-    <H1>
-      <TextTruncate line={titleLineHeight({ cardHeight, imageURL })} truncateText='…' text={title} />
-    </H1>
-    {content.substring(0, 2).includes('{') ? (
-      renderDescriptionRowContent(content)
-    ) : (
-      <BodyCard>
-        <TextTruncate line={contentLineHeight({ cardHeight, cardWidth, imageURL })} truncateText='…' text={content} />
-      </BodyCard>
-    )}
-    {typeof linkComponent !== 'undefined' && typeof pageType !== 'undefined'
+    {typeof linkComponent !== 'undefined'
+      ? linkComponent(renderBodyContent({ name, cardHeight, cardWidth, imageURL, description }), `/collection/${id}`)
+      : renderBodyContent({ name, cardHeight, cardWidth, imageURL, description })
+    }
+    {typeof linkComponent !== 'undefined'
       ? linkComponent(
         renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), imageURL),
         `/public-profile/${userId}`
@@ -130,8 +138,9 @@ let renderActualContent = (
 )
 
 let renderCardContent = (
-  title,
-  content,
+  id,
+  name,
+  description,
   cardHeight,
   cardWidth,
   imageURL,
@@ -144,8 +153,9 @@ let renderCardContent = (
   typeof imageURL === 'string' ? (
     <Mask>
       {renderActualContent(
-        title,
-        content,
+        id,
+        name,
+        description,
         cardHeight,
         cardWidth,
         imageURL,
@@ -159,8 +169,9 @@ let renderCardContent = (
   ) : (
     <React.Fragment>
       {renderActualContent(
-        title,
-        content,
+        id,
+        name,
+        description,
         cardHeight,
         cardWidth,
         imageURL,
@@ -172,15 +183,6 @@ let renderCardContent = (
       )}
     </React.Fragment>
   )
-
-let renderPublicProfile = (pageType, username, userId, cardWidth, imageURL) => (
-  <UserAvatar
-    color={typeof imageURL === 'string' ? 'white' : 'textPrimary'}
-    fullWidth={cardWidth > DEFAULT_CARD_WIDTH}
-    username={username}
-    userId={userId}
-  />
-)
 
 const calculateCardHeight = R.cond([
   [
@@ -252,10 +254,10 @@ const HoverContainer = styled.div`
   ${props => !props.hasImageURL && shiftMarginDueToNoImageURLCss};
 `
 
-const Hover = ({ hasImageURL, hoverAction, viewAction, id, version }) => (
+const Hover = ({ hasImageURL, hoverAction, viewAction, id }) => (
   <HoverContainer hasImageURL={hasImageURL}>
-    <PrimaryButton onClick={() => hoverAction({ id, version })}>Choose Article</PrimaryButton>
-    <SecondaryButton onClick={() => viewAction({ id, version })}>View Article</SecondaryButton>
+    <PrimaryButton onClick={() => hoverAction({ id })}>Choose Article</PrimaryButton>
+    <SecondaryButton onClick={() => viewAction({ id })}>View Article</SecondaryButton>
   </HoverContainer>
 )
 
@@ -263,10 +265,9 @@ type PageType = 'RinkebyPublicProfile' | 'Collection'
 
 type Props = {
   id: string,
-  version: string,
-  content: string,
+  description: string,
   date: string,
-  title: string,
+  name: string,
   username: ?string,
   userId: string,
   articleCount: number,
@@ -275,19 +276,18 @@ type Props = {
   cardWidth?: number,
   linkComponent?: (React.Node, string) => React.Node,
   pageType?: PageType,
-  hoverAction?: ({ id: string, version: string }) => void,
-  viewAction?: ({ id: string, version: string }) => void,
+  hoverAction?: ({ id: string }) => void,
+  viewAction?: ({ id: string }) => void,
   isChosenCollection?: boolean,
 }
 
 const renderContent = ({
   imageURL,
-  title,
-  content,
+  name,
+  description,
   cardHeight,
   cardWidth,
   id,
-  version,
   linkComponent,
   pageType,
   username,
@@ -296,33 +296,28 @@ const renderContent = ({
 }) => (
   <React.Fragment>
     <Content imageURL={imageURL}>
-      {typeof linkComponent !== 'undefined'
-        ? linkComponent(
-          renderCardContent(title, content, cardHeight, cardWidth, imageURL, pageType, username, userId, date),
-          `/article/${id}/v${version}`
-        )
-        : renderCardContent(
-          title,
-          content,
-          cardHeight,
-          cardWidth,
-          imageURL,
-          pageType,
-          username,
-          userId,
-          date,
-          linkComponent
-        )}
+      {renderCardContent(
+        id,
+        name,
+        description,
+        cardHeight,
+        cardWidth,
+        imageURL,
+        pageType,
+        username,
+        userId,
+        date,
+        linkComponent
+      )}
     </Content>
   </React.Fragment>
 )
 
 const CollectionCard = ({
   id,
-  version,
-  content,
+  description,
   date,
-  title,
+  name,
   username,
   userId,
   imageURL,
@@ -351,17 +346,16 @@ const CollectionCard = ({
     {typeof hoverAction === 'function' &&
       typeof viewAction === 'function' &&
       toggledOn === true && (
-      <Hover hasImageURL={imageURL} viewAction={viewAction} hoverAction={hoverAction} id={id} version={version} />
+      <Hover hasImageURL={imageURL} viewAction={viewAction} hoverAction={hoverAction} id={id} />
     )}
     <Container imageURL={imageURL}>
       {renderContent({
         imageURL,
-        title,
-        content,
+        name,
+        description,
         cardHeight,
         cardWidth,
         id,
-        version,
         linkComponent,
         pageType,
         username,

@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import gql from 'graphql-tag';
 import { Article } from './Article'
 
@@ -43,6 +43,8 @@ export const globalCollectionDetails = gql`
       type, id} } 
   }
 `
+
+export const getCollection = globalCollectionDetails
 
 export const getCollectionForAnalytics = gql`
   query getCollectionForAnalytics($id: String) {
