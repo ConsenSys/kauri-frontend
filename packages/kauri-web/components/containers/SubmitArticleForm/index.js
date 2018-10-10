@@ -2,7 +2,7 @@ import { compose, graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import { getArticle } from '../../../queries/Article'
 import { getRequest } from '../../../queries/Request'
-import { submitArticleAction, submitArticleVersionAction, editArticleAction, draftArticleAction, approveArticleAction, rejectArticleAction } from './Module'
+import { submitArticleAction, submitArticleVersionAction, editArticleAction, draftArticleAction } from './Module'
 import { routeChangeAction, showNotificationAction } from '../../../lib/Module'
 import { publishArticleAction } from './PublishArticle_Module.bs'
 import withLoading from '../../../lib/with-loading'
@@ -28,8 +28,6 @@ export default compose(
       showNotificationAction,
       draftArticleAction,
       publishArticleAction,
-      approveArticleAction,
-      rejectArticleAction,
     }
   ),
   graphql(getRequest, {

@@ -24,14 +24,12 @@ type ArticleProps = {
 class Article extends React.Component<ArticleProps> {
   approveArticle = () => {
     const articleData = this.props.data && this.props.data.getArticle;
-    if (!articleData) return console.log('there was an error');
     const { id, version, contentHash, author, dateCreated} = articleData;
     return this.props.approveArticleAction({ id, version, author: author.id, contentHash, dateCreated});
   }
 
   rejectArticle = () => {
     const articleData = this.props.data && this.props.data.getArticle;
-    if (!articleData) return console.log('there was an error');
     const { id, version, contentHash, author, dateCreated} = articleData;
     console.log(id, version, "cause");
     return this.props.rejectArticleAction({ id, version, cause: "Unfortunately this update was rejected by the owner"});

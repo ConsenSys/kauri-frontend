@@ -5,7 +5,6 @@ import { submitArticleVersion, editArticle, getArticle, submitNewArticle, approv
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
 import { trackMixpanelAction } from '../Link/Module'
 import { publishArticleAction } from './PublishArticle_Module.bs'
-import generatePublishArticleHash from '../../../lib/generate-publish-article-hash';
 
 import type { Classification } from '../Link/Module'
 import type { Dependencies } from '../../../lib/Module'
@@ -38,20 +37,6 @@ export type DraftArticleActionPayload = {
   attributes?: AttributesPayload,
 };
 
-export type ApproveArticlePayload = {
-  id: string,
-  version: number,
-  author: string,
-  contentHash: string,
-  dateCreated: string,
-};
-
-export type RejectArticlePayload = {
-  id: string,
-  version: number,
-  cause: string,
-};
-
 const SUBMIT_ARTICLE = 'SUBMIT_ARTICLE'
 
 const EDIT_ARTICLE = 'EDIT_ARTICLE'
@@ -59,10 +44,6 @@ const EDIT_ARTICLE = 'EDIT_ARTICLE'
 const SUBMIT_ARTICLE_VERSION = 'SUBMIT_ARTICLE_VERSION'
 
 const DRAFT_ARTICLE = 'DRAFT_ARTICLE'
-
-const APPROVE_ARTICLE = 'APPROVE_ARTICLE'
-
-const REJECT_ARTICLE = 'REJECT_ARTICLE'
 
 export type EditArticlePayload = { id: string, version: number, text: string, subject: string, attributes?: AttributesPayload }
 
@@ -95,16 +76,6 @@ export const submitArticleVersionAction = (payload: SubmitArticleVersionPayload)
 
 export const draftArticleAction = (payload: DraftArticleActionPayload): DraftArticleAction => ({
   type: DRAFT_ARTICLE,
-  payload,
-});
-
-export const approveArticleAction = (payload: ApproveArticlePayload): ApproveArticleAction => ({
-  type: APPROVE_ARTICLE,
-  payload,
-});
-
-export const rejectArticleAction = (payload: RejectArticlePayload): RejectArticleAction => ({
-  type: REJECT_ARTICLE,
   payload,
 });
 
@@ -335,98 +306,6 @@ export const draftArticleEpic = (
               notificationType: 'info',
               message: 'Draft Created',
               description: 'The draft has just been saved. You can go back and submit it whenever you are ready.',
-            })
-          )
-        )
-    )
-  
-export const approveArticleEpic = (
-  action$: Observable<ApproveArticleAction>,
-  { getState }: any,
-  { apolloClient, smartContracts, web3, apolloSubscriber, personalSign }: Dependencies
-) =>
-  action$
-    .ofType(APPROVE_ARTICLE)
-    .switchMap(({ payload: {id, version, contentHash, author, dateCreated} }) =>
-      Observable.fromPromise(personalSign(generatePublishArticleHash(id, version, contentHash, author, dateCreated)))
-      .mergeMap((signature) =>
-        apolloClient.mutate({
-          mutation: approveArticle,
-          variables: {
-            id,
-            version,
-            signature,
-          },
-        })
-      )
-        .do(h => apolloClient.resetStore())
-        .mergeMap(data =>
-            Observable.of(
-              routeChangeAction(
-                `/article/${id}/v${version}/article-${'published'}`
-              ),
-              trackMixpanelAction({
-                event: 'Offchain',
-                metaData: {
-                  resource: 'article',
-                  resourceID: id,
-                  resourceVersion: version,
-                  resourceAction: 'approved article',
-                },
-              }),
-              showNotificationAction({
-                notificationType: 'success',
-                message: `Article approved`,
-                description: 'The update has been approved!',
-              })
-            ))
-        .catch(err => {
-          console.error(err)
-          return Observable.of(
-            showNotificationAction({
-              notificationType: 'error',
-              message: 'Approval error',
-              description: 'Please try again!',
-            })
-          )
-        })
-    )
-
-export const rejectArticleEpic = (
-  action$: Observable<RejectArticleAction>,
-  { getState }: any,
-  { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
-) =>
-  action$
-    .ofType(REJECT_ARTICLE)
-    .switchMap(({ payload: { id, version, cause } }: RejectArticleAction) =>
-      Observable.fromPromise(
-        apolloClient.mutate({
-          mutation: rejectArticle,
-          variables: { id, version, cause },
-        })
-      )
-        .flatMap(({ data: { rejectArticle: { hash } } }: { data: { rejectArticle: { hash: string } } }) =>
-          apolloSubscriber(hash)
-        )
-        .do(() => apolloClient.resetStore())
-        .do(h => console.log(h))
-        .flatMap(() =>
-          Observable.of(
-            routeChangeAction(`/article/${id}/v${version}/article-rejected`),
-            trackMixpanelAction({
-              event: 'Offchain',
-              metaData: {
-                resource: 'article',
-                resourceID: id,
-                resourceVersion: version,
-                resourceAction: 'reject article',
-              },
-            }),
-            showNotificationAction({
-              notificationType: 'info',
-              message: 'Article rejected',
-              description: 'The article version has been rejected!',
             })
           )
         )

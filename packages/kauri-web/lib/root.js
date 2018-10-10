@@ -16,12 +16,11 @@ import request, {
 } from '../components/containers/Requests/Module'
 import createRequests, { createRequestEpic, updateRequestEpic } from '../components/containers/CreateRequestForm/Module'
 import register, { registerEpic } from '../components/containers/LoginForm/Module'
-import { tipArticleEpic, deleteArticleCommentEpic } from '../components/containers/Article/Module'
+import { tipArticleEpic, rejectArticleEpic, deleteArticleCommentEpic, approveArticleEpic} from '../components/containers/Article/Module'
 import {
-  // approveArticleEpic,
   publishArticleEpic,
 } from '../components/containers/Article/Article_Module.bs'
-import { submitArticleEpic, submitArticleVersionEpic, editArticleEpic, draftArticleEpic, approveArticleEpic, rejectArticleEpic } from '../components/containers/SubmitArticleForm/Module'
+import { submitArticleEpic, submitArticleVersionEpic, editArticleEpic, draftArticleEpic } from '../components/containers/SubmitArticleForm/Module'
 import { addCommentEpic } from '../components/containers/Article/CommentArticleForm/Module'
 import {
   fetchWalletAvailableFundsEpic,
@@ -75,8 +74,8 @@ const epics = [
   finishedDriverStepsEpic,
   createCollectionEpic,
   composeCollectionEpic,
-  // ReasonML epics
   approveArticleEpic,
+  // ReasonML epics
   publishArticleEpic,
   draftArticleEpic,
   saveUserDetailsEpic,

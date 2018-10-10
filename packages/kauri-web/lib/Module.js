@@ -33,6 +33,7 @@ export type Dependencies = {
   web3PersonalSign: any,
   getGasPrice: any,
   driverJS: any,
+  personalSign: any,
 }
 
 export type ShowNotificationPayload = {

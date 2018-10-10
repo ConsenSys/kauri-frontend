@@ -140,9 +140,9 @@ class SubmitArticleForm extends React.Component<Props> {
         
         const articleData: ArticleDTO = this.props.data && this.props.data.getArticle;
 
-        // NEW DRAFT - WORKING
-        if (!articleData && submissionType === 'draft') return draftArticleAction({ text, subject, attributes: attributes ? attributes : {}});
-        // NEW ARTICLE - WORKING
+        // NEW DRAFT
+        if (!articleData && submissionType === 'draft') return draftArticleAction({ text, subject, attributes: attributes || {}});
+        // NEW ARTICLE
         if (!articleData && submissionType === 'submit/update') return submitArticleAction({ text, subject, attributes, selfPublish: true });
 
         const { id, version, status, author, owner, dateCreated, contentHash } = articleData;
@@ -150,41 +150,26 @@ class SubmitArticleForm extends React.Component<Props> {
         switch(status) {
           case "PUBLISHED":
             if (owner && userId === owner.id && submissionType === 'draft') {
-              // WORKING BUT CREATES NEW COPY EACH TIME
-              return submitArticleVersionAction({ id, text, subject, attributes: attributes ? attributes : {}});
+              return submitArticleVersionAction({ id, text, subject, attributes: attributes || {}});
             } else if (owner && userId === owner.id && submissionType === 'submit/update') {
-              // WORKING
               return submitArticleVersionAction({ id, text, subject, attributes, selfPublish: true });
-            } else if (owner && userId !== owner.id) {
+            } else if (owner && userId !== owner.id && submissionType === 'draft') {
+              return submitArticleVersionAction({ id, text, subject, attributes });
+            } else if (owner && userId !== owner.id&& submissionType === 'submit/update') {
               return submitArticleVersionAction({ id, text, subject, attributes, selfPublish: false });
             } else {
               return this.showGenericError();
             }
           case "DRAFT":
             if (author && userId === author.id && submissionType === 'draft') {
-              // NOT WORKING, ERROR FROM BACKEND
-              return editArticleAction({
-                text,
-                id,
-                version,
-                subject,
-                attributes,
-              });
+              return editArticleAction({ text, id, version, subject, attributes });
             } else if (author && userId === author.id && submissionType === 'submit/update') {
-              // WORKS BUT OWNER NULL
               return submitArticleVersionAction({ id, text, subject, attributes, selfPublish: true });
             } else {
               return this.showGenericError();
             }
           case "PENDING":
-            if (owner && userId === owner.id && submissionType === 'approve') {
-              console.log('approving article');
-              return approveArticleAction({id, version, author: author.id, contentHash, dateCreated });
-            } else if (owner && userId === owner.id && submissionType === 'reject') {
-              console.log('rejecting article');
-            } else {
-              return this.showGenericError();
-            }
+            // pending articles should not be shown in the editor
           default:
             return this.showGenericError();
         }
