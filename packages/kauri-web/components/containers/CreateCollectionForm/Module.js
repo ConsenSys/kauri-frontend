@@ -69,7 +69,7 @@ export const composeCollectionEpic = (
           message: typeof updating !== 'undefined' ? 'Collection updated!' : 'Collection created!',
           description: 'Your collection is now available for viewing!',
         }),
-        routeChangeAction(`/collection/${id}`),
+        routeChangeAction(`/collection/${id}/collection-${typeof updating !== 'undefined' ? 'updated' : 'created'}`),
         trackMixpanelAction({
           event: 'Offchain',
           metaData: {
