@@ -200,7 +200,7 @@ export const submitArticleVersionEpic = (
               }))
             : Observable.of(
               routeChangeAction(
-                `/article/${id}/v${version}/article-${'published'}`
+                `/article/${id}/v${version}/article-${selfPublish ? 'published': 'submitted'}`
               ),
               trackMixpanelAction({
                 event: 'Offchain',
