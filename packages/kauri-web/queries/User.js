@@ -2,7 +2,7 @@
 import gql from 'graphql-tag'
 
 export const User = gql`
-  fragment User on UserDTO {
+  fragment User on PublicUserDTO {
      id 
      name
   }
