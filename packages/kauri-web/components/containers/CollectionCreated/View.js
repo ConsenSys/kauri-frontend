@@ -21,14 +21,13 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   background: ${props => props.theme.colors['textPrimary']};
-  > * {
-    color: white;
-  }
   > :first-child {
     margin-bottom: ${props => props.theme.space[1]}px;
+    color: white;
   }
   > :nth-child(2) {
     margin-bottom: ${props => props.theme.space[3]}px;
+    color: white;
   }
   > :nth-child(3) {
     margin-bottom: ${props => props.theme.space[3]}px;
