@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { H6 } from '../Typography'
+import userIdTrim from '../../../kauri-web/lib/userid-trim'
 
 const Container = styled.div`
   display: flex;
@@ -44,8 +45,6 @@ const ProfileImage = styled.div`
   -moz-background-size: cover;
   -o-background-size: cover;
 `
-
-const userIdTrim = (user: string) => user.substring(0, 6) + '...' + user.substring(38, 42)
 
 type Props = {
   color?: string,

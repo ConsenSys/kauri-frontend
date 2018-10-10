@@ -102,8 +102,7 @@ storiesOf('ArticleCard', module)
       Nam lectus ipsum, molestie sit…
       `
       }
-      username={'USERNAME GOES HERE'}
-      userId={'HEY'}
+      userId={'bfecec47dd8bf5f6264a9830a9d26ef387c38a67'}
       cardHeight={420}
       imageURL={'https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80'}
     />
