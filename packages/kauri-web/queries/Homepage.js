@@ -1,8 +1,5 @@
 //@flow
 import gql from 'graphql-tag'
-import { Collection } from './Collection'
-import { User } from './User'
-import { Article } from './Article';
 
 export const HomePageQuery = gql`
 query getAllCuratedList {
