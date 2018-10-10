@@ -1,4 +1,4 @@
-//@flow
+// @flow
 const Link = require('./components/containers/Link').default
 
 const nextRoutes = require('next-routes');
@@ -26,6 +26,8 @@ routes
   .add('article-published', '/article/:article_id/v:article_version/article-published')
   .add('reject-article', '/article/:article_id/v:article_version/reject-article')
   .add('public-profile', '/public-profile/:user_id')
+  .add('collection-created', '/collection/:id/collection-created')
+  .add('collection-updated', '/collection/:id/collection-updated')
   .add('collection', '/collection/:collection_id')
   .add('community', '/community/:category')
   .add('view-article-version-with-slug', '/article/:article_id/v:article_version/:slug', 'view-article-version')
