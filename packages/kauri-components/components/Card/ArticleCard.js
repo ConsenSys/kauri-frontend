@@ -16,8 +16,9 @@ const DEFAULT_CARD_HEIGHT = 290
 const DEFAULT_CARD_WIDTH = 290
 const DEFAULT_CARD_PADDING = theme.space[2]
 
-const Image = styled.img`
+const Image = styled.div`
   height: 170px;
+  background: url(${props => props.imageURL}) center center / cover;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 `
@@ -232,7 +233,7 @@ const ArticleCard = ({
       toggledOn === true && (
       <Hover hasImageURL={imageURL} viewAction={viewAction} hoverAction={hoverAction} id={id} version={version} />
     )}
-    {typeof imageURL === 'string' && <Image src={imageURL} />}
+    {typeof imageURL === 'string' && <Image imageURL={imageURL} />}
     <Container imageURL={imageURL}>
       <Content imageURL={imageURL}>
         <Label>{'Posted ' + date}</Label>
