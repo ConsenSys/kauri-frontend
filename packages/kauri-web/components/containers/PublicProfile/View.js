@@ -5,6 +5,7 @@ import Articles from './Articles';
 import Collections from './Collections';
 import Header from './Header';
 import EditableHeader from './EditableHeader';
+import Loading from '../../common/Loading';
 
 import type { ViewProps, ViewState } from './types';
 
@@ -37,17 +38,26 @@ class PublicProfile extends Component<ViewProps, ViewState> {
 
   render () {
     const { PendingQuery, UserQuery, ArticlesQuery, CollectionQuery, DraftsQuery, ApprovalsQuery, routeChangeAction, currentUser } = this.props;
-    if (!UserQuery.getUser || !ArticlesQuery.searchArticles || !CollectionQuery.searchCollections || !DraftsQuery.searchArticles || !ApprovalsQuery.searchArticles || !PendingQuery.searchArticles) return null;
+
+    const isHeaderLoaded =
+      typeof UserQuery.getUser === "object" &&
+      typeof ArticlesQuery.searchArticles === "object" && 
+      typeof CollectionQuery.searchCollections === "object";
+
+    const areListsLoaded =
+      typeof DraftsQuery.searchArticles === "object" &&
+      typeof PendingQuery.searchArticles === "object" &&
+      typeof ApprovalsQuery.searchArticles === "object";
+    
     return (
       <div>
-        {
-          this.state.isEditing
-            ? <EditableHeader
-              {...this.state}
-              toggleEditing={() => this.toggleEditing()}
-              saveUserAction={this.props.saveUserDetailsAction}
-            />
-            : <Header
+        {this.state.isEditing && isHeaderLoaded && <EditableHeader
+          {...this.state}
+          toggleEditing={() => this.toggleEditing()}
+          saveUserAction={this.props.saveUserDetailsAction}
+          />}
+        
+        {!this.state.isEditing && isHeaderLoaded ? <Header
               articles={ArticlesQuery.searchArticles.content}
               collections={CollectionQuery.searchCollections.content}
               currentUser={currentUser}
@@ -60,9 +70,9 @@ class PublicProfile extends Component<ViewProps, ViewState> {
               twitter={this.state.twitter || (UserQuery.getUser.social && UserQuery.getUser.social.twitter)}
               github={this.state.github || (UserQuery.getUser.social && UserQuery.getUser.social.github)}
               toggleEditing={() => this.toggleEditing()}
-            />
+            /> : <Loading />
         }
-        <Tabs
+        {isHeaderLoaded && areListsLoaded ? <Tabs
           tabs={[
             `Articles (${ArticlesQuery.searchArticles.content.length})`,
             UserQuery.getUser.id === currentUser && `My Drafts (${DraftsQuery.searchArticles.content.length})`,
@@ -77,7 +87,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
             <Articles articles={ApprovalsQuery.searchArticles} routeChangeAction={routeChangeAction} />,
             <Articles type="toBeApproved" articles={PendingQuery.searchArticles} routeChangeAction={routeChangeAction} />,
           ]}
-        />
+        /> : !isHeaderLoaded ? null : <Loading />}
       </div>
     );
   }

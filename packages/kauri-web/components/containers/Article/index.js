@@ -7,7 +7,8 @@ import { toggleModalAction, routeChangeAction } from '../../../lib/Module'
 import { addCommentAction } from '../AddCommentForm/Module'
 import withLoading from '../../../lib/with-loading'
 import { addToBountyAction } from '../Requests/Module'
-import { approveArticleAction, rejectArticleAction } from '../SubmitArticleForm/Module';
+import { approveArticleAction, rejectArticleAction } from './Module';
+import { closeModalAction, openModalAction } from '../../../../kauri-components/components/Modal/Module'
 import View from './View'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -31,6 +32,8 @@ export default compose(
       addCommentAction,
       deleteArticleCommentAction,
       publishArticleAction,
+      openModalAction,
+      closeModalAction,
     }
   ),
   graphql(getArticle, {

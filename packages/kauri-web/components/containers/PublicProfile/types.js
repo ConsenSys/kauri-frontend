@@ -39,6 +39,16 @@ export type ViewProps = {
             content: Array<ArticleDTO>
         }
     },
+    PendingQuery: {
+        searchArticles: {
+            content: Array<ArticleDTO>
+        }
+    },
+    ApprovalsQuery: {
+        searchArticles: {
+            content: Array<ArticleDTO>
+        }
+    },
     CollectionQuery: {
         searchCollections: {
             content: Array<CollectionDTO>
