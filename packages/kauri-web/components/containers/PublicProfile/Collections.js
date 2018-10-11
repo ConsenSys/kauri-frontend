@@ -22,6 +22,7 @@ const Collections = ({ collections, routeChangeAction }: CollectionsProps) =>
           key={collection.id}
           id={collection.id}
           name={collection.name}
+          date={moment(collection.dateUpdated).format('D MMM YYYY')}
           description={collection.description}
           username={collection.owner && (collection.owner.name || collection.owner.username)}
           userId={collection.owner && collection.owner.id}
@@ -30,7 +31,6 @@ const Collections = ({ collections, routeChangeAction }: CollectionsProps) =>
           date={collection.dateCreated}
           imageURL={collection.background}
           cardHeight={500}
-          collectionDescription={collection.description}
           linkComponent={(childrenProps, route) => (
             <Link toSlug={route.includes('collection') && collection.name} useAnchorTag href={route}>
               {childrenProps}

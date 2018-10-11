@@ -101,14 +101,14 @@ class Collections extends Component<Props> {
               key={collection.id}
               id={collection.id}
               name={collection.name}
+              description={collection.description}
               username={collection.owner && collection.owner.name}
               userId={collection.owner && collection.owner.id}
               userAvatar={collection.owner && collection.owner.avatar}
               imageURL={collection.background}
               articleCount={articleCount}
-              date={collection.dateCreated}
+              date={moment(collection.dateUpdated).format('D MMM YYYY')}
               cardHeight={500}
-              collectionDescription={collection.description}
               linkComponent={(childrenProps, route) => (
                 <Link toSlug={route.includes('collection') && collection.name} useAnchorTag href={route}>
                   {childrenProps}

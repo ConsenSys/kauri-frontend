@@ -53,7 +53,7 @@ class CollectionCreated extends React.Component<Props> {
         <CollectionCard
           id={id}
           description={description}
-          date={moment(dateUpdated).fromNow()}
+          date={moment(dateUpdated).format('D MMM YYYY')}
           name={name}
           username={owner && owner.name}
           userId={owner && owner.id}

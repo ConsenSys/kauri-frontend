@@ -106,12 +106,12 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     key={collectionCard.id}
                     id={collectionCard.id}
                     name={collectionCard.name}
+                    date={moment(collectionCard.dateUpdated).format('D MMM YYYY')}
                     description={collectionCard.description}
                     username={collectionCard.owner && (collectionCard.owner.name || collectionCard.owner.username)}
                     userId={collectionCard.owner && collectionCard.owner.id}
                     userAvatar={collectionCard.owner && collectionCard.owner.avatar}
                     articleCount={articleCount}
-                    lastUpdated={collectionCard.dateCreated}
                     imageURL={collectionCard.background}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     linkComponent={(childrenProps, route) => (
