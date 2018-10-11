@@ -28,11 +28,10 @@ class Article extends React.Component<ArticleProps> {
     return this.props.approveArticleAction({ id, version, author: author.id, contentHash, dateCreated});
   }
 
-  rejectArticle = () => {
+  rejectArticle = cause => {
     const articleData = this.props.data && this.props.data.getArticle;
     const { id, version, contentHash, author, dateCreated} = articleData;
-    console.log(id, version, "cause");
-    return this.props.rejectArticleAction({ id, version, cause: "Unfortunately this update was rejected by the owner"});
+    return this.props.rejectArticleAction({ id, version, cause});
   }
 
   updateUnsubmittedArticle = () => {
@@ -130,6 +129,8 @@ class Article extends React.Component<ArticleProps> {
         personalUsername={this.props.personalUsername}
         deleteArticleComment={this.deleteArticleComment}
         publishArticle={this.publishArticle}
+        openModalAction={this.props.openModalAction}
+        closeModalAction={this.props.closeModalAction}
       />
     )
   }

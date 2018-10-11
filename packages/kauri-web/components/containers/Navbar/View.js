@@ -206,6 +206,12 @@ class Navbar extends React.Component {
             }
           >
             <TooltipItemContainer>
+            <Link route='/articles'>
+                <TooltipItem href='/articles' pathname={router.pathname} link='/articles'>
+                Articles
+                </TooltipItem>
+              </Link>
+              <TooltipDivider />
               <Link route='/communities'>
                 <TooltipItem href='/communities' pathname={router.pathname} link='/communities'>
                 Communities
@@ -215,12 +221,6 @@ class Navbar extends React.Component {
               <Link route='/collections'>
                 <TooltipItem href='/collections' pathname={router.pathname} link='/collections'>
                  Collections
-                </TooltipItem>
-              </Link>
-              <TooltipDivider />
-              <Link route='/articles'>
-                <TooltipItem href='/articles' pathname={router.pathname} link='/articles'>
-                Articles
                 </TooltipItem>
               </Link>
             </TooltipItemContainer>

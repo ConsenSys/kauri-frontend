@@ -2,7 +2,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { ActionBadge, ActionIcon } from '../../../common/ActionBadge'
-import GreenArrow from '../../../common/GreenArrow'
+import GreenArrow from '../../../common/GreenArrow';
+import RejectArticleModal from './RejectArticleModal';
 
 const InReviewArticleActions = styled.section`
   display: flex;
@@ -43,6 +44,8 @@ export default ({
   publishArticle,
   approveArticle,
   rejectArticle,
+  openModalAction,
+  closeModalAction,
 }: *) => (
   <InReviewArticleActions>
     <ActionBadge onClick={() => routeChangeAction('back')}>
@@ -73,7 +76,18 @@ export default ({
         </ActionBadge>
       )}
       {status === 'PENDING' &&
-        <ActionBadge onClick={rejectArticle}>
+        <ActionBadge
+          onClick={() =>
+            openModalAction({
+              children: (
+                <RejectArticleModal
+                  closeModalAction={() => closeModalAction()}
+                  confirmModal={cause => rejectArticle(cause)}
+                />
+              ),
+            })
+          }
+        >
           <ActionIcon />
           <strong>REJECT ARTICLE</strong>
         </ActionBadge>

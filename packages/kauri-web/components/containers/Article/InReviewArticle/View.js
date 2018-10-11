@@ -93,6 +93,8 @@ class InReviewArticle extends React.Component<Props, State> {
           rejectArticle={props.rejectArticle}
           preApproveArticle={props.preApproveArticle}
           publishArticle={props.publishArticle}
+          openModalAction={props.openModalAction}
+          closeModalAction={props.closeModalAction}
         />
         <InReviewArticle.Header {...props.data.getArticle} />
         <InReviewArticle.Content

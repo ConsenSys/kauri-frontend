@@ -226,12 +226,12 @@ export const rejectArticleEpic = (
         .do(() => apolloClient.resetStore())
         .mergeMap(() =>
           Observable.of(
-            routeChangeAction(`/article/${article_id}/v${article_version}/article-rejected`),
+            routeChangeAction(`/article/${id}/v${version}/article-rejected`),
             trackMixpanelAction({
               event: 'Offchain',
               metaData: {
                 resource: 'article',
-                resourceID: article_id,
+                resourceID: id,
                 resourceAction: 'reject article',
               },
             }),
