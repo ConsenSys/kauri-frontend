@@ -65,7 +65,7 @@ function linebreaks (str) {
   const output = str.replace(/<\s?(p|br)[^<]*>/gi, function (x, tag) {
     switch (tag.toLowerCase()) {
       case 'p':
-        return '\n\n';
+        return '\n';
       case 'a':
         return '';
       case 'br':
