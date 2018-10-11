@@ -7,6 +7,7 @@ import YouTube from 'react-youtube'
 import Highlight from '../../../lib/hljs'
 import { compose } from 'recompose'
 import withErrorCatch from '../../../lib/with-error-catch'
+import TextTruncate from 'react-text-truncate'
 import { getRawStateFromMarkdown, getHTMLFromMarkdown } from '../../../lib/markdown-converter-helper'
 
 type Props = {
@@ -504,15 +505,18 @@ export default compose(withErrorCatch())(
             dangerouslySetInnerHTML={{ __html: getHTMLFromMarkdown(JSON.parse(text).markdown) }}
           />
         ) : (
-          redraft(
-            (JSON.parse(text).markdown && getRawStateFromMarkdown(JSON.parse(text).markdown)) || JSON.parse(text),
-            {
-              inline: Boolean(fullText) && inline,
-              blocks: blocks(fullText, recentRequest, type),
-              entities: Boolean(fullText) && entities,
-            },
-            options
-          )
+          <TextTruncate
+            line={5} truncateText='…' text={JSON.parse(text).markdown ? getHTMLFromMarkdown(JSON.parse(text).markdown) : JSON.parse(text)} />
+
+        // redraft(
+        //   (JSON.parse(text).markdown && getRawStateFromMarkdown(JSON.parse(text).markdown)) || JSON.parse(text),
+        //   {
+        //     inline: Boolean(fullText) && inline,
+        //     blocks: blocks(fullText, recentRequest, type),
+        //     entities: Boolean(fullText) && entities,
+        //   },
+        //   options
+        // )
         )
       ) : inReviewArticleComment && typeof text === 'string' && text.length > 5 ? (
         text

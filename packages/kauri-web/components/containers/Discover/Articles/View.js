@@ -107,7 +107,7 @@ class Collections extends Component<Props> {
               username={article.owner ? (article.owner.username || userIdTrim(article.owner.id)) : 'Anonymous'}
               id={article.id}
               version={article.version}
-              cardHeight={500}
+              cardHeight={420}
               imageURL={article.attributes && article.attributes.background}
               linkComponent={(childrenProps, route) => (
                 <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>
