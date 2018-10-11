@@ -9,6 +9,7 @@ import { compose } from 'recompose'
 import withErrorCatch from '../../../lib/with-error-catch'
 import TextTruncate from 'react-text-truncate'
 import { getRawStateFromMarkdown, getHTMLFromMarkdown } from '../../../lib/markdown-converter-helper'
+import stripHTML from '../../../lib/html-to-plain-text'
 
 type Props = {
   record: RequestDTO,
@@ -71,7 +72,7 @@ const articleCardCss = css`
   height: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: pre-wrap;
   > :not(div) {
     display: none;
   }
@@ -505,18 +506,18 @@ export default compose(withErrorCatch())(
             dangerouslySetInnerHTML={{ __html: getHTMLFromMarkdown(JSON.parse(text).markdown) }}
           />
         ) : (
-          <TextTruncate
-            line={5} truncateText='…' text={JSON.parse(text).markdown ? getHTMLFromMarkdown(JSON.parse(text).markdown) : JSON.parse(text)} />
-
-        // redraft(
-        //   (JSON.parse(text).markdown && getRawStateFromMarkdown(JSON.parse(text).markdown)) || JSON.parse(text),
-        //   {
-        //     inline: Boolean(fullText) && inline,
-        //     blocks: blocks(fullText, recentRequest, type),
-        //     entities: Boolean(fullText) && entities,
-        //   },
-        //   options
-        // )
+          JSON.parse(text).markdown
+            ? <TextTruncate
+              line={cardHeight > 290 ? 8 : 3} truncateText='…' text={stripHTML(getHTMLFromMarkdown(JSON.parse(text).markdown))} />
+            : redraft(
+              JSON.parse(text),
+              {
+                inline: Boolean(fullText) && inline,
+                blocks: blocks(fullText, recentRequest, type),
+                entities: Boolean(fullText) && entities,
+              },
+              options
+            )
         )
       ) : inReviewArticleComment && typeof text === 'string' && text.length > 5 ? (
         text

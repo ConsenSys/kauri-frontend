@@ -97,19 +97,20 @@ class Collections extends Component<Props> {
         </ArticlesHeader>
         <ArticlesContainer>
           {searchArticles.content.map(article => {
-            return <ArticleCard
-              changeRoute={this.props.routeChangeAction}
-              key={article.id}
-              date={moment(article.dateCreated).format('D MMM YYYY')}
-              title={article.title}
-              content={article.content}
-              userId={article.owner ? article.owner.id : 'Anonymous'}
-              username={article.owner ? (article.owner.username || userIdTrim(article.owner.id)) : 'Anonymous'}
-              id={article.id}
-              version={article.version}
-              cardHeight={420}
-              imageURL={article.attributes && article.attributes.background}
-              linkComponent={(childrenProps, route) => (
+            return
+            <ArticleCard
+                changeRoute={this.props.routeChangeAction}
+                key={article.id}
+                date={moment(article.dateCreated).format('D MMM YYYY')}
+                title={article.title}
+                content={article.content}
+                userId={article.owner ? article.owner.id : 'Anonymous'}
+                username={article.owner ? (article.owner.username || userIdTrim(article.owner.id)) : 'Anonymous'}
+                id={article.id}
+                version={article.version}
+                cardHeight={500}
+                imageURL={article.attributes && article.attributes.background}
+                linkComponent={(childrenProps, route) => (
                 <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>
                   {childrenProps}
                 </Link>
