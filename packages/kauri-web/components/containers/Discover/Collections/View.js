@@ -62,6 +62,9 @@ export const CollectionsContainer = styled.div`
   flex-wrap: wrap;
   padding-bottom: 0;
   max-width: 1280px;
+  > div {
+    margin: 15px;
+  }
 `;
 
 class Collections extends Component<Props> {

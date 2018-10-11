@@ -90,13 +90,13 @@ const contentLineHeight = R.cond([
   [({ imageURL }) => typeof imageURL === 'string', R.always(2)],
 ])
 
-let renderPublicProfile = (pageType, username, userId, cardWidth, userAvatar) => (
+let renderPublicProfile = (pageType, username, userId, cardWidth, userAvatar, imageURL) => (
   <UserAvatar
-    color={typeof userAvatar === 'string' ? 'white' : 'textPrimary'}
     fullWidth={cardWidth > DEFAULT_CARD_WIDTH}
     username={username}
     userId={userId}
     avatar={userAvatar}
+    imageURL={imageURL}
   />
 )
 
@@ -131,10 +131,10 @@ let renderActualContent = ({
     }
     {typeof linkComponent !== 'undefined'
       ? linkComponent(
-        renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar),
+        renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar, imageURL),
         `/public-profile/${userId}`
       )
-      : renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar)}
+      : renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar, imageURL)}
     <Label>{'Updated ' + date}</Label>
   </React.Fragment>
 )
