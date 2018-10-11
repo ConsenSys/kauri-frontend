@@ -90,12 +90,13 @@ const contentLineHeight = R.cond([
   [({ imageURL }) => typeof imageURL === 'string', R.always(2)],
 ])
 
-let renderPublicProfile = (pageType, username, userId, cardWidth, imageURL) => (
+let renderPublicProfile = (pageType, username, userId, cardWidth, userAvatar, imageURL) => (
   <UserAvatar
-    color={typeof imageURL === 'string' ? 'white' : 'textPrimary'}
     fullWidth={cardWidth > DEFAULT_CARD_WIDTH}
     username={username}
     userId={userId}
+    avatar={userAvatar}
+    imageURL={imageURL}
   />
 )
 
@@ -108,19 +109,20 @@ const renderBodyContent = ({ name, cardHeight, cardWidth, imageURL, description 
   </BodyCard>
 </React.Fragment>
 
-let renderActualContent = (
-  id,
+let renderActualContent = ({
+  imageURL,
   name,
   description,
   cardHeight,
   cardWidth,
-  imageURL,
+  id,
+  linkComponent,
   pageType,
   username,
   userId,
+  userAvatar,
   date,
-  linkComponent
-) => (
+}) => (
   <React.Fragment>
     <Label>{'Collection'}</Label>
     {typeof linkComponent !== 'undefined'
@@ -129,58 +131,61 @@ let renderActualContent = (
     }
     {typeof linkComponent !== 'undefined'
       ? linkComponent(
-        renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), imageURL),
+        renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar, imageURL),
         `/public-profile/${userId}`
       )
-      : renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), imageURL)}
+      : renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar, imageURL)}
     <Label>{'Updated ' + date}</Label>
   </React.Fragment>
 )
 
-let renderCardContent = (
-  id,
+let renderCardContent = ({
+  imageURL,
   name,
   description,
   cardHeight,
   cardWidth,
-  imageURL,
+  id,
+  linkComponent,
   pageType,
   username,
   userId,
+  userAvatar,
   date,
-  linkComponent
-) =>
+}) =>
   typeof imageURL === 'string' ? (
     <Mask>
-      {renderActualContent(
-        id,
+      {renderActualContent({
+        imageURL,
         name,
         description,
         cardHeight,
         cardWidth,
-        imageURL,
+        id,
+        linkComponent,
         pageType,
         username,
         userId,
+        userAvatar,
         date,
-        linkComponent
-      )}
+      })}
     </Mask>
   ) : (
     <React.Fragment>
-      {renderActualContent(
-        id,
+      {renderActualContent({
+        imageURL,
         name,
         description,
         cardHeight,
         cardWidth,
-        imageURL,
+        id,
+        linkComponent,
         pageType,
         username,
         userId,
+        userAvatar,
         date,
-        linkComponent
-      )}
+      })}
     </React.Fragment>
   )
 
@@ -270,6 +275,7 @@ type Props = {
   name: string,
   username: ?string,
   userId: string,
+  userAvatar: string,
   articleCount: number,
   imageURL?: string,
   cardHeight?: number,
@@ -292,23 +298,25 @@ const renderContent = ({
   pageType,
   username,
   userId,
+  userAvatar,
   date,
 }) => (
   <React.Fragment>
     <Content imageURL={imageURL}>
-      {renderCardContent(
-        id,
+      {renderCardContent({
+        imageURL,
         name,
         description,
         cardHeight,
         cardWidth,
-        imageURL,
+        id,
+        linkComponent,
         pageType,
         username,
         userId,
+        userAvatar,
         date,
-        linkComponent
-      )}
+      })}
     </Content>
   </React.Fragment>
 )
@@ -320,6 +328,7 @@ const CollectionCard = ({
   name,
   username,
   userId,
+  userAvatar,
   imageURL,
   cardWidth = DEFAULT_CARD_WIDTH,
   cardHeight = DEFAULT_CARD_HEIGHT,
@@ -360,6 +369,7 @@ const CollectionCard = ({
         pageType,
         username,
         userId,
+        userAvatar,
         date,
       })}
       {typeof imageURL !== 'string' && <Divider />}

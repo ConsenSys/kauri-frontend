@@ -108,7 +108,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           article_id={props.data.getArticle && props.data.getArticle.id}
           article_version={props.data.getArticle && props.data.getArticle.version}
           ownerId={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id}
-          username={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.username}
+          username={props.data.getArticle && props.data.getArticle.owner && (props.data.getArticle.owner.name || props.data.getArticle.owner.username)}
           userId={this.props.userId}
           routeChangeAction={props.routeChangeAction}
           address={props.userId}
@@ -116,7 +116,7 @@ class ApprovedArticle extends React.Component<Props, State> {
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.attributes}
-          username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.name}
+          username={props.data.getArticle && props.data.getArticle.owner && (props.data.getArticle.owner.name || props.data.getArticle.owner.username)}
           date_updated={props.data.getArticle && props.data.getArticle && props.data.getArticle.datePublished}
           content_hash={props.data.getArticle && props.data.getArticle && props.data.getArticle.contentHash}
           hostName={hostName}
@@ -126,7 +126,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           version={props.data.getArticle && props.data.getArticle.version}
           comments={props.data.getArticle && props.data.getArticle.comments && props.data.getArticle.comments.content}
           userId={this.props.userId}
-          username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.name}
+          username={props.data.getArticle && props.data.getArticle.owner && (props.data.getArticle.owner.name || props.data.getArticle.owner.username)}
           authorId={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.id}
         />
       </ArticleContent>

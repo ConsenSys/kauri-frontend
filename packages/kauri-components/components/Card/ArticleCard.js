@@ -85,7 +85,7 @@ const contentLineHeight = R.cond([
   [({ imageURL }) => typeof imageURL === 'string', R.always(3)],
 ])
 
-let renderCardContent = (title, content, cardHeight, cardWidth, imageURL, date) => (
+let renderCardContent = ({ title, content, cardHeight, cardWidth, imageURL, date }) => (
   <React.Fragment>
     <Label>{'Posted ' + date}</Label>
     <H1>
@@ -101,8 +101,8 @@ let renderCardContent = (title, content, cardHeight, cardWidth, imageURL, date) 
   </React.Fragment>
 )
 
-let renderPublicProfile = (pageType, username, userId, cardWidth) => (
-  <UserAvatar fullWidth={cardWidth > DEFAULT_CARD_WIDTH} username={username} userId={userId} />
+let renderPublicProfile = (pageType, username, userId, cardWidth, userAvatar) => (
+  <UserAvatar fullWidth={cardWidth > DEFAULT_CARD_WIDTH} username={username} userId={userId} avatar={userAvatar} />
 )
 
 const calculateCardHeight = R.cond([
@@ -189,6 +189,7 @@ type Props = {
   title: string,
   username: ?string,
   userId: string,
+  userAvatar: string,
   imageURL?: string,
   cardHeight?: number,
   cardWidth?: number,
@@ -207,6 +208,7 @@ const ArticleCard = ({
   title,
   username,
   userId,
+  userAvatar,
   imageURL,
   cardWidth = DEFAULT_CARD_WIDTH,
   cardHeight = DEFAULT_CARD_HEIGHT,
@@ -239,19 +241,19 @@ const ArticleCard = ({
       <Content imageURL={imageURL}>
         {typeof linkComponent !== 'undefined'
           ? linkComponent(
-            renderCardContent(title, content, cardHeight, cardWidth, imageURL, date),
+            renderCardContent({ title, content, cardHeight, cardWidth, imageURL, date }),
             `/article/${id}/v${version}`
           )
-          : renderCardContent(title, content, cardHeight, cardWidth, imageURL, date)}
+          : renderCardContent({ title, content, cardHeight, cardWidth, imageURL, date })}
       </Content>
       <Divider />
       <Footer>
         {typeof linkComponent !== 'undefined'
           ? linkComponent(
-            renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL })),
+            renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar),
             `/public-profile/${userId}`
           )
-          : renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }))}
+          : renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar)}
       </Footer>
     </Container>
   </BaseCard>

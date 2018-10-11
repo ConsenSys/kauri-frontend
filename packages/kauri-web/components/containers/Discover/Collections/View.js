@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import CollectionSearch from './CollectionSearch'
 import { Helmet } from 'react-helmet';
-import CollectionCard from '../../../../../kauri-components/components/Card/CollectionCard.bs'
+import CollectionCard from '../../../../../kauri-components/components/Card/CollectionCard'
 import { Link } from '../../../../routes';
 import moment from 'moment';
 import userIdTrim from '../../../../lib/userid-trim';
@@ -33,6 +33,7 @@ color: ${props => props.theme.colors.white};
 padding: ${props => props.theme.space[3]}px;
 padding-bottom: ${props => props.theme.space[3]}px;
 `
+
 const KauriTitle = styled.h1`
 color: white;
 font-weight: 300;
@@ -61,6 +62,9 @@ export const CollectionsContainer = styled.div`
   flex-wrap: wrap;
   padding-bottom: 0;
   max-width: 1280px;
+  > div {
+    margin: 15px;
+  }
 `;
 
 class Collections extends Component<Props> {
@@ -101,18 +105,18 @@ class Collections extends Component<Props> {
             return <CollectionCard
               changeRoute={this.props.routeChangeAction}
               key={collection.id}
-              collectionName={collection.name}
-              username={collection.owner && (collection.owner.name || userIdTrim(collection.owner.id))}
+              id={collection.id}
+              name={collection.name}
+              description={collection.description}
+              username={collection.owner && collection.owner.name}
               userId={collection.owner && collection.owner.id}
-              articles={articleCount}
-              lastUpdated={moment(collection.dateCreated).fromNow()}
-              collectionId={collection.id}
-              imageURL={collection.background && collection.background}
-              profileImage={collection.profileImage}
+              userAvatar={collection.owner && collection.owner.avatar}
+              imageURL={collection.background}
+              articleCount={articleCount}
+              date={moment(collection.dateUpdated).format('D MMM YYYY')}
               cardHeight={500}
-              collectionDescription={collection.description}
               linkComponent={(childrenProps, route) => (
-                <Link toSlug={route.includes('collection') && collection.name} useAnchorTag route={route}>
+                <Link toSlug={route.includes('collection') && collection.name} useAnchorTag href={route}>
                   {childrenProps}
                 </Link>
               )}
