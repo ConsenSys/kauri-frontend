@@ -110,7 +110,7 @@ class InReviewArticle extends React.Component<Props, State> {
           addCommentAction={props.addCommentAction}
           deleteArticleComment={props.deleteArticleComment}
           personalUsername={props.personalUsername}
-          username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.name}
+          username={props.data.getArticle && props.data.getArticle.author && (props.data.getArticle.author.name || props.data.getArticle.author.username)}
           userId={props.data.getArticle && props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.id}
         />
         <InReviewArticle.Footer

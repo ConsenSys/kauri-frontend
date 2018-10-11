@@ -19,7 +19,7 @@ export default ({
         content={article.content}
         date={moment(article.datePublished).format('D MMM YYYY')}
         title={article.title}
-        username={article.author.name}
+        username={article.author.name || article.author.username}
         userId={article.author.id}
         imageURL={article.attributes && article.attributes.background}
         cardHeight={420}
