@@ -53,13 +53,13 @@ let renderArticleCards = (~response) =>
              date,
              username,
              userId,
-             background
+             background,
            } =
              make(article);
            <ArticleCard
              key
-             articleId
-             articleVersion
+             id=articleId
+             version=articleVersion
              cardHeight=500
              imageURL={Js.Nullable.toOption(background)}
              linkComponent=(

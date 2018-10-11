@@ -63,15 +63,15 @@ let make = (~name, ~description="", ~articles, _children) => {
                   article->(idGet, versionGet);
                 <ArticleCard
                   key=article->idGet
-                  articleId
-                  articleVersion
+                  id=articleId
+                  version=articleVersion
                   /* Js.Nullable.t({. "background": Js.Nullable.t(string)}), */
                   imageURL={
-                    switch(article->attributesGet->Js.Nullable.toOption) {
-                    | Some(attributes) => 
-                      switch(Js.Nullable.toOption(attributes##background)) {
-                        | Some(background) => Some(background)
-                        | None => None
+                    switch (article->attributesGet->Js.Nullable.toOption) {
+                    | Some(attributes) =>
+                      switch (Js.Nullable.toOption(attributes##background)) {
+                      | Some(background) => Some(background)
+                      | None => None
                       }
                     | None => None
                     }

@@ -246,7 +246,7 @@ const ArticleCard = ({
       </Content>
       <Divider />
       <Footer>
-        {typeof linkComponent !== 'undefined' && typeof pageType !== 'undefined'
+        {typeof linkComponent !== 'undefined'
           ? linkComponent(
             renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL })),
             `/public-profile/${userId}`

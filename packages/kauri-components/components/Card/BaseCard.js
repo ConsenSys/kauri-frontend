@@ -23,8 +23,8 @@ const BaseCard = styled.div`
   cursor: pointer;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.11);
   position: relative;
-  transition: all;
-  transition-duration: 300;
+  transition-property: all;
+  transition-duration: 300ms;
   :hover {
     ${props => !props.toggledOn && hoverBoxShadowCss};
   }
