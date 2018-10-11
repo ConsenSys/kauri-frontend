@@ -70,7 +70,10 @@ class Communities extends Component<Props> {
   static ContentContainer = ContentContainer
 
   render () {
-    if (!this.props.data || !this.props.data.searchCommunities) {
+    if (this.props.data.loading === true) <Loading />;
+    
+    if (this.props.data.loading === false && !this.props.data.searchCommunities) {
+      console.log('There was an issue', this.props.data);
       return null
     } // TODO replace with an error message if exists
 

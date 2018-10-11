@@ -67,7 +67,10 @@ class Collections extends Component<Props> {
   static ContentContainer = ContentContainer
 
   render () {
-    if (!this.props.data || !this.props.data.searchCollections) {
+    if (this.props.data.loading === true) <Loading />;
+
+    if (this.props.data.loading === false && !this.props.data.searchCollections) {
+      console.log('There was an issue', this.props.data);
       return null
     } // TODO replace with an error message if exists
 

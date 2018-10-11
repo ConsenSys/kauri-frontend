@@ -7,6 +7,7 @@ import ArticleCard from '../../../../../kauri-components/components/Card/Article
 import { Link } from '../../../../routes';
 import moment from 'moment';
 import userIdTrim from '../../../../lib/userid-trim';
+import Loading from '../../../common/Loading';
 
 type Props = {
   data: {
@@ -71,17 +72,19 @@ export const ArticlesContainer = styled.div`
 `;
 
 class Collections extends Component<Props> {
-  static ContentContainer = ContentContainer
+  static ContentContainer = ContentContainer;
 
   render () {
-    if (!this.props.data || !this.props.data.searchArticles) {
+    if (this.props.data.loading === true) <Loading />;
+
+    if (this.props.data.loading === false && !this.props.data.searchArticles) {
+      console.log('There was an issue', this.props.data);
       return null
     } // TODO replace with an error message if exists
 
     const { searchArticles } = this.props.data
 
     const pageTitle = 'Discover Articles';
-
     return (
       <ContentContainer>
         <Helmet>
