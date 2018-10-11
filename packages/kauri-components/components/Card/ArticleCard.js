@@ -92,7 +92,7 @@ let renderCardContent = (title, content, cardHeight, cardWidth, imageURL, date) 
       <TextTruncate line={titleLineHeight({ cardHeight, imageURL })} truncateText='…' text={title} />
     </H1>
     {content.substring(0, 2).includes('{') ? (
-      renderDescriptionRowContent(content)
+      renderDescriptionRowContent(content, cardHeight)
     ) : (
       <BodyCard>
         <TextTruncate line={contentLineHeight({ cardHeight, cardWidth, imageURL })} truncateText='…' text={content} />

@@ -104,7 +104,7 @@ export default ({
         .map(block => block.toJS()))
 
   const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text);
-  
+
   return (
     <SubmitArticleFormContent>
       <ApprovedArticleHelmet contentState={contentState} blocks={blocks} />
@@ -114,22 +114,22 @@ export default ({
       <ApprovedArticleDetails type='outline'>
         <Outline
           linkComponent={children => (
-            <Link useAnchorTag route={`/public-profile/${authorId}`}>
+            <Link useAnchorTag href={`/public-profile/${authorId}`}>
               {children}
             </Link>
           )}
           headings={outlineHeadings || []}
-          username={username || userIdTrim(authorId)}
+          username={username || authorId && userIdTrim(authorId) || 'Unknown Writer'}
           userId={authorId}
           routeChangeAction={routeChangeAction}
         />
-          <ArticleAction
-            svgIcon={<UpdateArticleSvgIcon />}
-            text={'Update Article'}
-            handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
-          >
+        <ArticleAction
+          svgIcon={<UpdateArticleSvgIcon />}
+          text={'Update Article'}
+          handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
+        >
           Update article
-          </ArticleAction>
+        </ArticleAction>
         <ShareArticle
           url={`${hostName.replace(/api\./g, '')}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}
