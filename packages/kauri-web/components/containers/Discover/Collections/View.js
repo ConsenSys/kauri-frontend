@@ -97,26 +97,6 @@ class Collections extends Component<Props> {
                 return current
               }, 0);
             return <CollectionCard
-            {
-              id,
-              description,
-              date,
-              name,
-              username,
-              userId,
-              imageURL,
-              cardWidth = DEFAULT_CARD_WIDTH,
-              cardHeight = DEFAULT_CARD_HEIGHT,
-              linkComponent,
-              pageType,
-              hoverAction,
-              viewAction,
-              toggledOn,
-              show,
-              hide,
-              isChosenCollection,
-              articleCount,
-            }
               changeRoute={this.props.routeChangeAction}
               key={collection.id}
               id={collection.id}

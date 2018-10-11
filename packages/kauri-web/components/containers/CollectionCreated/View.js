@@ -57,6 +57,7 @@ class CollectionCreated extends React.Component<Props> {
           name={name}
           username={owner && owner.name}
           userId={owner && owner.id}
+          userAvatar={owner && owner.avatar}
           imageURL={background}
           linkComponent={(childrenProps, route) => (
             <Link toSlug={route.includes('collection') && name} useAnchorTag fullWidth={false} href={route}>

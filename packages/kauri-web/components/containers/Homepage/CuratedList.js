@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard'
-import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard.bs'
+import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard'
 import CommunityCardConnection from '../../connections/Community/CommunityCard_Connection.bs'
 import theme from '../../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
@@ -104,18 +104,18 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                   <CollectionCard
                     changeRoute={routeChangeAction}
                     key={collectionCard.id}
-                    collectionName={collectionCard.name}
-                    username={collectionCard.owner && (collectionCard.owner.name || userIdTrim(collectionCard.owner.id))}
+                    id={collectionCard.id}
+                    name={collectionCard.name}
+                    description={collectionCard.description}
+                    username={collectionCard.owner && (collectionCard.owner.name || collectionCard.owner.username)}
                     userId={collectionCard.owner && collectionCard.owner.id}
-                    articles={articleCount}
-                    lastUpdated={moment(collectionCard.dateCreated).fromNow()}
-                    collectionId={collectionCard.id}
+                    userAvatar={collectionCard.owner && collectionCard.owner.avatar}
+                    articleCount={articleCount}
+                    lastUpdated={collectionCard.dateCreated}
                     imageURL={collectionCard.background}
-                    profileImage={collectionCard.profileImage}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
-                    collectionDescription={collectionCard.description}
                     linkComponent={(childrenProps, route) => (
-                      <Link toSlug={route.includes('collection') && collectionCard.name} useAnchorTag route={route}>
+                      <Link toSlug={route.includes('collection') && collectionCard.name} useAnchorTag href={route}>
                         {childrenProps}
                       </Link>
                     )}
