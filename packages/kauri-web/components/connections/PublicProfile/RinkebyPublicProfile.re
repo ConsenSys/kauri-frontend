@@ -52,14 +52,13 @@ let renderArticleCards = (~response) =>
              date,
              username,
              userId,
-             background
+             background,
            } =
              make(article);
            <ArticleCard
              key
-             pageType=ArticleCard.RinkebyPublicProfile
-             articleId
-             articleVersion
+             id=articleId
+             version=articleVersion
              cardHeight=500
              title
              content
