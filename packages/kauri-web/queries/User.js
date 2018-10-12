@@ -22,6 +22,21 @@ export const getUserDetails = gql`
   }
 `;
 
+export const getOwnProfile = gql`
+  query getMyProfile {
+    getMyProfile {
+      id
+      email
+      username
+      name
+      title
+      website
+      avatar
+      social
+    }
+  }
+`;
+
 
 export const saveUserDetails = gql`
   mutation saveUser(
@@ -30,6 +45,7 @@ export const saveUserDetails = gql`
     $title: String,
     $website: String,
     $avatar: String,
+    $email: String,
     $social: Map_String_StringScalar
     ) {
       saveUser (
@@ -39,6 +55,7 @@ export const saveUserDetails = gql`
         title: $title,
         website: $website,
         social: $social
+        email: $email
       ) {
         hash
       }

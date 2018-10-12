@@ -23,7 +23,7 @@ export const saveUserDetailsEpic = (
 ) =>
   action$
     .ofType('SAVE_USER_DETAILS')
-    .switchMap(({ payload: { username, title, avatar, website, name, twitter, github } }) =>
+    .switchMap(({ payload: { username, title, avatar, website, email, name, twitter, github } }) =>
       Observable.fromPromise(
         apolloClient.mutate({
           mutation: saveUserDetails,
@@ -31,6 +31,7 @@ export const saveUserDetailsEpic = (
             username,
             avatar,
             website,
+            email,
             title,
             name,
             social: (twitter || github) && {
