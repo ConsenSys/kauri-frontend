@@ -25,7 +25,6 @@ export default compose(
       variables: {
         userId,
       },
-      fetchPolicy: 'no-cache',
     }),
   }),
   graphql(getUserDetails, {
@@ -52,7 +51,6 @@ export default compose(
       variables: {
         userId,
       },
-      fetchPolicy: 'no-cache',
     }),
   }),
   graphql(searchPending, {
@@ -61,7 +59,6 @@ export default compose(
       variables: {
         userId,
       },
-      fetchPolicy: 'no-cache',
     }),
   }),
   graphql(searchAwaitingApproval, {
@@ -70,7 +67,6 @@ export default compose(
       variables: {
         userId,
       },
-      fetchPolicy: 'no-cache',
     }),
   }),
   withLoading()

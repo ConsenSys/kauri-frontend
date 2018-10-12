@@ -3,7 +3,7 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { ApolloLink, split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
-import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory'
+import { InMemoryCache, IntrospectionFragmentMatcher, defaultDataIdFromObject } from 'apollo-cache-inmemory'
 import { getMainDefinition } from 'apollo-utilities'
 import introspectionQueryResultData from '../scripts/fragmentTypes.json'
 const config = require('../config').default
@@ -59,11 +59,21 @@ function create (initialState, { getToken, hostName }) {
     )
   }
 
+  const cache = new InMemoryCache({
+    dataIdFromObject: object => {
+      switch (object.__typename) {
+        case 'ArticleDTO': return object.id + object.version; // use `key` as the primary key
+        default: 
+          return defaultDataIdFromObject(object);
+      }
+    }
+  });
+
   return new ApolloClient({
     initialState,
     connectToDevTools: true,
     ssrMode: !global.window, // Disables forceFetch on the server (so queries are only run once)
-    cache: new InMemoryCache({ fragmentMatcher }).restore(initialState || {}),
+    cache: cache.restore(initialState || {}),
     link,
   })
 }

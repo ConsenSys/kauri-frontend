@@ -67,9 +67,8 @@ class Collections extends Component<Props> {
   static ContentContainer = ContentContainer
 
   render () {
-    if (this.props.data.loading === true) <Loading />;
 
-    if (this.props.data.loading === false && !this.props.data.searchCollections) {
+    if (this.props.data.error) {
       console.log('There was an issue', this.props.data);
       return null
     } // TODO replace with an error message if exists
@@ -91,7 +90,7 @@ class Collections extends Component<Props> {
           <KauriDescription>Users' and Communities' Collections</KauriDescription>
           <CollectionSearch />
         </CollectionsHeader>
-        <CollectionsContainer>
+        { this.props.data.dataPresent ? <CollectionsContainer>
           {searchCollections.content.map(collection => {
             const articleCount = collection.sections && collection.sections.reduce(
               (current, next) => {
@@ -118,7 +117,7 @@ class Collections extends Component<Props> {
               )}
             />
           })}
-        </CollectionsContainer>
+        </CollectionsContainer> : <Loading />}
       </ContentContainer>
     )
   }

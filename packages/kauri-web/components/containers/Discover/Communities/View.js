@@ -70,9 +70,8 @@ class Communities extends Component<Props> {
   static ContentContainer = ContentContainer
 
   render () {
-    if (this.props.data.loading === true) <Loading />;
     
-    if (this.props.data.loading === false && !this.props.data.searchCommunities) {
+    if (this.props.data.error) {
       console.log('There was an issue', this.props.data);
       return null
     } // TODO replace with an error message if exists
@@ -94,7 +93,7 @@ class Communities extends Component<Props> {
           <KauriDescription>Users' and Communities' Communities</KauriDescription>
           <CommunitySearch />
         </CommunitiesHeader>
-        <CommunitiesContainer>
+        { this.props.data.dataPresent ? <CommunitiesContainer>
           {searchCommunities.content.map(community => {
             return <CommunityCardConnection
               changeRoute={this.props.routeChangeAction}
@@ -111,7 +110,7 @@ class Communities extends Component<Props> {
               )}
             />
           })}
-        </CommunitiesContainer>
+        </CommunitiesContainer> : <Loading />}
       </ContentContainer>
     )
   }
