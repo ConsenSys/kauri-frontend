@@ -2,7 +2,7 @@
 import PublicProfile from './View.js'
 import { compose, graphql } from 'react-apollo'
 import { searchPersonalArticles, searchPersonalDrafts, searchPending, searchAwaitingApproval } from '../../../queries/Article';
-import { getUserDetails } from '../../../queries/User';
+import { getUserDetails, getOwnProfile } from '../../../queries/User';
 import { getCollectionsForUser } from '../../../queries/Collection';
 import { connect } from 'react-redux';
 import withLoading from '../../../lib/with-loading';
@@ -68,6 +68,9 @@ export default compose(
         userId,
       },
     }),
+  }),
+  graphql(getOwnProfile, {
+    name: 'OwnProfile',
   }),
   withLoading()
 )(PublicProfile)

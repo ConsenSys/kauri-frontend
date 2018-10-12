@@ -58,9 +58,10 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
       title: props.title,
       avatar: props.avatar,
       website: props.website,
-      twitter: props.twitter,
-      github: props.github,
+      twitter: props.social && props.social.twitter,
+      github: props.social && props.social.github,
       name: props.name,
+      email: props.email,
     }
   }
 
@@ -81,7 +82,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
   }
 
   render () {
-    const { username, title, avatar, website, name, twitter, github } = this.state;
+    const { username, title, avatar, website, name, twitter, github, email } = this.state;
 
     return (
       <HeaderContainer>
@@ -89,6 +90,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         <InputsContainers>
           <StyledInput onChange={e => this.handleChange('name', e.target.value)} fontWeight='normal' fontSize={6} value={name} placeHolder='Add your full name' />
           <StyledInput onChange={e => this.handleChange('title', e.target.value)} fontWeight='normal' fontSize={3} value={title} placeHolder='Add job title' />
+          <StyledInput onChange={e => this.handleChange('email', e.target.value)} fontWeight='normal' fontSize={1} value={email} placeHolder='Add Email' />
           <StyledInput onChange={e => this.handleChange('username', e.target.value)} fontWeight='normal' fontSize={1} value={username} placeHolder='Add username' />
           <StyledInput onChange={e => this.handleChange('website', e.target.value)} fontWeight='normal' fontSize={1} value={website} placeHolder='Add Website' />
           <Offset>

@@ -12,23 +12,15 @@ import type { ViewProps, ViewState } from './types';
 class PublicProfile extends Component<ViewProps, ViewState> {
   constructor (props: ViewProps) {
     super(props);
-    if (props.UserQuery.getUser) {
-      this.state = {
-        ...props.UserQuery.getUser,
-        ...props.UserQuery.getUser.social,
-        isEditing: false,
-      }
-    } else {
-      this.state = {
-        isEditing: false,
-        avatar: '',
-        username: '',
-        name: '',
-        title: '',
-        website: '',
-        twitter: '',
-        github: '',
-      }
+    this.state = {
+      isEditing: false,
+      avatar: '',
+      username: '',
+      name: '',
+      title: '',
+      website: '',
+      twitter: '',
+      github: '',
     }
   }
 
@@ -37,7 +29,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
   }
 
   render () {
-    const { PendingQuery, UserQuery, ArticlesQuery, CollectionQuery, DraftsQuery, ApprovalsQuery, routeChangeAction, currentUser } = this.props;
+    const { OwnProfile, PendingQuery, UserQuery, ArticlesQuery, CollectionQuery, DraftsQuery, ApprovalsQuery, routeChangeAction, currentUser } = this.props;
 
     const isHeaderLoaded =
       typeof UserQuery.getUser === "object" &&
@@ -49,29 +41,28 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       typeof PendingQuery.searchArticles === "object" &&
       typeof ApprovalsQuery.searchArticles === "object";
     
+    const isEditing = this.state.isEditing;
+    
     return (
-      <div>
-        {this.state.isEditing && isHeaderLoaded && <EditableHeader
-          {...this.state}
+      <React.Fragment>
+        {!isHeaderLoaded ? <Loading /> : isEditing ? <EditableHeader
+          {...OwnProfile.getMyProfile}
           toggleEditing={() => this.toggleEditing()}
           saveUserAction={this.props.saveUserDetailsAction}
-          />}
-        
-        {!this.state.isEditing && isHeaderLoaded ? <Header
-              articles={ArticlesQuery.searchArticles.content}
-              collections={CollectionQuery.searchCollections.content}
-              currentUser={currentUser}
-              id={UserQuery.getUser.id}
-              avatar={this.state.avatar || UserQuery.getUser.avatar}
-              username={this.state.username || UserQuery.getUser.username}
-              name={this.state.name || UserQuery.getUser.name}
-              title={this.state.title || UserQuery.getUser.title}
-              website={this.state.website || UserQuery.getUser.website}
-              twitter={this.state.twitter || (UserQuery.getUser.social && UserQuery.getUser.social.twitter)}
-              github={this.state.github || (UserQuery.getUser.social && UserQuery.getUser.social.github)}
-              toggleEditing={() => this.toggleEditing()}
-            /> : <Loading />
-        }
+          /> : <Header
+                articles={ArticlesQuery.searchArticles.content}
+                collections={CollectionQuery.searchCollections.content}
+                currentUser={currentUser}
+                id={UserQuery.getUser.id}
+                avatar={this.state.avatar || UserQuery.getUser.avatar}
+                username={this.state.username || UserQuery.getUser.username}
+                name={this.state.name || UserQuery.getUser.name}
+                title={this.state.title || UserQuery.getUser.title}
+                website={this.state.website || UserQuery.getUser.website}
+                twitter={this.state.twitter || (UserQuery.getUser.social && UserQuery.getUser.social.twitter)}
+                github={this.state.github || (UserQuery.getUser.social && UserQuery.getUser.social.github)}
+                toggleEditing={() => this.toggleEditing()}
+            />}
         {isHeaderLoaded && areListsLoaded ? <Tabs
           tabs={[
             `Articles (${ArticlesQuery.searchArticles.content.length})`,
@@ -88,7 +79,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
             <Articles type="toBeApproved" articles={PendingQuery.searchArticles} routeChangeAction={routeChangeAction} />,
           ]}
         /> : !isHeaderLoaded ? null : <Loading />}
-      </div>
+      </React.Fragment>
     );
   }
 };
