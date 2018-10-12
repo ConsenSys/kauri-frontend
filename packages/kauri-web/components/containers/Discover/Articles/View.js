@@ -77,7 +77,7 @@ class Collections extends Component<Props> {
   render () {
     if (this.props.data.loading === true) <Loading />;
 
-    if (this.props.data.loading === false && !this.props.data.searchArticles) {
+    if (this.props.data.error) {
       console.log('There was an issue', this.props.data);
       return null
     } // TODO replace with an error message if exists
@@ -98,7 +98,7 @@ class Collections extends Component<Props> {
           <KauriDescription>Articles, Tutorials and Collections</KauriDescription>
           <ArticleSearchbar />
         </ArticlesHeader>
-        <ArticlesContainer>
+        { searchArticles ? <ArticlesContainer>
           {searchArticles.content.map(article => {
             return <ArticleCard
               changeRoute={this.props.routeChangeAction}
@@ -120,7 +120,7 @@ class Collections extends Component<Props> {
               )}
             />
           })}
-        </ArticlesContainer>
+        </ArticlesContainer> : <Loading />}
       </ContentContainer>
     )
   }
