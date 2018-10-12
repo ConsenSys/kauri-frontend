@@ -42,9 +42,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       typeof ApprovalsQuery.searchArticles === "object";
     
     const isEditing = this.state.isEditing;
-
-
-    console.log(OwnProfile);
     
     return (
       <React.Fragment>
