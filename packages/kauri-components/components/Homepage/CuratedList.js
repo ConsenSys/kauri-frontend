@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 import ArticleCard from '../Card/ArticleCard'
-import CollectionCard from '../Card/CollectionCard.bs'
+import CollectionCard from '../Card/CollectionCard'
 import theme from '../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
 
@@ -99,18 +99,18 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                   <CollectionCard
                     changeRoute={routeChangeAction}
                     key={card.id}
-                    collectionName={card.name}
+                    name={card.name}
+                    description={card.description}
                     username={card.owner.name}
                     userId={card.owner.id}
-                    articles={articles}
-                    lastUpdated={moment(card.dateCreated).fromNow()}
-                    collectionId={card.id}
+                    userAvatar={card.owner.avatar}
+                    articleCount={articles}
+                    date={moment(card.dateCreated).fromNow()}
+                    id={card.id}
                     imageURL={card.background && card.background.replace('dev2', 'beta')}
-                    profileImage={card.profileImage}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
-                    collectionDescription={card.description}
                     linkComponent={(childrenProps, route) => (
-                      <Link toSlug={route.includes('collection') && card.name} useAnchorTag route={route}>
+                      <Link toSlug={route.includes('collection') && card.name} useAnchorTag href={route}>
                         {childrenProps}
                       </Link>
                     )}

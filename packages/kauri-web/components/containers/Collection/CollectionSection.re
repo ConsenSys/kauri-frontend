@@ -40,6 +40,7 @@ module Styles = {
         flexDirection(row),
         justifyContent(center),
         flexWrap(`wrap),
+        selector("> div", [margin(px(15))]),
       ])
     );
 };
