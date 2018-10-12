@@ -22,7 +22,13 @@ const A = styled.a`
   color: inherit;
   ${props => props.fullWidth && 'width: 100%;'};
   :hover {
-    color: inherit;
+    color: ${props => props.theme.colors['hoverTextColor']} !important;
+    > * {
+      color: ${props => props.theme.colors['hoverTextColor']} !important;
+      > * {
+      color: ${props => props.theme.colors['hoverTextColor']} !important;
+      }
+    }
   }
 `
 
