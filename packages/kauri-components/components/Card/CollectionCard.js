@@ -37,6 +37,10 @@ const Mask = styled.div`
   flex: 1;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
+  width: 100%;
+  > a:nth-child(2) {
+    height: 100%;
+  }
   > *:nth-child(3) {
     margin-top: auto;
   }
@@ -54,7 +58,11 @@ const Content = styled.div`
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   width: 100%;
+  height: 100%;
   background: url(${props => props.imageURL}) center center / cover;
+  > a:nth-child(2) {
+    height: 100%;
+  }
   > *:nth-child(3) {
     margin-top: auto;
   }
