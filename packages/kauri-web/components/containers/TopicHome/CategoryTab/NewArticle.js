@@ -8,7 +8,7 @@ import { Link } from '../../../../routes'
 import theme from '../../../../lib/theme-config'
 import { CategoryBadge, Avatar } from '../../../common/ActionBadge'
 import CategoryBreadcrumbs from '../../../common/CategoryBreadcrumbs'
-import CollectionCard from '../../../../../kauri-components/components/Card/CollectionCard.bs'
+import CollectionCard from '../../../../../kauri-components/components/Card/CollectionCard'
 
 type Props = {
   data?: {
@@ -82,27 +82,27 @@ const Content = styled.div`
 
 export default (props: Props) =>
   typeof props.date_updated === 'string' ? (
-    // <NewArticleContainer>
-    //   <Link route={`/article/${props.article_id}/v${props.article_version}`}>
-    //     <Thumbnail theme={theme} category={props.category}>
-    //       {!props.category && <CategoryName>{(props.user && props.user.username) || 'Unknown Writer'}</CategoryName>}
-    //       {props.category && (
-    //         <Avatar avatarWidth={70} avatarHeight={70} src={`/static/images/${props.category}/avatar.png`} alt='logo' />
-    //       )}
-    //     </Thumbnail>
-    //   </Link>
-    //   <RestrictToTwoLines>
-    //     <Link route={`/article/${props.article_id}/v${props.article_version}`}>
-    //       <Subject href={`/article/${props.article_id}/v${props.article_version}`} type='topicHomepage'>
-    //         {props.subject}
-    //       </Subject>
-    //     </Link>
-    //   </RestrictToTwoLines>
-    //   <Content>
-    //     <DescriptionRow record={{ text: props.text }} />
-    //   </Content>
-    //   <Details sub_category={props.sub_category} category={props.category} submitted={props.date_updated} />
-    // </NewArticleContainer>
+  // <NewArticleContainer>
+  //   <Link route={`/article/${props.article_id}/v${props.article_version}`}>
+  //     <Thumbnail theme={theme} category={props.category}>
+  //       {!props.category && <CategoryName>{(props.user && props.user.username) || 'Unknown Writer'}</CategoryName>}
+  //       {props.category && (
+  //         <Avatar avatarWidth={70} avatarHeight={70} src={`/static/images/${props.category}/avatar.png`} alt='logo' />
+  //       )}
+  //     </Thumbnail>
+  //   </Link>
+  //   <RestrictToTwoLines>
+  //     <Link route={`/article/${props.article_id}/v${props.article_version}`}>
+  //       <Subject href={`/article/${props.article_id}/v${props.article_version}`} type='topicHomepage'>
+  //         {props.subject}
+  //       </Subject>
+  //     </Link>
+  //   </RestrictToTwoLines>
+  //   <Content>
+  //     <DescriptionRow record={{ text: props.text }} />
+  //   </Content>
+  //   <Details sub_category={props.sub_category} category={props.category} submitted={props.date_updated} />
+  // </NewArticleContainer>
 
     <CollectionCard
       heading='hello'
@@ -126,7 +126,7 @@ export default (props: Props) =>
         onClick={() =>
           props.routeChangeAction(
             `/article/${props.data.searchArticles.content[0].article_id}/v${
-            props.data.searchArticles.content[0].article_version
+              props.data.searchArticles.content[0].article_version
             }`
           )
         }
@@ -139,12 +139,12 @@ export default (props: Props) =>
       <Link
         route={`/article/${props.data.searchArticles.content[0].article_id}/v${
           props.data.searchArticles.content[0].article_version
-          }`}
+        }`}
       >
         <Subject
           href={`/article/${props.data.searchArticles.content[0].article_id}/v${
             props.data.searchArticles.content[0].article_version
-            }`}
+          }`}
           type='topicHomepage'
         >
           {props.data.searchArticles.content[0].subject}
@@ -155,5 +155,5 @@ export default (props: Props) =>
       </Content>
     </NewArticleContainer>
   ) : (
-        <p>No new articles.</p>
-      )
+    <p>No new articles.</p>
+  )
