@@ -60,6 +60,7 @@ function create (initialState, { getToken, hostName }) {
   }
 
   const cache = new InMemoryCache({
+    fragmentMatcher,
     dataIdFromObject: object => {
       switch (object.__typename) {
         case 'ArticleDTO': return object.id + object.version; // use `key` as the primary key

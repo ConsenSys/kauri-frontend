@@ -98,7 +98,7 @@ class Collections extends Component<Props> {
           <KauriDescription>Articles, Tutorials and Collections</KauriDescription>
           <ArticleSearchbar />
         </ArticlesHeader>
-        { this.props.data.dataPresent ? <ArticlesContainer>
+        { searchArticles ? <ArticlesContainer>
           {searchArticles.content.map(article => {
             return <ArticleCard
               changeRoute={this.props.routeChangeAction}

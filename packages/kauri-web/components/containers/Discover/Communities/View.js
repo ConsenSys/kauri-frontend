@@ -93,7 +93,7 @@ class Communities extends Component<Props> {
           <KauriDescription>Users' and Communities' Communities</KauriDescription>
           <CommunitySearch />
         </CommunitiesHeader>
-        { this.props.data.dataPresent ? <CommunitiesContainer>
+        { searchCommunities ? <CommunitiesContainer>
           {searchCommunities.content.map(community => {
             return <CommunityCardConnection
               changeRoute={this.props.routeChangeAction}

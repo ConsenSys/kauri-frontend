@@ -48,8 +48,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       typeof DraftsQuery.searchArticles === "object" &&
       typeof PendingQuery.searchArticles === "object" &&
       typeof ApprovalsQuery.searchArticles === "object";
-
-      console.log(this.props);
     
     return (
       <div>

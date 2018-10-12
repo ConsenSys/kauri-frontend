@@ -90,7 +90,7 @@ class Collections extends Component<Props> {
           <KauriDescription>Users' and Communities' Collections</KauriDescription>
           <CollectionSearch />
         </CollectionsHeader>
-        { this.props.data.dataPresent ? <CollectionsContainer>
+        { searchCollections ? <CollectionsContainer>
           {searchCollections.content.map(collection => {
             const articleCount = collection.sections && collection.sections.reduce(
               (current, next) => {
