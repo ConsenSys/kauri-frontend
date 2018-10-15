@@ -62,10 +62,13 @@ const MaxThreeLines = styled.div`
   ${props => !props.fullText && hideAtomicBlock};
   ${props => !props.fullText && props.type !== 'article card' && maxThreeLinesCss};
   margin-top: 2px;
-  font-size: 17px;
+  font-size: 14px;
   word-wrap: break-word;
   overflow-wrap: break-word;
   min-height: ${props => props.requestPage && '30vh'};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
   ${props => props.openRequest && openRequestCss};
   ${props => props.type === 'article card' && articleCardCss};
 `
