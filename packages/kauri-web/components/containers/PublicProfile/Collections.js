@@ -45,7 +45,7 @@ const Collections = ({ collections, routeChangeAction }: CollectionsProps) =>
             userAvatar={collection.owner && collection.owner.avatar}
             articleCount={articleCount}
             imageURL={collection.background}
-            cardHeight={500}
+            cardHeight={420}
             linkComponent={(childrenProps, route) => (
               <Link toSlug={route.includes('collection') && collection.name} useAnchorTag href={route}>
                 {childrenProps}
