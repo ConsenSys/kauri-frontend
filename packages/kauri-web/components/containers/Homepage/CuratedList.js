@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard'
 import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard'
+import CardContentSection from '../../../../kauri-components/components/Section/CardContentSection'
 import theme from '../../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
 import { Link } from '../../../routes'
@@ -65,9 +66,8 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
     <Container bgColor={getBG(header, featured)} featured={featured} background={header && typeof header.background === 'string' && header.background}>
       {!header && <Title featured={featured}>{name}</Title>}
       {resources && (
-        <Resources>
+        <CardContentSection>
           {header && <CuratedHeader name={name} header={header} />}
-          {console.log(resources)}
           {resources.map(card => {
             switch (card && card.resourceIdentifier && typeof card.resourceIdentifier.type === 'string' && card.resourceIdentifier.type) {
               case 'ARTICLE': {
@@ -145,7 +145,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                 return null
             }
           })}
-        </Resources>
+        </CardContentSection>
       )}
     </Container>
   )
