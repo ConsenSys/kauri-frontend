@@ -82,13 +82,13 @@ class ApprovedArticle extends React.Component<Props, State> {
         </Helmet>
         <ScrollToTopOnMount />
         <ScrollToTopButton />
-        <ApprovedArticle.Actions
+        {/* <ApprovedArticle.Actions
           routeChangeAction={props.routeChangeAction}
           tipArticleAction={props.tipArticleAction}
           toggleBanner={this.toggleBanner}
           ethUsdPrice={props.ethUsdPrice}
           {...props.data.getArticle}
-        />
+        /> */}
         {/* <ApprovedArticle.Banner
           type='article'
           showBanner={this.state.showBanner}

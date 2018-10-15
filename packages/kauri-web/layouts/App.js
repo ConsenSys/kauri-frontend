@@ -24,6 +24,7 @@ const StyledHeader = styled(Header)`
   line-height: ${menuHeaderHeight}px;
   min-height: ${menuHeaderHeight}px;
   background-color: ${props => props.navcolor};
+  z-index: 10;
 `
 
 const mapStateToProps = (state, ownProps) => ({ isModalOpen: state.modal.isModalOpen })
