@@ -70,7 +70,6 @@ class Communities extends Component<Props> {
   static ContentContainer = ContentContainer
 
   render () {
-    
     if (this.props.data.error) {
       console.log('There was an issue', this.props.data);
       return null
@@ -102,9 +101,12 @@ class Communities extends Component<Props> {
               communityDescription={community.description || ''}
               communityId={community.id}
               communityHeight={420}
+              articles={(Array.isArray(community.approvedId) &&
+                String(community.approvedId.map(resource => resource.type === 'ARTICLE').length)) ||
+                '0'}
               communityLogo={`/static/images/${community.id}/avatar.png`}
               linkComponent={childrenProps => (
-                <Link useAnchorTag route={`/community/${community.id}`}>
+                <Link useAnchorTag href={`/community/${community.id}`}>
                   {childrenProps}
                 </Link>
               )}
