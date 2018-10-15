@@ -180,7 +180,7 @@ export const globalSearchApprovedCategoryArticles = gql`
 `
 
 export const globalSearchApprovedArticles = gql`
-  query globalSearchApprovedArticles($size: Int = 100, $text: String) {
+  query globalSearchApprovedArticles($size: Int = 500, $text: String) {
     searchArticles(size: $size, sort: "dateCreated", dir: DESC, filter: { fullText: $text, statusIn: [PUBLISHED], latestVersion: true }) {
       content {
         ...Article
@@ -313,7 +313,6 @@ export const addComment = gql`
   }
 `;
 
-
 export const searchPending = gql`
   query searchArticles($userId: String) {
     searchArticles (sort: "dateCreated", dir: DESC, filter: { ownerIdEquals: $userId, statusIn: [ PENDING ] } ) {
@@ -328,7 +327,6 @@ export const searchPending = gql`
     }
   }
 `;
-
 
 export const searchAwaitingApproval = gql`
   query searchArticles($userId: String) {
