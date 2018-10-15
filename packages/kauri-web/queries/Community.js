@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import gql from 'graphql-tag'
 
 export const getCommunity = gql`
@@ -7,6 +7,9 @@ export const getCommunity = gql`
       id dateCreated dateUpdated creatorId name description status website avatar social 
       members {
       id, name, role 
+      }
+      approvedId {
+       type
       }
        pending {
       ...on ArticleDTO {
@@ -42,6 +45,9 @@ export const getAllCommunities = gql`
         website
         avatar
         social
+        approvedId {
+          type
+        }
       }
     }
   }

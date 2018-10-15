@@ -37,6 +37,7 @@ const Mask = styled.div`
   flex: 1;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
+  width: 100%;
   > a:nth-child(2) {
     height: 100%;
   }

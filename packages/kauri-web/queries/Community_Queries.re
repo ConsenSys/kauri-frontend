@@ -78,6 +78,9 @@ module GetCommunity = [%graphql
     query getCommunity($id: String) {
       getCommunity(id: $id) {
           id dateCreated dateUpdated creatorId name description status website avatar social
+          approvedId {
+            type
+          }
           members {
             id, name, role
           }

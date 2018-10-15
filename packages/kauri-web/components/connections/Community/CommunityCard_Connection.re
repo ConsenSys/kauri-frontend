@@ -7,53 +7,37 @@ let make =
       ~communityDescription,
       /* ~followers, */
       /* ~views, */
+      ~articles,
       ~communityLogo,
       ~cardHeight,
       ~linkComponent=?,
       _children,
     ) => {
   ...component,
-  render: _self => {
-    open Article_Queries;
-    let articlesCountQuery =
-      CommunityArticlesCount.make(~category=communityName, ());
-    <CommunityArticlesCountQuery variables=articlesCountQuery##variables>
-      ...{
-           ({result}) =>
-             switch (result) {
-             | Loading => <Loading />
-             | Error(error) =>
-               <div> {ReasonReact.string(error##message)} </div>
-             | Data(response) =>
-               let articles =
-                 response->Article_Resource.articlesCountGet |> string_of_int;
-               switch (linkComponent) {
-               | Some(link) =>
-                 <CommunityCard
-                   communityName
-                   communityDescription
-                   articles
-                   communityLogo
-                   cardHeight
-                   /* followers */
-                   /* views */
-                   linkComponent=link
-                 />
-               | None =>
-                 <CommunityCard
-                   communityName
-                   communityDescription
-                   articles
-                   communityLogo
-                   /* followers */
-                   cardHeight
-                   /* views */
-                 />
-               };
-             }
-         }
-    </CommunityArticlesCountQuery>;
-  },
+  render: _self =>
+    switch (linkComponent) {
+    | Some(link) =>
+      <CommunityCard
+        communityName
+        communityDescription
+        articles
+        communityLogo
+        cardHeight
+        /* followers */
+        /* views */
+        linkComponent=link
+      />
+    | None =>
+      <CommunityCard
+        communityName
+        communityDescription
+        articles
+        communityLogo
+        /* followers */
+        cardHeight
+        /* views */
+      />
+    },
 };
 
 [@bs.deriving abstract]
@@ -78,6 +62,7 @@ let default =
       ~communityDescription=jsProps->communityDescriptionGet,
       /* ~followers=jsProps->followersGet, */
       /* ~views=jsProps->viewsGet, */
+      ~articles=jsProps->articlesGet,
       ~communityLogo=jsProps->communityLogoGet,
       ~cardHeight=jsProps->cardHeightGet,
       ~linkComponent=jsProps->linkComponentGet,

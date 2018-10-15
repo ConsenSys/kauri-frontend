@@ -77,7 +77,6 @@ class Homepage extends Component<Props> {
           <KauriDescription>Articles, tutorials, Documentation and best practices</KauriDescription>
           <ArticleSearchbar />
         </HomePageHeader>
-        {console.log(getAllCuratedList)}
         {getAllCuratedList.map(curatedList => (
           <CuratedList routeChangeAction={this.props.routeChangeAction} key={curatedList.id} content={curatedList} />
         ))}

@@ -92,7 +92,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             updated={dateCreated}
             username={owner.name}
             linkComponent={(childrenProps) => (
-              <Link fullWidth={false} useAnchorTag route={`/public-profile/${owner && owner.id}`}>
+              <Link fullWidth={false} useAnchorTag href={`/public-profile/${owner && owner.id}`}>
                 {childrenProps}
               </Link>
             )}

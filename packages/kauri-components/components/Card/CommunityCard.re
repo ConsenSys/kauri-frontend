@@ -36,9 +36,7 @@ module Styles = {
         alignItems(center),
         justifyContent(center),
         height(px(50)),
-        paddingLeft(px(14)),
-        paddingRight(px(14)),
-        paddingBottom(px(9)),
+        paddingBottom(px(15)),
       ])
     );
 
@@ -121,7 +119,7 @@ let make =
             )
           }
         }
-        <Separator marginX=14 marginY=0 direction="horizontal" />
+        <Separator marginX=0 marginY=15 direction="horizontal" />
         <div className=Styles.footer>
           <CardCounter value=articles label="Articles" />
         </div>

@@ -29,7 +29,8 @@ module Styles = {
         flex(1),
         flexWrap(wrap),
         paddingBottom(px(0)),
-        paddingTop(px(30)),
+        unsafe("padding", "0px calc((100vw - 1280px) / 2)"),
+        selector("> div", [margin(px(15))]),
       ])
     );
   let sectionTitle =
@@ -93,23 +94,20 @@ let make = (~category, ~hostName, ~website, ~name, _children) => {
       <CommunityHeader>
         <CommunityProfile community=name website hostName />
       </CommunityHeader>
-      <SearchCommunityArticlesQuery
-        variables=articlesQuery##variables>
+      <SearchCommunityArticlesQuery variables=articlesQuery##variables>
         ...{
-            ({result}) =>
-              switch (result) {
-              | Loading => <Loading />
-              | Error(error) =>
-                <div>
-                  {ReasonReact.string(error##message)}
-                </div>
-              | Data(response) =>
-                <section className=Styles.articlesContainer>
-                  {renderArticleCards(~response)}
-                </section>
-              }
-          }
-    </SearchCommunityArticlesQuery>  
+             ({result}) =>
+               switch (result) {
+               | Loading => <Loading />
+               | Error(error) =>
+                 <div> {ReasonReact.string(error##message)} </div>
+               | Data(response) =>
+                 <section className=Styles.articlesContainer>
+                   {renderArticleCards(~response)}
+                 </section>
+               }
+           }
+      </SearchCommunityArticlesQuery>
     </div>;
   },
 };

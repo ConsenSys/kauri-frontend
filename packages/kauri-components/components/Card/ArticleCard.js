@@ -18,7 +18,7 @@ const DEFAULT_CARD_PADDING = theme.space[2]
 
 const Image = styled.div`
   height: 170px;
-  background: url(${props => props.imageURL}) center center / cover;
+  background: url(${props => typeof props.imageURL === 'string' && props.imageURL}) center center / cover;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 `
@@ -48,7 +48,7 @@ const Content = styled.div`
   > :nth-child(2) {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
-  ${props => props.imageURL && withImageURLPaddingCss};
+  ${props => typeof props.imageURL === 'string' && withImageURLPaddingCss};
 `
 
 const Footer = styled.div`
@@ -56,8 +56,8 @@ const Footer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  ${props => props.imageURL && withImageURLPaddingCss};
-  padding-top: ${props => props.imageURL && '0px'};
+  ${props => typeof props.imageURL === 'string' && withImageURLPaddingCss};
+  padding-top: ${props => typeof props.imageURL === 'string' && '0px'};
 `
 
 const Divider = styled.div`
@@ -119,12 +119,12 @@ const calculateCardHeight = R.cond([
   [
     ({ cardHeight, cardWidth, imageURL }) =>
       typeof imageURL !== 'string' && cardHeight > DEFAULT_CARD_HEIGHT && cardWidth > DEFAULT_CARD_WIDTH,
-    ({ cardHeight }) => cardHeight,
+    ({ cardHeight }) => cardHeight - (DEFAULT_CARD_PADDING * 2),
   ],
   [
     ({ cardHeight, cardWidth, imageURL }) =>
       typeof imageURL !== 'string' && cardHeight === DEFAULT_CARD_HEIGHT && cardWidth > DEFAULT_CARD_WIDTH,
-    R.always(420),
+    R.always(420 - (DEFAULT_CARD_PADDING * 2)),
   ],
   [
     ({ cardHeight, imageURL }) => typeof imageURL === 'string' && cardHeight > DEFAULT_CARD_HEIGHT,
@@ -137,7 +137,7 @@ const calculateCardHeight = R.cond([
   ],
   [
     ({ cardHeight, imageURL }) => typeof imageURL !== 'string' && cardHeight === DEFAULT_CARD_HEIGHT,
-    R.always(DEFAULT_CARD_HEIGHT),
+    R.always(DEFAULT_CARD_HEIGHT - (DEFAULT_CARD_PADDING * 2)),
   ],
 ])
 
