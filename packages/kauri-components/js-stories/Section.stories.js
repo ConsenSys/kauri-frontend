@@ -7,6 +7,7 @@ import { space } from 'styled-system'
 import moment from 'moment'
 import PrimaryHeaderSection from '../components/Section/PrimaryHeaderSection'
 import ActionsSection from '../components/Section/ActionsSection'
+import CardContentSection from '../components/Section/CardContentSection'
 import { AddTagButton, PrimaryButton, TertiaryButton } from '../components/Button'
 import ProfileHeaderLabel from '../components/PublicProfile/ProfileHeaderLabel.bs'
 import StatisticsContainer from '../components/PublicProfile/StatisticsContainer.bs'
@@ -61,21 +62,6 @@ const CreateCollectionCurators = styled.div`
   > * {
     ${space};
   }
-`
-
-const CardContentSection = styled.section`
-  display: flex;
-  justify-content: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex: 1;
-  flex-wrap: wrap;
-  padding-bottom: 0;
-  max-width: 1280px;
-  > * {
-    margin: ${props => props.theme.space[2]}px;
-  } 
 `
 
 storiesOf('Section', module)
