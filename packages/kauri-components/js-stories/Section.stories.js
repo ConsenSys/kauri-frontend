@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react'
 import Stack from 'stack-styled'
 import styled from 'styled-components'
 import { space } from 'styled-system'
+import moment from 'moment'
 import PrimaryHeaderSection from '../components/Section/PrimaryHeaderSection'
 import ActionsSection from '../components/Section/ActionsSection'
 import { AddTagButton, PrimaryButton, TertiaryButton } from '../components/Button'
@@ -12,7 +13,8 @@ import StatisticsContainer from '../components/PublicProfile/StatisticsContainer
 import UserWidgetSmall from '../components/UserWidget/UserWidgetSmall.bs'
 import CuratorHeaderLabel from '../components/Typography/CuratorHeaderLabel'
 import Input from '../components/Input/Input'
-import AddMemberButton from '../components/Button/AddMemberButton';
+import AddMemberButton from '../components/Button/AddMemberButton'
+import ArticleCard from '../components/Card/ArticleCard'
 
 const UploadIcon = () => <img src='https://png.icons8.com/color/50/000000/upload.png' />
 
@@ -59,6 +61,21 @@ const CreateCollectionCurators = styled.div`
   > * {
     ${space};
   }
+`
+
+const CardContentSection = styled.section`
+  display: flex;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex: 1;
+  flex-wrap: wrap;
+  padding-bottom: 0;
+  max-width: 1280px;
+  > * {
+    margin: ${props => props.theme.space[2]}px;
+  } 
 `
 
 storiesOf('Section', module)
@@ -111,4 +128,57 @@ storiesOf('Section', module)
         </CreateCollectionMetaDetails>
       </Stack>
     </PrimaryHeaderSection>
+  ))
+  .add('CardContentSection', () => (
+    <CardContentSection>
+      <ArticleCard
+        date={moment(1538734619928).format('D MMM YYYY')}
+        title={'Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title'}
+        id={'1234567890'}
+        version={'1'}
+        content={
+          `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Praesent sed cursus purus.
+        In facilisis nulla sed efficitur posuere.
+        Maecenas vestibulum elementum interdum.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Donec non eleifend ex, eu interdum justo.
+        Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
+        Nunc nec dui id magna ullamcorper semper.
+        Morbi mollis mauris quis orci tristique posuere ac non magna.
+        Nam lectus ipsum, molestie sit
+        Morbi mollis mauris quis orci tristique posuere ac non magna.
+        Nam lectus ipsum, molestie sit…
+      `
+        }
+        username={'USERNAME GOES HERE'}
+        userId={'HEY'}
+        cardHeight={420}
+      />
+      <ArticleCard
+        date={moment(1538734619928).format('D MMM YYYY')}
+        title={'Two Line Title Two Line Title Two Line Title Two Line Title'}
+        id={'1234567890'}
+        version={'1'}
+        content={
+          `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+       Praesent sed cursus purus.
+      In facilisis nulla sed efficitur posuere.
+      Maecenas vestibulum elementum interdum.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Donec non eleifend ex, eu interdum justo.
+      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
+      Nunc nec dui id magna ullamcorper semper.
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit…
+      `
+        }
+        userId={'bfecec47dd8bf5f6264a9830a9d26ef387c38a67'}
+        cardHeight={420}
+        imageURL={'https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80'}
+      />
+    </CardContentSection>
   ))

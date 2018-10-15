@@ -119,12 +119,12 @@ const calculateCardHeight = R.cond([
   [
     ({ cardHeight, cardWidth, imageURL }) =>
       typeof imageURL !== 'string' && cardHeight > DEFAULT_CARD_HEIGHT && cardWidth > DEFAULT_CARD_WIDTH,
-    ({ cardHeight }) => cardHeight,
+    ({ cardHeight }) => cardHeight - (DEFAULT_CARD_PADDING * 2),
   ],
   [
     ({ cardHeight, cardWidth, imageURL }) =>
       typeof imageURL !== 'string' && cardHeight === DEFAULT_CARD_HEIGHT && cardWidth > DEFAULT_CARD_WIDTH,
-    R.always(420),
+    R.always(420 - (DEFAULT_CARD_PADDING * 2)),
   ],
   [
     ({ cardHeight, imageURL }) => typeof imageURL === 'string' && cardHeight > DEFAULT_CARD_HEIGHT,
@@ -133,11 +133,11 @@ const calculateCardHeight = R.cond([
   [({ cardHeight, imageURL }) => typeof imageURL === 'string' && cardHeight === DEFAULT_CARD_HEIGHT, R.always(420)],
   [
     ({ cardHeight, imageURL }) => typeof imageURL !== 'string' && cardHeight > DEFAULT_CARD_HEIGHT,
-    ({ cardHeight }) => cardHeight,
+    ({ cardHeight }) => cardHeight - (DEFAULT_CARD_PADDING * 2),
   ],
   [
     ({ cardHeight, imageURL }) => typeof imageURL !== 'string' && cardHeight === DEFAULT_CARD_HEIGHT,
-    R.always(DEFAULT_CARD_HEIGHT),
+    R.always(DEFAULT_CARD_HEIGHT - (DEFAULT_CARD_PADDING * 2)),
   ],
 ])
 
@@ -152,11 +152,11 @@ const calculateCardWidth = R.cond([
   ],
   [
     ({ cardWidth, imageURL }) => typeof imageURL !== 'string' && cardWidth > DEFAULT_CARD_WIDTH,
-    ({ cardWidth }) => cardWidth,
+    ({ cardWidth }) => cardWidth - (DEFAULT_CARD_PADDING * 2),
   ],
   [
     ({ cardWidth, imageURL }) => typeof imageURL !== 'string' && cardWidth === DEFAULT_CARD_WIDTH,
-    R.always(DEFAULT_CARD_WIDTH),
+    R.always(DEFAULT_CARD_WIDTH - (DEFAULT_CARD_PADDING * 2)),
   ],
 ])
 
