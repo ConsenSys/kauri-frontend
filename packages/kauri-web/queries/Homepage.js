@@ -23,14 +23,14 @@ query getAllCuratedList {
       ...on CommunityDTO { id, name },
       ...on PublicUserDTO { id} }
     resources {
-      ...on ArticleDTO { id, version, title, content, dateCreated, datePublished, author { id, name, username },
+      ...on ArticleDTO { resourceIdentifier {type, id}, id, version, title, content, dateCreated, datePublished, author { id, name, username },
         owner {
           ...on PublicUserDTO { id, username, name, avatar }
           ...on CommunityDTO {id, name }
         } status, attributes, vote { totalVote } },
-      ...on CollectionDTO { id },
-      ...on CommunityDTO { id, name },
-      ...on PublicUserDTO { id }
+      ...on CollectionDTO { id, resourceIdentifier {type, id} },
+      ...on CommunityDTO { id, name, resourceIdentifier {type, id} },
+      ...on PublicUserDTO { id, resourceIdentifier {type, id} }
     }
   }
 }

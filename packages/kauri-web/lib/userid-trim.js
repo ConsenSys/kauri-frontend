@@ -1,2 +1,2 @@
 //@flow
-export default (user: string) => (user).substring(0, 6) + '...' + (user).substring(38, 42);
+export default (user: string) => '0x'+(user).substring(0, 4) + '...' + (user).substring(36, 42);

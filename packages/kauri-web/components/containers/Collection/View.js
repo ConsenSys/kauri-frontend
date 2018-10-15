@@ -18,6 +18,15 @@ type Props = {
   userId?: string
 }
 
+export const Overlay = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: ${props => props.theme.colors.bgPrimary};
+  opacity: 0.8;
+  margin-top: -106px;
+`;
+
 const ContentContainer = styled.div`
   display: flex;
   align-items: center;
@@ -31,8 +40,8 @@ const HeaderContainer = styled(ContentContainer)`
   margin-top: -76px;
   padding-top: 106px;
   padding-bottom: 50px;
-  box-shadow: inset 0px 0px 140px 120px rgba(0, 0, 0, 0.5);
   flex-wrap: wrap;
+  position: relative;
 `
 
 class CollectionPage extends Component<Props, { trianglify: string }> {
@@ -75,6 +84,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
         </Helmet>
         <ScrollToTopOnMount />
         <HeaderContainer background={bg}>
+          <Overlay />
           <CollectionHeader
             id={id}
             name={name}

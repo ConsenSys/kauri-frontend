@@ -12,7 +12,7 @@ class ViewArticle extends React.Component {
 
   render () {
     return (
-      <App url={this.props.router}>
+      <App url={this.props.router} navcolor='transparent'>
         <Article
           id={this.props.router.query['article_id']}
           version={this.props.router.query['article_version']}

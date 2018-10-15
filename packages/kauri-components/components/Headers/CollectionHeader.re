@@ -7,6 +7,7 @@ module Styles = {
         display(`flex),
         width(`percent(100.0)),
         flexDirection(row),
+        zIndex(1),
         media(
           "only screen and (max-width: 500px)",
           [flexDirection(column), padding(px(10))],

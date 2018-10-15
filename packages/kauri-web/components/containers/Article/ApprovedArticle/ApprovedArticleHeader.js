@@ -48,23 +48,42 @@ export const ApprovedArticleSubject = ({
   </ApprovedArticleSubjectContainer>
 )
 
-export const PullRight = styled.div`
+const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
+  margin-top: -76px;
+  padding-top: 160px;
+  padding-bottom: 140px;
+  position: relative;
+  padding-left: 0;
+`;
+
+const Overlay = styled.div`
+  background: ${props => props.theme.colors.bgPrimary};
+  opacity: 0.8;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  margin-top: -160px;
+`;
+
+const InfoContainer = styled.div`
   display: flex;
-  margin-left: auto;
-  margin-right: 11px;
-  align-items: center;
-`
+  flex-direction: column;
+  padding: 0 ${props => props.theme.padding};
+  z-index: 9;
+  width: 100%;
+`;
 
 export default ({ datePublished, title, attributes }: *) => (
-  <ApprovedArticleSecondaryHeader style={{ background: attributes && attributes.background ? `url(${attributes.background}) center center` : '#1E2428', backgroundSize: 'cover'}} type='article' theme={theme}>
-    <ApprovedArticleSubject
-      type='article'
-      attributes={attributes}
-      subject={title}
-      theme={theme}
-    />
-    <PullRight>
+  <ApproveArticleHeader style={{ background: attributes && attributes.background ? `url(${attributes.background}) center center` : '#1E2428', backgroundSize: 'cover'}} type='article' theme={theme}>
+    <Overlay />
+    <InfoContainer>
       <PostedDate dateType='FromNow' date_field={datePublished} />
-    </PullRight>
-  </ApprovedArticleSecondaryHeader>
+      <ApprovedArticleSubject
+        type='article'
+        attributes={attributes}
+        subject={title}
+        theme={theme}
+      />
+    </InfoContainer>
+  </ApproveArticleHeader>
 )

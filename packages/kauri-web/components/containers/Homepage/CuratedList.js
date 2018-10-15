@@ -67,6 +67,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
       {resources && (
         <Resources>
           {header && <CuratedHeader name={name} header={header} />}
+          {console.log(resources)}
           {resources.map(card => {
             switch (card && card.resourceIdentifier && typeof card.resourceIdentifier.type === 'string' && card.resourceIdentifier.type) {
               case 'ARTICLE': {
