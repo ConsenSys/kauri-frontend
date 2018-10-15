@@ -32,11 +32,14 @@ const Container = styled.div`
   flex-direction: column;
   flex: 1;
   text-align: left;
-  ${props => typeof props.imageURL === 'string' && withImageURLPaddingCss};
+  > a {
+    height: ${props => !props.imageURL && '100%'};
+  }
 `
 
 const Content = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
   flex: 1;
   > span:first-child {
@@ -45,6 +48,7 @@ const Content = styled.div`
   > :nth-child(2) {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
+  ${props => props.imageURL && withImageURLPaddingCss};
 `
 
 const Footer = styled.div`
@@ -52,11 +56,14 @@ const Footer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  ${props => props.imageURL && withImageURLPaddingCss};
+  padding-top: ${props => props.imageURL && '0px'};
 `
 
 const Divider = styled.div`
   width: 100%;
   margin: ${props => props.theme.space[2]}px 0px;
+  margin-top: auto;
   background-color: ${props => props.theme.colors['divider']};
   height: 2px;
 `
@@ -81,27 +88,30 @@ const titleLineHeight = R.cond([
 const contentLineHeight = R.cond([
   [({ cardWidth, imageURL }) => cardWidth > DEFAULT_CARD_WIDTH && typeof imageURL !== 'string', R.always(12)],
   [({ cardHeight, imageURL }) => cardHeight <= DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(5)],
-  [({ cardHeight, imageURL }) => cardHeight > DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(10)],
+  [({ cardHeight, imageURL }) => cardHeight > DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(8)],
   [({ imageURL }) => typeof imageURL === 'string', R.always(3)],
 ])
 
 let renderCardContent = ({ title, content, cardHeight, cardWidth, imageURL, date }) => (
   <React.Fragment>
-    <Label>{'Posted ' + date}</Label>
-    <H1>
-      <TextTruncate line={titleLineHeight({ cardHeight, imageURL })} truncateText='…' text={title} />
-    </H1>
-    {content.substring(0, 2).includes('{') ? (
-      renderDescriptionRowContent(content, cardHeight)
-    ) : (
-      <BodyCard>
-        <TextTruncate line={contentLineHeight({ cardHeight, cardWidth, imageURL })} truncateText='…' text={content} />
-      </BodyCard>
-    )}
+    {typeof imageURL === 'string' && <Image imageURL={imageURL} />}
+    <Content imageURL={imageURL}>
+      <Label>{'Posted ' + date}</Label>
+      <H1>
+        <TextTruncate line={titleLineHeight({ cardHeight, imageURL })} truncateText='…' text={title} />
+      </H1>
+      {content.substring(0, 2).includes('{') ? (
+        renderDescriptionRowContent(content, cardHeight)
+      ) : (
+        <BodyCard>
+          <TextTruncate line={contentLineHeight({ cardHeight, cardWidth, imageURL })} truncateText='…' text={content} />
+        </BodyCard>
+      )}
+    </Content>
   </React.Fragment>
 )
 
-let renderPublicProfile = (pageType, username, userId, cardWidth, userAvatar) => (
+let renderPublicProfile = (pageType, username, userId, cardWidth, userAvatar, imageURL) => (
   <UserAvatar fullWidth={cardWidth > DEFAULT_CARD_WIDTH} username={username} userId={userId} avatar={userAvatar} />
 )
 
@@ -236,24 +246,21 @@ const ArticleCard = ({
       toggledOn === true && (
       <Hover hasImageURL={imageURL} viewAction={viewAction} hoverAction={hoverAction} id={id} version={version} />
     )}
-    {typeof imageURL === 'string' && <Image imageURL={imageURL} />}
     <Container imageURL={imageURL}>
-      <Content imageURL={imageURL}>
-        {typeof linkComponent !== 'undefined'
-          ? linkComponent(
-            renderCardContent({ title, content, cardHeight, cardWidth, imageURL, date }),
-            `/article/${id}/v${version}`
-          )
-          : renderCardContent({ title, content, cardHeight, cardWidth, imageURL, date })}
-      </Content>
+      {typeof linkComponent !== 'undefined'
+        ? linkComponent(
+          renderCardContent({ title, content, cardHeight, cardWidth, imageURL, date }),
+          `/article/${id}/v${version}`
+        )
+        : renderCardContent({ title, content, cardHeight, cardWidth, imageURL, date })}
       <Divider />
-      <Footer>
+      <Footer imageURL={imageURL}>
         {typeof linkComponent !== 'undefined'
           ? linkComponent(
-            renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar),
+            renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar, imageURL),
             `/public-profile/${userId}`
           )
-          : renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar)}
+          : renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar, imageURL)}
       </Footer>
     </Container>
   </BaseCard>

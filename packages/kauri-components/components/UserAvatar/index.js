@@ -52,7 +52,7 @@ type Props = {
   avatar?: string,
   username: ?string,
   userId: string,
-  imageURL: ?string,
+  imageURL?: string,
   fullWidth?: boolean,
 }
 

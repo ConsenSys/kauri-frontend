@@ -22,34 +22,6 @@ type Props = {
   cardHeight?: number,
 }
 
-const styles = {
-  code: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    fontFamily: '"Roboto"',
-    fontSize: 16,
-    lineHeight: 23,
-    padding: 2,
-  },
-  codeBlock: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    fontFamily: '"Roboto"',
-    fontSize: 16,
-    lineHeight: 23,
-    padding: 20,
-  },
-}
-
-export const inline = {
-  BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
-  ITALIC: (children, { key }) => <em key={key}>{children}</em>,
-  UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
-  CODE: (children, { key }) => (
-    <span key={key} style={styles.code}>
-      {children}
-    </span>
-  ),
-}
-
 const hideAtomicBlock = css`
   figure,
   iframe {
@@ -89,38 +61,33 @@ const articleCardCss = css`
   }
 `
 
-const MaxThreeLines = styled.div`
-  ${props => !props.fullText && hideAtomicBlock};
-  ${props => !props.fullText && props.type !== 'article card' && maxThreeLinesCss};
-  margin-top: 2px;
-  font-size: 17px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  min-height: ${props => props.requestPage && '30vh'};
-  ${props => props.openRequest && openRequestCss};
-  ${props => props.type === 'article card' && articleCardCss};
-`
+const styles = {
+  code: {
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    fontFamily: '"Roboto"',
+    fontSize: 16,
+    lineHeight: 23,
+    padding: 2,
+  },
+  codeBlock: {
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    fontFamily: '"Roboto"',
+    fontSize: 16,
+    lineHeight: 23,
+    padding: 20,
+  },
+}
 
-const truncateWithEllipsis = css`
-  color: ${props => props.theme.primaryTextcolor};
-  padding: 0 0;
-  font-size: 14px;
-  line-height: 18px;
-  text-align: left;
-  text-overflow: ellipsis;
-`
-
-const recentRequest = css`
-  font-size: 13px;
-`
-
-export const TruncateWithEllipsisCss = css`
-  color: ${props => props.theme.primaryTextcolor};
-  white-space: pre-wrap;
-  font-size: 16px;
-  letter-spacing: -0.1px;
-  line-height: 23px;
-`
+export const inline = {
+  BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
+  ITALIC: (children, { key }) => <em key={key}>{children}</em>,
+  UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
+  CODE: (children, { key }) => (
+    <span key={key} style={styles.code}>
+      {children}
+    </span>
+  ),
+}
 
 const inlineStylesToPrune = {
   lineHeight: null,
@@ -144,6 +111,27 @@ const pruneInlineStyles = (child, type) => {
     return nodes
   })
 }
+
+const truncateWithEllipsis = css`
+  color: ${props => props.theme.primaryTextcolor};
+  padding: 0 0;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: left;
+  text-overflow: ellipsis;
+`
+
+const recentRequest = css`
+  font-size: 13px;
+`
+
+export const TruncateWithEllipsisCss = css`
+  color: ${props => props.theme.primaryTextcolor};
+  white-space: pre-wrap;
+  font-size: 16px;
+  letter-spacing: -0.1px;
+  line-height: 23px;
+`
 
 const TruncateWithEllipsis = styled.div`
   ${TruncateWithEllipsisCss};
@@ -476,6 +464,21 @@ export const options = {
   },
 }
 
+const MaxThreeLines = styled.div`
+  ${props => !props.fullText && hideAtomicBlock};
+  ${props => !props.fullText && props.type !== 'article card' && maxThreeLinesCss};
+  margin-top: 2px;
+  font-size: 14px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  min-height: ${props => props.requestPage && '30vh'};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  ${props => props.openRequest && openRequestCss};
+  ${props => props.type === 'article card' && articleCardCss};
+`
+
 export default compose(withErrorCatch())(
   ({
     record: { text },
@@ -505,19 +508,19 @@ export default compose(withErrorCatch())(
               'DescriptionRow-markdown--fullText'}`}
             dangerouslySetInnerHTML={{ __html: getHTMLFromMarkdown(JSON.parse(text).markdown) }}
           />
+        ) : fullText ? redraft(
+          JSON.parse(text),
+          {
+            inline: Boolean(fullText) && inline,
+            blocks: blocks(fullText, recentRequest, type),
+            entities: Boolean(fullText) && entities,
+          },
+          options
         ) : (
           JSON.parse(text).markdown
             ? <TextTruncate
               line={cardHeight > 290 ? 8 : 3} truncateText='…' text={stripHTML(getHTMLFromMarkdown(JSON.parse(text).markdown))} />
-            : redraft(
-              JSON.parse(text),
-              {
-                inline: Boolean(fullText) && inline,
-                blocks: blocks(fullText, recentRequest, type),
-                entities: Boolean(fullText) && entities,
-              },
-              options
-            )
+            : 'Old Content, please migrate to new Markdown'
         )
       ) : inReviewArticleComment && typeof text === 'string' && text.length > 5 ? (
         text
