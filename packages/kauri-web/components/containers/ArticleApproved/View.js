@@ -69,7 +69,7 @@ class ArticleApproved extends React.Component<Props> {
           content={article.content}
           userId={article.author && article.author.id}
           username={article.author && article.author.name}
-          cardHeight={500}
+          cardHeight={420}
           linkComponent={(childrenProps, route) => (
             <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>
               {childrenProps}

@@ -59,7 +59,7 @@ let renderArticleCards = (~response) =>
              key
              id=articleId
              version=articleVersion
-             cardHeight=500
+             cardHeight=420
              title
              content
              date

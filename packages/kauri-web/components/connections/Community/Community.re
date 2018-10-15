@@ -29,6 +29,7 @@ module Styles = {
         flex(1),
         flexWrap(wrap),
         paddingBottom(px(0)),
+        paddingTop(px(30)),
       ])
     );
   let sectionTitle =
@@ -60,7 +61,7 @@ let renderArticleCards = (~response) =>
              key
              id=articleId
              version=articleVersion
-             cardHeight=500
+             cardHeight=420
              imageURL={Js.Nullable.toOption(background)}
              linkComponent=(
                (childrenProps, route) =>
@@ -80,105 +81,35 @@ let renderArticleCards = (~response) =>
   | None => <p> "No articles found boo"->ReasonReact.string </p>
   };
 
-let make = (~category, ~hostName, ~website, _children) => {
+let make = (~category, ~hostName, ~website, ~name, _children) => {
   ...component,
   render: _self => {
     open Article_Queries;
     let tabNames = [|"all", "general", "tutorial"|];
+    let articlesQuery = SearchCommunityArticles.make(~category, ());
 
     <div className=Styles.container>
       <ScrollToTopOnMount />
       <CommunityHeader>
-        <CommunityProfile community=category website hostName />
+        <CommunityProfile community=name website hostName />
       </CommunityHeader>
-      BasicTabs.(
-        <Tabs
-          defaultTabName={tabNames[0]}
-          tabs={
-            (setCurrentTabName, currentTabName) => {
-              let articlesCountQuery =
-                switch (currentTabName) {
-                | "all" => CommunityArticlesCount.make(~category, ())
-                | _ => CommunityArticlesCount.make(~category, ())
-                };
-
-              <TabList>
-                <Tab setCurrentTabName currentTabName name={tabNames[0]}>
-                  "All"->String.uppercase->ReasonReact.string
-                </Tab>
-                <Tab setCurrentTabName currentTabName name={tabNames[1]}>
-                  "General Articles"->String.uppercase->ReasonReact.string
-                </Tab>
-                <Tab setCurrentTabName currentTabName name={tabNames[2]}>
-                  "Tutorials"->String.uppercase->ReasonReact.string
-                </Tab>
-                <PullRight>
-                  <Badge>
-                    <CommunityArticlesCountQuery
-                      variables=articlesCountQuery##variables>
-                      ...{
-                           ({result}) =>
-                             switch (result) {
-                             | Loading => <Loading />
-                             | Error(error) =>
-                               <div>
-                                 {ReasonReact.string(error##message)}
-                               </div>
-                             | Data(response) =>
-                               let totalArticles =
-                                 response
-                                 ->Article_Resource.articlesCountGet
-                                 ->string_of_int;
-                               (totalArticles ++ " Total Articles")
-                               ->String.uppercase
-                               ->ReasonReact.string;
-                             }
-                         }
-                    </CommunityArticlesCountQuery>
-                  </Badge>
-                </PullRight>
-              </TabList>;
-            }
+      <SearchCommunityArticlesQuery
+        variables=articlesQuery##variables>
+        ...{
+            ({result}) =>
+              switch (result) {
+              | Loading => <Loading />
+              | Error(error) =>
+                <div>
+                  {ReasonReact.string(error##message)}
+                </div>
+              | Data(response) =>
+                <section className=Styles.articlesContainer>
+                  {renderArticleCards(~response)}
+                </section>
+              }
           }
-          content={
-            currentTabName => {
-              let articlesQuery =
-                switch (currentTabName) {
-                | "all" => SearchCommunityArticles.make(~category, ())
-                | _ => SearchCommunityArticles.make(~category, ())
-                };
-
-              <PanelList>
-                {
-                  tabNames
-                  ->Belt.Array.map(name =>
-                      <Panel key=name name currentTabName>
-                        <SearchCommunityArticlesQuery
-                          variables=articlesQuery##variables>
-                          ...{
-                               ({result}) =>
-                                 switch (result) {
-                                 | Loading => <Loading />
-                                 | Error(error) =>
-                                   <div>
-                                     {ReasonReact.string(error##message)}
-                                   </div>
-                                 | Data(response) =>
-                                   <section className=Styles.articlesContainer>
-                                     {renderArticleCards(~response)}
-                                   </section>
-                                 }
-                             }
-                        </SearchCommunityArticlesQuery>
-                      </Panel>
-                    )
-                  |> ReasonReact.array
-                }
-              </PanelList>;
-            }
-          }
-        />
-      )
+    </SearchCommunityArticlesQuery>  
     </div>;
   },
 };
@@ -188,6 +119,7 @@ type jsProps = {
   category: string,
   hostName: string,
   website: string,
+  name: string,
 };
 
 let default =
@@ -196,6 +128,7 @@ let default =
       ~category=jsProps->categoryGet,
       ~hostName=jsProps->hostNameGet,
       ~website=jsProps->websiteGet,
+      ~name=jsProps->nameGet,
       [||],
     )
   );

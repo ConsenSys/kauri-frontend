@@ -101,7 +101,7 @@ class Communities extends Component<Props> {
               communityName={community.name}
               communityDescription={community.description || ''}
               communityId={community.id}
-              communityHeight={500}
+              communityHeight={420}
               communityLogo={`/static/images/${community.id}/avatar.png`}
               linkComponent={childrenProps => (
                 <Link useAnchorTag route={`/community/${community.id}`}>

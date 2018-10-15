@@ -2523,9 +2523,9 @@ bs-moment@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/bs-moment/-/bs-moment-0.3.1.tgz#ae153e1c526c5a1aca8eb4c91b9fa0142062f974"
 
-bs-platform@^4.0.3:
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-4.0.6.tgz#e7f156c77ad3efafb0c0291b41dcf1b06f93c192"
+bs-platform@4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-4.0.3.tgz#4510c1c915cc5b169b5717e5c0ada52d3f99ff98"
 
 bs-webapi@^0.11.0:
   version "0.11.0"
@@ -6242,6 +6242,10 @@ hdkey@^0.7.0:
 he@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
+
+he@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
 
 helmet-crossdomain@0.3.0:
   version "0.3.0"

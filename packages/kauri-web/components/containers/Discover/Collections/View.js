@@ -113,7 +113,7 @@ class Collections extends Component<Props> {
               imageURL={collection.background}
               articleCount={articleCount}
               date={moment(collection.dateUpdated).format('D MMM YYYY')}
-              cardHeight={500}
+              cardHeight={420}
               linkComponent={(childrenProps, route) => (
                 <Link toSlug={route.includes('collection') && collection.name} useAnchorTag href={route}>
                   {childrenProps}
