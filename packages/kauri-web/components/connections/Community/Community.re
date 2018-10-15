@@ -61,7 +61,7 @@ let renderArticleCards = (~response) =>
              key
              id=articleId
              version=articleVersion
-             cardHeight=500
+             cardHeight=420
              imageURL={Js.Nullable.toOption(background)}
              linkComponent=(
                (childrenProps, route) =>
