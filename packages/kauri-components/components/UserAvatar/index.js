@@ -16,7 +16,12 @@ const Container = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: ${props => !props.fullWidth && '100px'};
-    color: ${props => props.imageURL ? 'white' : props.color ? props.theme.colors[props.color] : props.theme.colors['textPrimary']};
+    color: ${props => {
+    if (props.imageURL) return 'white'
+    if (props.variant === 'white') return 'white'
+    if (props.color) return props.theme.colors[props.color]
+    return props.theme.colors['textPrimary']
+  }};
   }
 `
 
@@ -27,9 +32,9 @@ const Avatar = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  background: ${props => props.theme.colors['textPrimary']};
+  background: ${props => props.variant === 'white' ? props.theme.colors['white'] : props.theme.colors['textPrimary']};
   > * {
-    color: ${props => props.theme.colors[props.color]};
+    color: ${props => props.variant === 'white' ? props.theme.colors['textPrimary'] : props.theme.colors[props.color]};
     text-transform: uppercase;
     line-height: 10px;
   }
@@ -54,11 +59,12 @@ type Props = {
   userId: string,
   imageURL?: string,
   fullWidth?: boolean,
+  variant?: 'white',
 }
 
 export default (props: Props) => (
-  <Container color={typeof props.color === 'string' ? props.color : 'textPrimary'} imageURL={props.imageURL} fullWidth={props.fullWidth}>
-    <Avatar color={typeof props.color === 'string' ? props.color : 'white'}>
+  <Container variant={props.variant} color={typeof props.color === 'string' ? props.color : 'textPrimary'} imageURL={props.imageURL} fullWidth={props.fullWidth}>
+    <Avatar variant={props.variant} color={typeof props.color === 'string' ? props.color : 'white'}>
       {typeof props.avatar === 'string' ? (
         <ProfileImage avatar={props.avatar} alt='Logo' />
       ) : (

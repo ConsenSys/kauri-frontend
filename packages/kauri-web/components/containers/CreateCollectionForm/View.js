@@ -9,7 +9,8 @@ import ActionsSection from '../../../../kauri-components/components/Section/Acti
 import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection'
 import ProfileHeaderLabel from '../../../../kauri-components/components/PublicProfile/ProfileHeaderLabel.bs'
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs'
-import UserWidgetSmall from '../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
+import UserAvatar from '../../../../kauri-components/components/UserAvatar'
+import { Label } from '../../../../kauri-components/components/Typography'
 import CuratorHeaderLabel from '../../../../kauri-components/components/Typography/CuratorHeaderLabel'
 import Input from '../../../../kauri-components/components/Input/Input'
 import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
@@ -116,9 +117,8 @@ const CreateCollectionCuratorDetails = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  > :first-child {
-    ${space};
-  }
+  justify-content: center;
+  ${space};
 `
 
 const CreateCollectionCurators = styled.div`
@@ -216,6 +216,10 @@ type Props = {
   data?: { getCollection?: ?CollectionDTO },
   openModalAction: ({ children: React.Node }) => void,
   closeModalAction: () => void,
+  userId: string,
+  username: string,
+  userAvatar: string
+
 }
 
 export default ({
@@ -230,6 +234,9 @@ export default ({
   data,
   openModalAction,
   closeModalAction,
+  username,
+  userId,
+  userAvatar,
 }: Props) => (
   <Section>
     <Form>
@@ -260,7 +267,7 @@ export default ({
 
       <PrimaryHeaderSection backgroundURL={values.background}>
         <CreateCollectionDetails mb={2}>
-          <ProfileHeaderLabel header='Collection' />
+          <Label color='white'>Collection</Label>
           <Field
             type='text'
             name='name'
@@ -296,7 +303,7 @@ export default ({
             <CreateCollectionCuratorDetails mb={2}>
               <CuratorHeaderLabel>Curator</CuratorHeaderLabel>
               <CreateCollectionCurators mr={3}>
-                <UserWidgetSmall color='FFFFFF' username={'davodesign84'} />
+                <UserAvatar variant='white' fullWidth={false} username={username} userId={userId} userAvatar={userAvatar} />
                 {/* <AddMemberButton /> */}
               </CreateCollectionCurators>
             </CreateCollectionCuratorDetails>
