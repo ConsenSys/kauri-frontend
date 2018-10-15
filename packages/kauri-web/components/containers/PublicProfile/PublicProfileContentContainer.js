@@ -1,4 +1,4 @@
-//@flow
+// @flow
 
 import styled from 'styled-components';
 
@@ -10,7 +10,6 @@ const ContentContainer = styled.div`
     flex-wrap: wrap;
     padding: 0px calc((100vw - 1280px) / 2);
     padding-bottom: 0;
-    padding-top: ${props => props.theme.space[4]}px;
 `;
 
 export default ContentContainer;

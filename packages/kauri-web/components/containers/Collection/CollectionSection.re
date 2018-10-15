@@ -93,8 +93,7 @@ let make = (~name, ~description="", ~articles, _children) => {
                   }
                   title=article->titleGet
                   content=article->contentGet
-                  cardHeight=500
-                  /* imageURL=article->imageURLGet->Js.Nullable.toOption */
+                  cardHeight=420
                   date=
                     article
                     ->datePublishedGet

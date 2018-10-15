@@ -18,7 +18,7 @@ const DEFAULT_CARD_PADDING = theme.space[2]
 
 const Image = styled.div`
   height: 170px;
-  background: url(${props => props.imageURL}) center center / cover;
+  background: url(${props => typeof props.imageURL === 'string' && props.imageURL}) center center / cover;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 `
@@ -48,7 +48,7 @@ const Content = styled.div`
   > :nth-child(2) {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
-  ${props => props.imageURL && withImageURLPaddingCss};
+  ${props => typeof props.imageURL === 'string' && withImageURLPaddingCss};
 `
 
 const Footer = styled.div`
@@ -56,8 +56,8 @@ const Footer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  ${props => props.imageURL && withImageURLPaddingCss};
-  padding-top: ${props => props.imageURL && '0px'};
+  ${props => typeof props.imageURL === 'string' && withImageURLPaddingCss};
+  padding-top: ${props => typeof props.imageURL === 'string' && '0px'};
 `
 
 const Divider = styled.div`
