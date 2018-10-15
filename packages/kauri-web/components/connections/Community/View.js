@@ -14,7 +14,7 @@ class CommunityConnection extends React.Component<Props> {
     return (
       this.props.data &&
       this.props.data.getCommunity
-        ? <Community website={this.props.data.getCommunity.website} category={this.props.category} hostName={this.props.hostName} />
+        ? <Community name={this.props.data.getCommunity.name} website={this.props.data.getCommunity.website} category={this.props.category} hostName={this.props.hostName} />
         : null
     )
   }

@@ -68,8 +68,8 @@ class PublicProfile extends Component<ViewProps, ViewState> {
             `Articles (${ArticlesQuery.searchArticles.content.length})`,
             UserQuery.getUser.id === currentUser && `My Drafts (${DraftsQuery.searchArticles.content.length})`,
             `Collections (${CollectionQuery.searchCollections.content.length})`,
-            `Awaiting Owner Approval (${ApprovalsQuery.searchArticles.content.length})`,
-            `Pending My Approval(${PendingQuery.searchArticles.content.length})`,
+            UserQuery.getUser.id === currentUser &&  `Awaiting Owner Approval (${ApprovalsQuery.searchArticles.content.length})`,
+            UserQuery.getUser.id === currentUser && `Pending My Approval(${PendingQuery.searchArticles.content.length})`,
           ]}
           panels={[
             <Articles articles={ArticlesQuery.searchArticles} routeChangeAction={routeChangeAction} />,
