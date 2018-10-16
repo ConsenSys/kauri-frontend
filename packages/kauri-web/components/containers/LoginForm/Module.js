@@ -110,7 +110,7 @@ export const registerEpic = (action$: Observable<RegisterAction>, store: any, { 
           )
           .delay(500)
           .do(() => {
-            Router.push(`/edit-profile` + window.location.search);
+            window.location =  `/edit-profile` + window.location.search;
           })
           .catch(err => {
             console.error(err)
