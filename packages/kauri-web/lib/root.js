@@ -22,10 +22,6 @@ import {
 } from '../components/containers/Article/Article_Module.bs'
 import { submitArticleEpic, submitArticleVersionEpic, editArticleEpic, draftArticleEpic } from '../components/containers/SubmitArticleForm/Module'
 import { addCommentEpic } from '../components/containers/Article/CommentArticleForm/Module'
-import {
-  fetchWalletAvailableFundsEpic,
-  withdrawWalletAvailableFundsEpic,
-} from '../components/containers/Profile/TopicOwnerProfile/Module'
 import { trackAnalyticsEpic, trackMixpanelEpic } from '../components/containers/Link/Module'
 import localStorage, {
   startDriverStepsEpic,
@@ -33,7 +29,7 @@ import localStorage, {
   finishedDriverStepsEpic,
 } from './LocalStorageModule'
 import { createCollectionEpic, composeCollectionEpic } from '../components/containers/CreateCollectionForm/Module'
-import { saveUserDetailsEpic } from '../components/containers/PublicProfile/Module';
+import { saveUserDetailsEpic } from '../components/common/EditProfile/Module';
 import modal from '../../kauri-components/components/Modal/Module'
 
 export const rootReducer = {
@@ -63,8 +59,6 @@ const epics = [
   addToBountyEpic,
   hideIntroBannerEpic,
   tipArticleEpic,
-  fetchWalletAvailableFundsEpic,
-  withdrawWalletAvailableFundsEpic,
   rejectArticleEpic,
   requestRefundEpic,
   resubmitRequestEpic,

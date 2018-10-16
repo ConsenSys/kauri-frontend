@@ -243,7 +243,7 @@ class Navbar extends React.Component {
             }
           >
             <TooltipItemContainer>
-              <Link route={userId ? '/write-article' : '/login'}>
+              <Link route={userId ? '/write-article' : '/login?r=write-article'}>
                 <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>
                   Write Article
                 </TooltipItem>
@@ -281,12 +281,8 @@ class Navbar extends React.Component {
               }
             >
               <TooltipItemContainer>
-                <Link route={'/profile'}>
-                  <TooltipItem>Account</TooltipItem>
-                </Link>
-                <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
                 <Link route={`/public-profile/${userId}`}>
-                  <TooltipItem>Public Profile</TooltipItem>
+                  <TooltipItem>Profile</TooltipItem>
                 </Link>
                 <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
                 <TooltipItem onClick={logout}>Logout</TooltipItem>
