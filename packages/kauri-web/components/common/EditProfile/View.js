@@ -43,7 +43,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
       avatar,
       website,
       twitter: social.twitter,
-      githu: social.github,
+      github: social.github,
       name,
       email,
     }

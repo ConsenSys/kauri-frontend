@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton';
 import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton';
-import EditProfile from '../EditProfile';
+import EditProfile from '../../common/EditProfile';
 
 import type { HeaderState, HeaderProps } from './types';
 
