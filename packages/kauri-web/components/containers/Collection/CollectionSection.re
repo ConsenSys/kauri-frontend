@@ -4,6 +4,8 @@ external linkComponent: Link.linkComponent = "Link";
 [@bs.deriving abstract]
 type author = {
   name: Js.Nullable.t(string),
+  username: Js.Nullable.t(string),
+  avatar: Js.Nullable.t(string),
   id: string,
 };
 
@@ -99,7 +101,10 @@ let make = (~name, ~description="", ~articles, _children) => {
                     ->datePublishedGet
                     ->MomentRe.moment
                     ->MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)))
-                  username=article->authorGet->nameGet->Js.Nullable.toOption
+                  username=
+                    article->authorGet->usernameGet->Js.Nullable.toOption
+                  userAvatar=
+                    article->authorGet->avatarGet->Js.Nullable.toOption
                   userId=article->authorIdGet
                 />;
               },

@@ -90,13 +90,14 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             name={name}
             description={description}
             updated={dateCreated}
-            username={owner.name}
+            username={owner && owner.username}
+            userId={userId || ''}
+            userAvatar={owner && owner.avatar}
             linkComponent={(childrenProps) => (
               <Link fullWidth={false} useAnchorTag href={`/public-profile/${owner && owner.id}`}>
                 {childrenProps}
               </Link>
             )}
-            userId={userId || ''}
             ownerId={owner.id}
             url={url}
             profileImage={owner.profileImage}

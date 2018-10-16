@@ -65,10 +65,10 @@ type Props = {
 export default (props: Props) => (
   <Container variant={props.variant} color={typeof props.color === 'string' ? props.color : 'textPrimary'} imageURL={props.imageURL} fullWidth={props.fullWidth}>
     <Avatar variant={props.variant} color={typeof props.color === 'string' ? props.color : 'white'}>
-      {typeof props.avatar === 'string' ? (
+      {typeof props.avatar === 'string' && props.avatar.length > 1 ? (
         <ProfileImage avatar={props.avatar} alt='Logo' />
       ) : (
-        <H6 color={typeof props.color === 'string' ? props.color : 'white'}>{props.username ? props.username.charAt(0)
+        <H6 color={props.variant === 'white' ? 'textPrimary' : props.color ? props.color : 'white'}>{props.username ? props.username.charAt(0)
           : typeof props.userId === 'string' ? props.userId.charAt(0) : 'Anonymous'}</H6>
       )}
     </Avatar>
