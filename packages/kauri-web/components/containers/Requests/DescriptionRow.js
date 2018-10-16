@@ -115,8 +115,9 @@ const pruneInlineStyles = (child, type) => {
 const truncateWithEllipsis = css`
   color: ${props => props.theme.primaryTextcolor};
   padding: 0 0;
-  font-size: 14px;
-  line-height: 18px;
+  font-size: 17px;
+  line-height: 24px;
+  letter-spacing: -0.1px;
   text-align: left;
   text-overflow: ellipsis;
 `
@@ -128,9 +129,9 @@ const recentRequest = css`
 export const TruncateWithEllipsisCss = css`
   color: ${props => props.theme.primaryTextcolor};
   white-space: pre-wrap;
-  font-size: 16px;
+  font-size: 17px;
   letter-spacing: -0.1px;
-  line-height: 23px;
+  line-height: 24px;
 `
 
 const TruncateWithEllipsis = styled.div`
@@ -468,7 +469,9 @@ const MaxThreeLines = styled.div`
   ${props => !props.fullText && hideAtomicBlock};
   ${props => !props.fullText && props.type !== 'article card' && maxThreeLinesCss};
   margin-top: 2px;
-  font-size: 14px;
+  font-size: 17px;
+  letter-spacing: -0.1px;
+  line-height: 24px;
   word-wrap: break-word;
   overflow-wrap: break-word;
   min-height: ${props => props.requestPage && '30vh'};
