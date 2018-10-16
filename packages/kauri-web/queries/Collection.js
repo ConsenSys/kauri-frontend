@@ -12,6 +12,8 @@ export const Collection = gql`
     owner {
       id
       name
+      username
+      avatar
     } 
     sections {
       name 

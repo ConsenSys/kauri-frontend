@@ -21,6 +21,7 @@ export const Article = gql`
       id
       name
       username
+      avatar
     }
     owner {... on PublicUserDTO {id username name avatar} ...on CommunityDTO {id name} }
     comments {

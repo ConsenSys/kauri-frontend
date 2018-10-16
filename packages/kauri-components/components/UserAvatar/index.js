@@ -68,12 +68,12 @@ export default (props: Props) => (
       {typeof props.avatar === 'string' ? (
         <ProfileImage avatar={props.avatar} alt='Logo' />
       ) : (
-        <H6>{(typeof props.username === 'string' && props.username.charAt(0)) ||
-            typeof props.userId === 'string' ? props.userId.charAt(0) : 'Anonymous'}</H6>
+        <H6 color={typeof props.color === 'string' ? props.color : 'white'}>{props.username ? props.username.charAt(0)
+          : typeof props.userId === 'string' ? props.userId.charAt(0) : 'Anonymous'}</H6>
       )}
     </Avatar>
     <H6>
-      {(typeof props.username === 'string' ? props.username
+      {(props.username ? props.username
         : (typeof props.userId === 'string' ? props.userId.length > 15 ? userIdTrim(props.userId) : props.userId : 'Anonymous'))}
     </H6>
   </Container>
