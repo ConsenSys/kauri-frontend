@@ -2,12 +2,11 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { space, bg } from 'styled-system'
-import { Form, Field, FieldArray, ErrorMessage } from 'formik'
+import { Form, Field, FieldArray } from 'formik'
 import Stack from 'stack-styled'
 import R from 'ramda'
 import ActionsSection from '../../../../kauri-components/components/Section/ActionsSection'
 import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection'
-import ProfileHeaderLabel from '../../../../kauri-components/components/PublicProfile/ProfileHeaderLabel.bs'
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs'
 import UserAvatar from '../../../../kauri-components/components/UserAvatar'
 import { Label } from '../../../../kauri-components/components/Typography'
@@ -122,6 +121,9 @@ const CreateCollectionCuratorDetails = styled.div`
   ${space};
   > :first-child {
     margin-bottom: ${props => props.theme.space[3]}px;
+  }
+  > :nth-child(2) {
+    margin-bottom: ${props => props.theme.space[1]}px;
   }
 `
 
@@ -312,7 +314,7 @@ export default ({
               />
               <CuratorHeaderLabel>Curator</CuratorHeaderLabel>
               <CreateCollectionCurators>
-                <UserAvatar variant='white' fullWidth={false} username={username} userId={userId} userAvatar={userAvatar} />
+                <UserAvatar variant='white' fullWidth username={username} userId={userId} avatar={userAvatar} />
                 {/* <AddMemberButton /> */}
               </CreateCollectionCurators>
             </CreateCollectionCuratorDetails>

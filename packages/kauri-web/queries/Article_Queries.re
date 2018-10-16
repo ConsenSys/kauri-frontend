@@ -18,12 +18,16 @@ module GetArticle = [%graphql
         author {
           id
           name
+          avatar
+          username
         }
         comments {
           content {
             author {
               id
               name
+              avatar
+              username
             }
             posted
             body
@@ -85,9 +89,9 @@ module SearchPersonalArticles = [%graphql
       searchArticles (filter: { authorIdEquals: $userId, statusIn: [ PUBLISHED ], latestVersion: true } ) {
         content {
             id, version, title, content, dateCreated, datePublished, author {
-            id, name
+            id, name avatar username
           }
-          status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name }, body }, totalPages, totalElements  }
+          status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name avatar username }, body }, totalPages, totalElements  }
           resourceIdentifier { type, id, version }
         }
         totalPages totalElements
@@ -105,8 +109,8 @@ module GetArticles = [%graphql
         searchArticles (filter: { statusIn: [PUBLISHED], latestVersion: true }) {
             content {
               id, version, title, content, dateCreated, datePublished, author {
-                id, name }
-                 status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name }, body }, totalPages, totalElements  }
+                id, name username avatar }
+                 status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name avatar username }, body }, totalPages, totalElements  }
                  resourceIdentifier { type, id, version }             }
             totalPages
             totalElements
@@ -126,11 +130,13 @@ module SearchCommunityArticles = [%graphql
               author {
                 id
                  name
+                 avatar
+                 username
               }
               status, attributes, contentHash, checkpoint,
                vote { totalVote },
                comments {
-                 content { posted author { id, name }, body }, totalPages, totalElements
+                 content { posted author { id, name avatar username }, body }, totalPages, totalElements
               }
               resourceIdentifier { type, id, version }
             }

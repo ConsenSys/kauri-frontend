@@ -2,11 +2,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import {
-  CreateRequestLogo as ApprovedArticleLogo,
   CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader,
   TopicActionsContainer as ApprovedArticleSubjectContainer,
 } from '../../CreateRequestForm/CreateRequestHeader'
-import { ForVersion } from '../../SubmitArticleForm/SubmitArticleFormHeader'
 import PostedDate from '../../../../../kauri-components/components/Typography/PostedDate.bs'
 import theme from '../../../../lib/theme-config'
 
@@ -27,12 +25,6 @@ export const ArticleSubject = styled.h3`
   }
   margin-left: 0;
 `
-
-const ArticleChosenDetails = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-
 
 export const ApprovedArticleSubject = ({
   getFieldDecorator,
@@ -57,7 +49,7 @@ const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
 `;
 
 const Overlay = styled.div`
-  background: ${props => props.theme.colors.bgPrimary};
+  background: ${props => props.theme && props.theme.colors.bgPrimary};
   opacity: 0.8;
   height: 100%;
   width: 100%;

@@ -17,15 +17,18 @@ let usernameGet = article =>
        |> default("Unknown Writer")
        |> (
          userId =>
-           Js.String.substring(~from=0, ~to_=11, userId)
+           "0x"
+           ++ Js.String.substring(~from=0, ~to_=4, userId)
            ++ "..."
-           ++ Js.String.substring(
-                ~from=Js.String.length(userId) - 13,
-                ~to_=11,
-                userId,
-              )
+           ++ Js.String.substring(~from=36, ~to_=42, userId)
        ),
      );
+
+let userAvatarGet = article =>
+  article
+  |? (article => article##author)
+  |? (author => author##avatar)
+  |> default("");
 
 let dateUpdatedGet = article =>
   article
@@ -82,12 +85,24 @@ type articleResource = {
   content: string,
   date: string,
   username: string,
+  userAvatar: string,
   userId: string,
   background: Js.Nullable.t(string),
 };
 
 let make = article => {
-  let (key, articleId, articleVersion, title, content, date, username, userId, background) =
+  let (
+    key,
+    articleId,
+    articleVersion,
+    title,
+    content,
+    date,
+    username,
+    userId,
+    userAvatar,
+    background,
+  ) =
     article
     ->(
         keyGet,
@@ -98,9 +113,21 @@ let make = article => {
         dateUpdatedGet,
         usernameGet,
         userIdGet,
+        userAvatarGet,
         backgroundGet,
       );
-  {key, articleId, articleVersion, title, content, date, username, userId, background};
+  {
+    key,
+    articleId,
+    articleVersion,
+    title,
+    content,
+    date,
+    username,
+    userId,
+    userAvatar,
+    background,
+  };
 };
 
 /* Extra getters  */
