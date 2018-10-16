@@ -12,7 +12,7 @@ module Styles = {
     Css.(
       style([
         color(hex("ffffff")),
-        fontSize(px(20)),
+        fontSize(px(28)),
         fontWeight(500),
         margin(px(0)),
         marginBottom(px(6)),
