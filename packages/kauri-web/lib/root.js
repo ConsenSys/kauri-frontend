@@ -22,10 +22,6 @@ import {
 } from '../components/containers/Article/Article_Module.bs'
 import { submitArticleEpic, submitArticleVersionEpic, editArticleEpic, draftArticleEpic } from '../components/containers/SubmitArticleForm/Module'
 import { addCommentEpic } from '../components/containers/Article/CommentArticleForm/Module'
-import {
-  fetchWalletAvailableFundsEpic,
-  withdrawWalletAvailableFundsEpic,
-} from '../components/containers/Profile/TopicOwnerProfile/Module'
 import { trackAnalyticsEpic, trackMixpanelEpic } from '../components/containers/Link/Module'
 import localStorage, {
   startDriverStepsEpic,
@@ -63,8 +59,6 @@ const epics = [
   addToBountyEpic,
   hideIntroBannerEpic,
   tipArticleEpic,
-  fetchWalletAvailableFundsEpic,
-  withdrawWalletAvailableFundsEpic,
   rejectArticleEpic,
   requestRefundEpic,
   resubmitRequestEpic,

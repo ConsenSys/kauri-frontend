@@ -108,7 +108,7 @@ export const registerEpic = (action$: Observable<RegisterAction>, store: any, { 
             )
           )
           .delay(500)
-          .do(() => (window.location = '/profile'))
+          .do(() => (window.location = `/public-profile/${window.web3.eth.accounts[0].substring(2)}`))
           .catch(err => {
             console.error(err)
             if (err && err.message.includes('Metamask locked!')) {
