@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components'
 import { Link } from '../../../routes'
 import Web3Status from '../Web3Status'
 import ArticleSearchbar from '../ArticleSearchbar'
+import UserAvatar from '../../../../kauri-components/components/UserAvatar'
 import Tooltip from '../../common/Tooltip'
 import { withRouter } from 'next/router'
 
@@ -206,7 +207,7 @@ class Navbar extends React.Component {
             }
           >
             <TooltipItemContainer>
-            <Link route='/articles'>
+              <Link route='/articles'>
                 <TooltipItem href='/articles' pathname={router.pathname} link='/articles'>
                 Articles
                 </TooltipItem>
@@ -275,9 +276,11 @@ class Navbar extends React.Component {
           {userId && userId.length ? (
             <Tooltip
               header={
-                <ProfileMiniature>
-                  {user && user.username ? user.username.substring(0, 1) : <Icon type='user' />}
-                </ProfileMiniature>
+                <UserAvatar
+                  username={user && user.username}
+                  userId={user && user.id}
+                  avatar={user && user.avatar}
+                />
               }
             >
               <TooltipItemContainer>
