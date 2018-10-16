@@ -29,10 +29,6 @@ const ButtonWrapper = styled.div`
 `;
 
 class OnboardingEditProfile extends Component {
-    // componentDidMount() {
-    //     const { name, username, email, avatar, social: {github, twitter}, title, website } = this.props.user;
-    //     if (name || username || email || avatar || githiub || twitter || title || website) this.redirect();
-    // }
     handleSubmit() {
         this.login.getWrappedInstance().getWrappedInstance().saveUser();
         this.redirect();
