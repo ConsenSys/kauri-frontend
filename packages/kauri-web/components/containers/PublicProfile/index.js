@@ -6,7 +6,6 @@ import { getUserDetails, getOwnProfile } from '../../../queries/User';
 import { getCollectionsForUser } from '../../../queries/Collection';
 import { connect } from 'react-redux';
 import withLoading from '../../../lib/with-loading';
-import { saveUserDetailsAction } from './Module'
 
 const mapStateToProps = (state, ownProps) => {
   return { hostName: state.app && state.app.hostName, currentUser: state.app.userId && state.app.userId.substring(2) }
@@ -15,9 +14,6 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connect(
     mapStateToProps,
-    {
-      saveUserDetailsAction,
-    }
   ),
   graphql(searchPersonalArticles, {
     name: 'ArticlesQuery',

@@ -29,7 +29,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
   }
 
   render () {
-    const { OwnProfile, PendingQuery, UserQuery, ArticlesQuery, CollectionQuery, DraftsQuery, ApprovalsQuery, routeChangeAction, currentUser } = this.props;
+    const { PendingQuery, UserQuery, ArticlesQuery, CollectionQuery, DraftsQuery, ApprovalsQuery, routeChangeAction, currentUser } = this.props;
 
     const isHeaderLoaded =
       typeof UserQuery.getUser === "object" &&
@@ -45,11 +45,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     
     return (
       <React.Fragment>
-        {!isHeaderLoaded ? <Loading /> : isEditing ? <EditableHeader
-          {...OwnProfile.getMyProfile}
-          toggleEditing={() => this.toggleEditing()}
-          saveUserAction={this.props.saveUserDetailsAction}
-          /> : <Header
+        {!isHeaderLoaded ? <Loading /> : isEditing ? <EditableHeader toggleEditing={() => this.toggleEditing()} /> : <Header
                 articles={ArticlesQuery.searchArticles.content}
                 collections={CollectionQuery.searchCollections.content}
                 currentUser={currentUser}

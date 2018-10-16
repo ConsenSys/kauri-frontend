@@ -2,7 +2,7 @@
 import { Observable } from 'rxjs/Observable';
 import { saveUserDetails } from '../../../queries/User';
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module';
-import { trackMixpanelAction } from '../Link/Module';
+import { trackMixpanelAction } from '../../containers/Link/Module';
 import type { Dependencies } from '../../../lib/Module';
 import type { HeaderState } from './types';
 

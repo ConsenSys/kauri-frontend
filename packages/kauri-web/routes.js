@@ -34,3 +34,4 @@ routes
   .add('create-collection', '/create-collection')
   .add('update-collection', '/collection/:id/update-collection', 'update-collection')
   .add('collection-with-slug', '/collection/:collection_id/:slug', 'collection')
+  .add('edit-profile', '/edit-profile', 'edit-profile')

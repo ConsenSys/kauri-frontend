@@ -4,11 +4,8 @@ import { notification, Modal } from 'antd'
 import cookie from 'cookie'
 import { Router } from '../routes'
 import { categories } from './theme-config'
-import { SET_WALLET_AVAILABLE_FUNDS } from '../components/containers/Profile/TopicOwnerProfile/Module'
 import createReducer from './createReducer'
 import { getMyProfile } from '../queries/Profile_Queries.bs'
-
-import type { SetWalletAvailableFundsAction } from '../components/containers/Profile/TopicOwnerProfile/Module'
 const config = require('../config').default
 
 const { confirm } = Modal
@@ -382,10 +379,6 @@ const handlers = {
         onCancel: () => {},
         footer: null,
       },
-  [SET_WALLET_AVAILABLE_FUNDS]: (state: State, action: Action) => ({
-    ...state,
-    user: { ...state.user, funds: action.payload.funds },
-  }),
 }
 
 export default createReducer(initialState, handlers)
