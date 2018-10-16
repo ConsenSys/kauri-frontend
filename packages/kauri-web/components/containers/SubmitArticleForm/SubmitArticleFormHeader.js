@@ -1,15 +1,11 @@
 // @flow
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { Input } from 'antd'
-import { ActionBadge } from '../../common/ActionBadge'
 import theme from '../../../lib/theme-config';
 import type { AttributesPayload } from './Module';
 import {
-  CreateRequestLogo as SubmitArticleFormLogo,
   CreateRequestSecondaryHeader as SubmitArticleFormHeader,
   TopicActionsContainer as SubmitArticleFormSubjectContainer,
-  ChooseTopic,
 } from '../CreateRequestForm/CreateRequestHeader'
 
 type Props = {
@@ -127,27 +123,9 @@ const SubmitArticleFormSubject = ({
   </SubmitArticleFormSubjectContainer>
 )
 
-const SubmitArticleFormStatus = styled.div`
-  display: flex;
-  margin-left: auto;
-  margin-right: 15px;
-  align-items: center;
-  > * {
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 16px;
-    color: #fff;
-  }
-  > :nth-child(2) {
-    margin-left: 8px;
-  }
-  opacity: ${props => typeof props.status !== 'string' && 0.6};
-`
-
 const getBG = (getFieldValue, attributes) => {
   const formValue = getFieldValue('attributes');
-  if (formValue && formValue.background) return `background-image: url(${formValue.background}); background-size: cover; background-position: center center;`;
+  if (formValue && typeof formValue.background === 'string') return `background-image: url(${formValue.background}); background-size: cover; background-position: center center;`;
   if (attributes && attributes.background) return `background-image: url(${attributes.background}); background-size: cover; background-position: center center;`;
   return 'background: #1E2428;';
 }
@@ -171,9 +149,5 @@ export default ({
       isKauriTopicOwner={isKauriTopicOwner}
       attributes={attributes}
     />
-    <SubmitArticleFormStatus status={status}>
-      <strong>STATUS</strong>
-      <span>{(typeof status === 'string' && status.replace(/_/g, ' ')) || 'Not submitted'}</span>
-    </SubmitArticleFormStatus>
   </SubmitArticleFormHeader>
 )
