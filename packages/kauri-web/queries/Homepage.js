@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import gql from 'graphql-tag'
 
 export const HomePageQuery = gql`
@@ -12,21 +12,23 @@ query getAllCuratedList {
     owner {
       id,
       name
+      username
+      avatar
     },
     header {
-      ...on ArticleDTO { id, version, title, content, dateCreated, datePublished, author { id, name, username },
+      ...on ArticleDTO { id, version, title, content, dateCreated, datePublished, author { id, name, username avatar },
         owner {
           ...on PublicUserDTO { id, username, name, avatar }
-          ...on CommunityDTO {id, name }
+          ...on CommunityDTO { id, name, avatar }
         } status, attributes, vote { totalVote } },
       ...on CollectionDTO { id },
       ...on CommunityDTO { id, name },
       ...on PublicUserDTO { id} }
     resources {
-      ...on ArticleDTO { resourceIdentifier {type, id}, id, version, title, content, dateCreated, datePublished, author { id, name, username },
+      ...on ArticleDTO { resourceIdentifier {type, id}, id, version, title, content, dateCreated, datePublished, author { id, name, username avatar },
         owner {
           ...on PublicUserDTO { id, username, name, avatar }
-          ...on CommunityDTO {id, name }
+          ...on CommunityDTO { id, name, avatar }
         } status, attributes, vote { totalVote } },
       ...on CollectionDTO { id, resourceIdentifier {type, id} },
       ...on CommunityDTO { id, name, resourceIdentifier {type, id} },
