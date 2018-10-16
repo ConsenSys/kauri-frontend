@@ -11,7 +11,7 @@ import R from 'ramda'
 
 export type FormState = {
   name: string,
-  background: ?string,
+  background?: string,
   description: ?string,
   sections: Array<SectionDTO>,
 }

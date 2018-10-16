@@ -24,6 +24,7 @@ import ChooseArticleModal from './ChooseArticleModal'
 
 import type { FormState } from './index'
 import type { CreateCollectionPayload } from './Module'
+import type { ShowNotificationPayload } from '../../../lib/Module'
 
 const emptySection: SectionDTO = {
   name: '',
@@ -210,7 +211,7 @@ type Props = {
   isSubmitting: boolean,
   setFieldValue: (string, any) => void,
   validateForm: () => Promise<any>,
-  showNotificationAction: ({ notificationType: string, message: string, description: string }) => void,
+  showNotificationAction: ShowNotificationPayload => void,
   createCollectionAction: CreateCollectionPayload => void,
   routeChangeAction: string => void,
   data?: { getCollection?: ?CollectionDTO },
@@ -221,6 +222,14 @@ type Props = {
   userAvatar: string
 
 }
+
+const BackIcon = styled.div`
+  width: 10px !important; 
+  height: 14px !important; 
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent; 
+  border-right:10px solid ${props => props.theme.colors['primary']}; 
+`
 
 export default ({
   touched,
@@ -244,7 +253,7 @@ export default ({
         <Stack alignItems={['', 'center']}>
           <TertiaryButton
             onClick={() => routeChangeAction('back')}
-            icon={<img src='https://png.icons8.com/flat_round/50/000000/back.png' />}
+            icon={<BackIcon />}
           >
             Cancel Collection
           </TertiaryButton>

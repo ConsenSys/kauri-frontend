@@ -82,10 +82,14 @@ const typographySpecifications: Array<Typography> = [
   },
   {
     name: 'Label',
-    as: 'span',
-    fontWeight: 'bold',
-    fontSize: 11,
-    textTransform: 'uppercase',
+    component:
+      // Because Nelson
+      styled.span`
+        font-size: 11px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: ${props => props.theme.colors[props.color]};
+      `,
   },
   {
     name: 'CTA',
