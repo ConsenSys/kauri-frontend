@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 import { Link } from '../../../routes'
 import Web3Status from '../Web3Status'
 import ArticleSearchbar from '../ArticleSearchbar'
-import UserAvatar from '../../../../kauri-components/components/UserAvatar'
+import { H6 } from '../../../../kauri-components/components/Typography'
 import Tooltip from '../../common/Tooltip'
 import { withRouter } from 'next/router'
 
@@ -122,6 +122,35 @@ const Chevron = styled.span`
 const TooltipDivider = styled.div`
   width: 100%;
   border: 1px solid #f2f2f2;
+`
+
+const Avatar = styled.div`
+  display: flex;
+  height: 30px;
+  width: 30px;
+  align-self: center;
+  justify-self: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: ${props => props.variant === 'white' ? props.theme.colors['white'] : props.theme.colors['textPrimary']};
+  > * {
+    color: ${props => props.variant === 'white' ? props.theme.colors['textPrimary'] : props.theme.colors[props.color]};
+    text-transform: uppercase;
+    line-height: 10px;
+  }
+`
+
+const ProfileImage = styled.div`
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-position: center center;
+  background: url(${props => props.avatar}) no-repeat;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
 `
 
 const deleteAllCookies = callback => {
@@ -276,11 +305,14 @@ class Navbar extends React.Component {
           {userId && userId.length ? (
             <Tooltip
               header={
-                <UserAvatar
-                  username={user && user.username}
-                  userId={user && user.id}
-                  avatar={user && user.avatar}
-                />
+                <Avatar variant={'white'}>
+                  {typeof user.avatar === 'string' && user.avatar.length > 1 ? (
+                    <ProfileImage avatar={user.avatar} alt='Logo' />
+                  ) : (
+                    <H6 color={'textPrimary'}>{user.username ? user.username.charAt(0)
+                      : typeof user.id === 'string' ? user.id.charAt(0) : 'Anonymous'}</H6>
+                  )}
+                </Avatar>
               }
             >
               <TooltipItemContainer>
