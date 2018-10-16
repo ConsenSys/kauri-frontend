@@ -119,14 +119,14 @@ const CreateCollectionCuratorDetails = styled.div`
   align-items: center;
   justify-content: center;
   ${space};
+  > :first-child {
+    margin-bottom: ${props => props.theme.space[3]}px;
+  }
 `
 
 const CreateCollectionCurators = styled.div`
   display: flex;
   align-items: center;
-  > * {
-    ${space};
-  }
 `
 
 const UploadIcon = () => <img src='https://png.icons8.com/color/50/000000/upload.png' />
@@ -291,18 +291,18 @@ export default ({
         </CreateCollectionDetails>
         <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
           <CreateCollectionMetaDetails mb={4}>
-            {/* <StatisticsContainer
-              pageType='CollectionPage'
-              statistics={[
-                { name: 'Followers', count: 0 },
-                { name: 'Articles', count: 0 },
-                { name: 'Views', count: 0 },
-                { name: 'Upvotes', count: 0 },
-              ]}
-            /> */}
-            <CreateCollectionCuratorDetails mb={2}>
+            <CreateCollectionCuratorDetails mr={4} mb={2}>
+              <StatisticsContainer
+                pageType='CollectionPage'
+                statistics={[
+                // { name: 'Followers', count: 0 },
+                  { name: 'Articles', count: 0 },
+                // { name: 'Views', count: 0 },
+                // { name: 'Upvotes', count: 0 },
+                ]}
+              />
               <CuratorHeaderLabel>Curator</CuratorHeaderLabel>
-              <CreateCollectionCurators mr={3}>
+              <CreateCollectionCurators>
                 <UserAvatar variant='white' fullWidth={false} username={username} userId={userId} userAvatar={userAvatar} />
                 {/* <AddMemberButton /> */}
               </CreateCollectionCurators>
