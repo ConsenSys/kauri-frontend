@@ -45,8 +45,10 @@ class OnboardingEditProfile extends Component {
     render () {
         const { name, username, email, avatar, social: {github, twitter}, title, website } = this.props.user;
         const hasData = name || username || email || avatar || githiub || twitter || title || website;
-        if (hasData) this.redirect();
-        if (hasData) return <Page><Loading /></Page>
+        if (hasData) {
+            this.redirect();
+            return <Page><Loading /></Page>;
+        }
         return (
             <Page>
                 <Wrapper>
