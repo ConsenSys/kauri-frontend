@@ -40,7 +40,7 @@ const Collections = ({ collections, routeChangeAction }: CollectionsProps) =>
             name={collection.name}
             date={moment(collection.dateUpdated).format('D MMM YYYY')}
             description={collection.description}
-            username={collection.owner && (collection.owner.name || collection.owner.username)}
+            username={collection.owner && (collection.owner.username)}
             userId={collection.owner && collection.owner.id}
             userAvatar={collection.owner && collection.owner.avatar}
             articleCount={articleCount}

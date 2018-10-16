@@ -288,10 +288,10 @@ export const searchPersonalDrafts = gql`
     searchArticles (sort: "dateCreated", dir: DESC, filter: { authorIdEquals: $userId, statusIn: [ DRAFT ] } ) {
       content {
           id, version, title, content, dateCreated, datePublished, author {
-          id, username, name
+          id, username name avatar
         }
-        owner {... on PublicUserDTO {id username name avatar} ...on CommunityDTO {id name} } 
-        status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name }, body }, totalPages, totalElements  }
+        owner {... on PublicUserDTO {id username name avatar} ...on CommunityDTO {id name avatar} } 
+        status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name username avatar }, body }, totalPages, totalElements  }
         resourceIdentifier { type, id, version }
       }
     }
