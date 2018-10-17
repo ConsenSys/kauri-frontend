@@ -64,7 +64,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.OwnProfile.getMyProfile !== this.props.OwnProfile.getMyProfile) {
+    if (typeof prevProps.OwnProfile.getMyProfile === 'undefined' && typeof this.props.OwnProfile.getMyProfile !== 'undefined' ) {
       const { username, title, avatar, website, social, name, email } = this.props.OwnProfile.getMyProfile;
       this.setState({ username, title, avatar, website, github: social && social.github, twitter: social && social.twitter, name, email });
     }

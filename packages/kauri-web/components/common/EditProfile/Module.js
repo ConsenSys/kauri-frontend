@@ -41,7 +41,6 @@ export const saveUserDetailsEpic = (
           },
         }
         ))
-        .do(h => process.env.NODE_ENV === 'development' && console.log({ username, title, avatar, website, name, twitter, github }))
         .mergeMap(({ data: { saveUser: { hash } } }: { data: { saveUser: { hash: string } } }) =>
           apolloSubscriber(hash)
         )
@@ -50,7 +49,6 @@ export const saveUserDetailsEpic = (
             return Observable.throw(output.error)
           } else {
             return Observable.of({ type: 'UPDATE_USER_SUCCESS' })
-              .do(h => console.log(h))
               .do(() => apolloClient.resetStore())
               .do(
                 () => trackMixpanelAction({
@@ -64,13 +62,19 @@ export const saveUserDetailsEpic = (
               )
           }
         })
+        .mergeMap(() => Observable.of(
+          showNotificationAction({
+            notificationType: 'success',
+            message: 'Submission Successful',
+            description: 'You have successfully updated your profile',
+          })
+        ))
         .catch(err => {
-          console.error(err)
           return Observable.of(
             showNotificationAction({
               notificationType: 'error',
               message: 'Submission error',
-              description: 'Please try again!',
+              description: err,
             })
           )
         })
