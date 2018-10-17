@@ -6,6 +6,8 @@ module GetUser = [%graphql
     getUser(id: $userId) {
       id
       name
+      username
+      avatar
     }
   }
 |}
@@ -45,6 +47,7 @@ module GetMyProfile = [%graphql
       getMyProfile {
         id,
         name,
+        username,
         email,
         title,
         website,

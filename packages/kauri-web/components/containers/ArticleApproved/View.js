@@ -56,7 +56,6 @@ class ArticleApproved extends React.Component<Props> {
           <title>{`Kauri - Article ${capitalize(type)}`}</title>
         </Helmet>
         <ArticleApprovedConfirmationLogoBadge
-          chosenCategory={data && typeof data.getArticle === 'object' && data.getArticle.owner && data.getArticle.owner.id}
           confirmationMessage={type}
         />
         <ConfirmationSubject>{`The article ${subjectCopy}`}</ConfirmationSubject>
@@ -68,7 +67,8 @@ class ArticleApproved extends React.Component<Props> {
           title={article.title}
           content={article.content}
           userId={article.author && article.author.id}
-          username={article.author && article.author.name}
+          username={article.author && article.author.username}
+          userAvatar={article.author && article.author.avatar}
           cardHeight={420}
           linkComponent={(childrenProps, route) => (
             <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>

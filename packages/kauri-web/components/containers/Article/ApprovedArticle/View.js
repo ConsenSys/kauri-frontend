@@ -108,7 +108,8 @@ class ApprovedArticle extends React.Component<Props, State> {
           article_id={props.data.getArticle && props.data.getArticle.id}
           article_version={props.data.getArticle && props.data.getArticle.version}
           ownerId={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id}
-          username={props.data.getArticle && props.data.getArticle.owner && (props.data.getArticle.owner.name || props.data.getArticle.owner.username)}
+          username={props.data.getArticle && props.data.getArticle.owner && (props.data.getArticle.owner.username)}
+          userAvatar={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.avatar}
           userId={this.props.userId}
           routeChangeAction={props.routeChangeAction}
           address={props.userId}

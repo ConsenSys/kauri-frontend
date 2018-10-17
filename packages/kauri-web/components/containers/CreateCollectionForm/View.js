@@ -2,14 +2,14 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { space, bg } from 'styled-system'
-import { Form, Field, FieldArray, ErrorMessage } from 'formik'
+import { Form, Field, FieldArray } from 'formik'
 import Stack from 'stack-styled'
 import R from 'ramda'
 import ActionsSection from '../../../../kauri-components/components/Section/ActionsSection'
 import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection'
-import ProfileHeaderLabel from '../../../../kauri-components/components/PublicProfile/ProfileHeaderLabel.bs'
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs'
-import UserWidgetSmall from '../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
+import UserAvatar from '../../../../kauri-components/components/UserAvatar'
+import { Label, Title1, Title2 } from '../../../../kauri-components/components/Typography'
 import CuratorHeaderLabel from '../../../../kauri-components/components/Typography/CuratorHeaderLabel'
 import Input from '../../../../kauri-components/components/Input/Input'
 import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
@@ -23,6 +23,7 @@ import ChooseArticleModal from './ChooseArticleModal'
 
 import type { FormState } from './index'
 import type { CreateCollectionPayload } from './Module'
+import type { ShowNotificationPayload } from '../../../lib/Module'
 
 const emptySection: SectionDTO = {
   name: '',
@@ -116,17 +117,19 @@ const CreateCollectionCuratorDetails = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  ${space};
   > :first-child {
-    ${space};
+    margin-bottom: ${props => props.theme.space[3]}px;
+  }
+  > :nth-child(2) {
+    margin-bottom: ${props => props.theme.space[1]}px;
   }
 `
 
 const CreateCollectionCurators = styled.div`
   display: flex;
   align-items: center;
-  > * {
-    ${space};
-  }
 `
 
 const UploadIcon = () => <img src='https://png.icons8.com/color/50/000000/upload.png' />
@@ -210,13 +213,25 @@ type Props = {
   isSubmitting: boolean,
   setFieldValue: (string, any) => void,
   validateForm: () => Promise<any>,
-  showNotificationAction: ({ notificationType: string, message: string, description: string }) => void,
+  showNotificationAction: ShowNotificationPayload => void,
   createCollectionAction: CreateCollectionPayload => void,
   routeChangeAction: string => void,
   data?: { getCollection?: ?CollectionDTO },
   openModalAction: ({ children: React.Node }) => void,
   closeModalAction: () => void,
+  userId: string,
+  username: string,
+  userAvatar: string
+
 }
+
+const BackIcon = styled.div`
+  width: 10px !important; 
+  height: 14px !important; 
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent; 
+  border-right:10px solid ${props => props.theme.colors['primary']}; 
+`
 
 export default ({
   touched,
@@ -230,6 +245,9 @@ export default ({
   data,
   openModalAction,
   closeModalAction,
+  username,
+  userId,
+  userAvatar,
 }: Props) => (
   <Section>
     <Form>
@@ -237,7 +255,7 @@ export default ({
         <Stack alignItems={['', 'center']}>
           <TertiaryButton
             onClick={() => routeChangeAction('back')}
-            icon={<img src='https://png.icons8.com/flat_round/50/000000/back.png' />}
+            icon={<BackIcon />}
           >
             Cancel Collection
           </TertiaryButton>
@@ -260,18 +278,19 @@ export default ({
 
       <PrimaryHeaderSection backgroundURL={values.background}>
         <CreateCollectionDetails mb={2}>
-          <ProfileHeaderLabel header='Collection' />
-          <Field
+          <Label color='white'>Collection</Label>
+          {typeof data === 'object' ? <Title1 color={'white'}>{R.path(['getCollection', 'name'])(data)}</Title1> : <Field
             type='text'
             name='name'
             render={({ field }) => <Input {...field} type='text' placeHolder='Add collection title' fontSize={7} />}
-          />
+          /> }
           {/* <ErrorMessage name='name' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
-          <Field
+          {typeof data === 'object' ? <Title2 color={'white'}>{R.path(['getCollection', 'description'])(data)}</Title2> : <Field
             type='text'
             name='description'
             render={({ field }) => <Input {...field} type='text' placeHolder='Add description' fontSize={4} />}
           />
+          }
           {/* <ErrorMessage name='description' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
 
           {/* TODO: WAIT FOR BACKEND */}
@@ -284,19 +303,24 @@ export default ({
         </CreateCollectionDetails>
         <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
           <CreateCollectionMetaDetails mb={4}>
-            {/* <StatisticsContainer
-              pageType='CollectionPage'
-              statistics={[
-                { name: 'Followers', count: 0 },
-                { name: 'Articles', count: 0 },
-                { name: 'Views', count: 0 },
-                { name: 'Upvotes', count: 0 },
-              ]}
-            /> */}
-            <CreateCollectionCuratorDetails mb={2}>
+            <CreateCollectionCuratorDetails mr={4} mb={2}>
+              <StatisticsContainer
+                pageType='CollectionPage'
+                statistics={[
+                // { name: 'Followers', count: 0 },
+                  {
+                    name: 'Articles',
+                    count: R.pipe(
+                      R.reduce((current, next) => current + (next['resourcesId'] ? next['resourcesId'].length : next['resources'].length), 0)
+                    )(values.sections),
+                  },
+                // { name: 'Views', count: 0 },
+                // { name: 'Upvotes', count: 0 },
+                ]}
+              />
               <CuratorHeaderLabel>Curator</CuratorHeaderLabel>
-              <CreateCollectionCurators mr={3}>
-                <UserWidgetSmall color='FFFFFF' username={'davodesign84'} />
+              <CreateCollectionCurators>
+                <UserAvatar variant='white' fullWidth username={username} userId={userId} avatar={userAvatar} />
                 {/* <AddMemberButton /> */}
               </CreateCollectionCurators>
             </CreateCollectionCuratorDetails>
@@ -366,7 +390,9 @@ export default ({
                                 arrayHelpers.form.setFieldValue(
                                   `sections[${index}].resourcesId`,
                                   R.union(
-                                    R.path(['sections', index, 'resourcesId'])(arrayHelpers.form.values),
+                                    R.path(['sections', index, 'resourcesId'])(arrayHelpers.form.values)
+                                      ? R.path(['sections', index, 'resourcesId'])(arrayHelpers.form.values)
+                                      : R.path(['sections', index, 'resources'])(arrayHelpers.form.values),
                                     chosenArticles.map(article => ({ ...article, type: 'ARTICLE' }))
                                   )
                                 )

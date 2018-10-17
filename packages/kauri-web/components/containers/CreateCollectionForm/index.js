@@ -11,7 +11,7 @@ import R from 'ramda'
 
 export type FormState = {
   name: string,
-  background: ?string,
+  background?: string,
   description: ?string,
   sections: Array<SectionDTO>,
 }
@@ -27,7 +27,11 @@ const getCollectionField = (field, data) => R.path(['getCollection', field], dat
 
 export default compose(
   connect(
-    () => ({}),
+    (state) => ({
+      userId: state.app && state.app.user.id,
+      username: state.app && state.app.user.username,
+      userAvatar: state.app && state.app.user.avatar,
+    }),
     {
       showNotificationAction,
       createCollectionAction,
@@ -64,7 +68,7 @@ export default compose(
           R.path(['sections']),
           R.map(section => ({
             ...section,
-            resourcesId: R.map(({ id, version }) => ({ type: 'ARTICLE', id, version }))(section.resourcesId),
+            resourcesId: R.map(({ id, version }) => ({ type: 'ARTICLE', id, version }))(section.resourcesId || section.resources),
           })),
           R.map(section => R.dissocPath(['resources'])(section)),
           R.map(section => R.dissocPath(['__typename'])(section))

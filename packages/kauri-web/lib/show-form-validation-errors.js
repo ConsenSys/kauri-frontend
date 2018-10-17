@@ -1,6 +1,6 @@
 // @flow
 import R from 'ramda'
-import { ShowNotificationPayload } from './Module'
+import type { ShowNotificationPayload } from './Module'
 
 const validateOnSubmit = (validateForm: any, showNotificationAction: ShowNotificationPayload => void, callback: any) => validateForm().then(errors => {
   const capitalize = (s) => R.compose(R.toUpper, R.head)(s) + R.tail(s)

@@ -112,13 +112,14 @@ class InReviewArticle extends React.Component<Props, State> {
           addCommentAction={props.addCommentAction}
           deleteArticleComment={props.deleteArticleComment}
           personalUsername={props.personalUsername}
-          username={props.data.getArticle && props.data.getArticle.author && (props.data.getArticle.author.name || props.data.getArticle.author.username)}
+          username={props.data.getArticle && props.data.getArticle.author && (props.data.getArticle.author.username)}
+          userAvatar={props.data.getArticle && props.data.getArticle.author && (props.data.getArticle.author.avatar)}
           userId={props.data.getArticle && props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.id}
         />
         <InReviewArticle.Footer
           type='in review article'
           date_updated={props.data && props.data.getArticle && props.data.getArticle.datePublished}
-          username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author && props.data.getArticle.author.name}
+          username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author && props.data.getArticle.author.username}
           metadata={props.data.getArticle && props.data.getArticle.attributes}
           content_hash={props.data.getArticle && props.data.getArticle && props.data.getArticle.contentHash}
         />

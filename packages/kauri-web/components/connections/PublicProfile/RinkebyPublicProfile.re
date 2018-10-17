@@ -50,6 +50,7 @@ let renderArticleCards = (~response) =>
              title,
              content,
              date,
+             userAvatar,
              username,
              userId,
              background,
@@ -64,6 +65,7 @@ let renderArticleCards = (~response) =>
              content
              date
              username={Some(username)}
+             userAvatar
              userId
              imageURL={Js.Nullable.toOption(background)}
              linkComponent=(

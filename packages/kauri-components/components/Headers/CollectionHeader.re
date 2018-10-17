@@ -44,6 +44,7 @@ let make =
       ~description,
       ~username,
       ~userId,
+      ~userAvatar,
       ~ownerId,
       ~linkComponent=?,
       /* ~profileImage=?, */
@@ -66,17 +67,21 @@ let make =
         {
           Belt.Option.mapWithDefault(
             linkComponent,
-            <UserWidgetSmall
-              pageType=None
+            <UserAvatar
+              variant=`White
               username=username->Belt.Option.getWithDefault(userId)
-              color="ffffff"
+              userAvatar=userAvatar->Belt.Option.getWithDefault("")
+              fullWidth=true
+              userId
             />,
             linkComponent =>
             linkComponent(
-              <UserWidgetSmall
-                pageType=None
+              <UserAvatar
+                variant=`White
+                fullWidth=true
                 username=username->Belt.Option.getWithDefault(userId)
-                color="ffffff"
+                userAvatar=userAvatar->Belt.Option.getWithDefault("")
+                userId
               />,
             )
           )
@@ -106,6 +111,7 @@ type jsProps = {
   name: string,
   description: string,
   username: Js.Nullable.t(string),
+  userAvatar: Js.Nullable.t(string),
   url: string,
   id: string,
   userId: string,
@@ -123,6 +129,7 @@ let default =
       ~name=jsProps->nameGet,
       ~description=jsProps->descriptionGet,
       ~username=jsProps->usernameGet->Js.Nullable.toOption,
+      ~userAvatar=jsProps->userAvatarGet->Js.Nullable.toOption,
       ~userId=jsProps->userIdGet,
       ~ownerId=jsProps->ownerIdGet,
       ~linkComponent=jsProps->linkComponentGet,

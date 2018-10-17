@@ -12,6 +12,8 @@ export const Collection = gql`
     owner {
       id
       name
+      username
+      avatar
     } 
     sections {
       name 
@@ -33,12 +35,12 @@ export const globalCollectionDetails = gql`
   query getCollection($id: String) { 
     getCollection(id: $id) {
        id name description background dateCreated owner {
-       id name } sections {
+       id name username avatar } sections {
        name description resources {
        ...on ArticleDTO {
          authorId
       id, version, title, content, dateCreated, datePublished, author {
-       id name }, status, attributes, vote {
+       id name username avatar }, status, attributes, vote {
        totalVote } } } }, resourceIdentifier {
       type, id} } 
   }

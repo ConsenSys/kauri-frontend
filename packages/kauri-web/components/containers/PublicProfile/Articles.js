@@ -32,7 +32,7 @@ const Articles = ({ articles, type, routeChangeAction }: ArticlesProps) =>
             title={article.title}
             content={article.content}
             userId={type !== 'toBeApproved' && article.owner ? article.owner.id : article.author.id}
-            username={type !== 'toBeApproved' && article.owner ? (article.owner.name || article.owner.username) : (article.author.name || article.author.username)}
+            username={type !== 'toBeApproved' && article.owner ? (article.owner.username) : (article.author.username)}
             userAvatar={type !== 'toBeApproved' && article.owner ? article.owner.avatar : article.author.avatar}
             id={article.id}
             version={article.version}

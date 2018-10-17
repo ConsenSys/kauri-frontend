@@ -47,6 +47,11 @@ const Resources = styled.div`
   flex-wrap: wrap;
   z-index: 10;
   position: relative;
+  flex: 1;
+  max-width: 1280px;
+  > * {
+    margin: ${props => props.theme.space[2]}px;
+  }
 `
 
 const getBG = (header, featured) => {
@@ -66,7 +71,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
     <Container bgColor={getBG(header, featured)} featured={featured} background={header && typeof header.background === 'string' && header.background}>
       {!header && <Title featured={featured}>{name}</Title>}
       {resources && (
-        <CardContentSection>
+        <Resources>
           {header && <CuratedHeader name={name} header={header} />}
           {resources.map(card => {
             switch (card && card.resourceIdentifier && typeof card.resourceIdentifier.type === 'string' && card.resourceIdentifier.type) {
@@ -80,7 +85,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     title={articleCard.title}
                     content={articleCard.content}
                     userId={articleCard.author && articleCard.author.id}
-                    username={articleCard.author && (articleCard.author.name || articleCard.author.username)}
+                    username={articleCard.author && (articleCard.author.username)}
                     userAvatar={articleCard.author && (articleCard.author.avatar)}
                     id={articleCard.id}
                     version={articleCard.version}
@@ -146,7 +151,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                 return null
             }
           })}
-        </CardContentSection>
+        </Resources>
       )}
     </Container>
   )

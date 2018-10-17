@@ -14,9 +14,6 @@ import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markd
 import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
-import userIdTrim from '../../../../lib/userid-trim'
-
-const config = require('../../../../config').default
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
@@ -65,7 +62,8 @@ export default ({
   text,
   username,
   userId,
-  authorId,
+  ownerId,
+  userAvatar,
   routeChangeAction,
   article_id,
   article_version,
@@ -75,7 +73,7 @@ export default ({
 }: {
   text?: string,
   username?: ?string,
-  userId?: string,
+  userAvatar?: ?string,
   ownerId?: string,
   routeChangeAction: string => void,
   article_id: string,
@@ -114,13 +112,14 @@ export default ({
       <ApprovedArticleDetails type='outline'>
         <Outline
           linkComponent={children => (
-            <Link useAnchorTag href={`/public-profile/${authorId}`}>
+            <Link useAnchorTag href={`/public-profile/${ownerId}`}>
               {children}
             </Link>
           )}
           headings={outlineHeadings || []}
-          username={username || authorId && userIdTrim(authorId) || 'Unknown Writer'}
-          userId={authorId}
+          username={username}
+          userId={ownerId}
+          userAvatar={userAvatar}
           routeChangeAction={routeChangeAction}
         />
         <ArticleAction

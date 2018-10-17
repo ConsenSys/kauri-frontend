@@ -19,8 +19,9 @@ const View = ({ data: { getArticle: article }, cardHeight = 400 }) => (
     content={article.content}
     date={moment(article.datePublished).format('D MMM YYYY')}
     title={article.title}
-    username={article.author.name || article.author.username}
-    userId={article.author.id}
+    username={article.owner && article.owner.username}
+    userAvatar={article.owner && article.owner.avatar}
+    userId={article.owner.id}
     imageURL={article.attributes && article.attributes.background}
     cardHeight={420}
   />

@@ -247,7 +247,7 @@ const ArticleCard = ({
       <Hover hasImageURL={imageURL} viewAction={viewAction} hoverAction={hoverAction} id={id} version={version} />
     )}
     <Container imageURL={imageURL}>
-      {typeof linkComponent !== 'undefined'
+      {typeof linkComponent === 'function'
         ? linkComponent(
           renderCardContent({ title, content, cardHeight, cardWidth, imageURL, date }),
           `/article/${id}/v${version}`
@@ -255,7 +255,7 @@ const ArticleCard = ({
         : renderCardContent({ title, content, cardHeight, cardWidth, imageURL, date })}
       <Divider />
       <Footer imageURL={imageURL}>
-        {typeof linkComponent !== 'undefined'
+        {typeof linkComponent === 'function'
           ? linkComponent(
             renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar, imageURL),
             `/public-profile/${userId}`

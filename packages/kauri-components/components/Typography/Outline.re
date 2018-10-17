@@ -10,6 +10,8 @@ let make =
     (
       ~headings,
       ~username,
+      ~userId,
+      ~userAvatar,
       ~linkComponent=?,
       /* ~pageType,  */
       _children,
@@ -32,9 +34,19 @@ let make =
       {
         Belt.Option.mapWithDefault(
           linkComponent,
-          <UserWidgetSmall pageType=None username />,
+          <UserAvatar
+            username=username->Belt.Option.getWithDefault(userId)
+            userAvatar=userAvatar->Belt.Option.getWithDefault("")
+            userId
+          />,
           linkComponent =>
-          linkComponent(<UserWidgetSmall pageType=None username />)
+          linkComponent(
+            <UserAvatar
+              username=username->Belt.Option.getWithDefault(userId)
+              userAvatar=userAvatar->Belt.Option.getWithDefault("")
+              userId
+            />,
+          )
         )
       }
       <Separator marginY=20 direction="horizontal" color=LightGray />
@@ -44,7 +56,9 @@ let make =
 [@bs.deriving abstract]
 type jsProps = {
   headings: array(string),
-  username: string,
+  username: Js.Nullable.t(string),
+  userId: string,
+  userAvatar: Js.Nullable.t(string),
   linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
   pageType: Js.Nullable.t(string),
 };
@@ -55,6 +69,8 @@ let default =
       let (
         headings,
         username,
+        userId,
+        userAvatar,
         linkComponent,
         /* pageType */
       ) =
@@ -62,13 +78,17 @@ let default =
         ->(
             headingsGet,
             usernameGet,
+            userIdGet,
+            userAvatarGet,
             linkComponentGet,
             /* pageTypeGet, */
           );
       /* let pageType = pageType->Js.Nullable.toOption; */
       make(
         ~headings,
-        ~username,
+        ~username=username |> Js.Nullable.toOption,
+        ~userAvatar=userAvatar |> Js.Nullable.toOption,
+        ~userId,
         ~linkComponent,
         /* ~pageType, */
         [||],
