@@ -5,6 +5,7 @@ import CollectionSearch from './CollectionSearch'
 import { Helmet } from 'react-helmet';
 import CollectionCard from '../../../../../kauri-components/components/Card/CollectionCard'
 import { Link } from '../../../../routes';
+import Loading from '../../../common/Loading';
 import moment from 'moment';
 import userIdTrim from '../../../../lib/userid-trim';
 
@@ -71,7 +72,6 @@ class Collections extends Component<Props> {
   static ContentContainer = ContentContainer
 
   render () {
-
     if (this.props.data.error) {
       console.log('There was an issue', this.props.data);
       return null
@@ -107,7 +107,7 @@ class Collections extends Component<Props> {
               id={collection.id}
               name={collection.name}
               description={collection.description}
-              username={collection.owner && collection.owner.name}
+              username={collection.owner && collection.owner.username}
               userId={collection.owner && collection.owner.id}
               userAvatar={collection.owner && collection.owner.avatar}
               imageURL={collection.background}

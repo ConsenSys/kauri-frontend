@@ -106,7 +106,7 @@ class Collections extends Component<Props> {
               date={moment(article.dateCreated).format('D MMM YYYY')}
               title={article.title}
               content={article.content}
-              username={article.owner && (article.owner.name || article.owner.username)}
+              username={article.owner && (article.owner.username)}
               userId={article.owner ? article.owner.id : 'Anonymous'}
               userAvatar={article.owner && (article.owner.avatar)}
               id={article.id}

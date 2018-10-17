@@ -37,7 +37,7 @@ export default compose(
       variables: {
         filter: {
           ownerIdEquals: userId,
-        }
+        },
       },
     }),
   }),

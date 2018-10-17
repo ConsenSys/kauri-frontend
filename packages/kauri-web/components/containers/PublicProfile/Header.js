@@ -28,7 +28,7 @@ const Avatar = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 50px;
-    font-size: ${props => props.theme.fontSizes[5]}px;
+    font-size: ${props => props.theme && props.theme.fontSizes[5]}px;
     font-weight: 700;
     margin-right: ${props => props.theme.space[2]}px;
 `;
@@ -47,7 +47,7 @@ const RightSide = styled.div`
 `;
 
 const Details = styled.div`
-    font-size: ${props => props.theme.fontSizes[props.size]}px;
+    font-size: ${props => props.theme && props.theme.fontSizes[props.size]}px;
     font-weight: ${props => props.weight || 400};
     color: white;
     margin-bottom: ${props => props.theme.space[1]}px;

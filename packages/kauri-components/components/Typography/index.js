@@ -82,10 +82,14 @@ const typographySpecifications: Array<Typography> = [
   },
   {
     name: 'Label',
-    as: 'span',
-    fontWeight: 'bold',
-    fontSize: 11,
-    textTransform: 'uppercase',
+    component:
+      // Because Nelson
+      styled.span`
+        font-size: 11px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: ${props => props.theme.colors[props.color]};
+      `,
   },
   {
     name: 'CTA',
@@ -152,10 +156,10 @@ typographySpecifications.map(({ name, as, fontWeight, fontSize, textTransform, c
     font-size: ${fontSize}px;
     ${textTransform && `text-transform: ${textTransform}`};
     :hover {
-      color: ${props => typeof hoverColor === 'string' && props.theme.colors[hoverColor]};
-      cursor: ${props => typeof hoverColor === 'string' && 'pointer'};
+      color: ${props => typeof props.hoverColor === 'string' && props.theme.colors[props.hoverColor || hoverColor]};
+      cursor: ${props => typeof props.hoverColor === 'string' && 'pointer'};
     }
-    color: ${props => typeof color === 'string' && props.theme.colors[color]};
+    color: ${props => props.theme.colors[props.color || color]};
   ` : component
 
   if (typeof name !== 'undefined' && typeof name === 'string') {
