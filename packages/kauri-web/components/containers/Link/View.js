@@ -1,12 +1,9 @@
 // @flow
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import nextRoutes from 'next-routes'
 import slugify from 'slugify';
-
 import type { TrackAnalyticsPayload } from './Module'
-
-const Router = nextRoutes().Router
+import { Router } from '../../../routes';
 
 type LinkProps = {
   href: string,

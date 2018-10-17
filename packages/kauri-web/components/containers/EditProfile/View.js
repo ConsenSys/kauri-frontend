@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import EditProfile from '../../common/EditProfile';
 import { PrimaryButton, TertiaryButton } from '../../../../kauri-components/components/Button';
 import Loading from '../../common/Loading';
-import nextRoutes from 'next-routes'
-const Router = nextRoutes().Router
+import { Router } from '../../../routes';
 
 const Page = styled.div`
     display: flex;
