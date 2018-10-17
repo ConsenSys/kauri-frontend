@@ -7,10 +7,9 @@ import { showNotificationAction } from '../../../lib/Module'
 import { trackMixpanelAction } from '../Link/Module'
 import { loginPersonalSign } from '../../../lib/web3-personal-sign'
 import superagent from 'superagent'
-import nextRoutes from 'next-routes'
 import type { Dependencies } from '../../../lib/Module'
 const config = require('../../../config').default
-const Router = nextRoutes().Router
+import { Router } from '../../../routes';
 
 const request = superagent.agent()
 
