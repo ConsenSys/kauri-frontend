@@ -9,7 +9,7 @@ import ActionsSection from '../../../../kauri-components/components/Section/Acti
 import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection'
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs'
 import UserAvatar from '../../../../kauri-components/components/UserAvatar'
-import { Label } from '../../../../kauri-components/components/Typography'
+import { Label, Title1, Title2 } from '../../../../kauri-components/components/Typography'
 import CuratorHeaderLabel from '../../../../kauri-components/components/Typography/CuratorHeaderLabel'
 import Input from '../../../../kauri-components/components/Input/Input'
 import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
@@ -279,17 +279,18 @@ export default ({
       <PrimaryHeaderSection backgroundURL={values.background}>
         <CreateCollectionDetails mb={2}>
           <Label color='white'>Collection</Label>
-          <Field
+          {typeof data === 'object' ? <Title1 color={'white'}>{R.path(['getCollection', 'name'])(data)}</Title1> : <Field
             type='text'
             name='name'
             render={({ field }) => <Input {...field} type='text' placeHolder='Add collection title' fontSize={7} />}
-          />
+          /> }
           {/* <ErrorMessage name='name' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
-          <Field
+          {typeof data === 'object' ? <Title2 color={'white'}>{R.path(['getCollection', 'description'])(data)}</Title2> : <Field
             type='text'
             name='description'
             render={({ field }) => <Input {...field} type='text' placeHolder='Add description' fontSize={4} />}
           />
+          }
           {/* <ErrorMessage name='description' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
 
           {/* TODO: WAIT FOR BACKEND */}
@@ -307,7 +308,12 @@ export default ({
                 pageType='CollectionPage'
                 statistics={[
                 // { name: 'Followers', count: 0 },
-                  { name: 'Articles', count: 0 },
+                  {
+                    name: 'Articles',
+                    count: R.pipe(
+                      R.reduce((current, next) => current + (next['resourcesId'] ? next['resourcesId'].length : next['resources'].length), 0)
+                    )(values.sections),
+                  },
                 // { name: 'Views', count: 0 },
                 // { name: 'Upvotes', count: 0 },
                 ]}
@@ -384,7 +390,9 @@ export default ({
                                 arrayHelpers.form.setFieldValue(
                                   `sections[${index}].resourcesId`,
                                   R.union(
-                                    R.path(['sections', index, 'resourcesId'])(arrayHelpers.form.values),
+                                    R.path(['sections', index, 'resourcesId'])(arrayHelpers.form.values)
+                                      ? R.path(['sections', index, 'resourcesId'])(arrayHelpers.form.values)
+                                      : R.path(['sections', index, 'resources'])(arrayHelpers.form.values),
                                     chosenArticles.map(article => ({ ...article, type: 'ARTICLE' }))
                                   )
                                 )

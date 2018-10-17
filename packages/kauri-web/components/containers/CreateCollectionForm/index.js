@@ -68,7 +68,7 @@ export default compose(
           R.path(['sections']),
           R.map(section => ({
             ...section,
-            resourcesId: R.map(({ id, version }) => ({ type: 'ARTICLE', id, version }))(section.resourcesId),
+            resourcesId: R.map(({ id, version }) => ({ type: 'ARTICLE', id, version }))(section.resourcesId || section.resources),
           })),
           R.map(section => R.dissocPath(['resources'])(section)),
           R.map(section => R.dissocPath(['__typename'])(section))
