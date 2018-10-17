@@ -104,7 +104,12 @@ export default ComposedComponent =>
       if (parsedToken) {
         try {
           const sourceAction = fetchUserDetailsAction({ parsedToken })
-          const setUserDetailsAction = await dispatchEpic(userDetailsEpic, sourceAction, {}, { fetch, apolloClient: apollo })
+          const setUserDetailsAction = await dispatchEpic(
+            userDetailsEpic,
+            sourceAction,
+            {},
+            { fetch, apolloClient: apollo }
+          )
           redux.dispatch(setUserDetailsAction)
         } catch (err) {
           console.error('Something wrong happened with the user JWT: ', err)

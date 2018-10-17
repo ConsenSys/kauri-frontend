@@ -1,7 +1,7 @@
 // @flow
 const Link = require('./components/containers/Link').default
 
-const nextRoutes = require('next-routes');
+const nextRoutes = require('next-routes')
 
 export const Router = nextRoutes().Router
 
@@ -31,7 +31,5 @@ routes
   .add('collection', '/collection/:collection_id')
   .add('community', '/community/:category')
   .add('view-article-version-with-slug', '/article/:article_id/v:article_version/:slug', 'view-article-version')
-  .add('create-collection', '/create-collection')
   .add('update-collection', '/collection/:id/update-collection', 'update-collection')
   .add('collection-with-slug', '/collection/:collection_id/:slug', 'collection')
-  .add('edit-profile', '/edit-profile', 'edit-profile')

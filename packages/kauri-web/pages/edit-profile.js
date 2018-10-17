@@ -3,16 +3,20 @@ import { withApollo, compose } from 'react-apollo'
 import withData from '../lib/with-data'
 import AppWithoutNavbar from '../layouts/AppWithoutNavbar'
 import EditProfileComp from '../components/containers/EditProfile'
-import { withRouter } from 'next/router';
+import { withRouter } from 'next/router'
 
 class EditProfile extends React.Component {
-  render() {
+  render () {
     return (
       <AppWithoutNavbar url={this.props.router}>
-        <EditProfileComp />
+        <EditProfileComp query={this.props.router.query} />
       </AppWithoutNavbar>
     )
   }
 }
 
-export default compose(withData, withApollo, withRouter)(EditProfile)
+export default compose(
+  withData,
+  withApollo,
+  withRouter
+)(EditProfile)

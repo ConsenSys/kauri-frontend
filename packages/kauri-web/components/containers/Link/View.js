@@ -1,9 +1,10 @@
 // @flow
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import slugify from 'slugify';
+import { Router } from '../../../routes'
+import slugify from 'slugify'
+
 import type { TrackAnalyticsPayload } from './Module'
-import { Router } from '../../../routes';
 
 type LinkProps = {
   href: string,
@@ -11,7 +12,7 @@ type LinkProps = {
   useAnchorTag?: boolean,
   children: any,
   trackAnalyticsAction: TrackAnalyticsPayload => void,
-  fullWidth?: boolean
+  fullWidth?: boolean,
 }
 
 const A = styled.a`
@@ -23,7 +24,7 @@ const A = styled.a`
     > * {
       color: ${props => props.theme.colors['hoverTextColor']} !important;
       > * {
-      color: ${props => props.theme.colors['hoverTextColor']} !important;
+        color: ${props => props.theme.colors['hoverTextColor']} !important;
       }
     }
   }
@@ -35,24 +36,24 @@ class Link extends React.Component<LinkProps> {
     e.stopPropagation()
     // TODO: Uncomment again later
     // this.props.trackAnalyticsAction({ url })
-    Router.pushRoute(url)
+    this.props.routeChangeAction(url)
   }
 
   render () {
     let url = this.props.as || this.props.href || this.props.children.props.href
-    const slug = this.props.toSlug ? slugify(this.props.toSlug, { lower: true }) : null;
-    if (slug) url += `/${slug}`;
+    const slug = this.props.toSlug ? slugify(this.props.toSlug, { lower: true }) : null
+    if (slug) url += `/${slug}`
     const { fullWidth = true } = this.props
 
     if (this.props.useAnchorTag) {
       return (
-        <A href={url} onClick={(e) => this.handleClick(e, url)} fullWidth={fullWidth}>
+        <A href={url} onClick={e => this.handleClick(e, url)} fullWidth={fullWidth}>
           {this.props.children}
         </A>
       )
     }
     return React.cloneElement(this.props.children, {
-      onClick: (e) => this.handleClick(e, url),
+      onClick: e => this.handleClick(e, url),
     })
   }
 }
