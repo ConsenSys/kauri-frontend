@@ -138,7 +138,11 @@ export default ComposedComponent =>
         const app = (
           <Provider store={redux}>
             <ApolloProvider client={apollo}>
-              <ComposedComponent url={url} {...composedInitialProps} />
+              <LocaleProvider locale={enUS}>
+                <ThemeProvider theme={themeConfig}>
+                  <ComposedComponent url={url} {...composedInitialProps} />
+                </ThemeProvider>
+              </LocaleProvider>
             </ApolloProvider>
           </Provider>
         )
