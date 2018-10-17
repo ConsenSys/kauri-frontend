@@ -54,6 +54,7 @@ let renderArticleCards = (~response) =>
              content,
              date,
              username,
+             userAvatar,
              userId,
              background,
            } =
@@ -74,6 +75,7 @@ let renderArticleCards = (~response) =>
              content
              date
              username={Some(username)}
+             userAvatar
              userId
            />;
          })

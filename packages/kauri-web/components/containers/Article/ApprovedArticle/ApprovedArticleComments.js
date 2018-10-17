@@ -2,11 +2,10 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
-import { Label, CTA, BodyCard } from '../../../../../kauri-components/components/Typography'
-import UserWidgetSmall from '../../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
+import { Label, BodyCard } from '../../../../../kauri-components/components/Typography'
+import UserAvatar from '../../../../../kauri-components/components/UserAvatar'
 import CommentArticleForm from '../CommentArticleForm'
 import Link from '../../Link'
-import userIdTrim from '../../../../lib/userid-trim'
 
 const ApprovedArticleCommentsSection = styled.section`
   display: flex;
@@ -60,10 +59,13 @@ const Divider = styled.div`
   }
 `
 
-const Comment = ({ body, posted, authorId, author: { name, id } }: CommentDTO) =>
+const Comment = ({ body, posted, authorId, author: { username, avatar, id } }: CommentDTO) =>
   <CommentContainer>
     <Link useAnchorTag href={`/public-profile/${id}`}>
-      <UserWidgetSmall username={name || userIdTrim(id)} />
+      <UserAvatar username={username}
+        userId={id}
+        avatar={avatar}
+      />
     </Link>
     <BodyCard>
       {body}

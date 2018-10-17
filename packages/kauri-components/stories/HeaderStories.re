@@ -12,6 +12,7 @@ myStory.add("Collection Header", () =>
     description="Test description for a fake collection"
     userId="0x32048jdwk298he"
     username={Some("0x32048jdwk298he")}
+    userAvatar=None
     updated="1 day ago"
     url="test.com"
   />
