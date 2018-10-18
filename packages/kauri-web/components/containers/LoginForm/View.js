@@ -1,12 +1,10 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Form, Field } from 'formik'
 import { Helmet } from 'react-helmet'
 import { menuHeaderHeight } from '../Navbar/View'
 import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
-import Tabs from '../../../../kauri-components/components/Tabs'
-import showFormValidationErrors from '../../../lib/show-form-validation-errors'
+import { Title2, BodyArticle, CTA } from '../../../../kauri-components/components/Typography';
 
 import type { RegisterActionPayload } from './Module'
 import type { ShowNotificationPayload } from '../../../lib/Module'
@@ -17,63 +15,40 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   background: ${props => props.theme.primaryTextColor};
+  color: white;
+  flex-direction: column;
 `
 
-const StyledForm = styled(Form)`
+const LoginContainer = styled.div`
+  height: 200px;
+  width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  > input {
-    margin-top: ${props => `${props.theme.space[3]}px`};
-    margin-bottom: ${props => `${props.theme.space[3]}px`};
-  }
-`
+  text-align: center;
+  justify-content: space-between;
+`;
 
-const StyledInput = styled.input`
-  width: 100%;
-  background: transparent;
-  height: 39px;
-  color: #fff;
-  font-size: 12px !important;
-  text-align: center !important;
-  border: 1px solid #878787 !important;
-  border-radius: 4px;
-  *,
-  > * {
-    text-align: center !important;
-    font-size: 12px !important;
-    color: white;
-  }
-  :focus,
-  :hover {
-    border: 2px solid ${props => props.theme.primaryColor} !important;
-  }
-  ::-webkit-input-placeholder {
-    color: #878787;
-  }
-  :focus::-webkit-input-placeholder {
-    text-indent: -999px;
-  }
-  ::-moz-placeholder {
-    color: #878787;
-  }
-  :focus::-moz-placeholder {
-    text-indent: -999px;
-  }
-`
+const Image = styled.img`
+  width: 100px;
+  height: 91px;
+  margin: ${props => props.theme.space[2]}px;
+`;
 
-const InstallMetaMaskCTA = styled.span`
-  color: #fff;
-`
 
 const Web3Unavailable = () => (
   <Container>
-    <InstallMetaMaskCTA>
-      {`To interact with Kauri, `}
-      <a target='_blank' href='https://metamask.io/'>
-        Get MetaMask
+    <LoginContainer>
+      <Title2 color='white'>Web3 Sign in</Title2>
+      <BodyArticle color='white'>You need the MetaMask extension to use Kauri. (MetaMask only supports Chrome, Firefox and Opera)</BodyArticle>
+      <Image src="/static/images/metamask/avatar.png" />
+      <a href="https://metamask.io" target="_blank">https://metamask.io</a>
+      <a href="https://metamask.io" target="_blank">
+        <PrimaryButton bg="#F76C20" bgHover="#b24a11">
+            GO TO METAMASK
+        </PrimaryButton>
       </a>
-    </InstallMetaMaskCTA>
+    </LoginContainer>
   </Container>
 )
 
@@ -89,17 +64,16 @@ class LoginForm extends React.Component<{
   }
 
   render () {
-    const { isSubmitting, validateForm, showNotificationAction } = this.props
+    const { isSubmitting } = this.props
 
     return (
-      <StyledForm>
-        <Field type='email' name='email' render={
-          ({ field }) => <StyledInput {...field} type='text' placeholder='EMAIL' fontSize={5} />}
-        />
-        <PrimaryButton disabled={isSubmitting} type='submit' onClick={() => showFormValidationErrors(validateForm, showNotificationAction)}>
+      <Container>
+        <Title2 color='white'>Web3 Sign in</Title2>
+        <BodyArticle color='white'>Sign in using Web3 enabled browser.(MetaMask, Status, Brave)</BodyArticle>
+        <PrimaryButton disabled={isSubmitting} type='submit'>
           {this.props.type === 'register' ? 'REGISTER' : 'LOGIN'}
         </PrimaryButton>
-      </StyledForm>
+      </Container>
     )
   }
 }
@@ -114,22 +88,18 @@ class LoginFormContainer extends React.Component<Props> {
   render () {
     if (global.window && !global.window.web3) {
       return <Web3Unavailable />
+    } else if (global.window && global.window.web3) {
+      return (
+        <Container>
+          <Helmet>
+            <title>Login</title>
+          </Helmet>
+          <LoginForm {...this.props} type='register' />
+        </Container>
+      )
+    } else {
+      return null;
     }
-    return (
-      <Container>
-        <Helmet>
-          <title>Login</title>
-        </Helmet>
-        <Tabs
-          bg='transparent'
-          padContent={false}
-          minWidth={'350px'}
-          centerTabs
-          tabs={['LOGIN', 'REGISTER']}
-          panels={[ <LoginForm {...this.props} />,
-            <LoginForm {...this.props} type='register' /> ]} />
-      </Container>
-    )
   }
 }
 
