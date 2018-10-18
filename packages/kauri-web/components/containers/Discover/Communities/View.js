@@ -97,6 +97,7 @@ class Communities extends Component<Props> {
             return <CommunityCardConnection
               changeRoute={this.props.routeChangeAction}
               key={community.id}
+              communityLogo={community.avatar}
               communityName={community.name}
               communityDescription={community.description || ''}
               communityId={community.id}
@@ -104,7 +105,6 @@ class Communities extends Component<Props> {
               articles={(Array.isArray(community.approvedId) &&
                 String(community.approvedId.map(resource => resource.type === 'ARTICLE').length)) ||
                 '0'}
-              communityLogo={`/static/images/${community.id}/avatar.png`}
               linkComponent={childrenProps => (
                 <Link useAnchorTag href={`/community/${community.id}`}>
                   {childrenProps}
