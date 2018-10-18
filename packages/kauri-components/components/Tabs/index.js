@@ -21,7 +21,7 @@ const Tabs = styled.div`
 const Panels = styled.div``;
 
 const Tab = styled.div`
-    margin: 0px 15px;
+    margin: 0px ${props => props.theme.space[2]}px;
     height: 50px;
     display: flex;
     align-items: center;
