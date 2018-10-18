@@ -29,7 +29,7 @@ export const BaseButtonCss = css`
 }
 `
 
-const bgHover = (props) => props.theme && props.theme.colors && props.theme.colors.primaryDark
+const bgHover = props => props.bgHover ? props.bgHover : props.theme && props.theme.colors && props.theme.colors.primaryDark
 
 const PrimaryButton = styled.button`
   ${BaseButtonCss};
@@ -45,6 +45,7 @@ type Props = {
   disabled?: boolean,
   type?: string,
   bg?: string,
+  bgHover?: string,
   fontWeight?: number,
   fontSize?: number,
   space?: number,
@@ -58,6 +59,7 @@ type Props = {
 export default (
   {
     bg = 'primary',
+    bgHover,
     fontWeight = 700,
     fontSize = 0,
     space = 2,
@@ -78,6 +80,7 @@ export default (
     mr={space}
     onClick={onClick || handleClick}
     bg={bg}
+    bgHover={bgHover}
     color={color}
     fontSize={fontSize}
     fontWeight={fontWeight}
