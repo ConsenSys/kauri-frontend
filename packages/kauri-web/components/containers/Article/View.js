@@ -116,23 +116,7 @@ class Article extends React.Component<ArticleProps> {
 
   render () {
     if (!this.props.data && !this.props.data.getArticle) return
-    return this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'PUBLISHED' ? (
-      <ApprovedArticle {...this.props} />
-    ) : (
-      <InReviewArticle
-        {...this.props}
-        updateUnsubmittedArticle={this.updateUnsubmittedArticle}
-        approveArticle={this.approveArticle}
-        rejectArticle={this.rejectArticle}
-        preApproveArticle={this.preApproveArticle}
-        addCommentAction={this.props.addCommentAction}
-        personalUsername={this.props.personalUsername}
-        deleteArticleComment={this.deleteArticleComment}
-        publishArticle={this.publishArticle}
-        openModalAction={this.props.openModalAction}
-        closeModalAction={this.props.closeModalAction}
-      />
-    )
+    return <ApprovedArticle {...this.props} />;
   }
 }
 

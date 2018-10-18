@@ -69,6 +69,7 @@ class ArticleApproved extends React.Component<Props> {
           userId={article.author && article.author.id}
           username={article.author && article.author.username}
           userAvatar={article.author && article.author.avatar}
+          imageURL={article.attributes && article.attributes.background}
           cardHeight={420}
           linkComponent={(childrenProps, route) => (
             <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>
@@ -79,10 +80,10 @@ class ArticleApproved extends React.Component<Props> {
         />
         <ArticleApprovedActionButtons>
           <PositiveRequestActionBadge
-            action={() => routeChangeAction(type === 'approved' ? '/approvals' : '/profile?tab=my articles')}
+            action={() => routeChangeAction(`/public-profile/${this.props.user.id}`)}
             height={40}
             width={183}
-            label={type === 'approved' ? 'Back to Approvals' : 'My Articles'}
+            label='My Articles'
             type='primary'
           />
         </ArticleApprovedActionButtons>

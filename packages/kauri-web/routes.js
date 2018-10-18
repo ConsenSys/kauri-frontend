@@ -3,7 +3,7 @@ const Link = require('./components/containers/Link').default
 
 const nextRoutes = require('next-routes')
 
-const Router = nextRoutes().Router
+export const Router = nextRoutes().Router
 
 const routes = (module.exports = nextRoutes({
   Link,
