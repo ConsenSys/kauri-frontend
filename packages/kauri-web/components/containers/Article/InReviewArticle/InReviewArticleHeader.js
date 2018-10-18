@@ -5,7 +5,7 @@ import {
   CreateRequestLogo as InReviewArticleLogo,
   CreateRequestSecondaryHeader as InReviewArticleSecondaryHeader,
 } from '../../CreateRequestForm/CreateRequestHeader'
-import { ApprovedArticleSubject as InReviewArticleSubject, PullRight } from '../ApprovedArticle/ApprovedArticleHeader'
+import { ApprovedArticleSubject as InReviewArticleSubject } from '../ApprovedArticle/ApprovedArticleHeader';
 import { DatePosted } from '../../../common/DatePosted'
 import theme from '../../../../lib/theme-config'
 
@@ -23,6 +23,15 @@ const InReviewHeaderDetails = styled.div`
     margin-left: ${props => !props.chosenCategory && '0px'};
   }
   min-width: 70%;
+`
+
+const PullRight = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > :last-child {
+    margin-right: 0px;
+  }
 `
 
 export default ({ owner, sub_category, status, title, attributes }: *) => (
