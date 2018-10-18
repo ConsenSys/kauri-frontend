@@ -111,7 +111,6 @@ export default ({
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type='outline'>
-      {console.log(userId)}
         <Outline
           linkComponent={children => (
             <Link useAnchorTag href={`/public-profile/${ownerId}`}>
