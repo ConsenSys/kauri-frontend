@@ -14,6 +14,7 @@ import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markd
 import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
+import usedIdTrim from '../../../../lib/userid-trim';
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
@@ -110,6 +111,7 @@ export default ({
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type='outline'>
+      {console.log(userId)}
         <Outline
           linkComponent={children => (
             <Link useAnchorTag href={`/public-profile/${ownerId}`}>
@@ -118,7 +120,7 @@ export default ({
           )}
           headings={outlineHeadings || []}
           username={username}
-          userId={ownerId}
+          userId={usedIdTrim(ownerId)}
           userAvatar={userAvatar}
           routeChangeAction={routeChangeAction}
         />
