@@ -54,15 +54,7 @@ const getNetwork = async () =>
 export default compose(
   connect(mapStateToProps, { registerAction, showNotificationAction }),
   withFormik({
-    mapPropsToValues: () => ({
-      email: '',
-    }),
-    validationSchema: Yup.object().shape({
-      email: Yup
-        .string()
-        .email()
-        .required('Required'),
-    }),
+    mapPropsToValues: () => ({}),
     handleSubmit: async (values: FormState, { props, setErrors, resetForm, setSubmitting }) => {
       console.log(values)
       console.log(props)
