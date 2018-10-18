@@ -60,12 +60,18 @@ const Footer = styled.div`
   padding-top: ${props => typeof props.imageURL === 'string' && '0px'};
 `
 
+const withImageURLDividerCss = css`
+  width: calc(100% - ${props => props.theme.space[3]}px);
+  margin-left: ${props => props.theme.space[2]}px;
+`
+
 const Divider = styled.div`
   width: 100%;
   margin: ${props => props.theme.space[2]}px 0px;
   margin-top: auto;
   background-color: ${props => props.theme.colors['divider']};
-  height: 2px;
+  height: 1px;
+  ${props => typeof props.imageURL === 'string' && withImageURLDividerCss};
 `
 
 const renderDescriptionRowContent = (content, cardHeight, imageURL) => {
@@ -253,7 +259,7 @@ const ArticleCard = ({
           `/article/${id}/v${version}`
         )
         : renderCardContent({ title, content, cardHeight, cardWidth, imageURL, date })}
-      <Divider />
+      <Divider imageURL={imageURL} />
       <Footer imageURL={imageURL}>
         {typeof linkComponent === 'function'
           ? linkComponent(

@@ -8,11 +8,11 @@ import Highlight from '../../../lib/hljs'
 import { compose } from 'recompose'
 import withErrorCatch from '../../../lib/with-error-catch'
 import TextTruncate from 'react-text-truncate'
-import { getRawStateFromMarkdown, getHTMLFromMarkdown } from '../../../lib/markdown-converter-helper'
+import { getHTMLFromMarkdown } from '../../../lib/markdown-converter-helper'
 import stripHTML from '../../../lib/html-to-plain-text'
 
 type Props = {
-  record: RequestDTO,
+  record: { text: string },
   inReviewArticleComment?: boolean,
   fullText?: boolean,
   requestPage?: boolean,
@@ -20,6 +20,7 @@ type Props = {
   openRequest?: boolean,
   type?: 'article card',
   cardHeight?: number,
+  imageURL?: string,
 }
 
 const hideAtomicBlock = css`
@@ -492,6 +493,7 @@ export default compose(withErrorCatch())(
     inReviewArticleComment,
     type,
     cardHeight,
+    imageURL,
   }): Props => (
     <MaxThreeLines
       cardHeight={cardHeight}
@@ -511,19 +513,24 @@ export default compose(withErrorCatch())(
               'DescriptionRow-markdown--fullText'}`}
             dangerouslySetInnerHTML={{ __html: getHTMLFromMarkdown(JSON.parse(text).markdown) }}
           />
-        ) : fullText ? redraft(
-          JSON.parse(text),
-          {
-            inline: Boolean(fullText) && inline,
-            blocks: blocks(fullText, recentRequest, type),
-            entities: Boolean(fullText) && entities,
-          },
-          options
+        ) : fullText ? (
+          redraft(
+            JSON.parse(text),
+            {
+              inline: Boolean(fullText) && inline,
+              blocks: blocks(fullText, recentRequest, type),
+              entities: Boolean(fullText) && entities,
+            },
+            options
+          )
+        ) : JSON.parse(text).markdown ? (
+          <TextTruncate
+            line={imageURL ? 2 : cardHeight > 290 ? 8 : 3}
+            truncateText='…'
+            text={stripHTML(getHTMLFromMarkdown(JSON.parse(text).markdown)).substring(0, imageURL ? 200 : 500)}
+          />
         ) : (
-          JSON.parse(text).markdown
-            ? <TextTruncate
-              line={cardHeight > 290 ? 8 : 3} truncateText='…' text={stripHTML(getHTMLFromMarkdown(JSON.parse(text).markdown))} />
-            : 'Old Content, please migrate to new Markdown'
+          'Old Content, please migrate to new Markdown'
         )
       ) : inReviewArticleComment && typeof text === 'string' && text.length > 5 ? (
         text
