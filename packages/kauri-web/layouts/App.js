@@ -13,7 +13,7 @@ export const menuHeaderHeight = 76
 const StyledContent = styled(Content)`
   padding-top: 0px;
   min-height: calc(100vh - ${menuHeaderHeight}px);
-  background: #F7F7F7;
+  background: #f7f7f7;
 `
 
 const StyledHeader = styled(Header)`
@@ -23,18 +23,23 @@ const StyledHeader = styled(Header)`
   }
   line-height: ${menuHeaderHeight}px;
   min-height: ${menuHeaderHeight}px;
-  background-color: ${props => props.navcolor};
+  background-color: ${props => props.navcolorOverride || props.navcolor};
   z-index: 10;
 `
 
-const mapStateToProps = (state, ownProps) => ({ isModalOpen: state.modal.isModalOpen })
+const mapStateToProps = (state, ownProps) => ({
+  isModalOpen: state.modal.isModalOpen,
+  navcolorOverride: state.app.navcolorOverride,
+})
 
 export default connect(mapStateToProps)(
-  ({ children, url, confirmationPage, navcolor, isModalOpen }) => (
+  ({ children, url, confirmationPage, navcolor, navcolorOverride, isModalOpen }) => (
     <Layout className='layout'>
-      <Helmet><body className={isModalOpen ? 'overflow-hidden' : null} /></Helmet>
+      <Helmet>
+        <body className={isModalOpen ? 'overflow-hidden' : null} />
+      </Helmet>
       <Modal />
-      <StyledHeader navcolor={navcolor}>
+      <StyledHeader navcolor={navcolorOverride || navcolor}>
         <Navbar confirmationPage={confirmationPage} url={url} navcolor={navcolor} />
       </StyledHeader>
       <StyledContent>{children}</StyledContent>

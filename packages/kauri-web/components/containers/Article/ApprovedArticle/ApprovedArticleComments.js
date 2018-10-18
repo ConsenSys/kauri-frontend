@@ -46,6 +46,9 @@ const CommentsContainer = styled.div`
   > :first-child {
     margin-bottom: ${props => props.theme.space[3]}px;
   }
+  > span:nth-child(2) {
+    white-space: pre;
+  }
 `
 
 const Divider = styled.div`

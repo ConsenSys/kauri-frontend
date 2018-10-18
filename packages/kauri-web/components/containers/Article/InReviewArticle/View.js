@@ -15,7 +15,7 @@ type Props =
   | {
       routeChangeAction: string => void,
       ethUsdPrice: number,
-      data: { getArticle?: ArticleDTO },
+      data: { getArticle: ArticleDTO },
       topics?: Array<?string>,
       updateUnsubmittedArticle: () => void,
       approveArticle: () => void,
@@ -26,7 +26,8 @@ type Props =
       deleteArticleComment: any,
       personalUsername: ?string,
       publishArticle: () => void,
-      userId?: string
+      setNavcolorOverrideAction: string => void,
+      userId?: string,
     }
   | any
 
@@ -46,7 +47,10 @@ class InReviewArticle extends React.Component<Props, State> {
         const rawData = ContentState.createFromText(JSON.parse(props.data.getArticle.content).markdown)
         const newEditorState = EditorState.createWithContent(rawData)
         this.state = {
-          editorState: { draftEditorState: newEditorState, markdown: JSON.parse(props.data.getArticle.content).markdown },
+          editorState: {
+            draftEditorState: newEditorState,
+            markdown: JSON.parse(props.data.getArticle.content).markdown,
+          },
           loaded: false,
         }
         return
@@ -62,12 +66,16 @@ class InReviewArticle extends React.Component<Props, State> {
     }
   }
 
+  componentWillMount () {
+    this.props.setNavcolorOverrideAction('#1E2428')
+  }
+
   componentDidUpdate () {
-    R.map((block) => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
+    R.map(block => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
   }
 
   componentDidMount () {
-    R.map((block) => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
+    R.map(block => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
   }
 
   onEditorChange = (editorState: any) => {
@@ -99,7 +107,9 @@ class InReviewArticle extends React.Component<Props, State> {
         <InReviewArticle.Header {...props.data.getArticle} />
         <InReviewArticle.Content
           loaded={() => this.setState({ ...this.state.editorState, loaded: true })}
-          category={props.data && props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id}
+          category={
+            props.data && props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id
+          }
           text={props.data && props.data.getArticle && props.data.getArticle && props.data.getArticle.content}
           status={props.data && props.data.getArticle && props.data.getArticle && props.data.getArticle.status}
           comments={props.data && props.data.getArticle && props.data.getArticle && props.data.getArticle.comments}
@@ -112,16 +122,22 @@ class InReviewArticle extends React.Component<Props, State> {
           addCommentAction={props.addCommentAction}
           deleteArticleComment={props.deleteArticleComment}
           personalUsername={props.personalUsername}
-          username={props.data.getArticle && props.data.getArticle.author && (props.data.getArticle.author.username)}
-          userAvatar={props.data.getArticle && props.data.getArticle.author && (props.data.getArticle.author.avatar)}
-          userId={props.data.getArticle && props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.id}
+          username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.username}
+          userId={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.id}
+          userAvatar={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.avatar}
         />
         <InReviewArticle.Footer
           type='in review article'
-          date_updated={props.data && props.data.getArticle && props.data.getArticle.datePublished}
-          username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author && props.data.getArticle.author.username}
+          date_updated={props.data && props.data.getArticle && props.data.getArticle.dateCreated}
+          username={
+            props.data.getArticle &&
+            props.data.getArticle.author &&
+            props.data.getArticle.author &&
+            props.data.getArticle.author.username
+          }
           metadata={props.data.getArticle && props.data.getArticle.attributes}
-          content_hash={props.data.getArticle && props.data.getArticle && props.data.getArticle.contentHash}
+          content_hash={props.data.getArticle && props.data.getArticle.contentHash}
+          hostName={`https://${props.hostName}`}
         />
       </section>
     )

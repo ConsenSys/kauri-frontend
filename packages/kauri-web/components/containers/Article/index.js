@@ -1,13 +1,12 @@
 import { compose, graphql } from 'react-apollo'
 import { connect } from 'react-redux'
-import { tipArticleAction, deleteArticleCommentAction } from './Module'
+import { tipArticleAction, deleteArticleCommentAction, approveArticleAction, rejectArticleAction } from './Module'
 import { publishArticleAction } from './Article_Module.bs'
 import { getArticle } from '../../../queries/Article'
-import { toggleModalAction, routeChangeAction } from '../../../lib/Module'
+import { toggleModalAction, routeChangeAction, setNavcolorOverrideAction } from '../../../lib/Module'
 import { addCommentAction } from '../AddCommentForm/Module'
 import withLoading from '../../../lib/with-loading'
 import { addToBountyAction } from '../Requests/Module'
-import { approveArticleAction, rejectArticleAction } from './Module';
 import { closeModalAction, openModalAction } from '../../../../kauri-components/components/Modal/Module'
 import View from './View'
 
@@ -30,10 +29,11 @@ export default compose(
       addToBountyAction,
       tipArticleAction,
       addCommentAction,
-      deleteArticleCommentAction,
       publishArticleAction,
       openModalAction,
       closeModalAction,
+      deleteArticleCommentAction,
+      setNavcolorOverrideAction,
     }
   ),
   graphql(getArticle, {
