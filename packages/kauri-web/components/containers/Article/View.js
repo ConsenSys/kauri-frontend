@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import ApprovedArticle from './ApprovedArticle/View'
-import InReviewArticle from './InReviewArticle/View'
 
 import type { DeleteArticleCommentPayload } from './Module'
 import type { AddCommentPayload } from '../AddCommentForm/Module'
