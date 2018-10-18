@@ -127,7 +127,7 @@ export default ({
         <ArticleAction
           svgIcon={<UpdateArticleSvgIcon />}
           text={'Update Article'}
-          handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
+          handleClick={() => userId ? routeChangeAction(`/article/${article_id}/v${article_version}/update-article`) : routeChangeAction(`/login?r=/article/${article_id}/v${article_version}/update-article`)}
         >
           Update article
         </ArticleAction>
