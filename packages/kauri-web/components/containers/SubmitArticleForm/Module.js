@@ -1,7 +1,14 @@
 // @flow
 
 import { Observable } from 'rxjs/Observable'
-import { submitArticleVersion, editArticle, getArticle, submitNewArticle, approveArticle, rejectArticle } from '../../../queries/Article'
+import {
+  submitArticleVersion,
+  editArticle,
+  getArticle,
+  submitNewArticle,
+  approveArticle,
+  rejectArticle,
+} from '../../../queries/Article'
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
 import { trackMixpanelAction } from '../Link/Module'
 import { publishArticleAction } from './PublishArticle_Module.bs'
@@ -12,7 +19,7 @@ import type { Dependencies } from '../../../lib/Module'
 export type AttributesPayload = {
   version?: string,
   background?: string,
-};
+}
 
 export type SubmitArticlePayload = {
   article_id?: string,
@@ -20,22 +27,23 @@ export type SubmitArticlePayload = {
   text: string,
   attributes?: AttributesPayload,
   selfPublish?: boolean,
-};
+}
 
 export type SubmitArticleVersionPayload = {
   id: string,
   subject: string,
   text: string,
   attributes?: AttributesPayload,
+  owner?: ?AbstractResourceDTO,
   selfPublish?: boolean,
-};
+}
 
 export type DraftArticleActionPayload = {
   id?: string,
   text: string,
   subject: string,
   attributes?: AttributesPayload,
-};
+}
 
 const SUBMIT_ARTICLE = 'SUBMIT_ARTICLE'
 
@@ -45,7 +53,13 @@ const SUBMIT_ARTICLE_VERSION = 'SUBMIT_ARTICLE_VERSION'
 
 const DRAFT_ARTICLE = 'DRAFT_ARTICLE'
 
-export type EditArticlePayload = { id: string, version: number, text: string, subject: string, attributes?: AttributesPayload }
+export type EditArticlePayload = {
+  id: string,
+  version: number,
+  text: string,
+  subject: string,
+  attributes?: AttributesPayload,
+}
 
 export type SubmitArticleAction = { type: string, payload: SubmitArticlePayload }
 
@@ -77,7 +91,7 @@ export const submitArticleVersionAction = (payload: SubmitArticleVersionPayload)
 export const draftArticleAction = (payload: DraftArticleActionPayload): DraftArticleAction => ({
   type: DRAFT_ARTICLE,
   payload,
-});
+})
 
 export const submitArticleEpic = (
   action$: Observable<SubmitArticleAction>,
@@ -103,43 +117,49 @@ export const submitArticleEpic = (
           apolloClient.query({
             query: getArticle,
             variables: {
-              id, version,
+              id,
+              version,
             },
             fetchPolicy: 'network-only',
           })
         )
         .do(h => console.log(h))
         .do(h => apolloClient.resetStore())
-        .mergeMap(({ data: { getArticle: { id, version, contentHash, dateCreated, authorId, owner } } }) =>
-          (typeof selfPublish !== 'undefined')
-            ? Observable.of(
-              publishArticleAction({
-                id,
-                version,
-                contentHash,
-                dateCreated,
-                contributor: authorId,
-                owner,
-              }))
-            : Observable.of(
-              routeChangeAction(
-                `/article/${id}/v${version}/article-published`
-              ),
-              trackMixpanelAction({
-                event: 'Offchain',
-                metaData: {
-                  resource: 'article',
-                  resourceID: id,
-                  resourceVersion: version,
-                  resourceAction: 'submit article',
-                },
-              }),
-              showNotificationAction({
-                notificationType: 'success',
-                message: `Article published`,
-                description: 'Your personal article has now been published!',
-              })
-            ))
+        .mergeMap(
+          ({
+            data: {
+              getArticle: { id, version, contentHash, dateCreated, authorId, owner },
+            },
+          }) =>
+            typeof selfPublish !== 'undefined'
+              ? Observable.of(
+                publishArticleAction({
+                  id,
+                  version,
+                  contentHash,
+                  dateCreated,
+                  contributor: authorId,
+                  owner,
+                })
+              )
+              : Observable.of(
+                routeChangeAction(`/article/${id}/v${version}/article-published`),
+                trackMixpanelAction({
+                  event: 'Offchain',
+                  metaData: {
+                    resource: 'article',
+                    resourceID: id,
+                    resourceVersion: version,
+                    resourceAction: 'submit article',
+                  },
+                }),
+                showNotificationAction({
+                  notificationType: 'success',
+                  message: `Article published`,
+                  description: 'Your personal article has now been published!',
+                })
+              )
+        )
         .catch(err => {
           console.error(err)
           return Observable.of(
@@ -159,7 +179,7 @@ export const submitArticleVersionEpic = (
 ) =>
   action$
     .ofType(SUBMIT_ARTICLE_VERSION)
-    .switchMap(({ payload: { text, subject, id, attributes, selfPublish } }) =>
+    .switchMap(({ payload: { text, subject, id, attributes, owner, selfPublish } }) =>
       Observable.fromPromise(
         apolloClient.mutate({
           mutation: submitArticleVersion,
@@ -180,45 +200,52 @@ export const submitArticleVersionEpic = (
           apolloClient.query({
             query: getArticle,
             variables: {
-              id, version,
+              id,
+              version,
             },
             fetchPolicy: 'network-only',
           })
         )
         .do(h => console.log(h))
         .do(h => apolloClient.resetStore())
-        .mergeMap(({ data: { getArticle: { id, version, contentHash, dateCreated, authorId, author } } }) =>
-          (typeof selfPublish !== 'undefined')
-            ? Observable.of(
-              publishArticleAction({
-                id,
-                version,
-                contentHash,
-                dateCreated,
-                contributor: authorId,
-                author,
-              }))
-            : Observable.of(
-              routeChangeAction(
-                `/article/${id}/v${version}/article-${selfPublish ? 'published': 'submitted'}`
-              ),
-              trackMixpanelAction({
-                event: 'Offchain',
-                metaData: {
-                  resource: 'article',
-                  resourceID: id,
-                  resourceVersion: version,
-                  resourceAction: 'submit article version',
-                },
-              }),
-              showNotificationAction({
-                notificationType: 'success',
-                message: `Article ${(typeof selfPublish === 'undefined') ? 'submitted' : 'published'}`,
-                description:
-                (typeof selfPublish === 'undefined') ? 'Waiting for it to be reviewed!'
-                  : 'Your personal article has now been published!',
-              })
-            ))
+        .mergeMap(
+          ({
+            data: {
+              getArticle: { id, version, contentHash, dateCreated, authorId },
+            },
+          }) =>
+            typeof selfPublish !== 'undefined'
+              ? Observable.of(
+                publishArticleAction({
+                  id,
+                  version,
+                  contentHash,
+                  dateCreated,
+                  contributor: authorId,
+                  owner,
+                })
+              )
+              : Observable.of(
+                routeChangeAction(`/article/${id}/v${version}/article-${selfPublish ? 'published' : 'submitted'}`),
+                trackMixpanelAction({
+                  event: 'Offchain',
+                  metaData: {
+                    resource: 'article',
+                    resourceID: id,
+                    resourceVersion: version,
+                    resourceAction: 'submit article version',
+                  },
+                }),
+                showNotificationAction({
+                  notificationType: 'success',
+                  message: `Article ${typeof selfPublish === 'undefined' ? 'submitted' : 'published'}`,
+                  description:
+                      typeof selfPublish === 'undefined'
+                        ? 'Waiting for it to be reviewed!'
+                        : 'Your personal article has now been published!',
+                })
+              )
+        )
         .catch(err => {
           console.error(err)
           return Observable.of(
@@ -236,41 +263,38 @@ export const editArticleEpic = (
   { getState }: any,
   { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
 ) =>
-  action$
-    .ofType(EDIT_ARTICLE)
-    .switchMap(({ payload: { id, version, text, subject, attributes } }: EditArticleAction) =>
-      Observable.fromPromise(
-        apolloClient.mutate({
-          mutation: editArticle,
-          variables: { id, version, text, subject, attributes },
-        })
-      )
-        .flatMap(({ data: { editArticleVersion: { hash } } }: { data: { editArticle: { hash: string } } }) =>
-          apolloSubscriber(hash)
-        )
-        .do(() => apolloClient.resetStore())
-        .do(h => console.log(h))
-        .flatMap(({ data: { output: { id, version } } }) =>
-          Observable.of(
-            routeChangeAction(`/article/${id}/v${version}/article-updated`),
-            trackMixpanelAction({
-              event: 'Offchain',
-              metaData: {
-                resource: 'article',
-                resourceID: id,
-                resourceVersion: version,
-                resourceAction: 'update article',
-              },
-            }),
-            showNotificationAction({
-              notificationType: 'info',
-              message: 'Article updated',
-              description: 'The article version has been updated!',
-            })
-          )
-        )
+  action$.ofType(EDIT_ARTICLE).switchMap(({ payload: { id, version, text, subject, attributes } }: EditArticleAction) =>
+    Observable.fromPromise(
+      apolloClient.mutate({
+        mutation: editArticle,
+        variables: { id, version, text, subject, attributes },
+      })
     )
-
+      .flatMap(({ data: { editArticleVersion: { hash } } }: { data: { editArticle: { hash: string } } }) =>
+        apolloSubscriber(hash)
+      )
+      .do(() => apolloClient.resetStore())
+      .do(h => console.log(h))
+      .flatMap(({ data: { output: { id, version } } }) =>
+        Observable.of(
+          routeChangeAction(`/article/${id}/v${version}/article-updated`),
+          trackMixpanelAction({
+            event: 'Offchain',
+            metaData: {
+              resource: 'article',
+              resourceID: id,
+              resourceVersion: version,
+              resourceAction: 'update article',
+            },
+          }),
+          showNotificationAction({
+            notificationType: 'info',
+            message: 'Article updated',
+            description: 'The article version has been updated!',
+          })
+        )
+      )
+  )
 
 export const draftArticleEpic = (
   action$: Observable<DraftArticleAction>,

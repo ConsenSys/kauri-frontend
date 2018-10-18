@@ -1,14 +1,14 @@
 // @flow
-import React from 'react';
-import { Form } from 'antd';
-import SubmitArticleFormActions from './SubmitArticleFormActions';
-import SubmitArticleFormHeader from './SubmitArticleFormHeader';
-import SubmitArticleFormContent from './SubmitArticleFormContent';
-import type { AttributesPayload, ApproveArticlePayload } from './Module';
-import ScrollToTopButton from '../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton';
+import React from 'react'
+import { Form } from 'antd'
+import SubmitArticleFormActions from './SubmitArticleFormActions'
+import SubmitArticleFormHeader from './SubmitArticleFormHeader'
+import SubmitArticleFormContent from './SubmitArticleFormContent'
+import type { AttributesPayload, ApproveArticlePayload } from './Module'
+import ScrollToTopButton from '../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton'
 
-import type { EditArticlePayload, SubmitArticlePayload, SubmitArticleVersionPayload } from './Module';
-import type { ShowNotificationPayload } from '../../../lib/Module';
+import type { EditArticlePayload, SubmitArticlePayload, SubmitArticleVersionPayload } from './Module'
+import type { ShowNotificationPayload } from '../../../lib/Module'
 
 type Owner = {
   id: string,
@@ -21,8 +21,8 @@ type PublishArticlePayload = {
   contentHash: string,
   dateCreated: string,
   contributor: string,
-  owner: ?Owner
-};
+  owner: ?Owner,
+}
 
 type DraftArticlePayload = {
   id?: string,
@@ -30,30 +30,36 @@ type DraftArticlePayload = {
   subject: string,
   text: string,
   attributes?: AttributesPayload,
-};
+}
 
 type Props = {
-      draftArticleAction: DraftArticlePayload => void,
-      submitArticleAction: SubmitArticlePayload => void,
-      submitArticleVersionAction: SubmitArticleVersionPayload => void,
-      editArticleAction: EditArticlePayload => void,
-      publishArticleAction: PublishArticlePayload => void,
-      approveArticleAction: ApproveArticlePayload => void,
-      categories: Array<?string>,
-      userId: string,
-      article_id?: string,
-      request_id: string,
-      data?: ?{ getArticle?: ArticleDTO },
-      article?: ArticleDTO,
-      form: any,
-      handleFormChange: ({ text: string }) => void,
-      routeChangeAction: string => void,
-      isKauriTopicOwner: boolean,
-      showNotificationAction: ShowNotificationPayload => void,
-      username?: ?string,
-    }
+  draftArticleAction: DraftArticlePayload => void,
+  submitArticleAction: SubmitArticlePayload => void,
+  submitArticleVersionAction: SubmitArticleVersionPayload => void,
+  editArticleAction: EditArticlePayload => void,
+  publishArticleAction: PublishArticlePayload => void,
+  approveArticleAction: ApproveArticlePayload => void,
+  categories: Array<?string>,
+  userId: string,
+  article_id?: string,
+  request_id: string,
+  data?: ?{ getArticle?: ArticleDTO },
+  article?: ArticleDTO,
+  form: any,
+  handleFormChange: ({ text: string }) => void,
+  routeChangeAction: string => void,
+  isKauriTopicOwner: boolean,
+  showNotificationAction: ShowNotificationPayload => void,
+  username?: ?string,
+}
 
-type SubmitArticleVariables = { subject: string, text: string, owner: ?Owner, version?: string, attributes?: AttributesPayload }
+type SubmitArticleVariables = {
+  subject: string,
+  text: string,
+  owner: ?Owner,
+  version?: string,
+  attributes?: AttributesPayload,
+}
 
 class SubmitArticleForm extends React.Component<Props> {
   static Header = SubmitArticleFormHeader
@@ -130,57 +136,88 @@ class SubmitArticleForm extends React.Component<Props> {
 
   handleSubmit = (submissionType: string) => (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    this.props.form.validateFieldsAndScroll(
-      async (formErr, { text, subject, attributes }: SubmitArticleVariables) => {
-        const { networkName } = await this.getNetwork();
-        await this.checkNetwork(networkName);
-        const { submitArticleAction, submitArticleVersionAction, editArticleAction, draftArticleAction, approveArticleAction, article_id, userId } = this.props;
-        
-        if (formErr) return this.showFormError(formErr);
-        
-        const articleData: ArticleDTO = this.props.data && this.props.data.getArticle;
+    this.props.form.validateFieldsAndScroll(async (formErr, { text, subject, attributes }: SubmitArticleVariables) => {
+      const { networkName } = await this.getNetwork()
+      await this.checkNetwork(networkName)
+      const {
+        submitArticleAction,
+        submitArticleVersionAction,
+        editArticleAction,
+        draftArticleAction,
+        approveArticleAction,
+        article_id,
+        userId,
+      } = this.props
 
-        // NEW DRAFT
-        if (!articleData && submissionType === 'draft') return draftArticleAction({ text, subject, attributes: attributes || {}});
-        // NEW ARTICLE
-        if (!articleData && submissionType === 'submit/update') return submitArticleAction({ text, subject, attributes, selfPublish: true });
+      if (formErr) return this.showFormError(formErr)
 
-        const { id, version, status, author, owner, dateCreated, contentHash } = articleData;
+      const articleData: ArticleDTO = this.props.data && this.props.data.getArticle
 
-        switch(status) {
-          case "PUBLISHED":
-            if (owner && userId === owner.id && submissionType === 'draft') {
-              return submitArticleVersionAction({ id, text, subject, attributes: attributes || {}});
-            } else if (owner && userId === owner.id && submissionType === 'submit/update') {
-              return submitArticleVersionAction({ id, text, subject, attributes, selfPublish: true });
-            } else if (owner && userId !== owner.id && submissionType === 'draft') {
-              return submitArticleVersionAction({ id, text, subject, attributes });
-            } else if (owner && userId !== owner.id&& submissionType === 'submit/update') {
-              return submitArticleVersionAction({ id, text, subject, attributes, selfPublish: false });
-            } else {
-              return this.showGenericError();
-            }
-          case "DRAFT":
-            if (author && userId === author.id && submissionType === 'draft') {
-              return editArticleAction({ text, id, version, subject, attributes });
-            } else if (author && userId === author.id && submissionType === 'submit/update') {
-              return submitArticleVersionAction({ id, text, subject, attributes, selfPublish: true });
-            } else {
-              return this.showGenericError();
-            }
-          case "PENDING":
-            // pending articles should not be shown in the editor
-          default:
-            return this.showGenericError();
-        }
+      // NEW DRAFT
+      if (!articleData && submissionType === 'draft') {
+        return draftArticleAction({ text, subject, attributes: attributes || {} })
       }
-    )
+      // NEW ARTICLE
+      if (!articleData && submissionType === 'submit/update') {
+        return submitArticleAction({ text, subject, attributes, selfPublish: true })
+      }
+
+      const { id, version, status, author, owner, dateCreated, contentHash, resourceIdentifier } = articleData
+
+      switch (status) {
+        case 'PUBLISHED':
+          if (owner && userId === owner.id && submissionType === 'draft') {
+            return submitArticleVersionAction({ id, text, subject, attributes: attributes || {} })
+          } else if (owner && userId === owner.id && submissionType === 'submit/update') {
+            return submitArticleVersionAction({
+              id,
+              text,
+              subject,
+              attributes,
+              owner: resourceIdentifier,
+              selfPublish: true,
+            })
+          } else if (owner && userId !== owner.id && submissionType === 'draft') {
+            return submitArticleVersionAction({ id, text, subject, attributes })
+          } else if (owner && userId !== owner.id && submissionType === 'submit/update') {
+            return submitArticleVersionAction({
+              id,
+              text,
+              subject,
+              attributes,
+              owner: resourceIdentifier,
+              selfPublish: false,
+            })
+          } else {
+            return this.showGenericError()
+          }
+        case 'DRAFT':
+          if (author && userId === author.id && submissionType === 'draft') {
+            return editArticleAction({ text, id, version, subject, attributes })
+          } else if (author && userId === author.id && submissionType === 'submit/update') {
+            return submitArticleVersionAction({
+              id,
+              text,
+              subject,
+              attributes,
+              owner: resourceIdentifier,
+              selfPublish: true,
+            })
+          } else {
+            return this.showGenericError()
+          }
+        case 'PENDING':
+        // pending articles should not be shown in the editor
+        default:
+          return this.showGenericError()
+      }
+    })
   }
 
   render () {
-    const { routeChangeAction, isKauriTopicOwner, form } = this.props;
+    const { routeChangeAction, isKauriTopicOwner, form } = this.props
 
-    const articleData = this.props.data && this.props.data.getArticle;
+    const articleData = this.props.data && this.props.data.getArticle
 
     return (
       <Form>
@@ -208,11 +245,7 @@ class SubmitArticleForm extends React.Component<Props> {
           article_id={articleData && articleData.id}
           text={articleData && articleData.content}
           username={
-            (this.props.data &&
-              articleData &&
-              articleData.owner &&
-              articleData.owner.username) ||
-            this.props.username
+            (this.props.data && articleData && articleData.owner && articleData.owner.username) || this.props.username
           }
           userId={(articleData && articleData.owner && articleData.owner.id) || this.props.userId}
         />
