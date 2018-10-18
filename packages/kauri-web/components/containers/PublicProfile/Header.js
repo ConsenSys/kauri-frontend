@@ -64,7 +64,8 @@ const DetailsContainer = styled.div`
 `;
 
 const StyledButton = styled(PrimaryButton)`
-    margin: ${props => props.theme.space[3]}px;
+    margin-left: ${props => props.theme.space[3]}px;
+    margin-right: ${props => props.theme.space[1]}px;
     align-self: center;
 `;
 
