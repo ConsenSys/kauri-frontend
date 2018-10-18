@@ -62,7 +62,7 @@ class Homepage extends Component<Props> {
 
     const { getAllCuratedList } = this.props.data
 
-    const pageTitle = 'Learn to build on Ethereum with Kauri';
+    const pageTitle = 'Learn to Build on Ethereum With Kauri';
 
     return (
       <ContentContainer>
@@ -74,7 +74,7 @@ class Homepage extends Component<Props> {
         </Helmet>
         <HomePageHeader>
           <KauriTitle>{pageTitle}</KauriTitle>
-          <KauriDescription>Articles, tutorials, Documentation and best practices</KauriDescription>
+          <KauriDescription>Articles, Tutorials, Documentation and Best Practices</KauriDescription>
           <ArticleSearchbar />
         </HomePageHeader>
         {getAllCuratedList.map(curatedList => (
