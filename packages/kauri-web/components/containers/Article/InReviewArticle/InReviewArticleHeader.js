@@ -1,11 +1,8 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import {
-  CreateRequestLogo as InReviewArticleLogo,
-  CreateRequestSecondaryHeader as InReviewArticleSecondaryHeader,
-} from '../../CreateRequestForm/CreateRequestHeader'
-import { ApprovedArticleSubject as InReviewArticleSubject } from '../ApprovedArticle/ApprovedArticleHeader';
+import { CreateRequestSecondaryHeader as InReviewArticleSecondaryHeader } from '../../CreateRequestForm/CreateRequestHeader'
+import { ApprovedArticleSubject as InReviewArticleSubject } from '../ApprovedArticle/ApprovedArticleHeader'
 import { DatePosted } from '../../../common/DatePosted'
 import theme from '../../../../lib/theme-config'
 
@@ -15,29 +12,42 @@ export const InReviewArticleStatus = DatePosted.extend`
   color: #fff;
 `
 
-const InReviewHeaderDetails = styled.div`
+const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  > :last-child {
-    margin-left: 23px;
-    margin-left: ${props => !props.chosenCategory && '0px'};
-  }
-  min-width: 70%;
+  padding: 0 ${props => props.theme.padding};
+  z-index: 9;
+  width: 100%;
 `
 
-const PullRight = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  > :last-child {
-    margin-right: 0px;
-  }
+const InReviewArticleHeader = styled(InReviewArticleSecondaryHeader)`
+  padding-top: 80px;
+  padding-bottom: 140px;
+  position: relative;
+  padding-left: 0;
+`
+
+const Overlay = styled.div`
+  background: ${props => props.theme && props.theme.colors.bgPrimary};
+  opacity: 0.8;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  margin-top: -80px;
 `
 
 export default ({ owner, sub_category, status, title, attributes }: *) => (
-  <InReviewArticleSecondaryHeader type='article' theme={theme} chosenCategory={owner && owner.id}>
-    {owner && <InReviewArticleLogo type='article' theme={theme} chosenCategory={owner && owner.id} />}
-    <InReviewHeaderDetails chosenCategory={owner && owner.id}>
+  <InReviewArticleHeader
+    style={{
+      background: attributes && attributes.background ? `url(${attributes.background}) center center` : '#1E2428',
+      backgroundSize: 'cover',
+    }}
+    type='article'
+    theme={theme}
+    chosenCategory={owner && owner.id}
+  >
+    <Overlay />
+    <InfoContainer>
       <InReviewArticleSubject
         type='in review article'
         metadata={attributes}
@@ -45,13 +55,8 @@ export default ({ owner, sub_category, status, title, attributes }: *) => (
         theme={theme}
         chosenCategory={owner && owner.id}
         chosenSubcategory={''}
+        attributes={attributes}
       />
-    </InReviewHeaderDetails>
-    <PullRight>
-      <InReviewArticleStatus>
-        <span>STATUS</span>
-        <strong> {typeof status === 'string' && status.replace(/_/g, ' ')}</strong>
-      </InReviewArticleStatus>
-    </PullRight>
-  </InReviewArticleSecondaryHeader>
+    </InfoContainer>
+  </InReviewArticleHeader>
 )

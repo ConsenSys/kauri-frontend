@@ -14,6 +14,7 @@ let make =
       ~userAvatar,
       ~linkComponent=?,
       /* ~pageType,  */
+      ~text="OWNER",
       _children,
     ) => {
   ...component,
@@ -30,7 +31,7 @@ let make =
           </Vrroom.Fragment>
         }
       }
-      <OutlineHeader text="OWNER" />
+      <OutlineHeader text />
       {
         Belt.Option.mapWithDefault(
           linkComponent,
@@ -61,6 +62,7 @@ type jsProps = {
   userAvatar: Js.Nullable.t(string),
   linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
   pageType: Js.Nullable.t(string),
+  text: Js.Nullable.t(string),
 };
 let default =
   ReasonReact.wrapReasonForJs(
@@ -72,6 +74,7 @@ let default =
         userId,
         userAvatar,
         linkComponent,
+        text,
         /* pageType */
       ) =
         jsProps
@@ -81,15 +84,20 @@ let default =
             userIdGet,
             userAvatarGet,
             linkComponentGet,
+            textGet,
             /* pageTypeGet, */
           );
       /* let pageType = pageType->Js.Nullable.toOption; */
+      let text =
+        text->Js.Nullable.toOption->Belt.Option.getWithDefault("OWNER");
+
       make(
         ~headings,
         ~username=username |> Js.Nullable.toOption,
         ~userAvatar=userAvatar |> Js.Nullable.toOption,
         ~userId,
         ~linkComponent,
+        ~text,
         /* ~pageType, */
         [||],
       );

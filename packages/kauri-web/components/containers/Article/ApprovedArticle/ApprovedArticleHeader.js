@@ -26,12 +26,7 @@ export const ArticleSubject = styled.h3`
   margin-left: 0;
 `
 
-export const ApprovedArticleSubject = ({
-  getFieldDecorator,
-  subject,
-  attributes,
-  type = 'article',
-}: *) => (
+export const ApprovedArticleSubject = ({ getFieldDecorator, subject, attributes, type = 'article' }: *) => (
   <ApprovedArticleSubjectContainer type={type}>
     <ArticleSubject style={{ width: '100%' }} type='article'>
       {subject}
@@ -46,7 +41,7 @@ const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
   padding-bottom: 140px;
   position: relative;
   padding-left: 0;
-`;
+`
 
 const Overlay = styled.div`
   background: ${props => props.theme && props.theme.colors.bgPrimary};
@@ -55,7 +50,7 @@ const Overlay = styled.div`
   width: 100%;
   position: absolute;
   margin-top: -160px;
-`;
+`
 
 const InfoContainer = styled.div`
   display: flex;
@@ -63,19 +58,21 @@ const InfoContainer = styled.div`
   padding: 0 ${props => props.theme.padding};
   z-index: 9;
   width: 100%;
-`;
+`
 
-export default ({ datePublished, title, attributes }: *) => (
-  <ApproveArticleHeader style={{ background: attributes && attributes.background ? `url(${attributes.background}) center center` : '#1E2428', backgroundSize: 'cover'}} type='article' theme={theme}>
+export default ({ datePublished, dateCreated, title, attributes }: *) => (
+  <ApproveArticleHeader
+    style={{
+      background: attributes && attributes.background ? `url(${attributes.background}) center center` : '#1E2428',
+      backgroundSize: 'cover',
+    }}
+    type='article'
+    theme={theme}
+  >
     <Overlay />
     <InfoContainer>
-      <PostedDate dateType='FromNow' date_field={datePublished} />
-      <ApprovedArticleSubject
-        type='article'
-        attributes={attributes}
-        subject={title}
-        theme={theme}
-      />
+      <PostedDate dateType='FromNow' date_field={datePublished || dateCreated} />
+      <ApprovedArticleSubject type='article' attributes={attributes} subject={title} theme={theme} />
     </InfoContainer>
   </ApproveArticleHeader>
 )

@@ -20,17 +20,17 @@ import type { TipArticlePayload } from '../Module'
 const ArticleContent = styled.section`
   background: white;
   height: 100%;
-`;
+`
 
 type Props =
   | {
-    userId?: string,
-    routeChangeAction: string => void,
-    tipArticleAction: TipArticlePayload => void,
-    ethUsdPrice: number,
-    address?: string,
-    data: { getArticle?: ArticleDTO },
-  }
+      userId?: string,
+      routeChangeAction: string => void,
+      tipArticleAction: TipArticlePayload => void,
+      ethUsdPrice: number,
+      address?: string,
+      data: { getArticle?: ArticleDTO },
+    }
   | any
 
 type State = {
@@ -50,11 +50,11 @@ class ApprovedArticle extends React.Component<Props, State> {
   }
 
   componentDidUpdate () {
-    R.map((block) => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
+    R.map(block => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
   }
 
   componentDidMount () {
-    R.map((block) => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
+    R.map(block => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
   }
 
   toggleBanner = (status?: boolean) =>
@@ -82,25 +82,6 @@ class ApprovedArticle extends React.Component<Props, State> {
         </Helmet>
         <ScrollToTopOnMount />
         <ScrollToTopButton />
-        {/* <ApprovedArticle.Actions
-          routeChangeAction={props.routeChangeAction}
-          tipArticleAction={props.tipArticleAction}
-          toggleBanner={this.toggleBanner}
-          ethUsdPrice={props.ethUsdPrice}
-          {...props.data.getArticle}
-        /> */}
-        {/* <ApprovedArticle.Banner
-          type='article'
-          showBanner={this.state.showBanner}
-          ethUsdPrice={props.ethUsdPrice}
-          tipArticleAction={props.tipArticleAction}
-          toggleBanner={this.toggleBanner}
-          request_id={props.data.getArticle && props.data.getArticle.request_id}
-          article_id={props.data.getArticle && props.data.getArticle.id}
-          article_version={props.data.getArticle && props.data.getArticle.version}
-          user_id={props.data.getArticle && props.data.getArticle.authorId}
-          hostName={hostName}
-        /> */}
         <ApprovedArticle.Header {...props.data.getArticle} />
         <ApprovedArticle.Content
           text={props.data.getArticle && props.data.getArticle.content}
@@ -108,7 +89,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           article_id={props.data.getArticle && props.data.getArticle.id}
           article_version={props.data.getArticle && props.data.getArticle.version}
           ownerId={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id}
-          username={props.data.getArticle && props.data.getArticle.owner && (props.data.getArticle.owner.username)}
+          username={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.username}
           userAvatar={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.avatar}
           userId={this.props.userId}
           routeChangeAction={props.routeChangeAction}
@@ -117,7 +98,7 @@ class ApprovedArticle extends React.Component<Props, State> {
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.attributes}
-          username={props.data.getArticle && props.data.getArticle.owner && (props.data.getArticle.owner.name || props.data.getArticle.owner.username)}
+          username={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.username}
           date_updated={props.data.getArticle && props.data.getArticle && props.data.getArticle.datePublished}
           content_hash={props.data.getArticle && props.data.getArticle && props.data.getArticle.contentHash}
           hostName={hostName}
@@ -127,7 +108,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           version={props.data.getArticle && props.data.getArticle.version}
           comments={props.data.getArticle && props.data.getArticle.comments && props.data.getArticle.comments.content}
           userId={this.props.userId}
-          username={props.data.getArticle && props.data.getArticle.owner && (props.data.getArticle.owner.name || props.data.getArticle.owner.username)}
+          username={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.username}
           authorId={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.id}
         />
       </ArticleContent>

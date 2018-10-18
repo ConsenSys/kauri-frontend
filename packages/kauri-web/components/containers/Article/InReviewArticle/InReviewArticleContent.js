@@ -5,8 +5,6 @@ import {
   CreateRequestContainer as InReviewArticleFormContainer,
 } from '../../CreateRequestForm/CreateRequestContent'
 import { ApprovedArticleDetails as InReviewArticleDetails } from '../ApprovedArticle/ApprovedArticleContent'
-import InReviewArticleGeneralCommentForm from './InReviewArticleGeneralCommentForm'
-import InReviewArticleGeneralComments from './InReviewArticleGeneralComments'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
 import userIdTrim from '../../../../lib/userid-trim'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
@@ -32,6 +30,7 @@ export default ({
   status,
   username,
   userId,
+  userAvatar,
 }: {
   editorState: any,
   onEditorChange: any => void,
@@ -47,8 +46,9 @@ export default ({
   deleteArticleComment: any,
   text: string,
   status: string,
-  username?: ?string,
-  userId?: ?string,
+  username: ?string,
+  userId: string,
+  userAvatar: ?string,
 }) => {
   editorState = editorState && typeof editorState === 'string' ? JSON.parse(editorState) : editorState
 
@@ -67,21 +67,6 @@ export default ({
     <InReviewArticleFormContent>
       <InReviewArticleFormContainer type='in review article'>
         <DescriptionRow fullText record={{ text }} />
-        {comments &&
-          comments.length > 0 &&
-          comments.filter(comment => typeof comment.anchor_key !== 'string') && (
-          <InReviewArticleGeneralComments
-            comments={
-              comments && comments.length > 0 && comments.filter(comment => typeof comment.anchor_key !== 'string')
-            }
-          />
-        )}
-        <InReviewArticleGeneralCommentForm
-          addCommentAction={addCommentAction}
-          article_id={article_id}
-          article_version={article_version}
-          status={status}
-        />
       </InReviewArticleFormContainer>
       <InReviewArticleDetails type='outline'>
         <Outline
@@ -91,9 +76,11 @@ export default ({
               {children}
             </Link>
           )}
-          userId={userId}
           headings={outlineHeadings || []}
-          username={username || userIdTrim(userId)}
+          username={username}
+          userId={userIdTrim(userId)}
+          userAvatar={userAvatar}
+          text={'AUTHOR'}
         />
       </InReviewArticleDetails>
     </InReviewArticleFormContent>

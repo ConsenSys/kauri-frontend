@@ -15,11 +15,11 @@ type ButtonType = 'primary' | 'ghost' | 'dashed' | 'danger'
 type NotificationType = 'success' | 'info' | 'warning' | 'error'
 
 export type User = {
-      address: string,
-      userId: string,
-      username: string,
-      topics: Array<?string>,
-    }
+  address: string,
+  userId: string,
+  username: string,
+  topics: Array<?string>,
+}
 
 export type Dependencies = {
   apolloClient: any,
@@ -92,6 +92,8 @@ export type ToggleModalPayload = {
   footer?: any,
 }
 
+export type SetNavcolorOverridePayload = string
+
 export type ToggleModalAction = {
   type: string,
   modalTitle?: string | any,
@@ -127,7 +129,12 @@ export type HideIntroBannerAction = {
 
 export type SetHostNameAction = {
   type: string,
-  hostName: string
+  payload: SetHostNamePayload,
+}
+
+export type SetNavcolorOverrideAction = {
+  type: string,
+  payload: SetNavcolorOverridePayload,
 }
 
 type Action =
@@ -199,6 +206,8 @@ export const TOGGLE_MODAL: string = 'TOGGLE_MODAL'
 
 export const FETCH_USER_DETAILS: string = 'FETCH_USER_DETAILS'
 
+export const SET_NAVCOLOR_OVERRIDE: string = 'SET_NAVCOLOR_OVERRIDE'
+
 export const HIDE_INTRO_BANNER: string = 'HIDE_INTRO_BANNER'
 
 export const HIDE_INTRO_BANNER_SUCCESS: string = 'HIDE_INTRO_BANNER_SUCCESS'
@@ -246,6 +255,11 @@ export const setHostNameAction = (payload: SetHostNamePayload): SetHostNameActio
   payload,
 })
 
+export const setNavcolorOverrideAction = (payload: SetNavcolorOverridePayload): SetNavcolorOverrideAction => ({
+  type: SET_NAVCOLOR_OVERRIDE,
+  payload,
+})
+
 export const toggleModalAction = ({
   modalTitle,
   modalChildren,
@@ -269,7 +283,11 @@ export const ethUsdPriceEpic = (action$: Observable<FetchEthUsdPriceAction>, _: 
     .map(({ USD }) => USD)
     .map(price => setEthUsdPriceAction({ price }))
 
-export const userDetailsEpic = (action$: Observable<FetchUserDetailsAction>, { getState }: any, { fetch, apolloClient }: Dependencies) =>
+export const userDetailsEpic = (
+  action$: Observable<FetchUserDetailsAction>,
+  { getState }: any,
+  { fetch, apolloClient }: Dependencies
+) =>
   action$
     .ofType(FETCH_USER_DETAILS)
     .take(1)
@@ -337,9 +355,11 @@ const initialState: State = {
   showIntroBanner: true,
   funds: 0,
   hostName: undefined,
+  navcolorOverride: null,
 }
 
 const handlers = {
+  [SET_NAVCOLOR_OVERRIDE]: (state: State, action: Action) => ({ ...state, navcolorOverride: action.payload }),
   [SHOW_NOTIFICATION]: (state: State, action: Action) => state,
   [SHOW_CONFIRMATION_MODAL]: (state: State, action: Action) => state,
   [SET_ETH_USD_PRICE]: (state: State, action: Action) => {
