@@ -180,7 +180,7 @@ let publishArticleEpic =
                         owner
                         ->Belt.Option.mapWithDefault(
                             App_Module.ArticlePublished, _ =>
-                            App_Module.ArticleSubmitted
+                            App_Module.ArticleProposed
                           ),
                     ),
                   ),

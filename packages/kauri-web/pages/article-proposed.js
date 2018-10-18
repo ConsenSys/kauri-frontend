@@ -2,14 +2,14 @@ import React from 'react'
 import { withApollo, compose } from 'react-apollo'
 import withData from '../lib/with-data'
 import App from '../layouts/App'
-import ArticleSubmitted from '../components/containers/ArticleSubmitted'
+import ArticleProposed from '../components/containers/ArticleProposed'
 import { withRouter } from 'next/router'
 
-class ArticleSubmittedPage extends React.Component {
+class ArticleProposedPage extends React.Component {
   render () {
     return (
       <App confirmationPage url={this.props.router}>
-        <ArticleSubmitted
+        <ArticleProposed
           id={this.props.router.query['article_id']}
           version={this.props.router.query['article_version']}
         />
@@ -22,4 +22,4 @@ export default compose(
   withData,
   withApollo,
   withRouter
-)(ArticleSubmittedPage)
+)(ArticleProposedPage)

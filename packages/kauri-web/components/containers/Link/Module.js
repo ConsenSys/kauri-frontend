@@ -82,7 +82,7 @@ const classifyURL = (urlSplit: Array<string>): Classification => {
       urlSplit[4] ===
       ('update-article' ||
         'article-drafted' ||
-        'article-submitted' ||
+        'article-proposed' ||
         'article-updated' ||
         'article-approved' ||
         'article-rejected' ||

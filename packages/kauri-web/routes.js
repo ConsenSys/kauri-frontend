@@ -19,7 +19,7 @@ routes
   // .add('update-request', '/request/:request_id/update-request')
   // .add('request-created', '/request/:request_id/request-created')
   .add('article-drafted', '/article/:article_id/v:article_version/article-drafted')
-  .add('article-submitted', '/article/:article_id/v:article_version/article-submitted')
+  .add('article-proposed', '/article/:article_id/v:article_version/article-proposed')
   .add('article-updated', '/article/:article_id/v:article_version/article-updated')
   .add('article-approved', '/article/:article_id/v:article_version/article-approved')
   .add('article-rejected', '/article/:article_id/v:article_version/article-rejected')

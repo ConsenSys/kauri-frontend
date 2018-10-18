@@ -55,7 +55,7 @@ type routeType =
   | Back
   | ArticleApproved
   | ArticleDrafted
-  | ArticleSubmitted
+  | ArticleProposed
   | ArticlePublished;
 
 type slug =
@@ -78,8 +78,8 @@ let route =
     createRouteURL(x, y, "/article-published")
   | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticleDrafted) =>
     createRouteURL(x, y, "/article-drafted")
-  | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticleSubmitted) =>
-    createRouteURL(x, y, "/article-submitted")
+  | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticleProposed) =>
+    createRouteURL(x, y, "/article-proposed")
   | (None, None, Back) => "back"
   | _ => ""
   };

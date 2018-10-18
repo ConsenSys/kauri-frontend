@@ -226,7 +226,7 @@ export const submitArticleVersionEpic = (
                 })
               )
               : Observable.of(
-                routeChangeAction(`/article/${id}/v${version}/article-${selfPublish ? 'published' : 'submitted'}`),
+                routeChangeAction(`/article/${id}/v${version}/article-${selfPublish ? 'published' : 'proposed'}`),
                 trackMixpanelAction({
                   event: 'Offchain',
                   metaData: {
@@ -238,7 +238,7 @@ export const submitArticleVersionEpic = (
                 }),
                 showNotificationAction({
                   notificationType: 'success',
-                  message: `Article ${typeof selfPublish === 'undefined' ? 'submitted' : 'published'}`,
+                  message: `Article ${typeof selfPublish === 'undefined' ? 'proposed' : 'published'}`,
                   description:
                       typeof selfPublish === 'undefined'
                         ? 'Waiting for it to be reviewed!'

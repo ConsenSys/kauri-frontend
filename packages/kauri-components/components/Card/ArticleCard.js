@@ -68,12 +68,12 @@ const Divider = styled.div`
   height: 2px;
 `
 
-const renderDescriptionRowContent = (content, cardHeight) => {
+const renderDescriptionRowContent = (content, cardHeight, imageURL) => {
   if (process.env.STORYBOOK !== 'true') {
     const DescriptionRow = require('../../../kauri-web/components/common/DescriptionRow.js').default
     return React.createElement(
       DescriptionRow,
-      { record: { text: content }, type: 'article card', cardHeight: cardHeight },
+      { record: { text: content }, type: 'article card', cardHeight, imageURL },
       null
     )
   }
@@ -101,7 +101,7 @@ let renderCardContent = ({ title, content, cardHeight, cardWidth, imageURL, date
         <TextTruncate line={titleLineHeight({ cardHeight, imageURL })} truncateText='…' text={title} />
       </H1>
       {content.substring(0, 2).includes('{') ? (
-        renderDescriptionRowContent(content, cardHeight)
+        renderDescriptionRowContent(content, cardHeight, imageURL)
       ) : (
         <BodyCard>
           <TextTruncate line={contentLineHeight({ cardHeight, cardWidth, imageURL })} truncateText='…' text={content} />
@@ -119,12 +119,12 @@ const calculateCardHeight = R.cond([
   [
     ({ cardHeight, cardWidth, imageURL }) =>
       typeof imageURL !== 'string' && cardHeight > DEFAULT_CARD_HEIGHT && cardWidth > DEFAULT_CARD_WIDTH,
-    ({ cardHeight }) => cardHeight - (DEFAULT_CARD_PADDING * 2),
+    ({ cardHeight }) => cardHeight - DEFAULT_CARD_PADDING * 2,
   ],
   [
     ({ cardHeight, cardWidth, imageURL }) =>
       typeof imageURL !== 'string' && cardHeight === DEFAULT_CARD_HEIGHT && cardWidth > DEFAULT_CARD_WIDTH,
-    R.always(420 - (DEFAULT_CARD_PADDING * 2)),
+    R.always(420 - DEFAULT_CARD_PADDING * 2),
   ],
   [
     ({ cardHeight, imageURL }) => typeof imageURL === 'string' && cardHeight > DEFAULT_CARD_HEIGHT,
@@ -137,7 +137,7 @@ const calculateCardHeight = R.cond([
   ],
   [
     ({ cardHeight, imageURL }) => typeof imageURL !== 'string' && cardHeight === DEFAULT_CARD_HEIGHT,
-    R.always(DEFAULT_CARD_HEIGHT - (DEFAULT_CARD_PADDING * 2)),
+    R.always(DEFAULT_CARD_HEIGHT),
   ],
 ])
 
@@ -257,10 +257,24 @@ const ArticleCard = ({
       <Footer imageURL={imageURL}>
         {typeof linkComponent === 'function'
           ? linkComponent(
-            renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar, imageURL),
+            renderPublicProfile(
+              pageType,
+              username,
+              userId,
+              calculateCardWidth({ cardWidth, imageURL }),
+              userAvatar,
+              imageURL
+            ),
             `/public-profile/${userId}`
           )
-          : renderPublicProfile(pageType, username, userId, calculateCardWidth({ cardWidth, imageURL }), userAvatar, imageURL)}
+          : renderPublicProfile(
+            pageType,
+            username,
+            userId,
+            calculateCardWidth({ cardWidth, imageURL }),
+            userAvatar,
+            imageURL
+          )}
       </Footer>
     </Container>
   </BaseCard>
