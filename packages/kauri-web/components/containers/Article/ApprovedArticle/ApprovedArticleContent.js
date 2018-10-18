@@ -119,7 +119,7 @@ export default ({
           )}
           headings={outlineHeadings || []}
           username={username}
-          userId={usedIdTrim(ownerId)}
+          userId={ownerId && usedIdTrim(ownerId)}
           userAvatar={userAvatar}
           routeChangeAction={routeChangeAction}
         />
