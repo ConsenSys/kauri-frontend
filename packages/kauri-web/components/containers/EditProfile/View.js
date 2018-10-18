@@ -49,10 +49,12 @@ class OnboardingEditProfile extends Component {
       username,
       email,
       avatar,
-      social: { github, twitter },
+      social,
       title,
       website,
     } = this.props.user
+    const github = social && social.github;
+    const twitter = social && social.twitter;
     const hasData = name || username || email || avatar || github || twitter || title || website
     if (hasData) {
       return this.redirect()
@@ -65,10 +67,12 @@ class OnboardingEditProfile extends Component {
       username,
       email,
       avatar,
-      social: { github, twitter },
+      social,
       title,
       website,
     } = this.props.user
+    const github = social && social.github;
+    const twitter = social && social.twitter;
     const hasData = name || username || email || avatar || github || twitter || title || website
     if (hasData) {
       return (
