@@ -14,6 +14,7 @@ import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markd
 import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
+import usedIdTrim from '../../../../lib/userid-trim';
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
@@ -118,14 +119,14 @@ export default ({
           )}
           headings={outlineHeadings || []}
           username={username}
-          userId={ownerId}
+          userId={usedIdTrim(ownerId)}
           userAvatar={userAvatar}
           routeChangeAction={routeChangeAction}
         />
         <ArticleAction
           svgIcon={<UpdateArticleSvgIcon />}
           text={'Update Article'}
-          handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
+          handleClick={() => userId ? routeChangeAction(`/article/${article_id}/v${article_version}/update-article`) : routeChangeAction(`/login?r=article/${article_id}/v${article_version}/update-article`)}
         >
           Update article
         </ArticleAction>
