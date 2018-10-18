@@ -1,8 +1,17 @@
+<<<<<<< HEAD
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import EditProfile from '../../common/EditProfile';
+import { PrimaryButton, TertiaryButton } from '../../../../kauri-components/components/Button';
+import Loading from '../../common/Loading';
+import { Router } from '../../../routes';
+=======
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import EditProfile from '../../common/EditProfile'
 import { PrimaryButton, TertiaryButton } from '../../../../kauri-components/components/Button'
 import Loading from '../../common/Loading'
+>>>>>>> 52f66ff1ef79773705ed46200a2f7ac7b229e830
 
 const Page = styled.div`
   display: flex;
