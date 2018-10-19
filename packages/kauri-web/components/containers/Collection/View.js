@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import CollectionHeader from '../../../../kauri-components/components/Headers/CollectionHeader.bs'
 import CollectionSection from './CollectionSection.bs'
 import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
-import { Link } from '../../../routes';
+import { Link } from '../../../routes'
 import { Helmet } from 'react-helmet'
 import slugify from 'slugify'
 import rake from 'rake-js'
@@ -15,7 +15,7 @@ type Props = {
   },
   routeChangeAction: string => void,
   hostName: string,
-  userId?: string
+  userId?: string,
 }
 
 export const Overlay = styled.div`
@@ -25,7 +25,7 @@ export const Overlay = styled.div`
   background: ${props => props.theme.colors.bgPrimary};
   opacity: 0.8;
   margin-top: -106px;
-`;
+`
 
 const ContentContainer = styled.div`
   display: flex;
@@ -70,9 +70,11 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     if (!this.props.data || !this.props.data.getCollection) return null
     const { id, name, background, description, dateCreated, owner, sections } = this.props.data.getCollection
     const { userId, routeChangeAction, hostName } = this.props
-    const extractedKeywords = rake(description, { language: 'english' })
-    const bg = background && background || this.state.trianglifyBg
-    const url = `https://${hostName.replace(/api\./g, '')}/collection/${this.props.id}/${slugify(name, { lower: true })}`;
+    const extractedKeywords = description ? rake(description, { language: 'english' }) : []
+    const bg = (background && background) || this.state.trianglifyBg
+    const url = `https://${hostName.replace(/api\./g, '')}/collection/${this.props.id}/${slugify(name, {
+      lower: true,
+    })}`
 
     return (
       <div>
@@ -93,7 +95,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             username={owner && owner.username}
             userId={userId || ''}
             userAvatar={owner && owner.avatar}
-            linkComponent={(childrenProps) => (
+            linkComponent={childrenProps => (
               <Link fullWidth={false} useAnchorTag href={`/public-profile/${owner && owner.id}`}>
                 {childrenProps}
               </Link>
