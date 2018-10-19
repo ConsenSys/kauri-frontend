@@ -311,7 +311,7 @@ class Navbar extends React.Component {
                   <TooltipItem>Profile</TooltipItem>
                 </Link>
                 <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
-                <TooltipItem onClick={logout}>Logout</TooltipItem>
+                <TooltipItem onClick={logout}>Disconnect</TooltipItem>
               </TooltipItemContainer>
             </Tooltip>
           ) : (
@@ -324,11 +324,7 @@ class Navbar extends React.Component {
             >
               <TooltipItemContainer>
                 <Link route={'/login'}>
-                  <TooltipItem>Login</TooltipItem>
-                </Link>
-                <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
-                <Link route={'/login'}>
-                  <TooltipItem>Register</TooltipItem>
+                  <TooltipItem>Sign in</TooltipItem>
                 </Link>
               </TooltipItemContainer>
             </Tooltip>
