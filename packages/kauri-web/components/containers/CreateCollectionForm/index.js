@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 import CreateCollectionForm from './View'
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
 import { closeModalAction, openModalAction } from '../../../../kauri-components/components/Modal/Module'
-import { createCollectionAction, composeCollectionAction } from './Module'
+import { createCollectionAction, editCollectionAction, composeCollectionAction } from './Module'
 import R from 'ramda'
 
 export type FormState = {
@@ -35,6 +35,7 @@ export default compose(
     {
       showNotificationAction,
       createCollectionAction,
+      editCollectionAction,
       composeCollectionAction,
       routeChangeAction,
       openModalAction,
@@ -87,7 +88,7 @@ export default compose(
 
         logIfDevelopment(payload)
 
-        props.createCollectionAction(payload, () => {
+        props.editCollectionAction(payload, () => {
           setSubmitting(false)
         })
       } else {

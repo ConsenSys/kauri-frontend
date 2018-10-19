@@ -214,7 +214,6 @@ type Props = {
   setFieldValue: (string, any) => void,
   validateForm: () => Promise<any>,
   showNotificationAction: ShowNotificationPayload => void,
-  createCollectionAction: CreateCollectionPayload => void,
   routeChangeAction: string => void,
   data?: { getCollection?: ?CollectionDTO },
   openModalAction: ({ children: React.Node }) => void,
