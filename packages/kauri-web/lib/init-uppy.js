@@ -124,7 +124,7 @@ const initUppy = () => {
       disableThumbnailGenerator: true,
       showProgressDetails: true,
       proudlyDisplayPoweredByUppy: false,
-      note: 'PNG or JPEG images only, up to 1 MB',
+      note: 'PNG or JPEG images only, up to 10 MB',
       locale: {
         strings: {
           dropPaste: 'Drop image here, paste or',

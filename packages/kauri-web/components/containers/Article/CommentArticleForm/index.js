@@ -5,7 +5,9 @@ import { withFormik } from 'formik'
 import * as Yup from 'yup'
 import { showNotificationAction } from '../../../../lib/Module'
 import { addCommentAction } from './Module'
-import View from './View'
+import View from './View';
+import { routeChangeAction } from '../../../../lib/Module';
+import { withRouter } from 'next/router'
 
 const mapStateToProps = (state, ownProps) => ({
   userId: state.app && state.app.user && state.app.user.id,
@@ -19,7 +21,7 @@ export type FormState = {
 export default compose(
   connect(
     mapStateToProps,
-    { showNotificationAction, addCommentAction }
+    { showNotificationAction, addCommentAction, routeChangeAction }
   ),
   withFormik({
     mapPropsToValues: ({ id, version }) => ({
@@ -45,4 +47,4 @@ export default compose(
       })
     },
   })
-)(View)
+)(withRouter(View))
