@@ -163,6 +163,7 @@ export default class extends React.Component<
     username?: ?string,
     userId: string,
     userAvatar: ?string,
+    isUpdating: boolean,
   },
   { focused: boolean }
 > {
