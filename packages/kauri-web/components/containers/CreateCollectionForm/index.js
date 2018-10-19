@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 import CreateCollectionForm from './View'
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
 import { closeModalAction, openModalAction } from '../../../../kauri-components/components/Modal/Module'
-import { createCollectionAction, composeCollectionAction } from './Module'
+import { createCollectionAction, editCollectionAction, composeCollectionAction } from './Module'
 import R from 'ramda'
 
 export type FormState = {
@@ -27,7 +27,7 @@ const getCollectionField = (field, data) => R.path(['getCollection', field], dat
 
 export default compose(
   connect(
-    (state) => ({
+    state => ({
       userId: state.app && state.app.user.id,
       username: state.app && state.app.user.username,
       userAvatar: state.app && state.app.user.avatar,
@@ -35,6 +35,7 @@ export default compose(
     {
       showNotificationAction,
       createCollectionAction,
+      editCollectionAction,
       composeCollectionAction,
       routeChangeAction,
       openModalAction,
@@ -68,7 +69,9 @@ export default compose(
           R.path(['sections']),
           R.map(section => ({
             ...section,
-            resourcesId: R.map(({ id, version }) => ({ type: 'ARTICLE', id, version }))(section.resourcesId || section.resources),
+            resourcesId: R.map(({ id, version }) => ({ type: 'ARTICLE', id, version }))(
+              section.resourcesId || section.resources
+            ),
           })),
           R.map(section => R.dissocPath(['resources'])(section)),
           R.map(section => R.dissocPath(['__typename'])(section))
@@ -85,7 +88,7 @@ export default compose(
 
         logIfDevelopment(payload)
 
-        props.composeCollectionAction(payload, () => {
+        props.editCollectionAction(payload, () => {
           setSubmitting(false)
         })
       } else {

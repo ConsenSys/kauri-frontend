@@ -214,23 +214,21 @@ type Props = {
   setFieldValue: (string, any) => void,
   validateForm: () => Promise<any>,
   showNotificationAction: ShowNotificationPayload => void,
-  createCollectionAction: CreateCollectionPayload => void,
   routeChangeAction: string => void,
   data?: { getCollection?: ?CollectionDTO },
   openModalAction: ({ children: React.Node }) => void,
   closeModalAction: () => void,
   userId: string,
   username: string,
-  userAvatar: string
-
+  userAvatar: string,
 }
 
 const BackIcon = styled.div`
-  width: 10px !important; 
-  height: 14px !important; 
+  width: 10px !important;
+  height: 14px !important;
   border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent; 
-  border-right:10px solid ${props => props.theme.colors['primary']}; 
+  border-bottom: 8px solid transparent;
+  border-right: 10px solid ${props => props.theme.colors['primary']};
 `
 
 export default ({
@@ -253,10 +251,7 @@ export default ({
     <Form>
       <ActionsSection bg={(typeof values.background === 'string' && 'transparent') || 'bgPrimary'}>
         <Stack alignItems={['', 'center']}>
-          <TertiaryButton
-            onClick={() => routeChangeAction('back')}
-            icon={<BackIcon />}
-          >
+          <TertiaryButton onClick={() => routeChangeAction('back')} icon={<BackIcon />}>
             Cancel Collection
           </TertiaryButton>
         </Stack>
@@ -279,18 +274,17 @@ export default ({
       <PrimaryHeaderSection backgroundURL={values.background}>
         <CreateCollectionDetails mb={2}>
           <Label color='white'>Collection</Label>
-          {typeof data === 'object' ? <Title1 color={'white'}>{R.path(['getCollection', 'name'])(data)}</Title1> : <Field
+          <Field
             type='text'
             name='name'
             render={({ field }) => <Input {...field} type='text' placeHolder='Add collection title' fontSize={7} />}
-          /> }
+          />
           {/* <ErrorMessage name='name' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
-          {typeof data === 'object' ? <Title2 color={'white'}>{R.path(['getCollection', 'description'])(data)}</Title2> : <Field
+          <Field
             type='text'
             name='description'
             render={({ field }) => <Input {...field} type='text' placeHolder='Add description' fontSize={4} />}
           />
-          }
           {/* <ErrorMessage name='description' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
 
           {/* TODO: WAIT FOR BACKEND */}
@@ -307,15 +301,19 @@ export default ({
               <StatisticsContainer
                 pageType='CollectionPage'
                 statistics={[
-                // { name: 'Followers', count: 0 },
+                  // { name: 'Followers', count: 0 },
                   {
                     name: 'Articles',
                     count: R.pipe(
-                      R.reduce((current, next) => current + (next['resourcesId'] ? next['resourcesId'].length : next['resources'].length), 0)
+                      R.reduce(
+                        (current, next) =>
+                          current + (next['resourcesId'] ? next['resourcesId'].length : next['resources'].length),
+                        0
+                      )
                     )(values.sections),
                   },
-                // { name: 'Views', count: 0 },
-                // { name: 'Upvotes', count: 0 },
+                  // { name: 'Views', count: 0 },
+                  // { name: 'Upvotes', count: 0 },
                 ]}
               />
               <CuratorHeaderLabel>Curator</CuratorHeaderLabel>

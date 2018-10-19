@@ -1,5 +1,5 @@
 // @flow
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 import { Article } from './Article'
 
 export const Collection = gql`
@@ -14,14 +14,14 @@ export const Collection = gql`
       name
       username
       avatar
-    } 
+    }
     sections {
-      name 
-      description 
+      name
+      description
       resources {
-       ...Article
+        ...Article
       }
-    } 
+    }
     resourceIdentifier {
       type
       id
@@ -32,17 +32,50 @@ export const Collection = gql`
 `
 
 export const globalCollectionDetails = gql`
-  query getCollection($id: String) { 
+  query getCollection($id: String) {
     getCollection(id: $id) {
-       id name description background dateCreated owner {
-       id name username avatar } sections {
-       name description resources {
-       ...on ArticleDTO {
-         authorId
-      id, version, title, content, dateCreated, datePublished, author {
-       id name username avatar }, status, attributes, vote {
-       totalVote } } } }, resourceIdentifier {
-      type, id} } 
+      id
+      name
+      description
+      background
+      dateCreated
+      owner {
+        id
+        name
+        username
+        avatar
+      }
+      sections {
+        name
+        description
+        resources {
+          ... on ArticleDTO {
+            authorId
+            id
+            version
+            title
+            content
+            dateCreated
+            datePublished
+            author {
+              id
+              name
+              username
+              avatar
+            }
+            status
+            attributes
+            vote {
+              totalVote
+            }
+          }
+        }
+      }
+      resourceIdentifier {
+        type
+        id
+      }
+    }
   }
 `
 
@@ -62,7 +95,7 @@ export const getCollectionForAnalytics = gql`
       sections {
         name
         description
-        ...on ArticleDTO {
+        ... on ArticleDTO {
           id
           title
           version
@@ -85,7 +118,15 @@ export const getCollectionForAnalytics = gql`
 
 export const createCollection = gql`
   mutation createCollection($name: String, $description: String, $background: String) {
-    createCollection (name: $name, description: $description, background: $background) {
+    createCollection(name: $name, description: $description, background: $background) {
+      hash
+    }
+  }
+`
+
+export const editCollection = gql`
+  mutation editCollection($id: String, $name: String, $description: String, $background: String) {
+    createCollection(id: $id, name: $name, description: $description, background: $background) {
       hash
     }
   }
@@ -93,41 +134,41 @@ export const createCollection = gql`
 
 export const composeCollection = gql`
   mutation composeCollection($id: String, $sections: [SectionDTOInput]) {
-    composeCollection (id: $id, sections: $sections) {
+    composeCollection(id: $id, sections: $sections) {
       hash
     }
   }
 `
 export const getLatestCollections = gql`
   query searchCollections {
-    searchCollections (size: 100, sort: "dateUpdated", dir: DESC) {
-        content {
-          ...Collection
-        }
+    searchCollections(size: 100, sort: "dateUpdated", dir: DESC) {
+      content {
+        ...Collection
+      }
     }
   }
 
   ${Collection}
-`;
+`
 
 export const searchCollections = gql`
-  query searchCollections ($filter: CollectionFilterInput) {
-    searchCollections (size: 10, filter: $filter) {
-        content {
-          ...Collection
-        }
+  query searchCollections($filter: CollectionFilterInput) {
+    searchCollections(size: 10, filter: $filter) {
+      content {
+        ...Collection
+      }
     }
   }
   ${Collection}
-`;
+`
 
 export const getCollectionsForUser = gql`
-  query searchCollections ($filter: CollectionFilterInput) {
-    searchCollections (filter: $filter) {
-        content {
-          ...Collection
-        }
+  query searchCollections($filter: CollectionFilterInput) {
+    searchCollections(filter: $filter) {
+      content {
+        ...Collection
+      }
     }
   }
   ${Collection}
-`;
+`
