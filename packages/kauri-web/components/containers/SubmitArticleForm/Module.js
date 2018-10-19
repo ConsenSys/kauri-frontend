@@ -39,9 +39,8 @@ export type SubmitArticleVersionPayload = {
 }
 
 export type DraftArticleActionPayload = {
-  id?: string,
-  text: string,
-  subject: string,
+  title: string,
+  content: string,
   attributes?: AttributesPayload,
 }
 
@@ -59,6 +58,7 @@ export type EditArticlePayload = {
   text: string,
   subject: string,
   attributes?: AttributesPayload,
+  selfPublish?: boolean,
 }
 
 export type SubmitArticleAction = { type: string, payload: SubmitArticlePayload }
@@ -124,7 +124,6 @@ export const submitArticleEpic = (
           })
         )
         .do(h => console.log(h))
-        .do(h => apolloClient.resetStore())
         .mergeMap(
           ({
             data: {
@@ -196,6 +195,7 @@ export const submitArticleVersionEpic = (
           apolloSubscriber(hash)
         )
         .do(h => console.log(h))
+        .do(() => apolloClient.resetStore())
         .mergeMap(({ data: { output: { id, version } } }) =>
           apolloClient.query({
             query: getArticle,
@@ -207,7 +207,6 @@ export const submitArticleVersionEpic = (
           })
         )
         .do(h => console.log(h))
-        .do(h => apolloClient.resetStore())
         .mergeMap(
           ({
             data: {
@@ -226,7 +225,11 @@ export const submitArticleVersionEpic = (
                 })
               )
               : Observable.of(
-                routeChangeAction(`/article/${id}/v${version}/article-${selfPublish ? 'published' : 'proposed'}`),
+                routeChangeAction(
+                  `/article/${id}/v${version}/article-${
+                    typeof selfPublish === 'undefined' ? 'drafted' : owner.id === authorId ? 'published' : 'proposed'
+                  }`
+                ),
                 trackMixpanelAction({
                   event: 'Offchain',
                   metaData: {
@@ -238,11 +241,15 @@ export const submitArticleVersionEpic = (
                 }),
                 showNotificationAction({
                   notificationType: 'success',
-                  message: `Article ${typeof selfPublish === 'undefined' ? 'proposed' : 'published'}`,
+                  message: `Article ${
+                    typeof selfPublish === 'undefined' ? 'drafted' : owner.id === authorId ? 'published' : 'proposed'
+                  }`,
                   description:
                       typeof selfPublish === 'undefined'
-                        ? 'Waiting for it to be reviewed!'
-                        : 'Your personal article has now been published!',
+                        ? 'Your article has now been drafted to be updated or published in the future'
+                        : owner.id === authorId
+                          ? 'Your personal article has now been published!'
+                          : 'Waiting for it to be reviewed!',
                 })
               )
         )
@@ -263,18 +270,82 @@ export const editArticleEpic = (
   { getState }: any,
   { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
 ) =>
-  action$.ofType(EDIT_ARTICLE).switchMap(({ payload: { id, version, text, subject, attributes } }: EditArticleAction) =>
+  action$
+    .ofType(EDIT_ARTICLE)
+    .switchMap(({ payload: { id, version, text, subject, attributes, selfPublish } }: EditArticleAction) =>
+      Observable.fromPromise(
+        apolloClient.mutate({
+          mutation: editArticle,
+          variables: { id, version, text, subject, attributes },
+        })
+      )
+        .flatMap(({ data: { editArticleVersion: { hash } } }: { data: { editArticleVersion: { hash: string } } }) =>
+          apolloSubscriber(hash)
+        )
+        .do(h => console.log(h))
+        .mergeMap(({ data: { output: { id, version } } }) =>
+          apolloClient.query({
+            query: getArticle,
+            variables: {
+              id,
+              version,
+            },
+            fetchPolicy: 'network-only',
+          })
+        )
+        .mergeMap(
+          ({
+            data: {
+              getArticle: { id, version, contentHash, dateCreated, authorId },
+            },
+          }) =>
+            typeof selfPublish !== 'undefined'
+              ? Observable.of(
+                publishArticleAction({
+                  id,
+                  version,
+                  contentHash,
+                  dateCreated,
+                  contributor: authorId,
+                  owner: null,
+                })
+              )
+              : Observable.of(
+                routeChangeAction(`/article/${id}/v${version}/article-updated`),
+                trackMixpanelAction({
+                  event: 'Offchain',
+                  metaData: {
+                    resource: 'article',
+                    resourceID: id,
+                    resourceVersion: version,
+                    resourceAction: 'update article',
+                  },
+                }),
+                showNotificationAction({
+                  notificationType: 'info',
+                  message: 'Article updated',
+                  description: 'The article version has been updated!',
+                })
+              )
+        )
+    )
+
+export const draftArticleEpic = (
+  action$: Observable<DraftArticleAction>,
+  { getState }: any,
+  { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
+) =>
+  action$.ofType(DRAFT_ARTICLE).switchMap(({ payload: { title, content, attributes } }: DraftArticleAction) =>
     Observable.fromPromise(
       apolloClient.mutate({
-        mutation: editArticle,
-        variables: { id, version, text, subject, attributes },
+        mutation: submitNewArticle,
+        variables: { title, content, attributes },
       })
     )
-      .flatMap(({ data: { editArticleVersion: { hash } } }: { data: { editArticle: { hash: string } } }) =>
+      .flatMap(({ data: { submitNewArticle: { hash } } }: { data: { submitNewArticle: { hash: string } } }) =>
         apolloSubscriber(hash)
       )
       .do(() => apolloClient.resetStore())
-      .do(h => console.log(h))
       .flatMap(({ data: { output: { id, version } } }) =>
         Observable.of(
           routeChangeAction(`/article/${id}/v${version}/article-updated`),
@@ -284,53 +355,14 @@ export const editArticleEpic = (
               resource: 'article',
               resourceID: id,
               resourceVersion: version,
-              resourceAction: 'update article',
+              resourceAction: 'article-drafted',
             },
           }),
           showNotificationAction({
             notificationType: 'info',
-            message: 'Article updated',
-            description: 'The article version has been updated!',
+            message: 'Draft Created',
+            description: 'The draft has just been saved. You can go back and submit it whenever you are ready.',
           })
         )
       )
   )
-
-export const draftArticleEpic = (
-  action$: Observable<DraftArticleAction>,
-  { getState }: any,
-  { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
-) =>
-  action$
-    .ofType(DRAFT_ARTICLE)
-    .switchMap(({ payload: { article_id, article_version, text, subject, attributes } }: DraftArticleAction) =>
-      Observable.fromPromise(
-        apolloClient.mutate({
-          mutation: submitNewArticle,
-          variables: { content: text, title: subject, attributes },
-        })
-      )
-        .flatMap(({ data: { submitNewArticle: { hash } } }: { data: { submitNewArticle: { hash: string } } }) =>
-          apolloSubscriber(hash)
-        )
-        .do(() => apolloClient.resetStore())
-        .flatMap(({ data: { output: { id, version } } }) =>
-          Observable.of(
-            routeChangeAction(`/article/${id}/v${version}/article-updated`),
-            trackMixpanelAction({
-              event: 'Offchain',
-              metaData: {
-                resource: 'article',
-                resourceID: id,
-                resourceVersion: version,
-                resourceAction: 'article-drafted',
-              },
-            }),
-            showNotificationAction({
-              notificationType: 'info',
-              message: 'Draft Created',
-              description: 'The draft has just been saved. You can go back and submit it whenever you are ready.',
-            })
-          )
-        )
-    )

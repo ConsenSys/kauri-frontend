@@ -95,7 +95,14 @@ class InReviewArticle extends React.Component<Props, State> {
           {...props.data.getArticle}
           routeChangeAction={props.routeChangeAction}
           ethUsdPrice={props.ethUsdPrice}
-          isContributor={props.userId === (props.data && props.data.getArticle && props.data.getArticle.authorId)}
+          isOwner={
+            props.userId ===
+            (props.data && props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id)
+          }
+          isContributor={
+            props.userId ===
+            (props.data && props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.id)
+          }
           updateUnsubmittedArticle={props.updateUnsubmittedArticle}
           approveArticle={props.approveArticle}
           rejectArticle={props.rejectArticle}

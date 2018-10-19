@@ -3,14 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { CreateRequestSecondaryHeader as InReviewArticleSecondaryHeader } from '../../CreateRequestForm/CreateRequestHeader'
 import { ApprovedArticleSubject as InReviewArticleSubject } from '../ApprovedArticle/ApprovedArticleHeader'
-import { DatePosted } from '../../../common/DatePosted'
+import { H5 } from '../../../../../kauri-components/components/Typography'
 import theme from '../../../../lib/theme-config'
-
-export const InReviewArticleStatus = DatePosted.extend`
-  margin-top: 0;
-  align-self: center;
-  color: #fff;
-`
 
 const InfoContainer = styled.div`
   display: flex;
@@ -36,6 +30,15 @@ const Overlay = styled.div`
   margin-top: -80px;
 `
 
+export const PullRight = styled.div`
+  display: flex;
+  margin-left: auto;
+  margin-right: ${props => props.theme.space[1]}px;
+  margin-top: ${props => props.theme.space[2]}px;
+  align-items: center;
+  z-index: 9;
+`
+
 export default ({ owner, sub_category, status, title, attributes }: *) => (
   <InReviewArticleHeader
     style={{
@@ -58,5 +61,8 @@ export default ({ owner, sub_category, status, title, attributes }: *) => (
         attributes={attributes}
       />
     </InfoContainer>
+    <PullRight>
+      <H5 color='white'>{`STATUS ${typeof status === 'string' && status.replace(/_/g, ' ')}`}</H5>
+    </PullRight>
   </InReviewArticleHeader>
 )

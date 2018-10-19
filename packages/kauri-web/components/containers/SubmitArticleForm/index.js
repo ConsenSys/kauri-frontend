@@ -13,8 +13,9 @@ const mapStateToProps = (state, ownProps) => ({
     state.app.user && state.app.user.topics && state.app.user.topics.find(topic => topic === 'kauri')
   ),
   categories: state.app && state.app.user && state.app.user.topics,
-  userId: state.app.user && state.app.user && state.app.user.id,
   username: state.app.user && state.app.user.username,
+  userId: state.app.user && state.app.user && state.app.user.id,
+  userAvatar: state.app.user && state.app.user.avatar,
 })
 
 export default compose(

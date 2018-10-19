@@ -14,7 +14,7 @@ import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markd
 import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
-import usedIdTrim from '../../../../lib/userid-trim';
+import userIdTrim from '../../../../lib/userid-trim'
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
@@ -44,8 +44,10 @@ const ApprovedArticleHelmet = ({ blocks, contentState }) => {
 
   let description = blocks.filter(({ text }) => text.length >= 40)
   description = description.length
-    ? description.find(block => block.type.includes('unstyled')) && description.find(block => block.type.includes('unstyled')).text
-    : blocks.find(block => block.type.includes('unstyled')) && blocks.find(block => block.type.includes('unstyled')).text
+    ? description.find(block => block.type.includes('unstyled')) &&
+      description.find(block => block.type.includes('unstyled')).text
+    : blocks.find(block => block.type.includes('unstyled')) &&
+      blocks.find(block => block.type.includes('unstyled')).text
   description = description && description.length > 120 ? description.substring(0, 117) + '...' : description
   let imageEntityKey = contentState && contentState.getLastCreatedEntityKey()
   let image = parseInt(imageEntityKey) && contentState.getEntity(imageEntityKey).toJS()
@@ -64,6 +66,7 @@ export default ({
   username,
   userId,
   ownerId,
+  authorId,
   userAvatar,
   routeChangeAction,
   article_id,
@@ -75,7 +78,8 @@ export default ({
   text?: string,
   username?: ?string,
   userAvatar?: ?string,
-  ownerId?: string,
+  ownerId?: ?string,
+  authorId: string,
   routeChangeAction: string => void,
   article_id: string,
   subject?: string,
@@ -84,7 +88,15 @@ export default ({
   hostName: string,
 }) => {
   let editorState = typeof text === 'string' && text[0] === '{' && JSON.parse(text)
-  if (!editorState) return <SubmitArticleFormContent><p><span>{text}</span></p></SubmitArticleFormContent>
+  if (!editorState) {
+    return (
+      <SubmitArticleFormContent>
+        <p>
+          <span>{text}</span>
+        </p>
+      </SubmitArticleFormContent>
+    )
+  }
   editorState =
     editorState && typeof editorState.markdown === 'string'
       ? editorState
@@ -102,7 +114,7 @@ export default ({
         .getBlocksAsArray()
         .map(block => block.toJS()))
 
-  const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text);
+  const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
 
   return (
     <SubmitArticleFormContent>
@@ -113,25 +125,32 @@ export default ({
       <ApprovedArticleDetails type='outline'>
         <Outline
           linkComponent={children => (
-            <Link useAnchorTag href={`/public-profile/${ownerId}`}>
+            <Link useAnchorTag href={`/public-profile/${ownerId || authorId}`}>
               {children}
             </Link>
           )}
           headings={outlineHeadings || []}
           username={username}
-          userId={ownerId && usedIdTrim(ownerId)}
+          userId={(ownerId && userIdTrim(ownerId)) || (authorId && userIdTrim(authorId))}
           userAvatar={userAvatar}
+          text={ownerId ? 'OWNER' : 'AUTHOR'}
           routeChangeAction={routeChangeAction}
         />
         <ArticleAction
           svgIcon={<UpdateArticleSvgIcon />}
           text={'Update Article'}
-          handleClick={() => userId ? routeChangeAction(`/article/${article_id}/v${article_version}/update-article`) : routeChangeAction(`/login?r=article/${article_id}/v${article_version}/update-article`)}
+          handleClick={() =>
+            userId
+              ? routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)
+              : routeChangeAction(`/login?r=article/${article_id}/v${article_version}/update-article`)
+          }
         >
           Update article
         </ArticleAction>
         <ShareArticle
-          url={`${hostName.replace(/api\./g, '')}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
+          url={`${hostName.replace(/api\./g, '')}/article/${article_id}/v${article_version}/${slugify(subject, {
+            lower: true,
+          })}`}
           title={subject}
         />
       </ApprovedArticleDetails>

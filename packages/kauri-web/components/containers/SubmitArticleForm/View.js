@@ -25,10 +25,8 @@ type PublishArticlePayload = {
 }
 
 type DraftArticlePayload = {
-  id?: string,
-  version?: number,
-  subject: string,
-  text: string,
+  title: string,
+  content: string,
   attributes?: AttributesPayload,
 }
 
@@ -40,7 +38,6 @@ type Props = {
   publishArticleAction: PublishArticlePayload => void,
   approveArticleAction: ApproveArticlePayload => void,
   categories: Array<?string>,
-  userId: string,
   article_id?: string,
   request_id: string,
   data?: ?{ getArticle?: ArticleDTO },
@@ -50,7 +47,9 @@ type Props = {
   routeChangeAction: string => void,
   isKauriTopicOwner: boolean,
   showNotificationAction: ShowNotificationPayload => void,
-  username?: ?string,
+  username: ?string,
+  userId: string,
+  userAvatar: ?string,
 }
 
 type SubmitArticleVariables = {
@@ -162,30 +161,36 @@ class SubmitArticleForm extends React.Component<Props> {
         return submitArticleAction({ text, subject, attributes, selfPublish: true })
       }
 
-      const { id, version, status, author, owner, dateCreated, contentHash, resourceIdentifier } = articleData
+      const { id, version, status, author, owner, dateCreated, contentHash } = articleData
 
       switch (status) {
         case 'PUBLISHED':
           if (owner && userId === owner.id && submissionType === 'draft') {
-            return submitArticleVersionAction({ id, text, subject, attributes: attributes || {} })
+            return submitArticleVersionAction({ id, text, subject, attributes: attributes || articleData.attributes })
           } else if (owner && userId === owner.id && submissionType === 'submit/update') {
             return submitArticleVersionAction({
               id,
               text,
               subject,
-              attributes,
-              owner: resourceIdentifier,
+              attributes: attributes || articleData.attributes,
+              owner,
               selfPublish: true,
             })
           } else if (owner && userId !== owner.id && submissionType === 'draft') {
-            return submitArticleVersionAction({ id, text, subject, attributes })
+            return submitArticleVersionAction({
+              id,
+              text,
+              subject,
+              attributes: attributes || articleData.attributes,
+              owner,
+            })
           } else if (owner && userId !== owner.id && submissionType === 'submit/update') {
             return submitArticleVersionAction({
               id,
               text,
               subject,
-              attributes,
-              owner: resourceIdentifier,
+              attributes: attributes || articleData.attributes,
+              owner,
               selfPublish: false,
             })
           } else {
@@ -193,14 +198,14 @@ class SubmitArticleForm extends React.Component<Props> {
           }
         case 'DRAFT':
           if (author && userId === author.id && submissionType === 'draft') {
-            return editArticleAction({ text, id, version, subject, attributes })
+            return editArticleAction({ id, version, subject, text, attributes: attributes || articleData.attributes })
           } else if (author && userId === author.id && submissionType === 'submit/update') {
-            return submitArticleVersionAction({
+            return editArticleAction({
               id,
-              text,
+              version,
               subject,
-              attributes,
-              owner: resourceIdentifier,
+              text,
+              attributes: attributes || articleData.attributes,
               selfPublish: true,
             })
           } else {
@@ -244,10 +249,18 @@ class SubmitArticleForm extends React.Component<Props> {
           {...this.props.form}
           article_id={articleData && articleData.id}
           text={articleData && articleData.content}
+          ownerId={articleData && articleData.owner && articleData.owner.id}
           username={
-            (this.props.data && articleData && articleData.owner && articleData.owner.username) || this.props.username
+            (this.props.data && articleData && articleData.owner && articleData.owner.username) ||
+            (articleData && articleData.author && articleData.author.username) ||
+            this.props.username
           }
           userId={(articleData && articleData.owner && articleData.owner.id) || this.props.userId}
+          userAvatar={
+            (articleData && articleData.owner && articleData.owner.avatar) ||
+            (articleData && articleData.author && articleData.author.avatar) ||
+            this.props.userAvatar
+          }
         />
       </Form>
     )

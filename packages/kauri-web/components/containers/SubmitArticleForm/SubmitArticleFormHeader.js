@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
 import styled, { css } from 'styled-components'
-import theme from '../../../lib/theme-config';
-import type { AttributesPayload } from './Module';
+import theme from '../../../lib/theme-config'
+import type { AttributesPayload } from './Module'
 import {
   CreateRequestSecondaryHeader as SubmitArticleFormHeader,
   TopicActionsContainer as SubmitArticleFormSubjectContainer,
@@ -82,7 +82,7 @@ export const UnderlineSpan = styled.span`
   overflow: hidden;
   font-size: 12px;
   ${props => (props.type === 'article' || props.type === 'request') && articleUnderlineSpanCss};
-`;
+`
 
 const SubmitArticleFormSubject = ({
   getFieldDecorator,
@@ -124,10 +124,16 @@ const SubmitArticleFormSubject = ({
 )
 
 const getBG = (getFieldValue, attributes) => {
-  const formValue = getFieldValue('attributes');
-  if (formValue && typeof formValue.background === 'string') return `background-image: url(${formValue.background}); background-size: cover; background-position: center center;`;
-  if (attributes && attributes.background) return `background-image: url(${attributes.background}); background-size: cover; background-position: center center;`;
-  return 'background: #1E2428;';
+  const formValue = getFieldValue('attributes')
+  if (formValue && typeof formValue.background === 'string') {
+    return `background-image: url(${formValue.background}); background-size: cover; background-position: center center;`
+  }
+  if (attributes && attributes.background) {
+    return `background-image: url(${
+      attributes.background
+    }); background-size: cover; background-position: center center;`
+  }
+  return 'background: #1E2428;'
 }
 
 export default ({

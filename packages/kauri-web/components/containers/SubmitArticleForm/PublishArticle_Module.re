@@ -17,7 +17,7 @@ module PublishArticle = {
 
   type ownerPayload = {
     .
-    "type": option([ | `ARTICLE]),
+    "type": option(string),
     "id": option(string),
     "version": option(int),
   };
@@ -108,7 +108,11 @@ let publishArticleEpic =
                   "signature": Some(signature),
                   "owner":
                     Belt.Option.mapWithDefault(owner, None, owner =>
-                      Some(owner)
+                      Some({
+                        "type": Some(`USER),
+                        "id": owner##id,
+                        "version": None,
+                      })
                     ),
                 });
 
@@ -179,8 +183,16 @@ let publishArticleEpic =
                       ~routeType=
                         owner
                         ->Belt.Option.mapWithDefault(
-                            App_Module.ArticlePublished, _ =>
-                            App_Module.ArticleProposed
+                            App_Module.ArticlePublished,
+                            owner => {
+                              Js.log(
+                                owner##id->Belt.Option.getWithDefault(""),
+                              );
+                              Js.log(contributor);
+                              owner##id->Belt.Option.getWithDefault("")
+                              == contributor ?
+                                ArticlePublished : ArticleProposed;
+                            },
                           ),
                     ),
                   ),

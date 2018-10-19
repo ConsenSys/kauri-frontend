@@ -55,9 +55,7 @@ class ArticleApproved extends React.Component<Props> {
         <Helmet>
           <title>{`Kauri - Article ${capitalize(type)}`}</title>
         </Helmet>
-        <ArticleApprovedConfirmationLogoBadge
-          confirmationMessage={type}
-        />
+        <ArticleApprovedConfirmationLogoBadge confirmationMessage={type} />
         <ConfirmationSubject>{`The article ${subjectCopy}`}</ConfirmationSubject>
         <ArticleCard
           key={article.id}
@@ -66,9 +64,13 @@ class ArticleApproved extends React.Component<Props> {
           date={moment(article.datePublished || article.dateCreated).format('D MMM YYYY')}
           title={article.title}
           content={article.content}
-          userId={article.author && article.author.id}
-          username={article.author && article.author.username}
-          userAvatar={article.author && article.author.avatar}
+          username={
+            type === 'drafted' ? article.author && article.author.name : article.owner && article.owner.username
+          }
+          userId={type === 'drafted' ? article.author && article.author.id : article.owner && article.owner.id}
+          userAvatar={
+            type === 'drafted' ? article.author && article.author.avatar : article.owner && article.owner.avatar
+          }
           imageURL={article.attributes && article.attributes.background}
           cardHeight={420}
           linkComponent={(childrenProps, route) => (

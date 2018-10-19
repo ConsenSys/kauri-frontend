@@ -2,8 +2,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { ActionBadge, ActionIcon } from '../../../common/ActionBadge'
-import GreenArrow from '../../../common/GreenArrow';
-import RejectArticleModal from './RejectArticleModal';
+import GreenArrow from '../../../common/GreenArrow'
+import RejectArticleModal from './RejectArticleModal'
 
 const InReviewArticleActions = styled.section`
   display: flex;
@@ -40,6 +40,7 @@ export default ({
   status,
   tip,
   isContributor,
+  isOwner,
   updateUnsubmittedArticle,
   publishArticle,
   approveArticle,
@@ -52,14 +53,6 @@ export default ({
       <GreenArrow direction='left' />
       <span>Go Back</span>
     </ActionBadge>
-    {/* TODO: PUBLISH ARTICLE DIRECTLY IF CONTRIBUTOR + TOPIC OWNER */}
-    {status === 'APPROVED' &&
-      isContributor && (
-      <ActionBadge onClick={publishArticle}>
-        <ActionIcon />
-        <strong>{'PUBLISH ARTICLE'}</strong>
-      </ActionBadge>
-    )}
     <PullRight>
       {(status === 'IN_REVIEW' || status === 'DRAFT') &&
         isContributor && (
@@ -69,13 +62,14 @@ export default ({
         </ActionBadge>
       )}
       {status === 'DRAFT' &&
-      isContributor && (
+        isContributor && (
         <ActionBadge onClick={publishArticle}>
           <ActionIcon />
           <strong>{'PUBLISH ARTICLE'}</strong>
         </ActionBadge>
       )}
       {status === 'PENDING' &&
+        isOwner && (
         <ActionBadge
           onClick={() =>
             openModalAction({
@@ -91,12 +85,14 @@ export default ({
           <ActionIcon />
           <strong>REJECT ARTICLE</strong>
         </ActionBadge>
-      }
-      {status === 'PENDING' && 
+      )}
+      {status === 'PENDING' &&
+        isOwner && (
         <ActionBadge onClick={approveArticle}>
           <ActionIcon />
           <strong>APPROVE ARTICLE</strong>
-        </ActionBadge>}
+        </ActionBadge>
+      )}
     </PullRight>
   </InReviewArticleActions>
 )
