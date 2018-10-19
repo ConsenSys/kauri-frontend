@@ -92,11 +92,6 @@ let publishArticleEpic =
               ~contributor,
               ~dateCreated,
             );
-          let getArticleQuery =
-            Article_Queries.GetArticle.makeWithVariables({
-              "id": resourceID,
-              "version": version,
-            });
 
           let owner =
             publishArticleAction
@@ -147,16 +142,6 @@ let publishArticleEpic =
           ->(flatMap(hash => fromPromise(subscriber(hash))))
           ->(tap(Js.log))
           ->(tap(_ => apolloClient##resetStore()))
-          ->(
-              _ =>
-                fromPromise(
-                  apolloClient##query({
-                    "query": Article_Queries.GetArticleQuery.graphqlQueryAST,
-                    "variables": getArticleQuery##variables,
-                    "fetchPolicy": Js.Nullable.return("network-only"),
-                  }),
-                )
-            )
           ->(
               mergeMap(_ => {
                 let trackPublishArticlePayload =

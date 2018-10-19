@@ -25,10 +25,8 @@ type PublishArticlePayload = {
 }
 
 type DraftArticlePayload = {
-  id?: string,
-  version?: number,
-  subject: string,
-  text: string,
+  title: string,
+  content: string,
   attributes?: AttributesPayload,
 }
 
@@ -40,7 +38,6 @@ type Props = {
   publishArticleAction: PublishArticlePayload => void,
   approveArticleAction: ApproveArticlePayload => void,
   categories: Array<?string>,
-  userId: string,
   article_id?: string,
   request_id: string,
   data?: ?{ getArticle?: ArticleDTO },
@@ -50,7 +47,9 @@ type Props = {
   routeChangeAction: string => void,
   isKauriTopicOwner: boolean,
   showNotificationAction: ShowNotificationPayload => void,
-  username?: ?string,
+  username: ?string,
+  userId: string,
+  userAvatar: ?string,
 }
 
 type SubmitArticleVariables = {
@@ -167,24 +166,30 @@ class SubmitArticleForm extends React.Component<Props> {
       switch (status) {
         case 'PUBLISHED':
           if (owner && userId === owner.id && submissionType === 'draft') {
-            return submitArticleVersionAction({ id, text, subject, attributes: attributes || {} })
+            return submitArticleVersionAction({ id, text, subject, attributes: attributes || articleData.attributes })
           } else if (owner && userId === owner.id && submissionType === 'submit/update') {
             return submitArticleVersionAction({
               id,
               text,
               subject,
-              attributes,
+              attributes: attributes || articleData.attributes,
               owner,
               selfPublish: true,
             })
           } else if (owner && userId !== owner.id && submissionType === 'draft') {
-            return submitArticleVersionAction({ id, text, subject, attributes: attributes || articleData.attributes })
+            return submitArticleVersionAction({
+              id,
+              text,
+              subject,
+              attributes: attributes || articleData.attributes,
+              owner,
+            })
           } else if (owner && userId !== owner.id && submissionType === 'submit/update') {
             return submitArticleVersionAction({
               id,
               text,
               subject,
-              attributes,
+              attributes: attributes || articleData.attributes,
               owner,
               selfPublish: false,
             })
@@ -193,14 +198,14 @@ class SubmitArticleForm extends React.Component<Props> {
           }
         case 'DRAFT':
           if (author && userId === author.id && submissionType === 'draft') {
-            return editArticleAction({ text, id, version, subject, attributes })
+            return editArticleAction({ id, version, subject, text, attributes: attributes || articleData.attributes })
           } else if (author && userId === author.id && submissionType === 'submit/update') {
-            return submitArticleVersionAction({
+            return editArticleAction({
               id,
-              text,
+              version,
               subject,
-              attributes,
-              owner,
+              text,
+              attributes: attributes || articleData.attributes,
               selfPublish: true,
             })
           } else {
@@ -244,10 +249,9 @@ class SubmitArticleForm extends React.Component<Props> {
           {...this.props.form}
           article_id={articleData && articleData.id}
           text={articleData && articleData.content}
-          username={
-            (this.props.data && articleData && articleData.owner && articleData.owner.username) || this.props.username
-          }
+          username={this.props.data && articleData && articleData.owner && articleData.owner.username}
           userId={(articleData && articleData.owner && articleData.owner.id) || this.props.userId}
+          userAvatar={articleData && articleData.owner && articleData.owner.avatar}
         />
       </Form>
     )

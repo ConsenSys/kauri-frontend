@@ -9,6 +9,7 @@ import {
 } from '../CreateRequestForm/CreateRequestContent'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../lib/markdown-converter-helper'
 import Outline from '../../../../kauri-components/components/Typography/Outline.bs'
+import userIdTrim from '../../../lib/userid-trim'
 import { ApprovedArticleDetails as SubmitArticleFormDetails } from '../Article/ApprovedArticle/ApprovedArticleContent'
 
 import type { EditArticlePayload, SubmitArticlePayload } from './Module'
@@ -177,21 +178,22 @@ export default class extends React.Component<
       article_id,
       username,
       userId,
+      userAvatar,
     } = this.props
 
     const editorState =
-    getFieldValue('text') && typeof getFieldValue('text') === 'string' && JSON.parse(getFieldValue('text'))
+      getFieldValue('text') && typeof getFieldValue('text') === 'string' && JSON.parse(getFieldValue('text'))
 
     const outlineHeadings =
-    typeof editorState === 'object' &&
-    (editorState.markdown
-      ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
-        .getBlocksAsArray()
-        .map(block => block.toJS())
-        .filter(block => block.type.includes('header'))
-        .map(header => header.text)
-      : editorState.blocks &&
-      editorState.blocks.filter(block => block.type.includes('header')).map(header => header.text))
+      typeof editorState === 'object' &&
+      (editorState.markdown
+        ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
+          .getBlocksAsArray()
+          .map(block => block.toJS())
+          .filter(block => block.type.includes('header'))
+          .map(header => header.text)
+        : editorState.blocks &&
+          editorState.blocks.filter(block => block.type.includes('header')).map(header => header.text))
 
     return (
       <SubmitArticleFormContent>
@@ -205,7 +207,13 @@ export default class extends React.Component<
           />
         </SubmitArticleFormContainer>
         <SubmitArticleFormDetails isSubmitting type='outline'>
-          <Outline pageType='SubmittingArticle' headings={outlineHeadings || []} username={username || userId} />
+          <Outline
+            pageType='SubmittingArticle'
+            headings={outlineHeadings || []}
+            username={username}
+            userId={userIdTrim(userId)}
+            userAvatar={userAvatar}
+          />
         </SubmitArticleFormDetails>
       </SubmitArticleFormContent>
     )
