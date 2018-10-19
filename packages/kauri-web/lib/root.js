@@ -16,11 +16,19 @@ import request, {
 } from '../components/containers/Requests/Module'
 import createRequests, { createRequestEpic, updateRequestEpic } from '../components/containers/CreateRequestForm/Module'
 import register, { registerEpic } from '../components/containers/LoginForm/Module'
-import { tipArticleEpic, rejectArticleEpic, deleteArticleCommentEpic, approveArticleEpic} from '../components/containers/Article/Module'
 import {
-  publishArticleEpic,
-} from '../components/containers/Article/Article_Module.bs'
-import { submitArticleEpic, submitArticleVersionEpic, editArticleEpic, draftArticleEpic } from '../components/containers/SubmitArticleForm/Module'
+  tipArticleEpic,
+  rejectArticleEpic,
+  deleteArticleCommentEpic,
+  approveArticleEpic,
+} from '../components/containers/Article/Module'
+import { publishArticleEpic } from '../components/containers/Article/Article_Module.bs'
+import {
+  submitArticleEpic,
+  submitArticleVersionEpic,
+  editArticleEpic,
+  draftArticleEpic,
+} from '../components/containers/SubmitArticleForm/Module'
 import { addCommentEpic } from '../components/containers/Article/CommentArticleForm/Module'
 import { trackAnalyticsEpic, trackMixpanelEpic } from '../components/containers/Link/Module'
 import localStorage, {
@@ -28,8 +36,12 @@ import localStorage, {
   persistStateToLocalStorageEpic,
   finishedDriverStepsEpic,
 } from './LocalStorageModule'
-import { createCollectionEpic, composeCollectionEpic } from '../components/containers/CreateCollectionForm/Module'
-import { saveUserDetailsEpic } from '../components/common/EditProfile/Module';
+import {
+  createCollectionEpic,
+  editCollectionEpic,
+  composeCollectionEpic,
+} from '../components/containers/CreateCollectionForm/Module'
+import { saveUserDetailsEpic } from '../components/common/EditProfile/Module'
 import modal from '../../kauri-components/components/Modal/Module'
 
 export const rootReducer = {
@@ -72,6 +84,7 @@ const epics = [
   composeCollectionEpic,
   approveArticleEpic,
   draftArticleEpic,
+  editCollectionEpic,
   // ReasonML epics
   publishArticleEpic,
   saveUserDetailsEpic,
