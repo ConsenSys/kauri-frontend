@@ -90,7 +90,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
           <CollectionHeader
             id={id}
             name={name}
-            description={description}
+            description={description || ''}
             updated={dateCreated}
             username={owner && owner.username}
             userId={userId || ''}
@@ -112,7 +112,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
               <CollectionSection
                 key={section.name}
                 name={section.name}
-                description={section.description}
+                description={section.description || ''}
                 articles={section.resources}
               />
             ))}
