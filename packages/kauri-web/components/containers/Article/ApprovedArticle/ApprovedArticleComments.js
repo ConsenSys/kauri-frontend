@@ -96,6 +96,6 @@ export default ({ id, version, comments, userId }: Props) =>
         </CommentsContainer>
       )
       }
-      {userId && <CommentArticleForm id={id} version={version} />}
+      <CommentArticleForm id={id} version={version} />
     </Content>
   </ApprovedArticleCommentsSection>

@@ -278,21 +278,12 @@ class Navbar extends React.Component {
                   Write Article
                 </TooltipItem>
               </Link>
-              {userId && (
-                <>
-                  <TooltipDivider />
-                  <Link route={'/create-collection'}>
-                    <TooltipItem href='/create-collection' pathname={router.pathname} link='/create-collection'>
-                    Create Collection
-                    </TooltipItem>
-                  </Link>
-                </>
-              )}
-              {/* <Link route={userId ? '/create-request' : '/login'}>
-                <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>
-                  Write Request
-                </TooltipItem>
-              </Link> */}
+                <TooltipDivider />
+                <Link route={userId ? '/create-collection' : `/login?r=${router.asPath.substring(1)}`}>
+                  <TooltipItem href='/create-collection' pathname={router.pathname} link='/create-collection'>
+                  Create Collection
+                  </TooltipItem>
+                </Link>
             </TooltipItemContainer>
           </Tooltip>
         </StyledMenuItem>

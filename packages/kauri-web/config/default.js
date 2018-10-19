@@ -19,7 +19,7 @@ const uppyConfig = {
   debug: true,
   autoProceed: true,
   restrictions: {
-    maxFileSize: 1000000,
+    maxFileSize: 10000000,
     maxNumberOfFiles: 1,
     minNumberOfFiles: 1,
     allowedFileTypes: ['image/png', 'image/jpeg', 'image/jpg'],

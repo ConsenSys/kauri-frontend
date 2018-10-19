@@ -5,8 +5,9 @@ import { Form, Field } from 'formik'
 import { PrimaryButton, SecondaryButton } from '../../../../../kauri-components/components/Button'
 import { BodyCardCss } from '../../../../../kauri-components/components/Typography'
 import showFormValidationErrors from '../../../../lib/show-form-validation-errors'
+import { routeChangeAction } from '../../../../lib/Module';
 
-import type { FormState } from './index'
+ import{ FormState } from './index'
 
 const Section = styled.section`
   display: flex;
@@ -66,13 +67,18 @@ export default class CommentArticleForm extends React.Component<Props, State> {
     isAddingComment: false,
   }
 
-  handleClick = () =>
-    this.setState({ isAddingComment: true }, () => {
-      const textareaDOMNode = document.getElementById('textarea')
-      if (textareaDOMNode) {
-        textareaDOMNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
-      }
-    })
+  handleClick = () => {
+    if (!this.props.userId) {
+      this.props.routeChangeAction(`/login?r=${this.props.router.asPath.substring(1)}`);
+    } else {
+      this.setState({ isAddingComment: true }, () => {
+        const textareaDOMNode = document.getElementById('textarea')
+        if (textareaDOMNode) {
+          textareaDOMNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
+        }
+      })
+    }
+  }
 
   render () {
     const { showNotificationAction, validateForm, isSubmitting } = this.props
