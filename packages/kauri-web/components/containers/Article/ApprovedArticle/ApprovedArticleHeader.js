@@ -6,6 +6,7 @@ import {
   TopicActionsContainer as ApprovedArticleSubjectContainer,
 } from '../../CreateRequestForm/CreateRequestHeader'
 import PostedDate from '../../../../../kauri-components/components/Typography/PostedDate.bs'
+import { H5 } from '../../../../../kauri-components/components/Typography'
 import theme from '../../../../lib/theme-config'
 
 export const ArticleSubject = styled.h3`
@@ -60,7 +61,16 @@ const InfoContainer = styled.div`
   width: 100%;
 `
 
-export default ({ datePublished, dateCreated, title, attributes }: *) => (
+export const PullRight = styled.div`
+  display: flex;
+  margin-left: auto;
+  margin-right: ${props => props.theme.space[1]}px;
+  align-items: center;
+  margin-top: ${props => props.theme.space[2]}px;
+  z-index: 9;
+`
+
+export default ({ datePublished, dateCreated, title, attributes, status }: *) => (
   <ApproveArticleHeader
     style={{
       background: attributes && attributes.background ? `url(${attributes.background}) center center` : '#1E2428',
@@ -74,5 +84,10 @@ export default ({ datePublished, dateCreated, title, attributes }: *) => (
       <PostedDate dateType='FromNow' date_field={datePublished || dateCreated} />
       <ApprovedArticleSubject type='article' attributes={attributes} subject={title} theme={theme} />
     </InfoContainer>
+    {status !== 'PUBLISHED' && (
+      <PullRight>
+        <H5 color='white'>{`STATUS ${typeof status === 'string' && status.replace(/_/g, ' ')}`}</H5>
+      </PullRight>
+    )}
   </ApproveArticleHeader>
 )

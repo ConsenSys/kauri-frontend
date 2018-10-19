@@ -133,8 +133,8 @@ export default ({
           username={username}
           userId={(ownerId && userIdTrim(ownerId)) || (authorId && userIdTrim(authorId))}
           userAvatar={userAvatar}
-          routeChangeAction={routeChangeAction}
           text={ownerId ? 'OWNER' : 'AUTHOR'}
+          routeChangeAction={routeChangeAction}
         />
         <ArticleAction
           svgIcon={<UpdateArticleSvgIcon />}

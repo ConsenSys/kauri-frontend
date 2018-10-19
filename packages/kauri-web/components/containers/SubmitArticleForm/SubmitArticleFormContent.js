@@ -159,8 +159,10 @@ export default class extends React.Component<
     getFieldError: string => any,
     text?: string,
     article_id?: string,
+    ownerId: ?string,
     username?: ?string,
-    userId?: ?string,
+    userId: string,
+    userAvatar: ?string,
   },
   { focused: boolean }
 > {
@@ -178,6 +180,7 @@ export default class extends React.Component<
       article_id,
       username,
       userId,
+      ownerId,
       userAvatar,
     } = this.props
 
@@ -211,8 +214,9 @@ export default class extends React.Component<
             pageType='SubmittingArticle'
             headings={outlineHeadings || []}
             username={username}
-            userId={userIdTrim(userId)}
+            userId={userId && userIdTrim(userId)}
             userAvatar={userAvatar}
+            text={ownerId ? 'OWNER' : 'AUTHOR'}
           />
         </SubmitArticleFormDetails>
       </SubmitArticleFormContent>

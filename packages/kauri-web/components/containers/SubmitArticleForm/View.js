@@ -249,9 +249,18 @@ class SubmitArticleForm extends React.Component<Props> {
           {...this.props.form}
           article_id={articleData && articleData.id}
           text={articleData && articleData.content}
-          username={this.props.data && articleData && articleData.owner && articleData.owner.username}
+          ownerId={articleData && articleData.owner && articleData.owner.id}
+          username={
+            (this.props.data && articleData && articleData.owner && articleData.owner.username) ||
+            (articleData && articleData.author && articleData.author.username) ||
+            this.props.username
+          }
           userId={(articleData && articleData.owner && articleData.owner.id) || this.props.userId}
-          userAvatar={articleData && articleData.owner && articleData.owner.avatar}
+          userAvatar={
+            (articleData && articleData.owner && articleData.owner.avatar) ||
+            (articleData && articleData.author && articleData.author.avatar) ||
+            this.props.userAvatar
+          }
         />
       </Form>
     )

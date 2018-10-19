@@ -195,6 +195,7 @@ export const submitArticleVersionEpic = (
           apolloSubscriber(hash)
         )
         .do(h => console.log(h))
+        .do(() => apolloClient.resetStore())
         .mergeMap(({ data: { output: { id, version } } }) =>
           apolloClient.query({
             query: getArticle,
@@ -334,36 +335,34 @@ export const draftArticleEpic = (
   { getState }: any,
   { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
 ) =>
-  action$
-    .ofType(DRAFT_ARTICLE)
-    .switchMap(({ payload: { title, content, attributes } }: DraftArticleAction) =>
-      Observable.fromPromise(
-        apolloClient.mutate({
-          mutation: submitNewArticle,
-          variables: { title, content, attributes },
-        })
-      )
-        .flatMap(({ data: { submitNewArticle: { hash } } }: { data: { submitNewArticle: { hash: string } } }) =>
-          apolloSubscriber(hash)
-        )
-        .do(() => apolloClient.resetStore())
-        .flatMap(({ data: { output: { id, version } } }) =>
-          Observable.of(
-            routeChangeAction(`/article/${id}/v${version}/article-updated`),
-            trackMixpanelAction({
-              event: 'Offchain',
-              metaData: {
-                resource: 'article',
-                resourceID: id,
-                resourceVersion: version,
-                resourceAction: 'article-drafted',
-              },
-            }),
-            showNotificationAction({
-              notificationType: 'info',
-              message: 'Draft Created',
-              description: 'The draft has just been saved. You can go back and submit it whenever you are ready.',
-            })
-          )
-        )
+  action$.ofType(DRAFT_ARTICLE).switchMap(({ payload: { title, content, attributes } }: DraftArticleAction) =>
+    Observable.fromPromise(
+      apolloClient.mutate({
+        mutation: submitNewArticle,
+        variables: { title, content, attributes },
+      })
     )
+      .flatMap(({ data: { submitNewArticle: { hash } } }: { data: { submitNewArticle: { hash: string } } }) =>
+        apolloSubscriber(hash)
+      )
+      .do(() => apolloClient.resetStore())
+      .flatMap(({ data: { output: { id, version } } }) =>
+        Observable.of(
+          routeChangeAction(`/article/${id}/v${version}/article-updated`),
+          trackMixpanelAction({
+            event: 'Offchain',
+            metaData: {
+              resource: 'article',
+              resourceID: id,
+              resourceVersion: version,
+              resourceAction: 'article-drafted',
+            },
+          }),
+          showNotificationAction({
+            notificationType: 'info',
+            message: 'Draft Created',
+            description: 'The draft has just been saved. You can go back and submit it whenever you are ready.',
+          })
+        )
+      )
+  )
