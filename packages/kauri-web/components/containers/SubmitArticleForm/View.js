@@ -162,7 +162,7 @@ class SubmitArticleForm extends React.Component<Props> {
         return submitArticleAction({ text, subject, attributes, selfPublish: true })
       }
 
-      const { id, version, status, author, owner, dateCreated, contentHash, resourceIdentifier } = articleData
+      const { id, version, status, author, owner, dateCreated, contentHash } = articleData
 
       switch (status) {
         case 'PUBLISHED':
@@ -174,18 +174,18 @@ class SubmitArticleForm extends React.Component<Props> {
               text,
               subject,
               attributes,
-              owner: resourceIdentifier,
+              owner,
               selfPublish: true,
             })
           } else if (owner && userId !== owner.id && submissionType === 'draft') {
-            return submitArticleVersionAction({ id, text, subject, attributes })
+            return submitArticleVersionAction({ id, text, subject, attributes: attributes || articleData.attributes })
           } else if (owner && userId !== owner.id && submissionType === 'submit/update') {
             return submitArticleVersionAction({
               id,
               text,
               subject,
               attributes,
-              owner: resourceIdentifier,
+              owner,
               selfPublish: false,
             })
           } else {
@@ -200,7 +200,7 @@ class SubmitArticleForm extends React.Component<Props> {
               text,
               subject,
               attributes,
-              owner: resourceIdentifier,
+              owner,
               selfPublish: true,
             })
           } else {

@@ -1,7 +1,7 @@
 module GetArticle = [%graphql
   {|
-    query getArticle($article_id: String!, $version: Int!) {
-      getArticle(id: $article_id, version: $version) {
+    query getArticle($id: String!, $version: Int!) {
+      getArticle(id: $id, version: $version) {
         id
         version
         title

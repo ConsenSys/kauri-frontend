@@ -17,7 +17,7 @@ module PublishArticle = {
 
   type ownerPayload = {
     .
-    "type": option([ | `ARTICLE]),
+    "type": option(string),
     "id": option(string),
     "version": option(int),
   };
@@ -92,6 +92,11 @@ let publishArticleEpic =
               ~contributor,
               ~dateCreated,
             );
+          let getArticleQuery =
+            Article_Queries.GetArticle.makeWithVariables({
+              "id": resourceID,
+              "version": version,
+            });
 
           let owner =
             publishArticleAction
@@ -108,7 +113,11 @@ let publishArticleEpic =
                   "signature": Some(signature),
                   "owner":
                     Belt.Option.mapWithDefault(owner, None, owner =>
-                      Some(owner)
+                      Some({
+                        "type": Some(`USER),
+                        "id": owner##id,
+                        "version": None,
+                      })
                     ),
                 });
 
@@ -138,6 +147,16 @@ let publishArticleEpic =
           ->(flatMap(hash => fromPromise(subscriber(hash))))
           ->(tap(Js.log))
           ->(tap(_ => apolloClient##resetStore()))
+          ->(
+              _ =>
+                fromPromise(
+                  apolloClient##query({
+                    "query": Article_Queries.GetArticleQuery.graphqlQueryAST,
+                    "variables": getArticleQuery##variables,
+                    "fetchPolicy": Js.Nullable.return("network-only"),
+                  }),
+                )
+            )
           ->(
               mergeMap(_ => {
                 let trackPublishArticlePayload =
@@ -179,8 +198,16 @@ let publishArticleEpic =
                       ~routeType=
                         owner
                         ->Belt.Option.mapWithDefault(
-                            App_Module.ArticlePublished, _ =>
-                            App_Module.ArticleProposed
+                            App_Module.ArticlePublished,
+                            owner => {
+                              Js.log(
+                                owner##id->Belt.Option.getWithDefault(""),
+                              );
+                              Js.log(contributor);
+                              owner##id->Belt.Option.getWithDefault("")
+                              == contributor ?
+                                ArticlePublished : ArticleProposed;
+                            },
                           ),
                     ),
                   ),
