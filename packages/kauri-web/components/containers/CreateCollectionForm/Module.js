@@ -150,5 +150,5 @@ export const editCollectionEpic = (
       )
         .mergeMap(({ data: { createCollection: { hash } } }) => apolloSubscriber(hash))
         .do(h => console.log(h))
-        .map(({ data: { output: { id } } }) => composeCollectionAction({ id, sections }, callback))
+        .map(({ data: { output: { id } } }) => composeCollectionAction({ id, sections, updating: true }, callback))
     })
