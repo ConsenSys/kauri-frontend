@@ -195,7 +195,6 @@ export const submitArticleVersionEpic = (
           apolloSubscriber(hash)
         )
         .do(h => console.log(h))
-        .do(() => apolloClient.resetStore())
         .mergeMap(({ data: { output: { id, version } } }) =>
           apolloClient.query({
             query: getArticle,
