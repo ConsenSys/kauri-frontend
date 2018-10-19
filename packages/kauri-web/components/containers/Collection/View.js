@@ -80,7 +80,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       <div>
         <Helmet>
           <title>{name} - Kauri</title>
-          <meta name='description' content={`${description.slice(0, 151)}...`} />
+          <meta name='description' content={`${description && description.slice(0, 151)}...`} />
           <meta name='keywords' content={extractedKeywords.map(keyword => keyword)} />
           <link rel='canonical' href={url} />
         </Helmet>
