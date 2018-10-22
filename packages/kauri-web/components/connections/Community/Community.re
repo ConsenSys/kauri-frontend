@@ -84,17 +84,16 @@ let renderArticleCards = (~response) =>
   | None => <p> "No articles found boo"->ReasonReact.string </p>
   };
 
-let make = (~category, ~hostName, ~website, ~name, _children) => {
+let make = (~category, ~avatar, ~hostName, ~website, ~name, _children) => {
   ...component,
   render: _self => {
     open Article_Queries;
-    let tabNames = [|"all", "general", "tutorial"|];
     let articlesQuery = SearchCommunityArticles.make(~category, ());
 
     <div className=Styles.container>
       <ScrollToTopOnMount />
       <CommunityHeader>
-        <CommunityProfile community=name website hostName />
+        <CommunityProfile avatar community=name website hostName />
       </CommunityHeader>
       <SearchCommunityArticlesQuery variables=articlesQuery##variables>
         ...{
@@ -119,6 +118,7 @@ type jsProps = {
   category: string,
   hostName: string,
   website: string,
+  avatar: string,
   name: string,
 };
 
@@ -128,6 +128,7 @@ let default =
       ~category=jsProps->categoryGet,
       ~hostName=jsProps->hostNameGet,
       ~website=jsProps->websiteGet,
+      ~avatar=jsProps->avatarGet,
       ~name=jsProps->nameGet,
       [||],
     )

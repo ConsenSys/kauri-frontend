@@ -25,10 +25,7 @@ module Logo =
     let style = _ => Css.[height(px(54)), width(px(54))];
   });
 
-let make = (~community, _children) => {
+let make = (~avatar, _children) => {
   ...component,
-  render: _self =>
-    <Container>
-      <Logo src={j|/static/images/$community/avatar.png|j} />
-    </Container>,
+  render: _self => <Container> <Logo src=avatar /> </Container>,
 };

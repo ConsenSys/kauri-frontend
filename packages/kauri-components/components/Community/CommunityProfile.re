@@ -61,11 +61,11 @@ let assembleShareWebsiteURL = (~community, ~hostName) => {
   {j|https://$hostName/community/$community|j};
 };
 
-let make = (~community, ~website, ~hostName, _children) => {
+let make = (~community, ~website, ~avatar, ~hostName, _children) => {
   ...component,
   render: _self =>
     <Container>
-      <CommunityAvatar community />
+      <CommunityAvatar avatar />
       <CommunityName>
         community->getCommunity->ReasonReact.string
       </CommunityName>
