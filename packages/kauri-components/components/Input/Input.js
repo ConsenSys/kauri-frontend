@@ -78,7 +78,7 @@ class Input extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props)
     this.state = {
-      value: props.value || '',
+      value: props.value,
     }
   }
 
@@ -100,7 +100,7 @@ class Input extends React.Component<Props, State> {
       hideUnderline = false,
       textAlign = 'left',
     } = this.props
-    const value = this.props.value || this.state.value
+    const value = this.props.value;
 
     return (
       <InputWrapper className={className}>
