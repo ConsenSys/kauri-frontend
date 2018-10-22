@@ -1,5 +1,6 @@
 import React from 'react'
 import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard'
+import ChooseArticleContent from '../../../../kauri-components/components/Modal/ChooseArticleContent'
 import moment from 'moment'
 
 export default ({
@@ -11,24 +12,26 @@ export default ({
   },
 }) =>
   content.length > 0 ? (
-    content.map(article => (
-      <ArticleCard
-        key={article.id + article.version}
-        id={article.id}
-        version={article.version}
-        content={article.content}
-        date={moment(article.datePublished).format('D MMM YYYY')}
-        title={article.title}
-        username={article.owner && article.owner.username}
-        userAvatar={article.owner && article.owner.avatar}
-        userId={article.owner && article.owner.id}
-        imageURL={article.attributes && article.attributes.background}
-        cardHeight={420}
-        hoverAction={article => chooseArticle(article)}
-        viewAction={({ id, version }) => window.open(`${window.location.origin}/article/${id}/v${version}`, '_blank')}
-        isChosenArticle={chosenArticles.find(({ id, version }) => article.id === id && article.version === version)}
-      />
-    ))
+    <ChooseArticleContent>
+      {content.map(article => (
+        <ArticleCard
+          key={article.id + article.version}
+          id={article.id}
+          version={article.version}
+          content={article.content}
+          date={moment(article.datePublished).format('D MMM YYYY')}
+          title={article.title}
+          username={article.owner && article.owner.username}
+          userAvatar={article.owner && article.owner.avatar}
+          userId={article.owner && article.owner.id}
+          imageURL={article.attributes && article.attributes.background}
+          cardHeight={420}
+          hoverAction={article => chooseArticle(article)}
+          viewAction={({ id, version }) => window.open(`${window.location.origin}/article/${id}/v${version}`, '_blank')}
+          isChosenArticle={!!chosenArticles.find(({ id, version }) => article.id === id && article.version === version)}
+        />
+      ))}
+    </ChooseArticleContent>
   ) : (
     <p>You have no published articles!</p>
   )

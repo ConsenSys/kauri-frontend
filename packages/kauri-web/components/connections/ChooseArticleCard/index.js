@@ -3,7 +3,9 @@ import { graphql, compose } from 'react-apollo'
 import { globalSearchApprovedArticles } from '../../../queries/Article'
 import withLoading from '../../../lib/with-loading'
 import withApolloError from '../../../lib/with-apollo-error'
-import View, { articleSize } from './View'
+import View from './View'
+
+const articleSize = 30
 
 const mapStateToProps = state => ({
   userId: state.app && state.app.user && state.app.user.id,
@@ -24,3 +26,5 @@ export default compose(
   withLoading(),
   withApolloError()
 )(View)
+
+export { articleSize }

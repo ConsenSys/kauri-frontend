@@ -188,9 +188,11 @@ const HoverContainer = styled.div`
   ${props => !props.hasImageURL && shiftMarginDueToNoImageURLCss};
 `
 
-const Hover = ({ hasImageURL, hoverAction, viewAction, id, version }) => (
+const Hover = ({ hasImageURL, hoverAction, viewAction, id, version, isChosenArticle }) => (
   <HoverContainer hasImageURL={hasImageURL}>
-    <PrimaryButton onClick={() => hoverAction({ id, version })}>Choose Article</PrimaryButton>
+    <PrimaryButton onClick={() => hoverAction({ id, version })}>{`${
+      isChosenArticle === true ? 'Remove' : 'Choose'
+    } Article`}</PrimaryButton>
     <SecondaryButton onClick={() => viewAction({ id, version })}>View Article</SecondaryButton>
   </HoverContainer>
 )
@@ -250,7 +252,14 @@ const ArticleCard = ({
     {typeof hoverAction === 'function' &&
       typeof viewAction === 'function' &&
       toggledOn === true && (
-      <Hover hasImageURL={imageURL} viewAction={viewAction} hoverAction={hoverAction} id={id} version={version} />
+      <Hover
+        isChosenArticle={isChosenArticle}
+        hasImageURL={imageURL}
+        viewAction={viewAction}
+        hoverAction={hoverAction}
+        id={id}
+        version={version}
+      />
     )}
     <Container imageURL={imageURL}>
       {typeof linkComponent === 'function'
