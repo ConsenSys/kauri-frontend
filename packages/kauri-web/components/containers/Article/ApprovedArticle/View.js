@@ -29,7 +29,7 @@ type Props =
       tipArticleAction: TipArticlePayload => void,
       ethUsdPrice: number,
       address?: string,
-      data: { getArticle?: ArticleDTO },
+      data: { getArticle: ArticleDTO },
     }
   | any
 
@@ -73,6 +73,9 @@ class ApprovedArticle extends React.Component<Props, State> {
     })
     const hostName = `https://${props.hostName}`
 
+    const isCommunityOwned =
+      R.path(['data', 'getArticle', 'owner', 'resourceIdentifier', 'type'])(props) === 'COMMUNITY'
+
     return (
       <ArticleContent>
         <Helmet>
@@ -90,9 +93,11 @@ class ApprovedArticle extends React.Component<Props, State> {
           article_version={props.data.getArticle && props.data.getArticle.version}
           ownerId={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id}
           username={
-            props.data.getArticle && props.data.getArticle.owner
-              ? props.data.getArticle.owner.username
-              : props.data.getArticle.author.username
+            isCommunityOwned
+              ? R.path(['data', 'getArticle', 'owner', 'name'])(props)
+              : R.path(['data', 'getArticle', 'owner'])(props)
+                ? R.path(['data', 'getArticle', 'owner', 'username'])(props)
+                : R.path(['data', 'getArticle', 'author', 'username'])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -104,6 +109,10 @@ class ApprovedArticle extends React.Component<Props, State> {
           routeChangeAction={props.routeChangeAction}
           address={props.userId}
           hostName={hostName}
+          resourceType={R.pipe(
+            R.path(['data', 'getArticle', 'owner', 'resourceIdentifier', 'type']),
+            R.toLower
+          )(props)}
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.attributes}

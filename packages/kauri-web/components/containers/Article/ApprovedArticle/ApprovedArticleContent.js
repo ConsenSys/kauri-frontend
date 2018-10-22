@@ -74,6 +74,7 @@ export default ({
   subject,
   address,
   hostName,
+  resourceType,
 }: {
   text?: string,
   username?: ?string,
@@ -86,6 +87,7 @@ export default ({
   article_version: number,
   address?: string,
   hostName: string,
+  resourceType: 'user' | 'community',
 }) => {
   let editorState = typeof text === 'string' && text[0] === '{' && JSON.parse(text)
   if (!editorState) {
@@ -125,7 +127,14 @@ export default ({
       <ApprovedArticleDetails type='outline'>
         <Outline
           linkComponent={children => (
-            <Link useAnchorTag href={`/public-profile/${ownerId || authorId}`}>
+            <Link
+              useAnchorTag
+              href={
+                resourceType === 'community'
+                  ? `/community/${ownerId}`
+                  : `/public-profile/${ownerId || authorId}`
+              }
+            >
               {children}
             </Link>
           )}

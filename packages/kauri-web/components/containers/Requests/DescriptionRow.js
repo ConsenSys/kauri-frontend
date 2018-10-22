@@ -527,7 +527,7 @@ export default compose(withErrorCatch())(
           <TextTruncate
             line={imageURL ? 2 : cardHeight > 290 ? 7 : 3}
             truncateText='…'
-            text={stripHTML(getHTMLFromMarkdown(JSON.parse(text).markdown)).substring(0, imageURL ? 150 : 400)}
+            text={stripHTML(getHTMLFromMarkdown(JSON.parse(text).markdown)).substring(0, imageURL ? 200 : 500)}
           />
         ) : (
           'Old Content, please migrate to new Markdown'
