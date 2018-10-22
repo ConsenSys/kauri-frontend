@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { graphql, compose } from 'react-apollo'
-import { searchPersonalSubmittedArticles } from '../../../queries/Article'
+import { globalSearchApprovedArticles } from '../../../queries/Article'
 import withLoading from '../../../lib/with-loading'
 import withApolloError from '../../../lib/with-apollo-error'
 import View from './View'
@@ -14,11 +14,9 @@ export default compose(
     mapStateToProps,
     {}
   ),
-  graphql(searchPersonalSubmittedArticles, {
+  graphql(globalSearchApprovedArticles, {
     options: ({ userId }) => ({
-      variables: {
-        userId,
-      },
+      variables: {},
     }),
   }),
   withLoading(),
