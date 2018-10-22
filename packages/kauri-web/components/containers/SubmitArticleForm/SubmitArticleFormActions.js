@@ -49,7 +49,7 @@ export default ({
   <SubmitArticleFormActions>
     <ActionBadge onClick={() => routeChangeAction('back')}>
       <GreenArrow direction={'left'} />
-      <span>Cancel Article</span>
+      <span>Cancel Update</span>
     </ActionBadge>
     <Stack alignItems={['', 'center']} justifyContent={['', 'center']} style={{ alignSelf: 'center' }}>
       <TertiaryButton icon={<UploadIcon />} handleClick={() => setupImageUploader(setFieldsValue, getFieldDecorator)}>
