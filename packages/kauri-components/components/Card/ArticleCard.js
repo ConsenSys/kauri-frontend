@@ -214,6 +214,7 @@ type Props = {
   hoverAction?: ({ id: string, version: string }) => void,
   viewAction?: ({ id: string, version: string }) => void,
   isChosenArticle?: boolean,
+  resourceType: 'article' | 'community',
 }
 
 const ArticleCard = ({
@@ -236,6 +237,7 @@ const ArticleCard = ({
   show,
   hide,
   isChosenArticle,
+  resourceType = 'article',
 }: Props & ToggleProps) => (
   <BaseCard
     imageURL={imageURL}
@@ -271,7 +273,7 @@ const ArticleCard = ({
               userAvatar,
               imageURL
             ),
-            `/public-profile/${userId}`
+            resourceType === 'article' ? `/public-profile/${userId}` : `/community/${userId}`
           )
           : renderPublicProfile(
             pageType,

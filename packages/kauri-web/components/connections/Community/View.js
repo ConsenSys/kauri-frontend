@@ -12,8 +12,9 @@ class CommunityConnection extends React.Component<Props> {
   render () {
     return this.props.data && this.props.data.getCommunity ? (
       <Community
-        avatar={this.props.data.getCommunity.avatar}
+        id={this.props.data.getCommunity.id}
         name={this.props.data.getCommunity.name}
+        avatar={this.props.data.getCommunity.avatar}
         website={this.props.data.getCommunity.website}
         category={this.props.category}
         hostName={this.props.hostName}

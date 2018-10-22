@@ -39,7 +39,7 @@ module Styles = {
 
 let component = ReasonReact.statelessComponent("Community");
 
-let renderArticleCards = (~response) =>
+let renderArticleCards = (~response, ~id, ~avatar, ~name) =>
   switch (response##searchArticles |? (x => x##content)) {
   | Some(content) =>
     (
@@ -54,8 +54,6 @@ let renderArticleCards = (~response) =>
              content,
              date,
              username,
-             userAvatar,
-             userId,
              background,
            } =
              make(article);
@@ -74,9 +72,10 @@ let renderArticleCards = (~response) =>
              title
              content
              date
-             username={Some(username)}
-             userAvatar
-             userId
+             username={Some(name)}
+             userAvatar=avatar
+             userId=id
+             resourceType=`Community
            />;
          })
     )
@@ -84,7 +83,7 @@ let renderArticleCards = (~response) =>
   | None => <p> "No articles found boo"->ReasonReact.string </p>
   };
 
-let make = (~category, ~avatar, ~hostName, ~website, ~name, _children) => {
+let make = (~id, ~category, ~avatar, ~hostName, ~website, ~name, _children) => {
   ...component,
   render: _self => {
     open Article_Queries;
@@ -104,7 +103,7 @@ let make = (~category, ~avatar, ~hostName, ~website, ~name, _children) => {
                  <div> {ReasonReact.string(error##message)} </div>
                | Data(response) =>
                  <section className=Styles.articlesContainer>
-                   {renderArticleCards(~response)}
+                   {renderArticleCards(~response, ~id, ~avatar, ~name)}
                  </section>
                }
            }
@@ -115,6 +114,7 @@ let make = (~category, ~avatar, ~hostName, ~website, ~name, _children) => {
 
 [@bs.deriving abstract]
 type jsProps = {
+  id: string,
   category: string,
   hostName: string,
   website: string,
@@ -125,6 +125,7 @@ type jsProps = {
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
+      ~id=jsProps->idGet,
       ~category=jsProps->categoryGet,
       ~hostName=jsProps->hostNameGet,
       ~website=jsProps->websiteGet,
