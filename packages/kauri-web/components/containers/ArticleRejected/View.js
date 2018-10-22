@@ -31,7 +31,7 @@ const ArticleApprovedActionButtons = ActionButtons.extend`
 
 class ArticleRejected extends React.Component<Props> {
   render () {
-    const { data, routeChangeAction } = this.props
+    const { data, routeChangeAction, userId } = this.props
     return (
       <Container>
         <ArticleApprovedConfirmationLogoBadge
@@ -41,7 +41,7 @@ class ArticleRejected extends React.Component<Props> {
         <ConfirmationSubject>{data && data.getArticle && data.getArticle.subject}</ConfirmationSubject>
         <ArticleApprovedActionButtons>
           <ActionButton
-            action={() => routeChangeAction(`/approvals`)}
+            action={() => routeChangeAction(`/public-profile/${userId}`)}
             height={40}
             width={183}
             label={'Back to Approvals'}
