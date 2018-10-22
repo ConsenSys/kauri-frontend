@@ -16,7 +16,7 @@ class HelpPage extends React.Component {
   render() {
     return (
       <App url={this.props.router}>
-        <ConnectedCommunity routeChangeAction={this.props.routeChangeAction} category={'kauri'} />
+        <ConnectedCommunity routeChangeAction={this.props.routeChangeAction} category={'8241ec73308348c890f19a9cdffc50cb'} />
       </App>
     )
   }
