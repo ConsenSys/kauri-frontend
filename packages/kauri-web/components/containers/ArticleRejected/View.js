@@ -44,7 +44,7 @@ class ArticleRejected extends React.Component<Props> {
             action={() => routeChangeAction(`/public-profile/${userId}`)}
             height={40}
             width={183}
-            label={'Back to Approvals'}
+            label={'Back to my articles'}
             type='alt'
           />
         </ArticleApprovedActionButtons>
