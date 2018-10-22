@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo'
 import { globalSearchApprovedArticles } from '../../../queries/Article'
 import withLoading from '../../../lib/with-loading'
 import withApolloError from '../../../lib/with-apollo-error'
-import View from './View'
+import View, { articleSize } from './View'
 
 const mapStateToProps = state => ({
   userId: state.app && state.app.user && state.app.user.id,
@@ -16,7 +16,9 @@ export default compose(
   ),
   graphql(globalSearchApprovedArticles, {
     options: ({ userId }) => ({
-      variables: {},
+      variables: {
+        size: articleSize, // Because lag and no searchbar
+      },
     }),
   }),
   withLoading(),

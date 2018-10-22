@@ -8,6 +8,8 @@ import ChooseArticleContent from '../../../../kauri-components/components/Modal/
 import ChooseArticleCard from '../../connections/ChooseArticleCard'
 import ModalHeader from '../../../../kauri-components/components/Headers/ModalHeader'
 
+export const articleSize = 30
+
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -17,7 +19,7 @@ const TitleContainer = styled.div`
 `
 const Title = ({ chosenArticles }) => (
   <TitleContainer>
-    <NavigationText>Recent articles</NavigationText>
+    <NavigationText>{`${articleSize} Most Recent articles`}</NavigationText>
     <BodyCard>{`${Array.isArray(chosenArticles) ? chosenArticles.length : 0} Selected`}</BodyCard>
   </TitleContainer>
 )
