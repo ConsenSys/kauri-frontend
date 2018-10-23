@@ -282,7 +282,7 @@ const ArticleCard = ({
               userAvatar,
               imageURL
             ),
-            resourceType === 'article' ? `/public-profile/${userId}` : `/community/${userId}`
+            resourceType === 'user' ? `/public-profile/${userId}` : `/community/${userId}`
           )
           : renderPublicProfile(
             pageType,
