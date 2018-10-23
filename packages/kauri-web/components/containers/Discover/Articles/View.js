@@ -2,19 +2,19 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import ArticleSearchbar from '../../ArticleSearchbar'
-import { Helmet } from 'react-helmet';
-import ArticleCard from '../../../../../kauri-components/components/Card/ArticleCard';
-import { Link } from '../../../../routes';
-import moment from 'moment';
-import userIdTrim from '../../../../lib/userid-trim';
-import Loading from '../../../common/Loading';
+import { Helmet } from 'react-helmet'
+import ArticleCard from '../../../../../kauri-components/components/Card/ArticleCard'
+import { Link } from '../../../../routes'
+import moment from 'moment'
+import userIdTrim from '../../../../lib/userid-trim'
+import Loading from '../../../common/Loading'
 
 type Props = {
   data: {
     searchArticles?: {
       content: Array<?ArticleDTO>,
     },
-    searchArticles: ?Array<CuratedListDTO>
+    searchArticles: ?Array<CuratedListDTO>,
   },
   hostName: string,
   routeChangeAction: string => void,
@@ -27,23 +27,23 @@ const ContentContainer = styled.section`
 `
 
 const ArticlesHeader = styled.div`
-background-color: ${props => props.theme.colors.primaryTextColor};
-width: 100%;
-display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: column;
-color: ${props => props.theme.colors.white};
-padding: ${props => props.theme.space[3]}px;
-padding-bottom: ${props => props.theme.space[3]}px;
+  background-color: ${props => props.theme.colors.primaryTextColor};
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: ${props => props.theme.colors.white};
+  padding: ${props => props.theme.space[3]}px;
+  padding-bottom: ${props => props.theme.space[3]}px;
 `
 
 const KauriTitle = styled.h1`
-color: white;
-font-weight: 300;
-font-size: ${props => props.theme.fontSizes[5]}px;
-margin-top: ${props => props.theme.space[4]}px;
-margin-bottom: ${props => props.theme.space[3]}px;
+  color: white;
+  font-weight: 300;
+  font-size: ${props => props.theme.fontSizes[5]}px;
+  margin-top: ${props => props.theme.space[4]}px;
+  margin-bottom: ${props => props.theme.space[3]}px;
 
   @media (max-width: 500px) {
     width: 300px;
@@ -56,7 +56,7 @@ const KauriDescription = styled.div`
     width: 300px;
     margin: auto;
   }
-`;
+`
 
 export const ArticlesContainer = styled.div`
   display: flex;
@@ -69,22 +69,22 @@ export const ArticlesContainer = styled.div`
   > * {
     margin: 15px;
   }
-`;
+`
 
 class Collections extends Component<Props> {
-  static ContentContainer = ContentContainer;
+  static ContentContainer = ContentContainer
 
   render () {
-    if (this.props.data.loading === true) <Loading />;
+    if (this.props.data.loading === true) <Loading />
 
     if (this.props.data.error) {
-      console.log('There was an issue', this.props.data);
+      console.log('There was an issue', this.props.data)
       return null
     } // TODO replace with an error message if exists
 
     const { searchArticles } = this.props.data
 
-    const pageTitle = 'Discover Articles';
+    const pageTitle = 'Discover Articles'
     return (
       <ContentContainer>
         <Helmet>
@@ -98,29 +98,44 @@ class Collections extends Component<Props> {
           <KauriDescription>Articles, Tutorials and Collections</KauriDescription>
           <ArticleSearchbar />
         </ArticlesHeader>
-        { searchArticles ? <ArticlesContainer>
-          {searchArticles.content.map(article => {
-            return <ArticleCard
-              changeRoute={this.props.routeChangeAction}
-              key={article.id}
-              date={moment(article.dateCreated).format('D MMM YYYY')}
-              title={article.title}
-              content={article.content}
-              username={article.owner && (article.owner.username)}
-              userId={article.owner ? article.owner.id : 'Anonymous'}
-              userAvatar={article.owner && (article.owner.avatar)}
-              id={article.id}
-              version={article.version}
-              cardHeight={420}
-              imageURL={article.attributes && article.attributes.background}
-              linkComponent={(childrenProps, route) => (
-                <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>
-                  {childrenProps}
-                </Link>
-              )}
-            />
-          })}
-        </ArticlesContainer> : <Loading />}
+        {searchArticles ? (
+          <ArticlesContainer>
+            {searchArticles.content.map(article => {
+              return (
+                <ArticleCard
+                  changeRoute={this.props.routeChangeAction}
+                  key={article.id}
+                  date={moment(article.dateCreated).format('D MMM YYYY')}
+                  title={article.title}
+                  content={article.content}
+                  username={
+                    article.owner && article.owner.resourceIdentifier.type.toLowerCase() === 'community'
+                      ? article.owner && article.owner.name
+                      : article.owner && article.owner.username
+                  }
+                  userId={article.owner ? article.owner.id : 'Anonymous'}
+                  userAvatar={article.owner && article.owner.avatar}
+                  id={article.id}
+                  version={article.version}
+                  cardHeight={420}
+                  imageURL={article.attributes && article.attributes.background}
+                  linkComponent={(childrenProps, route) => (
+                    <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>
+                      {childrenProps}
+                    </Link>
+                  )}
+                  resourceType={
+                    article.owner &&
+                    article.owner.resourceIdentifier.type === 'string' &&
+                    article.owner.resourceIdentifier.type.toLowerCase()
+                  }
+                />
+              )
+            })}
+          </ArticlesContainer>
+        ) : (
+          <Loading />
+        )}
       </ContentContainer>
     )
   }

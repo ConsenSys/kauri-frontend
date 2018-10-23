@@ -44,6 +44,10 @@ export const globalCollectionDetails = gql`
         name
         username
         avatar
+        resourceIdentifier {
+          id
+          type
+        }
       }
       sections {
         name

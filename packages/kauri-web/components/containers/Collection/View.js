@@ -1,13 +1,14 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { Helmet } from 'react-helmet'
+import slugify from 'slugify'
+import rake from 'rake-js'
+import R from 'ramda'
 import CollectionHeader from '../../../../kauri-components/components/Headers/CollectionHeader.bs'
 import CollectionSection from './CollectionSection.bs'
 import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
 import { Link } from '../../../routes'
-import { Helmet } from 'react-helmet'
-import slugify from 'slugify'
-import rake from 'rake-js'
 
 type Props = {
   data: {
@@ -45,12 +46,10 @@ const HeaderContainer = styled(ContentContainer)`
 `
 
 class CollectionPage extends Component<Props, { trianglify: string }> {
-  constructor (props) {
-    super(props)
-    this.state = {
-      trianglify: '',
-    }
+  state = {
+    trianglify: '',
   }
+
   componentDidMount () {
     const trianglify = require('trianglify')
     const trianglifyBg = trianglify({
@@ -76,6 +75,11 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       lower: true,
     })}`
 
+    const resourceType = R.pipe(
+      R.path(['data', 'getCollection', 'owner', 'resourceIdentifier', 'type']),
+      R.toLower
+    )(this.props)
+
     return (
       <div>
         <Helmet>
@@ -93,14 +97,22 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             description={description || ''}
             updated={dateCreated}
             username={owner && owner.username}
+            ownerId={owner.id}
             userId={userId || ''}
             userAvatar={owner && owner.avatar}
             linkComponent={childrenProps => (
-              <Link fullWidth={false} useAnchorTag href={`/public-profile/${owner && owner.id}`}>
+              <Link
+                fullWidth={false}
+                useAnchorTag
+                href={
+                  resourceType === 'community'
+                    ? `/community/${owner && owner.id}`
+                    : `/public-profile/${owner && owner.id}`
+                }
+              >
                 {childrenProps}
               </Link>
             )}
-            ownerId={owner.id}
             url={url}
             profileImage={owner.profileImage}
             routeChangeAction={routeChangeAction}

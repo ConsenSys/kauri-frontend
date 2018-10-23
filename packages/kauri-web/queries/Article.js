@@ -29,11 +29,17 @@ export const Article = gql`
         username
         name
         avatar
+        resourceIdentifier {
+          type
+        }
       }
       ... on CommunityDTO {
         id
         name
         avatar
+        resourceIdentifier {
+          type
+        }
       }
     }
     comments {

@@ -1,22 +1,25 @@
 // @flow
 import React from 'react'
-import Community from './Community.bs'; // flowlint-line untyped-import:off
+import Community from './Community.bs'
 
 type Props = {
   category: string,
   hostName: string,
-  data?: { getCommunity?: ?CommunityDTO, error?: { message: string} }
+  data: { getCommunity: CommunityDTO },
 }
 
 class CommunityConnection extends React.Component<Props> {
   render () {
-    if (this.props.data && this.props.data.error) return <p>{this.props.data.error.message}</p>
-    return (
-      this.props.data &&
-      this.props.data.getCommunity
-        ? <Community name={this.props.data.getCommunity.name} website={this.props.data.getCommunity.website} category={this.props.category} hostName={this.props.hostName} />
-        : null
-    )
+    return this.props.data && this.props.data.getCommunity ? (
+      <Community
+        id={this.props.data.getCommunity.id}
+        name={this.props.data.getCommunity.name}
+        avatar={this.props.data.getCommunity.avatar}
+        website={this.props.data.getCommunity.website}
+        category={this.props.category}
+        hostName={this.props.hostName}
+      />
+    ) : null
   }
 }
 
