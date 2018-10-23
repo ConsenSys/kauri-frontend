@@ -11,10 +11,9 @@ import Loading from '../../../common/Loading'
 
 type Props = {
   data: {
-    searchArticles?: {
+    searchArticles: {
       content: Array<?ArticleDTO>,
     },
-    searchArticles: ?Array<CuratedListDTO>,
   },
   hostName: string,
   routeChangeAction: string => void,
@@ -89,7 +88,7 @@ class Articles extends Component<Props> {
           <KauriDescription>Articles, Tutorials and Collections</KauriDescription>
           <ArticleSearchbar />
         </ArticlesHeader>
-        {searchArticles ? (
+        {searchArticles && searchArticles.content.length > 0 ? (
           <ArticlesContainer>
             {searchArticles.content.map(article => {
               return (
