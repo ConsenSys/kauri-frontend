@@ -115,7 +115,7 @@ class Input extends React.Component<Props, State> {
           name={name}
           textAlign={textAlign}
         />
-        {!hideUnderline && <UnderlineSpan fontSize={fontSize}>{value.replace(/ /g, '\u00a0')}</UnderlineSpan>}
+        {!hideUnderline && <UnderlineSpan fontSize={fontSize}>{value && value.replace(/ /g, '\u00a0')}</UnderlineSpan>}
       </InputWrapper>
     )
   }
