@@ -417,11 +417,7 @@ export const addComment = gql`
       hash
     }
   }
-<<<<<<< HEAD
 `
-=======
-`;
->>>>>>> Implement CheckpointArticles without designs lol
 
 export const searchPending = gql`
   query searchArticles($userId: String) {
@@ -477,11 +473,7 @@ export const searchPending = gql`
       }
     }
   }
-<<<<<<< HEAD
 `
-=======
-`;
->>>>>>> Implement CheckpointArticles without designs lol
 
 export const searchAwaitingApproval = gql`
   query searchArticles($userId: String) {
@@ -553,12 +545,12 @@ export const rejectArticle = gql`
       hash
     }
   }
-}`;
+`
 
 export const checkpointArticles = gql`
-  mutation checkpointArticles { 
-    checkpointArticles { 
-      hash 
-    } 
+  mutation checkpointArticles {
+    checkpointArticles {
+      hash
+    }
   }
 `
