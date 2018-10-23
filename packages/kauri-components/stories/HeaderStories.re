@@ -22,6 +22,7 @@ myStory.add("Community Header", () =>
   <CommunityHeader>
     <CommunityProfile
       hostName="beta.kauri.io"
+      avatar="https://api.dev2.kauri.io:443/ipfs/QmYy86Xyt4KgJDjZysYP4snuR9aTxXYFkPd9DpB4b3sjMz"
       community="metamask"
       website="https://metamask.io"
     />
