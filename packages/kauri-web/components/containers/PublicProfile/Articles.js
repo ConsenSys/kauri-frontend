@@ -6,7 +6,7 @@ import ArticleCard from '../../../../kauri-components/components/Card/ArticleCar
 import Empty from './Empty'
 import { Link } from '../../../routes'
 import ContentContainer from './PublicProfileContentContainer'
-import CheckpointArticles from './CheckpointArticles'
+import CheckpointArticles from '../CheckpointArticles'
 
 import type { ArticlesProps } from './types'
 
