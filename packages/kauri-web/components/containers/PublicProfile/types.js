@@ -6,6 +6,7 @@ export type ArticlesProps = {
     content: Array<ArticleDTO>,
   },
   routeChangeAction: () => void,
+  isOwner: boolean,
 }
 
 export type CollectionsProps = {

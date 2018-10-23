@@ -90,6 +90,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 type='published'
                 articles={ArticlesQuery.searchArticles}
                 routeChangeAction={routeChangeAction}
+                isOwner={UserQuery.getUser.id === currentUser}
               />,
               UserQuery.getUser.id === currentUser && (
                 <Articles type='draft' articles={DraftsQuery.searchArticles} routeChangeAction={routeChangeAction} />

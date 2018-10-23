@@ -5,12 +5,11 @@ import { TertiaryButton } from '../../../../../kauri-components/components/Butto
 
 const CheckpointArticlesCTAContainer = styled.section`
   display: flex;
+  justify-content: center;
+  padding: ${props => props.theme.space[1]}px ${props => props.theme.padding};
+  padding-bottom: 0px;
+  margin: 0px ${props => props.theme.space[2]}px;
 `
-
-type Props = {
-  articles: Array<ArticleDTO>,
-  checkpointArticlesAction: () => void,
-}
 
 export const CheckpointArticlesIcon = () => (
   <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -29,19 +28,46 @@ export const CheckpointArticlesIcon = () => (
   </svg>
 )
 
-export default ({ articles, checkpointArticlesAction }: Props) => (
+export const AllArticlesOnMainnet = ({ text = 'All Articles on Mainnet' }: { text?: string }) => (
+  <CheckpointedArticlesContainer>
+    <CheckpointArticlesIcon />
+    <span>{text}</span>
+  </CheckpointedArticlesContainer>
+)
+
+const CheckpointedArticlesContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > :first-child {
+    margin-right: ${props => props.theme.space[1]}px;
+    color: ${props => props.theme.colors['textPrimary']};
+  }
+  font-size: ${props => props.theme.fontSizes[0]}px;
+  font-weight: ${props => props.theme.fontWeight[3]};
+  text-transform: uppercase;
+`
+
+type Props = {
+  articles: Array<ArticleDTO>,
+  checkpointArticlesAction: () => void,
+  pageType: 'public-profile' | 'approved-article',
+}
+
+export default ({ articles, checkpointArticlesAction, pageType = 'public-profile' }: Props) => (
   <CheckpointArticlesCTAContainer>
-    <TertiaryButton icon={<CheckpointArticlesIcon />} onClick={() => checkpointArticlesAction()}>
-      Submit Articles to Mainnet
-    </TertiaryButton>
-    {articles.length > 0 ? (
-      articles.find(article => !article.checkpoint) ? (
-        <span>One or more of your articles is not on Mainnet!</span>
-      ) : (
-        <TertiaryButton disabled icon={<CheckpointArticlesIcon />}>
-          All Articles on Mainnet
-        </TertiaryButton>
-      )
-    ) : null}
+    {articles.find(article => !article.checkpoint) ? (
+      <TertiaryButton
+        color={'textPrimary'}
+        icon={<CheckpointArticlesIcon />}
+        onClick={() => checkpointArticlesAction()}
+      >
+        Submit Articles to Mainnet
+      </TertiaryButton>
+    ) : pageType === 'public-profile' ? (
+      <AllArticlesOnMainnet />
+    ) : (
+      <AllArticlesOnMainnet text={'Article on Mainnet'} />
+    )}
   </CheckpointArticlesCTAContainer>
 )

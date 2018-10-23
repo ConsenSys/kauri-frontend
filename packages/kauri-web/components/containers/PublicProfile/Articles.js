@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard'
@@ -21,34 +21,38 @@ const ArticlesConntainer = styled.div`
   }
 `
 
-const Articles = ({ articles, type, routeChangeAction }: ArticlesProps) =>
+const Articles = ({ articles, type, routeChangeAction, isOwner }: ArticlesProps) =>
   articles.content.length > 0 ? (
-    <ContentContainer>
-      {typeof type === 'string' && type === 'published' && <CheckpointArticles articles={articles.content} />}
-      <ArticlesConntainer>
-        {articles.content.map(article => (
-          <ArticleCard
-            key={`${article.id}-${article.version}`}
-            changeRoute={routeChangeAction}
-            date={moment(article.dateCreated).format('D MMM YYYY')}
-            title={article.title}
-            content={article.content}
-            userId={type !== 'toBeApproved' && article.owner ? article.owner.id : article.author.id}
-            username={type !== 'toBeApproved' && article.owner ? article.owner.username : article.author.username}
-            userAvatar={type !== 'toBeApproved' && article.owner ? article.owner.avatar : article.author.avatar}
-            id={article.id}
-            version={article.version}
-            cardHeight={420}
-            imageURL={article.attributes && article.attributes.background}
-            linkComponent={(childrenProps, route) => (
-              <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>
-                {childrenProps}
-              </Link>
-            )}
-          />
-        ))}
-      </ArticlesConntainer>
-    </ContentContainer>
+    <Fragment>
+      {typeof type === 'string' &&
+        type === 'published' &&
+        isOwner && <CheckpointArticles articles={articles.content} />}
+      <ContentContainer>
+        <ArticlesConntainer>
+          {articles.content.map(article => (
+            <ArticleCard
+              key={`${article.id}-${article.version}`}
+              changeRoute={routeChangeAction}
+              date={moment(article.dateCreated).format('D MMM YYYY')}
+              title={article.title}
+              content={article.content}
+              userId={type !== 'toBeApproved' && article.owner ? article.owner.id : article.author.id}
+              username={type !== 'toBeApproved' && article.owner ? article.owner.username : article.author.username}
+              userAvatar={type !== 'toBeApproved' && article.owner ? article.owner.avatar : article.author.avatar}
+              id={article.id}
+              version={article.version}
+              cardHeight={420}
+              imageURL={article.attributes && article.attributes.background}
+              linkComponent={(childrenProps, route) => (
+                <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>
+                  {childrenProps}
+                </Link>
+              )}
+            />
+          ))}
+        </ArticlesConntainer>
+      </ContentContainer>
+    </Fragment>
   ) : (
     <Empty />
   )
