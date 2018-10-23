@@ -114,7 +114,7 @@ export default ({
         .getBlocksAsArray()
         .map(block => block.toJS()))
 
-  const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
+  const outlineHeadings = blocks.filter(({ type }) => type.includes('header-one')).map(({ text }) => text)
 
   return (
     <SubmitArticleFormContent>

@@ -4,8 +4,7 @@ import styled from 'styled-components'
 import R from 'ramda'
 import { NavigationText, BodyCard } from '../../../../kauri-components/components/Typography'
 import { PrimaryButton, TertiaryButton } from '../../../../kauri-components/components/Button'
-import ChooseArticleContent from '../../../../kauri-components/components/Modal/ChooseArticleContent'
-import ChooseArticleCard from '../../connections/ChooseArticleCard'
+import ChooseArticleCard, { articleSize } from '../../connections/ChooseArticleCard'
 import ModalHeader from '../../../../kauri-components/components/Headers/ModalHeader'
 
 const TitleContainer = styled.div`
@@ -17,7 +16,7 @@ const TitleContainer = styled.div`
 `
 const Title = ({ chosenArticles }) => (
   <TitleContainer>
-    <NavigationText>Your recent articles</NavigationText>
+    <NavigationText>{`${articleSize} Most Recent articles`}</NavigationText>
     <BodyCard>{`${Array.isArray(chosenArticles) ? chosenArticles.length : 0} Selected`}</BodyCard>
   </TitleContainer>
 )
@@ -105,9 +104,7 @@ export default class ChooseArticleModal extends React.Component<Props, State> {
           }
           title={<Title chosenArticles={this.state.chosenArticles} />}
         />
-        <ChooseArticleContent>
-          <ChooseArticleCard chosenArticles={this.state.chosenArticles} chooseArticle={this.chooseArticle} />
-        </ChooseArticleContent>
+        <ChooseArticleCard chosenArticles={this.state.chosenArticles} chooseArticle={this.chooseArticle} />
       </ContentContainer>
     )
   }

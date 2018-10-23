@@ -11,13 +11,13 @@ import { Title2, BodyCard } from '../../../../kauri-components/components/Typogr
 type Props = {
   data: { getCollection: CollectionDTO },
   routeChangeAction: string => void,
-  type: 'created' | 'updated'
+  type: 'created' | 'updated',
 }
 
 const Container = styled.section`
   display: flex;
   height: calc(100vh - 76px);
-  flex-direction: column; 
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: ${props => props.theme.colors['textPrimary']};
@@ -36,20 +36,29 @@ const Container = styled.section`
 
 class CollectionCreated extends React.Component<Props> {
   render () {
-    const { data: { getCollection: { id, description, dateUpdated, owner, background, name } }, routeChangeAction, type } = this.props
+    const {
+      data: {
+        getCollection: { id, description, dateUpdated, owner, background, name, sections },
+      },
+      routeChangeAction,
+      type,
+    } = this.props
     const copy = type === 'updated' ? 'updated' : 'live'
+
+    const articleCount =
+      sections &&
+      sections.reduce((current, next) => {
+        current += next.resources && next.resources.length
+        return current
+      }, 0)
 
     return (
       <Container>
         <Helmet>
           <title>{`Collection ${copy} - Kauri`}</title>
         </Helmet>
-        <Title2>
-          Collection
-        </Title2>
-        <BodyCard>
-          {`Your collection is now ${copy}`}
-        </BodyCard>
+        <Title2>Collection</Title2>
+        <BodyCard>{`Your collection is now ${copy}`}</BodyCard>
         <CollectionCard
           id={id}
           description={description}
@@ -59,17 +68,14 @@ class CollectionCreated extends React.Component<Props> {
           userId={owner && owner.id}
           userAvatar={owner && owner.avatar}
           imageURL={background}
+          articleCount={articleCount}
           linkComponent={(childrenProps, route) => (
             <Link toSlug={route.includes('collection') && name} useAnchorTag fullWidth={false} href={route}>
               {childrenProps}
             </Link>
           )}
         />
-        <PrimaryButton
-          onClick={() => routeChangeAction(`/collection/${String(id)}`)}
-        >
-          View Collection
-        </PrimaryButton>
+        <PrimaryButton onClick={() => routeChangeAction(`/collection/${String(id)}`)}>View Collection</PrimaryButton>
       </Container>
     )
   }

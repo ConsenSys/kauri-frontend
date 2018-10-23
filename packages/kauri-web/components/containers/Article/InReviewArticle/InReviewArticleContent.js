@@ -58,10 +58,10 @@ export default ({
       ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
         .getBlocksAsArray()
         .map(block => block.toJS())
-        .filter(block => block.type.includes('header'))
+        .filter(block => block.type.includes('header-one'))
         .map(header => header.text)
       : editorState.blocks &&
-        editorState.blocks.filter(block => block.type.includes('header')).map(header => header.text))
+        editorState.blocks.filter(block => block.type.includes('header-one')).map(header => header.text))
 
   return (
     <InReviewArticleFormContent>

@@ -9,14 +9,16 @@ const Content = styled.section`
   overflow-y: auto;
   width: 100%;
   height: 100%;
-`;
+`
 
 type Props = {
-  children: React.Node
+  children: React.Node,
 }
 
-export default ({ children }: Props) => <Content>
-  <Stack width={'100%'} gap={'30px'} gridTemplateColumns='290px 290px 290px'>
-    {children}
-  </Stack>
-</Content>
+export default ({ children }: Props) => (
+  <Content>
+    <Stack width={'100%'} gap={'30px'} gridTemplateColumns='290px 290px 290px'>
+      {children}
+    </Stack>
+  </Content>
+)
