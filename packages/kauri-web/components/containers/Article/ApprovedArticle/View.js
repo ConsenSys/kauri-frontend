@@ -65,7 +65,7 @@ class ApprovedArticle extends React.Component<Props, State> {
   render () {
     const props = this.props
     if (!props.data.getArticle) return
-    const { title, id, content } = props.data.getArticle
+    const { title, id, content, attributes: { background } } = props.data.getArticle
     const articleContent = content[0] === '{' && JSON.parse(content).markdown ? JSON.parse(content).markdown : content
     const articleKeywords = rake(articleContent, {
       language: 'english',
@@ -78,10 +78,23 @@ class ApprovedArticle extends React.Component<Props, State> {
 
     return (
       <ArticleContent>
+        {console.log(background)}
         <Helmet>
           <title>{title} - Kauri</title>
           <meta name='keywords' content={articleKeywords.map(i => i)} />
           <link rel='canonical' href={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
+          <meta property="og:title" content={title} />
+          <meta property="og:site_name" content="kauri.io" />
+          <meta property="og:url" content={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
+          <meta property="og:description" content={`${content && content.substring(0,100)}...`} />
+          <meta property="og:type" content="article" />
+          <meta property="og:image" content={background || '/static/images/logo.svg'} />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:site" ccontent={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
+          <meta name="twitter:title" content={title} />
+          <meta name="twitter:description" content={`${content && content.substring(0,100)}...`} />
+          <meta name="twitter:creator" content="@kauri_io" />
+          <meta name="twitter:image" content={background || '/static/images/logo.svg'} />
         </Helmet>
         <ScrollToTopOnMount />
         <ScrollToTopButton />
