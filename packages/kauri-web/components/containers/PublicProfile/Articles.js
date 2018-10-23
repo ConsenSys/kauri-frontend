@@ -26,7 +26,7 @@ const Articles = ({ articles, type, routeChangeAction, isOwner }: ArticlesProps)
     <Fragment>
       {typeof type === 'string' &&
         type === 'published' &&
-        isOwner && <CheckpointArticles articles={articles.content} />}
+        isOwner && <CheckpointArticles isOwner={isOwner} articles={articles.content} />}
       <ContentContainer>
         <ArticlesConntainer>
           {articles.content.map(article => (

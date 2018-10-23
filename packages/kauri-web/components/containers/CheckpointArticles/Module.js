@@ -1,10 +1,10 @@
 // @flow
 import { Observable } from 'rxjs/Observable'
-import { showNotificationAction } from '../../../../lib/Module'
-import { trackMixpanelAction } from '../../Link/Module'
-import { checkpointArticles } from '../../../../queries/Article'
+import { trackMixpanelAction } from '../Link/Module'
+import { showNotificationAction } from '../../../lib/Module'
+import { checkpointArticles } from '../../../queries/Article'
 
-import type { Dependencies } from '../../../../lib/Module'
+import type { Dependencies } from '../../../lib/Module'
 
 const CHECKPOINT_ARTICLES = 'CHECKPOINT_ARTICLES'
 

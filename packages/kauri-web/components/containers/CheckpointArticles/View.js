@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import styled from 'styled-components'
-import { TertiaryButton } from '../../../../../kauri-components/components/Button'
+import styled, { css } from 'styled-components'
+import { TertiaryButton } from '../../../../kauri-components/components/Button'
 
 const CheckpointArticlesCTAContainer = styled.section`
   display: flex;
@@ -35,10 +35,13 @@ export const AllArticlesOnMainnet = ({ text = 'All Articles on Mainnet' }: { tex
   </CheckpointedArticlesContainer>
 )
 
-const CheckpointedArticlesContainer = styled.div`
-  display: flex;
+const publicProfileAlignmentCss = css`
   justify-content: center;
   align-items: center;
+`
+
+const CheckpointedArticlesContainer = styled.div`
+  display: flex;
   > :first-child {
     margin-right: ${props => props.theme.space[1]}px;
     color: ${props => props.theme.colors['textPrimary']};
@@ -46,28 +49,50 @@ const CheckpointedArticlesContainer = styled.div`
   font-size: ${props => props.theme.fontSizes[0]}px;
   font-weight: ${props => props.theme.fontWeight[3]};
   text-transform: uppercase;
+  ${props => props.pageType === 'public-profile' && publicProfileAlignmentCss};
 `
 
 type Props = {
-  articles: Array<ArticleDTO>,
+  articles?: Array<ArticleDTO>,
+  articleCheckpointed?: boolean,
   checkpointArticlesAction: () => void,
   pageType: 'public-profile' | 'approved-article',
+  isOwner: boolean,
 }
 
-export default ({ articles, checkpointArticlesAction, pageType = 'public-profile' }: Props) => (
-  <CheckpointArticlesCTAContainer>
-    {articles.find(article => !article.checkpoint) ? (
+export default ({
+  isOwner,
+  articles,
+  articleCheckpointed,
+  checkpointArticlesAction,
+  pageType = 'public-profile',
+}: Props) =>
+  pageType === 'public-profile' ? (
+    <CheckpointArticlesCTAContainer>
+      {Array.isArray(articles) && articles.find(article => !article.checkpoint) ? (
+        isOwner && (
+          <TertiaryButton
+            color={'textPrimary'}
+            icon={<CheckpointArticlesIcon />}
+            onClick={() => checkpointArticlesAction()}
+          >
+            {'Submit Articles to Mainnet'}
+          </TertiaryButton>
+        )
+      ) : (
+        <AllArticlesOnMainnet />
+      )}
+    </CheckpointArticlesCTAContainer>
+  ) : articleCheckpointed === false ? (
+    isOwner && (
       <TertiaryButton
         color={'textPrimary'}
         icon={<CheckpointArticlesIcon />}
         onClick={() => checkpointArticlesAction()}
       >
-        Submit Articles to Mainnet
+        {'Submit Article to Mainnet'}
       </TertiaryButton>
-    ) : pageType === 'public-profile' ? (
-      <AllArticlesOnMainnet />
-    ) : (
-      <AllArticlesOnMainnet text={'Article on Mainnet'} />
-    )}
-  </CheckpointArticlesCTAContainer>
-)
+    )
+  ) : (
+    <AllArticlesOnMainnet pageType={pageType} text={'Article on Mainnet'} />
+  )

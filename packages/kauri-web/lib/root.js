@@ -43,7 +43,7 @@ import {
 } from '../components/containers/CreateCollectionForm/Module'
 import { saveUserDetailsEpic } from '../components/common/EditProfile/Module'
 import modal from '../../kauri-components/components/Modal/Module'
-import { checkpointArticlesEpic } from '../components/containers/PublicProfile/CheckpointArticles/Module'
+import { checkpointArticlesEpic } from '../components/containers/CheckpointArticles/Module'
 
 export const rootReducer = {
   app,
