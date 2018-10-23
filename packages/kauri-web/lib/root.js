@@ -22,12 +22,6 @@ import {
   deleteArticleCommentEpic,
   approveArticleEpic,
 } from '../components/containers/Article/Module'
-import {
-  tipArticleEpic,
-  rejectArticleEpic,
-  deleteArticleCommentEpic,
-  approveArticleEpic,
-} from '../components/containers/Article/Module'
 import { publishArticleEpic } from '../components/containers/Article/Article_Module.bs'
 import {
   submitArticleEpic,
@@ -42,10 +36,14 @@ import localStorage, {
   persistStateToLocalStorageEpic,
   finishedDriverStepsEpic,
 } from './LocalStorageModule'
-import { createCollectionEpic, composeCollectionEpic } from '../components/containers/CreateCollectionForm/Module'
-import { saveUserDetailsEpic } from '../components/containers/PublicProfile/Module'
-import { checkpointArticlesEpic } from '../components/containers/PublicProfile/CheckpointArticles/Module'
+import {
+  createCollectionEpic,
+  editCollectionEpic,
+  composeCollectionEpic,
+} from '../components/containers/CreateCollectionForm/Module'
+import { saveUserDetailsEpic } from '../components/common/EditProfile/Module'
 import modal from '../../kauri-components/components/Modal/Module'
+import { checkpointArticlesEpic } from '../components/containers/PublicProfile/CheckpointArticles/Module'
 
 export const rootReducer = {
   app,
@@ -87,9 +85,11 @@ const epics = [
   composeCollectionEpic,
   approveArticleEpic,
   draftArticleEpic,
-  publishArticleEpic,
+  editCollectionEpic,
   checkpointArticlesEpic,
   saveUserDetailsEpic,
+  // ReasonML epics
+  publishArticleEpic,
 ]
 
 export const rootEpic = combineEpics(...epics)
