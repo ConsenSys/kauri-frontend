@@ -15,6 +15,7 @@ import ShareArticle from '../../../../../kauri-components/components/Tooltip/Sha
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
 import userIdTrim from '../../../../lib/userid-trim'
+import CheckpointArticles from '../../CheckpointArticles'
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
@@ -75,6 +76,7 @@ export default ({
   address,
   hostName,
   resourceType,
+  articleCheckpointed,
 }: {
   text?: string,
   username?: ?string,
@@ -88,6 +90,7 @@ export default ({
   address?: string,
   hostName: string,
   resourceType: 'user' | 'community',
+  articleCheckpointed: boolean,
 }) => {
   let editorState = typeof text === 'string' && text[0] === '{' && JSON.parse(text)
   if (!editorState) {
@@ -129,11 +132,7 @@ export default ({
           linkComponent={children => (
             <Link
               useAnchorTag
-              href={
-                resourceType === 'community'
-                  ? `/community/${ownerId}`
-                  : `/public-profile/${ownerId || authorId}`
-              }
+              href={resourceType === 'community' ? `/community/${ownerId}` : `/public-profile/${ownerId || authorId}`}
             >
               {children}
             </Link>
@@ -161,6 +160,11 @@ export default ({
             lower: true,
           })}`}
           title={subject}
+        />
+        <CheckpointArticles
+          isOwner={ownerId === userId}
+          articleCheckpointed={!!articleCheckpointed}
+          pageType={'approved-article'}
         />
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>

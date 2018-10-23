@@ -546,3 +546,11 @@ export const rejectArticle = gql`
     }
   }
 `
+
+export const checkpointArticles = gql`
+  mutation checkpointArticles {
+    checkpointArticles {
+      hash
+    }
+  }
+`

@@ -11,10 +11,9 @@ import Loading from '../../../common/Loading'
 
 type Props = {
   data: {
-    searchArticles?: {
+    searchArticles: {
       content: Array<?ArticleDTO>,
     },
-    searchArticles: ?Array<CuratedListDTO>,
   },
   hostName: string,
   routeChangeAction: string => void,
@@ -71,17 +70,8 @@ export const ArticlesContainer = styled.div`
   }
 `
 
-class Collections extends Component<Props> {
-  static ContentContainer = ContentContainer
-
+class Articles extends Component<Props> {
   render () {
-    if (this.props.data.loading === true) <Loading />
-
-    if (this.props.data.error) {
-      console.log('There was an issue', this.props.data)
-      return null
-    } // TODO replace with an error message if exists
-
     const { searchArticles } = this.props.data
 
     const pageTitle = 'Discover Articles'
@@ -98,7 +88,7 @@ class Collections extends Component<Props> {
           <KauriDescription>Articles, Tutorials and Collections</KauriDescription>
           <ArticleSearchbar />
         </ArticlesHeader>
-        {searchArticles ? (
+        {searchArticles && searchArticles.content.length > 0 ? (
           <ArticlesContainer>
             {searchArticles.content.map(article => {
               return (
@@ -141,4 +131,4 @@ class Collections extends Component<Props> {
   }
 }
 
-export default Collections
+export default Articles

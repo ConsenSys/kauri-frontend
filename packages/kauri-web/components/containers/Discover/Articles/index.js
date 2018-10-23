@@ -4,6 +4,7 @@ import { globalSearchApprovedArticles } from '../../../../queries/Article'
 import { connect } from 'react-redux'
 import { routeChangeAction } from '../../../../lib/Module'
 import withLoading from '../../../../lib/with-loading'
+import withApolloError from '../../../../lib/with-apollo-error'
 
 const mapStateToProps = (state, ownProps) => {
   return { hostName: state.app && state.app.hostName }
@@ -16,5 +17,6 @@ export default compose(
       variables: {},
     }),
   }),
-  withLoading()
+  withLoading(),
+  withApolloError()
 )(Articles)

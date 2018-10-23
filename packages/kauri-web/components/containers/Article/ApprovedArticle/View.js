@@ -121,6 +121,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           routeChangeAction={props.routeChangeAction}
           address={props.userId}
           hostName={hostName}
+          articleCheckpointed={R.path(['data', 'getArticle', 'checkpoint'])(props)}
           resourceType={R.pipe(
             R.path(['data', 'getArticle', 'owner', 'resourceIdentifier', 'type']),
             R.toLower
