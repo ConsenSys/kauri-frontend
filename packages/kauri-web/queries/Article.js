@@ -545,3 +545,18 @@ export const checkpointArticles = gql`
     }
   }
 `
+
+export const relatedArticles = gql`
+  query search ($size: Int = 20, $query: String) {
+    search(size: $size, query: $query) {
+      content {
+        name
+        resourceIdentifier {
+          id, type
+        }
+        lastUpdated
+        score
+      }
+    }
+  }
+`

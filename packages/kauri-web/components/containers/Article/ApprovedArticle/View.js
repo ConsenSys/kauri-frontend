@@ -75,12 +75,13 @@ class ApprovedArticle extends React.Component<Props, State> {
 
     const resourceType = R.path(['data', 'getArticle', 'owner', 'resourceIdentifier', 'type'])(props)
     const isCommunityOwned = resourceType === 'COMMUNITY'
+    const keywords = articleKeywords.map(i => i)
 
     return (
       <ArticleContent>
         <Helmet>
           <title>{title} - Kauri</title>
-          <meta name='keywords' content={articleKeywords.map(i => i)} />
+          <meta name='keywords' content={keywords} />
           <link rel='canonical' href={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
           <meta property='og:title' content={title} />
           <meta property='og:site_name' content='kauri.io' />
@@ -106,6 +107,7 @@ class ApprovedArticle extends React.Component<Props, State> {
         <ApprovedArticle.Header {...props.data.getArticle} hostName={hostName} />
         <ApprovedArticle.Content
           text={props.data.getArticle && props.data.getArticle.content}
+          keywords={keywords}
           subject={props.data.getArticle && props.data.getArticle.title}
           article_id={props.data.getArticle && props.data.getArticle.id}
           article_version={props.data.getArticle && props.data.getArticle.version}

@@ -16,6 +16,7 @@ import Outline from '../../../../../kauri-components/components/Typography/Outli
 import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
 import userIdTrim from '../../../../lib/userid-trim'
 import CheckpointArticles from '../../CheckpointArticles'
+import Related from '../../Related'
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
@@ -75,6 +76,7 @@ export default ({
   subject,
   address,
   hostName,
+  keywords,
   resourceType,
   articleCheckpointed,
 }: {
@@ -166,6 +168,8 @@ export default ({
           articleCheckpointed={!!articleCheckpointed}
           pageType={'approved-article'}
         />
+        {console.log(keywords[0])}
+        <Related keywords={keywords[0]} />
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>
   )
