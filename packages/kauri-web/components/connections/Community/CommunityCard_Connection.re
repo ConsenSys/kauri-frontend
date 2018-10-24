@@ -3,7 +3,6 @@ let component = ReasonReact.statelessComponent("Community");
 let make =
     (
       ~communityName,
-      ~communityId,
       ~communityDescription,
       /* ~followers, */
       /* ~views, */
@@ -58,7 +57,6 @@ let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
       ~communityName=jsProps->communityNameGet,
-      ~communityId=jsProps->communityIdGet,
       ~communityDescription=jsProps->communityDescriptionGet,
       /* ~followers=jsProps->followersGet, */
       /* ~views=jsProps->viewsGet, */
