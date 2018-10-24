@@ -4,6 +4,7 @@ import { getAllCommunities } from '../../../../queries/Community'
 import { connect } from 'react-redux'
 import { routeChangeAction } from '../../../../lib/Module'
 import withLoading from '../../../../lib/with-loading'
+import withPagination from '../../../../lib/with-pagination';
 
 const mapStateToProps = (state, ownProps) => {
   return { hostName: state.app && state.app.hostName }
@@ -14,7 +15,8 @@ export default compose(
   graphql(getAllCommunities, {
     options: () => ({
       variables: {},
+      fetchPolicy: 'no-cache',
     }),
   }),
   withLoading()
-)(Communities)
+)(withPagination(Communities, "searchCommunities"))

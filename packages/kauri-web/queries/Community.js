@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 
 export const getCommunity = gql`
   query getCommunity($id: String) {
-    getCommunity(id: $id) {
+    getCommunity(id: $id, page: $page) {
       id
       dateCreated
       dateUpdated
@@ -73,8 +73,11 @@ export const getCommunity = gql`
 `
 
 export const getAllCommunities = gql`
-  query searchCommunities {
-    searchCommunities {
+  query searchCommunities ($size: Int = 10, $page: Int = 0) {
+    searchCommunities (
+      size: $size
+      page: $page
+    ) {
       content {
         id
         dateCreated
@@ -90,6 +93,7 @@ export const getAllCommunities = gql`
           type
         }
       }
+      isLast
     }
   }
 `
