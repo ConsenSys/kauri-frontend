@@ -53,7 +53,6 @@ let renderArticleCards = (~response, ~id, ~avatar, ~name) =>
              title,
              content,
              date,
-             username,
              background,
            } =
              make(article);
@@ -92,7 +91,7 @@ let make = (~id, ~category, ~avatar, ~hostName, ~website, ~name, _children) => {
     <div className=Styles.container>
       <ScrollToTopOnMount />
       <CommunityHeader>
-        <CommunityProfile avatar community=name website hostName />
+        <CommunityProfile id avatar community=name website hostName />
       </CommunityHeader>
       <SearchCommunityArticlesQuery variables=articlesQuery##variables>
         ...{
