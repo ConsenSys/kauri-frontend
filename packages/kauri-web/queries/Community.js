@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 
 export const getCommunity = gql`
   query getCommunity($id: String) {
-    getCommunity(id: $id, page: $page) {
+    getCommunity(id: $id) {
       id
       dateCreated
       dateUpdated
