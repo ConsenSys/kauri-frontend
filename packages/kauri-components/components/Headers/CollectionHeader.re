@@ -69,19 +69,19 @@ let make =
             linkComponent,
             <UserAvatar
               variant=`White
-              username=username->Belt.Option.getWithDefault(userId)
+              username=username->Belt.Option.getWithDefault(ownerId)
               userAvatar=userAvatar->Belt.Option.getWithDefault("")
               fullWidth=true
-              userId
+              userId=ownerId
             />,
             linkComponent =>
             linkComponent(
               <UserAvatar
                 variant=`White
                 fullWidth=true
-                username=username->Belt.Option.getWithDefault(userId)
+                username=username->Belt.Option.getWithDefault(ownerId)
                 userAvatar=userAvatar->Belt.Option.getWithDefault("")
-                userId
+                userId=ownerId
               />,
             )
           )
