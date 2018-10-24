@@ -99,9 +99,9 @@ class Communities extends Component<Props> {
               key={community.id}
               communityLogo={community.avatar}
               communityName={community.name}
-              communityDescription={community.description || ''}
+              communityDescription={community && community.description ? community.description.split('.')[0] : ''}
               communityId={community.id}
-              communityHeight={420}
+              cardHeight={420}
               articles={(Array.isArray(community.approvedId) &&
                 String(community.approvedId.map(resource => resource.type === 'ARTICLE').length)) ||
                 '0'}

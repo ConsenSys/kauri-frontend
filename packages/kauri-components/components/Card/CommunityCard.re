@@ -33,7 +33,7 @@ module Styles = {
       style([
         display(`flex),
         flexDirection(row),
-        alignItems(center),
+        alignItems(`flexStart),
         justifyContent(center),
         height(px(50)),
         paddingBottom(px(15)),
