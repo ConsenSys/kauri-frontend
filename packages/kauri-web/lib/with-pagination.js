@@ -40,6 +40,7 @@ const withPagination = (Paginated, key) => {
                     if (!fetchMoreResult) return prev;
                     return Object.assign({}, prev, {
                         [key]: {
+                            __typename: prev[key].__typename,
                             content: [...prev[key].content, ...fetchMoreResult[key].content],
                             isLast: fetchMoreResult[key].isLast,
                         }
