@@ -144,11 +144,12 @@ export const composeCollection = gql`
   }
 `
 export const getLatestCollections = gql`
-  query searchCollections {
-    searchCollections(size: 100, sort: "dateUpdated", dir: DESC) {
+  query searchCollections ($size: Int = 10, $page: Int = 0) {
+    searchCollections(size: $size, page: $page, sort: "dateUpdated", dir: DESC) {
       content {
         ...Collection
       }
+      isLast
     }
   }
 

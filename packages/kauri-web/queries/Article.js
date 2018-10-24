@@ -175,28 +175,19 @@ export const searchApprovedArticles = gql`
   }
 `
 
-export const globalSearchApprovedCategoryArticles = gql`
-  query globalSearchApprovedArticles($size: Int = 500, $category: String) {
-    searchArticles(size: $size, dir: DESC, filter: { ownerIdEquals: $category, statusIn: [PUBLISHED] }) {
-      totalElements
-      content {
-        ...Article
-      }
-    }
-  }
-`
-
 export const globalSearchApprovedArticles = gql`
-  query globalSearchApprovedArticles($size: Int = 500, $text: String) {
+  query globalSearchApprovedArticles($size: Int = 10, $page: Int = 0, $text: String) {
     searchArticles(
       size: $size
       sort: "dateCreated"
+      page: $page,
       dir: DESC
       filter: { fullText: $text, statusIn: [PUBLISHED], latestVersion: true }
     ) {
       content {
         ...Article
       }
+      isLast
     }
   }
 
