@@ -32,9 +32,15 @@ const Avatar = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  background: ${props => props.variant === 'white' ? props.theme.colors['white'] : props.theme.colors['textPrimary']};
+  background: ${props =>
+    props.avatar
+      ? 'none'
+      : props.variant === 'white'
+        ? props.theme.colors['white']
+        : props.theme.colors['textPrimary']};
   > * {
-    color: ${props => props.variant === 'white' ? props.theme.colors['textPrimary'] : props.theme.colors[props.color]};
+    color: ${props =>
+    props.variant === 'white' ? props.theme.colors['textPrimary'] : props.theme.colors[props.color]};
     text-transform: uppercase;
     line-height: 10px;
   }
@@ -63,18 +69,37 @@ type Props = {
 }
 
 export default (props: Props) => (
-  <Container variant={props.variant} color={typeof props.color === 'string' ? props.color : 'textPrimary'} imageURL={props.imageURL} fullWidth={props.fullWidth}>
-    <Avatar variant={props.variant} color={typeof props.color === 'string' ? props.color : 'white'}>
+  <Container
+    variant={props.variant}
+    color={typeof props.color === 'string' ? props.color : 'textPrimary'}
+    imageURL={props.imageURL}
+    fullWidth={props.fullWidth}
+  >
+    <Avatar
+      variant={props.variant}
+      color={typeof props.color === 'string' ? props.color : 'white'}
+      avatar={props.avatar}
+    >
       {typeof props.avatar === 'string' && props.avatar.length > 1 ? (
         <ProfileImage avatar={props.avatar} alt='Logo' />
       ) : (
-        <H6 color={props.variant === 'white' ? 'textPrimary' : props.color ? props.color : 'white'}>{props.username ? props.username.charAt(0)
-          : typeof props.userId === 'string' ? props.userId.charAt(0) : 'Anonymous'}</H6>
+        <H6 color={props.variant === 'white' ? 'textPrimary' : props.color ? props.color : 'white'}>
+          {props.username
+            ? props.username.charAt(0)
+            : typeof props.userId === 'string'
+              ? props.userId.charAt(0)
+              : 'Anonymous'}
+        </H6>
       )}
     </Avatar>
     <H6>
-      {(props.username ? props.username
-        : (typeof props.userId === 'string' ? props.userId.length > 15 ? userIdTrim(props.userId) : props.userId : 'Anonymous'))}
+      {props.username
+        ? props.username
+        : typeof props.userId === 'string'
+          ? props.userId.length > 15
+            ? userIdTrim(props.userId)
+            : props.userId
+          : 'Anonymous'}
     </H6>
   </Container>
 )

@@ -73,8 +73,8 @@ class ApprovedArticle extends React.Component<Props, State> {
     })
     const hostName = `https://${props.hostName}`
 
-    const isCommunityOwned =
-      R.path(['data', 'getArticle', 'owner', 'resourceIdentifier', 'type'])(props) === 'COMMUNITY'
+    const resourceType = R.path(['data', 'getArticle', 'owner', 'resourceIdentifier', 'type'])(props)
+    const isCommunityOwned = resourceType === 'COMMUNITY'
 
     return (
       <ArticleContent>
@@ -82,18 +82,24 @@ class ApprovedArticle extends React.Component<Props, State> {
           <title>{title} - Kauri</title>
           <meta name='keywords' content={articleKeywords.map(i => i)} />
           <link rel='canonical' href={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
-          <meta property="og:title" content={title} />
-          <meta property="og:site_name" content="kauri.io" />
-          <meta property="og:url" content={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
-          <meta property="og:description" content={`${articleContent}...`} />
-          <meta property="og:type" content="article" />
-          <meta property="og:image" content={(attributes && attributes.background && attributes.background) || '/static/images/logo.svg'} />
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:site" ccontent={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
-          <meta name="twitter:title" content={title} />
-          <meta name="twitter:description" content={`${articleContent}...`} />
-          <meta name="twitter:creator" content="@kauri_io" />
-          <meta name="twitter:image" content={(attributes && attributes.background && attributes.background) || '/static/images/logo.svg'} />
+          <meta property='og:title' content={title} />
+          <meta property='og:site_name' content='kauri.io' />
+          <meta property='og:url' content={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
+          <meta property='og:description' content={`${articleContent}...`} />
+          <meta property='og:type' content='article' />
+          <meta
+            property='og:image'
+            content={(attributes && attributes.background && attributes.background) || '/static/images/logo.svg'}
+          />
+          <meta name='twitter:card' content='summary' />
+          <meta name='twitter:site' ccontent={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
+          <meta name='twitter:title' content={title} />
+          <meta name='twitter:description' content={`${articleContent}...`} />
+          <meta name='twitter:creator' content='@kauri_io' />
+          <meta
+            name='twitter:image'
+            content={(attributes && attributes.background && attributes.background) || '/static/images/logo.svg'}
+          />
         </Helmet>
         <ScrollToTopOnMount />
         <ScrollToTopButton />
@@ -122,10 +128,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           address={props.userId}
           hostName={hostName}
           articleCheckpointed={R.path(['data', 'getArticle', 'checkpoint'])(props)}
-          resourceType={R.pipe(
-            R.path(['data', 'getArticle', 'owner', 'resourceIdentifier', 'type']),
-            R.toLower
-          )(props)}
+          resourceType={typeof resourceType === 'string' && R.toLower(resourceType)}
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.attributes}

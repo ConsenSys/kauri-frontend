@@ -6,8 +6,8 @@ import { Helmet } from 'react-helmet'
 import ArticleCard from '../../../../../kauri-components/components/Card/ArticleCard'
 import { Link } from '../../../../routes'
 import moment from 'moment'
-import userIdTrim from '../../../../lib/userid-trim'
 import Loading from '../../../common/Loading'
+import R from 'ramda'
 
 type Props = {
   data: {
@@ -75,6 +75,7 @@ class Articles extends Component<Props> {
     const { searchArticles } = this.props.data
 
     const pageTitle = 'Discover Articles'
+
     return (
       <ContentContainer>
         <Helmet>
@@ -91,6 +92,8 @@ class Articles extends Component<Props> {
         {searchArticles && searchArticles.content.length > 0 ? (
           <ArticlesContainer>
             {searchArticles.content.map(article => {
+              const resourceType = R.path(['owner', 'resourceIdentifier', 'type'])(article)
+
               return (
                 <ArticleCard
                   changeRoute={this.props.routeChangeAction}
@@ -114,11 +117,7 @@ class Articles extends Component<Props> {
                       {childrenProps}
                     </Link>
                   )}
-                  resourceType={
-                    article.owner &&
-                    article.owner.resourceIdentifier.type === 'string' &&
-                    article.owner.resourceIdentifier.type.toLowerCase()
-                  }
+                  resourceType={typeof resourceType === 'string' && R.toLower(resourceType)}
                 />
               )
             })}
