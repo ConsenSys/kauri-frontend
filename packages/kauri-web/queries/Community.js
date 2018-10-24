@@ -73,7 +73,7 @@ export const getCommunity = gql`
 `
 
 export const getAllCommunities = gql`
-  query searchCommunities ($size: Int = 10, $page: Int = 0) {
+  query searchCommunities ($size: Int = 12, $page: Int = 0) {
     searchCommunities (
       size: $size
       page: $page
