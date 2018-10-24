@@ -13,12 +13,12 @@ const withPagination = (Paginated, key) => {
 
     componentDidMount () {
       window.addEventListener('scroll', this.handleOnScroll)
-      window.addEventListener('touchmove', this.handleOnScroll)
+      window.addEventListener('touchend', this.handleOnScroll)
     }
 
     componentWillUnmount () {
       window.removeEventListener('scroll', this.handleOnScroll)
-      window.removeEventListener('touchmove', this.handleOnScroll)
+      window.removeEventListener('touchend', this.handleOnScroll)
     }
 
     handleOnScroll = () => {
@@ -26,7 +26,11 @@ const withPagination = (Paginated, key) => {
       const scrollHeight =
         (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight
       const clientHeight = document.documentElement.clientHeight || window.innerHeight
-      const scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight
+      // console.log(scrollTop)
+      // console.log(clientHeight)
+      // console.log(scrollHeight)
+      const scrolledToBottom = Math.ceil(scrollTop + clientHeight + 50) >= scrollHeight
+      // console.log(scrolledToBottom)
       if (scrolledToBottom && this.props.data[key].isLast !== true) {
         this.setState({ showLoading: true })
         this.props.data.fetchMore({
