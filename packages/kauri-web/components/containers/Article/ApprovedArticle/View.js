@@ -103,7 +103,7 @@ class ApprovedArticle extends React.Component<Props, State> {
         </Helmet>
         <ScrollToTopOnMount />
         <ScrollToTopButton />
-        <ApprovedArticle.Header {...props.data.getArticle} />
+        <ApprovedArticle.Header {...props.data.getArticle} hostName={hostName} />
         <ApprovedArticle.Content
           text={props.data.getArticle && props.data.getArticle.content}
           subject={props.data.getArticle && props.data.getArticle.title}

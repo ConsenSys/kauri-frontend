@@ -1,10 +1,12 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
+import slugify from 'slugify'
 import {
   CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader,
   TopicActionsContainer as ApprovedArticleSubjectContainer,
 } from '../../CreateRequestForm/CreateRequestHeader'
+import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 import PostedDate from '../../../../../kauri-components/components/Typography/PostedDate.bs'
 import { H5 } from '../../../../../kauri-components/components/Typography'
 import theme from '../../../../lib/theme-config'
@@ -55,10 +57,11 @@ const Overlay = styled.div`
 
 const InfoContainer = styled.div`
   display: flex;
+  width: 100%;
+  min-height: 100px;
   flex-direction: column;
   padding: 0 ${props => props.theme.padding};
   z-index: 9;
-  width: 100%;
 `
 
 export const PullRight = styled.div`
@@ -70,7 +73,20 @@ export const PullRight = styled.div`
   z-index: 9;
 `
 
-export default ({ datePublished, dateCreated, title, attributes, status }: *) => (
+const MobileShareContainer = styled.div`
+  display: none;
+  @media (max-width: 500px) {
+    display: flex;
+  }
+  > * {
+    color: white;
+    > * {
+      color: white;
+    }
+  }
+`
+
+export default ({ id, version, datePublished, dateCreated, title, attributes, status, hostName }: *) => (
   <ApproveArticleHeader
     style={{
       background: attributes && attributes.background ? `url(${attributes.background}) center center` : '#1E2428',
@@ -83,6 +99,14 @@ export default ({ datePublished, dateCreated, title, attributes, status }: *) =>
     <InfoContainer>
       <PostedDate dateType='FromNow' date_field={datePublished || dateCreated} />
       <ApprovedArticleSubject type='article' attributes={attributes} subject={title} theme={theme} />
+      <MobileShareContainer>
+        <ShareArticle
+          url={`${hostName.replace(/api\./g, '')}/article/${id}/v${version}/${slugify(title, {
+            lower: true,
+          })}`}
+          title={title}
+        />
+      </MobileShareContainer>
     </InfoContainer>
     {status !== 'PUBLISHED' && (
       <PullRight>
