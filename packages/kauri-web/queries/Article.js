@@ -176,22 +176,50 @@ export const searchApprovedArticles = gql`
 `
 
 export const globalSearchApprovedArticles = gql`
-  query globalSearchApprovedArticles($size: Int = 12, $page: Int = 0, $text: String) {
+  query globalSearchApprovedArticles($size: Int = 12) {
     searchArticles(
       size: $size
       sort: "dateCreated"
-      page: $page,
       dir: DESC
-      filter: { fullText: $text, statusIn: [PUBLISHED], latestVersion: true }
+      filter: { statusIn: [PUBLISHED], latestVersion: true }
     ) {
       content {
-        ...Article
+        id
+        version
+        title
+        content
+        authorId
+        dateCreated
+        datePublished
+        status
+        attributes
+        contentHash
+        checkpoint
+        vote {
+          totalVote
+        }
+        author {
+          id
+          name
+          username
+          avatar
+        }
+        owner {
+          ... on PublicUserDTO {
+            id
+            username
+            name
+            avatar
+          }
+          ... on CommunityDTO {
+            id
+            name
+            avatar
+          }
+        }
       }
-      isLast
     }
   }
-
-  ${Article}
 `
 
 export const searchPersonalSubmittedArticles = gql`

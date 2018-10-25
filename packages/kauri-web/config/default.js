@@ -30,7 +30,7 @@ const getApiURL = (hostName = global.window && global.window.location.host) => {
   if (!hostName) return process.env.monolithExternalApi
   let apiURL
   if (hostName.includes('localhost')) {
-    apiURL = 'api.dev.kauri.io'
+    apiURL = 'api.dev2.kauri.io'
   } else if (hostName.includes('beta')) {
     apiURL = (global.window)
       ? `api.beta.kauri.io`
