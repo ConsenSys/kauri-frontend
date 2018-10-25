@@ -8,7 +8,7 @@ const ContentContainer = styled.div`
     justify-content: center;
     flex: 1;
     flex-wrap: wrap;
-    padding: 0px calc((100vw - 1280px) / 2);
+    padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
     padding-bottom: 0;
 `;
 
