@@ -21,6 +21,7 @@ export default compose(
       variables: {
         userId,
       },
+      fetchPolicy: 'cache-and-network'
     }),
   }),
   graphql(getUserDetails, {
@@ -38,6 +39,7 @@ export default compose(
         filter: {
           ownerIdEquals: userId,
         },
+        fetchPolicy: 'cache-and-network'
       },
     }),
   }),
@@ -47,6 +49,7 @@ export default compose(
       variables: {
         userId,
       },
+      fetchPolicy: 'cache-and-network'
     }),
   }),
   graphql(searchPending, {
@@ -55,6 +58,7 @@ export default compose(
       variables: {
         userId,
       },
+      fetchPolicy: 'cache-and-network'
     }),
   }),
   graphql(searchAwaitingApproval, {
@@ -63,10 +67,8 @@ export default compose(
       variables: {
         userId,
       },
+      fetchPolicy: 'cache-and-network'
     }),
-  }),
-  graphql(getOwnProfile, {
-    name: 'OwnProfile',
   }),
   withLoading()
 )(PublicProfile)
