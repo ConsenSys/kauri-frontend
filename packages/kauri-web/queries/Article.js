@@ -49,6 +49,8 @@ export const Article = gql`
         author {
           id
           name
+          username
+          avatar
         }
         posted
         body
