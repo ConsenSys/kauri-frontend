@@ -62,12 +62,12 @@ const Divider = styled.div`
   }
 `
 
-const Comment = ({ body, posted, authorId, author: { username, avatar, id } }: CommentDTO) =>
+const Comment = ({ body, posted, authorId, author }: CommentDTO) =>
   <CommentContainer>
-    <Link useAnchorTag href={`/public-profile/${id}`}>
-      <UserAvatar username={username}
-        userId={id}
-        avatar={avatar}
+    <Link useAnchorTag href={`/public-profile/${author.id}`}>
+      <UserAvatar username={author.name || author.username}
+        userId={author.id}
+        avatar={author.avatar}
       />
     </Link>
     <BodyCard>
