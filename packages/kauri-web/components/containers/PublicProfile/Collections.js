@@ -6,6 +6,7 @@ import Empty from './Empty';
 import { Link } from '../../../routes';
 import styled from 'styled-components'
 import ContentContainer from './PublicProfileContentContainer';
+import { PrimaryButton } from '../../../../kauri-components/components/Button';
 
 import type { CollectionsProps } from './types';
 
@@ -53,6 +54,10 @@ const Collections = ({ collections, routeChangeAction }: CollectionsProps) =>
             )} />;
         })}
       </CollectionsContainer>
-    </ContentContainer> : <Empty />;
+    </ContentContainer> : <Empty>
+      <PrimaryButton onClick={() => routeChangeAction(`/create-collection`)}>
+            CREATE COLLECTION
+        </PrimaryButton>
+    </Empty>;
 
 export default Collections;
