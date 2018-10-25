@@ -28,7 +28,7 @@ export const CheckpointArticlesIcon = () => (
   </svg>
 )
 
-export const AllArticlesOnMainnet = ({ text = 'All Articles on Mainnet' }: { text?: string }) => (
+export const AllArticlesOnMainnet = ({ text = 'All Articles On-chain' }: { text?: string }) => (
   <CheckpointedArticlesContainer>
     <CheckpointArticlesIcon />
     <span>{text}</span>
@@ -76,7 +76,7 @@ export default ({
             icon={<CheckpointArticlesIcon />}
             onClick={() => checkpointArticlesAction()}
           >
-            {'Submit Articles to Mainnet'}
+            {'Submit Articles to On-chain'}
           </TertiaryButton>
         )
       ) : (
@@ -90,9 +90,9 @@ export default ({
         icon={<CheckpointArticlesIcon />}
         onClick={() => checkpointArticlesAction()}
       >
-        {'Submit Article to Mainnet'}
+        {'Submit Article to On-chain'}
       </TertiaryButton>
     )
   ) : (
-    <AllArticlesOnMainnet pageType={pageType} text={'Article on Mainnet'} />
+    <AllArticlesOnMainnet pageType={pageType} text={'Article On-chain'} />
   )

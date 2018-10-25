@@ -88,7 +88,7 @@ export const checkpointArticlesEpic = (
               showNotificationAction({
                 notificationType: 'success',
                 message: 'Articles checkpointed!',
-                description: `All Kauri platform articles are now on the Mainnet!`,
+                description: `All Kauri platform articles are now On-chain!`,
               })
             )
             .catch(err => {
