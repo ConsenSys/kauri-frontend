@@ -2,6 +2,8 @@
 import React from 'react'
 import ApprovedArticle from './ApprovedArticle/View'
 import InReviewArticle from './InReviewArticle/View'
+import R from 'ramda'
+import Loading from '../../common/Loading'
 
 import type { AddCommentPayload } from '../AddCommentForm/Module'
 
@@ -86,8 +88,7 @@ class Article extends React.Component<ArticleProps> {
   }
 
   render () {
-    if (!this.props.data && !this.props.data.getArticle) return
-    if (this.props.data.getArticle.status === 'PENDING') {
+    if (R.path(['data', 'getArticle', 'status'])(this.props) === 'PENDING') {
       return (
         <InReviewArticle
           {...this.props}
@@ -102,8 +103,8 @@ class Article extends React.Component<ArticleProps> {
           closeModalAction={this.props.closeModalAction}
         />
       )
-    }
-    return <ApprovedArticle {...this.props} />
+    } else if (R.path(['data', 'getArticle', 'status'])(this.props)) return <ApprovedArticle {...this.props} />
+    else return <Loading />
   }
 }
 

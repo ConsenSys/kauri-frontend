@@ -6,6 +6,7 @@ import { getArticle } from '../../../queries/Article'
 import { toggleModalAction, routeChangeAction, setNavcolorOverrideAction } from '../../../lib/Module'
 import { addCommentAction } from '../AddCommentForm/Module'
 import withLoading from '../../../lib/with-loading'
+import withApolloError from '../../../lib/with-apollo-error'
 import { addToBountyAction } from '../Requests/Module'
 import { closeModalAction, openModalAction } from '../../../../kauri-components/components/Modal/Module'
 import View from './View'
@@ -44,5 +45,6 @@ export default compose(
       },
     }),
   }),
-  withLoading()
+  withLoading(),
+  withApolloError()
 )(View)
