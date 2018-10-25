@@ -68,8 +68,11 @@ type State = {
 }
 
 export default class ChooseArticleModal extends React.Component<Props, State> {
-  state = {
-    chosenArticles: [],
+  constructor (props) {
+    super(props)
+    this.state = {
+      chosenArticles: this.props.chosenArticles || [],
+    }
   }
 
   chooseArticle = (chosenArticle: { id: string, version: string }) =>

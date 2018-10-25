@@ -21,6 +21,7 @@ export default compose(
       variables: {
         size: articleSize, // Because lag and no searchbar
       },
+      fetchPolicy: 'network-only',
     }),
   }),
   withLoading(),
