@@ -15,8 +15,8 @@ type Props = {
   children: React.Node,
 }
 
-export default ({ children }: Props) => (
-  <Content>
+export default ({ children, setRef }: Props) => (
+  <Content ref={ref => setRef && setRef(ref)}>
     <Stack width={'100%'} gap={'30px'} gridTemplateColumns='290px 290px 290px'>
       {children}
     </Stack>
