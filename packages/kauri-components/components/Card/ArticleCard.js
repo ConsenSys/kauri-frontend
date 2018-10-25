@@ -33,7 +33,7 @@ const Container = styled.div`
   flex: 1;
   text-align: left;
   > a {
-    height: ${props => !props.imageURL && '100%'};
+    height: ${props => (props.imageURL ? 'calc(100% - 85px)' : '100%')};
   }
 `
 
