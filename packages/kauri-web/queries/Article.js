@@ -30,6 +30,7 @@ export const Article = gql`
         name
         avatar
         resourceIdentifier {
+          id
           type
         }
       }
@@ -38,6 +39,7 @@ export const Article = gql`
         name
         avatar
         resourceIdentifier {
+          id
           type
         }
       }
