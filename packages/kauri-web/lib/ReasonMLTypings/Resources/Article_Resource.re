@@ -1,51 +1,81 @@
 open Infix_Utilities;
 
+let userIdGet = article =>
+  article
+  |? (article => article##author)
+  |? (author => author##id)
+  |> default("");
+
 let usernameGet = article =>
   article
-  |? (article => article##user)
-  |? (user => user##username)
+  |? (article => article##author)
+  |? (author => author##name)
   |> default(
        article
-       |? (article => article##user)
-       |? (user => user##user_id)
+       |? (article => article##author)
+       |? (author => author##id)
        |> default("Unknown Writer")
        |> (
          userId =>
-           String.sub(userId, 0, 11)
+           "0x"
+           ++ Js.String.substring(~from=0, ~to_=4, userId)
            ++ "..."
-           ++ String.sub(userId, String.length(userId) - 13, 11)
+           ++ Js.String.substring(~from=36, ~to_=42, userId)
        ),
      );
 
+let userAvatarGet = article =>
+  article
+  |? (article => article##author)
+  |? (author => author##avatar)
+  |> default("");
+
 let dateUpdatedGet = article =>
   article
-  |? (article => article##date_updated)
-  |? (date_updated => Js.Json.decodeString(date_updated))
+  |? (
+    article =>
+      switch (article##datePublished) {
+      | Some(_) => article##datePublished
+      | None => article##dateCreated
+      }
+  )
+  |? (date => Js.Json.decodeString(date))
   |> default("")
   |> MomentRe.moment
   |> MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)));
 
+type articleVersionAndId = {
+  articleId: string,
+  articleVersion: int,
+};
+
 let keyGet = article =>
+  switch (
+    article |? (article => article##id),
+    article |? (article => article##version),
+  ) {
+  | (Some(articleId), Some(articleVersion)) =>
+    articleId ++ string_of_int(articleVersion)
+  | (None, Some(articleVersion)) => string_of_int(articleVersion)
+  | (Some(articleId), None) => articleId
+  | (None, None) => ""
+  };
+let articleIdGet = article => article |? (x => x##id) |> default("");
+let articleVersionGet = article => article |? (x => x##version) |> default(1);
+
+let backgroundGet = article =>
   article
-  |? (article => article##article_id)
-  |> default("")
-  |> (
-    articleId =>
-      articleId
-      ++ (article |? (x => x##article_version) |> default(0) |> string_of_int)
-  );
-let articleIdGet = article => article |? (x => x##article_id) |> default("");
-let articleVersionGet = article =>
-  article |? (x => x##article_version) |> default(1);
+  |? (article => article##attributes)
+  |? (article => Js.Json.decodeObject(article))
+  |? (attributes => Js.Dict.get(attributes, "background"))
+  |? (background => Js.Json.decodeString(background))
+  |> (background => Js.Nullable.fromOption(background));
 
 let titleGet = article =>
-  article |? (article => article##subject) |> default("");
+  article |? (article => article##title) |> default("");
 
 let contentGet = article =>
-  article |? (article => article##text) |> default("");
-
-let userIdGet = article =>
-  article |? (article => article##user_id) |> default("");
+  article |? (article => article##content) |> default("");
 
 type articleResource = {
   key: string,
@@ -55,11 +85,24 @@ type articleResource = {
   content: string,
   date: string,
   username: string,
+  userAvatar: string,
   userId: string,
+  background: Js.Nullable.t(string),
 };
 
 let make = article => {
-  let (key, articleId, articleVersion, title, content, date, username, userId) =
+  let (
+    key,
+    articleId,
+    articleVersion,
+    title,
+    content,
+    date,
+    username,
+    userId,
+    userAvatar,
+    background,
+  ) =
     article
     ->(
         keyGet,
@@ -70,8 +113,21 @@ let make = article => {
         dateUpdatedGet,
         usernameGet,
         userIdGet,
+        userAvatarGet,
+        backgroundGet,
       );
-  {key, articleId, articleVersion, title, content, date, username, userId};
+  {
+    key,
+    articleId,
+    articleVersion,
+    title,
+    content,
+    date,
+    username,
+    userId,
+    userAvatar,
+    background,
+  };
 };
 
 /* Extra getters  */

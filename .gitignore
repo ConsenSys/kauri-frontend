@@ -26,4 +26,3 @@ bs-ppx-css
 esy.lock
 Dockerfile-local
 yarn.lock
-package.json

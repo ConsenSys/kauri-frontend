@@ -10,7 +10,7 @@ module Styles = {
         height(px(30)),
         width(px(30)),
         borderRadius(px(15)),
-        marginRight(px(8)),
+        marginRight(px(10)),
       ])
     );
 
@@ -19,8 +19,10 @@ module Styles = {
       style([
         height(px(30)),
         width(px(30)),
+        fontSize(px(11)),
+        fontWeight(700),
         borderRadius(px(15)),
-        marginRight(px(8)),
+        marginRight(px(10)),
         display(`flex),
         alignItems(`center),
         justifyContent(`center),
@@ -34,12 +36,15 @@ module Styles = {
 
   let baseUsername = colorProp =>
     Css.[
-      fontSize(px(14)),
+      fontSize(px(11)),
       fontWeight(700),
       overflow(hidden),
-      maxWidth(px(200)),
+      maxWidth(px(220)),
       color(hex(colorProp)),
       textTransform(`lowercase),
+      whiteSpace(`preWrap),
+      overflow(`hidden),
+      textOverflow(`ellipsis),
     ];
 
   let username = (~colorProp, ~pageType) =>
@@ -66,7 +71,11 @@ let make = (~username, ~profileImage=?, ~color="1E2428", ~pageType, _children) =
         | Some(string) => <img className=Styles.image src=string />
         | _ =>
           <div className={Styles.imagePlaceholder(~colorProp=color)}>
-            {ReasonReact.string(String.sub(username, 0, 1))}
+            {
+              ReasonReact.string(
+                Js.String.substring(~from=0, ~to_=1, username),
+              )
+            }
           </div>
         }
       }
@@ -77,9 +86,17 @@ let make = (~username, ~profileImage=?, ~color="1E2428", ~pageType, _children) =
 };
 
 [@bs.deriving abstract]
-type jsProps = {username: string};
+type jsProps = {
+  username: string,
+  color: string,
+};
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~username=jsProps->usernameGet, ~pageType=None, [||])
+    make(
+      ~username=jsProps->usernameGet,
+      ~pageType=None,
+      ~color=jsProps->colorGet,
+      [||],
+    )
   );

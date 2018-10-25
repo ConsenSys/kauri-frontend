@@ -330,9 +330,9 @@ class Request extends Component<Props, State> {
       <Fragment>
         <HeaderStrip>
           <GoBack routeChangeAction={routeChangeAction} />
-          {typeof userId === 'string' &&
+          {/* {typeof userId === 'string' &&
             getRequest.status !== 'EXPIRED' &&
-            getRequest.status !== 'CLOSED' && <ContributeToBounty type='request' toggleBanner={this.toggleBanner} />}
+            getRequest.status !== 'CLOSED' && <ContributeToBounty type='request' toggleBanner={this.toggleBanner} />} */}
           <BountyActions>
             <Bounty bounty={getRequest.bounty} />
             <UsdPrice bounty={getRequest.bounty} ethUsdPrice={ethUsdPrice} />
@@ -413,70 +413,70 @@ class Request extends Component<Props, State> {
                   getRequest.user_id === userId &&
                   (typeof getRequest.total_submissions === 'number' && getRequest.total_submissions < 1) &&
                   (typeof getRequest.total_flag === 'number' && getRequest.total_flag < 1) && (
-                    <PositiveRequestActionBadge
-                      alone='true'
-                      type='secondary color primary'
-                      width='auto'
-                      action={() => routeChangeAction(`/request/${getRequest.request_id}/update-request`)}
-                      label='Update'
-                    />
-                  )}
+                  <PositiveRequestActionBadge
+                    alone='true'
+                    type='secondary color primary'
+                    width='auto'
+                    action={() => routeChangeAction(`/request/${getRequest.request_id}/update-request`)}
+                    label='Update'
+                  />
+                )}
                 {typeof userId === 'string' &&
                   getRequest.status !== 'CREATED' &&
                   getRequest.status !== 'EXPIRED' &&
                   getRequest.status !== 'CLOSED' &&
                   typeof getRequest.user_id === 'string' && (
-                    <PositiveRequestActionBadge
-                      disabled={this.props.disabledFlagRequest}
-                      alone='true'
-                      type={getRequest.is_flagged ? 'secondary color primary' : 'primary'}
-                      preIcon={getRequest.is_flagged ? '/static/images/icons/green-tick.png' : ''}
-                      width='auto'
-                      action={() => {
-                        const flaggingPayload =
+                  <PositiveRequestActionBadge
+                    disabled={this.props.disabledFlagRequest}
+                    alone='true'
+                    type={getRequest.is_flagged ? 'secondary color primary' : 'primary'}
+                    preIcon={getRequest.is_flagged ? '/static/images/icons/green-tick.png' : ''}
+                    width='auto'
+                    action={() => {
+                      const flaggingPayload =
                           getRequest.is_flagged
                             ? { request_id: getRequest.request_id, isFlagged: true }
                             : { request_id: getRequest.request_id }
 
-                        flagRequestAction(flaggingPayload)
-                      }}
-                      label="I'm on it!"
-                    />
-                  )}
+                      flagRequestAction(flaggingPayload)
+                    }}
+                    label="I'm on it!"
+                  />
+                )}
                 {getRequest.status === 'CREATED' &&
                   isCreator && (
-                    <PositiveRequestActionBadge
-                      alone='true'
-                      type={'primary'}
-                      width='100%'
-                      action={() =>
-                        resubmitRequestAction({
-                          request_id: getRequest.request_id,
-                          bounty: getRequest.bounty,
-                          content_hash: getRequest.content_hash,
-                          category: getRequest.category,
-                          dead_line: getRequest.dead_line,
-                        })
-                      }
-                      label='Resubmit Request'
-                    />
-                  )}
+                  <PositiveRequestActionBadge
+                    alone='true'
+                    type={'primary'}
+                    width='100%'
+                    action={() =>
+                      resubmitRequestAction({
+                        request_id: getRequest.request_id,
+                        bounty: getRequest.bounty,
+                        content_hash: getRequest.content_hash,
+                        category: getRequest.category,
+                        dead_line: getRequest.dead_line,
+                      })
+                    }
+                    label='Resubmit Request'
+                  />
+                )}
                 {typeof userId === 'string' &&
                   getRequest.status !== 'CREATED' &&
                   getRequest.status !== 'CLOSED' &&
                   getRequest.status !== 'EXPIRED' &&
                   (typeof personalSubmittedArticle === 'object' &&
                   personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
-                    <PositiveRequestActionBadge
-                        type='secondary color primary'
-                        alone='true'
-                        width='auto'
-                        action={() =>
+                      <PositiveRequestActionBadge
+                      type='secondary color primary'
+                      alone='true'
+                      width='auto'
+                      action={() =>
                           routeChangeAction(
                             `/article/${personalSubmittedArticle.article_id}/v${personalSubmittedArticle.article_version}`
                           )
                         }
-                        label='View Article'
+                      label='View Article'
                       />
                     ) : (
                       <PositiveRequestActionBadge
@@ -517,16 +517,16 @@ class Request extends Component<Props, State> {
                 )}
                 {getRequest.status === 'EXPIRED' &&
                   typeof getRequest.user_id === 'string' && (
-                    <PositiveRequestActionBadge
-                      alone='true'
-                      type={'primary'}
-                      width='auto'
-                      action={() => {
-                        this.props.requestRefundAction({ request_id: getRequest.request_id })
-                      }}
-                      label='Refund funds'
-                    />
-                  )}
+                  <PositiveRequestActionBadge
+                    alone='true'
+                    type={'primary'}
+                    width='auto'
+                    action={() => {
+                      this.props.requestRefundAction({ request_id: getRequest.request_id })
+                    }}
+                    label='Refund funds'
+                  />
+                )}
                 <UserBadge>
                   <span>REQUESTED BY</span>
                   {/* <Link to=''> */}

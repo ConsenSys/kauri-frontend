@@ -4,6 +4,10 @@ import styled from 'styled-components'
 import GreenArrow from '../../common/GreenArrow'
 import { ActionBadge } from '../../common/ActionBadge'
 import { PositiveRequestActionBadge } from '../../common/ActionButton'
+import TriggerImageUploader from '../../common/ImageUploader'
+import { AddTagButton, PrimaryButton, TertiaryButton } from '../../../../kauri-components/components/Button'
+import Stack from 'stack-styled'
+const UploadIcon = () => <img src='https://png.icons8.com/color/50/000000/upload.png' />
 
 const SubmitArticleFormActions = styled.section`
   display: flex;
@@ -12,71 +16,53 @@ const SubmitArticleFormActions = styled.section`
   width: 100%;
   background-color: ${props => props.theme.primaryTextColor};
   padding: 36px ${props => props.theme.padding};
+  justify-content: space-between;
 `
 
-const PullRight = styled.div`
+const ContainerRow = styled.div`
   display: flex;
   align-self: center;
-  margin-left: auto;
 `
 
 type Props = {
   routeChangeAction: string => void,
   handleSubmit: any => void,
-  text?: string,
   userId?: string,
   authorId?: string,
-  category?: string,
-  status?: string,
-  getFieldValue: string => ?string,
+}
+
+const setupImageUploader = (setFieldsValue, getFieldDecorator) => {
+  getFieldDecorator('attributes')
+  TriggerImageUploader(setFieldsValue, 'attributes')
 }
 
 export default ({
   routeChangeAction,
   handleSubmit,
-  text,
-  status,
-  getFieldValue,
-  category,
   userId,
-  authorId,
+  author,
+  owner,
+  status,
+  setFieldsValue,
+  getFieldDecorator,
 }: Props) => (
   <SubmitArticleFormActions>
     <ActionBadge onClick={() => routeChangeAction('back')}>
       <GreenArrow direction={'left'} />
-      <span>Cancel Article</span>
+      <span>Cancel Update</span>
     </ActionBadge>
-    <PullRight>
-      {status !== 'DRAFT' && (
-        <PositiveRequestActionBadge type='secondary' action={handleSubmit('draft')}>
-          <span>Save as a draft</span>
-        </PositiveRequestActionBadge>
-      )}
-
-      <PositiveRequestActionBadge
-        type={status === 'DRAFT' ? 'secondary' : 'primary'}
-        action={handleSubmit('submit/update')}
-      >
-        <span>
-          {text
-            ? authorId === userId
-              ? status === 'DRAFT'
-                ? 'Save Draft'
-                : 'Update Article'
-              : getFieldValue('category') || category
-                ? 'Submit for Review'
-                : 'Publish'
-            : getFieldValue('category') || category
-              ? 'Submit for Review'
-              : 'Publish'}
-        </span>
+    <Stack alignItems={['', 'center']} justifyContent={['', 'center']} style={{ alignSelf: 'center' }}>
+      <TertiaryButton icon={<UploadIcon />} handleClick={() => setupImageUploader(setFieldsValue, getFieldDecorator)}>
+        Upload Background
+      </TertiaryButton>
+    </Stack>
+    <ContainerRow>
+      <PositiveRequestActionBadge type='secondary' action={handleSubmit('draft')}>
+        <span>Save draft</span>
       </PositiveRequestActionBadge>
-
-      {status === 'DRAFT' && (
-        <PositiveRequestActionBadge type={'primary'} action={handleSubmit('draft')}>
-          <span>{userId === authorId && !category ? 'Publish' : 'Submit for review'}</span>
-        </PositiveRequestActionBadge>
-      )}
-    </PullRight>
+      <PositiveRequestActionBadge type={'primary'} action={handleSubmit('submit/update')}>
+        <span>{!status || !owner || owner === userId ? 'Publish Article' : 'Propose Update'}</span>
+      </PositiveRequestActionBadge>
+    </ContainerRow>
   </SubmitArticleFormActions>
 )

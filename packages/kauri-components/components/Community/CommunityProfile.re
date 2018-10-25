@@ -52,17 +52,20 @@ let getCommunity = community =>
   | community => community->String.capitalize
   };
 
-let stripWebsite = website => (website |> Js.String.split("://"))[1];
-let assembleShareWebsiteURL = (~community, ~hostName) => {
-  let hostName = Js.String.replace("api.", "", hostName);
-    {j|https://$hostName/community/$community|j};
-  };
+let stripWebsite = website =>
+  website |> Js.String.includes("://") ?
+    (website |> Js.String.split("://"))[1] : website;
 
-let make = (~community, ~website, ~hostName, _children) => {
+let assembleShareWebsiteURL = (~id, ~hostName) => {
+  let hostName = Js.String.replace("api.", "", hostName);
+  {j|https://$hostName/community/$id|j};
+};
+
+let make = (~id, ~community, ~website, ~avatar, ~hostName, _children) => {
   ...component,
   render: _self =>
     <Container>
-      <CommunityAvatar community />
+      <CommunityAvatar avatar />
       <CommunityName>
         community->getCommunity->ReasonReact.string
       </CommunityName>
@@ -71,7 +74,7 @@ let make = (~community, ~website, ~hostName, _children) => {
       </CommunityWebsite>
       <ShareArticle
         pageType=CommunityProfile
-        url={assembleShareWebsiteURL(~community, ~hostName)}
+        url={assembleShareWebsiteURL(~id, ~hostName)}
         title=community->String.capitalize
       />
     </Container>,

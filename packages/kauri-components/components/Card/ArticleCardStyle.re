@@ -32,8 +32,8 @@ module Styles = {
         alignItems(flexStart),
         justifyContent(center),
         height(px(50)),
-        paddingLeft(px(14)),
-        paddingRight(px(14)),
+        paddingLeft(px(15)),
+        paddingRight(px(15)),
       ])
     );
 

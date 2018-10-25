@@ -12,16 +12,16 @@ let myStory =
 
 myStory.add("Heading", () =>
   <Heading
-    text=(Knobs.text(~label="Text", ~defaultValue="Nice heading", ()))
+    text={Knobs.text(~label="Text", ~defaultValue="Nice heading", ())}
   />
 );
 myStory.add("Paragraph", () =>
   <Paragraph
-    text=(Knobs.text(~label="Text", ~defaultValue="Nice paragraph!", ()))
+    text={Knobs.text(~label="Text", ~defaultValue="Nice paragraph!", ())}
   />
 );
 myStory.add("Label", () =>
-  <Label text=(Knobs.text(~label="Text", ~defaultValue="Label Text", ())) />
+  <Label text={Knobs.text(~label="Text", ~defaultValue="Label Text", ())} />
 );
 myStory.add("Posted From Now", () =>
   <PostedDate
@@ -66,5 +66,5 @@ myStory.add("Profile Header Label - Contributor", () =>
   <ProfileHeaderLabel header="Contributor" />
 );
 myStory.add("Statistic Count", () =>
-  <StatisticCount count=3 name="Article Views" />
+  <StatisticCount pageType=None count=3 name="Article Views" />
 );

@@ -4,10 +4,8 @@ import { notification, Modal } from 'antd'
 import cookie from 'cookie'
 import { Router } from '../routes'
 import { categories } from './theme-config'
-import { SET_WALLET_AVAILABLE_FUNDS } from '../components/containers/Profile/TopicOwnerProfile/Module'
 import createReducer from './createReducer'
-
-import type { SetWalletAvailableFundsAction } from '../components/containers/Profile/TopicOwnerProfile/Module'
+import { getMyProfile } from '../queries/Profile_Queries.bs'
 const config = require('../config').default
 
 const { confirm } = Modal
@@ -16,14 +14,12 @@ type ButtonType = 'primary' | 'ghost' | 'dashed' | 'danger'
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error'
 
-export type User =
-  | any
-  | {
-      address: string,
-      userId: string,
-      username: string,
-      topics: Array<?string>,
-    }
+export type User = {
+  address: string,
+  userId: string,
+  username: string,
+  topics: Array<?string>,
+}
 
 export type Dependencies = {
   apolloClient: any,
@@ -34,6 +30,7 @@ export type Dependencies = {
   web3PersonalSign: any,
   getGasPrice: any,
   driverJS: any,
+  personalSign: any,
 }
 
 export type ShowNotificationPayload = {
@@ -88,12 +85,14 @@ export type SetEthUsdPriceAction = {
 }
 
 export type ToggleModalPayload = {
-  modalTitle?: string | any,
+  modalTitle?: string,
   modalChildren?: any,
   onOk?: () => any,
   onCancel?: () => any,
   footer?: any,
 }
+
+export type SetNavcolorOverridePayload = string
 
 export type ToggleModalAction = {
   type: string,
@@ -130,7 +129,12 @@ export type HideIntroBannerAction = {
 
 export type SetHostNameAction = {
   type: string,
-  hostName: string
+  payload: SetHostNamePayload,
+}
+
+export type SetNavcolorOverrideAction = {
+  type: string,
+  payload: SetNavcolorOverridePayload,
 }
 
 type Action =
@@ -182,21 +186,6 @@ export const fetchEthUsdPrice = (fetch: any): Promise<any> =>
     .then(res => res.json())
     .catch(err => console.error(err))
 
-export const fetchUserDetails = (fetch: any, parsedToken: string, hostName: string): Promise<any> =>
-  fetch(
-    `http${global.window ? 's' : ''}://${config.getApiURL(hostName)}/auth`,
-    {
-      method: 'get',
-      headers: {
-        Accept: 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'X-Auth-Token': `Bearer ${parsedToken}`,
-      },
-    }
-  )
-    .then(res => res.json())
-    .catch(err => console.error(err))
-
 export const FETCH_ETH_USD_PRICE: string = 'FETCH_ETH_USD_PRICE'
 
 export const SET_USER_DETAILS: string = 'SET_USER_DETAILS'
@@ -216,6 +205,8 @@ export const SET_USER_ID: string = 'SET_USER_ID'
 export const TOGGLE_MODAL: string = 'TOGGLE_MODAL'
 
 export const FETCH_USER_DETAILS: string = 'FETCH_USER_DETAILS'
+
+export const SET_NAVCOLOR_OVERRIDE: string = 'SET_NAVCOLOR_OVERRIDE'
 
 export const HIDE_INTRO_BANNER: string = 'HIDE_INTRO_BANNER'
 
@@ -264,6 +255,11 @@ export const setHostNameAction = (payload: SetHostNamePayload): SetHostNameActio
   payload,
 })
 
+export const setNavcolorOverrideAction = (payload: SetNavcolorOverridePayload): SetNavcolorOverrideAction => ({
+  type: SET_NAVCOLOR_OVERRIDE,
+  payload,
+})
+
 export const toggleModalAction = ({
   modalTitle,
   modalChildren,
@@ -287,11 +283,21 @@ export const ethUsdPriceEpic = (action$: Observable<FetchEthUsdPriceAction>, _: 
     .map(({ USD }) => USD)
     .map(price => setEthUsdPriceAction({ price }))
 
-export const userDetailsEpic = (action$: Observable<FetchUserDetailsAction>, { getState }: any, { fetch }: Dependencies) =>
+export const userDetailsEpic = (
+  action$: Observable<FetchUserDetailsAction>,
+  { getState }: any,
+  { fetch, apolloClient }: Dependencies
+) =>
   action$
     .ofType(FETCH_USER_DETAILS)
     .take(1)
-    .flatMap(({ payload: { parsedToken } }) => fetchUserDetails(fetch, parsedToken, getState().app && getState().app.hostName))
+    .mergeMap(({ payload: { parsedToken } }) =>
+      apolloClient.query({
+        query: getMyProfile,
+        variables: {},
+      })
+    )
+    .map(({ data: { getMyProfile } }) => getMyProfile)
     .map(user => setUserDetailsAction(user))
 
 export const showNotificationEpic = (
@@ -349,9 +355,11 @@ const initialState: State = {
   showIntroBanner: true,
   funds: 0,
   hostName: undefined,
+  navcolorOverride: null,
 }
 
 const handlers = {
+  [SET_NAVCOLOR_OVERRIDE]: (state: State, action: Action) => ({ ...state, navcolorOverride: action.payload }),
   [SHOW_NOTIFICATION]: (state: State, action: Action) => state,
   [SHOW_CONFIRMATION_MODAL]: (state: State, action: Action) => state,
   [SET_ETH_USD_PRICE]: (state: State, action: Action) => {
@@ -391,10 +399,6 @@ const handlers = {
         onCancel: () => {},
         footer: null,
       },
-  [SET_WALLET_AVAILABLE_FUNDS]: (state: State, action: Action) => ({
-    ...state,
-    user: { ...state.user, funds: action.payload.funds },
-  }),
 }
 
 export default createReducer(initialState, handlers)

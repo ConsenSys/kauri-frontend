@@ -1,0 +1,11 @@
+[ignore]
+.*/node_modules/.*
+[lints]
+all=warn
+[options]
+include_warnings=true
+[libs]
+flow-typed
+../kauri-web/graphql-export.flow.js
+../kauri-web/flow-typed
+[include]

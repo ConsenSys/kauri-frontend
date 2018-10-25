@@ -10,6 +10,7 @@ type Props = {
     searchArticles?: {
       content: Array<?ArticleDTO>,
     },
+    getAllCuratedList: ?Array<CuratedListDTO>
   },
   hostName: string,
   routeChangeAction: string => void,
@@ -61,7 +62,7 @@ class Homepage extends Component<Props> {
 
     const { getAllCuratedList } = this.props.data
 
-    const pageTitle = 'Learn to build on Ethereum with Kauri';
+    const pageTitle = 'Learn to Build on Ethereum With Kauri';
 
     return (
       <ContentContainer>
@@ -72,12 +73,12 @@ class Homepage extends Component<Props> {
           <link rel='canonical' href={`https://${this.props.hostName}`} />
         </Helmet>
         <HomePageHeader>
-          <KauriTitle>Learn to build on Ethereum with Kauri</KauriTitle>
-          <KauriDescription>Articles, tutorials, Documentation and best practices</KauriDescription>
+          <KauriTitle>{pageTitle}</KauriTitle>
+          <KauriDescription>Articles, Tutorials, Documentation and Best Practices</KauriDescription>
           <ArticleSearchbar />
         </HomePageHeader>
-        {getAllCuratedList.map(i => (
-          <CuratedList routeChangeAction={this.props.routeChangeAction} key={i.id} content={i} />
+        {getAllCuratedList.map(curatedList => (
+          <CuratedList routeChangeAction={this.props.routeChangeAction} key={curatedList.id} content={curatedList} />
         ))}
       </ContentContainer>
     )

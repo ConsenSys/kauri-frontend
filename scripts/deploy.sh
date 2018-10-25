@@ -22,6 +22,9 @@ DOCKER_PULL_COMMAND='docker pull'
 if [ "${TARGET_ENV}" == "uat" ]; then
   DOCKERFILE=Dockerfile-rinkeby
   DOCKER_PULL_COMMAND="${DOCKER_PULL_COMMAND} ${BUILD_TAG}/kauri-contract-abis:latest-uat"
+elif [ "${TARGET_ENV}" == "dev2" ]; then
+  DOCKERFILE=Dockerfile-dev2
+  DOCKER_PULL_COMMAND="${DOCKER_PULL_COMMAND} ${BUILD_TAG}/kauri-contract-abis:latest-dev2"
 else
   DOCKERFILE=Dockerfile
   DOCKER_PULL_COMMAND="${DOCKER_PULL_COMMAND} ${BUILD_TAG}/kauri-contract-abis:latest-dev"
@@ -35,8 +38,8 @@ fi
 
 # Build docker image
 cd ..
-BUILD_TAG_VERSION="${BUILD_TAG}/flow-frontend:${TAG}"
-BUILD_TAG_LATEST="${BUILD_TAG}/flow-frontend:latest-${TARGET_ENV}"
+BUILD_TAG_VERSION="${BUILD_TAG}/kauri-frontend:${TAG}"
+BUILD_TAG_LATEST="${BUILD_TAG}/kauri-frontend:latest-${TARGET_ENV}"
 docker build -t $BUILD_TAG_VERSION -f $DOCKERFILE .
 if [ $? -ne 0 ]; then
   exit 1

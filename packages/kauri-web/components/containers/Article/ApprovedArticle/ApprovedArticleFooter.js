@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Divider } from 'antd'
 import DatePosted from '../../../common/DatePosted'
 const config = require('../../../../config').default
 
@@ -16,7 +15,7 @@ type Props = {
 
 const ArticleFooter = styled.section`
   padding: 0 ${props => props.theme.padding};
-  margin-bottom: 30px;
+  margin-bottom: ${props => props.theme.space[3]}px;
 `
 
 const Details = styled.div`
@@ -87,6 +86,16 @@ const IPFSIcon = () => (
   </svg>
 )
 
+const Divider = styled.div`
+  width: ${props => props.width || '950px'};
+  background-color: ${props => props.theme.colors['divider']};
+  height: 2px;
+  margin: ${props => props.theme.space[3]}px 0px;
+  @media(max-width: 950px) {
+    width: 100%;
+  }
+`;
+
 export default ({ username, date_updated, type, metadata, content_hash, hostName }: Props) => (
   <ArticleFooter>
     <Divider />
@@ -96,7 +105,7 @@ export default ({ username, date_updated, type, metadata, content_hash, hostName
           <IPFSContentAttribution>
             {/* (Content)[a href='ipfs content hash'] is (CC-BY-SA 4.0)[a href='actual detail of the license link'] Licensed */}
             <IPFSIcon />
-            <a href={`https://${config.getApiURL(hostName)}:443/ipfs/${content_hash}`}>Content</a>
+            <a href={`${hostName}:443/ipfs/${content_hash}`}>Content</a>
             <span> is</span>
             <a
               href={(metadata && metadata.LICENSE_URL) || 'https://creativecommons.org/licenses/by-sa/4.0/'}

@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kauri-admin
+  labels:
+    app: kauri-admin
+spec:
+  selector:
+    matchLabels:
+      app: kauri-admin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: kauri-admin
+    spec:
+      containers:
+      - name: kauri-admin
+        image: gcr.io/kauri-197812/kauri-admin:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          protocol: TCP

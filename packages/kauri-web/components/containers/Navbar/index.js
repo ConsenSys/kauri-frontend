@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { routeChangeAction } from '../../../lib/Module'
 
 const mapStateToProps = (state, ownProps) => ({
-  userId: state.app.userId,
+  userId: state.app.user && state.app.user.id,
   user: state.app.user,
 })
 

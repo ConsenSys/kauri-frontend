@@ -17,6 +17,7 @@ module Styles = {
         background(white),
         marginTop(px(15)),
         selector("> div:not(:last-child)", [marginBottom(px(5))]),
+        selector("> *", [cursor(`pointer)]),
         unsafe("boxShadow", "rgba(0, 0, 0, 0.1) 0px 2px 4px"),
         borderRadius(px(4)),
       ])

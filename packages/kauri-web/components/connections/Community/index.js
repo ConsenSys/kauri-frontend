@@ -1,19 +1,26 @@
-import { compose } from 'react-apollo'
+import View from './View'
 import { connect } from 'react-redux'
-import { routeChangeAction } from '../../../lib/Module'
-import View from './Community.bs'
+import { graphql, compose } from 'react-apollo'
+import { getCommunity } from '../../../queries/Community'
+import withLoading from '../../../lib/with-loading'
+import withApolloError from '../../../lib/with-apollo-error'
 
-const mapStateToProps = (state, ownProps) => ({
-  ethUsdPrice: state.app.ethUsdPrice,
-  userId: state.app && state.app.userId,
+const mapStateToProps = state => ({
   hostName: state.app && state.app.hostName,
 })
 
 export default compose(
   connect(
     mapStateToProps,
-    {
-      routeChangeAction,
-    }
-  )
+    {}
+  ),
+  graphql(getCommunity, {
+    options: ({ category }) => ({
+      variables: {
+        id: category,
+      },
+    }),
+  }),
+  withLoading(),
+  withApolloError()
 )(View)

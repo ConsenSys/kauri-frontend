@@ -2,21 +2,25 @@
 external linkComponent: Link.linkComponent = "Link";
 
 [@bs.deriving abstract]
-type user = {
+type author = {
+  name: Js.Nullable.t(string),
   username: Js.Nullable.t(string),
-  user_id: string,
+  avatar: Js.Nullable.t(string),
+  id: string,
 };
 
 [@bs.deriving abstract]
 type article = {
-  article_id: string,
-  date_created: string,
-  subject: string,
-  text: string,
-  imageURL: string,
-  user,
-  profileImage: string,
-  article_version: int,
+  attributes: Js.Nullable.t({. "background": Js.Nullable.t(string)}),
+  id: string,
+  authorId: string,
+  datePublished: string,
+  title: string,
+  content: string,
+  imageURL: Js.Nullable.t(string),
+  author,
+  profileImage: Js.Nullable.t(string),
+  version: int,
 };
 
 module Styles = {
@@ -38,6 +42,7 @@ module Styles = {
         flexDirection(row),
         justifyContent(center),
         flexWrap(`wrap),
+        selector("> div", [margin(px(15))]),
       ])
     );
 };
@@ -58,11 +63,22 @@ let make = (~name, ~description="", ~articles, _children) => {
             Js.Array.map(
               article => {
                 let (articleId, articleVersion) =
-                  article->(article_idGet, article_versionGet);
+                  article->(idGet, versionGet);
                 <ArticleCard
-                  key=article->article_idGet
-                  articleId
-                  articleVersion
+                  key=article->idGet
+                  id=articleId
+                  version=articleVersion
+                  /* Js.Nullable.t({. "background": Js.Nullable.t(string)}), */
+                  imageURL={
+                    switch (article->attributesGet->Js.Nullable.toOption) {
+                    | Some(attributes) =>
+                      switch (Js.Nullable.toOption(attributes##background)) {
+                      | Some(background) => Some(background)
+                      | None => None
+                      }
+                    | None => None
+                    }
+                  }
                   linkComponent={
                     (childrenProps, route) =>
                       <Link
@@ -70,24 +86,26 @@ let make = (~name, ~description="", ~articles, _children) => {
                         linkComponent
                         toSlug={
                           route |> Js.String.includes("article") ?
-                            Js.Nullable.return(article->subjectGet) :
+                            Js.Nullable.return(article->titleGet) :
                             Js.Nullable.null
                         }
                         route>
                         ...childrenProps
                       </Link>
                   }
-                  title=article->subjectGet
-                  content=article->textGet
-                  cardHeight=500
-                  imageURL=article->imageURLGet
+                  title=article->titleGet
+                  content=article->contentGet
+                  cardHeight=420
                   date=
                     article
-                    ->date_createdGet
+                    ->datePublishedGet
                     ->MomentRe.moment
                     ->MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)))
-                  username=article->userGet->usernameGet->Js.Nullable.toOption
-                  userId=article->userGet->user_idGet
+                  username=
+                    article->authorGet->usernameGet->Js.Nullable.toOption
+                  userAvatar=
+                    article->authorGet->avatarGet->Js.Nullable.toOption
+                  userId=article->authorIdGet
                 />;
               },
               articles,
@@ -102,7 +120,7 @@ let make = (~name, ~description="", ~articles, _children) => {
 [@bs.deriving abstract]
 type jsProps = {
   name: string,
-  description: string,
+  description: Js.Nullable.t(string),
   articles: Js.Nullable.t(array(article)),
 };
 
@@ -110,7 +128,11 @@ let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
       ~name=jsProps->nameGet,
-      ~description=jsProps->descriptionGet,
+      ~description=
+        Belt.Option.getWithDefault(
+          jsProps->descriptionGet |> Js.Nullable.toOption,
+          "",
+        ),
       ~articles=jsProps |> articlesGet |> Js.Nullable.toOption,
       [||],
     )

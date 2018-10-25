@@ -29,6 +29,8 @@ module Styles = {
         flex(1),
         flexWrap(wrap),
         paddingBottom(px(0)),
+        unsafe("padding", "0px calc((100vw - 1280px) / 2)"),
+        selector("> div", [margin(px(15))]),
       ])
     );
   let sectionTitle =
@@ -37,7 +39,7 @@ module Styles = {
 
 let component = ReasonReact.statelessComponent("Community");
 
-let renderArticleCards = (~response) =>
+let renderArticleCards = (~response, ~id, ~avatar, ~name) =>
   switch (response##searchArticles |? (x => x##content)) {
   | Some(content) =>
     (
@@ -51,15 +53,15 @@ let renderArticleCards = (~response) =>
              title,
              content,
              date,
-             username,
-             userId,
+             background,
            } =
              make(article);
            <ArticleCard
              key
-             articleId
-             articleVersion
-             cardHeight=500
+             id=articleId
+             version=articleVersion
+             cardHeight=420
+             imageURL={Js.Nullable.toOption(background)}
              linkComponent=(
                (childrenProps, route) =>
                  <Link useAnchorTag=true linkComponent route>
@@ -69,8 +71,10 @@ let renderArticleCards = (~response) =>
              title
              content
              date
-             username={Some(username)}
-             userId
+             username={Some(name)}
+             userAvatar=avatar
+             userId=id
+             resourceType=`Community
            />;
          })
     )
@@ -78,129 +82,54 @@ let renderArticleCards = (~response) =>
   | None => <p> "No articles found boo"->ReasonReact.string </p>
   };
 
-let make = (~category, ~hostName, _children) => {
+let make = (~id, ~category, ~avatar, ~hostName, ~website, ~name, _children) => {
   ...component,
   render: _self => {
     open Article_Queries;
-    let tabNames = [|"all", "general", "tutorial"|];
+    let articlesQuery = SearchCommunityArticles.make(~category, ());
 
     <div className=Styles.container>
       <ScrollToTopOnMount />
       <CommunityHeader>
-        <CommunityProfile
-          community=category
-          website=
-            themeConfig
-            ->ThemeConfig.getCommunityConfig(category)
-            ->ThemeConfig.homepageURLGet
-          hostName
-        />
+        <CommunityProfile id avatar community=name website hostName />
       </CommunityHeader>
-      BasicTabs.(
-        <Tabs
-          defaultTabName={tabNames[0]}
-          tabs={
-            (setCurrentTabName, currentTabName) => {
-              let articlesCountQuery =
-                switch (currentTabName) {
-                | "all" => CommunityArticlesCount.make(~category, ())
-                | _ => CommunityArticlesCount.make(~category, ())
-                };
-
-              <TabList>
-                <Tab setCurrentTabName currentTabName name={tabNames[0]}>
-                  "All"->String.uppercase->ReasonReact.string
-                </Tab>
-                <Tab setCurrentTabName currentTabName name={tabNames[1]}>
-                  "General Articles"->String.uppercase->ReasonReact.string
-                </Tab>
-                <Tab setCurrentTabName currentTabName name={tabNames[2]}>
-                  "Tutorials"->String.uppercase->ReasonReact.string
-                </Tab>
-                <PullRight>
-                  <Badge>
-                    <CommunityArticlesCountQuery
-                      variables=articlesCountQuery##variables>
-                      ...{
-                           ({result}) =>
-                             switch (result) {
-                             | Loading => <Loading />
-                             | Error(error) =>
-                               <div>
-                                 {ReasonReact.string(error##message)}
-                               </div>
-                             | Data(response) =>
-                               let totalArticles =
-                                 response
-                                 ->Article_Resource.articlesCountGet
-                                 ->string_of_int;
-                               (totalArticles ++ " Total Articles")
-                               ->String.uppercase
-                               ->ReasonReact.string;
-                             }
-                         }
-                    </CommunityArticlesCountQuery>
-                  </Badge>
-                </PullRight>
-              </TabList>;
-            }
-          }
-          content={
-            currentTabName => {
-              let articlesQuery =
-                switch (currentTabName) {
-                | "all" => SearchCommunityArticles.make(~category, ())
-                | _ =>
-                  SearchCommunityArticles.make(
-                    ~category,
-                    ~sub_category=currentTabName,
-                    (),
-                  )
-                };
-
-              <PanelList>
-                {
-                  tabNames
-                  ->Belt.Array.map(name =>
-                      <Panel key=name name currentTabName>
-                        <SearchCommunityArticlesQuery
-                          variables=articlesQuery##variables>
-                          ...{
-                               ({result}) =>
-                                 switch (result) {
-                                 | Loading => <Loading />
-                                 | Error(error) =>
-                                   <div>
-                                     {ReasonReact.string(error##message)}
-                                   </div>
-                                 | Data(response) =>
-                                   <section className=Styles.articlesContainer>
-                                     {renderArticleCards(~response)}
-                                   </section>
-                                 }
-                             }
-                        </SearchCommunityArticlesQuery>
-                      </Panel>
-                    )
-                  |> ReasonReact.array
-                }
-              </PanelList>;
-            }
-          }
-        />
-      )
+      <SearchCommunityArticlesQuery variables=articlesQuery##variables>
+        ...{
+             ({result}) =>
+               switch (result) {
+               | Loading => <Loading />
+               | Error(error) =>
+                 <div> {ReasonReact.string(error##message)} </div>
+               | Data(response) =>
+                 <section className=Styles.articlesContainer>
+                   {renderArticleCards(~response, ~id, ~avatar, ~name)}
+                 </section>
+               }
+           }
+      </SearchCommunityArticlesQuery>
     </div>;
   },
 };
 
 [@bs.deriving abstract]
 type jsProps = {
-  userId: string,
+  id: string,
   category: string,
   hostName: string,
+  website: string,
+  avatar: string,
+  name: string,
 };
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~category=jsProps->categoryGet, ~hostName=jsProps->hostNameGet, [||])
+    make(
+      ~id=jsProps->idGet,
+      ~category=jsProps->categoryGet,
+      ~hostName=jsProps->hostNameGet,
+      ~website=jsProps->websiteGet,
+      ~avatar=jsProps->avatarGet,
+      ~name=jsProps->nameGet,
+      [||],
+    )
   );
