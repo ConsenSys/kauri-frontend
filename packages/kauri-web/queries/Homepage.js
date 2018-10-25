@@ -1,114 +1,39 @@
+// @flow
 import gql from 'graphql-tag'
 
 export const HomePageQuery = gql`
-  query getAllCuratedList {
-    getAllCuratedList {
-      id
+query getAllCuratedList {
+  getAllCuratedList  {
+    id,
+    name,
+    description,
+    featured,
+    dateCreated,
+    owner {
+      id,
       name
-      description
-      owner_id
-      featured
-      header_id {
-        type
-        id
-      }
-      header {
-        ... on TopicDTO {
-          id
-          type
-        }
-
-        ... on CollectionDTO {
-          id
-          type
-          name
-          description
-          date_created
-          background
-          owner {
-            user_id
-            username
-          }
-        }
-
-        ... on ArticleDTO {
-          article_id
-          type
-        }
-
-        ... on RequestDTO {
-          request_id
-          type
-        }
-      }
-      resource_id {
-        type
-        id
-      }
-      resources {
-        type
-        ... on RequestDTO {
-          request_id
-          user_id
-          user {
-            user_id
-            username
-          }
-          request_id
-          date_created
-          date_updated
-          bounty
-          subject
-          category
-          sub_category
-          short_description
-          text
-          status
-          total_vote
-          total_flag
-          total_submissions
-          is_flagged
-          metadata
-          comments {
-            comment_id
-            comment
-          }
-          content_hash
-          metadata
-        }
-        ... on TopicDTO {
-          id
-        }
-        ... on ArticleDTO {
-          article_id
-          article_version
-          user_id
-          user {
-            user_id
-            username
-          }
-          date_created
-          request_id
-          subject
-          tip
-          text
-        }
-        ... on CollectionDTO {
-          id
-          name
-          description
-          date_created
-          background
-          owner_id
-          sections {
-            article_id
-          }
-          owner {
-            user_id
-            username
-          }
-        }
-      }
+      username
+      avatar
+    },
+    header {
+      ...on ArticleDTO { id, version, title, content, dateCreated, datePublished, author { id, name, username avatar },
+        owner {
+          ...on PublicUserDTO { id, username, name, avatar }
+          ...on CommunityDTO { id, name, avatar }
+        } status, attributes, vote { totalVote } },
+      ...on CollectionDTO { id },
+      ...on CommunityDTO { id, name },
+      ...on PublicUserDTO { id} }
+    resources {
+      ...on ArticleDTO { resourceIdentifier {type, id}, id, version, title, content, dateCreated, datePublished, author { id, name, username avatar },
+        owner {
+          ...on PublicUserDTO { id, username, name, avatar }
+          ...on CommunityDTO { id, name, avatar }
+        } status, attributes, vote { totalVote } },
+      ...on CollectionDTO { id, resourceIdentifier {type, id} },
+      ...on CommunityDTO { id, name, resourceIdentifier {type, id} },
+      ...on PublicUserDTO { id, resourceIdentifier {type, id} }
     }
   }
+}
 `

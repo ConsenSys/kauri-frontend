@@ -1,3 +1,4 @@
+//@flow
 import View from './View.js'
 import { compose, withApollo } from 'react-apollo'
 import { connect } from 'react-redux'

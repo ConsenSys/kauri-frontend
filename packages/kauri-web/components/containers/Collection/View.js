@@ -1,21 +1,32 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { Helmet } from 'react-helmet'
+import slugify from 'slugify'
+import rake from 'rake-js'
+import R from 'ramda'
 import CollectionHeader from '../../../../kauri-components/components/Headers/CollectionHeader.bs'
 import CollectionSection from './CollectionSection.bs'
 import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
 import { Link } from '../../../routes'
-import { Helmet } from 'react-helmet'
-import slugify from 'slugify'
-import rake from 'rake-js'
 
 type Props = {
   data: {
-    collection?: CollectionDTO,
+    getCollection?: CollectionDTO,
   },
   routeChangeAction: string => void,
   hostName: string,
+  userId?: string,
 }
+
+export const Overlay = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: ${props => props.theme.colors.bgPrimary};
+  opacity: 0.8;
+  margin-top: -106px;
+`
 
 const ContentContainer = styled.div`
   display: flex;
@@ -30,17 +41,15 @@ const HeaderContainer = styled(ContentContainer)`
   margin-top: -76px;
   padding-top: 106px;
   padding-bottom: 50px;
-  box-shadow: inset 0px 0px 140px 120px rgba(0, 0, 0, 0.5);
   flex-wrap: wrap;
+  position: relative;
 `
 
-class CollectionPage extends Component<Props> {
-  constructor (props) {
-    super(props)
-    this.state = {
-      trianglify: null,
-    }
+class CollectionPage extends Component<Props, { trianglify: string }> {
+  state = {
+    trianglify: '',
   }
+
   componentDidMount () {
     const trianglify = require('trianglify')
     const trianglifyBg = trianglify({
@@ -57,34 +66,65 @@ class CollectionPage extends Component<Props> {
   }
 
   render () {
-    if (!this.props.data || !this.props.data.collection) return null
-    const { name, background, description, date_created, date_updated, owner, sections } = this.props.data.collection
-    const { routeChangeAction, hostName } = this.props
-    const extractedKeywords = rake(description, { language: 'english' })
-    const bg = background || this.state.trianglifyBg
-    const url = `https://${hostName.replace(/api\./g, '')}/collection/${this.props.id}/${slugify(name, { lower: true })}`;
+    if (!this.props.data || !this.props.data.getCollection) return null
+    const { id, name, background, description, dateCreated, owner, sections } = this.props.data.getCollection
+    const { userId, routeChangeAction, hostName } = this.props
+    const extractedKeywords = description ? rake(description, { language: 'english' }) : []
+    const bg = (background && background) || this.state.trianglifyBg
+    const url = `https://${hostName.replace(/api\./g, '')}/collection/${this.props.id}/${slugify(name, {
+      lower: true,
+    })}`
+
+    const resourceType = R.pipe(
+      R.path(['data', 'getCollection', 'owner', 'resourceIdentifier', 'type']),
+      R.toLower
+    )(this.props)
 
     return (
       <div>
         <Helmet>
           <title>{name} - Kauri</title>
-          <meta name='description' content={`${description.slice(0, 151)}...`} />
-          <meta name='keywords' content={extractedKeywords.map(i => i)} />
+          <meta name='description' content={`${description && description.slice(0, 151)}...`} />
+          <meta name='keywords' content={extractedKeywords.map(keyword => keyword)} />
           <link rel='canonical' href={url} />
+          <meta property="og:title" content={name} />
+          <meta property="og:site_name" content="kauri.io" />
+          <meta property="og:url" content={`https://${hostName}/article/${id}/${slugify(name, { lower: true })}`} />
+          <meta property="og:description" content={`${description && description.substring(0,100)}...`} />
+          <meta property="og:type" content="article" />
+          <meta property="og:image" content={bg} />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:site" ccontent={`https://${hostName}/article/${id}/${slugify(name, { lower: true })}`} />
+          <meta name="twitter:title" content={name} />
+          <meta name="twitter:description" content={`${description && description.substring(0,100)}...`} />
+          <meta name="twitter:creator" content="@kauri_io" />
+          <meta name="twitter:image" content={bg} />
         </Helmet>
         <ScrollToTopOnMount />
         <HeaderContainer background={bg}>
+          <Overlay />
           <CollectionHeader
+            id={id}
             name={name}
-            description={description}
-            updated={date_updated || date_created}
-            username={owner.username}
+            description={description || ''}
+            updated={dateCreated}
+            username={owner && owner.username}
+            ownerId={owner.id}
+            userId={userId || ''}
+            userAvatar={owner && owner.avatar}
             linkComponent={childrenProps => (
-              <Link useAnchorTag route={`/public-profile/${owner && owner.user_id}`}>
+              <Link
+                fullWidth={false}
+                useAnchorTag
+                href={
+                  resourceType === 'community'
+                    ? `/community/${owner && owner.id}`
+                    : `/public-profile/${owner && owner.id}`
+                }
+              >
                 {childrenProps}
               </Link>
             )}
-            userId={owner.user_id}
             url={url}
             profileImage={owner.profileImage}
             routeChangeAction={routeChangeAction}
@@ -92,12 +132,12 @@ class CollectionPage extends Component<Props> {
         </HeaderContainer>
         <ContentContainer>
           {sections &&
-            sections.map(i => (
+            sections.map(section => (
               <CollectionSection
-                name={i.name}
-                key={i.name}
-                description={i.description}
-                articles={i.articles}
+                key={section.name}
+                name={section.name}
+                description={section.description || ''}
+                articles={section.resources}
               />
             ))}
         </ContentContainer>

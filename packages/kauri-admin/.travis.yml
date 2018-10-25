@@ -1,0 +1,36 @@
+language: node
+sudo: required
+services:
+- docker
+branches:
+  only:
+  - master
+cache:
+  directories:
+  - "$HOME/google-cloud-sdk/"
+before_install:
+- openssl aes-256-cbc -K $encrypted_0c3cc9491184_key -iv $encrypted_0c3cc9491184_iv
+  -in credentials.tar.gz.enc -out credentials.tar.gz -d
+- export COMMITTER_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
+- export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
+- if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export
+  CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+- source /home/travis/google-cloud-sdk/path.bash.inc
+- gcloud --quiet version
+- gcloud --quiet components update
+- gcloud --quiet components update kubectl
+- tar -xzf credentials.tar.gz
+- mkdir -p lib
+- gcloud auth activate-service-account --key-file client-secret.json
+jobs:
+  include:
+  - stage: deploy
+    install:
+    - cd kauri-ops
+    - source env_setup.sh --config-file config/config-uat.json
+    - cd ..
+    - gcloud config set project $GOOGLE_PROJECT_ID
+    - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
+    - kubectl config set-context $(kubectl config current-context) --namespace=${TARGET_ENV}
+    script:
+    - "./deploy.sh"

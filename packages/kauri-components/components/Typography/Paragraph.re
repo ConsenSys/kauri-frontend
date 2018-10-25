@@ -7,6 +7,7 @@ module Styles = {
       margin2(~v=px(10), ~h=px(0)),
       fontWeight(400),
       color(hex(colorProp)),
+      unsafe("wordBreak", "break-word"),
     ];
 
   let paragraph = (~colorProp, ~sizeProp) =>
@@ -15,7 +16,7 @@ module Styles = {
 
 let getLineClamp = (~text, ~cardHeight) =>
   switch (text, cardHeight) {
-  | (text, cardHeight) when String.length(text) > 65 && cardHeight <= 290 =>
+  | (text, cardHeight) when Js.String.length(text) > 65 && cardHeight <= 290 =>
     (text |> Js.String.substring(~from=0, ~to_=65)) ++ "..."
   | (text, _) => text
   };
@@ -23,7 +24,7 @@ let getLineClamp = (~text, ~cardHeight) =>
 let make = (~cardHeight=290, ~text, ~color="1E2428", ~size=14, _children) => {
   ...component,
   render: _self =>
-    <div className=(Styles.paragraph(~colorProp=color, ~sizeProp=size))>
-      (getLineClamp(~cardHeight, ~text) |> ReasonReact.string)
+    <div className={Styles.paragraph(~colorProp=color, ~sizeProp=size)}>
+      {getLineClamp(~cardHeight, ~text) |> ReasonReact.string}
     </div>,
 };

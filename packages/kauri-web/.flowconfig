@@ -1,8 +1,10 @@
 [ignore]
 .*/node_modules/.*
+.*\.bs.js.*
 [lints]
 all=warn
 [options]
+module.system.node.resolve_dirname=node_modules
 include_warnings=true
 [libs]
 graphql-export.flow.js
@@ -10,3 +12,5 @@ flow-typed
 [include]
 graphql-export.flow.js
 node_modules/graphql-tag/index.js.flow
+../kauri-components/components/**/.*
+flow-typed

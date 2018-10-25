@@ -6,7 +6,9 @@ import { compose, graphql } from 'react-apollo'
 import withLoading from '../../../lib/with-loading'
 
 const mapStateToProps = (state, ownProps) => {
-  return {}
+  return {
+    userId: state.app && state.app.user && state.app.user.id,
+  }
 }
 
 export default compose(

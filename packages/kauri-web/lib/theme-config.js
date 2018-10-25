@@ -1,6 +1,8 @@
 // @flow
 
 export const metamask = {
+  id: 'metamask',
+  name: 'Metamask',
   primaryColor: '#93949D',
   borderColor: '#93949D',
   homepageURL: 'https://metamask.io',
@@ -14,6 +16,8 @@ export const metamask = {
 // }
 
 export const uport = {
+  id: 'uport',
+  name: 'uPort',
   primaryColor: '#5147c3',
   borderColor: '#5147c3',
   homepageURL: 'https://uport.me',
@@ -21,6 +25,8 @@ export const uport = {
 }
 
 export const kauri = {
+  id: 'kauri',
+  name: 'Kauri',
   primaryColor: '#0ba986',
   borderColor: '#0ba986',
   homepageURL: 'https://www.kauri.io',
@@ -28,6 +34,8 @@ export const kauri = {
 }
 
 export const aragon = {
+  id: 'aragon',
+  name: 'Aragon',
   primaryColor: '#1D1F1F',
   borderColor: '#1D1F1F',
   homepageURL: 'https://aragon.one',
@@ -35,6 +43,8 @@ export const aragon = {
 }
 
 export const dharma = {
+  id: 'dharma',
+  name: 'Dharma',
   primaryColor: '#0F2224',
   borderColor: '#0F2224',
   homepageURL: 'https://dharma.io',
@@ -42,6 +52,8 @@ export const dharma = {
 }
 
 export const ens = {
+  id: 'ens',
+  name: 'ENS',
   primaryColor: '#55A558',
   borderColor: '#55A558',
   homepageURL: 'https://ens.domains/',
@@ -49,6 +61,8 @@ export const ens = {
 }
 
 export const makerdao = {
+  id: 'makerdao',
+  name: 'MakerDAO',
   primaryColor: '#5A6876',
   borderColor: '#5A6876',
   homepageURL: 'https://makerdao.com/',
@@ -56,6 +70,8 @@ export const makerdao = {
 }
 
 export const remix = {
+  id: 'remix',
+  name: 'Remix',
   primaryColor: '#b3b3b3',
   borderColor: '#b3b3b3',
   homepageURL: 'https://github.com/ethereum/remix',
@@ -63,6 +79,8 @@ export const remix = {
 }
 
 export const toshi = {
+  id: 'toshi',
+  name: 'Toshi',
   primaryColor: '#000000',
   borderColor: '#000000',
   homepageURL: 'https://www.toshi.org/',
@@ -70,6 +88,8 @@ export const toshi = {
 }
 
 export const zeppelin = {
+  id: 'zeppelin',
+  name: 'Zeppelin',
   primaryColor: '#3566B2',
   borderColor: '#3566B2',
   homepageURL: 'https://zeppelinos.org/',
@@ -90,7 +110,7 @@ export const categories = Object.keys({
   zeppelin,
 })
 
-const themeConfig = {
+const colors = {
   padding: 'calc((100vw - 1280px) / 2)',
   paddingTop: '2.5em',
   primaryColor: '#0BA986',
@@ -103,6 +123,39 @@ const themeConfig = {
   disabledBackgroundColor: '#D6D6D6',
   contentBorder: '1px solid rgba(30, 36, 40, 0.19)',
   errorRedColor: '#C03030',
+  bgPrimary: '#1E2428',
+  bgSecondary: '#1E3D3B',
+  textPrimary: '#1E2428',
+  primary: '#0BA986',
+  primaryDark: '#11856B',
+  secondary: '#11856B',
+  secondaryBlue: 'rgb(81, 123, 162, 1)',
+  secondaryBlueDark: 'rgb(81, 118, 142, 1)',
+  white: '#FFFFFF',
+  divider: '#EBEBEB',
+  borderTextArea: '#979797',
+}
+
+const fontSizes = [ 11, 13, 14, 16, 18, 20, 22, 28 ]
+
+const fontWeight = [ 300, 'normal', 500, 700 ]
+
+const breakpoints = [ '500px', '52em', '64em' ]
+
+const space = [
+  0, 10, 15, 30, 60,
+]
+
+const themeConfig = {
+  space,
+  fontSizes,
+  fontWeight,
+  breakpoints,
+  colors,
+  bg: colors,
+  ...colors, // TODO: Deprecate across the app
+  padding: 'calc((100vw - 1280px) / 2)',
+  paddingTop: '2.5em',
   metamask,
   // ethereum,
   uport,

@@ -104,7 +104,12 @@ export default ComposedComponent =>
       if (parsedToken) {
         try {
           const sourceAction = fetchUserDetailsAction({ parsedToken })
-          const setUserDetailsAction = await dispatchEpic(userDetailsEpic, sourceAction, {}, { fetch })
+          const setUserDetailsAction = await dispatchEpic(
+            userDetailsEpic,
+            sourceAction,
+            {},
+            { fetch, apolloClient: apollo }
+          )
           redux.dispatch(setUserDetailsAction)
         } catch (err) {
           console.error('Something wrong happened with the user JWT: ', err)
@@ -138,7 +143,11 @@ export default ComposedComponent =>
         const app = (
           <Provider store={redux}>
             <ApolloProvider client={apollo}>
-              <ComposedComponent url={url} {...composedInitialProps} />
+              <LocaleProvider locale={enUS}>
+                <ThemeProvider theme={themeConfig}>
+                  <ComposedComponent url={url} {...composedInitialProps} />
+                </ThemeProvider>
+              </LocaleProvider>
             </ApolloProvider>
           </Provider>
         )

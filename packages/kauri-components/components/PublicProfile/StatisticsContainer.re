@@ -16,15 +16,49 @@ type statistics = {
   count: int,
 };
 
-let make = (~statistics, _children) => {
+type pageType =
+  | CollectionPage;
+
+let make = (~statistics, ~pageType=?, _children) => {
   ...component,
   render: _self =>
     <div className=Styles.container>
-      (
+      {
         Belt.Array.map(statistics, statistic =>
-          <StatisticCount name=statistic##name count=statistic##count />
+          <StatisticCount
+            pageType
+            key=statistic##name
+            name=statistic##name
+            count=statistic##count
+          />
         )
         |> ReasonReact.array
-      )
+      }
     </div>,
 };
+
+type statistic = {
+  .
+  "name": string,
+  "count": int,
+};
+
+[@bs.deriving abstract]
+type jsProps = {
+  statistics: array(statistic),
+  pageType: Js.Nullable.t(string),
+};
+
+let default =
+  ReasonReact.wrapReasonForJs(
+    ~component,
+    jsProps => {
+      let pageType =
+        switch (jsProps->pageTypeGet->Js.Nullable.toOption) {
+        | Some(_) => Some(CollectionPage)
+        | None => None
+        };
+      let statistics = jsProps->statisticsGet;
+      make(~statistics, ~pageType, [||]);
+    },
+  );

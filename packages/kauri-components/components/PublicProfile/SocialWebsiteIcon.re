@@ -10,7 +10,7 @@ let make = (~socialURL, ~brand, ~height, _children) => {
   ...component,
   render: _self => {
     let height = calcHeight(height);
-    <a href=socialURL>
+    <a target="_blank" href=socialURL>
       <img
         style=(ReactDOMRe.Style.make(~filter="invert(100%)", ()))
         height

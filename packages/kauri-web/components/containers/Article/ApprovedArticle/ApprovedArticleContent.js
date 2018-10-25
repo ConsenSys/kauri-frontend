@@ -14,8 +14,8 @@ import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markd
 import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
-
-const config = require('../../../../config').default
+import userIdTrim from '../../../../lib/userid-trim'
+import CheckpointArticles from '../../CheckpointArticles'
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
@@ -45,8 +45,10 @@ const ApprovedArticleHelmet = ({ blocks, contentState }) => {
 
   let description = blocks.filter(({ text }) => text.length >= 40)
   description = description.length
-    ? description.find(block => block.type.includes('unstyled')) && description.find(block => block.type.includes('unstyled')).text
-    : blocks.find(block => block.type.includes('unstyled')) && blocks.find(block => block.type.includes('unstyled')).text
+    ? description.find(block => block.type.includes('unstyled')) &&
+      description.find(block => block.type.includes('unstyled')).text
+    : blocks.find(block => block.type.includes('unstyled')) &&
+      blocks.find(block => block.type.includes('unstyled')).text
   description = description && description.length > 120 ? description.substring(0, 117) + '...' : description
   let imageEntityKey = contentState && contentState.getLastCreatedEntityKey()
   let image = parseInt(imageEntityKey) && contentState.getEntity(imageEntityKey).toJS()
@@ -64,24 +66,42 @@ export default ({
   text,
   username,
   userId,
+  ownerId,
+  authorId,
+  userAvatar,
   routeChangeAction,
   article_id,
   article_version,
   subject,
   address,
   hostName,
+  resourceType,
+  articleCheckpointed,
 }: {
   text?: string,
   username?: ?string,
-  userId?: ?string,
+  userAvatar?: ?string,
+  ownerId?: ?string,
+  authorId: string,
   routeChangeAction: string => void,
   article_id: string,
   subject?: string,
   article_version: number,
   address?: string,
   hostName: string,
+  resourceType: 'user' | 'community',
+  articleCheckpointed: boolean,
 }) => {
-  let editorState = typeof text === 'string' && JSON.parse(text)
+  let editorState = typeof text === 'string' && text[0] === '{' && JSON.parse(text)
+  if (!editorState) {
+    return (
+      <SubmitArticleFormContent>
+        <p>
+          <span>{text}</span>
+        </p>
+      </SubmitArticleFormContent>
+    )
+  }
   editorState =
     editorState && typeof editorState.markdown === 'string'
       ? editorState
@@ -99,11 +119,7 @@ export default ({
         .getBlocksAsArray()
         .map(block => block.toJS()))
 
-  const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
-
-  const canUpdateArticle = config.updateArticleWhitelistedAddresses.find(
-    whiteListedAddress => whiteListedAddress.toLowerCase() === (typeof address === 'string' && address.toLowerCase())
-  )
+  const outlineHeadings = blocks.filter(({ type }) => type.includes('header-one')).map(({ text }) => text)
 
   return (
     <SubmitArticleFormContent>
@@ -114,25 +130,41 @@ export default ({
       <ApprovedArticleDetails type='outline'>
         <Outline
           linkComponent={children => (
-            <Link useAnchorTag route={`/public-profile/${userId}`}>
+            <Link
+              useAnchorTag
+              href={resourceType === 'community' ? `/community/${ownerId}` : `/public-profile/${ownerId || authorId}`}
+            >
               {children}
             </Link>
           )}
           headings={outlineHeadings || []}
-          username={(typeof username === 'string' && username) || userId}
-          userId={userId}
+          username={username}
+          userId={(ownerId && userIdTrim(ownerId)) || (authorId && userIdTrim(authorId))}
+          userAvatar={userAvatar}
+          text={ownerId ? 'OWNER' : 'AUTHOR'}
           routeChangeAction={routeChangeAction}
         />
         <ArticleAction
           svgIcon={<UpdateArticleSvgIcon />}
           text={'Update Article'}
-          handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
+          handleClick={() =>
+            userId
+              ? routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)
+              : routeChangeAction(`/login?r=article/${article_id}/v${article_version}/update-article`)
+          }
         >
           Update article
         </ArticleAction>
         <ShareArticle
-          url={`${hostName.replace(/api\./g, '')}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
+          url={`${hostName.replace(/api\./g, '')}/article/${article_id}/v${article_version}/${slugify(subject, {
+            lower: true,
+          })}`}
           title={subject}
+        />
+        <CheckpointArticles
+          isOwner={ownerId === userId}
+          articleCheckpointed={!!articleCheckpointed}
+          pageType={'approved-article'}
         />
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>

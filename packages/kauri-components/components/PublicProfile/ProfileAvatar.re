@@ -34,7 +34,14 @@ module Styles = {
 
   let username =
     Css.(
-      style([color(hex("FFFFFF")), fontSize(px(24)), fontWeight(500)])
+      style([
+        color(hex("FFFFFF")),
+        fontSize(px(24)),
+        fontWeight(500),
+        maxWidth(px(800)),
+        overflow(`hidden),
+        textOverflow(`ellipsis),
+      ])
     );
 };
 
@@ -47,15 +54,15 @@ let getPageType = (pageType, username, avatarURL) =>
     <section className=Styles.rinkebyProfileAvatarContaienr>
       <div className=Styles.rinkebyProfileAvatar>
         <span className=Styles.userInitial>
-          (
+          {
             username->String.sub(0, 1)
             |> String.uppercase
             |> ReasonReact.string
-          )
+          }
         </span>
       </div>
       <span className=Styles.username>
-        (username |> String.lowercase |> ReasonReact.string)
+        {username |> String.lowercase |> ReasonReact.string}
       </span>
     </section>
   | (_, None, Some(avatarURL)) => <img src=avatarURL className=Styles.mask />

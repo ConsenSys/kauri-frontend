@@ -10,8 +10,11 @@ let make =
     (
       ~headings,
       ~username,
+      ~userId,
+      ~userAvatar,
       ~linkComponent=?,
       /* ~pageType,  */
+      ~text="OWNER",
       _children,
     ) => {
   ...component,
@@ -28,13 +31,23 @@ let make =
           </Vrroom.Fragment>
         }
       }
-      <OutlineHeader text="Author" />
+      <OutlineHeader text />
       {
         Belt.Option.mapWithDefault(
           linkComponent,
-          <UserWidgetSmall pageType=None username />,
+          <UserAvatar
+            username=username->Belt.Option.getWithDefault(userId)
+            userAvatar=userAvatar->Belt.Option.getWithDefault("")
+            userId
+          />,
           linkComponent =>
-          linkComponent(<UserWidgetSmall pageType=None username />)
+          linkComponent(
+            <UserAvatar
+              username=username->Belt.Option.getWithDefault(userId)
+              userAvatar=userAvatar->Belt.Option.getWithDefault("")
+              userId
+            />,
+          )
         )
       }
       <Separator marginY=20 direction="horizontal" color=LightGray />
@@ -44,9 +57,12 @@ let make =
 [@bs.deriving abstract]
 type jsProps = {
   headings: array(string),
-  username: string,
+  username: Js.Nullable.t(string),
+  userId: string,
+  userAvatar: Js.Nullable.t(string),
   linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
   pageType: Js.Nullable.t(string),
+  text: Js.Nullable.t(string),
 };
 let default =
   ReasonReact.wrapReasonForJs(
@@ -55,21 +71,33 @@ let default =
       let (
         headings,
         username,
+        userId,
+        userAvatar,
         linkComponent,
+        text,
         /* pageType */
       ) =
         jsProps
         ->(
             headingsGet,
             usernameGet,
+            userIdGet,
+            userAvatarGet,
             linkComponentGet,
+            textGet,
             /* pageTypeGet, */
           );
       /* let pageType = pageType->Js.Nullable.toOption; */
+      let text =
+        text->Js.Nullable.toOption->Belt.Option.getWithDefault("OWNER");
+
       make(
         ~headings,
-        ~username,
+        ~username=username |> Js.Nullable.toOption,
+        ~userAvatar=userAvatar |> Js.Nullable.toOption,
+        ~userId,
         ~linkComponent,
+        ~text,
         /* ~pageType, */
         [||],
       );

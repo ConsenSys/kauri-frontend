@@ -1,78 +1,179 @@
+// @flow
 import gql from 'graphql-tag'
+import { Article } from './Article'
 
-export const globalCollectionDetails = gql`
-  query collection($id: String) {
-    collection(id: $id) {
+export const Collection = gql`
+  fragment Collection on CollectionDTO {
+    id
+    name
+    description
+    background
+    dateCreated
+    owner {
       id
       name
-      background
-      date_updated
-      date_created
+      username
+      avatar
+    }
+    sections {
+      name
       description
+      resources {
+        ...Article
+      }
+    }
+    resourceIdentifier {
+      type
+      id
+    }
+  }
+
+  ${Article}
+`
+
+export const globalCollectionDetails = gql`
+  query getCollection($id: String) {
+    getCollection(id: $id) {
+      id
+      name
+      description
+      background
+      dateCreated
       owner {
-        user_id
+        id
+        name
         username
+        avatar
+        resourceIdentifier {
+          id
+          type
+        }
       }
       sections {
         name
         description
-        article_id
-        articles {
-          article_id
-          article_version
-          user {
-            user_id
-            username
+        resources {
+          ... on ArticleDTO {
+            authorId
+            id
+            version
+            title
+            content
+            dateCreated
+            datePublished
+            author {
+              id
+              name
+              username
+              avatar
+            }
+            status
+            attributes
+            vote {
+              totalVote
+            }
           }
-          date_created
-          request_id
-          status
-          tip
-          text
-          subject
         }
+      }
+      resourceIdentifier {
+        type
+        id
       }
     }
   }
 `
 
+export const getCollection = globalCollectionDetails
+
 export const getCollectionForAnalytics = gql`
   query getCollectionForAnalytics($id: String) {
-    collection(id: $id) {
+    getCollection(id: $id) {
       id
       name
-      background
-      date_updated
-      date_created
+      dateCreated
       description
       owner {
-        user_id
-        username
+        id
+        name
       }
       sections {
         name
         description
-        article_id
-        articles {
-          article_id
-          article_version
-          user_id
-          request_id
-          date_created
-          date_updated
-          tip
-          status
-          subject
-          sub_category
-          category
-          content_hash
-          user {
-            user_id
-            username
+        ... on ArticleDTO {
+          id
+          title
+          version
+          authorId
+          author {
+            id
+            name
           }
-          metadata
+          datePublished
+          status
         }
+      }
+      resourceIdentifier {
+        type
+        id
       }
     }
   }
+`
+
+export const createCollection = gql`
+  mutation createCollection($name: String, $description: String, $background: String) {
+    createCollection(name: $name, description: $description, background: $background) {
+      hash
+    }
+  }
+`
+
+export const editCollection = gql`
+  mutation editCollection($id: String, $name: String, $description: String, $background: String) {
+    createCollection(id: $id, name: $name, description: $description, background: $background) {
+      hash
+    }
+  }
+`
+
+export const composeCollection = gql`
+  mutation composeCollection($id: String, $sections: [SectionDTOInput]) {
+    composeCollection(id: $id, sections: $sections) {
+      hash
+    }
+  }
+`
+export const getLatestCollections = gql`
+  query searchCollections ($size: Int = 12, $page: Int = 0) {
+    searchCollections(size: $size, page: $page, sort: "dateUpdated", dir: DESC) {
+      content {
+        ...Collection
+      }
+      isLast
+    }
+  }
+
+  ${Collection}
+`
+
+export const searchCollections = gql`
+  query searchCollections($filter: CollectionFilterInput) {
+    searchCollections(size: 10, filter: $filter) {
+      content {
+        ...Collection
+      }
+    }
+  }
+  ${Collection}
+`
+
+export const getCollectionsForUser = gql`
+  query searchCollections($filter: CollectionFilterInput) {
+    searchCollections(filter: $filter) {
+      content {
+        ...Collection
+      }
+    }
+  }
+  ${Collection}
 `

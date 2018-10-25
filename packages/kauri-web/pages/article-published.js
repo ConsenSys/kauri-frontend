@@ -9,7 +9,7 @@ class ArticleApprovedPage extends React.Component {
   render () {
     return (
       <App confirmationPage url={this.props.router}>
-        <ArticleApproved type='published' article_id={this.props.router.query.article_id} />
+        <ArticleApproved type='published' article_id={this.props.router.query.article_id} article_version={this.props.router.query.article_version} />
       </App>
     )
   }

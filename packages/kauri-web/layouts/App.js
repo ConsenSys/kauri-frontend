@@ -1,9 +1,11 @@
 import React from 'react'
-import { Layout, Modal } from 'antd'
+import { Layout } from 'antd'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import Navbar from '../components/containers/Navbar'
 import StyledFooter from '../components/containers/StyledFooter'
+import Modal from '../../kauri-components/components/Modal'
 
 const { Header, Content } = Layout
 export const menuHeaderHeight = 76
@@ -11,7 +13,7 @@ export const menuHeaderHeight = 76
 const StyledContent = styled(Content)`
   padding-top: 0px;
   min-height: calc(100vh - ${menuHeaderHeight}px);
-  background: #F7F7F7;
+  background: #f7f7f7;
 `
 
 const StyledHeader = styled(Header)`
@@ -21,25 +23,23 @@ const StyledHeader = styled(Header)`
   }
   line-height: ${menuHeaderHeight}px;
   min-height: ${menuHeaderHeight}px;
-  background-color: ${props => props.navcolor}
+  background-color: ${props => props.navcolorOverride || props.navcolor};
+  z-index: 10;
 `
 
 const mapStateToProps = (state, ownProps) => ({
-  modalOpen: state.app.modalOpen,
-  modalTitle: state.app.modalTitle,
-  modalChildren: state.app.modalChildren,
-  onOk: state.app.onOk,
-  onCancel: state.app.onCancel,
-  footer: state.app.footer,
+  isModalOpen: state.modal.isModalOpen,
+  navcolorOverride: state.app.navcolorOverride,
 })
 
 export default connect(mapStateToProps)(
-  ({ children, modalTitle, modalChildren, modalOpen, onOk, onCancel, footer, url, confirmationPage, navcolor }) => (
+  ({ children, url, confirmationPage, navcolor, navcolorOverride, isModalOpen }) => (
     <Layout className='layout'>
-      <Modal title={modalTitle} visible={modalOpen} onOk={onOk} onCancel={onCancel} footer={footer}>
-        {modalChildren}
-      </Modal>
-      <StyledHeader navcolor={navcolor}>
+      <Helmet>
+        <body className={isModalOpen ? 'overflow-hidden' : null} />
+      </Helmet>
+      <Modal />
+      <StyledHeader navcolor={navcolorOverride || navcolor}>
         <Navbar confirmationPage={confirmationPage} url={url} navcolor={navcolor} />
       </StyledHeader>
       <StyledContent>{children}</StyledContent>

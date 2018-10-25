@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { Icon } from 'antd'
 import { ActionBadge, ActionIcon } from '../../../common/ActionBadge'
 import GreenArrow from '../../../common/GreenArrow'
+import RejectArticleModal from './RejectArticleModal'
 
 const InReviewArticleActions = styled.section`
   display: flex;
@@ -39,49 +39,60 @@ export default ({
   request_id,
   status,
   tip,
-  isTopicOwner,
   isContributor,
+  isOwner,
   updateUnsubmittedArticle,
   publishArticle,
   approveArticle,
   rejectArticle,
-  preApproveArticle,
+  openModalAction,
+  closeModalAction,
 }: *) => (
   <InReviewArticleActions>
     <ActionBadge onClick={() => routeChangeAction('back')}>
       <GreenArrow direction='left' />
       <span>Go Back</span>
     </ActionBadge>
-    {status === 'IN_REVIEW' &&
-      isTopicOwner && (
-        <ActionBadge onClick={approveArticle}>
+    <PullRight>
+      {(status === 'IN_REVIEW' || status === 'DRAFT') &&
+        isContributor && (
+        <ActionBadge onClick={updateUnsubmittedArticle}>
           <ActionIcon />
-          <strong>APPROVE ARTICLE</strong>
+          <strong>{status === 'DRAFT' ? 'EDIT DRAFT' : 'UPDATE ARTICLE'}</strong>
         </ActionBadge>
       )}
-    {/* TODO: PUBLISH ARTICLE DIRECTLY IF CONTRIBUTOR + TOPIC OWNER */}
-    {status === 'APPROVED' &&
-      isContributor && (
+      {status === 'DRAFT' &&
+        isContributor && (
         <ActionBadge onClick={publishArticle}>
           <ActionIcon />
           <strong>{'PUBLISH ARTICLE'}</strong>
         </ActionBadge>
       )}
-    <PullRight>
-      {(status === 'IN_REVIEW' || status === 'DRAFT') &&
-        isContributor && (
-          <ActionBadge onClick={updateUnsubmittedArticle}>
-            <ActionIcon />
-            <strong>{status === 'DRAFT' ? 'EDIT DRAFT' : 'UPDATE ARTICLE'}</strong>
-          </ActionBadge>
-        )}
-      {status === 'IN_REVIEW' &&
-        isTopicOwner && (
-          <ActionBadge onClick={rejectArticle}>
-            <ActionIcon />
-            <strong>REJECT ARTICLE</strong>
-          </ActionBadge>
-        )}
+      {status === 'PENDING' &&
+        isOwner && (
+        <ActionBadge
+          onClick={() =>
+            openModalAction({
+              children: (
+                <RejectArticleModal
+                  closeModalAction={() => closeModalAction()}
+                  confirmModal={cause => rejectArticle(cause)}
+                />
+              ),
+            })
+          }
+        >
+          <ActionIcon />
+          <strong>REJECT ARTICLE</strong>
+        </ActionBadge>
+      )}
+      {status === 'PENDING' &&
+        isOwner && (
+        <ActionBadge onClick={approveArticle}>
+          <ActionIcon />
+          <strong>APPROVE ARTICLE</strong>
+        </ActionBadge>
+      )}
     </PullRight>
   </InReviewArticleActions>
 )

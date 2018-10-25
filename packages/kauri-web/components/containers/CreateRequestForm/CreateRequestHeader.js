@@ -1,3 +1,5 @@
+//@flow
+
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { Select } from 'antd'
@@ -35,6 +37,7 @@ export const CreateRequestSecondaryHeader = styled.div`
   height: 163px;
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
   background-color: ${props => props.theme.primaryTextColor};
+  ${props => props.bg};
   ${props => props.type === 'article' && articleHeaderCss};
   @media (max-width: 500px) {
     padding: ${props => props.theme.paddingTop} 10px;

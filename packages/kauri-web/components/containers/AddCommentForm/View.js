@@ -46,7 +46,7 @@ const AddCommentButton = styled(Button)`
   ${props => props.disabled && disabledButtonCss};
 `
 
-type Props = any
+type Props = any;
 
 class AddCommentForm extends React.Component<Props> {
   hasErrors = fieldsError => Object.keys(fieldsError).some(field => fieldsError[field])

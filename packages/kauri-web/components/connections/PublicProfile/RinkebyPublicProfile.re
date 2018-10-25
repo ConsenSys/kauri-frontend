@@ -50,21 +50,24 @@ let renderArticleCards = (~response) =>
              title,
              content,
              date,
+             userAvatar,
              username,
              userId,
+             background,
            } =
              make(article);
            <ArticleCard
              key
-             pageType=ArticleCard.RinkebyPublicProfile
-             articleId
-             articleVersion
-             cardHeight=500
+             id=articleId
+             version=articleVersion
+             cardHeight=420
              title
              content
              date
              username={Some(username)}
+             userAvatar
              userId
+             imageURL={Js.Nullable.toOption(background)}
              linkComponent=(
                (childrenProps, route) =>
                  <Link
