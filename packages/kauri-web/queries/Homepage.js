@@ -66,19 +66,7 @@ export const HomePageQuery = gql`
             username
             avatar
           }
-          owner {
-            ... on PublicUserDTO {
-              id
-              username
-              name
-              avatar
-            }
-            ... on CommunityDTO {
-              id
-              name
-              avatar
-            }
-          }
+
           status
           attributes
           vote {
@@ -94,6 +82,12 @@ export const HomePageQuery = gql`
           resourceIdentifier {
             type
             id
+          }
+          owner {
+            id
+            username
+            name
+            avatar
           }
         }
         ... on CommunityDTO {
