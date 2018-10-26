@@ -110,6 +110,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           article_id={props.data.getArticle && props.data.getArticle.id}
           article_version={props.data.getArticle && props.data.getArticle.version}
           ownerId={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id}
+          status={R.path(['data', 'getArticle', 'status'])(props)}
           username={
             isCommunityOwned
               ? R.path(['data', 'getArticle', 'owner', 'name'])(props)

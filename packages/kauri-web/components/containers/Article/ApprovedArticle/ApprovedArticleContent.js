@@ -77,6 +77,7 @@ export default ({
   hostName,
   resourceType,
   articleCheckpointed,
+  status,
 }: {
   text?: string,
   username?: ?string,
@@ -91,6 +92,7 @@ export default ({
   hostName: string,
   resourceType: 'user' | 'community',
   articleCheckpointed: boolean,
+  status: ArticleStatus,
 }) => {
   let editorState = typeof text === 'string' && text[0] === '{' && JSON.parse(text)
   if (!editorState) {
@@ -161,11 +163,13 @@ export default ({
           })}`}
           title={subject}
         />
-        <CheckpointArticles
-          isOwner={ownerId === userId}
-          articleCheckpointed={!!articleCheckpointed}
-          pageType={'approved-article'}
-        />
+        {status === 'PUBLISHED' ?
+          <CheckpointArticles
+            isOwner={ownerId === userId}
+            articleCheckpointed={!!articleCheckpointed}
+            pageType={'approved-article'}
+          />
+        ): null}
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>
   )
