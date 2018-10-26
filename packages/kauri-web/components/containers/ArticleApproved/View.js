@@ -64,13 +64,9 @@ class ArticleApproved extends React.Component<Props> {
           date={moment(article.datePublished || article.dateCreated).format('D MMM YYYY')}
           title={article.title}
           content={article.content}
-          username={
-            type === 'drafted' ? article.author && article.author.name : article.owner && article.owner.username
-          }
-          userId={type === 'drafted' ? article.author && article.author.id : article.owner && article.owner.id}
-          userAvatar={
-            type === 'drafted' ? article.author && article.author.avatar : article.owner && article.owner.avatar
-          }
+          username={(article.owner && article.owner.username) || (article.author && article.author.username)}
+          userId={(article.owner && article.owner.id) || (article.author && article.author.id)}
+          userAvatar={(article.owner && article.owner.avatar) || (article.author && article.author.avatar)}
           imageURL={article.attributes && article.attributes.background}
           cardHeight={420}
           linkComponent={(childrenProps, route) => (
