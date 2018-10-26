@@ -163,13 +163,13 @@ export default ({
           })}`}
           title={subject}
         />
-        {status === 'PUBLISHED' ?
+        {status === 'PUBLISHED' ? (
           <CheckpointArticles
             isOwner={ownerId === userId}
             articleCheckpointed={!!articleCheckpointed}
             pageType={'approved-article'}
           />
-        ): null}
+        ) : null}
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>
   )
