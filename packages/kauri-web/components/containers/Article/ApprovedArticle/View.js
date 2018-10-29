@@ -73,8 +73,6 @@ class ApprovedArticle extends React.Component<Props, State> {
     })
     const hostName = `https://${props.hostName.replace(/api\./g, '')}`;
 
-    console.log(this.props);
-
     const resourceType = R.path(['data', 'getArticle', 'owner', 'resourceIdentifier', 'type'])(props)
     const isCommunityOwned = resourceType === 'COMMUNITY'
 
