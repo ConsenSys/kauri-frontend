@@ -52,11 +52,10 @@ export default compose(
     validationSchema: Yup.object().shape({
       name: Yup.string()
         .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
+        .max(100, 'Too Long!')
         .required('Required'),
       description: Yup.string()
         .min(2, 'Too Short!')
-        .max(50, 'Too Long!'),
     }),
     handleSubmit: (values: FormState, { props, setErrors, resetForm, setSubmitting }) => {
       const logIfDevelopment = value => process.env.NODE_ENV === 'development' && console.log(value)
