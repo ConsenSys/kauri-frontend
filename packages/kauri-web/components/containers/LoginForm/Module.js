@@ -102,7 +102,7 @@ export const registerEpic = (action$: Observable<RegisterAction>, store: any, { 
               showNotificationAction({
                 notificationType: 'success',
                 message: type === 'login' ? 'Login successful' : 'Registration successful',
-                description: 'Get those bounties!',
+                description: 'All set! Time to write an article!',
               })
             )
           )

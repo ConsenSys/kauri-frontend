@@ -45,7 +45,7 @@ describe.skip('login epic', () => {
           type: 'SHOW_NOTIFICATION',
           notificationType: 'success',
           message: 'Register success',
-          description: 'You have successfully been registered! Get those bounties!',
+          description: 'All set! Time to write an article!',
         },
         {
           type: 'ROUTE_CHANGE',
