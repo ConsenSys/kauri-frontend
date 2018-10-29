@@ -71,7 +71,7 @@ class ApprovedArticle extends React.Component<Props, State> {
       language: 'english',
       delimiters: ['#', '##', '###', '####', '\n', '\n\n'],
     })
-    const hostName = `https://${props.hostName}`
+    const hostName = `https://${props.hostName.replace(/api\./g, '')}`;
 
     const resourceType = R.path(['data', 'getArticle', 'owner', 'resourceIdentifier', 'type'])(props)
     const isCommunityOwned = resourceType === 'COMMUNITY'
@@ -81,10 +81,10 @@ class ApprovedArticle extends React.Component<Props, State> {
         <Helmet>
           <title>{title} - Kauri</title>
           <meta name='keywords' content={articleKeywords.map(i => i)} />
-          <link rel='canonical' href={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
+          <link rel='canonical' href={`${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
           <meta property='og:title' content={title} />
           <meta property='og:site_name' content='kauri.io' />
-          <meta property='og:url' content={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
+          <meta property='og:url' content={`${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
           <meta property='og:description' content={`${articleContent}...`} />
           <meta property='og:type' content='article' />
           <meta

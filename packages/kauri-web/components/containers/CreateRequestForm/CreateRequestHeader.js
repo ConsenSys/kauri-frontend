@@ -90,7 +90,7 @@ export const CreateRequestLogo = ({ chosenCategory, height, width, avatarWidth, 
 
 export const TopicActionsContainer = styled.div`
   display: flex;
-  width: 70%;
+  width: 100%;
   flex-direction: column;
   margin-top: 3px;
   margin-left: 12px;
