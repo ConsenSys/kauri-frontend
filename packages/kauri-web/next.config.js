@@ -6,7 +6,7 @@ const withCss = require('@zeit/next-css')
 const withLess = require('@zeit/next-less')
 const withSourceMaps = require('@zeit/next-source-maps')
 const withTM = require('next-plugin-transpile-modules')
-const { join } = require('path')
+const { join, resolve } = require('path')
 global.process.env = Object.assign(process.env, config)
 
 const processedConfig = Object.keys(config).reduce((current, next, i) => {
@@ -38,6 +38,7 @@ if (process.env.BUNDLE_ANALYZE) {
 }
 const nextConfig = {
   webpack: (config, { isServer }) => {
+    config.resolve.alias['styled-components'] = resolve(__dirname, './node_modules', 'styled-components')
     config.plugins.push(
       new webpack.IgnorePlugin(/^\/lib\/languages\/*$/, /highlight\.js$/),
       new webpack.IgnorePlugin(/^\.\/lib\/languages$/, /highlight\.js$/),

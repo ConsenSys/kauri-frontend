@@ -7,10 +7,12 @@ import YouTube from 'react-youtube'
 import Highlight from '../../../lib/hljs'
 import { compose } from 'recompose'
 import withErrorCatch from '../../../lib/with-error-catch'
-import { getRawStateFromMarkdown, getHTMLFromMarkdown } from '../../../lib/markdown-converter-helper'
+import TextTruncate from 'react-text-truncate'
+import { getHTMLFromMarkdown } from '../../../lib/markdown-converter-helper'
+import stripHTML from '../../../lib/html-to-plain-text'
 
 type Props = {
-  record: RequestDTO,
+  record: { text: string },
   inReviewArticleComment?: boolean,
   fullText?: boolean,
   requestPage?: boolean,
@@ -18,7 +20,47 @@ type Props = {
   openRequest?: boolean,
   type?: 'article card',
   cardHeight?: number,
+  imageURL?: string,
 }
+
+const hideAtomicBlock = css`
+  figure,
+  iframe {
+    display: none;
+  }
+`
+
+const maxThreeLinesCss = css`
+  height: 4em;
+  line-height: 2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const openRequestCss = css`
+  height: 1.5em;
+`
+
+const articleCardCss = css`
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  > :not(div) {
+    display: none;
+  }
+  > div {
+    font-size: 14px;
+    :nth-child(1n + ${props => (props.cardHeight > 290 ? '4' : '3')}) {
+      display: none;
+    }
+    :nth-child(${props => (props.cardHeight > 290 ? '3' : '2')}) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+`
 
 const styles = {
   code: {
@@ -48,78 +90,6 @@ export const inline = {
   ),
 }
 
-const hideAtomicBlock = css`
-  figure,
-  iframe {
-    display: none;
-  }
-`
-
-const maxThreeLinesCss = css`
-  height: 4em;
-  line-height: 2em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`
-
-const openRequestCss = css`
-  height: 1.5em;
-`
-
-const articleCardCss = css`
-  height: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  > :not(div) {
-    display: none;
-  }
-  > div {
-    font-size: 14px;
-    :nth-child(1n + ${props => (props.cardHeight > 290 ? '4' : '3')}) {
-      display: none;
-    }
-    :nth-child(${props => (props.cardHeight > 290 ? '3' : '2')}) {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-`
-
-const MaxThreeLines = styled.div`
-  ${props => !props.fullText && hideAtomicBlock};
-  ${props => !props.fullText && props.type !== 'article card' && maxThreeLinesCss};
-  margin-top: 2px;
-  font-size: 17px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  min-height: ${props => props.requestPage && '30vh'};
-  ${props => props.openRequest && openRequestCss};
-  ${props => props.type === 'article card' && articleCardCss};
-`
-
-const truncateWithEllipsis = css`
-  color: ${props => props.theme.primaryTextcolor};
-  padding: 0 0;
-  font-size: 14px;
-  line-height: 18px;
-  text-align: left;
-  text-overflow: ellipsis;
-`
-
-const recentRequest = css`
-  font-size: 13px;
-`
-
-export const TruncateWithEllipsisCss = css`
-  color: ${props => props.theme.primaryTextcolor};
-  white-space: pre-wrap;
-  font-size: 16px;
-  letter-spacing: -0.1px;
-  line-height: 23px;
-`
-
 const inlineStylesToPrune = {
   lineHeight: null,
 }
@@ -142,6 +112,28 @@ const pruneInlineStyles = (child, type) => {
     return nodes
   })
 }
+
+const truncateWithEllipsis = css`
+  color: ${props => props.theme.primaryTextcolor};
+  padding: 0 0;
+  font-size: 17px;
+  line-height: 24px;
+  letter-spacing: -0.1px;
+  text-align: left;
+  text-overflow: ellipsis;
+`
+
+const recentRequest = css`
+  font-size: 13px;
+`
+
+export const TruncateWithEllipsisCss = css`
+  color: ${props => props.theme.primaryTextcolor};
+  white-space: pre-wrap;
+  font-size: 17px;
+  letter-spacing: -0.1px;
+  line-height: 24px;
+`
 
 const TruncateWithEllipsis = styled.div`
   ${TruncateWithEllipsisCss};
@@ -474,6 +466,23 @@ export const options = {
   },
 }
 
+const MaxThreeLines = styled.div`
+  ${props => !props.fullText && hideAtomicBlock};
+  ${props => !props.fullText && props.type !== 'article card' && maxThreeLinesCss};
+  margin-top: 2px;
+  font-size: 17px;
+  letter-spacing: -0.1px;
+  line-height: 24px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  min-height: ${props => props.requestPage && '30vh'};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  ${props => props.openRequest && openRequestCss};
+  ${props => props.type === 'article card' && articleCardCss};
+`
+
 export default compose(withErrorCatch())(
   ({
     record: { text },
@@ -484,6 +493,7 @@ export default compose(withErrorCatch())(
     inReviewArticleComment,
     type,
     cardHeight,
+    imageURL,
   }): Props => (
     <MaxThreeLines
       cardHeight={cardHeight}
@@ -503,9 +513,9 @@ export default compose(withErrorCatch())(
               'DescriptionRow-markdown--fullText'}`}
             dangerouslySetInnerHTML={{ __html: getHTMLFromMarkdown(JSON.parse(text).markdown) }}
           />
-        ) : (
+        ) : fullText ? (
           redraft(
-            (JSON.parse(text).markdown && getRawStateFromMarkdown(JSON.parse(text).markdown)) || JSON.parse(text),
+            JSON.parse(text),
             {
               inline: Boolean(fullText) && inline,
               blocks: blocks(fullText, recentRequest, type),
@@ -513,6 +523,14 @@ export default compose(withErrorCatch())(
             },
             options
           )
+        ) : JSON.parse(text).markdown ? (
+          <TextTruncate
+            line={imageURL ? 2 : cardHeight > 290 ? 7 : 3}
+            truncateText='…'
+            text={stripHTML(getHTMLFromMarkdown(JSON.parse(text).markdown)).substring(0, imageURL ? 200 : 500)}
+          />
+        ) : (
+          'Old Content, please migrate to new Markdown'
         )
       ) : inReviewArticleComment && typeof text === 'string' && text.length > 5 ? (
         text

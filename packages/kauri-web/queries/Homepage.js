@@ -1,111 +1,108 @@
+// @flow
 import gql from 'graphql-tag'
 
+// TODO - Sync with backend once CollectionDTO > owner becomes author
 export const HomePageQuery = gql`
   query getAllCuratedList {
     getAllCuratedList {
       id
       name
       description
-      owner_id
       featured
-      header_id {
-        type
+      dateCreated
+      owner {
         id
+        name
+        username
+        avatar
       }
       header {
-        ... on TopicDTO {
+        ... on ArticleDTO {
           id
-          type
-        }
-
-        ... on CollectionDTO {
-          id
-          type
-          name
-          description
-          date_created
-          background
-          owner {
-            user_id
+          version
+          title
+          content
+          dateCreated
+          datePublished
+          author {
+            id
+            name
             username
+            avatar
+          }
+
+          status
+          attributes
+          vote {
+            totalVote
           }
         }
-
-        ... on ArticleDTO {
-          article_id
-          type
+        ... on CollectionDTO {
+          id
         }
-
-        ... on RequestDTO {
-          request_id
-          type
+        ... on CommunityDTO {
+          id
+          name
         }
-      }
-      resource_id {
-        type
-        id
+        ... on PublicUserDTO {
+          id
+        }
       }
       resources {
-        type
-        ... on RequestDTO {
-          request_id
-          user_id
-          user {
-            user_id
-            username
-          }
-          request_id
-          date_created
-          date_updated
-          bounty
-          subject
-          category
-          sub_category
-          short_description
-          text
-          status
-          total_vote
-          total_flag
-          total_submissions
-          is_flagged
-          metadata
-          comments {
-            comment_id
-            comment
-          }
-          content_hash
-          metadata
-        }
-        ... on TopicDTO {
-          id
-        }
         ... on ArticleDTO {
-          article_id
-          article_version
-          user_id
-          user {
-            user_id
-            username
+          resourceIdentifier {
+            type
+            id
           }
-          date_created
-          request_id
-          subject
-          tip
-          text
+          id
+          version
+          title
+          content
+          dateCreated
+          datePublished
+          author {
+            id
+            name
+            username
+            avatar
+          }
+
+          status
+          attributes
+          vote {
+            totalVote
+          }
         }
         ... on CollectionDTO {
           id
           name
           description
-          date_created
           background
-          owner_id
-          sections {
-            article_id
+          dateUpdated
+          resourceIdentifier {
+            type
+            id
           }
           owner {
-            user_id
+            id
             username
+            name
+            avatar
+          }
+sections {
+      name
+      description
+      resources {
+        ... on ArticleDTO { id }
+      }
+    }
+        }
+        ... on CommunityDTO {
+          id
+          name
+          resourceIdentifier {
+            type
+            id
           }
         }
       }

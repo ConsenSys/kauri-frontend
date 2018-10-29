@@ -1,28 +1,21 @@
 // @flow
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { Input } from 'antd'
-import { ActionBadge } from '../../common/ActionBadge'
 import theme from '../../../lib/theme-config'
+import type { AttributesPayload } from './Module'
 import {
-  CreateRequestLogo as SubmitArticleFormLogo,
   CreateRequestSecondaryHeader as SubmitArticleFormHeader,
   TopicActionsContainer as SubmitArticleFormSubjectContainer,
-  ChooseTopicAndSubcategoryContainer as SubmitArticleFormTopicAndSubcategoryContainer,
-  SelectSubCategory,
-  ChooseTopic,
 } from '../CreateRequestForm/CreateRequestHeader'
 
 type Props = {
   getFieldValue: string => ?string,
   getFieldDecorator: (string, any) => any => any,
   getFieldError: string => ?Array<string>,
-  category: ?string,
-  subCategory: ?string,
   status?: string,
   subject?: ?string,
   isKauriTopicOwner: boolean,
-  metadata?: ArticleMetadataDTO,
+  attributes?: AttributesPayload,
 }
 
 const errorBorderCss = css`
@@ -91,79 +84,15 @@ export const UnderlineSpan = styled.span`
   ${props => (props.type === 'article' || props.type === 'request') && articleUnderlineSpanCss};
 `
 
-export const ChosenCategory = styled.h4`
-  margin-top: 5px;
-  margin-left: 11px;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-`
-
-export const ForVersion = ChosenCategory.extend`
-  margin-top: 15px;
-`
-
-const ChosenSubcategory = ChosenCategory
-
-const ForVersionInputContainer = styled.div`
-  display: flex;
-`
-
-const ForVersionInputField = ArticleSubject.extend`
-  height: 30px;
-  font-size: 12px !important;
-  margin-top: 10px;
-`
-
-const ForVersionInput = ({ getFieldDecorator, getFieldError, getFieldValue, forVersion }: *) => (
-  <ForVersionInputContainer>
-    <ForVersion>FOR VERSION</ForVersion>
-    <InputWrapper>
-      {getFieldDecorator('version', {
-        rules: [
-          {
-            message: 'Please input the for version of the article!',
-            whitespace: true,
-          },
-        ],
-        initialValue: forVersion,
-      })(
-        <ForVersionInputField
-          placeholder='E.G. 1.0.0'
-          hasErrors={getFieldError('version') && getFieldError('version').length > 0}
-          style={{
-            width: 100,
-            alignSelf: 'flex-start',
-          }}
-        />
-      )}
-      <UnderlineSpan>
-        {typeof getFieldValue('version') === 'string' && getFieldValue('version').replace(/ /g, '\u00a0')}
-      </UnderlineSpan>
-    </InputWrapper>
-  </ForVersionInputContainer>
-)
-
 const SubmitArticleFormSubject = ({
   getFieldDecorator,
   getFieldError,
   getFieldValue,
-  chosenCategory,
-  chosenSubcategory,
   subject,
   isKauriTopicOwner,
-  metadata,
+  attributes,
 }: *) => (
   <SubmitArticleFormSubjectContainer>
-    <SubmitArticleFormTopicAndSubcategoryContainer>
-      {chosenCategory && <ChosenCategory>{chosenCategory}</ChosenCategory>}
-      {chosenSubcategory ? (
-        <ChosenSubcategory>{chosenSubcategory}</ChosenSubcategory>
-      ) : (
-        <SelectSubCategory getFieldError={getFieldError} getFieldDecorator={getFieldDecorator} />
-      )}
-    </SubmitArticleFormTopicAndSubcategoryContainer>
     <InputWrapper maxlength={55}>
       {getFieldDecorator('subject', {
         rules: [
@@ -194,53 +123,37 @@ const SubmitArticleFormSubject = ({
   </SubmitArticleFormSubjectContainer>
 )
 
-const SubmitArticleFormStatus = styled.div`
-  display: flex;
-  margin-left: auto;
-  margin-right: 15px;
-  align-items: center;
-  > * {
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 16px;
-    color: #fff;
+const getBG = (getFieldValue, attributes) => {
+  const formValue = getFieldValue('attributes')
+  if (formValue && typeof formValue.background === 'string') {
+    return `background-image: url(${formValue.background}); background-size: cover; background-position: center center;`
   }
-  > :nth-child(2) {
-    margin-left: 8px;
+  if (attributes && attributes.background) {
+    return `background-image: url(${
+      attributes.background
+    }); background-size: cover; background-position: center center;`
   }
-  opacity: ${props => typeof props.status !== 'string' && 0.6};
-`
+  return 'background: #1E2428;'
+}
 
 export default ({
-  category,
-  subCategory,
   getFieldError,
   getFieldDecorator,
   status,
   subject,
   getFieldValue,
   isKauriTopicOwner,
-  metadata,
+  attributes,
 }: Props) => (
-  <SubmitArticleFormHeader type='article' theme={theme} chosenCategory={category || getFieldValue('category')}>
-    {category && (
-      <SubmitArticleFormLogo type='article' theme={theme} chosenCategory={category || getFieldValue('category')} />
-    )}
+  <SubmitArticleFormHeader bg={getBG(getFieldValue, attributes)} type='article' theme={theme}>
     <SubmitArticleFormSubject
       getFieldError={getFieldError}
       getFieldValue={getFieldValue}
       subject={subject}
       theme={theme}
-      chosenCategory={category}
-      chosenSubcategory={subCategory}
       getFieldDecorator={getFieldDecorator}
       isKauriTopicOwner={isKauriTopicOwner}
-      metadata={metadata}
+      attributes={attributes}
     />
-    <SubmitArticleFormStatus status={status}>
-      <strong>STATUS</strong>
-      <span>{(typeof status === 'string' && status.replace(/_/g, ' ')) || 'Not submitted'}</span>
-    </SubmitArticleFormStatus>
   </SubmitArticleFormHeader>
 )

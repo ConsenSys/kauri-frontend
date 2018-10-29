@@ -64,3 +64,20 @@ myStory.add("Profile Statistics", () =>
     |]
   />
 );
+
+myStory.add("Collection Statistics", () =>
+  <div
+    className=Css.(
+      style([display(`inlineBlock), backgroundColor(hex("1E2428"))])
+    )>
+    <StatisticsContainer
+      pageType=StatisticsContainer.CollectionPage
+      statistics=[|
+        {"name": "Articles", "count": 0},
+        {"name": "Views", "count": 0},
+        {"name": "Upvotes", "count": 0},
+        {"name": "Followers", "count": 0},
+      |]
+    />
+  </div>
+);

@@ -1,11 +1,14 @@
+// @flow
+import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
-import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard.bs'
-import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard.bs'
+import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard'
+import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard'
 import CommunityCardConnection from '../../connections/Community/CommunityCard_Connection.bs'
 import theme from '../../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
 import { Link } from '../../../routes'
+import R from 'ramda'
 
 const Title = styled.h2`
   font-weight: 300;
@@ -44,6 +47,11 @@ const Resources = styled.div`
   flex-wrap: wrap;
   z-index: 10;
   position: relative;
+  flex: 1;
+  max-width: 1280px;
+  > * {
+    margin: ${props => props.theme.space[2]}px;
+  }
 `
 
 const getBG = (header, featured) => {
@@ -58,62 +66,84 @@ const getBG = (header, featured) => {
 
 const HOMEPAGE_CARD_HEIGHT = 290
 
-const CuratedList = ({ routeChangeAction, content: { name, resources, featured, header } } = props) => {
+type Props = {
+  routeChangeAction: string => void,
+  content: CuratedListDTO,
+}
+
+const CuratedList = ({ routeChangeAction, content: { name, resources, featured, header } }: Props) => {
   return (
-    <Container bgColor={getBG(header, featured)} featured={featured} background={header && header.background}>
+    <Container
+      bgColor={getBG(header, featured)}
+      featured={featured}
+      background={header && typeof header.background === 'string' && header.background}
+    >
       {!header && <Title featured={featured}>{name}</Title>}
       {resources && (
         <Resources>
           {header && <CuratedHeader name={name} header={header} />}
           {resources.map(card => {
-            switch (card.type) {
-              case 'ARTICLE':
+            switch (
+              card &&
+                card.resourceIdentifier &&
+                typeof card.resourceIdentifier.type === 'string' &&
+                card.resourceIdentifier.type
+            ) {
+              case 'ARTICLE': {
+                const articleCard: ArticleDTO = card
                 return (
                   <ArticleCard
                     changeRoute={routeChangeAction}
-                    key={card.article_id}
-                    date={moment(card.date_created).format('D MMM YYYY')}
-                    title={card.subject}
-                    content={card.text}
-                    userId={card.user.user_id}
-                    username={card.user.username}
-                    articleId={card.article_id}
-                    articleVersion={card.article_version}
+                    key={articleCard.id}
+                    date={moment(articleCard.dateCreated).format('D MMM YYYY')}
+                    title={articleCard.title}
+                    content={articleCard.content}
+                    userId={articleCard.author && articleCard.author.id}
+                    username={articleCard.author && articleCard.author.username}
+                    userAvatar={articleCard.author && articleCard.author.avatar}
+                    id={articleCard.id}
+                    version={articleCard.version}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
+                    imageURL={articleCard.attributes && articleCard.attributes.background}
                     linkComponent={(childrenProps, route) => (
-                      <Link toSlug={route.includes('article') && card.subject} useAnchorTag route={route}>
+                      <Link toSlug={route.includes('article') && articleCard.title} useAnchorTag href={route}>
                         {childrenProps}
                       </Link>
                     )}
                   />
                 )
-              case 'COLLECTION':
-                const articles = card.sections.reduce((acc, item) => {
-                  acc += item.article_id.length
-                  return acc
-                }, 0)
+              }
+              case 'COLLECTION': {
+                const collectionCard: CollectionDTO = card
+                const articleCount =
+                  collectionCard.sections &&
+                  collectionCard.sections.reduce((current, next) => {
+                    current += next.resources && next.resources.length
+                    return current
+                  }, 0)
                 return (
                   <CollectionCard
                     changeRoute={routeChangeAction}
-                    key={card.id}
-                    collectionName={card.name}
-                    username={card.owner.username}
-                    userId={card.owner.user_id}
-                    articles={articles}
-                    lastUpdated={moment(card.date_created).fromNow()}
-                    collectionId={card.id}
-                    imageURL={card.background}
-                    profileImage={card.profileImage}
+                    key={collectionCard.id}
+                    id={collectionCard.id}
+                    name={collectionCard.name}
+                    date={moment(collectionCard.dateUpdated).format('D MMM YYYY')}
+                    description={collectionCard.description}
+                    username={collectionCard.owner && (collectionCard.owner.name || collectionCard.owner.username)}
+                    userId={collectionCard.owner && collectionCard.owner.id}
+                    userAvatar={collectionCard.owner && collectionCard.owner.avatar}
+                    articleCount={articleCount}
+                    imageURL={collectionCard.background}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
-                    collectionDescription={card.description}
                     linkComponent={(childrenProps, route) => (
-                      <Link toSlug={route.includes('collection') && card.name} useAnchorTag route={route}>
+                      <Link toSlug={route.includes('collection') && collectionCard.name} useAnchorTag href={route}>
                         {childrenProps}
                       </Link>
                     )}
                   />
                 )
-              case 'TOPIC' || 'COMMUNITY':
+              }
+              case 'TOPIC' || 'COMMUNITY': {
                 const topic = theme[card.id]
                 if (!topic) return null
 
@@ -132,12 +162,14 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     )}
                   />
                 )
+              }
               default:
                 return null
             }
           })}
         </Resources>
       )}
+      {/* {JSON.stringify({ name, resources, featured, header })} */}
     </Container>
   )
 }

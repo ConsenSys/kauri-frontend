@@ -1,34 +1,54 @@
+// @flow
 import { Observable } from 'rxjs/Observable'
 import contract from 'truffle-contract'
+import superagent from 'superagent'
+const request = superagent.agent()
+const config = require('../config').default
 
-const KauriCoreArtifact = require(process.env.KauriCoreArtifact)
-const WalletArtifact = require(process.env.WalletArtifact)
-const TopicModeratorArtifact = require(process.env.TopicModeratorArtifact)
+let smartContracts;
 
-let smartContracts
+type Web3Props = {
+  currentProvider: string,
+};
 
-export const initSmartContracts = web3 => {
-  let KauriCore = contract(KauriCoreArtifact)
-  let Wallet = contract(WalletArtifact)
-  let TopicModerator = contract(TopicModeratorArtifact)
+export const initSmartContracts = (web3: Web3Props) => {
   if (typeof web3 !== 'undefined') {
-    KauriCore.setProvider(web3.currentProvider)
-    Wallet.setProvider(web3.currentProvider)
-    TopicModerator.setProvider(web3.currentProvider)
-    const smartContractsToDeploy = {
-      KauriCore: KauriCore.deployed(),
-      Wallet: Wallet.deployed(),
-      TopicModerator: TopicModerator.deployed(),
-    }
+    const smartContractNames = ['KauriCore', 'Wallet', 'Community']
+    const smartContractFetchObservables = smartContractNames.map(smartContractName =>
+      Observable.fromPromise(
+        request
+          .get(`https://${config.getApiURL()}/smartcontract/${smartContractName}/all`)
+          .then(({ body }) => body)
+      )
+    )
+    const smartContracts = {}
 
-    return Observable.concat(...Object.values(smartContractsToDeploy))
-      .reduce((current, next, index) => {
-        current[Object.keys(smartContractsToDeploy)[index]] = next
-        return current
-      }, {})
+    Observable.forkJoin(smartContractFetchObservables).map(abiJSONs =>
+      smartContractNames.map((smartContractName) => {
+        const fetchedSmartContract = abiJSONs.find((abiJSON) => abiJSON.contractName === smartContractName)
+        const smartContractWithProvider = contract(fetchedSmartContract)
+        smartContractWithProvider.setProvider(web3.currentProvider)
+        return smartContractWithProvider.deployed()
+      })
+    )
+      .mergeMap((smartContractsToDeploy) =>
+        Observable.of(
+          ...smartContractsToDeploy.map((sc) => sc)
+        )
+      )
+      .combineAll()
+      .map((arrayOfSmartContractsToDeploy) => {
+        smartContractNames.map(
+          (smartContractName, index) => {
+            smartContracts[smartContractNames[index]] = arrayOfSmartContractsToDeploy[index]
+          }
+        )
+        return smartContracts
+      })
       .subscribe(result => {
-        smartContracts = result
+        // console.log(result)
         window.smartContracts = result
+        return result
       })
   }
 }

@@ -9,8 +9,8 @@ import {
 } from '../CreateRequestForm/CreateRequestContent'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../lib/markdown-converter-helper'
 import Outline from '../../../../kauri-components/components/Typography/Outline.bs'
+import userIdTrim from '../../../lib/userid-trim'
 import { ApprovedArticleDetails as SubmitArticleFormDetails } from '../Article/ApprovedArticle/ApprovedArticleContent'
-import { hljs } from '../../../lib/hljs'
 
 import type { EditArticlePayload, SubmitArticlePayload } from './Module'
 
@@ -39,7 +39,7 @@ type State = {
 class SubmitArticleFormText extends React.Component<Props, State> {
   constructor (props) {
     super(props)
-    if (typeof props.text === 'string') {
+    if (props.text) {
       const rawData = ContentState.createFromText(JSON.parse(props.text).markdown)
       const newEditorState = EditorState.createWithContent(rawData)
 
@@ -48,7 +48,18 @@ class SubmitArticleFormText extends React.Component<Props, State> {
       }
     } else {
       this.state = {
-        editorState: { markdown: 'Write markdown content here!', text: 'Write markdown content here' },
+        editorState: { markdown: 'Write markdown content here!', text: 'Write markdown content here!' },
+      }
+    }
+  }
+
+  componentDidMount () {
+    if (this.props.text) {
+      const rawData = ContentState.createFromText(JSON.parse(this.props.text).markdown)
+      const newEditorState = EditorState.createWithContent(rawData)
+
+      this.state = {
+        editorState: { draftEditorState: newEditorState },
       }
     }
   }
@@ -148,8 +159,11 @@ export default class extends React.Component<
     getFieldError: string => any,
     text?: string,
     article_id?: string,
+    ownerId: ?string,
     username?: ?string,
-    userId?: ?string,
+    userId: string,
+    userAvatar: ?string,
+    isUpdating: boolean,
   },
   { focused: boolean }
 > {
@@ -165,10 +179,10 @@ export default class extends React.Component<
       getFieldError,
       text,
       article_id,
-      category,
-      subCategory,
       username,
       userId,
+      ownerId,
+      userAvatar,
     } = this.props
 
     const editorState =
@@ -180,10 +194,10 @@ export default class extends React.Component<
         ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
           .getBlocksAsArray()
           .map(block => block.toJS())
-          .filter(block => block.type.includes('header'))
+          .filter(block => block.type.includes('header-one'))
           .map(header => header.text)
         : editorState.blocks &&
-          editorState.blocks.filter(block => block.type.includes('header')).map(header => header.text))
+          editorState.blocks.filter(block => block.type.includes('header-one')).map(header => header.text))
 
     return (
       <SubmitArticleFormContent>
@@ -197,7 +211,14 @@ export default class extends React.Component<
           />
         </SubmitArticleFormContainer>
         <SubmitArticleFormDetails isSubmitting type='outline'>
-          <Outline pageType='SubmittingArticle' headings={outlineHeadings || []} username={username || userId} />
+          <Outline
+            pageType='SubmittingArticle'
+            headings={outlineHeadings || []}
+            username={username}
+            userId={userId && userIdTrim(userId)}
+            userAvatar={userAvatar}
+            text={ownerId ? 'OWNER' : 'AUTHOR'}
+          />
         </SubmitArticleFormDetails>
       </SubmitArticleFormContent>
     )

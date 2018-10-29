@@ -9,6 +9,7 @@ module.exports = {
   KauriCoreArtifact: '../../../../flow/smart-contracts/build/contracts/KauriCore.json',
   WalletArtifact: '../../../../flow/smart-contracts/build/contracts/Wallet.json',
   TopicModeratorArtifact: '../../../../flow/smart-contracts/build/contracts/TopicModerator.json',
+  KauriCommunityId: '8241ec73308348c890f19a9cdffc50cb',
 }
 
 // module.exports = {

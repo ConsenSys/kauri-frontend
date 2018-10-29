@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
 import cookie from 'cookie'
+import userIdTrim from '../../../lib/userid-trim';
 
 const networkNames = {
   1: 'Main',
@@ -257,10 +258,17 @@ class Web3Status extends Component {
         accounts,
       })
 
-      if (userId !== next) {
+      if (userId && userId !== next) {
         return this.setState({
           ...this.state,
           accountsError: 'Wrong metamask account',
+        })
+      }
+
+      if (!userId && next) {
+        return this.setState({
+          ...this.state,
+          accountsError: `${userIdTrim(next.substring(2))} Disconnected`,
         })
       }
     }

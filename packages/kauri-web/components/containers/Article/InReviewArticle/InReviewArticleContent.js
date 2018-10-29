@@ -1,16 +1,14 @@
 // @flow
 import React from 'react'
-import { Divider } from 'antd'
 import {
   CreateRequestContent as InReviewArticleFormContent,
   CreateRequestContainer as InReviewArticleFormContainer,
 } from '../../CreateRequestForm/CreateRequestContent'
 import { ApprovedArticleDetails as InReviewArticleDetails } from '../ApprovedArticle/ApprovedArticleContent'
-import InReviewArticleGeneralCommentForm from './InReviewArticleGeneralCommentForm'
-import InReviewArticleGeneralComments from './InReviewArticleGeneralComments'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
-import { OutlineLabel } from '../../SubmitArticleForm/SubmitArticleFormContent'
+import userIdTrim from '../../../../lib/userid-trim'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
+import { Link } from '../../../../routes'
 import DescriptionRow from '../../../common/DescriptionRow'
 
 type Comments = Array<?CommentDTO>
@@ -32,6 +30,7 @@ export default ({
   status,
   username,
   userId,
+  userAvatar,
 }: {
   editorState: any,
   onEditorChange: any => void,
@@ -47,8 +46,9 @@ export default ({
   deleteArticleComment: any,
   text: string,
   status: string,
-  username?: ?string,
-  userId?: ?string,
+  username: ?string,
+  userId: string,
+  userAvatar: ?string,
 }) => {
   editorState = editorState && typeof editorState === 'string' ? JSON.parse(editorState) : editorState
 
@@ -58,37 +58,29 @@ export default ({
       ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
         .getBlocksAsArray()
         .map(block => block.toJS())
-        .filter(block => block.type.includes('header'))
+        .filter(block => block.type.includes('header-one'))
         .map(header => header.text)
       : editorState.blocks &&
-        editorState.blocks.filter(block => block.type.includes('header')).map(header => header.text))
+        editorState.blocks.filter(block => block.type.includes('header-one')).map(header => header.text))
 
   return (
     <InReviewArticleFormContent>
       <InReviewArticleFormContainer type='in review article'>
         <DescriptionRow fullText record={{ text }} />
-        {comments &&
-          comments.length > 0 &&
-          comments.filter(comment => typeof comment.anchor_key !== 'string') && (
-            <InReviewArticleGeneralComments
-              comments={
-                comments && comments.length > 0 && comments.filter(comment => typeof comment.anchor_key !== 'string')
-              }
-            />
-          )}
-        <InReviewArticleGeneralCommentForm
-          addCommentAction={addCommentAction}
-          article_id={article_id}
-          article_version={article_version}
-          status={status}
-        />
       </InReviewArticleFormContainer>
       <InReviewArticleDetails type='outline'>
         <Outline
           routeChangeAction={routeChangeAction}
-          userId={userId}
+          linkComponent={children => (
+            <Link useAnchorTag route={`/public-profile/${userId}`}>
+              {children}
+            </Link>
+          )}
           headings={outlineHeadings || []}
-          username={username || userId}
+          username={username}
+          userId={userIdTrim(userId)}
+          userAvatar={userAvatar}
+          text={'AUTHOR'}
         />
       </InReviewArticleDetails>
     </InReviewArticleFormContent>

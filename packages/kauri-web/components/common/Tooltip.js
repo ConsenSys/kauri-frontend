@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -5,7 +6,10 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     z-index: 999;
-
+    > .header {
+      display: flex;
+      height: 100%;
+    }
     > *:not(.header) {
         opacity: 0;
     }
@@ -28,7 +32,6 @@ const UpArrow = styled.div`
     border-radius: 2px;
 `;
 
-
 const TooltipBody = styled.div`
     background: white;
     flex-direction: column;
@@ -42,12 +45,12 @@ const TooltipBody = styled.div`
 `;
 
 const Tooltip = (props) =>
-    <Container>
-        <div className="header">{props.header}</div>
-        <UpArrow />
-        <TooltipBody className="tooltip-body">
-            {props.children}
-        </TooltipBody>
-    </Container>;
+  <Container>
+    <div className='header'>{props.header}</div>
+    <UpArrow />
+    <TooltipBody className='tooltip-body'>
+      {props.children}
+    </TooltipBody>
+  </Container>;
 
 export default Tooltip;

@@ -1,70 +1,50 @@
-[@bs.module "../../../lib/theme-config.js"]
-external themeConfig: ThemeConfig.themeConfig = "default";
-[@bs.module "../../../lib/theme-config.js"]
-external communities: ThemeConfig.communities = "categories";
 let component = ReasonReact.statelessComponent("Community");
 
 let make =
     (
       ~communityName,
+      ~communityDescription,
       /* ~followers, */
       /* ~views, */
+      ~articles,
       ~communityLogo,
       ~cardHeight,
       ~linkComponent=?,
       _children,
     ) => {
   ...component,
-  render: _self => {
-    open Article_Queries;
-    let articlesCountQuery =
-      CommunityArticlesCount.make(~category=communityName, ());
-    <CommunityArticlesCountQuery variables=articlesCountQuery##variables>
-      ...{
-           ({result}) =>
-             switch (result) {
-             | Loading => <Loading />
-             | Error(error) =>
-               <div> {ReasonReact.string(error##message)} </div>
-             | Data(response) =>
-               let articles =
-                 response->Article_Resource.articlesCountGet |> string_of_int;
-               let description =
-                 ThemeConfig.getCommunityConfig(themeConfig, communityName)
-                 ->ThemeConfig.(descriptionGet);
-               switch (linkComponent) {
-               | Some(link) =>
-                 <CommunityCard
-                   communityName
-                   communityDescription=description
-                   articles
-                   communityLogo
-                   cardHeight
-                   /* followers */
-                   /* views */
-                   linkComponent=link
-                 />
-               | None =>
-                 <CommunityCard
-                   communityName
-                   communityDescription=description
-                   articles
-                   communityLogo
-                   /* followers */
-                   cardHeight
-                   /* views */
-                 />
-               };
-             }
-         }
-    </CommunityArticlesCountQuery>;
-  },
+  render: _self =>
+    switch (linkComponent) {
+    | Some(link) =>
+      <CommunityCard
+        communityName
+        communityDescription
+        articles
+        communityLogo
+        cardHeight
+        /* followers */
+        /* views */
+        linkComponent=link
+      />
+    | None =>
+      <CommunityCard
+        communityName
+        communityDescription
+        articles
+        communityLogo
+        /* followers */
+        cardHeight
+        /* views */
+      />
+    },
 };
 
 [@bs.deriving abstract]
 type jsProps = {
   heading: string,
   communityName: string,
+  communityDescription: string,
+  communityId: string,
   followers: string,
   articles: string,
   views: string,
@@ -77,8 +57,10 @@ let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
       ~communityName=jsProps->communityNameGet,
+      ~communityDescription=jsProps->communityDescriptionGet,
       /* ~followers=jsProps->followersGet, */
       /* ~views=jsProps->viewsGet, */
+      ~articles=jsProps->articlesGet,
       ~communityLogo=jsProps->communityLogoGet,
       ~cardHeight=jsProps->cardHeightGet,
       ~linkComponent=jsProps->linkComponentGet,

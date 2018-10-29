@@ -16,28 +16,38 @@ import request, {
 } from '../components/containers/Requests/Module'
 import createRequests, { createRequestEpic, updateRequestEpic } from '../components/containers/CreateRequestForm/Module'
 import register, { registerEpic } from '../components/containers/LoginForm/Module'
-import { tipArticleEpic, rejectArticleEpic, deleteArticleCommentEpic } from '../components/containers/Article/Module'
 import {
+  tipArticleEpic,
+  rejectArticleEpic,
+  deleteArticleCommentEpic,
   approveArticleEpic,
-  publishArticleEpic,
-  submitForReviewEpic,
-} from '../components/containers/Article/Article_Module.bs'
-import { submitArticleEpic, editArticleEpic } from '../components/containers/SubmitArticleForm/Module'
-import { addCommentEpic } from '../components/containers/AddCommentForm/Module'
+} from '../components/containers/Article/Module'
+import { publishArticleEpic } from '../components/containers/Article/Article_Module.bs'
 import {
-  fetchWalletAvailableFundsEpic,
-  withdrawWalletAvailableFundsEpic,
-} from '../components/containers/Profile/TopicOwnerProfile/Module'
+  submitArticleEpic,
+  submitArticleVersionEpic,
+  editArticleEpic,
+  draftArticleEpic,
+} from '../components/containers/SubmitArticleForm/Module'
+import { addCommentEpic } from '../components/containers/Article/CommentArticleForm/Module'
 import { trackAnalyticsEpic, trackMixpanelEpic } from '../components/containers/Link/Module'
 import localStorage, {
   startDriverStepsEpic,
   persistStateToLocalStorageEpic,
   finishedDriverStepsEpic,
 } from './LocalStorageModule'
-import { draftArticleEpic } from '../components/containers/SubmitArticleForm/DraftArticle_Module.bs'
+import {
+  createCollectionEpic,
+  editCollectionEpic,
+  composeCollectionEpic,
+} from '../components/containers/CreateCollectionForm/Module'
+import { saveUserDetailsEpic } from '../components/common/EditProfile/Module'
+import modal from '../../kauri-components/components/Modal/Module'
+import { checkpointArticlesEpic } from '../components/containers/CheckpointArticles/Module'
 
 export const rootReducer = {
   app,
+  modal,
   createRequests,
   register,
   localStorage,
@@ -52,6 +62,7 @@ const epics = [
   routeChangeEpic,
   updateRequestEpic,
   submitArticleEpic,
+  submitArticleVersionEpic,
   editArticleEpic,
   flagRequestEpic,
   addCommentEpic,
@@ -61,8 +72,6 @@ const epics = [
   addToBountyEpic,
   hideIntroBannerEpic,
   tipArticleEpic,
-  fetchWalletAvailableFundsEpic,
-  withdrawWalletAvailableFundsEpic,
   rejectArticleEpic,
   requestRefundEpic,
   resubmitRequestEpic,
@@ -72,11 +81,15 @@ const epics = [
   startDriverStepsEpic,
   persistStateToLocalStorageEpic,
   finishedDriverStepsEpic,
-  // ReasonML epics
+  createCollectionEpic,
+  composeCollectionEpic,
   approveArticleEpic,
-  publishArticleEpic,
   draftArticleEpic,
-  submitForReviewEpic,
+  editCollectionEpic,
+  checkpointArticlesEpic,
+  saveUserDetailsEpic,
+  // ReasonML epics
+  publishArticleEpic,
 ]
 
 export const rootEpic = combineEpics(...epics)

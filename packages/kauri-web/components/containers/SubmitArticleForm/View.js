@@ -1,38 +1,64 @@
 // @flow
 import React from 'react'
-import styled from 'styled-components'
 import { Form } from 'antd'
 import SubmitArticleFormActions from './SubmitArticleFormActions'
 import SubmitArticleFormHeader from './SubmitArticleFormHeader'
 import SubmitArticleFormContent from './SubmitArticleFormContent'
-import { formatMetadata } from './Module'
+import type { AttributesPayload, ApproveArticlePayload } from './Module'
 import ScrollToTopButton from '../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton'
 
-import type { EditArticlePayload, SubmitArticlePayload } from './Module'
+import type { EditArticlePayload, SubmitArticlePayload, SubmitArticleVersionPayload } from './Module'
 import type { ShowNotificationPayload } from '../../../lib/Module'
 
-type Props =
-  | any
-  | {
-      draftArticleAction: any => void,
-      submitArticleAction: SubmitArticlePayload => void,
-      editArticleAction: EditArticlePayload => void,
-      submitForReviewAction: any => void,
-      categories: Array<?string>,
-      userId: string,
-      article_id?: string,
-      request_id: string,
-      data: any,
-      article?: any,
-      form: any,
-      handleFormChange: ({ text: string }) => void,
-      routeChangeAction: string => void,
-      isKauriTopicOwner: boolean,
-      showNotificationAction: ShowNotificationPayload => void,
-      username?: ?string,
-    }
+type Owner = {
+  id: string,
+  name: string,
+}
 
-type SubmitArticleVariables = { subject: string, text: string, sub_category?: string, version?: string }
+type PublishArticlePayload = {
+  id: string,
+  version: number,
+  contentHash: string,
+  dateCreated: string,
+  contributor: string,
+  owner: ?Owner,
+}
+
+type DraftArticlePayload = {
+  title: string,
+  content: string,
+  attributes?: AttributesPayload,
+}
+
+type Props = {
+  draftArticleAction: DraftArticlePayload => void,
+  submitArticleAction: SubmitArticlePayload => void,
+  submitArticleVersionAction: SubmitArticleVersionPayload => void,
+  editArticleAction: EditArticlePayload => void,
+  publishArticleAction: PublishArticlePayload => void,
+  approveArticleAction: ApproveArticlePayload => void,
+  categories: Array<?string>,
+  article_id?: string,
+  request_id: string,
+  data?: ?{ getArticle?: ArticleDTO },
+  article?: ArticleDTO,
+  form: any,
+  handleFormChange: ({ text: string }) => void,
+  routeChangeAction: string => void,
+  isKauriTopicOwner: boolean,
+  showNotificationAction: ShowNotificationPayload => void,
+  username: ?string,
+  userId: string,
+  userAvatar: ?string,
+}
+
+type SubmitArticleVariables = {
+  subject: string,
+  text: string,
+  owner: ?Owner,
+  version?: string,
+  attributes?: AttributesPayload,
+}
 
 class SubmitArticleForm extends React.Component<Props> {
   static Header = SubmitArticleFormHeader
@@ -76,137 +102,127 @@ class SubmitArticleForm extends React.Component<Props> {
       })
     })
 
-  handleSubmit = (submissionType: string) => (e: any) => {
-    e.preventDefault()
-    this.props.form.validateFieldsAndScroll(
-      async (formErr, { text, subject, sub_category, category, version }: SubmitArticleVariables) => {
-        const { networkName } = await this.getNetwork()
-        if (networkName !== 'Rinkeby' && networkName !== 'Kauri Dev') {
-          return this.props.showNotificationAction({
-            notificationType: 'error',
-            message: 'Network error!',
-            description: 'Please switch to the correct Ethereum network!',
-          })
-        }
-        if (!formErr) {
-          if (submissionType === 'submit/update') {
-            const { submitArticleAction, editArticleAction, request_id, data, article_id } = this.props
+  checkNetwork = networkName => {
+    if (networkName !== 'Rinkeby' && networkName !== 'Kauri Dev') {
+      return this.props.showNotificationAction({
+        notificationType: 'error',
+        message: 'Network error!',
+        description: 'Please switch to the correct Ethereum network!',
+      })
+    }
+  }
 
-            if (typeof request_id === 'string') {
-              if (typeof article_id === 'string') {
-                return editArticleAction({
-                  request_id: data.getArticle.request_id,
-                  text,
-                  article_id,
-                  article_version: this.props.data.getArticle.article_version,
-                  subject,
-                })
-              } else {
-                return submitArticleAction({
-                  request_id,
-                  text,
-                  subject,
-                  category: data.getRequest.category,
-                  sub_category: data.getRequest.sub_category,
-                  metadata: formatMetadata({ version }),
-                })
-              }
-            } else if (typeof article_id === 'string') {
-              const currentArticle: ArticleDTO = this.props.data.getArticle
-              if (currentArticle.status === 'PUBLISHED') {
-                // Here I am really submitting a new article with updates for an already existing article!
-                return submitArticleAction({
-                  article_id,
-                  text,
-                  subject,
-                  sub_category: currentArticle.sub_category,
-                  category: currentArticle.category,
-                  metadata: formatMetadata({ version }),
-                })
-              } else if (currentArticle.status === 'IN_REVIEW') {
-                // If I own the article and it's not already published... I can edit it!
-                return editArticleAction({
-                  text,
-                  article_id,
-                  article_version: currentArticle.article_version,
-                  subject,
-                  sub_category,
-                })
-              } else if (currentArticle.status === 'DRAFT') {
-                // If I own the article and it's not already published... I can edit it!
-                return editArticleAction({
-                  text,
-                  article_id,
-                  article_version: currentArticle.article_version,
-                  subject,
-                  sub_category,
-                })
-              }
-            } else {
-              return submitArticleAction({
-                request_id,
-                text,
-                subject,
-                sub_category,
-                category,
-                metadata: formatMetadata({ version }),
-              })
-            }
-          } else if (submissionType === 'draft') {
-            if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'DRAFT') {
-              const currentArticle: ArticleDTO = this.props.data.getArticle
-
-              const submitForReviewPayload = {
-                id: currentArticle.article_id,
-                article_version: currentArticle.article_version,
-                category: currentArticle.category,
-              }
-              // console.log('submitForReviewPayload', submitForReviewPayload)
-              this.props.submitForReviewAction(submitForReviewPayload)
-            } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id) {
-              const currentArticle: ArticleDTO = this.props.data.getArticle
-
-              const draftArticlePayload = {
-                subject,
-                text,
-                category: currentArticle.category,
-                sub_category: currentArticle.sub_category,
-                metadata: formatMetadata({ version }),
-                request_id: currentArticle.request_id,
-              }
-              // console.log('draftArticlePayload', draftArticlePayload)
-              this.props.draftArticleAction(draftArticlePayload)
-            } else {
-              const draftArticlePayload = {
-                subject,
-                text,
-                category,
-                sub_category,
-                metadata: formatMetadata({ version }),
-                request_id: this.props.request_id,
-              }
-              // console.log('draftArticlePayload', draftArticlePayload)
-              this.props.draftArticleAction(draftArticlePayload)
-            }
-          }
-        } else {
-          Object.keys(formErr).map(errKey =>
-            formErr[errKey].errors.map(err =>
-              this.props.showNotificationAction({
-                notificationType: 'error',
-                message: 'Validation error!',
-                description: err.message,
-              })
-            )
-          )
-          return console.error(formErr)
-        }
-      }
+  showFormError = formErr => {
+    Object.keys(formErr).map(errKey =>
+      formErr[errKey].errors.map(err =>
+        this.props.showNotificationAction({
+          notificationType: 'error',
+          message: 'Validation error!',
+          description: err.message,
+        })
+      )
     )
+    return console.error(formErr)
+  }
+
+  showGenericError = () => {
+    return this.props.showNotificationAction({
+      notificationType: 'error',
+      message: 'Editor Error',
+      description: 'Something went wrong with the article creation, please refresh the page and try again.',
+    })
+  }
+
+  handleSubmit = (submissionType: string) => (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    this.props.form.validateFieldsAndScroll(async (formErr, { text, subject, attributes }: SubmitArticleVariables) => {
+      const { networkName } = await this.getNetwork()
+      await this.checkNetwork(networkName)
+      const {
+        submitArticleAction,
+        submitArticleVersionAction,
+        editArticleAction,
+        draftArticleAction,
+        approveArticleAction,
+        article_id,
+        userId,
+      } = this.props
+
+      if (formErr) return this.showFormError(formErr)
+
+      const articleData: ArticleDTO = this.props.data && this.props.data.getArticle
+
+      // NEW DRAFT
+      if (!articleData && submissionType === 'draft') {
+        return draftArticleAction({ text, subject, attributes: attributes || {} })
+      }
+      // NEW ARTICLE
+      if (!articleData && submissionType === 'submit/update') {
+        return submitArticleAction({ text, subject, attributes, selfPublish: true })
+      }
+
+      const { id, version, status, author, owner, dateCreated, contentHash } = articleData
+
+      switch (status) {
+        case 'PUBLISHED':
+          if (owner && userId === owner.id && submissionType === 'draft') {
+            return submitArticleVersionAction({ id, text, subject, attributes: attributes || articleData.attributes })
+          } else if (owner && userId === owner.id && submissionType === 'submit/update') {
+            return submitArticleVersionAction({
+              id,
+              text,
+              subject,
+              attributes: attributes || articleData.attributes,
+              owner,
+              selfPublish: true,
+            })
+          } else if (owner && userId !== owner.id && submissionType === 'draft') {
+            return submitArticleVersionAction({
+              id,
+              text,
+              subject,
+              attributes: attributes || articleData.attributes,
+              owner,
+            })
+          } else if (owner && userId !== owner.id && submissionType === 'submit/update') {
+            return submitArticleVersionAction({
+              id,
+              text,
+              subject,
+              attributes: attributes || articleData.attributes,
+              owner,
+              selfPublish: false,
+            })
+          } else {
+            return this.showGenericError()
+          }
+        case 'DRAFT':
+          if (author && userId === author.id && submissionType === 'draft') {
+            return editArticleAction({ id, version, subject, text, attributes: attributes || articleData.attributes })
+          } else if (author && userId === author.id && submissionType === 'submit/update') {
+            return editArticleAction({
+              id,
+              version,
+              subject,
+              text,
+              attributes: attributes || articleData.attributes,
+              selfPublish: true,
+            })
+          } else {
+            return this.showGenericError()
+          }
+        case 'PENDING':
+        // pending articles should not be shown in the editor
+        default:
+          return this.showGenericError()
+      }
+    })
   }
 
   render () {
-    const { routeChangeAction, isKauriTopicOwner } = this.props
+    const { routeChangeAction, isKauriTopicOwner, form } = this.props
+
+    const articleData = this.props.data && this.props.data.getArticle
 
     return (
       <Form>
@@ -216,51 +232,34 @@ class SubmitArticleForm extends React.Component<Props> {
           categories={this.props.categories}
           handleSubmit={this.handleSubmit}
           routeChangeAction={routeChangeAction}
-          text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.text}
-          status={this.props.data && this.props.data.getArticle && this.props.data.getArticle.status}
-          category={
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.category) ||
-            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
-          }
+          text={articleData && articleData.content}
+          status={articleData && articleData.status}
           userId={this.props.userId}
-          authorId={this.props.data && this.props.data.getArticle && this.props.data.getArticle.user_id}
+          author={articleData && articleData.author && articleData.author.id}
+          owner={articleData && articleData.owner && articleData.owner.id}
         />
         <SubmitArticleForm.Header
           {...this.props.form}
-          category={
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.category) ||
-            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
-          }
-          subCategory={
-            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.sub_category) ||
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.sub_category)
-          }
-          status={this.props.data && this.props.data.getArticle && this.props.data.getArticle.status}
-          subject={this.props.data && this.props.data.getArticle && this.props.data.getArticle.subject}
-          metadata={this.props.data && this.props.data.getArticle && this.props.data.getArticle.metadata}
+          status={articleData && articleData.status}
+          subject={articleData && articleData.title}
+          attributes={articleData && articleData.attributes}
           isKauriTopicOwner={isKauriTopicOwner}
         />
         <SubmitArticleForm.Content
           {...this.props.form}
-          category={
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.category) ||
-            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
-          }
-          subCategory={
-            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.sub_category) ||
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.sub_category)
-          }
-          article_id={this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id}
-          text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.text}
+          article_id={articleData && articleData.id}
+          text={articleData && articleData.content}
+          ownerId={articleData && articleData.owner && articleData.owner.id}
           username={
-            (this.props.data &&
-              this.props.data.getArticle &&
-              this.props.data.getArticle.user &&
-              this.props.data.getArticle.user.username) ||
-            this.props.username
+            articleData && articleData.owner && articleData.owner.id
+              ? articleData && articleData.owner && articleData.owner.username
+              : (articleData && articleData.author && articleData.author.username) || this.props.username
           }
-          userId={
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.user_id) || this.props.userId
+          userId={(articleData && articleData.owner && articleData.owner.id) || this.props.userId}
+          userAvatar={
+            articleData && articleData.owner && articleData.owner.id
+              ? articleData && articleData.owner && articleData.owner.avatar
+              : (articleData && articleData.author && articleData.author.avatar) || this.props.userAvatar
           }
         />
       </Form>

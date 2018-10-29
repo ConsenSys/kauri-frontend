@@ -23,11 +23,6 @@ const ApprovedArticleActions = styled.section`
   }
 `
 
-const PullRight = styled.div`
-  display: flex;
-  align-items: center;
-`
-
 const ArticleTipAmount = ActionBadge.extend`
   cursor: initial;
   :first-child {
@@ -52,13 +47,13 @@ export default ({ toggleBanner, routeChangeAction, tipArticleAction, ethUsdPrice
       <GreenArrow direction='left' />
       <span>Go Back</span>
     </ActionBadge>
-    <ContributeToBounty
+    {/* <ContributeToBounty
       type='article'
       toggleBanner={toggleBanner}
       ethUsdPrice={ethUsdPrice}
       addToBountyAction={tipArticleAction}
       request_id={request_id}
-    />
+    /> */}
     <ArticleTipAmount>
       <EthTipAmount>{`${web3.fromWei(tip || 0, 'ether')} ETH`}</EthTipAmount>
       <DollarTipAmount>{`$${(web3.fromWei(tip || 0, 'ether') * ethUsdPrice).toFixed(2)}`}</DollarTipAmount>

@@ -6,7 +6,7 @@ import Community from '../components/connections/Community'
 import { withRouter } from 'next/router';
 
 class TopicsPage extends React.Component {
-  render() {
+  render () {
     return (
       <App url={this.props.router}>
         <Community category={this.props.router && this.props.router.query['category']} />

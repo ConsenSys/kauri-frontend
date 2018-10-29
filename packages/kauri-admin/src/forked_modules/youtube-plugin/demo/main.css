@@ -1,0 +1,86 @@
+/*
+ * Copyright (c) 2017, Globo.com (https://github.com/globocom)
+ *
+ * License: MIT
+ */
+/*
+ * Copyright (c) 2017, Globo.com (https://github.com/globocom)
+ *
+ * License: MIT
+ */
+/*
+ * Copyright (c) 2017, Globo.com (https://github.com/globocom)
+ *
+ * License: MIT
+ */
+/*
+ * Copyright (c) 2017, Globo.com (https://github.com/globocom)
+ *
+ * License: MIT
+ */
+.bs-btn {
+  padding: 0 1rem;
+  text-transform: uppercase;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+  text-align: center;
+  font-family: "Open Sans";
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased; }
+  .bs-btn + .bs-button {
+    margin-left: 10px; }
+  .bs-btn--blue {
+    background-color: #0669de;
+    box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.3); }
+    .bs-btn--blue:hover:not(:active) {
+      background-color: #044cb3;
+      box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.3); }
+    .bs-btn--blue:active {
+      background-color: #3192e7; }
+  .bs-btn--small {
+    font-size: 0.75rem;
+    height: 33px;
+    line-height: 1rem; }
+
+/*
+ * Copyright (c) 2017, Globo.com (https://github.com/globocom)
+ *
+ * License: MIT
+ */
+.bs-error-list {
+  list-style: none;
+  margin: 0;
+  margin-top: 0.5rem;
+  padding: 0;
+  color: #e83f26;
+  font-family: "Open Sans";
+  font-size: 0.875rem;
+  letter-spacing: -0.01562rem;
+  line-height: 1rem;
+  -webkit-font-smoothing: antialiased;
+  transition: all ease-in-out .20s; }
+
+.megadraft-youtube {
+  line-height: 0;
+  padding: 10px 0; }
+
+body {
+  margin: 0; }
+
+.content {
+  font-family: Open Sans, Sans-serif; }
+  .content header {
+    background: #212121;
+    color: #fff;
+    padding: 0 20px;
+    margin-bottom: 40px;
+    line-height: 70px; }
+    .content header h1 {
+      margin: 0;
+      font-size: 1.5em; }
+  .content .editor {
+    margin: 0 auto;
+    max-width: 960px; }

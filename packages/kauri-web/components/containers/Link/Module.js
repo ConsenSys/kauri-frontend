@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable'
 import { getRequestForAnalytics } from '../../../queries/Request'
 import { getArticleForAnalytics } from '../../../queries/Article'
 import { getCollectionForAnalytics } from '../../../queries/Collection'
-import { getUserForAnalytics } from '../../../queries/User'
+import { getUserDetails } from '../../../queries/User'
 import mixpanelBrowser from 'mixpanel-browser'
 
 import type { Dependencies } from '../../../lib/Module'
@@ -27,14 +27,14 @@ type TrackingEvent = 'View' | 'Onchain' | 'Offchain'
 
 type Resource = 'request' | 'article' | 'community' | 'kauri' | 'collection' | 'public-profile'
 
-type Classification =
+export type Classification =
   | {
       page: string,
     }
   | {
       resource: Resource | string,
-      resourceID: string,
-      resourceVersion: string,
+      resourceID?: string,
+      resourceVersion?: string,
       resourceAction: ?string,
     }
 
@@ -82,7 +82,7 @@ const classifyURL = (urlSplit: Array<string>): Classification => {
       urlSplit[4] ===
       ('update-article' ||
         'article-drafted' ||
-        'article-submitted' ||
+        'article-proposed' ||
         'article-updated' ||
         'article-approved' ||
         'article-rejected' ||
@@ -113,8 +113,8 @@ const fetchResource = (classification: *, apolloClient: *): Promise<*> => {
     return apolloClient.query({
       query: getArticleForAnalytics,
       variables: {
-        article_id: classification.resourceID,
-        article_version: parseInt(classification.resourceVersion),
+        id: classification.resourceID,
+        version: parseInt(classification.resourceVersion),
       },
     })
   } else if (resource === 'collection') {
@@ -126,7 +126,7 @@ const fetchResource = (classification: *, apolloClient: *): Promise<*> => {
     })
   } else if (resource === 'public-profile') {
     return apolloClient.query({
-      query: getUserForAnalytics,
+      query: getUserDetails,
       variables: {
         userId: classification.resourceID,
       },

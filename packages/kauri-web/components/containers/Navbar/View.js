@@ -1,9 +1,10 @@
 import React from 'react'
-import { Menu, Button, Icon } from 'antd'
+import { Menu, Icon } from 'antd'
 import styled, { css } from 'styled-components'
 import { Link } from '../../../routes'
 import Web3Status from '../Web3Status'
 import ArticleSearchbar from '../ArticleSearchbar'
+import { H6 } from '../../../../kauri-components/components/Typography'
 import Tooltip from '../../common/Tooltip'
 import { withRouter } from 'next/router'
 
@@ -72,22 +73,6 @@ const Text = styled.a`
   }
 `
 
-const GlobalCreateRequestButton = styled(Button)`
-  align-self: center;
-  width: 134px;
-  height: 40px !important;
-  background-color: #262c35 !important;
-  border-color: #0ba986 !important;
-  color: #fff !important;
-  font-size: 11px !important;
-  font-weight: bold !important;
-  line-height: 16px !important;
-  :hover {
-    background-color: ${props => props.theme.primaryColor} !important;
-    border-color: ${props => props.theme.primaryColor} !important;
-  }
-`
-
 const ProfileMiniature = styled.div`
   background: white;
   color: #1e2428;
@@ -132,6 +117,40 @@ const Chevron = styled.span`
   display: inline-block;
   transform: rotate(90deg);
   margin-left: 10px;
+`
+
+const TooltipDivider = styled.div`
+  width: 100%;
+  border: 1px solid #f2f2f2;
+`
+
+const Avatar = styled.div`
+  display: flex;
+  height: 30px;
+  width: 30px;
+  align-self: center;
+  justify-self: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: ${props => props.variant === 'white' ? props.theme.colors['white'] : props.theme.colors['textPrimary']};
+  > * {
+    color: ${props => props.variant === 'white' ? props.theme.colors['textPrimary'] : props.theme.colors[props.color]};
+    text-transform: uppercase;
+    line-height: 10px;
+  }
+`
+
+const ProfileImage = styled.div`
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-position: center center;
+  background: url(${props => props.avatar}) no-repeat;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
 `
 
 const deleteAllCookies = callback => {
@@ -196,31 +215,47 @@ class Navbar extends React.Component {
         {user &&
           user.topics &&
           user.topics.length > 0 && (
-            <StyledMenuItem onlyDesktop key='/approvals'>
-              <Link href={'/approvals'}>
-                <Text href='/approvals' pathname={router.pathname} link='/approvals'>
+          <StyledMenuItem onlyDesktop key='/approvals'>
+            <Link href={'/approvals'}>
+              <Text href='/approvals' pathname={router.pathname} link='/approvals'>
                   Approvals
-                </Text>
+              </Text>
+            </Link>
+          </StyledMenuItem>
+        )}
+
+        <StyledMenuItem>
+          <Tooltip
+            header={
+              <Text link='/dropdown-selector-null'>
+                <CreateResourceTooltipReference>
+                  Discover
+                  <Chevron>›</Chevron>
+                </CreateResourceTooltipReference>
+              </Text>
+            }
+          >
+            <TooltipItemContainer>
+              <Link route='/articles'>
+                <TooltipItem href='/articles' pathname={router.pathname} link='/articles'>
+                Articles
+                </TooltipItem>
               </Link>
-            </StyledMenuItem>
-          )}
-
-        <StyledMenuItem onlyDesktop key='/communities'>
-          <Link href='/communities'>
-            <Text href='/communities' pathname={router.pathname} link='/communities'>
-              Communities
-            </Text>
-          </Link>
+              <TooltipDivider />
+              <Link route='/communities'>
+                <TooltipItem href='/communities' pathname={router.pathname} link='/communities'>
+                Communities
+                </TooltipItem>
+              </Link>
+              <TooltipDivider />
+              <Link route='/collections'>
+                <TooltipItem href='/collections' pathname={router.pathname} link='/collections'>
+                 Collections
+                </TooltipItem>
+              </Link>
+            </TooltipItemContainer>
+          </Tooltip>
         </StyledMenuItem>
-
-        <StyledMenuItem onlyDesktop key='/requests'>
-          <Link href='/requests'>
-            <Text href='/requests' pathname={router.pathname} link='/requests'>
-              Requests
-            </Text>
-          </Link>
-        </StyledMenuItem>
-
         <Spacer />
         <StyledMenuItem onlyDesktop>
           <ArticleSearchbar collapsible />
@@ -238,17 +273,17 @@ class Navbar extends React.Component {
             }
           >
             <TooltipItemContainer>
-              <Link route={userId ? '/write-article' : '/login'}>
+              <Link route={userId ? '/write-article' : '/login?r=write-article'}>
                 <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>
                   Write Article
                 </TooltipItem>
               </Link>
-              <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
-              <Link route={userId ? '/create-request' : '/login'}>
-                <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>
-                  Write Request
-                </TooltipItem>
-              </Link>
+                <TooltipDivider />
+                <Link route={userId ? '/create-collection' : `/login?r=create-collection`}>
+                  <TooltipItem href='/create-collection' pathname={router.pathname} link='/create-collection'>
+                  Create Collection
+                  </TooltipItem>
+                </Link>
             </TooltipItemContainer>
           </Tooltip>
         </StyledMenuItem>
@@ -261,21 +296,22 @@ class Navbar extends React.Component {
           {userId && userId.length ? (
             <Tooltip
               header={
-                <ProfileMiniature>
-                  {user && user.username ? user.username.substring(0, 1) : <Icon type='user' />}
-                </ProfileMiniature>
+                <Avatar variant={'white'}>
+                  {typeof user.avatar === 'string' && user.avatar.length > 1 ? (
+                    <ProfileImage avatar={user.avatar} alt='Logo' />
+                  ) : (
+                    <H6 color={'textPrimary'}>{user.username ? user.username.charAt(0)
+                      : typeof user.id === 'string' ? user.id.charAt(0) : 'Anonymous'}</H6>
+                  )}
+                </Avatar>
               }
             >
               <TooltipItemContainer>
-                <Link route={'/profile'}>
-                  <TooltipItem>Account</TooltipItem>
-                </Link>
-                <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
                 <Link route={`/public-profile/${userId}`}>
-                  <TooltipItem>Public Profile</TooltipItem>
+                  <TooltipItem>Profile</TooltipItem>
                 </Link>
                 <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
-                <TooltipItem onClick={logout}>Logout</TooltipItem>
+                <TooltipItem onClick={logout}>Disconnect</TooltipItem>
               </TooltipItemContainer>
             </Tooltip>
           ) : (
@@ -288,11 +324,7 @@ class Navbar extends React.Component {
             >
               <TooltipItemContainer>
                 <Link route={'/login'}>
-                  <TooltipItem>Login</TooltipItem>
-                </Link>
-                <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
-                <Link route={'/login'}>
-                  <TooltipItem>Register</TooltipItem>
+                  <TooltipItem>Sign in</TooltipItem>
                 </Link>
               </TooltipItemContainer>
             </Tooltip>
