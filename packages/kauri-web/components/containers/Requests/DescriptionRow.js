@@ -23,45 +23,6 @@ type Props = {
   imageURL?: string,
 }
 
-const hideAtomicBlock = css`
-  figure,
-  iframe {
-    display: none;
-  }
-`
-
-const maxThreeLinesCss = css`
-  height: 4em;
-  line-height: 2em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`
-
-const openRequestCss = css`
-  height: 1.5em;
-`
-
-const articleCardCss = css`
-  height: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: pre-wrap;
-  > :not(div) {
-    display: none;
-  }
-  > div {
-    font-size: 14px;
-    :nth-child(1n + ${props => (props.cardHeight > 290 ? '4' : '3')}) {
-      display: none;
-    }
-    :nth-child(${props => (props.cardHeight > 290 ? '3' : '2')}) {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-`
-
 const styles = {
   code: {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
@@ -129,7 +90,6 @@ const recentRequest = css`
 
 export const TruncateWithEllipsisCss = css`
   color: ${props => props.theme.primaryTextcolor};
-  white-space: pre-wrap;
   font-size: 17px;
   letter-spacing: -0.1px;
   line-height: 24px;
@@ -292,30 +252,34 @@ export const AtomicBlock = ({ type, ...props }) => {
 const getAtomic = (children, { data, keys }) => data.map((item, i) => <AtomicBlock key={keys[i]} {...data[i]} />)
 
 export const HeaderTwoCss = css`
+  margin-top: 0px;
+  margin-bottom: ${props => props.theme.space[3]}px;
   font-style: normal;
   color: ${props => props.theme.primaryTextcolor};
   font-size: 18px;
-  font-weight: 700;
+  font-weight: bold;
   line-height: 24px;
   margin: 20px 0px;
   * {
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: bold;
     margin: 21px 0px;
     color: ${props => props.theme.primaryTextcolor};
   }
+`
+
+const HeaderOne = styled.h1`
+  ${HeaderTwoCss};
+  font-size: 20px;
 `
 
 const HeaderTwo = styled.h2`
   ${HeaderTwoCss};
 `
 
-const HeaderThree = HeaderTwo.extend`
+const HeaderThree = styled.h3`
+  ${HeaderTwoCss};
   font-size: 16px;
-  line-height: 24px;
-  * {
-    font-size: 16px;
-  }
 `
 
 const BlockQuoteContainer = styled.div`
@@ -411,7 +375,7 @@ export const blocks = (
   unstyled: (children, { keys }) => addBreaklines(children, keys, fullText, recentRequest, type),
   blockquote: (children, { keys }) => <BlockQuote fullText={fullText} key={keys[0]} children={children} />,
   'header-one': (children, { keys }) =>
-    fullText ? children.map((child, i) => <HeaderTwo key={keys[i]}>{child}</HeaderTwo>) : null,
+    fullText ? children.map((child, i) => <HeaderOne key={keys[i]}>{child}</HeaderOne>) : null,
   'header-two': (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
@@ -457,6 +421,42 @@ export const entities = {
   },
 }
 
+const hideAtomicBlock = css`
+  figure,
+  iframe {
+    display: none;
+  }
+`
+
+const articleCardCss = css`
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  > :not(div) {
+    display: none;
+  }
+  > div {
+    font-size: 14px;
+    :nth-child(1n + ${props => (props.cardHeight > 290 ? '4' : '3')}) {
+      display: none;
+    }
+    :nth-child(${props => (props.cardHeight > 290 ? '3' : '2')}) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+`
+
+const MaxThreeLines = styled.div`
+  font-size: 17px;
+  letter-spacing: -0.1px;
+  line-height: 24px;
+  ${props => !props.fullText && hideAtomicBlock};
+  ${props => props.type === 'article card' && articleCardCss};
+`
+
 export const options = {
   cleanup: {
     after: ['atomic'],
@@ -465,23 +465,6 @@ export const options = {
     split: true,
   },
 }
-
-const MaxThreeLines = styled.div`
-  ${props => !props.fullText && hideAtomicBlock};
-  ${props => !props.fullText && props.type !== 'article card' && maxThreeLinesCss};
-  margin-top: 2px;
-  font-size: 17px;
-  letter-spacing: -0.1px;
-  line-height: 24px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  min-height: ${props => props.requestPage && '30vh'};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: pre-wrap;
-  ${props => props.openRequest && openRequestCss};
-  ${props => props.type === 'article card' && articleCardCss};
-`
 
 export default compose(withErrorCatch())(
   ({
@@ -530,7 +513,7 @@ export default compose(withErrorCatch())(
             text={stripHTML(getHTMLFromMarkdown(JSON.parse(text).markdown)).substring(0, imageURL ? 200 : 500)}
           />
         ) : (
-          'Old Content, please migrate to new Markdown'
+          ''
         )
       ) : inReviewArticleComment && typeof text === 'string' && text.length > 5 ? (
         text

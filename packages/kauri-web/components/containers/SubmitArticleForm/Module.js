@@ -347,7 +347,7 @@ export const draftArticleEpic = (
       .do(() => apolloClient.resetStore())
       .flatMap(({ data: { output: { id, version } } }) =>
         Observable.of(
-          routeChangeAction(`/article/${id}/v${version}/article-updated`),
+          routeChangeAction(`/article/${id}/v${version}/article-drafted`),
           trackMixpanelAction({
             event: 'Offchain',
             metaData: {

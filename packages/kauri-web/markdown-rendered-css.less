@@ -1,37 +1,55 @@
+.react-mde,
 .mde-preview,
+.mde-preview-content,
+.mde-preview .mde-preview-content,
 .DescriptionRow-markdown {
   &--fullText {
     min-height: 30vh;
   }
   p,
+  span,
   blockquote,
   ul,
   ol,
   dl,
   table,
   pre {
-    margin-top: 0;
-    margin-bottom: 16px;
+    line-height: 24px !important;
+    font-size: 17px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    letter-spacing: -0.1px;
   }
 
   h1,
   h2,
-  h3 {
-    margin-top: 24px;
-    margin-bottom: 16px;
-    font-weight: 600;
-    line-height: 1.25;
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 24px !important;
+    margin-top: 0px !important;
+    margin-bottom: 20px !important;
+    font-weight: bold !important;
     border-bottom: none !important;
-    padding-bottom: 0.3em;
   }
   h1 {
-    font-size: 1.6em;
+    font-size: 20px;
   }
   h2 {
-    font-size: 1.4em;
+    font-size: 18px;
   }
   h3 {
-    font-size: 1.2em;
+    font-size: 16px;
+  }
+  h4 {
+    font-size: 14px;
+  }
+  h5 {
+    font-size: 13px;
+  }
+  h6 {
+    font-size: 11px;
   }
   ul,
   ol {
@@ -64,10 +82,9 @@
   }
 
   pre {
-    padding: 16px;
     overflow: auto;
     font-size: 85%;
-    line-height: 1.45;
+    line-height: 24px !important;
     border-radius: 3px;
     background-color: #f8f8f8;
 
@@ -100,8 +117,10 @@
 
   a {
     text-decoration: none;
+    color: #0ba986 !important;
     &:hover {
       text-decoration: underline;
+      color: #108e72 !important;
     }
   }
   & > *:first-child {
@@ -149,10 +168,6 @@
 
 .react-mde {
   border: none !important;
-  p,
-  span {
-    font-size: 17px;
-  }
 }
 
 code,
