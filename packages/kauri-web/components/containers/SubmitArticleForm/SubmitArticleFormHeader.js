@@ -108,7 +108,7 @@ const SubmitArticleFormSubject = ({
         <ArticleSubject
           onKeyPress={handleKeyPress}
           placeholder='Add Article Title'
-          maxLength={55}
+          maxLength={100}
           hasErrors={getFieldError('subject') && getFieldError('subject').length > 0}
           style={{
             width: '100%',
