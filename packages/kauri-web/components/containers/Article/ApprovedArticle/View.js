@@ -128,6 +128,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           address={props.userId}
           hostName={hostName}
           articleCheckpointed={R.path(['data', 'getArticle', 'checkpoint'])(props)}
+          status={R.path(['data', 'getArticle', 'status'])(props)}
           resourceType={typeof resourceType === 'string' && R.toLower(resourceType)}
         />
         <ApprovedArticle.Footer
