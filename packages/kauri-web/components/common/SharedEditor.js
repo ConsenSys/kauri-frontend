@@ -56,7 +56,7 @@ Showdown.extension('highlightjs', function () {
   return [{
     type: 'output',
     regex: new RegExp(`<code>`, 'g'),
-    replace: `<code class="hljs solidity">`,
+    replace: `<code class="hljs">`,
   }];
 });
 
