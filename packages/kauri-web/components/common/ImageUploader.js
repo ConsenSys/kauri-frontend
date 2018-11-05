@@ -7,7 +7,7 @@ const TriggerImageUploader = (
   fieldName: string,
   callback?: (file: string, hash: string) => void
 ) => {
-  const uppy = initUppy()
+  const uppy = initUppy({ allowGifs: false });
   uppy.run()
   uppy.on('upload-success', (file, { hash }) => {
     if (setFieldsValue && fieldName) { setFieldsValue({ [fieldName]: { background: `https://${config.getApiURL()}:443/ipfs/${hash}` } }) }
