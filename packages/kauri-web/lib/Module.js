@@ -172,8 +172,8 @@ export const openNotificationWithIcon = ({
 
 export const showConfirmationModal = (payload: ShowConfirmationModalPayload): void => confirm(payload)
 
-export const routeChange = (payload: RouteChangePayload): any =>
-  payload === 'back' ? Router.back() : Router.pushRoute(payload)
+export const routeChange = (payload: RouteChangePayload): any => 
+  payload === 'back' ? Router.back() : Router.pushRoute(payload);
 
 export const fetchEthUsdPrice = (fetch: any): Promise<any> =>
   fetch(process.env.ethUsdPriceEndpoint, {

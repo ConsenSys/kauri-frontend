@@ -170,6 +170,7 @@ export const searchCollections = gql`
 export const getCollectionsForUser = gql`
   query searchCollections($filter: CollectionFilterInput) {
     searchCollections(filter: $filter) {
+      totalElements
       content {
         ...Collection
       }

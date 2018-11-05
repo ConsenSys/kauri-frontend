@@ -176,11 +176,11 @@ export const searchApprovedArticles = gql`
 `
 
 export const globalSearchApprovedArticles = gql`
-  query globalSearchApprovedArticles($size: Int = 12, $page: Int = 0, $text: String) {
+  query globalSearchApprovedArticles($size: Int = 8, $page: Int = 0, $text: String) {
     searchArticles(
       size: $size
-      sort: "dateCreated"
       page: $page,
+      sort: "dateCreated"
       dir: DESC
       filter: { fullText: $text, statusIn: [PUBLISHED], latestVersion: true }
     ) {
@@ -241,10 +241,11 @@ export const totalArticlesCount = gql`
 export const searchPublishedArticleHistory = gql`
   query searchPublishedArticleHistory($userId: String, $categories: [String]) {
     searchArticles(filter: { category_in: $categories, status_in: [PUBLISHED], moderator_eq: $userId }) {
+      totalElements
+      isLast
       content {
         ...Article
       }
-      totalElements
     }
   }
 `
@@ -274,12 +275,16 @@ export const deleteArticleComment = gql`
 `
 
 export const searchPersonalArticles = gql`
-  query searchPersonalArticles($userId: String) {
+  query searchPersonalArticles($userId: String, $size: Int = 8, $page: Int = 0) {
     searchArticles(
+      size: $size
+      page: $page
       sort: "dateCreated"
       dir: DESC
       filter: { ownerIdEquals: $userId, statusIn: [PUBLISHED], latestVersion: true }
     ) {
+      totalElements
+      isLast
       content {
         id
         version
@@ -335,8 +340,15 @@ export const searchPersonalArticles = gql`
 `
 
 export const searchPersonalDrafts = gql`
-  query searchArticles($userId: String) {
-    searchArticles(sort: "dateCreated", dir: DESC, filter: { authorIdEquals: $userId, statusIn: [DRAFT] }) {
+  query searchArticles($userId: String, $size: Int = 8, $page: Int = 0) {
+    searchArticles(
+      size: $size
+      page: $page
+      sort: "dateCreated"
+      dir: DESC
+      filter: { authorIdEquals: $userId, statusIn: [DRAFT] }) {
+      totalElements
+      isLast
       content {
         id
         version
@@ -411,8 +423,15 @@ export const addComment = gql`
 `
 
 export const searchPending = gql`
-  query searchArticles($userId: String) {
-    searchArticles(sort: "dateCreated", dir: DESC, filter: { ownerIdEquals: $userId, statusIn: [PENDING] }) {
+  query searchArticles($userId: String, $size: Int = 8, $page: Int = 0) {
+    searchArticles(
+      size: $size
+      page: $page
+      sort: "dateCreated"
+      dir: DESC
+      filter: { ownerIdEquals: $userId, statusIn: [PENDING] }) {
+      totalElements
+      isLast
       content {
         id
         version
@@ -467,8 +486,15 @@ export const searchPending = gql`
 `
 
 export const searchAwaitingApproval = gql`
-  query searchArticles($userId: String) {
-    searchArticles(sort: "dateCreated", dir: DESC, filter: { authorIdEquals: $userId, statusIn: [PENDING] }) {
+  query searchArticles($userId: String, $size: Int = 8, $page: Int = 0) {
+    searchArticles(
+      size: $size
+      page: $page
+      sort: "dateCreated"
+      dir: DESC
+      filter: { authorIdEquals: $userId, statusIn: [PENDING] }) {
+      totalElements
+      isLast
       content {
         id
         version

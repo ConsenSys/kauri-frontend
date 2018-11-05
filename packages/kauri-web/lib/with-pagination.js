@@ -26,11 +26,7 @@ const withPagination = (Paginated, key) => {
       const scrollHeight =
         (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight
       const clientHeight = document.documentElement.clientHeight || window.innerHeight
-      // console.log(scrollTop)
-      // console.log(clientHeight)
-      // console.log(scrollHeight)
       const scrolledToBottom = Math.ceil(scrollTop + clientHeight + 50) >= scrollHeight
-      // console.log(scrolledToBottom)
       if (scrolledToBottom && this.props.data[key].isLast !== true) {
         this.setState({ showLoading: true })
         this.props.data.fetchMore({
@@ -40,13 +36,15 @@ const withPagination = (Paginated, key) => {
           updateQuery: (prev, { fetchMoreResult }) => {
             this.setState({ showLoading: false, page: (this.state.page += 1) })
             if (!fetchMoreResult) return prev
-            return Object.assign({}, prev, {
+            const result = Object.assign({}, prev, {
               [key]: {
                 __typename: prev[key].__typename,
                 content: [...prev[key].content, ...fetchMoreResult[key].content],
                 isLast: fetchMoreResult[key].isLast,
+                totalElements: prev[key].totalElements
               },
-            })
+            });
+            return result;
           },
         })
       }

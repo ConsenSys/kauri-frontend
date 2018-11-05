@@ -7,6 +7,7 @@ import Empty from './Empty'
 import { Link } from '../../../routes'
 import ContentContainer from './PublicProfileContentContainer'
 import CheckpointArticles from '../CheckpointArticles'
+import withPagination from '../../../lib/with-pagination';
 
 import type { ArticlesProps } from './types'
 
@@ -57,4 +58,4 @@ const Articles = ({ articles, type, routeChangeAction, isOwner }: ArticlesProps)
     <Empty />
   )
 
-export default Articles
+export default withPagination(Articles, "searchArticles");
