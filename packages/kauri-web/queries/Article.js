@@ -30,6 +30,7 @@ export const Article = gql`
         name
         avatar
         resourceIdentifier {
+          id
           type
         }
       }
@@ -38,6 +39,7 @@ export const Article = gql`
         name
         avatar
         resourceIdentifier {
+          id
           type
         }
       }
@@ -47,6 +49,8 @@ export const Article = gql`
         author {
           id
           name
+          username
+          avatar
         }
         posted
         body
@@ -179,8 +183,8 @@ export const globalSearchApprovedArticles = gql`
   query globalSearchApprovedArticles($size: Int = 8, $page: Int = 0, $text: String) {
     searchArticles(
       size: $size
-      page: $page,
       sort: "dateCreated"
+      page: $page
       dir: DESC
       filter: { fullText: $text, statusIn: [PUBLISHED], latestVersion: true }
     ) {
@@ -190,7 +194,6 @@ export const globalSearchApprovedArticles = gql`
       isLast
     }
   }
-
   ${Article}
 `
 

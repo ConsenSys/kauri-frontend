@@ -75,6 +75,7 @@ export default ({
   subject,
   address,
   hostName,
+  status,
   resourceType,
   articleCheckpointed,
 }: {
@@ -89,6 +90,7 @@ export default ({
   article_version: number,
   address?: string,
   hostName: string,
+  status: ArticleStatus,
   resourceType: 'user' | 'community',
   articleCheckpointed: boolean,
 }) => {
@@ -161,11 +163,13 @@ export default ({
           })}`}
           title={subject}
         />
-        <CheckpointArticles
-          isOwner={ownerId === userId}
-          articleCheckpointed={!!articleCheckpointed}
-          pageType={'approved-article'}
-        />
+        {status === 'PUBLISHED' && (
+          <CheckpointArticles
+            isOwner={ownerId === userId}
+            articleCheckpointed={!!articleCheckpointed}
+            pageType={'approved-article'}
+          />
+        )}
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>
   )

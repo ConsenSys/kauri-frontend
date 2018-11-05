@@ -29,7 +29,6 @@ const emptySection: SectionDTO = {
   name: '',
   description: undefined,
   resourcesId: [],
-  resources: undefined,
 }
 const AddIcon = () => <img src='https://png.icons8.com/ios-glyphs/50/000000/plus-math.png' />
 const RemoveIcon = () => <img src='https://png.icons8.com/windows/50/000000/delete-sign.png' />
@@ -304,13 +303,9 @@ export default ({
                   // { name: 'Followers', count: 0 },
                   {
                     name: 'Articles',
-                    count: R.pipe(
-                      R.reduce(
-                        (current, next) =>
-                          current + (next['resourcesId'] ? next['resourcesId'].length : next['resources'].length),
-                        0
-                      )
-                    )(values.sections),
+                    count: R.pipe(R.reduce((current, next) => current + next['resourcesId'].length, 0))(
+                      values.sections
+                    ),
                   },
                   // { name: 'Views', count: 0 },
                   // { name: 'Upvotes', count: 0 },
@@ -383,16 +378,12 @@ export default ({
                         openModalAction({
                           children: (
                             <ChooseArticleModal
+                              chosenArticles={R.path(['sections', index, 'resourcesId'])(values)}
                               closeModalAction={() => closeModalAction()}
                               confirmModal={chosenArticles =>
                                 arrayHelpers.form.setFieldValue(
                                   `sections[${index}].resourcesId`,
-                                  R.union(
-                                    R.path(['sections', index, 'resourcesId'])(arrayHelpers.form.values)
-                                      ? R.path(['sections', index, 'resourcesId'])(arrayHelpers.form.values)
-                                      : R.path(['sections', index, 'resources'])(arrayHelpers.form.values),
-                                    chosenArticles.map(article => ({ ...article, type: 'ARTICLE' }))
-                                  )
+                                  chosenArticles.map(article => ({ ...article, type: 'ARTICLE' }))
                                 )
                               }
                             />
@@ -404,15 +395,11 @@ export default ({
                     </TertiaryButton>
 
                     <ResourcesSection>
-                      {section.resourcesId && Array.isArray(section.resourcesId)
-                        ? section.resourcesId.map(
+                      {section.resourcesId &&
+                        Array.isArray(section.resourcesId) &&
+                        section.resourcesId.map(
                           renderResourceSection(index, arrayHelpers, section, values, 'resourcesId')
-                        )
-                        : section.resources &&
-                          Array.isArray(section.resources) &&
-                          section.resources.map(
-                            renderResourceSection(index, arrayHelpers, section, values, 'resources')
-                          )}
+                        )}
                     </ResourcesSection>
                   </SectionSection>
                 ))}

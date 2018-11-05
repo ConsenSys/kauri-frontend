@@ -102,7 +102,9 @@ class Articles extends Component<Props> {
                   title={article.title}
                   content={article.content}
                   username={
-                    article.owner && article.owner.resourceIdentifier.type.toLowerCase() === 'community'
+                    article.owner &&
+                    article.owner.resourceIdentifier &&
+                    article.owner.resourceIdentifier.type.toLowerCase() === 'community'
                       ? article.owner && article.owner.name
                       : article.owner && article.owner.username
                   }

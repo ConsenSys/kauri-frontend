@@ -4,11 +4,11 @@ import styled from 'styled-components'
 import moment from 'moment'
 import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard'
 import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard'
-import CardContentSection from '../../../../kauri-components/components/Section/CardContentSection'
+import CommunityCardConnection from '../../connections/Community/CommunityCard_Connection.bs'
 import theme from '../../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
 import { Link } from '../../../routes'
-import userIdTrim from '../../../lib/userid-trim'
+import R from 'ramda'
 
 const Title = styled.h2`
   font-weight: 300;
@@ -66,15 +66,29 @@ const getBG = (header, featured) => {
 
 const HOMEPAGE_CARD_HEIGHT = 290
 
-const CuratedList = ({ routeChangeAction, content: { name, resources, featured, header } }: { routeChangeAction: string => void, content: CuratedListDTO }) => {
+type Props = {
+  routeChangeAction: string => void,
+  content: CuratedListDTO,
+}
+
+const CuratedList = ({ routeChangeAction, content: { name, resources, featured, header } }: Props) => {
   return (
-    <Container bgColor={getBG(header, featured)} featured={featured} background={header && typeof header.background === 'string' && header.background}>
+    <Container
+      bgColor={getBG(header, featured)}
+      featured={featured}
+      background={header && typeof header.background === 'string' && header.background}
+    >
       {!header && <Title featured={featured}>{name}</Title>}
       {resources && (
         <Resources>
           {header && <CuratedHeader name={name} header={header} />}
           {resources.map(card => {
-            switch (card && card.resourceIdentifier && typeof card.resourceIdentifier.type === 'string' && card.resourceIdentifier.type) {
+            switch (
+              card &&
+                card.resourceIdentifier &&
+                typeof card.resourceIdentifier.type === 'string' &&
+                card.resourceIdentifier.type
+            ) {
               case 'ARTICLE': {
                 const articleCard: ArticleDTO = card
                 return (
@@ -85,8 +99,8 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     title={articleCard.title}
                     content={articleCard.content}
                     userId={articleCard.author && articleCard.author.id}
-                    username={articleCard.author && (articleCard.author.username)}
-                    userAvatar={articleCard.author && (articleCard.author.avatar)}
+                    username={articleCard.author && articleCard.author.username}
+                    userAvatar={articleCard.author && articleCard.author.avatar}
                     id={articleCard.id}
                     version={articleCard.version}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
@@ -101,8 +115,9 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
               }
               case 'COLLECTION': {
                 const collectionCard: CollectionDTO = card
-                const articleCount = collectionCard.sections && collectionCard.sections.reduce(
-                  (current, next) => {
+                const articleCount =
+                  collectionCard.sections &&
+                  collectionCard.sections.reduce((current, next) => {
                     current += next.resources && next.resources.length
                     return current
                   }, 0)
@@ -126,7 +141,8 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                       </Link>
                     )}
                   />
-                ) }
+                )
+              }
               case 'TOPIC' || 'COMMUNITY': {
                 const topic = theme[card.id]
                 if (!topic) return null
@@ -153,6 +169,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
           })}
         </Resources>
       )}
+      {/* {JSON.stringify({ name, resources, featured, header })} */}
     </Container>
   )
 }

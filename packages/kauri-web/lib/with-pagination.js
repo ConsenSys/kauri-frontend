@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import Loading from '../components/common/Loading'
 
 const withPagination = (Paginated, key) => {
@@ -12,6 +13,11 @@ const withPagination = (Paginated, key) => {
     }
 
     componentDidMount () {
+      if (this.childRef) {
+        const childRefElement = ReactDOM.findDOMNode(this.childRef)
+        this.childRefElement = childRefElement
+        childRefElement.addEventListener('scroll', this.handleOnScroll)
+      }
       window.addEventListener('scroll', this.handleOnScroll)
       window.addEventListener('touchend', this.handleOnScroll)
     }
@@ -22,11 +28,23 @@ const withPagination = (Paginated, key) => {
     }
 
     handleOnScroll = () => {
-      const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop
+      const scrollTop =
+        (this.childRefElement && this.childRefElement.scrollTop) ||
+        (document.documentElement && document.documentElement.scrollTop) ||
+        document.body.scrollTop
       const scrollHeight =
-        (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight
-      const clientHeight = document.documentElement.clientHeight || window.innerHeight
+        (this.childRefElement && this.childRefElement.scrollHeight) ||
+        (document.documentElement && document.documentElement.scrollHeight) ||
+        document.body.scrollHeight
+      const clientHeight =
+        (this.childRefElement && this.childRefElement.clientHeight) ||
+        document.documentElement.clientHeight ||
+        window.innerHeight
       const scrolledToBottom = Math.ceil(scrollTop + clientHeight + 50) >= scrollHeight
+      // console.log(scrollTop)
+      // console.log(clientHeight)
+      // console.log(scrollHeight)
+      // console.log(scrolledToBottom)
       if (scrolledToBottom && this.props.data[key].isLast !== true) {
         this.setState({ showLoading: true })
         this.props.data.fetchMore({
@@ -53,7 +71,7 @@ const withPagination = (Paginated, key) => {
     render () {
       return (
         <>
-          <Paginated {...this.props} />
+          <Paginated setRef={childRef => (this.childRef = childRef)} {...this.props} />
           {this.state.showLoading && <Loading />}
         </>
       )

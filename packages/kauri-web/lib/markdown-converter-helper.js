@@ -10,12 +10,14 @@ Showdown.extension('highlightjs', function () {
 });
 
 Showdown.extension('links-open-in-new-window', function () {
-  return [{
-    type: 'output',
-    regex: new RegExp(`<a href="[^#]`, 'g'),
-    replace: `<a target="_blank" href="h`,
-  }];
-});
+  return [
+    {
+      type: 'output',
+      regex: new RegExp(`<a href="\b(?!mailto|#)\b`, 'g'),
+      replace: `<a target="_blank" href="`,
+    },
+  ]
+})
 
 const converter = new Showdown.Converter({
   tables: true,

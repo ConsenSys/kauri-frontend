@@ -88,7 +88,7 @@ export default (props: Props) => (
             ? props.username.charAt(0)
             : typeof props.userId === 'string'
               ? props.userId.charAt(0)
-              : 'Anonymous'}
+              : 'A'}
         </H6>
       )}
     </Avatar>

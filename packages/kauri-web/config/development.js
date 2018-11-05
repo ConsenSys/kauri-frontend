@@ -1,6 +1,6 @@
 // const monolithApi = '35.196.21.146:80'
 const monolithApi = process.env.MONOLITH_API
-const monolithExternalApi = 'api.dev2.kauri.io'
+const monolithExternalApi = 'api.dev.kauri.io'
 
 module.exports = {
   monolithApi,

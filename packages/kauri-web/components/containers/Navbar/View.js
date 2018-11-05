@@ -279,7 +279,7 @@ class Navbar extends React.Component {
                 </TooltipItem>
               </Link>
                 <TooltipDivider />
-                <Link route={userId ? '/create-collection' : `/login?r=${router.asPath.substring(1)}`}>
+                <Link route={userId ? '/create-collection' : `/login?r=create-collection`}>
                   <TooltipItem href='/create-collection' pathname={router.pathname} link='/create-collection'>
                   Create Collection
                   </TooltipItem>

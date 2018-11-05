@@ -10,9 +10,10 @@ export default ({
   data: {
     searchArticles: { content },
   },
+  setRef,
 }) =>
   content.length > 0 ? (
-    <ChooseArticleContent>
+    <ChooseArticleContent setRef={setRef}>
       {content.map(article => (
         <ArticleCard
           key={article.id + article.version}

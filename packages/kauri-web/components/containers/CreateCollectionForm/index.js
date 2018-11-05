@@ -20,7 +20,6 @@ const emptySection: SectionDTO = {
   name: '',
   description: undefined,
   resourcesId: [],
-  resources: undefined,
 }
 
 const getCollectionField = (field, data) => R.path(['getCollection', field], data)
@@ -45,7 +44,17 @@ export default compose(
   withFormik({
     mapPropsToValues: ({ data }) => ({
       name: getCollectionField('name', data) || '',
-      sections: getCollectionField('sections', data) || [emptySection],
+      sections: R.path(['getCollection', 'sections'])(data)
+        ? R.pipe(
+          R.path(['getCollection', 'sections']),
+          R.map(section => ({
+            ...section,
+            resourcesId: R.map(({ id, version }) => ({ type: 'ARTICLE', id, version }))(section.resources),
+          })),
+          R.map(section => R.dissocPath(['resources'])(section)),
+          R.map(section => R.dissocPath(['__typename'])(section))
+        )(data)
+        : [emptySection],
       background: getCollectionField('background', data) || undefined,
       description: getCollectionField('description', data) || undefined,
     }),
@@ -68,9 +77,7 @@ export default compose(
           R.path(['sections']),
           R.map(section => ({
             ...section,
-            resourcesId: R.map(({ id, version }) => ({ type: 'ARTICLE', id, version }))(
-              section.resourcesId || section.resources
-            ),
+            resourcesId: R.map(({ id, version }) => ({ type: 'ARTICLE', id, version }))(section.resourcesId),
           })),
           R.map(section => R.dissocPath(['resources'])(section)),
           R.map(section => R.dissocPath(['__typename'])(section))

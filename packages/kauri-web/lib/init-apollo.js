@@ -17,7 +17,7 @@ if (!global.window) {
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
-});
+})
 
 function create (initialState, { getToken, hostName }) {
   const apiURL = config.getApiURL(hostName)
@@ -63,12 +63,13 @@ function create (initialState, { getToken, hostName }) {
     fragmentMatcher,
     dataIdFromObject: object => {
       switch (object.__typename) {
-        case 'ArticleDTO': return object.id + object.version; // use `key` as the primary key
-        default: 
-          return defaultDataIdFromObject(object);
+        case 'ArticleDTO':
+          return object.id + object.version // use `key` as the primary key
+        default:
+          return defaultDataIdFromObject(object)
       }
-    }
-  });
+    },
+  })
 
   return new ApolloClient({
     initialState,

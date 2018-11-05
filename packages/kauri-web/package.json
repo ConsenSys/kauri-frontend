@@ -1,12 +1,12 @@
 {
   "name": "kauri-web",
-  "version": "2.0.0",
+  "version": "1.3.5",
   "author": {
     "name": "Eric Juta"
   },
   "license": "ISC",
   "scripts": {
-    "get-schema": "yarn send-introspection-query https://api.dev2.kauri.io/graphql && node scripts/convertGQLSchemaToFlowTypes.js",
+    "get-schema": "yarn send-introspection-query https://api.dev.kauri.io/graphql && node scripts/convertGQLSchemaToFlowTypes.js",
     "clean": "bsb -clean-world",
     "dev": "concurrently \"npm run dev:bs\" \"npm run dev:web\"",
     "dev:bs": "bsb -make-world -w",
