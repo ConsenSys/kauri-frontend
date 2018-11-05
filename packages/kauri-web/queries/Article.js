@@ -180,7 +180,7 @@ export const searchApprovedArticles = gql`
 `
 
 export const globalSearchApprovedArticles = gql`
-  query globalSearchApprovedArticles($size: Int = 8, $page: Int = 0, $text: String) {
+  query globalSearchApprovedArticles($size: Int = 666, $page: Int = 0, $text: String) {
     searchArticles(
       size: $size
       sort: "dateCreated"
@@ -278,7 +278,7 @@ export const deleteArticleComment = gql`
 `
 
 export const searchPersonalArticles = gql`
-  query searchPersonalArticles($userId: String, $size: Int = 8, $page: Int = 0) {
+  query searchPersonalArticles($userId: String, $size: Int = 666, $page: Int = 0) {
     searchArticles(
       size: $size
       page: $page
@@ -343,7 +343,7 @@ export const searchPersonalArticles = gql`
 `
 
 export const searchPersonalDrafts = gql`
-  query searchArticles($userId: String, $size: Int = 8, $page: Int = 0) {
+  query searchArticles($userId: String, $size: Int = 666, $page: Int = 0) {
     searchArticles(
       size: $size
       page: $page
@@ -426,7 +426,7 @@ export const addComment = gql`
 `
 
 export const searchPending = gql`
-  query searchArticles($userId: String, $size: Int = 8, $page: Int = 0) {
+  query searchArticles($userId: String, $size: Int = 666, $page: Int = 0) {
     searchArticles(
       size: $size
       page: $page
@@ -489,7 +489,7 @@ export const searchPending = gql`
 `
 
 export const searchAwaitingApproval = gql`
-  query searchArticles($userId: String, $size: Int = 8, $page: Int = 0) {
+  query searchArticles($userId: String, $size: Int = 666, $page: Int = 0) {
     searchArticles(
       size: $size
       page: $page
