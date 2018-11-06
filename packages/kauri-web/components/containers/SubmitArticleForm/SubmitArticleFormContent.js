@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from 'react'
+import React from 'react'
 import { EditorState, ContentState } from 'draft-js'
 import SharedEditor from '../../common/SharedEditor'
 import styled from 'styled-components'
@@ -82,7 +82,7 @@ class SubmitArticleFormText extends React.Component<Props, State> {
           whitespace: true,
         },
       ],
-      initialValue: this.props.text,
+      initialValue: typeof this.props.text === 'string' ? JSON.stringify({ markdown: this.props.text }) : null,
     })(
       <SharedEditor
         hasErrors={this.props.getFieldError('text')}
