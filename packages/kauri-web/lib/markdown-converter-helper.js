@@ -2,14 +2,12 @@ import { ContentState, convertToRaw, convertFromHTML } from 'draft-js'
 import Showdown from 'showdown'
 
 Showdown.extension('highlightjs', function () {
-  return [
-    {
-      type: 'output',
-      regex: new RegExp(`<code>`, 'g'),
-      replace: `<code class="hljs solidity">`,
-    },
-  ]
-})
+  return [{
+    type: 'output',
+    regex: new RegExp(`<code>`, 'g'),
+    replace: `<code class="hljs">`,
+  }];
+});
 
 Showdown.extension('links-open-in-new-window', function () {
   return [

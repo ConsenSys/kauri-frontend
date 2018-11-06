@@ -40,6 +40,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       currentUser,
     } = this.props
 
+
     const isHeaderLoaded =
       typeof UserQuery.getUser === 'object' &&
       typeof ArticlesQuery.searchArticles === 'object' &&
@@ -77,31 +78,37 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         {isHeaderLoaded && areListsLoaded ? (
           <Tabs
             tabs={[
-              `Articles (${ArticlesQuery.searchArticles.content.length})`,
-              UserQuery.getUser.id === currentUser && `My Drafts (${DraftsQuery.searchArticles.content.length})`,
-              `Collections (${CollectionQuery.searchCollections.content.length})`,
+              `Articles (${ArticlesQuery.searchArticles.totalElements})`,
+              UserQuery.getUser.id === currentUser && `My Drafts (${DraftsQuery.searchArticles.totalElements})`,
+              `Collections (${CollectionQuery.searchCollections.totalElements})`,
               UserQuery.getUser.id === currentUser &&
-                `Awaiting Owner Approval (${ApprovalsQuery.searchArticles.content.length})`,
+                `Awaiting Owner Approval (${ApprovalsQuery.searchArticles.totalElements})`,
               UserQuery.getUser.id === currentUser &&
-                `Pending My Approval(${PendingQuery.searchArticles.content.length})`,
+                `Pending My Approval(${PendingQuery.searchArticles.totalElements})`,
             ]}
             panels={[
               <Articles
+                data={ArticlesQuery}
                 type='published'
                 articles={ArticlesQuery.searchArticles}
                 routeChangeAction={routeChangeAction}
                 isOwner={UserQuery.getUser.id === currentUser}
               />,
               UserQuery.getUser.id === currentUser && (
-                <Articles type='draft' articles={DraftsQuery.searchArticles} routeChangeAction={routeChangeAction} />
+                <Articles data={DraftsQuery}
+                  type='draft'
+                  articles={DraftsQuery.searchArticles}
+                  routeChangeAction={routeChangeAction} />
               ),
               <Collections collections={CollectionQuery.searchCollections} routeChangeAction={routeChangeAction} />,
               <Articles
+                data={ApprovalsQuery}
                 type='pending'
                 articles={ApprovalsQuery.searchArticles}
                 routeChangeAction={routeChangeAction}
               />,
               <Articles
+                data={PendingQuery}
                 type='toBeApproved'
                 articles={PendingQuery.searchArticles}
                 routeChangeAction={routeChangeAction}

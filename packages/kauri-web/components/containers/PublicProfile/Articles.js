@@ -7,6 +7,7 @@ import Empty from './Empty'
 import { Link } from '../../../routes'
 import ContentContainer from './PublicProfileContentContainer'
 import CheckpointArticles from '../CheckpointArticles'
+
 import { PrimaryButton } from '../../../../kauri-components/components/Button';
 import type { ArticlesProps } from './types'
 

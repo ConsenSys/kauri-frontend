@@ -54,13 +54,15 @@ const withPagination = (Paginated, key) => {
           updateQuery: (prev, { fetchMoreResult }) => {
             this.setState({ showLoading: false, page: (this.state.page += 1) })
             if (!fetchMoreResult) return prev
-            return Object.assign({}, prev, {
+            const result = Object.assign({}, prev, {
               [key]: {
                 __typename: prev[key].__typename,
                 content: [...prev[key].content, ...fetchMoreResult[key].content],
                 isLast: fetchMoreResult[key].isLast,
+                totalElements: prev[key].totalElements
               },
-            })
+            });
+            return result;
           },
         })
       }

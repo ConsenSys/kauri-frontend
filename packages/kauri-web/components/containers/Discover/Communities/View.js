@@ -89,7 +89,7 @@ class Communities extends Component<Props> {
         </Helmet>
         <CommunitiesHeader>
           <KauriTitle>{pageTitle}</KauriTitle>
-          <KauriDescription>Users' and Communities' Communities</KauriDescription>
+          <KauriDescription>User and Project Communities</KauriDescription>
           <CommunitySearch />
         </CommunitiesHeader>
         { searchCommunities ? <CommunitiesContainer>
