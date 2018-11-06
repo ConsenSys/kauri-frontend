@@ -18,7 +18,7 @@ export default compose(
   graphql(searchPersonalArticles, {
     name: 'ArticlesQuery',
     options: ({userId}) => ({
-      fetchPolicy: 'cache-and-networ',
+      fetchPolicy: 'cache-and-network',
       variables: {
         userId,
         page: 0,
@@ -29,7 +29,7 @@ export default compose(
   graphql(getUserDetails, {
     name: 'UserQuery',
     options: ({userId}) => ({
-      fetchPolicy: 'cache-and-networ',
+      fetchPolicy: 'cache-and-network',
       variables: {
         userId,
         page: 0,
@@ -39,7 +39,7 @@ export default compose(
   graphql(getCollectionsForUser, {
     name: 'CollectionQuery',
     options: ({userId}) => ({
-      fetchPolicy: 'cache-and-networ',
+      fetchPolicy: 'cache-and-network',
       variables: {
         page: 0,
         filter: {
@@ -52,7 +52,7 @@ export default compose(
   graphql(searchPersonalDrafts, {
     name: 'DraftsQuery',
     options: ({userId}) => ({
-      fetchPolicy: 'cache-and-networ',
+      fetchPolicy: 'cache-and-network',
       variables: {
         page: 0,
         userId,
@@ -63,7 +63,7 @@ export default compose(
   graphql(searchPending, {
     name: 'PendingQuery',
     options: ({userId}) => ({
-      fetchPolicy: 'cache-and-networ',
+      fetchPolicy: 'cache-and-network',
       variables: {
         page: 0,
         userId,
@@ -74,7 +74,7 @@ export default compose(
   graphql(searchAwaitingApproval, {
     name: 'ApprovalsQuery',
     options: ({userId}) => ({
-      fetchPolicy: 'cache-and-networ',
+      fetchPolicy: 'cache-and-network',
       variables: {
         page: 0,
         userId,
