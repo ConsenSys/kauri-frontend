@@ -13,7 +13,7 @@ Showdown.extension('links-open-in-new-window', function () {
   return [
     {
       type: 'output',
-      regex: new RegExp(`<a href="\b(?!mailto|#)\b`, 'g'),
+      regex: new RegExp(`<a href="(?!mailto|#)`, 'g'),
       replace: `<a target="_blank" href="`,
     },
   ]
