@@ -24,6 +24,13 @@ const withImageURLCss = css`
   }
 `
 
+const AvatarContainer = styled.div`
+  & > div {
+    width: 100%;
+    justify-content: center;
+  }
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -104,13 +111,13 @@ const contentLineHeight = R.cond([
 ])
 
 let renderPublicProfile = (pageType, username, userId, cardWidth, userAvatar, imageURL) => (
-  <UserAvatar
+  <AvatarContainer><UserAvatar
     fullWidth={cardWidth > DEFAULT_CARD_WIDTH}
     username={username}
     userId={userId}
     avatar={userAvatar}
     imageURL={imageURL}
-  />
+  /></AvatarContainer>
 )
 
 const renderBodyContent = ({ name, cardHeight, cardWidth, imageURL, description }) => <React.Fragment>
