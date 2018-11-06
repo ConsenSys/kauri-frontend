@@ -65,10 +65,12 @@ class SubmitArticleFormText extends React.Component<Props, State> {
   }
 
   handleChange = editorState => {
-    this.setState({
-      editorState,
-    })
-    this.props.setFieldsValue({ text: JSON.stringify({ markdown: editorState && editorState.markdown }) })
+    this.setState(
+      {
+        editorState,
+      },
+      () => this.props.setFieldsValue({ text: editorState && editorState.markdown })
+    )
   }
 
   render () {
@@ -178,15 +180,13 @@ export default class extends React.Component<
       getFieldValue,
       getFieldError,
       text,
-      article_id,
       username,
       userId,
       ownerId,
       userAvatar,
     } = this.props
 
-    const editorState =
-      getFieldValue('text') && typeof getFieldValue('text') === 'string' && JSON.parse(getFieldValue('text'))
+    const editorState = typeof getFieldValue('text') === 'string' && getFieldValue('text')
 
     const outlineHeadings =
       typeof editorState === 'object' &&
