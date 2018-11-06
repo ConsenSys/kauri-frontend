@@ -87,18 +87,18 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
           <meta name='description' content={`${description && description.slice(0, 151)}...`} />
           <meta name='keywords' content={extractedKeywords.map(keyword => keyword)} />
           <link rel='canonical' href={url} />
-          <meta property="og:title" content={name} />
-          <meta property="og:site_name" content="kauri.io" />
-          <meta property="og:url" content={`https://${hostName}/article/${id}/${slugify(name, { lower: true })}`} />
-          <meta property="og:description" content={`${description && description.substring(0,100)}...`} />
-          <meta property="og:type" content="article" />
-          <meta property="og:image" content={bg} />
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:site" ccontent={`https://${hostName}/article/${id}/${slugify(name, { lower: true })}`} />
-          <meta name="twitter:title" content={name} />
-          <meta name="twitter:description" content={`${description && description.substring(0,100)}...`} />
-          <meta name="twitter:creator" content="@kauri_io" />
-          <meta name="twitter:image" content={bg} />
+          <meta property='og:title' content={name} />
+          <meta property='og:site_name' content='kauri.io' />
+          <meta property='og:url' content={`https://${hostName}/article/${id}/${slugify(name, { lower: true })}`} />
+          <meta property='og:description' content={`${description && description.substring(0, 100)}...`} />
+          <meta property='og:type' content='article' />
+          <meta property='og:image' content={bg} />
+          <meta name='twitter:card' content='summary' />
+          <meta name='twitter:site' ccontent={`https://${hostName}/article/${id}/${slugify(name, { lower: true })}`} />
+          <meta name='twitter:title' content={name} />
+          <meta name='twitter:description' content={`${description && description.substring(0, 100)}...`} />
+          <meta name='twitter:creator' content='@kauri_io' />
+          <meta name='twitter:image' content={bg} />
         </Helmet>
         <ScrollToTopOnMount />
         <HeaderContainer background={bg}>
@@ -132,14 +132,16 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
         </HeaderContainer>
         <ContentContainer>
           {sections &&
-            sections.map(section => (
-              <CollectionSection
-                key={section.name}
-                name={section.name}
-                description={section.description || ''}
-                articles={section.resources}
-              />
-            ))}
+            sections.map(section => {
+              return (
+                <CollectionSection
+                  key={section.name}
+                  name={section.name}
+                  description={section.description || ''}
+                  articles={section.resources}
+                />
+              )
+            })}
         </ContentContainer>
       </div>
     )

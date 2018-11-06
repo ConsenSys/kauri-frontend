@@ -61,11 +61,13 @@ export const globalCollectionDetails = gql`
             content
             dateCreated
             datePublished
-            author {
-              id
-              name
-              username
-              avatar
+            owner {
+              ... on PublicUserDTO {
+                id
+                username
+                name
+                avatar
+              }
             }
             status
             attributes
