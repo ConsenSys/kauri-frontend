@@ -1,4 +1,4 @@
-//@flow
+// @flow
 
 import React from 'react'
 import styled, { css } from 'styled-components'
@@ -92,11 +92,6 @@ export const TopicActionsContainer = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
-  margin-top: 3px;
-  margin-left: 12px;
-  width: ${props => props.type === 'createRequest' && '95%'};
-  width: ${props => props.type === 'in review article' && '100%'};
-  margin-left: ${props => !props.chosenCategory && '0px'};
 `
 
 const handleKeyPress = e => {

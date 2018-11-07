@@ -2,9 +2,9 @@ module Styles = {
   let baseHeading = (~sizeProp, ~colorProp) =>
     Css.[
       fontSize(px(sizeProp)),
-      fontWeight(500),
-      margin2(~v=px(6), ~h=px(0)),
+      unsafe("fontWeight", "bold"),
       color(hex(colorProp)),
+      marginBottom(px(10)),
     ];
   let heading = (~colorProp, ~sizeProp) =>
     Css.style(baseHeading(~colorProp, ~sizeProp));
