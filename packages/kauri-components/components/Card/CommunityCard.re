@@ -9,8 +9,8 @@ module Styles = {
         display(`flex),
         justifyContent(center),
         alignItems(center),
-        height(px(80)),
-        width(px(80)),
+        height(px(70)),
+        width(px(70)),
         borderRadius(px(4)),
       ])
     );
@@ -23,8 +23,15 @@ module Styles = {
         flex(1),
         textAlign(`center),
         minWidth(px(262)),
-        maxHeight(px(cardHeightProp)),
-        selector(" a", [display(`flex), height(`percent(100.0))]),
+        height(px(cardHeightProp)),
+        selector(
+          "> a",
+          [
+            display(`flex),
+            marginBottom(`auto),
+            minHeight(`percent(70.0)),
+          ],
+        ),
       ])
     );
 
@@ -47,7 +54,7 @@ module Styles = {
         alignItems(center),
         justifyContent(`flexStart),
         flexDirection(column),
-        unsafe("padding", "11px 14px 11px 14px"),
+        unsafe("padding", "15px 15px 0px 15px"),
         flex(1),
         height(`percent(100.0)),
         overflow(hidden),
@@ -65,7 +72,7 @@ let cardContent =
     ) =>
   <>
     <div className=Styles.content>
-      <Label text=heading />
+      <Label noMargin=true text=heading />
       {
         switch (communityLogo) {
         | Some(string) =>
