@@ -13,13 +13,14 @@ const ErrorContainer = styled.div`
     flex-direction: column;
 `;
 
+// Because Nelson
 const Code = styled.div`
-    font-size: ${props => props.theme.fontSizes[7]}px;
+    font-size: 90px;
 `;
 
 const Copy = styled.div`
     font-size: ${props => props.theme.fontSizes[3]}px;
-    margin: ${props => props.theme.space[3]}px;
+    margin-bottom: ${props => props.theme.space[3]}px;
 `;
 
 const Error = () => <ErrorContainer>
