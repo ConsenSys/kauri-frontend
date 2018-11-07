@@ -1,6 +1,5 @@
 // @flow
 import gql from 'graphql-tag'
-import { Article } from './Article'
 
 export const Collection = gql`
   fragment Collection on CollectionDTO {
