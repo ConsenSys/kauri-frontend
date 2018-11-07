@@ -18,8 +18,8 @@ export const Collection = gql`
     sections {
       name
       description
-      resources {
-        ...Article
+      resourcesId {
+        id type
       }
     }
     resourceIdentifier {
@@ -27,8 +27,6 @@ export const Collection = gql`
       id
     }
   }
-
-  ${Article}
 `
 
 export const globalCollectionDetails = gql`
