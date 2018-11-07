@@ -1,19 +1,13 @@
 import React from 'react'
 import { EditorState, ContentState } from 'draft-js'
 import styled, { css } from 'styled-components'
-import { HeaderTwoCss, TruncateWithEllipsisCss, ListItemCss } from '../containers/Requests/DescriptionRow'
 import ReactMde, { DraftUtil } from '@rej156/react-mde'
 import Showdown from 'showdown'
 import { getDefaultCommands } from '@rej156/react-mde/lib/js/commands'
-import { hljs } from '../../lib/hljs'
 import R from 'ramda'
+import { hljs } from '../../lib/hljs'
 import uploadImageCommand from '../../lib/reactmde-commands/upload-image'
 import youtubeCommand from '../../lib/reactmde-commands/youtube'
-
-const requestCommentEditorCss = css`
-  border: 1px solid lightgray;
-  border-radius: 6px;
-`
 
 export const errorBorderCss = css`
   position: absolute;
@@ -28,24 +22,6 @@ export const EditorContainer = styled.div`
   cursor: text;
   margin-bottom: 2em;
   ${props => props.hasErrors && errorBorderCss};
-
-  div.paragraph:last-child {
-    height: 30vh;
-  }
-  ${props => props.requestCommentEditor && requestCommentEditorCss};
-
-  span {
-    ${TruncateWithEllipsisCss};
-  }
-  h2 {
-    ${HeaderTwoCss};
-    :first-child {
-      margin-top: 0px;
-    }
-  }
-  li {
-    ${ListItemCss};
-  }
 `
 
 let reactMdeCommands = getDefaultCommands()
@@ -53,30 +29,31 @@ reactMdeCommands[1][3] = uploadImageCommand
 reactMdeCommands[1][4] = youtubeCommand
 
 Showdown.extension('highlightjs', function () {
-  return [{
-    type: 'output',
-    regex: new RegExp(`<code>`, 'g'),
-    replace: `<code class="hljs">`,
-  }];
-});
+  return [
+    {
+      type: 'output',
+      regex: new RegExp(`<code>`, 'g'),
+      replace: `<code class="hljs">`,
+    },
+  ]
+})
 
 export class SharedEditor extends React.Component<*> {
-  converter = Showdown.Converter
   commands = reactMdeCommands
+  converter = new Showdown.Converter({
+    tables: true,
+    simplifiedAutoLink: true,
+    strikethrough: true,
+    tasklists: true,
+    extensions: ['highlightjs'],
+  })
 
-  constructor (props) {
-    super(props)
-    this.converter = new Showdown.Converter({
-      tables: true,
-      simplifiedAutoLink: true,
-      strikethrough: true,
-      tasklists: true,
-      extensions: ['highlightjs'],
-    })
-  }
+  shouldComponentUpdate = (nextProps, _nextState) => this.props.editorState !== nextProps.editorState
 
   componentDidUpdate () {
-    if (document.querySelector('.mde-preview')) R.map((block) => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
+    if (document.querySelector('.mde-preview')) {
+      R.map(block => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
+    }
   }
 
   async componentDidMount () {

@@ -2,23 +2,23 @@
 external linkComponent: Link.linkComponent = "Link";
 
 [@bs.deriving abstract]
-type author = {
+type owner = {
   name: Js.Nullable.t(string),
   username: Js.Nullable.t(string),
   avatar: Js.Nullable.t(string),
-  id: string,
+  [@bs.as "id"]
+  ownerId: string,
 };
 
 [@bs.deriving abstract]
 type article = {
   attributes: Js.Nullable.t({. "background": Js.Nullable.t(string)}),
   id: string,
-  authorId: string,
   datePublished: string,
   title: string,
   content: string,
   imageURL: Js.Nullable.t(string),
-  author,
+  owner,
   profileImage: Js.Nullable.t(string),
   version: int,
 };
@@ -64,6 +64,7 @@ let make = (~name, ~description="", ~articles, _children) => {
               article => {
                 let (articleId, articleVersion) =
                   article->(idGet, versionGet);
+
                 <ArticleCard
                   key=article->idGet
                   id=articleId
@@ -101,11 +102,9 @@ let make = (~name, ~description="", ~articles, _children) => {
                     ->datePublishedGet
                     ->MomentRe.moment
                     ->MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)))
-                  username=
-                    article->authorGet->usernameGet->Js.Nullable.toOption
-                  userAvatar=
-                    article->authorGet->avatarGet->Js.Nullable.toOption
-                  userId=article->authorIdGet
+                  username=article->ownerGet->usernameGet->Js.Nullable.toOption
+                  userAvatar=article->ownerGet->avatarGet->Js.Nullable.toOption
+                  userId=article->ownerGet->ownerIdGet
                 />;
               },
               articles,
