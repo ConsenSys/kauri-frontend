@@ -6,8 +6,12 @@ import Collections from './Collections'
 import Header from './Header'
 import EditableHeader from './EditableHeader'
 import Loading from '../../common/Loading'
-
 import type { ViewProps, ViewState } from './types'
+import Published from './Published/View';
+import Drafts from './Drafts/View';
+import Awaiting from './Awaiting/View';
+import Pending from './Pending/View';
+
 
 class PublicProfile extends Component<ViewProps, ViewState> {
   constructor (props: ViewProps) {
@@ -61,7 +65,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
           <EditableHeader toggleEditing={() => this.toggleEditing()} />
         ) : (
           <Header
-            articles={ArticlesQuery.searchArticles.content}
+            articles={ArticlesQuery.searchArticles.totalElements}
             collections={CollectionQuery.searchCollections.content}
             currentUser={currentUser}
             id={UserQuery.getUser.id}
@@ -87,30 +91,27 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 `Pending My Approval(${PendingQuery.searchArticles.totalElements})`,
             ]}
             panels={[
-              <Articles
+              <Published
                 data={ArticlesQuery}
                 type='published'
-                articles={ArticlesQuery.searchArticles}
                 routeChangeAction={routeChangeAction}
                 isOwner={UserQuery.getUser.id === currentUser}
               />,
               UserQuery.getUser.id === currentUser && (
-                <Articles data={DraftsQuery}
+                <Drafts
+                  data={DraftsQuery}
                   type='draft'
-                  articles={DraftsQuery.searchArticles}
                   routeChangeAction={routeChangeAction} />
               ),
               <Collections collections={CollectionQuery.searchCollections} routeChangeAction={routeChangeAction} />,
-              <Articles
+              <Awaiting
                 data={ApprovalsQuery}
                 type='pending'
-                articles={ApprovalsQuery.searchArticles}
                 routeChangeAction={routeChangeAction}
               />,
-              <Articles
+              <Pending
                 data={PendingQuery}
                 type='toBeApproved'
-                articles={PendingQuery.searchArticles}
                 routeChangeAction={routeChangeAction}
               />,
             ]}

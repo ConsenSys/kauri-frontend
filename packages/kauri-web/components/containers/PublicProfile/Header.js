@@ -100,7 +100,7 @@ const ProfileHeader = ({ id, avatar, title, username, name, website, github, twi
     <StatisticsContainer
       statistics={[{
         name: 'Articles',
-        count: articles.length,
+        count: articles,
       }, {
         name: 'Collections',
         count: collections.length,
