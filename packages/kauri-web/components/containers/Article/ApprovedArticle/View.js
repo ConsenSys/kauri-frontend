@@ -140,7 +140,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           }
           date_updated={props.data.getArticle && props.data.getArticle && props.data.getArticle.datePublished}
           content_hash={props.data.getArticle && props.data.getArticle && props.data.getArticle.contentHash}
-          hostName={hostName}
+          hostName={`https://${props.hostName}`}
         />
         <ApprovedArticle.Comments
           id={props.data.getArticle && props.data.getArticle.id}

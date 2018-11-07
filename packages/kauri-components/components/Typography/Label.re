@@ -4,9 +4,9 @@ module Styles = {
   let label = (~colorProp, ~noMargin) =>
     Css.(
       style([
-        fontSize(em(0.7)),
+        fontSize(px(11)),
         textTransform(uppercase),
-        fontWeight(600),
+        unsafe("fontWeight", "bold"),
         noMargin
         ->Belt.Option.mapWithDefault(unsafe("margin", "10px 0px 10px 0px"), _ =>
             unsafe("margin", "0px")
