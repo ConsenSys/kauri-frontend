@@ -2,15 +2,15 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
-import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard'
-import Empty from './Empty'
-import { Link } from '../../../routes'
-import ContentContainer from './PublicProfileContentContainer'
-import CheckpointArticles from '../CheckpointArticles'
-import withPagination from '../../../lib/with-pagination';
+import ArticleCard from '../../../../../kauri-components/components/Card/ArticleCard'
+import Empty from '../Empty'
+import { Link } from '../../../../routes'
+import ContentContainer from '../PublicProfileContentContainer'
+import CheckpointArticles from '../../CheckpointArticles'
+import withPagination from '../../../../lib/with-pagination';
 
-import { PrimaryButton } from '../../../../kauri-components/components/Button';
-import type { ArticlesProps } from './types'
+import { PrimaryButton } from '../../../../../kauri-components/components/Button';
+import type { ArticlesProps } from '../types'
 
 const ArticlesConntainer = styled.div`
   display: flex;
