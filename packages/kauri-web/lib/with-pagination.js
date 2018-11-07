@@ -45,6 +45,7 @@ const withPagination = (Paginated, key) => {
       // console.log(clientHeight)
       // console.log(scrollHeight)
       // console.log(scrolledToBottom)
+      console.log(this.props); 
       if (scrolledToBottom && this.props.data[key].isLast !== true) {
         this.setState({ showLoading: true })
         this.props.data.fetchMore({

@@ -278,7 +278,7 @@ export const deleteArticleComment = gql`
 `
 
 export const searchPersonalArticles = gql`
-  query searchPersonalArticles($userId: String, $size: Int = 666, $page: Int = 0) {
+  query searchPersonalArticles($userId: String, $size: Int = 2, $page: Int = 0) {
     searchArticles(
       size: $size
       page: $page
@@ -343,7 +343,7 @@ export const searchPersonalArticles = gql`
 `
 
 export const searchPersonalDrafts = gql`
-  query searchArticles($userId: String, $size: Int = 666, $page: Int = 0) {
+  query searchArticles($userId: String, $size: Int = 2, $page: Int = 0) {
     searchArticles(
       size: $size
       page: $page

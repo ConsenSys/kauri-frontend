@@ -6,8 +6,11 @@ import Collections from './Collections'
 import Header from './Header'
 import EditableHeader from './EditableHeader'
 import Loading from '../../common/Loading'
+import withPagination from '../../../lib/with-pagination';
 
 import type { ViewProps, ViewState } from './types'
+
+const PaginatedArticles = withPagination(Articles, "searchArticles");
 
 class PublicProfile extends Component<ViewProps, ViewState> {
   constructor (props: ViewProps) {
@@ -87,7 +90,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 `Pending My Approval(${PendingQuery.searchArticles.totalElements})`,
             ]}
             panels={[
-              <Articles
+              <PaginatedArticles
                 data={ArticlesQuery}
                 type='published'
                 articles={ArticlesQuery.searchArticles}
@@ -95,7 +98,8 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 isOwner={UserQuery.getUser.id === currentUser}
               />,
               UserQuery.getUser.id === currentUser && (
-                <Articles data={DraftsQuery}
+                <PaginatedArticles
+                  data={DraftsQuery}
                   type='draft'
                   articles={DraftsQuery.searchArticles}
                   routeChangeAction={routeChangeAction} />
