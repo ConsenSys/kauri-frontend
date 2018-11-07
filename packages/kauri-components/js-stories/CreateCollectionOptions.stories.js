@@ -7,6 +7,7 @@ import CreateCollectionOptions from '../components/CreateCollectionOptions'
 const Container = styled.div`
   display: flex;
   width: 100%;
+  justify-content: center;
 `
 
 storiesOf('CreateCollectionOptions', module).add('Add Button', () => (
