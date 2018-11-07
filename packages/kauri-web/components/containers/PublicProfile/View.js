@@ -94,7 +94,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
               <Published
                 data={ArticlesQuery}
                 type='published'
-                articles={ArticlesQuery.searchArticles}
                 routeChangeAction={routeChangeAction}
                 isOwner={UserQuery.getUser.id === currentUser}
               />,
@@ -102,20 +101,17 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 <Drafts
                   data={DraftsQuery}
                   type='draft'
-                  articles={DraftsQuery.searchArticles}
                   routeChangeAction={routeChangeAction} />
               ),
               <Collections collections={CollectionQuery.searchCollections} routeChangeAction={routeChangeAction} />,
               <Awaiting
                 data={ApprovalsQuery}
                 type='pending'
-                articles={ApprovalsQuery.searchArticles}
                 routeChangeAction={routeChangeAction}
               />,
               <Pending
                 data={PendingQuery}
                 type='toBeApproved'
-                articles={PendingQuery.searchArticles}
                 routeChangeAction={routeChangeAction}
               />,
             ]}

@@ -167,8 +167,8 @@ export const searchCollections = gql`
 `
 
 export const getCollectionsForUser = gql`
-  query searchCollections($filter: CollectionFilterInput) {
-    searchCollections(filter: $filter) {
+  query searchCollections($filter: CollectionFilterInput, $size: Int = 8, $page: Int = 0) {
+    searchCollections(filter: $filter, page: $page, size: $size) {
       totalElements
       content {
         ...Collection
