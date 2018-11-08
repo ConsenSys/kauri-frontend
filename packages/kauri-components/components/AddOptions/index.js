@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import { Tooltip } from 'react-tippy'
 import styled from 'styled-components'
 import { H6 } from '../Typography'
@@ -56,9 +56,11 @@ const Divider = styled.div`
 const Content = () => (
   <TooltipContainer>
     <TooltipArrow />
-    <Label>My Articles</Label>
+    <Label>Add Article To Section</Label>
     <Divider />
-    <Label>Search for Articles</Label>
+    <Label>Add New Section</Label>
+    <Divider />
+    <Label>Remove Section</Label>
   </TooltipContainer>
 )
 
@@ -103,13 +105,13 @@ const AddButton = styled.div`
   }
 `
 
-const Example = () => (
-  <Tooltip html={<Content />} position='bottom' trigger='click' unmountHTMLWhenHide>
+type Props = { children: React.Node }
+
+export default ({ children }: Props) => (
+  <Tooltip html={children} position='bottom' trigger='click' unmountHTMLWhenHide>
     <AddButton>
       <AddButtonIcon />
       <H6 textTransform='uppercase'>Options</H6>
     </AddButton>
   </Tooltip>
 )
-
-export default () => <Example />
