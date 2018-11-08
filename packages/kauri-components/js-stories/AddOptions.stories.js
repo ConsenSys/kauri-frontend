@@ -70,7 +70,7 @@ const Container = styled.div`
   justify-content: center;
 `
 
-storiesOf('AddOptions', module).add('Add Button', () => (
+storiesOf('AddOptions', module).add('Create Collection Options', () => (
   <Container>
     <AddOptions>
       <Content />
