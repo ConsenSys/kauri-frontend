@@ -143,14 +143,13 @@ class SubmitArticleForm extends React.Component<Props> {
         submitArticleVersionAction,
         editArticleAction,
         draftArticleAction,
-        approveArticleAction,
-        article_id,
         userId,
       } = this.props
 
       if (formErr) return this.showFormError(formErr)
 
       const articleData: ArticleDTO = this.props.data && this.props.data.getArticle
+      text = JSON.stringify({ markdown: text })
 
       // NEW DRAFT
       if (!articleData && submissionType === 'draft') {

@@ -1,6 +1,5 @@
 // @flow
 import gql from 'graphql-tag'
-import { Article } from './Article'
 
 export const Collection = gql`
   fragment Collection on CollectionDTO {
@@ -18,8 +17,8 @@ export const Collection = gql`
     sections {
       name
       description
-      resources {
-        ...Article
+      resourcesId {
+        id type
       }
     }
     resourceIdentifier {
@@ -27,8 +26,6 @@ export const Collection = gql`
       id
     }
   }
-
-  ${Article}
 `
 
 export const globalCollectionDetails = gql`
@@ -61,11 +58,13 @@ export const globalCollectionDetails = gql`
             content
             dateCreated
             datePublished
-            author {
-              id
-              name
-              username
-              avatar
+            owner {
+              ... on PublicUserDTO {
+                id
+                username
+                name
+                avatar
+              }
             }
             status
             attributes
@@ -168,8 +167,9 @@ export const searchCollections = gql`
 `
 
 export const getCollectionsForUser = gql`
-  query searchCollections($filter: CollectionFilterInput) {
-    searchCollections(filter: $filter) {
+  query searchCollections($filter: CollectionFilterInput, $size: Int = 8, $page: Int = 0) {
+    searchCollections(filter: $filter, page: $page, size: $size) {
+      totalElements
       content {
         ...Collection
       }

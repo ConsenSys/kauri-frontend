@@ -18,7 +18,7 @@ type Typography = {
   textTransform?: 'uppercase' | 'lowercase' | 'capitalize',
   color?: string,
   hoverColor?: string,
-  component?: ReactComponentClass<{}>
+  component?: ReactComponentClass<{}>,
 }
 
 const typographySpecifications: Array<Typography> = [
@@ -103,8 +103,8 @@ const typographySpecifications: Array<Typography> = [
   {
     name: 'ListBulletPoint',
     component:
-    // Because Nelson
-    styled.li`
+      // Because Nelson
+      styled.li`
         font-size: 14px;
         font-weight: bold;
         list-style: circle outside none;
@@ -113,8 +113,8 @@ const typographySpecifications: Array<Typography> = [
   {
     name: 'ListDashPoint',
     component:
-    // Because Nelson
-    styled.li`
+      // Because Nelson
+      styled.li`
         font-size: 14px;
         font-weight: bold;
         :before {
@@ -143,37 +143,42 @@ const typographySpecifications: Array<Typography> = [
         ${BodyCardCss};
       `,
   },
-
 ]
 
 let typography = {}
 
-typographySpecifications.map(({ name, as, fontWeight, fontSize, textTransform, color = 'textPrimary', hoverColor, component }) => {
-  const styledComponent = typeof as === 'string'
-    ? styled[as]`
-    margin: 0px;
-    font-weight: ${fontWeight};
-    font-size: ${fontSize}px;
-    ${textTransform && `text-transform: ${textTransform}`};
-    :hover {
-      color: ${props => typeof props.hoverColor === 'string' && props.theme.colors[props.hoverColor || hoverColor]};
-      cursor: ${props => typeof props.hoverColor === 'string' && 'pointer'};
-    }
-    color: ${props => props.theme.colors[props.color || color]};
-  ` : component
+typographySpecifications.map(
+  ({ name, as, fontWeight, fontSize, textTransform, color = 'textPrimary', hoverColor, component }) => {
+    const styledComponent =
+      typeof as === 'string'
+        ? styled[as]`
+            margin: 0px;
+            font-weight: ${fontWeight};
+            font-size: ${fontSize}px;
+            text-transform: ${props => (props.textTransform ? props.textTransform : textTransform)};
+            text-align: ${props => props.textAlign};
+            :hover {
+              color: ${props =>
+    typeof props.hoverColor === 'string' && props.theme.colors[props.hoverColor || hoverColor]};
+              cursor: ${props => typeof props.hoverColor === 'string' && 'pointer'};
+            }
+            color: ${props => props.theme.colors[props.color || color]};
+          `
+        : component
 
-  if (typeof name !== 'undefined' && typeof name === 'string') {
-    typography = ({
-      ...typography,
-      [name]: styledComponent,
-    })
-  } else if (typeof as === 'string') {
-    typography = ({
-      ...typography,
-      [as.toUpperCase()]: styledComponent,
-    })
+    if (typeof name !== 'undefined' && typeof name === 'string') {
+      typography = {
+        ...typography,
+        [name]: styledComponent,
+      }
+    } else if (typeof as === 'string') {
+      typography = {
+        ...typography,
+        [as.toUpperCase()]: styledComponent,
+      }
+    }
   }
-})
+)
 
 const {
   H1,

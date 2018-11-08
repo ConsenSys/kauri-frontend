@@ -7,6 +7,7 @@ import { Link } from '../../../routes';
 import styled from 'styled-components'
 import ContentContainer from './PublicProfileContentContainer';
 import { PrimaryButton } from '../../../../kauri-components/components/Button';
+import withPagination from '../../../lib/with-pagination';
 
 import type { CollectionsProps } from './types';
 
@@ -31,7 +32,7 @@ const Collections = ({ collections, routeChangeAction }: CollectionsProps) =>
         {collections.content.map(collection => {
           const articleCount = collection.sections && collection.sections.reduce(
             (current, next) => {
-              current += next.resources && next.resources.length
+              current += next.resourcesId && next.resourcesId.length
               return current
             }, 0);
           return <CollectionCard
@@ -46,7 +47,7 @@ const Collections = ({ collections, routeChangeAction }: CollectionsProps) =>
             userAvatar={collection.owner && collection.owner.avatar}
             articleCount={articleCount}
             imageURL={collection.background}
-            cardHeight={420}
+            cardHeight={290}
             linkComponent={(childrenProps, route) => (
               <Link toSlug={route.includes('collection') && collection.name} useAnchorTag href={route}>
                 {childrenProps}
@@ -60,4 +61,4 @@ const Collections = ({ collections, routeChangeAction }: CollectionsProps) =>
         </PrimaryButton>
     </Empty>;
 
-export default Collections;
+export default withPagination(Collections, "searchCollections");

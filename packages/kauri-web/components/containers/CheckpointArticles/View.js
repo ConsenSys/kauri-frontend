@@ -76,7 +76,7 @@ export default ({
             icon={<CheckpointArticlesIcon />}
             onClick={() => checkpointArticlesAction()}
           >
-            {'Submit Articles to On-chain'}
+            {'Submit Articles On-chain'}
           </TertiaryButton>
         )
       ) : (
@@ -90,7 +90,7 @@ export default ({
         icon={<CheckpointArticlesIcon />}
         onClick={() => checkpointArticlesAction()}
       >
-        {'Submit Article to On-chain'}
+        {'Submit Article On-chain'}
       </TertiaryButton>
     )
   ) : (

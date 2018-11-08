@@ -6,8 +6,12 @@ import Collections from './Collections'
 import Header from './Header'
 import EditableHeader from './EditableHeader'
 import Loading from '../../common/Loading'
-
 import type { ViewProps, ViewState } from './types'
+import Published from './Published/View';
+import Drafts from './Drafts/View';
+import Awaiting from './Awaiting/View';
+import Pending from './Pending/View';
+
 
 class PublicProfile extends Component<ViewProps, ViewState> {
   constructor (props: ViewProps) {
@@ -40,6 +44,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       currentUser,
     } = this.props
 
+
     const isHeaderLoaded =
       typeof UserQuery.getUser === 'object' &&
       typeof ArticlesQuery.searchArticles === 'object' &&
@@ -60,7 +65,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
           <EditableHeader toggleEditing={() => this.toggleEditing()} />
         ) : (
           <Header
-            articles={ArticlesQuery.searchArticles.content}
+            articles={ArticlesQuery.searchArticles.totalElements}
             collections={CollectionQuery.searchCollections.content}
             currentUser={currentUser}
             id={UserQuery.getUser.id}
@@ -77,33 +82,36 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         {isHeaderLoaded && areListsLoaded ? (
           <Tabs
             tabs={[
-              `Articles (${ArticlesQuery.searchArticles.content.length})`,
-              UserQuery.getUser.id === currentUser && `My Drafts (${DraftsQuery.searchArticles.content.length})`,
-              `Collections (${CollectionQuery.searchCollections.content.length})`,
+              `Articles (${ArticlesQuery.searchArticles.totalElements})`,
+              UserQuery.getUser.id === currentUser && `My Drafts (${DraftsQuery.searchArticles.totalElements})`,
+              `Collections (${CollectionQuery.searchCollections.totalElements})`,
               UserQuery.getUser.id === currentUser &&
-                `Awaiting Owner Approval (${ApprovalsQuery.searchArticles.content.length})`,
+                `Awaiting Owner Approval (${ApprovalsQuery.searchArticles.totalElements})`,
               UserQuery.getUser.id === currentUser &&
-                `Pending My Approval(${PendingQuery.searchArticles.content.length})`,
+                `Pending My Approval(${PendingQuery.searchArticles.totalElements})`,
             ]}
             panels={[
-              <Articles
+              <Published
+                data={ArticlesQuery}
                 type='published'
-                articles={ArticlesQuery.searchArticles}
                 routeChangeAction={routeChangeAction}
                 isOwner={UserQuery.getUser.id === currentUser}
               />,
               UserQuery.getUser.id === currentUser && (
-                <Articles type='draft' articles={DraftsQuery.searchArticles} routeChangeAction={routeChangeAction} />
+                <Drafts
+                  data={DraftsQuery}
+                  type='draft'
+                  routeChangeAction={routeChangeAction} />
               ),
               <Collections collections={CollectionQuery.searchCollections} routeChangeAction={routeChangeAction} />,
-              <Articles
+              <Awaiting
+                data={ApprovalsQuery}
                 type='pending'
-                articles={ApprovalsQuery.searchArticles}
                 routeChangeAction={routeChangeAction}
               />,
-              <Articles
+              <Pending
+                data={PendingQuery}
                 type='toBeApproved'
-                articles={PendingQuery.searchArticles}
                 routeChangeAction={routeChangeAction}
               />,
             ]}

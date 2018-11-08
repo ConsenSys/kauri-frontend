@@ -9,10 +9,11 @@ import Modal from '../../kauri-components/components/Modal'
 
 const { Header, Content } = Layout
 export const menuHeaderHeight = 76
+export const footerHeight = 57
 
 const StyledContent = styled(Content)`
   padding-top: 0px;
-  min-height: calc(100vh - ${menuHeaderHeight}px);
+  min-height: calc(100vh - ${menuHeaderHeight + footerHeight}px);
   background: #f7f7f7;
 `
 

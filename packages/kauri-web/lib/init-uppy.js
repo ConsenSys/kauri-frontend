@@ -116,7 +116,8 @@ class myXHR extends XHRUpload {
   }
 }
 
-const initUppy = () => {
+const initUppy = (options) => {
+  const uppyConfig = options && options.allowGifs === false? config.uppyConfig.restrictions.allowedFileTypes.pop() : config.uppyConfig;
   const parsedToken = parseCookies({})['TOKEN']
   const uppy = Uppy(config.uppyConfig)
     .use(Dashboard, {
@@ -124,7 +125,7 @@ const initUppy = () => {
       disableThumbnailGenerator: true,
       showProgressDetails: true,
       proudlyDisplayPoweredByUppy: false,
-      note: 'PNG or JPEG images only, up to 10 MB',
+      note: `PNG ${!options ? ', GIF' : ''} or JPEG images only, up to 10 MB`,
       locale: {
         strings: {
           dropPaste: 'Drop image here, paste or',

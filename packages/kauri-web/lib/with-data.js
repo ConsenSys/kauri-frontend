@@ -20,7 +20,7 @@ import { fetchEthUsdPriceAction, fetchUserDetailsAction, userDetailsEpic, setHos
 import themeConfig from './theme-config'
 import './rxjs-used-operators'
 
-import 'highlightjs/styles/github.css'
+import 'highlightjs/styles/vs2015.css'
 import '@rej156/react-mde/lib/styles/css/react-mde-all.css'
 import '../static/css/redraft-image.css'
 import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
