@@ -18,7 +18,13 @@ export const Collection = gql`
       name
       description
       resourcesId {
-        id type
+        id
+        type
+      }
+      resources {
+        ... on ArticleDTO {
+          id
+        }
       }
     }
     resourceIdentifier {

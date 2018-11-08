@@ -37,7 +37,7 @@ class OnboardingEditProfile extends Component {
 
   redirect () {
     if (this.props.query.r) {
-      this.props.routeChangeAction('/' + this.props.query.r)
+      this.props.routeChangeAction('/' + this.props.query.r+'?redirected=true')
     } else {
       this.props.routeChangeAction(`/public-profile/${this.props.userId}`)
     }

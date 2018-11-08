@@ -1,15 +1,15 @@
 // @flow
 import React from 'react'
-import moment from 'moment';
-import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard';
-import Empty from './Empty';
-import { Link } from '../../../routes';
+import moment from 'moment'
+import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard'
+import Empty from './Empty'
+import { Link } from '../../../routes'
 import styled from 'styled-components'
-import ContentContainer from './PublicProfileContentContainer';
-import { PrimaryButton } from '../../../../kauri-components/components/Button';
-import withPagination from '../../../lib/with-pagination';
+import ContentContainer from './PublicProfileContentContainer'
+import { PrimaryButton } from '../../../../kauri-components/components/Button'
+import withPagination from '../../../lib/with-pagination'
 
-import type { CollectionsProps } from './types';
+import type { CollectionsProps } from './types'
 
 export const CollectionsContainer = styled.div`
   display: flex;
@@ -23,42 +23,47 @@ export const CollectionsContainer = styled.div`
   > div {
     margin: 15px;
   }
-`;
+`
 
 const Collections = ({ collections, routeChangeAction }: CollectionsProps) =>
-  collections.content.length > 0
-    ? <ContentContainer>
+  collections.content.length > 0 ? (
+    <ContentContainer>
       <CollectionsContainer>
         {collections.content.map(collection => {
-          const articleCount = collection.sections && collection.sections.reduce(
-            (current, next) => {
-              current += next.resourcesId && next.resourcesId.length
+          const articleCount =
+            collection.sections &&
+            collection.sections.reduce((current, next) => {
+              current += next.resources && next.resources.length
               return current
-            }, 0);
-          return <CollectionCard
-            changeRoute={routeChangeAction}
-            key={collection.id}
-            id={collection.id}
-            name={collection.name}
-            date={moment(collection.dateUpdated).format('D MMM YYYY')}
-            description={collection.description}
-            username={collection.owner && (collection.owner.username)}
-            userId={collection.owner && collection.owner.id}
-            userAvatar={collection.owner && collection.owner.avatar}
-            articleCount={articleCount}
-            imageURL={collection.background}
-            cardHeight={290}
-            linkComponent={(childrenProps, route) => (
-              <Link toSlug={route.includes('collection') && collection.name} useAnchorTag href={route}>
-                {childrenProps}
-              </Link>
-            )} />;
+            }, 0)
+          return (
+            <CollectionCard
+              changeRoute={routeChangeAction}
+              key={collection.id}
+              id={collection.id}
+              name={collection.name}
+              date={moment(collection.dateUpdated).format('D MMM YYYY')}
+              description={collection.description}
+              username={collection.owner && collection.owner.username}
+              userId={collection.owner && collection.owner.id}
+              userAvatar={collection.owner && collection.owner.avatar}
+              articleCount={articleCount}
+              imageURL={collection.background}
+              cardHeight={290}
+              linkComponent={(childrenProps, route) => (
+                <Link toSlug={route.includes('collection') && collection.name} useAnchorTag href={route}>
+                  {childrenProps}
+                </Link>
+              )}
+            />
+          )
         })}
       </CollectionsContainer>
-    </ContentContainer> : <Empty>
-      <PrimaryButton onClick={() => routeChangeAction(`/create-collection`)}>
-            CREATE COLLECTION
-        </PrimaryButton>
-    </Empty>;
+    </ContentContainer>
+  ) : (
+    <Empty>
+      <PrimaryButton onClick={() => routeChangeAction(`/create-collection`)}>CREATE COLLECTION</PrimaryButton>
+    </Empty>
+  )
 
-export default withPagination(Collections, "searchCollections");
+export default withPagination(Collections, 'searchCollections')
