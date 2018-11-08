@@ -2,18 +2,9 @@ import React, { Component } from 'react';
 import WebService from '../../components/WebService';
 import { CreateCuratedList, AddItemToList, AddHeader } from '../../components/modals';
 import { ScaleLoader } from 'react-spinners';
-import CuratedList from '../../../../kauri-components/components/Homepage/CuratedList';
 import {Button} from '../../components/common/button.js';
-// import CuratedList from '../../components/CuratedList';
+import CuratedList from './CuratedList';
 import styled from "styled-components";
-
-const Sidebar = styled.div`
-  padding: 20px;
-  display: flex;
-  background: #efefef;
-  min-height: 100%;
-  flex: 1;
-`;
 
 const Container = styled.div`
   display: flex;
@@ -173,11 +164,9 @@ class CuratedLists extends Component {
             <CuratedList
               routeChangeAction={this.props.routeChangeAction}
               content={i}
-              Link={({children}) => children}
             />
           </ListWrapper>)}
           </ListContainer>
-          <Sidebar>Here you will edit the content</Sidebar>
         </Container>
         {console.log(this.state.selectedList)}
         {!content && <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}><ScaleLoader /></div>}
