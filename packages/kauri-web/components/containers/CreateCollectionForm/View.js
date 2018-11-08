@@ -9,7 +9,7 @@ import ActionsSection from '../../../../kauri-components/components/Section/Acti
 import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection'
 import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs'
 import UserAvatar from '../../../../kauri-components/components/UserAvatar'
-import { Label, Title1, Title2 } from '../../../../kauri-components/components/Typography'
+import { Label } from '../../../../kauri-components/components/Typography'
 import CuratorHeaderLabel from '../../../../kauri-components/components/Typography/CuratorHeaderLabel'
 import Input from '../../../../kauri-components/components/Input/Input'
 import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
@@ -18,11 +18,11 @@ import ArticleCard from '../../connections/ArticleCard'
 import setImageUploader from '../../common/ImageUploader'
 import showFormValidationErrors from '../../../lib/show-form-validation-errors'
 import ChooseArticleModal from './ChooseArticleModal'
+import CreateCollectionOptions from './CreateCollectionOptions'
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 
 import type { FormState } from './index'
-import type { CreateCollectionPayload } from './Module'
 import type { ShowNotificationPayload } from '../../../lib/Module'
 
 const emptySection: SectionDTO = {
@@ -30,7 +30,6 @@ const emptySection: SectionDTO = {
   description: undefined,
   resourcesId: [],
 }
-const AddIcon = () => <img src='https://png.icons8.com/ios-glyphs/50/000000/plus-math.png' />
 const RemoveIcon = () => <img src='https://png.icons8.com/windows/50/000000/delete-sign.png' />
 
 const Section = styled.section`
@@ -43,6 +42,7 @@ const ResourcesSection = styled.section`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-bottom: ${props => props.theme.space[2]}px;
 `
 
 const ResourceSection = styled.section`
@@ -168,7 +168,7 @@ const handleBackgroundSetFormField = setFieldValue => () =>
   }, 'background')
 
 const renderResourceSection = (index, arrayHelpers, section, values, mappingKey) => (resource, resourceIndex) => (
-  <ResourceSection key={resourceIndex} my={3} p={2}>
+  <ResourceSection key={resourceIndex} mt={3} p={2}>
     {R.path(['sections', index, mappingKey, resourceIndex, 'version'], values) && (
       <div id='article-card'>
         <ArticleCard
@@ -331,14 +331,6 @@ export default ({
                 values.sections.length > 0 &&
                 values.sections.map((section: SectionDTO, index) => (
                   <SectionSection key={index} mt={4}>
-                    <TertiaryButton
-                      color='primaryTextColor'
-                      icon={<RemoveIcon />}
-                      onClick={() => arrayHelpers.remove(index)}
-                    >
-                      Remove section
-                    </TertiaryButton>
-
                     <Field
                       type='text'
                       name={`sections.${index}.name`}
@@ -371,10 +363,25 @@ export default ({
                         />
                       )}
                     />
-                    <TertiaryButton
-                      color='primaryTextColor'
-                      icon={<AddIcon />}
-                      onClick={() =>
+
+                    <ResourcesSection>
+                      {section.resourcesId &&
+                        Array.isArray(section.resourcesId) &&
+                        section.resourcesId.map(
+                          renderResourceSection(index, arrayHelpers, section, values, 'resourcesId')
+                        )}
+                    </ResourcesSection>
+
+                    <CreateCollectionOptions
+                      currentSectionIndex={index}
+                      previousSectionHasArticles={R.pipe(
+                        R.path(['sections', index > 0 ? index : 0, 'resourcesId']),
+                        R.defaultTo([]),
+                        resourcesId => resourcesId.length
+                      )(values)}
+                      addNewSection={() => arrayHelpers.push(emptySection)}
+                      removeSection={() => arrayHelpers.remove(index)}
+                      chooseArticle={() =>
                         openModalAction({
                           children: (
                             <ChooseArticleModal
@@ -390,28 +397,9 @@ export default ({
                           ),
                         })
                       }
-                    >
-                      Add Article
-                    </TertiaryButton>
-
-                    <ResourcesSection>
-                      {section.resourcesId &&
-                        Array.isArray(section.resourcesId) &&
-                        section.resourcesId.map(
-                          renderResourceSection(index, arrayHelpers, section, values, 'resourcesId')
-                        )}
-                    </ResourcesSection>
+                    />
                   </SectionSection>
                 ))}
-              <AddAnotherSectionContainer mt={4}>
-                <TertiaryButton
-                  color='primaryTextColor'
-                  icon={<AddIcon />}
-                  onClick={() => arrayHelpers.push(emptySection)}
-                >
-                  Add Another section
-                </TertiaryButton>
-              </AddAnotherSectionContainer>
             </React.Fragment>
           )}
         />
