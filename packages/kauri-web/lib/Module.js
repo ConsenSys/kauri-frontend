@@ -172,8 +172,13 @@ export const openNotificationWithIcon = ({
 
 export const showConfirmationModal = (payload: ShowConfirmationModalPayload): void => confirm(payload)
 
-export const routeChange = (payload: RouteChangePayload): any => 
-  payload === 'back' ? Router.back() : Router.pushRoute(payload);
+export const routeChange = (payload: RouteChangePayload): any => {
+  if (window.location.search.indexOf('redirected=true') !== -1 && payload === 'back') {
+    return Router.pushRoute('/');
+  } else {
+    return payload === 'back' ? Router.back() : Router.pushRoute(payload);
+  }
+}
 
 export const fetchEthUsdPrice = (fetch: any): Promise<any> =>
   fetch(process.env.ethUsdPriceEndpoint, {
