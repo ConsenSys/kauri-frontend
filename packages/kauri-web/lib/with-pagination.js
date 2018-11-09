@@ -52,7 +52,6 @@ const withPagination = (Paginated, key) => {
           variables: {
             page: nextPage,
           },
-          fetchPolicy: 'no-cache',
           updateQuery: (prev, { fetchMoreResult }) => {
             this.setState({ showLoading: false, page: nextPage })
             if (!fetchMoreResult) return prev

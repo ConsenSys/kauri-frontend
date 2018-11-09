@@ -180,7 +180,7 @@ export const searchApprovedArticles = gql`
 `
 
 export const globalSearchApprovedArticles = gql`
-  query globalSearchApprovedArticles($size: Int = 12, $page: Int = 0, $text: String) {
+  query globalSearchApprovedArticles($size: Int = 666, $page: Int = 0, $text: String) {
     searchArticles(
       size: $size
       sort: "dateCreated"
@@ -349,8 +349,7 @@ export const searchPersonalDrafts = gql`
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { authorIdEquals: $userId, statusIn: [DRAFT] }
-    ) {
+      filter: { authorIdEquals: $userId, statusIn: [DRAFT] }) {
       totalElements
       isLast
       content {
@@ -433,8 +432,7 @@ export const searchPending = gql`
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { ownerIdEquals: $userId, statusIn: [PENDING] }
-    ) {
+      filter: { ownerIdEquals: $userId, statusIn: [PENDING] }) {
       totalElements
       isLast
       content {
@@ -497,8 +495,7 @@ export const searchAwaitingApproval = gql`
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { authorIdEquals: $userId, statusIn: [PENDING] }
-    ) {
+      filter: { authorIdEquals: $userId, statusIn: [PENDING] }) {
       totalElements
       isLast
       content {
