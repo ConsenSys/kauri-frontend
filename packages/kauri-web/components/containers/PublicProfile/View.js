@@ -7,11 +7,10 @@ import Header from './Header'
 import EditableHeader from './EditableHeader'
 import Loading from '../../common/Loading'
 import type { ViewProps, ViewState } from './types'
-import Published from './Published/View';
-import Drafts from './Drafts/View';
-import Awaiting from './Awaiting/View';
-import Pending from './Pending/View';
-
+import Published from './Published/View'
+import Drafts from './Drafts/View'
+import Awaiting from './Awaiting/View'
+import Pending from './Pending/View'
 
 class PublicProfile extends Component<ViewProps, ViewState> {
   constructor (props: ViewProps) {
@@ -43,7 +42,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       routeChangeAction,
       currentUser,
     } = this.props
-
 
     const isHeaderLoaded =
       typeof UserQuery.getUser === 'object' &&
@@ -98,22 +96,11 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 isOwner={UserQuery.getUser.id === currentUser}
               />,
               UserQuery.getUser.id === currentUser && (
-                <Drafts
-                  data={DraftsQuery}
-                  type='draft'
-                  routeChangeAction={routeChangeAction} />
+                <Drafts data={DraftsQuery} type='draft' routeChangeAction={routeChangeAction} />
               ),
-              <Collections collections={CollectionQuery.searchCollections} routeChangeAction={routeChangeAction} />,
-              <Awaiting
-                data={ApprovalsQuery}
-                type='pending'
-                routeChangeAction={routeChangeAction}
-              />,
-              <Pending
-                data={PendingQuery}
-                type='toBeApproved'
-                routeChangeAction={routeChangeAction}
-              />,
+              <Collections data={CollectionQuery} routeChangeAction={routeChangeAction} />,
+              <Awaiting data={ApprovalsQuery} type='pending' routeChangeAction={routeChangeAction} />,
+              <Pending data={PendingQuery} type='toBeApproved' routeChangeAction={routeChangeAction} />,
             ]}
           />
         ) : !isHeaderLoaded ? null : (

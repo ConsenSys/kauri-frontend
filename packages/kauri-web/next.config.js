@@ -16,7 +16,7 @@ const processedConfig = Object.keys(config).reduce((current, next, i) => {
 
 console.log(processedConfig)
 
-const nextPlugins = [[ withTM, { transpileModules: ['../kauri-components'] } ], withSourceMaps, withLess, withCss]
+const nextPlugins = [[withTM, { transpileModules: ['../kauri-components'] }], withSourceMaps, withLess, withCss]
 if (process.env.BUNDLE_ANALYZE) {
   nextPlugins.push([
     withBundleAnalyzer,
@@ -43,11 +43,14 @@ const nextConfig = {
       new webpack.IgnorePlugin(/^\/lib\/languages\/*$/, /highlight\.js$/),
       new webpack.IgnorePlugin(/^\.\/lib\/languages$/, /highlight\.js$/),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      new webpack.DefinePlugin(processedConfig)
+      new webpack.DefinePlugin(processedConfig),
     )
     // config.module.rules[0].include.push(join(__dirname, '../kauri-components'))
     if (!isServer) {
-      config.plugins.push(new webpack.IgnorePlugin(/jsdom$/), new webpack.IgnorePlugin(/.js.map$/))
+      config.plugins.push(new webpack.IgnorePlugin(/jsdom$/))
+      // Fuck regex and webpack.
+      const languages = ['dutch', 'english', 'german', 'italian', 'portugese', 'spanish', 'swedish']
+      languages.map(lang => config.plugins.push(new webpack.IgnorePlugin(new RegExp(`${lang}.js.map`))))
     }
     if (process.env.NODE_ENV === 'production') {
       // Do production stuff

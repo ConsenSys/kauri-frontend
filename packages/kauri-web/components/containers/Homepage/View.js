@@ -3,14 +3,14 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import CuratedList from './CuratedList'
 import ArticleSearchbar from '../ArticleSearchbar'
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet'
 
 type Props = {
   data: {
     searchArticles?: {
       content: Array<?ArticleDTO>,
     },
-    getAllCuratedList: ?Array<CuratedListDTO>
+    getAllCuratedList: ?Array<CuratedListDTO>,
   },
   hostName: string,
   routeChangeAction: string => void,
@@ -50,7 +50,7 @@ const KauriDescription = styled.div`
     width: 300px;
     margin: auto;
   }
-`;
+`
 
 class Homepage extends Component<Props> {
   static ContentContainer = ContentContainer
@@ -62,7 +62,7 @@ class Homepage extends Component<Props> {
 
     const { getAllCuratedList } = this.props.data
 
-    const pageTitle = 'Learn to Build on Ethereum With Kauri';
+    const pageTitle = 'Learn to Build on Ethereum With Kauri'
 
     return (
       <ContentContainer>
