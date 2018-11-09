@@ -7,6 +7,7 @@ import ArticleCard from '../../../../../kauri-components/components/Card/Article
 import { Link } from '../../../../routes'
 import moment from 'moment'
 import Loading from '../../../common/Loading'
+import Masonry from '../../../../../kauri-components/components/Layout/Masonry';
 import R from 'ramda'
 
 type Props = {
@@ -90,7 +91,7 @@ class Articles extends Component<Props> {
           <ArticleSearchbar />
         </ArticlesHeader>
         {searchArticles && searchArticles.content.length > 0 ? (
-          <ArticlesContainer>
+          <Masonry columns={4}>
             {searchArticles.content.map(article => {
               const resourceType = R.path(['owner', 'resourceIdentifier', 'type'])(article)
 
@@ -112,7 +113,7 @@ class Articles extends Component<Props> {
                   userAvatar={article.owner && article.owner.avatar}
                   id={article.id}
                   version={article.version}
-                  cardHeight={420}
+                  cardHeight={290}
                   imageURL={article.attributes && article.attributes.background}
                   linkComponent={(childrenProps, route) => (
                     <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>
@@ -123,7 +124,7 @@ class Articles extends Component<Props> {
                 />
               )
             })}
-          </ArticlesContainer>
+          </Masonry>
         ) : (
           <Loading />
         )}
