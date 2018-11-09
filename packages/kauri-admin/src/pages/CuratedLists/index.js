@@ -2,29 +2,21 @@ import React, { Component } from 'react';
 import WebService from '../../components/WebService';
 import { CreateCuratedList, AddItemToList, AddHeader } from '../../components/modals';
 import { ScaleLoader } from 'react-spinners';
-import CuratedList from '../../../../kauri-components/components/Homepage/CuratedList';
 import {Button} from '../../components/common/button.js';
-// import CuratedList from '../../components/CuratedList';
+// import CuratedList from './CuratedList';
+import CuratedList from '../../../../kauri-components/components/CuratedLists';
 import styled from "styled-components";
-
-const Sidebar = styled.div`
-  padding: 20px;
-  display: flex;
-  background: #efefef;
-  min-height: 100%;
-  flex: 1;
-`;
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   position: relative;
-`;
+`
 
 const ListContainer = styled.div`
 display: flex;
 flex: 4;
-flex-direction: column;`;
+flex-direction: column;`
 
 const ListWrapper = styled.div`
   position: relative;
@@ -37,7 +29,7 @@ const ListWrapper = styled.div`
       opacity: 1;
     }
   }
-`;
+`
 
 const DeleteList = styled.div`
   transition: all 0.3s;
@@ -55,7 +47,43 @@ const DeleteList = styled.div`
   &:hover {
     background: red;
   }
-`;
+`
+
+const RemoveHeader = styled.div`
+  transition: all 0.3s;
+  background: darkorange;
+  color: white;
+  border-radius: 4px;
+  padding: 10px;
+  opacity: 0;
+  position: absolute;
+  top: 10px;
+  right: 210px;
+  z-index: 10;
+  cursor: pointer;
+
+  &:hover {
+    background: orange;
+  }
+`
+
+const AddHeaderButton = styled.div`
+  transition: all 0.3s;
+  background: darkgreen;
+  color: white;
+  border-radius: 4px;
+  padding: 10px;
+  opacity: 0;
+  position: absolute;
+  top: 10px;
+  right: 210px;
+  z-index: 10;
+  cursor: pointer;
+
+  &:hover {
+    background: green;
+  }
+`
 
 const AddToList = styled.div`
   transition: all 0.3s;
@@ -73,6 +101,17 @@ const AddToList = styled.div`
   &:hover {
     background: blue;
   }
+`
+
+const Warning = styled.div`
+  color: white;
+  background: darkorange;
+  flex: 1;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  padding: 5px;
+  border-top-right-radius: 4px;
 `;
 
 
@@ -149,7 +188,7 @@ class CuratedLists extends Component {
   }
 
   async removeHeader(payload) {
-    await this.state.ws.executeQuery('addHeaderToCuratedList', {}, 10, { id: payload, resource: null });
+    await this.state.ws.executeQuery('addHeaderToCuratedList', {}, 10, { id: payload, header: null });
     this.fetchLists();
   }
 
@@ -162,24 +201,26 @@ class CuratedLists extends Component {
     const { content } = this.state;
     return (
       <div className="curatedLists" style={{ paddingBottom: 50 }}>
-        <h1 className="Title">Curated Lists</h1>
-        <Button onClick={() => this.setState({ modal: 'CreateCuratedList' })}>Create New List</Button>
         <Container>
           <ListContainer>
           {content && content.map(i =>
           <ListWrapper key={i.id} >
-            <AddToList onClick={() => this.setState({ modal: 'AddItemToList', selectedList: i.id})} className="list-button">Add to List</AddToList>
+            {(i.header && i.resources.length < 2) || (!i.header && i.resources.length < 4) && <AddToList onClick={() => this.setState({ modal: 'AddItemToList', selectedList: i.id})} className="list-button">Add to List</AddToList>}
             <DeleteList onClick={() => this.removeListReq({ id: i.id })} className="list-button">Delete List</DeleteList>
+            {i.header && <RemoveHeader onClick={() => this.removeHeader(i.id)} className="list-button">Remove Header</RemoveHeader>}
+            {!i.header && <AddHeaderButton onClick={() => this.setState({ modal: 'AddHeader', selectedList: i.id })} className="list-button">Add Header</AddHeaderButton>}
             <CuratedList
+              fromAdmin={true}
+              onCardClick={payload => this.removeResourceFromListReq({ id: i.id, resource: payload})}
+              Link={props => props.children}
               routeChangeAction={this.props.routeChangeAction}
               content={i}
-              Link={({children}) => children}
             />
+            {i.header && i.resources.length > 2 && <Warning>There are {i.resources.length} articles in this list, but only 2 can be shown when a header is selected</Warning>}
           </ListWrapper>)}
-          </ListContainer>
-          <Sidebar>Here you will edit the content</Sidebar>
+          <Button onClick={() => this.setState({ modal: 'CreateCuratedList' })}>Create New List</Button>
+        </ListContainer>
         </Container>
-        {console.log(this.state.selectedList)}
         {!content && <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}><ScaleLoader /></div>}
         <CreateCuratedList
           createList={payload => this.createListReq(payload)}

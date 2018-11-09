@@ -10,7 +10,7 @@ class Configuration {
     },
     DEV: {
       name: 'DEV',
-      host: 'api.dev2.kauri.io',
+      host: 'api.dev.kauri.io',
       port: 443,
       network_id: 224895
     },

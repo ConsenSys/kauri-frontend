@@ -6,7 +6,7 @@ import Footer from './components/Footer'
 import Main from './components/Main'
 import Configuration from './components/Configuration'
 import { ThemeProvider } from 'styled-components'
-import theme from './theme-config'
+import theme from '../../kauri-components/lib/theme-config';
 
 class App extends Component {
 
