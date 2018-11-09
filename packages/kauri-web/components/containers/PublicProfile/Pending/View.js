@@ -10,18 +10,9 @@ import CheckpointArticles from '../../CheckpointArticles'
 import withPagination from '../../../../lib/with-pagination';
 
 import { PrimaryButton } from '../../../../../kauri-components/components/Button';
-import type { ArticlesProps } from '../types'
+import Masonry from '../../../../../kauri-components/components/Layout/Masonry';
 
-const ArticlesContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex: 1;
-  flex-wrap: wrap;
-  > div {
-    margin: ${props => props.theme.space[2]}px;
-  }
-`
+import type { ArticlesProps } from '../types'
 
 const Articles = ({ data, type, routeChangeAction, isOwner }: ArticlesProps) => {
   const articles = data.searchArticles && data.searchArticles.content;
@@ -31,7 +22,7 @@ const Articles = ({ data, type, routeChangeAction, isOwner }: ArticlesProps) => 
         type === 'published' &&
         isOwner && <CheckpointArticles isOwner={isOwner} articles={articles} />}
       <ContentContainer>
-        <ArticlesContainer>
+      <Masonry columns={4} minWidth={310}>
           {articles.map(article => (
             <ArticleCard
               key={`${article.id}-${article.version}`}
@@ -53,7 +44,7 @@ const Articles = ({ data, type, routeChangeAction, isOwner }: ArticlesProps) => 
               )}
             />
           ))}
-        </ArticlesContainer>
+        </Masonry>
       </ContentContainer>
     </Fragment>
   ) : (

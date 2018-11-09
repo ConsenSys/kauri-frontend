@@ -23,7 +23,7 @@ class Masonry extends Component {
         this.state = {
             minWidth: props.minWidth,
             columns: props.columns,
-            numCol: props.columns <= Math.floor(window.innerWidth / props.minWidth) ? props.columns : Math.floor(window.innerWidth / props.minWidth),
+            numCol: global.window ? props.columns <= Math.floor(window.innerWidth / props.minWidth) ? props.columns : Math.floor(window.innerWidth / props.minWidth) : 1,
         }
 
         this.updateColumns = this.updateColumns.bind(this);
@@ -45,8 +45,7 @@ class Masonry extends Component {
 
     render () {
         const { children } = this.props;
-        const columnsArray = [];
-    
+        const columnsArray = [];    
         for (let j = 0; j < this.state.numCol; j++) {
             columnsArray.push([]);
         }
