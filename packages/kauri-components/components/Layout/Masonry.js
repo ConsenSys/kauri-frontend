@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const Column = styled.div`
@@ -16,20 +17,49 @@ const MasonryContainer = styled.div`
     flex-direction: row;
 `;
 
-const Masonry = ({ columns, children }) => {
-    const columnsArray = [];
-    for (let j = 0; j < columns; j++) {
-        columnsArray.push([]);
+class Masonry extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            minWidth: props.minWidth,
+            columns: props.columns,
+            numCol: props.columns <= Math.floor(window.innerWidth / props.minWidth) ? props.columns : Math.floor(window.innerWidth / props.minWidth),
+        }
+
+        this.updateColumns = this.updateColumns.bind(this);
     }
 
-    for (let i = 0; i < children.length; i ++) {
-        const columnIndex = i % columns;
-        columnsArray[columnIndex].push(children[i]);
+    updateColumns () {
+        const newMaxCol = Math.floor(window.innerWidth / this.props.minWidth)
+        const newNumCol = this.props.columns <= newMaxCol ? this.props.columns : newMaxCol
+        if (newNumCol !== this.state.numCol) this.setState({ numCol:newNumCol  })
     }
-    return <MasonryContainer>
-        {columnsArray.map(i => <Column>{i}</Column>)}
-    </MasonryContainer>
+
+    componentDidMount () {
+        window.addEventListener("resize", this.updateColumns);
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener("resize", this.updateColumns);
+    }
+
+    render () {
+        const { children } = this.props;
+        const columnsArray = [];
+    
+        for (let j = 0; j < this.state.numCol; j++) {
+            columnsArray.push([]);
+        }
+    
+        for (let i = 0; i < children.length; i ++) {
+            const columnIndex = i % this.state.numCol;
+            columnsArray[columnIndex].push(children[i]);
+        }
+        return <MasonryContainer>
+            {columnsArray.map(i => <Column>{i}</Column>)}
+        </MasonryContainer>
+    }
+    
 }
-
 
 export default Masonry;

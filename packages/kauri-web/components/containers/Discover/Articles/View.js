@@ -58,19 +58,6 @@ const KauriDescription = styled.div`
   }
 `
 
-export const ArticlesContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex: 1;
-  flex-wrap: wrap;
-  padding-bottom: 0;
-  max-width: 1280px;
-  > * {
-    margin: 15px;
-  }
-`
-
 class Articles extends Component<Props> {
   render () {
     const { searchArticles } = this.props.data
@@ -91,7 +78,7 @@ class Articles extends Component<Props> {
           <ArticleSearchbar />
         </ArticlesHeader>
         {searchArticles && searchArticles.content.length > 0 ? (
-          <Masonry columns={4}>
+          <Masonry minWidth={310} columns={4}>
             {searchArticles.content.map(article => {
               const resourceType = R.path(['owner', 'resourceIdentifier', 'type'])(article)
 
