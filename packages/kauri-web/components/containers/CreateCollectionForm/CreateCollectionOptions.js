@@ -50,7 +50,7 @@ type Props = {
 const Content = (props: Props) => (
   <TooltipContainer>
     <Label onClick={props.chooseArticle}>Add Article To Section</Label>
-    {props.previousSectionHasArticles > 0 && (
+    {props.previousSectionHasArticles && (
       <Fragment>
         <Divider />
         <Label onClick={props.addNewSection}>Add New Section</Label>
