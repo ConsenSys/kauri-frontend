@@ -7,9 +7,9 @@ import Empty from '../Empty'
 import { Link } from '../../../../routes'
 import ContentContainer from '../PublicProfileContentContainer'
 import CheckpointArticles from '../../CheckpointArticles'
-import withPagination from '../../../../lib/with-pagination';
+import withPagination from '../../../../lib/with-pagination'
 
-import { PrimaryButton } from '../../../../../kauri-components/components/Button';
+import { PrimaryButton } from '../../../../../kauri-components/components/Button'
 import type { ArticlesProps } from '../types'
 
 const ArticlesContainer = styled.div`
@@ -24,7 +24,7 @@ const ArticlesContainer = styled.div`
 `
 
 const Articles = ({ data, type, routeChangeAction, isOwner }: ArticlesProps) => {
-  const articles = data.searchArticles && data.searchArticles.content;
+  const articles = data.searchArticles && data.searchArticles.content
   return articles.length > 0 ? (
     <Fragment>
       {typeof type === 'string' &&
@@ -58,11 +58,9 @@ const Articles = ({ data, type, routeChangeAction, isOwner }: ArticlesProps) => 
     </Fragment>
   ) : (
     <Empty>
-      <PrimaryButton onClick={() => routeChangeAction(`/write-article`)}>
-          WRITE ARTICLE
-      </PrimaryButton>
+      <PrimaryButton onClick={() => routeChangeAction(`/write-article`)}>WRITE ARTICLE</PrimaryButton>
     </Empty>
   )
 }
 
-export default withPagination(Articles,"searchArticles");
+export default withPagination(Articles, 'searchArticles')

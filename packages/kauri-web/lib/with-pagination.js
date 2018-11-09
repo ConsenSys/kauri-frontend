@@ -46,7 +46,7 @@ const withPagination = (Paginated, key) => {
       // console.log(scrollHeight)
       // console.log(scrolledToBottom)
       if (scrolledToBottom && this.props.data[key].isLast !== true) {
-        const nextPage = this.state.page += 1;
+        const nextPage = (this.state.page += 1)
         this.setState({ showLoading: true })
         this.props.data.fetchMore({
           variables: {
@@ -61,10 +61,10 @@ const withPagination = (Paginated, key) => {
                 content: [...prev[key].content, ...fetchMoreResult[key].content],
                 isLast: fetchMoreResult[key].isLast,
                 totalElements: prev[key].totalElements,
-                totalPages: prev[key].totalPages
+                totalPages: prev[key].totalPages,
               },
-            });
-            return result;
+            })
+            return result
           },
         })
       }

@@ -179,6 +179,7 @@ export const getCollectionsForUser = gql`
       content {
         ...Collection
       }
+      isLast
     }
   }
   ${Collection}

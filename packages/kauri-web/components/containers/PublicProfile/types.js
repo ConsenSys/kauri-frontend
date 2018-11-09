@@ -2,16 +2,20 @@
 
 export type ArticlesProps = {
   type?: 'toBeApproved' | 'published' | 'draft' | 'pending',
-  articles: {
-    content: Array<ArticleDTO>,
+  data: {
+    searchArticles: {
+      content: Array<ArticleDTO>,
+    },
   },
   routeChangeAction: () => void,
   isOwner: boolean,
 }
 
 export type CollectionsProps = {
-  collections: {
-    content: Array<CollectionDTO>,
+  data: {
+    searchCollections: {
+      content: Array<CollectionDTO>,
+    },
   },
   routeChangeAction: () => void,
 }
