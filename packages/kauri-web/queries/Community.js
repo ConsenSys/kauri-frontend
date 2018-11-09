@@ -100,7 +100,7 @@ export const getAllCommunities = gql`
 
 export const searchCommunities = gql`
   query searchCommunities($filter: CommunityFilterInput) {
-    searchCommunities(size: 10, filter: $filter) {
+    searchCommunities(size: 12, filter: $filter) {
       content {
         id
         dateCreated

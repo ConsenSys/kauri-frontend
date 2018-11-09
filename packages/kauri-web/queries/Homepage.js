@@ -89,13 +89,15 @@ export const HomePageQuery = gql`
             name
             avatar
           }
-sections {
-      name
-      description
-      resources {
-        ... on ArticleDTO { id }
-      }
-    }
+          sections {
+            name
+            description
+            resources {
+              ... on ArticleDTO {
+                id
+              }
+            }
+          }
         }
         ... on CommunityDTO {
           id

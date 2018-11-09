@@ -118,7 +118,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                 const articleCount =
                   collectionCard.sections &&
                   collectionCard.sections.reduce((current, next) => {
-                    current += next.resourcesId && next.resourcesId.length
+                    current += next.resources && next.resources.length
                     return current
                   }, 0)
                 return (

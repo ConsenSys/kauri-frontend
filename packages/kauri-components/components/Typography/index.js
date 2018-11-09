@@ -141,6 +141,7 @@ const typographySpecifications: Array<Typography> = [
       // Because Nelson
       styled.span`
         ${BodyCardCss};
+        ${props => props.textAlign && `text-align: ${props.textAlign}`};
       `,
   },
 ]
@@ -155,7 +156,7 @@ typographySpecifications.map(
             margin: 0px;
             font-weight: ${fontWeight};
             font-size: ${fontSize}px;
-            ${textTransform && `text-transform: ${textTransform}`};
+            text-transform: ${props => (props.textTransform ? props.textTransform : textTransform)};
             text-align: ${props => props.textAlign};
             :hover {
               color: ${props =>

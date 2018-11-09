@@ -48,7 +48,7 @@ class CollectionCreated extends React.Component<Props> {
     const articleCount =
       sections &&
       sections.reduce((current, next) => {
-        current += next.resourcesId && next.resourcesId.length
+        current += next.resources && next.resources.length
         return current
       }, 0)
 
