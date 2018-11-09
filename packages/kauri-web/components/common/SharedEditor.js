@@ -48,8 +48,6 @@ export class SharedEditor extends React.Component<*> {
     extensions: ['highlightjs'],
   })
 
-  shouldComponentUpdate = (nextProps, _nextState) => this.props.editorState !== nextProps.editorState
-
   componentDidUpdate () {
     if (document.querySelector('.mde-preview')) {
       R.map(block => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))

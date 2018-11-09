@@ -377,7 +377,8 @@ export default ({
                       previousSectionHasArticles={R.pipe(
                         R.path(['sections', index > 0 ? index : 0, 'resourcesId']),
                         R.defaultTo([]),
-                        resourcesId => resourcesId.length
+                        resourcesId => resourcesId.length,
+                        Boolean
                       )(values)}
                       addNewSection={() => arrayHelpers.push(emptySection)}
                       removeSection={() => arrayHelpers.remove(index)}
