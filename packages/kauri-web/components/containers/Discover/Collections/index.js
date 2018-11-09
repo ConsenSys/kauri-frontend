@@ -11,12 +11,14 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default compose(
-  connect(mapStateToProps, { routeChangeAction }),
+  connect(
+    mapStateToProps,
+    { routeChangeAction }
+  ),
   graphql(getLatestCollections, {
     options: () => ({
       variables: {},
-      fetchPolicy: 'no-cache',
     }),
   }),
   withLoading()
-)(withPagination(Collections, "searchCollections"))
+)(withPagination(Collections, 'searchCollections'))

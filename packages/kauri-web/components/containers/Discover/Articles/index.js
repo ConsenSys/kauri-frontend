@@ -4,23 +4,23 @@ import { globalSearchApprovedArticles } from '../../../../queries/Article'
 import { connect } from 'react-redux'
 import { routeChangeAction } from '../../../../lib/Module'
 import withLoading from '../../../../lib/with-loading'
-import withApolloError from '../../../../lib/with-apollo-error';
-import withPagination from '../../../../lib/with-pagination';
+import withApolloError from '../../../../lib/with-apollo-error'
+import withPagination from '../../../../lib/with-pagination'
 
 const mapStateToProps = (state, ownProps) => {
   return { hostName: state.app && state.app.hostName }
 }
 
 export default compose(
-  connect(mapStateToProps, { routeChangeAction }),
+  connect(
+    mapStateToProps,
+    { routeChangeAction }
+  ),
   graphql(globalSearchApprovedArticles, {
     options: () => ({
-      variables: {
-        page: 0,
-      },
-      fetchPolicy: 'no-cache',
+      variables: {},
     }),
   }),
   withLoading(),
   withApolloError()
-)(withPagination(Articles, "searchArticles"))
+)(withPagination(Articles, 'searchArticles'))
