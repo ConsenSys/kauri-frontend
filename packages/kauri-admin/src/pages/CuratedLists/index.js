@@ -3,7 +3,8 @@ import WebService from '../../components/WebService';
 import { CreateCuratedList, AddItemToList, AddHeader } from '../../components/modals';
 import { ScaleLoader } from 'react-spinners';
 import {Button} from '../../components/common/button.js';
-import CuratedList from './CuratedList';
+// import CuratedList from './CuratedList';
+import CuratedList from '../../../../kauri-components/components/CuratedLists';
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -153,8 +154,6 @@ class CuratedLists extends Component {
     const { content } = this.state;
     return (
       <div className="curatedLists" style={{ paddingBottom: 50 }}>
-        <h1 className="Title">Curated Lists</h1>
-        <Button onClick={() => this.setState({ modal: 'CreateCuratedList' })}>Create New List</Button>
         <Container>
           <ListContainer>
           {content && content.map(i =>
@@ -162,13 +161,14 @@ class CuratedLists extends Component {
             <AddToList onClick={() => this.setState({ modal: 'AddItemToList', selectedList: i.id})} className="list-button">Add to List</AddToList>
             <DeleteList onClick={() => this.removeListReq({ id: i.id })} className="list-button">Delete List</DeleteList>
             <CuratedList
+              Link={props => props.children}
               routeChangeAction={this.props.routeChangeAction}
               content={i}
             />
           </ListWrapper>)}
-          </ListContainer>
+          <Button onClick={() => this.setState({ modal: 'CreateCuratedList' })}>Create New List</Button>
+        </ListContainer>
         </Container>
-        {console.log(this.state.selectedList)}
         {!content && <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}><ScaleLoader /></div>}
         <CreateCuratedList
           createList={payload => this.createListReq(payload)}

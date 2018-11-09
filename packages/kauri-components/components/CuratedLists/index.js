@@ -5,7 +5,7 @@ import moment from 'moment'
 import ArticleCard from '../Card/ArticleCard';
 import CollectionCard from '../Card/CollectionCard'
 import CommunityCardConnection from '../../../kauri-web/components/connections/Community/CommunityCard_Connection.bs';
-import CuratedHeader from './CuratedHeader'
+import CuratedHeader from './CuratedHeader';
 import R from 'ramda'
 
 const Title = styled.h2`
@@ -70,7 +70,7 @@ const CuratedList = ({ Link, routeChangeAction, content: { name, resources, feat
       {!header && <Title featured={featured}>{name}</Title>}
       {cards && (
         <Resources>
-          {header && <CuratedHeader featured={featured} background={background} name={name} header={header} />}
+          {header && <CuratedHeader Link={Link} featured={featured} background={background} name={name} header={header} />}
           {cards.map(card => {
             switch (
               card &&

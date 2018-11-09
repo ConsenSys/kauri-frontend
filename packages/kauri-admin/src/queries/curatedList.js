@@ -35,6 +35,7 @@ export const getAllCuratedList = (payload, maxResult, filter) => ({
           resources {
             ... on ArticleDTO {
               id
+              attributes
               version
               author {
                 id

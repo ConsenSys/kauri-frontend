@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import theme from '../../../kauri-web/lib/theme-config'
-import { Link } from '../../../kauri-web/routes';
 import DescriptionRow from '../../../kauri-web/components/common/DescriptionRow'
 
 const Header = styled.div`
@@ -77,12 +76,15 @@ const Button = styled.div`
   }
 `
 
-const CuratedHeader = ({ header, name }) => {
+const CuratedHeader = ({ Link, header, name }) => {
   const topic = theme[header.id]
   const imageURL = `/static/images/${header.id}/avatar.png`
+  console.log(header);
+  const type = header.__typename || header.resourceIdentifier.type;
 
-  switch (header.__typename) {
+  switch (type) {
     case 'CommunityDTO':
+    case 'COMMUNITY':
       return (
         <Header background={background}>
           <ListTitle>{name}</ListTitle>
@@ -97,6 +99,7 @@ const CuratedHeader = ({ header, name }) => {
         </Header>
       )
     case 'CollectionDTO':
+    case 'COLLECTION':
       return (
         <Header background={header.background}>
           <ListTitle>{name}</ListTitle>
@@ -110,6 +113,8 @@ const CuratedHeader = ({ header, name }) => {
         </Header>
       )
     case 'ArticleDTO':
+    case 'ARTICLE':
+        console.log('rendering article header')
       return (
         <Header background={header.background}>
           <ListTitle>{name}</ListTitle>
