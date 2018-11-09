@@ -128,7 +128,7 @@ const renderBodyContent = ({ name, cardHeight, cardWidth, imageURL, description 
     <Title2 textAlign='center'>
       <TextTruncate line={nameLineHeight({ cardHeight, imageURL })} truncateText='…' text={name} />
     </Title2>
-    <BodyCard>
+    <BodyCard textAlign='center'>
       <TextTruncate line={contentLineHeight({ cardHeight, cardWidth, imageURL })} truncateText='…' text={description} />
     </BodyCard>
   </React.Fragment>

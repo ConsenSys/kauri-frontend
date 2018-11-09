@@ -141,6 +141,7 @@ const typographySpecifications: Array<Typography> = [
       // Because Nelson
       styled.span`
         ${BodyCardCss};
+        ${props => props.textAlign && `text-align: ${props.textAlign}`};
       `,
   },
 ]
