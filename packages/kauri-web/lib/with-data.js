@@ -3,7 +3,6 @@ import cookie from 'cookie'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 import enUS from 'antd/lib/locale-provider/en_US'
-import Router from 'next/router'
 import { LocaleProvider } from 'antd'
 import { Provider } from 'react-redux'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
@@ -193,9 +192,18 @@ export default ComposedComponent =>
     }
 
     componentDidMount () {
-      window.addEventListener('load', () => {
-        // Supports Metamask and Mist, and other wallets that provide 'web3'.
-        if (typeof web3 !== 'undefined') {
+      window.addEventListener('load', async () => {
+        if (window.ethereum) {
+          window.web3 = new Web3(window.ethereum)
+          try {
+            // Request account access if needed
+            await window.ethereum.enable()
+            // Acccounts now exposed
+          } catch (error) {
+            // User denied account access...
+          }
+          // Supports Metamask and Mist, and other wallets that provide 'web3'.
+        } else if (typeof window.web3 !== 'undefined') {
           // Use the Mist/wallet provider.
           window.web3 = new Web3(window.web3.currentProvider)
         } else {
