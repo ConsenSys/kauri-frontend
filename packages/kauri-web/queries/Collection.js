@@ -21,11 +21,6 @@ export const Collection = gql`
         id
         type
       }
-      resources {
-        ... on ArticleDTO {
-          id
-        }
-      }
     }
     resourceIdentifier {
       type

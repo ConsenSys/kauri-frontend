@@ -1,9 +1,10 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import CuratedList from './CuratedList'
+import CuratedList from '../../../../kauri-components/components/CuratedLists';
 import ArticleSearchbar from '../ArticleSearchbar'
 import { Helmet } from 'react-helmet'
+import { Link } from '../../../routes';
 
 type Props = {
   data: {
@@ -78,7 +79,7 @@ class Homepage extends Component<Props> {
           <ArticleSearchbar />
         </HomePageHeader>
         {getAllCuratedList.map(curatedList => (
-          <CuratedList routeChangeAction={this.props.routeChangeAction} key={curatedList.id} content={curatedList} />
+          <CuratedList Link={Link} routeChangeAction={this.props.routeChangeAction} key={curatedList.id} content={curatedList} />
         ))}
       </ContentContainer>
     )

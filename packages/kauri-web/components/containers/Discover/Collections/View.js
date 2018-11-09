@@ -103,7 +103,7 @@ class Collections extends Component<Props> {
               const articleCount =
                 collection.sections &&
                 collection.sections.reduce((current, next) => {
-                  current += next.resources && next.resources.length
+                  current += next.resourcesId && next.resourcesId.length
                   return current
                 }, 0)
               return (

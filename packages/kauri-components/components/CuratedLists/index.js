@@ -2,12 +2,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
-import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard'
-import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard'
-import CommunityCardConnection from '../../connections/Community/CommunityCard_Connection.bs'
-import theme from '../../../lib/theme-config'
+import ArticleCard from '../Card/ArticleCard';
+import CollectionCard from '../Card/CollectionCard'
+import CommunityCardConnection from '../../../kauri-web/components/connections/Community/CommunityCard_Connection.bs';
 import CuratedHeader from './CuratedHeader'
-import { Link } from '../../../routes'
 import R from 'ramda'
 
 const Title = styled.h2`
@@ -71,13 +69,14 @@ type Props = {
   content: CuratedListDTO,
 }
 
-const CuratedList = ({ routeChangeAction, content: { name, resources, featured, header } }: Props) => {
+const CuratedList = ({ Link, routeChangeAction, content: { name, resources, featured, header } }: Props) => {
   return (
     <Container
       bgColor={getBG(header, featured)}
       featured={featured}
       background={header && typeof header.background === 'string' && header.background}
     >
+      {console.log(header)}
       {!header && <Title featured={featured}>{name}</Title>}
       {resources && (
         <Resources>
@@ -118,7 +117,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                 const articleCount =
                   collectionCard.sections &&
                   collectionCard.sections.reduce((current, next) => {
-                    current += next.resources && next.resources.length
+                    current += next.resourcesId && next.resourcesId.length
                     return current
                   }, 0)
                 return (

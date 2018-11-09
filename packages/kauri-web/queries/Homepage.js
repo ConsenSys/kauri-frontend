@@ -92,11 +92,7 @@ export const HomePageQuery = gql`
           sections {
             name
             description
-            resources {
-              ... on ArticleDTO {
-                id
-              }
-            }
+            resourcesId {id type }
           }
         }
         ... on CommunityDTO {
