@@ -115,7 +115,7 @@ export const removeResourceFromCuratedList = (payload, maxResult, filter) => ({
 });
 
 export const addHeaderToCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation addHeaderToCuratedList($id: String, $resource: ResourceIdentifierInput) { addHeaderToCuratedList (id: $id, resource: $resource) {hash}    }",
+    query: "mutation addHeaderToCuratedList($id: String, $header: ResourceIdentifierInput) { addHeaderToCuratedList (id: $id, header: $header) {hash}    }",
     variables: payload,
     operationName: "addHeaderToCuratedList"
 });

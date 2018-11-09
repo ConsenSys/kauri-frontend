@@ -79,7 +79,6 @@ const Button = styled.div`
 const CuratedHeader = ({ Link, header, name }) => {
   const topic = theme[header.id]
   const imageURL = `/static/images/${header.id}/avatar.png`
-  console.log(header);
   const type = header.__typename || header.resourceIdentifier.type;
 
   switch (type) {
@@ -114,7 +113,6 @@ const CuratedHeader = ({ Link, header, name }) => {
       )
     case 'ArticleDTO':
     case 'ARTICLE':
-        console.log('rendering article header')
       return (
         <Header background={header.background}>
           <ListTitle>{name}</ListTitle>

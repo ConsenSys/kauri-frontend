@@ -11,12 +11,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   position: relative;
-`;
+`
 
 const ListContainer = styled.div`
 display: flex;
 flex: 4;
-flex-direction: column;`;
+flex-direction: column;`
 
 const ListWrapper = styled.div`
   position: relative;
@@ -29,7 +29,7 @@ const ListWrapper = styled.div`
       opacity: 1;
     }
   }
-`;
+`
 
 const DeleteList = styled.div`
   transition: all 0.3s;
@@ -47,7 +47,25 @@ const DeleteList = styled.div`
   &:hover {
     background: red;
   }
-`;
+`
+
+const RemoveHeader = styled.div`
+  transition: all 0.3s;
+  background: darkorange;
+  color: white;
+  border-radius: 4px;
+  padding: 10px;
+  opacity: 0;
+  position: absolute;
+  top: 10px;
+  right: 210px;
+  z-index: 10;
+  cursor: pointer;
+
+  &:hover {
+    background: orange;
+  }
+`
 
 const AddToList = styled.div`
   transition: all 0.3s;
@@ -65,7 +83,7 @@ const AddToList = styled.div`
   &:hover {
     background: blue;
   }
-`;
+`
 
 
 class CuratedLists extends Component {
@@ -141,7 +159,7 @@ class CuratedLists extends Component {
   }
 
   async removeHeader(payload) {
-    await this.state.ws.executeQuery('addHeaderToCuratedList', {}, 10, { id: payload, resource: null });
+    await this.state.ws.executeQuery('addHeaderToCuratedList', {}, 10, { id: payload, header: null });
     this.fetchLists();
   }
 
@@ -160,6 +178,7 @@ class CuratedLists extends Component {
           <ListWrapper key={i.id} >
             <AddToList onClick={() => this.setState({ modal: 'AddItemToList', selectedList: i.id})} className="list-button">Add to List</AddToList>
             <DeleteList onClick={() => this.removeListReq({ id: i.id })} className="list-button">Delete List</DeleteList>
+            <RemoveHeader onClick={() => this.removeHeader(i.id)} className="list-button">RemoveHeader</RemoveHeader>
             <CuratedList
               Link={props => props.children}
               routeChangeAction={this.props.routeChangeAction}
