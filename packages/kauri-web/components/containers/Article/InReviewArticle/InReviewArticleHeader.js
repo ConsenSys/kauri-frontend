@@ -2,8 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { CreateRequestSecondaryHeader as InReviewArticleSecondaryHeader } from '../../CreateRequestForm/CreateRequestHeader'
-import { ApprovedArticleSubject as InReviewArticleSubject } from '../ApprovedArticle/ApprovedArticleHeader'
-import { H5 } from '../../../../../kauri-components/components/Typography'
+import { H5, Title1 } from '../../../../../kauri-components/components/Typography'
 import theme from '../../../../lib/theme-config'
 
 const InfoContainer = styled.div`
@@ -51,15 +50,7 @@ export default ({ owner, sub_category, status, title, attributes }: *) => (
   >
     <Overlay />
     <InfoContainer>
-      <InReviewArticleSubject
-        type='in review article'
-        metadata={attributes}
-        subject={title}
-        theme={theme}
-        chosenCategory={owner && owner.id}
-        chosenSubcategory={''}
-        attributes={attributes}
-      />
+      <Title1 color='white'>{title}</Title1>
     </InfoContainer>
     <PullRight>
       <H5 color='white'>{`STATUS ${typeof status === 'string' && status.replace(/_/g, ' ')}`}</H5>
