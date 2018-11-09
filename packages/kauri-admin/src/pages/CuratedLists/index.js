@@ -67,6 +67,24 @@ const RemoveHeader = styled.div`
   }
 `
 
+const AddHeaderButton = styled.div`
+  transition: all 0.3s;
+  background: darkgreen;
+  color: white;
+  border-radius: 4px;
+  padding: 10px;
+  opacity: 0;
+  position: absolute;
+  top: 10px;
+  right: 210px;
+  z-index: 10;
+  cursor: pointer;
+
+  &:hover {
+    background: green;
+  }
+`
+
 const AddToList = styled.div`
   transition: all 0.3s;
   background: lightblue;
@@ -84,6 +102,17 @@ const AddToList = styled.div`
     background: blue;
   }
 `
+
+const Warning = styled.div`
+  color: white;
+  background: darkorange;
+  flex: 1;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  padding: 5px;
+  border-top-right-radius: 4px;
+`;
 
 
 class CuratedLists extends Component {
@@ -176,14 +205,16 @@ class CuratedLists extends Component {
           <ListContainer>
           {content && content.map(i =>
           <ListWrapper key={i.id} >
-            <AddToList onClick={() => this.setState({ modal: 'AddItemToList', selectedList: i.id})} className="list-button">Add to List</AddToList>
+            {(i.header && i.resources.length < 2) || (!i.header && i.resources.length < 4) && <AddToList onClick={() => this.setState({ modal: 'AddItemToList', selectedList: i.id})} className="list-button">Add to List</AddToList>}
             <DeleteList onClick={() => this.removeListReq({ id: i.id })} className="list-button">Delete List</DeleteList>
-            <RemoveHeader onClick={() => this.removeHeader(i.id)} className="list-button">RemoveHeader</RemoveHeader>
+            {i.header && <RemoveHeader onClick={() => this.removeHeader(i.id)} className="list-button">Remove Header</RemoveHeader>}
+            {!i.header && <AddHeaderButton onClick={() => this.setState({ modal: 'AddHeader', selectedList: i.id })} className="list-button">Add Header</AddHeaderButton>}
             <CuratedList
               Link={props => props.children}
               routeChangeAction={this.props.routeChangeAction}
               content={i}
             />
+            {i.header && i.resources.length > 2 && <Warning>There are {i.resources.length} articles in this list, but only 2 can be shown when a header is selected</Warning>}
           </ListWrapper>)}
           <Button onClick={() => this.setState({ modal: 'CreateCuratedList' })}>Create New List</Button>
         </ListContainer>
