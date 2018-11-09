@@ -25,11 +25,11 @@ export const CollectionsContainer = styled.div`
   }
 `
 
-const Collections = ({ collections, routeChangeAction }: CollectionsProps) =>
-  collections.content.length > 0 ? (
+const Collections = ({ data, routeChangeAction }: CollectionsProps) =>
+  data.searchCollections && data.searchCollections.content.length > 0 ? (
     <ContentContainer>
       <CollectionsContainer>
-        {collections.content.map(collection => {
+        {data.searchCollections.content.map(collection => {
           const articleCount =
             collection.sections &&
             collection.sections.reduce((current, next) => {
