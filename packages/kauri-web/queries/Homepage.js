@@ -39,6 +39,8 @@ export const HomePageQuery = gql`
         }
         ... on CollectionDTO {
           id
+          name
+          description
         }
         ... on CommunityDTO {
           id
@@ -46,6 +48,7 @@ export const HomePageQuery = gql`
         }
         ... on PublicUserDTO {
           id
+          name
         }
       }
       resources {

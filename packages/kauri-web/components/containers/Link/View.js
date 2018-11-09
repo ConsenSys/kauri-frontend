@@ -43,7 +43,7 @@ class Link extends React.Component<LinkProps> {
     let url = this.props.as || this.props.href || this.props.children.props.href
     const slug = this.props.toSlug ? slugify(this.props.toSlug, { lower: true }) : null
     if (slug) url += `/${slug}`
-    const { fullWidth = true } = this.props
+    const { fullWidth } = this.props
 
     if (this.props.useAnchorTag) {
       return (

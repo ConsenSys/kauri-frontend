@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import theme from '../../../kauri-web/lib/theme-config'
-const Link = ({ children }) => children
+import { Link } from '../../../kauri-web/routes';
+import DescriptionRow from '../../../kauri-web/components/common/DescriptionRow'
 
 const Header = styled.div`
   flex: 1;
@@ -20,7 +21,7 @@ const Header = styled.div`
   }
 `
 
-const HeaderDescription = styled.div`
+const Description = styled.div`
   @media (max-width: 500px) {
     text-align: center;
     align-items: center;
@@ -38,7 +39,7 @@ const ListTitle = styled.h2`
   margin-top: 20px;
 `
 
-const CommunityHeading = styled.div`
+const Heading = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -53,7 +54,7 @@ const CommunityLogo = styled.img`
   margin: 10px 20px 20px 0;
 `
 
-const CommunityName = styled.h3`
+const Name = styled.h3`
   color: white;
   text-transform: capitalize;
   font-weight: bold;
@@ -80,31 +81,44 @@ const CuratedHeader = ({ header, name }) => {
   const topic = theme[header.id]
   const imageURL = `/static/images/${header.id}/avatar.png`
 
-  switch (header && header.type) {
-    case 'TOPIC' || 'COMMUNITY':
+  switch (header.__typename) {
+    case 'CommunityDTO':
       return (
-        <Header>
+        <Header background={background}>
           <ListTitle>{name}</ListTitle>
-          <CommunityHeading>
+          <Heading>
             <CommunityLogo src={imageURL} />
-            <CommunityName>{header.id}</CommunityName>
-          </CommunityHeading>
-          <HeaderDescription>{topic.description}</HeaderDescription>
+            <Name>{header.id}</Name>
+          </Heading>
+          <Description>{topic.description}</Description>
           <Link useAnchorTag route={`/community/${header.id}`}>
             <Button>View Community</Button>
           </Link>
         </Header>
       )
-    case 'COLLECTION':
+    case 'CollectionDTO':
       return (
         <Header background={header.background}>
           <ListTitle>{name}</ListTitle>
-          <CommunityHeading>
-            <CommunityName>{header.name}</CommunityName>
-          </CommunityHeading>
-          <HeaderDescription>{header.description}</HeaderDescription>
+          <Heading>
+            <Name>{header.name}</Name>
+          </Heading>
+          <Description>{header.description}</Description>
           <Link useAnchorTag toSlug={header.name} route={`/collection/${header.id}`}>
             <Button>View Collection</Button>
+          </Link>
+        </Header>
+      )
+    case 'ArticleDTO':
+      return (
+        <Header background={header.background}>
+          <ListTitle>{name}</ListTitle>
+          <Heading>
+            <Name>{header.title}</Name>
+          </Heading>
+          <Description><DescriptionRow record={{text : header.content}}/></Description>
+          <Link useAnchorTag toSlug={header.name} route={`/article/${header.id}`}>
+            <Button>View Article</Button>
           </Link>
         </Header>
       )

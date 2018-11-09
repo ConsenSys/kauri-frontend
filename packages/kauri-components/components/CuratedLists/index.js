@@ -13,11 +13,11 @@ const Title = styled.h2`
   font-size: 22px;
   text-transform: capitalize;
   margin-top: 0px;
-  color: ${props => (props.featured ? 'white' : '#1e2428')};
+  color: white
 `
 
 const Container = styled.div`
-  background-color: ${props => props.bgColor};
+  background-color: ${props => props.theme.colors.bgPrimary};
   width: 100%;
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
   text-align: center;
@@ -33,7 +33,7 @@ const Container = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
-    opacity: 0.3;
+    opacity: 0.25;
     z-index: 1;
   }
 `
@@ -52,16 +52,6 @@ const Resources = styled.div`
   }
 `
 
-const getBG = (header, featured) => {
-  if (featured && header && header.type === ('TOPIC' || 'COMMUNITY')) {
-    return theme[header.id].primaryColor
-  } else if (featured) {
-    return '#1e2428'
-  } else {
-    return 'transparent'
-  }
-}
-
 const HOMEPAGE_CARD_HEIGHT = 290
 
 type Props = {
@@ -70,18 +60,18 @@ type Props = {
 }
 
 const CuratedList = ({ Link, routeChangeAction, content: { name, resources, featured, header } }: Props) => {
+
+  const cards = header && resources ? resources.slice(0,2) : resources;
+  const background = (header && header.background) || (header && header.attributes && header.attributes.background);
   return (
     <Container
-      bgColor={getBG(header, featured)}
-      featured={featured}
-      background={header && typeof header.background === 'string' && header.background}
+      background={background}
     >
-      {console.log(header)}
       {!header && <Title featured={featured}>{name}</Title>}
-      {resources && (
+      {cards && (
         <Resources>
-          {header && <CuratedHeader name={name} header={header} />}
-          {resources.map(card => {
+          {header && <CuratedHeader featured={featured} background={background} name={name} header={header} />}
+          {cards.map(card => {
             switch (
               card &&
                 card.resourceIdentifier &&
@@ -168,7 +158,6 @@ const CuratedList = ({ Link, routeChangeAction, content: { name, resources, feat
           })}
         </Resources>
       )}
-      {/* {JSON.stringify({ name, resources, featured, header })} */}
     </Container>
   )
 }

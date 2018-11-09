@@ -65,6 +65,8 @@ class Homepage extends Component<Props> {
 
     const pageTitle = 'Learn to Build on Ethereum With Kauri'
 
+    console.log(getAllCuratedList.sort((a,b) => b.featured - a.featured ));
+
     return (
       <ContentContainer>
         <Helmet>
