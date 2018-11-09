@@ -210,6 +210,8 @@ class CuratedLists extends Component {
             {i.header && <RemoveHeader onClick={() => this.removeHeader(i.id)} className="list-button">Remove Header</RemoveHeader>}
             {!i.header && <AddHeaderButton onClick={() => this.setState({ modal: 'AddHeader', selectedList: i.id })} className="list-button">Add Header</AddHeaderButton>}
             <CuratedList
+              fromAdmin={true}
+              onCardClick={payload => this.removeResourceFromListReq({ id: i.id, resource: payload})}
               Link={props => props.children}
               routeChangeAction={this.props.routeChangeAction}
               content={i}

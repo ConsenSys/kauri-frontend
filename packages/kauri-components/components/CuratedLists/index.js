@@ -59,7 +59,7 @@ type Props = {
   content: CuratedListDTO,
 }
 
-const CuratedList = ({ Link, routeChangeAction, content: { name, resources, featured, header } }: Props) => {
+const CuratedList = ({ Link, routeChangeAction, content: { name, resources, featured, header }, fromAdmin, onCardClick }: Props) => {
 
   const cards = header && resources ? resources.slice(0,2) : resources;
   const background = (header && header.background) || (header && header.attributes && header.attributes.background);
@@ -94,11 +94,17 @@ const CuratedList = ({ Link, routeChangeAction, content: { name, resources, feat
                     version={articleCard.version}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     imageURL={articleCard.attributes && articleCard.attributes.background}
-                    linkComponent={(childrenProps, route) => (
-                      <Link toSlug={route.includes('article') && articleCard.title} useAnchorTag href={route}>
-                        {childrenProps}
-                      </Link>
-                    )}
+                    linkComponent={(childrenProps, route) => {
+                      if (fromAdmin) {
+                        return <div onClick={() => onCardClick({ id: articleCard.id, type: 'ARTICLE'})}>
+                          {childrenProps}
+                        </div>
+                      } else {
+                        return <Link toSlug={route.includes('article') && articleCard.title} useAnchorTag href={route}>
+                          {childrenProps}
+                        </Link>
+                      }
+                    }}
                   />
                 )
               }
@@ -124,11 +130,17 @@ const CuratedList = ({ Link, routeChangeAction, content: { name, resources, feat
                     articleCount={articleCount}
                     imageURL={collectionCard.background}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
-                    linkComponent={(childrenProps, route) => (
-                      <Link toSlug={route.includes('collection') && collectionCard.name} useAnchorTag href={route}>
-                        {childrenProps}
-                      </Link>
-                    )}
+                    linkComponent={(childrenProps, route) => {
+                      if (fromAdmin) {
+                        return <div onClick={() => onCardClick({ id: collectionCard.id, type: 'COLLECTION'})}>
+                          {childrenProps}
+                        </div>
+                      } else {
+                        return <Link toSlug={route.includes('article') && collectionCard.name} useAnchorTag href={route}>
+                          {childrenProps}
+                        </Link>
+                      }
+                    }}
                   />
                 )
               }
