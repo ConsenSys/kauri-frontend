@@ -180,7 +180,7 @@ export const searchApprovedArticles = gql`
 `
 
 export const globalSearchApprovedArticles = gql`
-  query globalSearchApprovedArticles($size: Int = 666, $page: Int = 0, $text: String) {
+  query globalSearchApprovedArticles($size: Int = 12, $page: Int = 0, $text: String) {
     searchArticles(
       size: $size
       sort: "dateCreated"
