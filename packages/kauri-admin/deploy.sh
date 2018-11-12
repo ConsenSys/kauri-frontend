@@ -14,12 +14,13 @@ else
   DOCKER_PULL_COMMAND='gcloud docker -- pull'
 fi
 
-DOCKERFILE=Dockerfile
+DOCKERFILE=Dockerfile-admin
 
 # kubectl delete -f frontend-service.yml || true
 
 # Build docker image
 
+cd ../..
 BUILD_TAG="${BUILD_TAG}/kauri-admin:latest"
 docker build -t $BUILD_TAG -f $DOCKERFILE .
 

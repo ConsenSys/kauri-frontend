@@ -1,0 +1,17 @@
+FROM node:9.0.0
+
+# RUN apt-get update && apt upgrade && \
+#   apt install -y bash git openssh-client
+RUN mkdir -p /usr/src/app
+COPY . /usr/src/app
+WORKDIR /usr/src/app/packages/kauri-components
+RUN yarn install
+RUN npm run build
+
+WORKDIR /usr/src/app/packages/kauri-admin
+RUN yarn install
+ENV NODE_ENV production
+RUN npm run build
+RUN npm install -g serve
+EXPOSE 5000
+CMD "serve" "-s" "build"
