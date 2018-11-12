@@ -14,6 +14,7 @@ routes
   .add('submit-article', '/request/:request_id/submit-article')
   .add('view-article', '/article/:article_id')
   .add('view-article-version', '/article/:article_id/v:article_version')
+  .add('view-article-latest-version-with-slug', '/article/:article_id/:slug')
   .add('update-article', '/article/:article_id/v:article_version/update-article')
   // .add('request', '/request/:request_id')
   // .add('update-request', '/request/:request_id/update-request')
