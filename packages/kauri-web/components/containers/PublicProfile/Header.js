@@ -92,7 +92,7 @@ const ProfileHeader = ({ id, avatar, title, username, name, website, github, twi
     <Links>
       {github && <SocialWebsiteIcon brand='github' height={20} socialURL={`https://www.github.com/${github}`} />}
       {twitter && <SocialWebsiteIcon brand='twitter' height={20} socialURL={`https://www.twitter.com/${twitter}`} />}
-      {website && <a href={website}><Details>{website}</Details></a>}
+      {website && <a href={website}><Details size={1}>{website}</Details></a>}
     </Links>
   </DetailsContainer>
   <RightSide>

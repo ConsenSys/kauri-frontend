@@ -30,8 +30,8 @@ const Description = styled.div`
 `;
 
 const ListTitle = styled.h2`
-  font-weight: 300;
-  font-size: 22px;
+  font-weight: 700;
+  font-size: 13px;
   text-transform: capitalize;
   margin-top: 0px;
   color: white;
@@ -56,8 +56,8 @@ const CommunityLogo = styled.img`
 const Name = styled.h3`
   color: white;
   text-transform: capitalize;
-  font-weight: bold;
-  font-size: 30px;
+  font-weight: 400;
+  font-size: 28px;
 `
 
 const Button = styled.div`

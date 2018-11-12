@@ -10,6 +10,7 @@ import ScrollToTopButton from '../../../../kauri-components/components/ScrollToT
 import type { EditArticlePayload, SubmitArticlePayload, SubmitArticleVersionPayload } from './Module'
 import type { ShowNotificationPayload } from '../../../lib/Module'
 
+
 type Owner = {
   id: string,
   name: string,

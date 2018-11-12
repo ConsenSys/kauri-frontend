@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
-import { H6 } from '../Typography'
+import { H5, H6 } from '../Typography'
 import userIdTrim from '../../../kauri-web/lib/userid-trim'
 
 const Container = styled.div`
@@ -92,7 +92,7 @@ export default (props: Props) => (
         </H6>
       )}
     </Avatar>
-    <H6>
+    <H5>
       {props.username
         ? props.username
         : typeof props.userId === 'string'
@@ -100,6 +100,6 @@ export default (props: Props) => (
             ? userIdTrim(props.userId)
             : props.userId
           : 'Anonymous'}
-    </H6>
+    </H5>
   </Container>
 )
