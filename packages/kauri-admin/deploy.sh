@@ -24,7 +24,7 @@ cd ../..
 BUILD_TAG="${BUILD_TAG}/kauri-admin:latest"
 docker build -t $BUILD_TAG -f $DOCKERFILE .
 
-cd k8s
+cd packages/kauri-admin/k8s
 # Push docker image to registry
 ${DOCKER_PUSH_COMMAND} $BUILD_TAG
 # Create app if not exists
