@@ -17,6 +17,9 @@ const SubmitArticleFormActions = styled.section`
   background-color: ${props => props.theme.primaryTextColor};
   padding: 36px ${props => props.theme.padding};
   justify-content: space-between;
+  & > div {
+    z-index: 10;
+  }
 `
 
 const ContainerRow = styled.div`

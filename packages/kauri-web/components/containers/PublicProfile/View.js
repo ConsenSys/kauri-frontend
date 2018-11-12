@@ -81,7 +81,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
           <Tabs
             tabs={[
               `Articles (${ArticlesQuery.searchArticles.totalElements})`,
-              UserQuery.getUser.id === currentUser && `My Drafts (${DraftsQuery.searchArticles.totalElements})`,
+              UserQuery.getUser.id === currentUser && `Drafts (${DraftsQuery.searchArticles.totalElements})`,
               `Collections (${CollectionQuery.searchCollections.totalElements})`,
               UserQuery.getUser.id === currentUser &&
                 `Awaiting Owner Approval (${ApprovalsQuery.searchArticles.totalElements})`,

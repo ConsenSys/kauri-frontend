@@ -32,6 +32,18 @@ export const InputWrapper = styled.div`
   align-self: auto;
 `
 
+const Overlay = styled.div`
+  display: flex;
+  align-items: center;
+  background: ${props => props.theme && props.theme.colors.bgPrimary};
+  opacity: 0.8;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+`
+
 export const ArticleSubject = styled.input`
   display: inline-block;
   margin-left: 0px;
@@ -69,7 +81,6 @@ export const ArticleSubject = styled.input`
 const articleUnderlineSpanCss = css`
   font-size: 26px !important;
 `
-
 export const UnderlineSpan = styled.span`
   user-select: none;
   border-top: 3px solid ${props => props.theme.primaryColor};
@@ -146,6 +157,7 @@ export default ({
   attributes,
 }: Props) => (
   <SubmitArticleFormHeader bg={getBG(getFieldValue, attributes)} type='article' theme={theme}>
+    <Overlay />
     <SubmitArticleFormSubject
       getFieldError={getFieldError}
       getFieldValue={getFieldValue}
