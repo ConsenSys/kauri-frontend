@@ -2309,20 +2309,20 @@ babel-jest@^23.4.2, babel-jest@^23.6.0:
     babel-plugin-istanbul "^4.1.6"
     babel-preset-jest "^23.2.0"
 
-babel-loader@8.0.0-beta.6:
-  version "8.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.0.0-beta.6.tgz#e28e51e8bd118b97861e6d14880684116e979f30"
-  integrity sha512-T3PmmlhIK8TnCYKTjHf+uNfU8m6GvoE8hu3++GR+yYT9ZtC5Jvuq3ZHKP4OffzDTXlC/7lUJbfvyfU9i/XebNg==
+babel-loader@8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.0.2.tgz#2079b8ec1628284a929241da3d90f5b3de2a5ae5"
+  integrity sha512-Law0PGtRV1JL8Y9Wpzc0d6EE0GD7LzXWCfaeWwboUMcBWNG6gvaWTK1/+BK7a4X5EmeJiGEuDDFxUsOa8RSWCw==
   dependencies:
     find-cache-dir "^1.0.0"
     loader-utils "^1.0.2"
     mkdirp "^0.5.1"
     util.promisify "^1.0.0"
 
-babel-loader@8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.0.2.tgz#2079b8ec1628284a929241da3d90f5b3de2a5ae5"
-  integrity sha512-Law0PGtRV1JL8Y9Wpzc0d6EE0GD7LzXWCfaeWwboUMcBWNG6gvaWTK1/+BK7a4X5EmeJiGEuDDFxUsOa8RSWCw==
+babel-loader@8.0.4:
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.0.4.tgz#7bbf20cbe4560629e2e41534147692d3fecbdce6"
+  integrity sha512-fhBhNkUToJcW9nV46v8w87AJOwAJDz84c1CL57n3Stj73FANM/b9TbCUK4YhdOwEyZ+OxhYpdeZDNzSI29Firw==
   dependencies:
     find-cache-dir "^1.0.0"
     loader-utils "^1.0.2"
@@ -2909,10 +2909,10 @@ bs-moment@^0.3.0:
   resolved "https://registry.yarnpkg.com/bs-moment/-/bs-moment-0.3.1.tgz#ae153e1c526c5a1aca8eb4c91b9fa0142062f974"
   integrity sha512-APZWlYvjQAXN7LrISx2AmolksplQ+YnSbqctIWQbZU81kmg55HBC0KU9senhdNcVUYhtzXEcrWzqGQZy/wYJwg==
 
-bs-platform@4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-4.0.3.tgz#4510c1c915cc5b169b5717e5c0ada52d3f99ff98"
-  integrity sha1-RRDByRXMWxabVxflwK2lLT+Z/5g=
+bs-platform@4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-4.0.5.tgz#d4fd9bbdd11765af5b75110a5655065ece05eed6"
+  integrity sha512-wK+yUx/5ojlrxgk/EB3Hla7+9NEnE8PxtGb71e4IsKnWPXrRAaVtdTuoWWClv8z77xntOFg8qTgYfYyh9xLMWA==
 
 bs-webapi@^0.11.0:
   version "0.11.0"
@@ -10233,7 +10233,7 @@ next-server@^7.0.2-canary.21:
     send "0.16.1"
     url "0.11.0"
 
-next@^7.0.2-canary.21:
+next@7.0.2-canary.21:
   version "7.0.2-canary.21"
   resolved "https://registry.yarnpkg.com/next/-/next-7.0.2-canary.21.tgz#e202b1ba515d3862c0ee88664626835ed59b44a2"
   integrity sha512-+/C5Qo9DXPTAD2Qtxi9i6K9S4yVQ5yAkyWWAymgdQa4O6QySBups855AIH32/6zEterYDUxPFwO8Kv/1AOxDsQ==

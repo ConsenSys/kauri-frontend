@@ -158,7 +158,7 @@ export default ({
           Update article
         </ArticleAction>
         <ShareArticle
-          url={`${hostName.replace(/api\./g, '')}/article/${article_id}/v${article_version}/${slugify(subject, {
+          url={`${hostName.replace(/api\./g, '')}/article/${article_id}/${slugify(subject, {
             lower: true,
           })}`}
           title={subject}
