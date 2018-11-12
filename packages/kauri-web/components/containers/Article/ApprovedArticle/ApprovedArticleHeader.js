@@ -85,7 +85,7 @@ export default ({ id, version, datePublished, dateCreated, title, attributes, st
       <Title1 color='white'>{title}</Title1>
       <MobileShareContainer>
         <ShareArticle
-          url={`${hostName.replace(/api\./g, '')}/article/${id}/v${version}/${slugify(title, {
+          url={`${hostName.replace(/api\./g, '')}/article/${id}/${slugify(title, {
             lower: true,
           })}`}
           title={title}
