@@ -79,7 +79,13 @@ code.hljs span {
   font-family: 'Source Code Pro', monospace;
 }
 
+// Fix tooltip offset
 .tippy-tooltip {
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+// Fix broken unmountHTMLWhenHide
+.tippy-popper[aria-hidden='true'] {
+  display: none;
 }
