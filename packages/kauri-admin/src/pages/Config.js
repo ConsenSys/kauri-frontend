@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Alert } from 'react-bootstrap';
 import Configuration from '../components/Configuration'
 import Web3Utils from '../components/Web3Utils'
+import { PrimaryButton } from '../../../kauri-components/components/Button';
 
 class Config extends Component {
   constructor(props) {
@@ -190,7 +191,7 @@ class Config extends Component {
 
               <FormGroup>
                 <Col smOffset={2} sm={10}>
-                    <Button type="button" onClick={this.handleSubmit}>Submit</Button>
+                    <PrimaryButton type="button" onClick={this.handleSubmit}>Submit</PrimaryButton>
                 </Col>
               </FormGroup>
             </Form>;
