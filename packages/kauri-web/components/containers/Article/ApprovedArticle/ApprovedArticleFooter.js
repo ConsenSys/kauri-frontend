@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import DatePosted from '../../../common/DatePosted'
+import CheckpointArticles from '../../CheckpointArticles'
 const config = require('../../../../config').default
 
 type Props = {
@@ -24,8 +25,14 @@ const Details = styled.div`
   width: 74%;
 `
 
-const Middle = styled.div`
-  margin: 0 auto;
+const Left = styled.div`
+  margin-left: 0;
+  text-align: left;
+`
+
+const Right = styled.div`
+  margin-left: auto;
+  text-align: right;
 `
 
 const IPFSContentAttribution = DatePosted.extend`
@@ -96,23 +103,30 @@ const Divider = styled.div`
   }
 `;
 
-export default ({ username, date_updated, type, metadata, content_hash, hostName }: Props) => (
+export default ({ username, date_updated, type, metadata, content_hash, hostName, status, articleCheckpointed, ownerId, userId }: Props) => (
   <ArticleFooter>
     <Divider />
     <Details>
-      {
-        <Middle>
-          <IPFSContentAttribution>
-            {/* (Content)[a href='ipfs content hash'] is (CC-BY-SA 4.0)[a href='actual detail of the license link'] Licensed */}
-            <IPFSIcon />
-            <a href={`${hostName}:443/ipfs/${content_hash}`}>Content</a>
-            <span> is</span>
-            <a
-              href={(metadata && metadata.LICENSE_URL) || 'https://creativecommons.org/licenses/by-sa/4.0/'}
-            >{`${(metadata && metadata.LICENSE) || 'CC-BY-SA 4.0'} licensed`}</a>
-          </IPFSContentAttribution>
-        </Middle>
-      }
+      <Left>
+        <IPFSContentAttribution>
+          {/* (Content)[a href='ipfs content hash'] is (CC-BY-SA 4.0)[a href='actual detail of the license link'] Licensed */}
+          <IPFSIcon />
+          <a href={`${hostName}:443/ipfs/${content_hash}`}>Content</a>
+          <span> is</span>
+          <a
+            href={(metadata && metadata.LICENSE_URL) || 'https://creativecommons.org/licenses/by-sa/4.0/'}
+          >{`${(metadata && metadata.LICENSE) || 'CC-BY-SA 4.0'} licensed`}</a>
+        </IPFSContentAttribution>
+      </Left>
+      <Right>
+        {status === 'PUBLISHED' && (
+          <CheckpointArticles
+            isOwner={ownerId === userId}
+            articleCheckpointed={!!articleCheckpointed}
+            pageType={'approved-article'}
+          />
+        )}
+      </Right>
     </Details>
   </ArticleFooter>
 )

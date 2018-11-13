@@ -128,12 +128,14 @@ class ApprovedArticle extends React.Component<Props, State> {
           routeChangeAction={props.routeChangeAction}
           address={props.userId}
           hostName={hostName}
-          articleCheckpointed={R.path(['data', 'getArticle', 'checkpoint'])(props)}
-          status={R.path(['data', 'getArticle', 'status'])(props)}
           resourceType={typeof resourceType === 'string' && R.toLower(resourceType)}
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.attributes}
+          articleCheckpointed={R.path(['data', 'getArticle', 'checkpoint'])(props)}
+          status={R.path(['data', 'getArticle', 'status'])(props)}
+          ownerId={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id}
+          userId={this.props.userId}
           username={
             props.data.getArticle &&
             props.data.getArticle.owner &&
