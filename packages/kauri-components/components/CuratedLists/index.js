@@ -62,10 +62,7 @@ type Props = {
 const CuratedList = ({ Link, routeChangeAction, content: { name, resources, featured, header }, fromAdmin, onCardClick }: Props) => {
 
   const cards = header && resources ? resources.slice(0,2) : resources;
-  const background = (header && header.background) || (header && header.attributes && header.attributes.background);
-
-  console.log(header, background);
-  
+  const background = (header && header.background) || (header && header.attributes && header.attributes.background);  
   return (
     <Container
       background={background}
