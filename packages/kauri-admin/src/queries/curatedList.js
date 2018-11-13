@@ -16,7 +16,7 @@ export const getAllCuratedList = (payload, maxResult, filter) => ({
               type
               version
             } },
-            ...on CollectionDTO { id, name, resourceIdentifier {
+            ...on CollectionDTO { id, name, background, attributes, resourceIdentifier {
               id
               type
               version

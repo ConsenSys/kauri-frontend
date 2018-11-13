@@ -41,6 +41,8 @@ export const HomePageQuery = gql`
           id
           name
           description
+          attributes
+          background
         }
         ... on CommunityDTO {
           id

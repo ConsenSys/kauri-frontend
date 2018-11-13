@@ -75,17 +75,18 @@ class ApprovedArticle extends React.Component<Props, State> {
 
     const resourceType = R.path(['data', 'getArticle', 'owner', 'resourceIdentifier', 'type'])(props)
     const isCommunityOwned = resourceType === 'COMMUNITY'
-
+    const description = articleContent.replace(/\n|\r/g, " ").replace(/\u00a0/g, " ").replace('#','').substring(0, 120)
     return (
       <ArticleContent>
         <Helmet>
           <title>{title} - Kauri</title>
           <meta name='keywords' content={articleKeywords.map(i => i)} />
           <link rel='canonical' href={`${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
+          <meta name='description' content={description} />
           <meta property='og:title' content={title} />
           <meta property='og:site_name' content='kauri.io' />
           <meta property='og:url' content={`${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
-          <meta property='og:description' content={`${articleContent}...`} />
+          <meta property='og:description' content={`${description}...`} />
           <meta property='og:type' content='article' />
           <meta
             property='og:image'
@@ -94,7 +95,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           <meta name='twitter:card' content='summary' />
           <meta name='twitter:site' ccontent={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
           <meta name='twitter:title' content={title} />
-          <meta name='twitter:description' content={`${articleContent}...`} />
+          <meta name='twitter:description' content={`${description}...`} />
           <meta name='twitter:creator' content='@kauri_io' />
           <meta
             name='twitter:image'
@@ -127,12 +128,14 @@ class ApprovedArticle extends React.Component<Props, State> {
           routeChangeAction={props.routeChangeAction}
           address={props.userId}
           hostName={hostName}
-          articleCheckpointed={R.path(['data', 'getArticle', 'checkpoint'])(props)}
-          status={R.path(['data', 'getArticle', 'status'])(props)}
           resourceType={typeof resourceType === 'string' && R.toLower(resourceType)}
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.attributes}
+          articleCheckpointed={R.path(['data', 'getArticle', 'checkpoint'])(props)}
+          status={R.path(['data', 'getArticle', 'status'])(props)}
+          ownerId={props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id}
+          userId={this.props.userId}
           username={
             props.data.getArticle &&
             props.data.getArticle.owner &&
