@@ -17,7 +17,7 @@ const DEFAULT_CARD_WIDTH = 290
 const DEFAULT_CARD_PADDING = theme.space[2]
 
 const Image = styled.div`
-  height: 170px;
+  height: ${props => props.cardHeight < 420 ? '116px' : '170px'};
   background: url(${props => typeof props.imageURL === 'string' && props.imageURL}) center center / cover;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
@@ -100,16 +100,16 @@ const contentLineHeight = R.cond([
 
 let renderCardContent = ({ title, content, cardHeight, cardWidth, imageURL, date }) => (
   <React.Fragment>
-    {typeof imageURL === 'string' && <Image imageURL={imageURL} />}
+    {typeof imageURL === 'string' && <Image cardHeight={cardHeight} imageURL={imageURL} />}
     <Content imageURL={imageURL}>
       <Label>{'Posted ' + date}</Label>
       <H1>
         <TextTruncate line={titleLineHeight({ cardHeight, imageURL })} truncateText='…' text={title} />
       </H1>
-      {content.substring(0, 2).includes('{') ? (
+      { cardHeight >= 420 && content.substring(0, 2).includes('{') ? (
         renderDescriptionRowContent(content, cardHeight, imageURL)
       ) : (
-        <BodyCard>
+        cardHeight >= 420 && <BodyCard>
           <TextTruncate line={contentLineHeight({ cardHeight, cardWidth, imageURL })} truncateText='…' text={content} />
         </BodyCard>
       )}
@@ -130,13 +130,13 @@ const calculateCardHeight = R.cond([
   [
     ({ cardHeight, cardWidth, imageURL }) =>
       typeof imageURL !== 'string' && cardHeight === DEFAULT_CARD_HEIGHT && cardWidth > DEFAULT_CARD_WIDTH,
-    R.always(420 - DEFAULT_CARD_PADDING * 2),
+    R.always(290 - DEFAULT_CARD_PADDING * 2),
   ],
   [
     ({ cardHeight, imageURL }) => typeof imageURL === 'string' && cardHeight > DEFAULT_CARD_HEIGHT,
     ({ cardHeight }) => cardHeight,
   ],
-  [({ cardHeight, imageURL }) => typeof imageURL === 'string' && cardHeight === DEFAULT_CARD_HEIGHT, R.always(420)],
+  [({ cardHeight, imageURL }) => typeof imageURL === 'string' && cardHeight === DEFAULT_CARD_HEIGHT, R.always(290)],
   [
     ({ cardHeight, imageURL }) => typeof imageURL !== 'string' && cardHeight > DEFAULT_CARD_HEIGHT,
     ({ cardHeight }) => cardHeight,
