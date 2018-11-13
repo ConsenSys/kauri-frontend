@@ -10,6 +10,7 @@ import NetworkBanner from '../../StyledFooter/NetworkBanner'
 import { hljs } from '../../../../lib/hljs'
 import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
 import ScrollToTopButton from '../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton'
+import theme from '../../../../lib/theme-config'
 
 type Props =
   | {
@@ -66,15 +67,17 @@ class InReviewArticle extends React.Component<Props, State> {
     }
   }
 
-  componentWillMount () {
-    this.props.setNavcolorOverrideAction('#1E2428')
-  }
-
-  componentDidUpdate () {
+  componentDidMount () {
+    this.props.setNavcolorOverrideAction(theme.colors.bgPrimary)
     R.map(block => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
   }
 
-  componentDidMount () {
+  componentWillUnmount () {
+    this.props.setNavcolorOverrideAction(null)
+  }
+
+  componentDidUpdate () {
+    this.props.setNavcolorOverrideAction(theme.colors.bgPrimary)
     R.map(block => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
   }
 

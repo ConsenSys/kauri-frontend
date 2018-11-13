@@ -13792,10 +13792,10 @@ showdown-xss-filter@^0.2.0:
   dependencies:
     xss "0.2.x"
 
-showdown@^1.8.6:
-  version "1.8.7"
-  resolved "https://registry.yarnpkg.com/showdown/-/showdown-1.8.7.tgz#c4ccf300063adb0ef75a1b94b29a6cb6f7c36008"
-  integrity sha512-S1wyj80vu2lZZ7xm2ijr6e3VxHxPu8WfhTH7R6nelbIQeyl2g0ioEohS0YtFim8yAFMbQ8sQuXxiKvr10rKbTg==
+showdown@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/showdown/-/showdown-1.9.0.tgz#d49d2a0b6db21b7c2e96ef855f7b3b2a28ef46f4"
+  integrity sha512-x7xDCRIaOlicbC57nMhGfKamu+ghwsdVkHMttyn+DelwzuHOx4OHCVL/UW/2QOLH7BxfCcCCVVUix3boKXJKXQ==
   dependencies:
     yargs "^10.0.3"
 
