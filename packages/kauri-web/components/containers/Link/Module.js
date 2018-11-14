@@ -1,7 +1,7 @@
 // @flow
 import { Observable } from 'rxjs/Observable';
 import { getRequestForAnalytics } from '../../../queries/Request';
-import { getArticleForAnalytics } from '../../../queries/Article.ts';
+import { getArticleForAnalytics } from '../../../queries/Article';
 import { getCollectionForAnalytics } from '../../../queries/Collection';
 import { getUserDetails } from '../../../queries/User';
 import mixpanelBrowser from 'mixpanel-browser';

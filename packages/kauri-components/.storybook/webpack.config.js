@@ -17,6 +17,20 @@ module.exports = (storybookBaseConfig, configType) => {
   storybookBaseConfig.module.rules[0].use[0].options.presets = babelConfig.presets
   storybookBaseConfig.module.rules[0].use[0].options.plugins = babelConfig.plugins
   storybookBaseConfig.plugins.push(new webpack.EnvironmentPlugin(['STORYBOOK']))
+  storybookBaseConfig.module.rules.push({
+    test: /\.(ts|tsx)$/,
+    include: [path.join(__dirname, '../../kauri-web')],
+    exclude: /node_modules/,
+    use: [
+      {
+        loader: require.resolve('babel-loader'),
+        options: {
+          presets: babelConfig.presets,
+          plugins: babelConfig.plugins,
+        },
+      },
+    ],
+  })
 
   // Return the altered config
   return storybookBaseConfig
