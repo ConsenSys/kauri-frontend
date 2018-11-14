@@ -15,5 +15,5 @@
     "preserveConstEnums": true,
     "sourceMap": true
   },
-  "include": ["graphql.d.ts", "**/**.tsx", "**/**.ts"]
+  "include": ["components/**/**.tsx", "lib/**/**.ts", "components/**/**.ts"]
 }

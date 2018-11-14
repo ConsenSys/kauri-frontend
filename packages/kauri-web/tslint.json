@@ -6,10 +6,13 @@
     "tslint-eslint-rules",
     "tslint-config-prettier"
   ],
-  "jsRules": {},
-  "rules": {},
-  "rulesDirectory": [],
   "linterOptions": {
-    "exclude": ["**/node_modules/**"]
-  }
+    "exclude": ["node_modules/**"]
+  },
+  "jsRules": {},
+  "rules": {
+    "no-submodule-imports": false,
+    "ordered-imports": false
+  },
+  "rulesDirectory": []
 }

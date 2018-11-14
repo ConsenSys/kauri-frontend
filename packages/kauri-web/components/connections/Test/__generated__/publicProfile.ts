@@ -6,8 +6,8 @@
 // ====================================================
 
 export interface publicProfile_getUser {
-  __typename: "PublicUserDTO";
-  id: string | null;
+  __typename: 'PublicUserDTO';
+  name: string | null;
 }
 
 export interface publicProfile {

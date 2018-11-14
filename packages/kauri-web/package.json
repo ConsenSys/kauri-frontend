@@ -30,7 +30,7 @@
     "test:bs": "NODE_ENV=test jest --testRegex '(/__tests__/reasonml/.*)\\.bs.js?$'",
     "test:integration": "NODE_ENV=test jest integration",
     "format": "prettier --trailing-comma es5 --single-quote --write 'src/**/*' 'src/**/*'",
-    "lint": "tslint '**/*.ts' '**/*.tsx'",
+    "lint": "tslint '**/*.ts' '**/*.tsx' -e 'node_modules/**'",
     "check-types": "tsc",
     "watch-types": "tsc --watch"
   },
@@ -193,20 +193,20 @@
     "gql2flow": "^0.4.5",
     "graphql-tools": "^2.7.2",
     "graphql_ppx": "^0.2.7",
+    "husky": "^1.1.2",
     "ignore-loader": "^0.1.2",
     "jest": "23.4.2",
     "lerna": "2.11.0",
     "less": "2.7.3",
+    "lint-staged": "^8.0.3",
     "next-compose-plugins": "^2.1.1",
     "next-plugin-transpile-modules": "^0.1.1",
+    "prettier": "^1.14.3",
     "raw-loader": "^0.5.1",
     "regenerator-runtime": "^0.11.0",
+    "rimraf": "^2.6.2",
     "selenium-webdriver": "^4.0.0-alpha.1",
     "style-loader": "^0.19.0",
-    "husky": "^1.1.2",
-    "lint-staged": "^8.0.3",
-    "prettier": "^1.14.3",
-    "rimraf": "^2.6.2",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-eslint-rules": "^5.4.0",
@@ -227,6 +227,23 @@
       "<rootDir>/scripts/setupJest.js"
     ],
     "testRegex": "(/components/.*)\\.spec.js?$"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "yarn format",
+      "yarn lint",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "semi": true
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && yarn check-types"
+    }
   },
   "private": true,
   "_registry": "npm",
