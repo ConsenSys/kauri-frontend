@@ -1,133 +1,133 @@
 language: node
 sudo: required
 services:
-- docker
+  - docker
 branches:
   only:
-  - master
-  - development
-  - dev2
+    - master
+    - development
+    - dev2
 cache:
   directories:
-  - "$HOME/google-cloud-sdk/"
+    - '$HOME/google-cloud-sdk/'
 before_install:
-- openssl aes-256-cbc -K $encrypted_961129e6c380_key -iv $encrypted_961129e6c380_iv
-  -in credentials.tar.gz.enc -out credentials.tar.gz -d
-- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-- sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu
-  $(lsb_release -cs) stable"
-- sudo apt-get update
-- sudo apt-get -yq --force-yes -o Dpkg::Options::="--force-confold" install docker-ce
-- export COMMITTER_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
-- export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
-- git config --global user.name "Travis CI User"
-- git config --global user.email "user@example.com"
-- if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export
-  CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
-- source /home/travis/google-cloud-sdk/path.bash.inc
-- gcloud --quiet version
-- gcloud --quiet components update
-- gcloud --quiet components update kubectl
-- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then tar -xzf credentials.tar.gz; fi
-- mkdir -p lib
-- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then gcloud auth activate-service-account
-  --key-file client-secret.json; fi
+  - openssl aes-256-cbc -K $encrypted_961129e6c380_key -iv $encrypted_961129e6c380_iv
+    -in credentials.tar.gz.enc -out credentials.tar.gz -d
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu
+    $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -yq --force-yes -o Dpkg::Options::="--force-confold" install docker-ce
+  - export COMMITTER_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
+  - export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
+  - git config --global user.name "Travis CI User"
+  - git config --global user.email "user@example.com"
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export
+    CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  - source /home/travis/google-cloud-sdk/path.bash.inc
+  - gcloud --quiet version
+  - gcloud --quiet components update
+  - gcloud --quiet components update kubectl
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then tar -xzf credentials.tar.gz; fi
+  - mkdir -p lib
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then gcloud auth activate-service-account
+    --key-file client-secret.json; fi
 jobs:
   include:
-#   - stage: unit-tests
-#     if: NOT type IN (pull_request)
-#     script:
-#     - cd kauri-ops
-#     - source env_setup.sh --config-file config/config-dev.json
-#     - cd ..
-#     - gcloud config set project $GOOGLE_PROJECT_ID
-#     - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
-#     - export BUILD_TAG=${REGISTRY_URL}/${GOOGLE_PROJECT_ID}
-#     - docker pull ${BUILD_TAG}/kauri-contract-abis:latest-dev
-#     - docker build -t flow-frontend-boilerplate:unit-tests -f Dockerfile-unit .
-#     - touch secret.env
-#     - echo "DEV_SEED_WORDS=${DEV_SEED_WORDS}" > secret.env
-#     - docker run --env-file=secret.env --rm flow-frontend-boilerplate:unit-tests
-  - stage: chromaticqa-no-auto-accept-changes
-    if: "((NOT branch = master) AND (branch = dev2) AND (type IN (pull_request)))"
-    script:
-    - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components
-      .
-    - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components
-  - stage: chromaticqa-auto-accept-changes
-    if: "((branch = master) OR (branch = dev2) AND (NOT type IN (pull_request)))"
-    script:
-    - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components
-      .
-    - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components npm
-      run test:chromatic-auto-accept-changes
-  - stage: deploy-dev
-    if: "(NOT type IN (pull_request) AND (branch = development))"
-    install:
-    - cd kauri-ops
-    - source env_setup.sh --config-file config/config-dev.json
-    - cd ..
-    - gcloud config set project $GOOGLE_PROJECT_ID
-    - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
-    - kubectl config set-context $(kubectl config current-context) --namespace=${TARGET_ENV}
-    script:
-    - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head
-      -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
-    - cd scripts
-    - if [ "$AUTHOR_NAME" != "Travis CI User" ]; then bash ./deploy.sh ${FRONTEND_VERSION}-SNAPSHOT;
-      fi
-  - stage: deploy-dev2
-    if: "(NOT type IN (pull_request) AND (branch = dev2))"
-    install:
-    - cd kauri-ops
-    - source env_setup.sh --config-file config/config-dev2.json
-    - cd ..
-    - gcloud config set project $GOOGLE_PROJECT_ID
-    - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
-    - kubectl config set-context $(kubectl config current-context) --namespace=${TARGET_ENV}
-    script:
-    - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head
-      -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
-    - cd scripts
-    - if [ "$AUTHOR_NAME" != "Travis CI User" ]; then bash ./deploy.sh ${FRONTEND_VERSION}-SNAPSHOT-DEV2;
-      fi
-  - stage: git-tag
-    if: "(NOT type IN (pull_request) AND (branch = master))"
-    install:
-    - chmod 600 github_deploy_key
-    - eval $(ssh-agent -s)
-    - ssh-add github_deploy_key
-    - ssh-add -l
-    - git remote set-url origin git@github.com:ConsenSys/kauri-frontend.git
-    - git remote -v
-    script:
-    - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head
-      -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
-    - git config remote.origin.fetch '+refs/tags/*:refs/tags/*'
-    - git fetch --all
-    - git fetch --all
-    - bash ./kauri-ops/versioning/gittag.sh $FRONTEND_VERSION
-    - NEW_DEV_VERSION=$(./kauri-ops/versioning/get-next-dev-ver.sh)
-    - echo $NEW_DEV_VERSION
-    - git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
-    - git fetch --all
-    - git checkout development
-    - cd packages/kauri-web
-    - npm version $NEW_DEV_VERSION --no-git-tag-version
-    - git add .
-    - git commit -m "Travis build $TRAVIS_BUILD_NUMBER updating version after tag"
-    - git push origin development
-  - stage: deploy-uat
-    if: "(NOT type IN (pull_request) AND (branch = master))"
-    install:
-    - cd kauri-ops
-    - source env_setup.sh --config-file config/config-uat.json
-    - cd ..
-    - gcloud config set project $GOOGLE_PROJECT_ID
-    - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
-    - kubectl config set-context $(kubectl config current-context) --namespace=${TARGET_ENV}
-    script:
-    - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head
-      -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
-    - cd scripts
-    - "./deploy.sh ${FRONTEND_VERSION}"
+    #   - stage: unit-tests
+    #     if: NOT type IN (pull_request)
+    #     script:
+    #     - cd kauri-ops
+    #     - source env_setup.sh --config-file config/config-dev.json
+    #     - cd ..
+    #     - gcloud config set project $GOOGLE_PROJECT_ID
+    #     - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
+    #     - export BUILD_TAG=${REGISTRY_URL}/${GOOGLE_PROJECT_ID}
+    #     - docker pull ${BUILD_TAG}/kauri-contract-abis:latest-dev
+    #     - docker build -t flow-frontend-boilerplate:unit-tests -f Dockerfile-unit .
+    #     - touch secret.env
+    #     - echo "DEV_SEED_WORDS=${DEV_SEED_WORDS}" > secret.env
+    #     - docker run --env-file=secret.env --rm flow-frontend-boilerplate:unit-tests
+    - stage: chromaticqa-no-auto-accept-changes
+      if: '((NOT branch = master) AND (branch = development) AND (type IN (pull_request)))'
+      script:
+        - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components
+          .
+        - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components
+    - stage: chromaticqa-auto-accept-changes
+      if: '((branch = master) OR (branch = development) AND (NOT type IN (pull_request)))'
+      script:
+        - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components
+          .
+        - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components npm
+          run test:chromatic-auto-accept-changes
+    - stage: deploy-dev
+      if: '(NOT type IN (pull_request) AND (branch = development))'
+      install:
+        - cd kauri-ops
+        - source env_setup.sh --config-file config/config-dev.json
+        - cd ..
+        - gcloud config set project $GOOGLE_PROJECT_ID
+        - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
+        - kubectl config set-context $(kubectl config current-context) --namespace=${TARGET_ENV}
+      script:
+        - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head
+          -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
+        - cd scripts
+        - if [ "$AUTHOR_NAME" != "Travis CI User" ]; then bash ./deploy.sh ${FRONTEND_VERSION}-SNAPSHOT;
+          fi
+    - stage: deploy-dev2
+      if: '(NOT type IN (pull_request) AND (branch = dev2))'
+      install:
+        - cd kauri-ops
+        - source env_setup.sh --config-file config/config-dev2.json
+        - cd ..
+        - gcloud config set project $GOOGLE_PROJECT_ID
+        - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
+        - kubectl config set-context $(kubectl config current-context) --namespace=${TARGET_ENV}
+      script:
+        - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head
+          -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
+        - cd scripts
+        - if [ "$AUTHOR_NAME" != "Travis CI User" ]; then bash ./deploy.sh ${FRONTEND_VERSION}-SNAPSHOT-DEV2;
+          fi
+    - stage: git-tag
+      if: '(NOT type IN (pull_request) AND (branch = master))'
+      install:
+        - chmod 600 github_deploy_key
+        - eval $(ssh-agent -s)
+        - ssh-add github_deploy_key
+        - ssh-add -l
+        - git remote set-url origin git@github.com:ConsenSys/kauri-frontend.git
+        - git remote -v
+      script:
+        - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head
+          -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
+        - git config remote.origin.fetch '+refs/tags/*:refs/tags/*'
+        - git fetch --all
+        - git fetch --all
+        - bash ./kauri-ops/versioning/gittag.sh $FRONTEND_VERSION
+        - NEW_DEV_VERSION=$(./kauri-ops/versioning/get-next-dev-ver.sh)
+        - echo $NEW_DEV_VERSION
+        - git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+        - git fetch --all
+        - git checkout development
+        - cd packages/kauri-web
+        - npm version $NEW_DEV_VERSION --no-git-tag-version
+        - git add .
+        - git commit -m "Travis build $TRAVIS_BUILD_NUMBER updating version after tag"
+        - git push origin development
+    - stage: deploy-uat
+      if: '(NOT type IN (pull_request) AND (branch = master))'
+      install:
+        - cd kauri-ops
+        - source env_setup.sh --config-file config/config-uat.json
+        - cd ..
+        - gcloud config set project $GOOGLE_PROJECT_ID
+        - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
+        - kubectl config set-context $(kubectl config current-context) --namespace=${TARGET_ENV}
+      script:
+        - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head
+          -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
+        - cd scripts
+        - './deploy.sh ${FRONTEND_VERSION}'
