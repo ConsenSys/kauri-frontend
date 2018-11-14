@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import theme from '../../../kauri-web/lib/theme-config'
-import DescriptionRow from '../../../kauri-web/components/common/DescriptionRow'
 
 const Header = styled.div`
   flex: 1;
@@ -76,6 +75,13 @@ const Button = styled.div`
   }
 `
 
+const renderDescriptionRowContent = content => {
+  if (process.env.STORYBOOK !== 'true') {
+    const DescriptionRow = require('../../../kauri-web/components/common/DescriptionRow').default
+    return React.createElement(DescriptionRow, { record: { text: content } }, null)
+  }
+}
+
 const CuratedHeader = ({ Link, header, name }) => {
   const topic = theme[header.id]
   const imageURL = `/static/images/${header.id}/avatar.png`
@@ -120,7 +126,11 @@ const CuratedHeader = ({ Link, header, name }) => {
             <Name>{header.title}</Name>
           </Heading>
           <Description>
-            <DescriptionRow record={{ text: header.content }} />
+            {typeof header.content === 'string' && header.content[0] === '{' ? (
+              renderDescriptionRowContent(header.content)
+            ) : (
+              <p>{header.content}</p>
+            )}
           </Description>
           <Link useAnchorTag toSlug={header.name} route={`/article/${header.id}`}>
             <Button>View Article</Button>
