@@ -44,6 +44,7 @@ import {
 import { saveUserDetailsEpic } from '../components/common/EditProfile/Module'
 import modal from '../../kauri-components/components/Modal/Module'
 import { checkpointArticlesEpic } from '../components/containers/CheckpointArticles/Module'
+import { myEpic } from '../components/connections/Test/Module'
 
 export const rootReducer = {
   app,
@@ -90,6 +91,8 @@ const epics = [
   saveUserDetailsEpic,
   // ReasonML epics
   publishArticleEpic,
+  // Typescript epics
+  myEpic,
 ]
 
 export const rootEpic = combineEpics(...epics)
