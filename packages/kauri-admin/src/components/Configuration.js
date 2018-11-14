@@ -16,7 +16,7 @@ class Configuration {
     },
     UAT: {
       name: 'UAT',
-      host: 'api.rinkeby.kauri.io',
+      host: 'api.beta.kauri.io',
       port: 443,
       network_id: 4
     }
@@ -330,8 +330,8 @@ class Configuration {
     this.backend = Configuration._BACKEND[backend]
     this.endpoints = {
       // auth: 'https://' + this.backend.host + ':' + this.backend.port + '/auth',
-      initiateAuth: 'https://api.dev2.kauri.io/web3auth/api/login?app_id=kauri&client_id=kauri-gateway',
-      auth: 'https://api.dev2.kauri.io/web3auth/api/login',
+      initiateAuth: 'https://api.dev.kauri.io/web3auth/api/login?app_id=kauri&client_id=kauri-gateway',
+      auth: 'https://api.dev.kauri.io/web3auth/api/login',
       gql: 'https://' + this.backend.host + ':' + this.backend.port + '/graphql',
       ws: 'wss://' + this.backend.host + ':' + this.backend.port + '/socket/graphql'
     }

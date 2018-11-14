@@ -86,8 +86,7 @@ class Config extends Component {
     }
 
     handleSubmit(event) {
-        this.setState({error: null})
-        this.setState({success: null})
+        this.setState({error: null, success: null})
 
         if(!this.validateForm(["environment", "kauri_sm", "wallet_sm", "topics_sm"])) {
             this.setState({error: "Form not valid - Please check your Ethereum network"})
