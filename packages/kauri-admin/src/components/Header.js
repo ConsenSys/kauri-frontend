@@ -27,7 +27,7 @@ const StyledLink = styled(Link)`
 
 const Header = props =>
     <NavBar>
-        <img src="./images/logo.svg" alt="kauri-logo" />
+        <StyledLink to="/"><img src="./images/logo.svg" alt="kauri-logo" /></StyledLink>
         <StyledLink to="/dashboard">Dashboard</StyledLink>
         <StyledLink to="/curated-lists">Homepage</StyledLink>
         <StyledLink to="/collections">Collections</StyledLink>
