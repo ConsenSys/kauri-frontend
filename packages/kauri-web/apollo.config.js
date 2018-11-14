@@ -5,9 +5,6 @@ module.exports = {
       name: 'Kauri',
       localSchemaFile: 'schema.json',
     },
-    includes: [
-      './components/connections/**/*.tsx',
-      './components/connections/**/*.ts',
-    ],
+    includes: ['./components/**/**/*.tsx', './components/**/**/*.ts'],
   },
 };

@@ -52,7 +52,7 @@ import {
 import { saveUserDetailsEpic } from '../components/common/EditProfile/Module';
 import modal from '../../kauri-components/components/Modal/Module';
 import { checkpointArticlesEpic } from '../components/containers/CheckpointArticles/Module';
-import { deleteDraftArticleEpic } from '../components/connections/Test/Module';
+import { deleteDraftArticleEpic } from '../components/containers/Article/DeleteDraftArticleModule';
 
 export const rootReducer = {
   app,
