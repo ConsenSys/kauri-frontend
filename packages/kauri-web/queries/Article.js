@@ -1,5 +1,5 @@
 // @flow
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 
 export const Article = gql`
   fragment Article on ArticleDTO {
@@ -64,7 +64,7 @@ export const Article = gql`
       version
     }
   }
-`
+`;
 
 export const submitArticle = gql`
   mutation submitArticle(
@@ -74,43 +74,33 @@ export const submitArticle = gql`
     $attributes: Map_String_StringScalar
     $version: Int
   ) {
-    submitArticle(id: $article_id, content: $text, title: $subject, attributes: $attributes, version: $version) {
-      hash
-    }
-  }
-`
-
-export const submitNewArticle = gql`
-  mutation submitNewArticle($title: String, $content: String, $attributes: Map_String_StringScalar) {
-    submitNewArticle(title: $title, content: $content, attributes: $attributes) {
-      hash
-    }
-  }
-`
-
-export const commentArticle = gql`
-  mutation commentArticle(
-    $comment: String
-    $highlight_from: Int
-    $highlight_to: Int
-    $article_id: String
-    $article_version: Int
-    $anchor_key: String
-    $focus_key: String
-  ) {
-    commentArticle(
-      comment: $comment
-      highlight_from: $highlight_from
-      highlight_to: $highlight_to
+    submitArticle(
       id: $article_id
-      version: $article_version
-      anchor_key: $anchor_key
-      focus_key: $focus_key
+      content: $text
+      title: $subject
+      attributes: $attributes
+      version: $version
     ) {
       hash
     }
   }
-`
+`;
+
+export const submitNewArticle = gql`
+  mutation submitNewArticle(
+    $title: String
+    $content: String
+    $attributes: Map_String_StringScalar
+  ) {
+    submitNewArticle(
+      title: $title
+      content: $content
+      attributes: $attributes
+    ) {
+      hash
+    }
+  }
+`;
 
 export const getArticle = gql`
   query getArticle($id: String, $version: Int, $published: Boolean = true) {
@@ -120,7 +110,7 @@ export const getArticle = gql`
   }
 
   ${Article}
-`
+`;
 
 export const getArticleForAnalytics = gql`
   query getArticle($id: String, $version: Int, $published: Boolean = false) {
@@ -148,7 +138,7 @@ export const getArticleForAnalytics = gql`
       }
     }
   }
-`
+`;
 
 export const editArticle = gql`
   mutation editArticleVersion(
@@ -158,18 +148,32 @@ export const editArticle = gql`
     $subject: String
     $attributes: Map_String_StringScalar
   ) {
-    editArticleVersion(id: $id, version: $version, content: $text, title: $subject, attributes: $attributes) {
+    editArticleVersion(
+      id: $id
+      version: $version
+      content: $text
+      title: $subject
+      attributes: $attributes
+    ) {
       hash
     }
   }
-`
+`;
 
 export const searchApprovedArticles = gql`
-  query searchApprovedArticles($size: Int = 500, $text: String, $category: String) {
+  query searchApprovedArticles(
+    $size: Int = 500
+    $text: String
+    $category: String
+  ) {
     searchArticles(
       size: $size
       dir: DESC
-      filter: { fullText: $text, statusIn: [PUBLISHED], ownerIdEquals: $category }
+      filter: {
+        fullText: $text
+        statusIn: [PUBLISHED]
+        ownerIdEquals: $category
+      }
     ) {
       totalElements
       content {
@@ -177,10 +181,14 @@ export const searchApprovedArticles = gql`
       }
     }
   }
-`
+`;
 
 export const globalSearchApprovedArticles = gql`
-  query globalSearchApprovedArticles($size: Int = 12, $page: Int = 0, $text: String) {
+  query globalSearchApprovedArticles(
+    $size: Int = 12
+    $page: Int = 0
+    $text: String
+  ) {
     searchArticles(
       size: $size
       sort: "dateCreated"
@@ -195,14 +203,18 @@ export const globalSearchApprovedArticles = gql`
     }
   }
   ${Article}
-`
+`;
 
 export const searchPersonalSubmittedArticles = gql`
   query searchPersonalSubmittedArticles($size: Int = 500, $userId: String) {
     searchArticles(
       size: $size
       dir: DESC
-      filter: { authorIdEquals: $userId, statusIn: [PUBLISHED], latestVersion: true }
+      filter: {
+        authorIdEquals: $userId
+        statusIn: [PUBLISHED]
+        latestVersion: true
+      }
     ) {
       content {
         ...Article
@@ -211,7 +223,7 @@ export const searchPersonalSubmittedArticles = gql`
   }
 
   ${Article}
-`
+`;
 
 export const searchPendingArticles = gql`
   query searchPendingArticles($size: Int = 500, $filter: ArticleFilterInput) {
@@ -222,15 +234,17 @@ export const searchPendingArticles = gql`
       totalElements
     }
   }
-`
+`;
 
 export const getTotalArticlesCount = gql`
   query getTotalArticlesCount($category: String) {
-    searchArticles(filter: { ownerIdEquals: $category, statusIn: [PUBLISHED] }) {
+    searchArticles(
+      filter: { ownerIdEquals: $category, statusIn: [PUBLISHED] }
+    ) {
       totalElements
     }
   }
-`
+`;
 
 export const totalArticlesCount = gql`
   query totalArticlesCount($filter: ArticleFilterInput) {
@@ -238,12 +252,18 @@ export const totalArticlesCount = gql`
       totalElements
     }
   }
-`
+`;
 
 // TODO: Rewrite approvals
 export const searchPublishedArticleHistory = gql`
   query searchPublishedArticleHistory($userId: String, $categories: [String]) {
-    searchArticles(filter: { category_in: $categories, status_in: [PUBLISHED], moderator_eq: $userId }) {
+    searchArticles(
+      filter: {
+        category_in: $categories
+        status_in: [PUBLISHED]
+        moderator_eq: $userId
+      }
+    ) {
       totalElements
       isLast
       content {
@@ -251,7 +271,7 @@ export const searchPublishedArticleHistory = gql`
       }
     }
   }
-`
+`;
 
 export const storeArticleOwnershipSignature = gql`
   mutation storeArticleOwnershipSignature($id: String, $signature: String) {
@@ -259,7 +279,7 @@ export const storeArticleOwnershipSignature = gql`
       hash
     }
   }
-`
+`;
 
 export const storeArticleValidationSignature = gql`
   mutation storeArticleValidationSignature($id: String, $signature: String) {
@@ -267,7 +287,7 @@ export const storeArticleValidationSignature = gql`
       hash
     }
   }
-`
+`;
 
 export const deleteArticleComment = gql`
   mutation deleteArticleComment($article_id: String, $comment_id: Int) {
@@ -275,16 +295,24 @@ export const deleteArticleComment = gql`
       hash
     }
   }
-`
+`;
 
 export const searchPersonalArticles = gql`
-  query searchPersonalArticles($userId: String, $size: Int = 8, $page: Int = 0) {
+  query searchPersonalArticles(
+    $userId: String
+    $size: Int = 8
+    $page: Int = 0
+  ) {
     searchArticles(
       size: $size
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { ownerIdEquals: $userId, statusIn: [PUBLISHED], latestVersion: true }
+      filter: {
+        ownerIdEquals: $userId
+        statusIn: [PUBLISHED]
+        latestVersion: true
+      }
     ) {
       totalElements
       isLast
@@ -340,7 +368,7 @@ export const searchPersonalArticles = gql`
       totalElements
     }
   }
-`
+`;
 
 export const searchPersonalDrafts = gql`
   query searchArticles($userId: String, $size: Int = 8, $page: Int = 0) {
@@ -349,7 +377,8 @@ export const searchPersonalDrafts = gql`
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { authorIdEquals: $userId, statusIn: [DRAFT] }) {
+      filter: { authorIdEquals: $userId, statusIn: [DRAFT] }
+    ) {
       totalElements
       isLast
       content {
@@ -407,15 +436,25 @@ export const searchPersonalDrafts = gql`
       }
     }
   }
-`
+`;
 
 export const submitArticleVersion = gql`
-  mutation submitArticleVersion($id: String, $subject: String, $text: String, $attributes: Map_String_StringScalar) {
-    submitArticleVersion(id: $id, title: $subject, content: $text, attributes: $attributes) {
+  mutation submitArticleVersion(
+    $id: String
+    $subject: String
+    $text: String
+    $attributes: Map_String_StringScalar
+  ) {
+    submitArticleVersion(
+      id: $id
+      title: $subject
+      content: $text
+      attributes: $attributes
+    ) {
       hash
     }
   }
-`
+`;
 
 export const addComment = gql`
   mutation addComment($parent: ResourceIdentifierInput, $body: String) {
@@ -423,7 +462,7 @@ export const addComment = gql`
       hash
     }
   }
-`
+`;
 
 export const searchPending = gql`
   query searchArticles($userId: String, $size: Int = 8, $page: Int = 0) {
@@ -432,7 +471,8 @@ export const searchPending = gql`
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { ownerIdEquals: $userId, statusIn: [PENDING] }) {
+      filter: { ownerIdEquals: $userId, statusIn: [PENDING] }
+    ) {
       totalElements
       isLast
       content {
@@ -486,7 +526,7 @@ export const searchPending = gql`
       }
     }
   }
-`
+`;
 
 export const searchAwaitingApproval = gql`
   query searchArticles($userId: String, $size: Int = 666, $page: Int = 0) {
@@ -495,7 +535,8 @@ export const searchAwaitingApproval = gql`
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { authorIdEquals: $userId, statusIn: [PENDING] }) {
+      filter: { authorIdEquals: $userId, statusIn: [PENDING] }
+    ) {
       totalElements
       isLast
       content {
@@ -549,7 +590,7 @@ export const searchAwaitingApproval = gql`
       }
     }
   }
-`
+`;
 
 export const approveArticle = gql`
   mutation approveArticle($id: String, $version: Int, $signature: String) {
@@ -557,7 +598,7 @@ export const approveArticle = gql`
       hash
     }
   }
-`
+`;
 
 export const rejectArticle = gql`
   mutation rejectArticle($id: String, $version: Int, $cause: String) {
@@ -565,7 +606,7 @@ export const rejectArticle = gql`
       hash
     }
   }
-`
+`;
 
 export const checkpointArticles = gql`
   mutation checkpointArticles {
@@ -573,4 +614,4 @@ export const checkpointArticles = gql`
       hash
     }
   }
-`
+`;

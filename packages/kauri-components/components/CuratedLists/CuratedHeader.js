@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import theme from '../../../kauri-web/lib/theme-config'
-import DescriptionRow from '../../../kauri-web/components/common/DescriptionRow'
 
 const Header = styled.div`
   flex: 1;
@@ -27,7 +26,7 @@ const Description = styled.div`
     width: 300px;
     margin: auto;
   }
-`;
+`
 
 const ListTitle = styled.h2`
   font-weight: 700;
@@ -72,20 +71,27 @@ const Button = styled.div`
   transition: all 0.2s;
 
   &:hover {
-    box-shadow: 0px 0px 0px 2px #0BA986;
+    box-shadow: 0px 0px 0px 2px #0ba986;
   }
 `
+
+const renderDescriptionRowContent = content => {
+  if (process.env.STORYBOOK !== 'true') {
+    const DescriptionRow = require('../../../kauri-web/components/common/DescriptionRow').default
+    return React.createElement(DescriptionRow, { record: { text: content } }, null)
+  }
+}
 
 const CuratedHeader = ({ Link, header, name }) => {
   const topic = theme[header.id]
   const imageURL = `/static/images/${header.id}/avatar.png`
-  const type = header.__typename || header.resourceIdentifier.type;
+  const type = header.__typename || header.resourceIdentifier.type
 
   switch (type) {
     case 'CommunityDTO':
     case 'COMMUNITY':
       return (
-        <Header background={background}>
+        <Header background={header.background}>
           <ListTitle>{name}</ListTitle>
           <Heading>
             <CommunityLogo src={imageURL} />
@@ -119,7 +125,13 @@ const CuratedHeader = ({ Link, header, name }) => {
           <Heading>
             <Name>{header.title}</Name>
           </Heading>
-          <Description><DescriptionRow record={{text : header.content}}/></Description>
+          <Description>
+            {typeof header.content === 'string' && header.content[0] === '{' ? (
+              renderDescriptionRowContent(header.content)
+            ) : (
+              <p>{header.content}</p>
+            )}
+          </Description>
           <Link useAnchorTag toSlug={header.name} route={`/article/${header.id}`}>
             <Button>View Article</Button>
           </Link>
