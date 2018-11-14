@@ -28,7 +28,11 @@
     "test:unit": "NODE_ENV=test jest components",
     "test:e2e": "NODE_ENV=test jest --testRegex '(/__tests__/e2e/.*)\\.spec.js?$'",
     "test:bs": "NODE_ENV=test jest --testRegex '(/__tests__/reasonml/.*)\\.bs.js?$'",
-    "test:integration": "NODE_ENV=test jest integration"
+    "test:integration": "NODE_ENV=test jest integration",
+    "format": "prettier --trailing-comma es5 --single-quote --write 'src/**/*' 'src/**/*'",
+    "lint": "tslint '**/*.ts' '**/*.tsx'",
+    "check-types": "tsc",
+    "watch-types": "tsc --watch"
   },
   "dependencies": {
     "@glennsl/bs-revamp": "^0.1.1",
@@ -199,6 +203,14 @@
     "regenerator-runtime": "^0.11.0",
     "selenium-webdriver": "^4.0.0-alpha.1",
     "style-loader": "^0.19.0",
+    "husky": "^1.1.2",
+    "lint-staged": "^8.0.3",
+    "prettier": "^1.14.3",
+    "rimraf": "^2.6.2",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-react": "^3.6.0",
     "typescript": "^3.1.6",
     "typescript-styled-plugin": "^0.2.1",
     "vrroom": "glennsl/vrroom",
