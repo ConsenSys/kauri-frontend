@@ -1,62 +1,84 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { LineChart, Line , CartesianGrid, YAxis, XAxis, Tooltip } from 'recharts';
+import WebService from '../components/WebService'
 
 class Home extends Component {
   constructor(props) {
-    console.log(props)
     super(props)
 
+    var ws = new WebService(props.config);
+
     this.state = {
-      ipfs: props.ipfs,
-      peer_id: props.peer_id
+      config: props.config,
+      ws: ws,
+      content: [],
+      page: 0,
+      isLast: false,
     }
+  }
+
+  componentDidMount() {
+    if (!window.localStorage.getItem('jwt')) {
+      this.state.ws.authenticate()
+        .then(() => this.fetchArticles())
+    } else {
+      this.fetchArticles();
+    }
+  }
+
+  fetchArticles() {
+    this.state.ws.executeQuery('searchArticles', { latestVersion: true }, 100, { page: this.state.page })
+      .then(res => this.setState({ content: [...this.state.content, ...res.content], isLast: res.isLast }))
+      .then(() => {
+        if(!this.state.isLast) {
+          this.setState({ page: this.state.page += 1}, this.fetchArticles());
+        } else {
+          this.calculateData()
+        }
+      })
+  }
+
+  calculateData() {
+    const all = this.formatData(this.state.content);
+    this.setState({ all })
+  }
+
+  formatData(data) {
+    const all = data.sort((a,b) => new Date(a.dateCreated) - new Date(b.dateCreated)).reduce((all, item) => {
+      const date = new Date(item.dateCreated);
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1
+      const day = date.getDate()
+      const bucket = `${year}/${month}/${day}`
+      const lastBucket = all[all.length -1];
+      if (lastBucket && bucket === lastBucket.bucket) {
+        lastBucket.articles += 1
+        lastBucket.cumulative_articles += 1
+      } else {
+        all.push({
+          bucket,
+          articles: 1,
+          cumulative_articles: (lastBucket && lastBucket.cumulative_articles) || 1,
+        })
+      }
+      return all;
+    },[]);
+    return all;
   }
 
   render() {
     return (
       <div className="Home">
-        <div className="row">
-          <div className="col-md-3 mb-3 text-center">
-            <div className="card h-100">
-              <div className="card-body">
-                <h2 className="card-title">Article Submission</h2>
-                <Link to="/submission">
-                  <img alt="article" src="./images/article.png" width={200} height={200} />
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 mb-3 text-center">
-            <div className="card h-100">
-              <div className="card-body">
-                <h2 className="card-title">Topic/Moderator management</h2>
-                <Link to="/Topics">
-                  <img alt="moderator " src="./images/moderator.png" width={200} height={200} />
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 mb-3 text-center">
-            <div className="card h-100">
-              <div className="card-body">
-                <h2 className="card-title">Dashboard</h2>
-                <Link to="/dashboard">
-                  <img alt="dashboard" src="./images/dashboard.png" width={200} height={200} />
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 mb-3 text-center">
-            <div className="card h-100">
-              <div className="card-body">
-                <h2 className="card-title">Configuration</h2>
-                <Link to="/config">
-                  <img alt="configuration" src="./images/configuration.png" width={200} height={200} />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        <h1>Articles Published Over Time</h1>
+        <LineChart width={600} height={400} data={this.state.all}>
+          <Line type="monotone" dataKey="articles" stroke="#8884d8" />
+          <Line type="monotone" dataKey="cumulative_articles" stroke="#dc8923" />
+          <CartesianGrid stroke="#ccc" />
+          <XAxis dataKey="bucket" />
+          <YAxis />
+          <Tooltip />
+        </LineChart>
       </div>
     )
   }
