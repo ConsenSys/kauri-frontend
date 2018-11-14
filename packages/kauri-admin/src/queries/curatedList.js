@@ -74,6 +74,10 @@ export const getAllCuratedList = (payload, maxResult, filter) => ({
                     id
                   }
                 }
+                resourcesId {
+                  id
+                  type
+                }
               }
             }
           }
