@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const babelConfig = require('./babel.config')
 
 // Export a function. Accept the base config as the only param.
@@ -8,7 +9,6 @@ module.exports = (storybookBaseConfig, configType) => {
   // 'PRODUCTION' is used when building the static version of storybook.
 
   // Make whatever fine-grained changes you need
-  const webpack = require('webpack')
   storybookBaseConfig.resolve.alias = {
     recompose: path.resolve(__dirname, '../node_modules', 'recompose'),
   }
@@ -19,7 +19,6 @@ module.exports = (storybookBaseConfig, configType) => {
   storybookBaseConfig.plugins.push(new webpack.EnvironmentPlugin(['STORYBOOK']))
   storybookBaseConfig.module.rules.push({
     test: /\.(ts|tsx)$/,
-    include: [path.join(__dirname, '../../kauri-web')],
     exclude: /node_modules/,
     use: [
       {
@@ -31,7 +30,14 @@ module.exports = (storybookBaseConfig, configType) => {
       },
     ],
   })
-
+  storybookBaseConfig.plugins.push(new webpack.IgnorePlugin(/jsdom$/))
+  storybookBaseConfig.node = {
+    dgram: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    child_process: 'empty',
+  }
   // Return the altered config
   return storybookBaseConfig
 }

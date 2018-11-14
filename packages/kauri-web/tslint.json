@@ -7,7 +7,7 @@
     "tslint-config-prettier"
   ],
   "linterOptions": {
-    "exclude": ["node_modules/**", "**/*.js"]
+    "exclude": ["node_modules/**", "**/*.js", "*.js", "*.*.js", ".eslintrc.js"]
   },
   "jsRules": {},
   "rules": {

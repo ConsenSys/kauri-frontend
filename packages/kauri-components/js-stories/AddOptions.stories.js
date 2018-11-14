@@ -62,6 +62,7 @@ const Content = () => (
     <Label>Add New Section</Label>
     <Divider />
     <Label>Remove Section</Label>
+    {/* <Test /> */}
   </TooltipContainer>
 )
 

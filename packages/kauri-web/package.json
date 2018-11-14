@@ -30,7 +30,7 @@
     "test:bs": "NODE_ENV=test jest --testRegex '(/__tests__/reasonml/.*)\\.bs.js?$'",
     "test:integration": "NODE_ENV=test jest integration",
     "format": "prettier --trailing-comma es5 --single-quote --write 'src/**/*' 'src/**/*'",
-    "lint": "tslint '**/*.ts' '**/*.tsx' -e 'node_modules/**' '**/*.js'",
+    "lint": "tslint '**/*.ts' '**/*.tsx' -e 'node_modules/**' '**/*.js' '*.js' '*.*.js' '.eslintrc.js'",
     "check-types": "tsc",
     "watch-types": "tsc --watch"
   },
@@ -236,7 +236,6 @@
   },
   "prettier": {
     "trailingComma": "es5",
-    "singleQuote": true,
     "semi": true
   },
   "husky": {

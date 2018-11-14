@@ -27,7 +27,7 @@ const Description = styled.div`
     width: 300px;
     margin: auto;
   }
-`;
+`
 
 const ListTitle = styled.h2`
   font-weight: 700;
@@ -72,20 +72,20 @@ const Button = styled.div`
   transition: all 0.2s;
 
   &:hover {
-    box-shadow: 0px 0px 0px 2px #0BA986;
+    box-shadow: 0px 0px 0px 2px #0ba986;
   }
 `
 
 const CuratedHeader = ({ Link, header, name }) => {
   const topic = theme[header.id]
   const imageURL = `/static/images/${header.id}/avatar.png`
-  const type = header.__typename || header.resourceIdentifier.type;
+  const type = header.__typename || header.resourceIdentifier.type
 
   switch (type) {
     case 'CommunityDTO':
     case 'COMMUNITY':
       return (
-        <Header background={background}>
+        <Header background={header.background}>
           <ListTitle>{name}</ListTitle>
           <Heading>
             <CommunityLogo src={imageURL} />
@@ -119,7 +119,9 @@ const CuratedHeader = ({ Link, header, name }) => {
           <Heading>
             <Name>{header.title}</Name>
           </Heading>
-          <Description><DescriptionRow record={{text : header.content}}/></Description>
+          <Description>
+            <DescriptionRow record={{ text: header.content }} />
+          </Description>
           <Link useAnchorTag toSlug={header.name} route={`/article/${header.id}`}>
             <Button>View Article</Button>
           </Link>
