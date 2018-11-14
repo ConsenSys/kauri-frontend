@@ -38,10 +38,11 @@ const plugins = [
     },
   ],
   ['ramda'],
-]
+];
 
 const config = {
   presets: [
+    // '@babel/preset-typescript',
     [
       '@babel/preset-env',
       {
@@ -67,5 +68,5 @@ const config = {
       ],
     },
   ],
-}
-module.exports = config
+};
+module.exports = config;

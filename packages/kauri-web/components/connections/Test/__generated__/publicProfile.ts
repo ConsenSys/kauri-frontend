@@ -5,15 +5,11 @@
 // GraphQL query operation: publicProfile
 // ====================================================
 
-export interface publicProfile_getUser {
-  __typename: 'PublicUserDTO';
-  name: string | null;
+export interface publicProfile_getMyProfile {
+  __typename: 'UserDTO';
+  username: string | null;
 }
 
 export interface publicProfile {
-  getUser: publicProfile_getUser | null;
-}
-
-export interface publicProfileVariables {
-  id?: string | null;
+  getMyProfile: publicProfile_getMyProfile | null;
 }

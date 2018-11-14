@@ -1,37 +1,31 @@
 import * as React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import {
-  publicProfile,
-  publicProfileVariables,
-} from './__generated__/publicProfile';
+import { publicProfile } from './__generated__/publicProfile';
 import * as t from 'io-ts';
 // import R from 'ramda'
 
-const GetUser = t.type({
+const GetMyProfile = t.type({
   __typename: t.string,
-  name: t.string,
+  username: t.string,
 });
 
 const RootInterface = t.type({
-  getUser: GetUser,
+  getMyProfile: GetMyProfile,
 });
 
 const query = gql`
-  query publicProfile($id: String) {
-    getUser(id: $id) {
-      name
+  query publicProfile {
+    getMyProfile {
+      username
     }
   }
 `;
 
 const Hey: React.SFC<{ id?: string }> = ({
-  id = 'bfeceC47dD8bf5F6264A9830A9d26ef387c38A67',
+  id = '0xbfeceC47dD8bf5F6264A9830A9d26ef387c38A67',
 }) => (
-  <Query<publicProfile, publicProfileVariables>
-    query={query}
-    variables={{ id }}
-  >
+  <Query<publicProfile> query={query} variables={{ id }}>
     {props => {
       if (props.loading) {
         return <p>Loading</p>;
@@ -42,11 +36,12 @@ const Hey: React.SFC<{ id?: string }> = ({
       }
       if (props.data) {
         const {
-          getUser: { name },
+          getMyProfile: { username },
         } = RootInterface.decode(props.data).getOrElseL(errors => {
+          // console.error(JSON.stringify(errors));
           throw new Error(errors.join('\n'));
         });
-        return <p>{name}</p>;
+        return <p>{username}</p>;
       }
     }}
   </Query>

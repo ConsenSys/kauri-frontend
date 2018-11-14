@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.1.2",
+    "@babel/preset-typescript": "^7.1.0",
     "@babel/plugin-proposal-class-properties": "7.1.0",
     "@babel/plugin-proposal-decorators": "7.0.0",
     "@babel/plugin-proposal-do-expressions": "7.0.0",
@@ -62,6 +63,10 @@
     "@storybook/addons": "4.0.0-alpha.16",
     "@storybook/core": "4.0.0-alpha.16",
     "@storybook/react": "4.0.0-alpha.16",
+    "@types/next": "^7.0.4",
+    "@types/ramda": "^0.25.41",
+    "@types/react": "^16.7.3",
+    "@types/react-dom": "^16.0.9",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0-beta.3",
     "babel-loader": "8.0.0-beta.6",
@@ -89,6 +94,7 @@
     "flow-typed": "^2.5.1",
     "reason-react": "^0.5.0",
     "storybook-chromatic": "latest",
+    "typescript": "^3.1.6",
     "vrroom": "glennsl/vrroom",
     "webpack": "4.25.1"
   },
