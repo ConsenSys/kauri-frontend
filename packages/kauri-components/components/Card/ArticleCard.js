@@ -92,7 +92,7 @@ const titleLineHeight = R.cond([
 ])
 
 const contentLineHeight = R.cond([
-  [({ cardWidth, imageURL }) => cardWidth > DEFAULT_CARD_WIDTH && typeof imageURL !== 'string', R.always(12)],
+  [({ cardWidth, imageURL }) => cardWidth > DEFAULT_CARD_WIDTH && typeof imageURL !== 'string', R.always(5)],
   [({ cardHeight, imageURL }) => cardHeight <= DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(5)],
   [({ cardHeight, imageURL }) => cardHeight > DEFAULT_CARD_HEIGHT && typeof imageURL !== 'string', R.always(8)],
   [({ imageURL }) => typeof imageURL === 'string', R.always(3)],
@@ -109,7 +109,7 @@ let renderCardContent = ({ title, content, cardHeight, cardWidth, imageURL, date
       { cardHeight >= 420 && content.substring(0, 2).includes('{') ? (
         renderDescriptionRowContent(content, cardHeight, imageURL)
       ) : (
-        cardHeight >= 420 && <BodyCard>
+        (cardHeight >= 420 || typeof imageURL !== 'string') && <BodyCard>
           <TextTruncate line={contentLineHeight({ cardHeight, cardWidth, imageURL })} truncateText='…' text={content} />
         </BodyCard>
       )}
