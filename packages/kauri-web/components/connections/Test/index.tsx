@@ -6,10 +6,7 @@ import {
   publicProfileVariables,
 } from './__generated__/publicProfile';
 import * as t from 'io-ts';
-import { closeModalAction } from './Module';
 // import R from 'ramda'
-
-closeModalAction();
 
 const GetUser = t.type({
   __typename: t.string,
