@@ -90,6 +90,7 @@
     "eslint-plugin-ramda": "^2.5.1",
     "eslint-plugin-react": "^7.11.0",
     "eslint-plugin-standard": "^3.0.1",
+    "io-ts": "^1.4.1",
     "flow-bin": "^0.81.0",
     "flow-typed": "^2.5.1",
     "reason-react": "^0.5.0",
