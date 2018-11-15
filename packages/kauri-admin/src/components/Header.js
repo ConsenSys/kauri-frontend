@@ -41,8 +41,6 @@ const Header = props =>
         }, {
             name: 'Faucet', action: () => props.history.push('/faucet')
         }, {
-            name: 'Article Submission', action: () => props.history.push('/submission')
-        }, {
             name: 'Article Migration', action: () => props.history.push('/migration')
         }, {
             name: 'Topics', action: () => props.history.push('/topics')

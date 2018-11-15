@@ -29,7 +29,7 @@ class Configuration {
     Unknown: 'NO FAUCET for the DEV blockchain'
   }
 
-  static _DEFAULT_BACKEND = 'DEV'
+  static _DEFAULT_BACKEND = 'UAT'
   static _JWT_MSG = 'v0G9u7huK4mJb2K1'
   static _TIMEOUT = 10000
 

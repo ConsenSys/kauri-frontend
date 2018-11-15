@@ -3,7 +3,6 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 import Home from '../pages/Home';
 import Topics from '../pages/Topics'
-import ArticleSubmission from '../pages/ArticleSubmission'
 import Error from '../pages/Error'
 import Signer from '../pages/Signer'
 import Authenticator from '../pages/Authenticator'
@@ -35,9 +34,6 @@ class Main extends Component {
           )} />
           <Route exact path='/signer' render={(props) => (
             <Signer {...this.state} />
-          )} />
-          <Route exact path='/submission' render={(props) => (
-            <ArticleSubmission {...this.state} />
           )} />
           <Route exact path='/authenticator' render={(props) => (
             <Authenticator {...this.state} />
