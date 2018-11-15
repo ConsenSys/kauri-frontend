@@ -11,5 +11,4 @@ module.name_mapper.extension='tsx' -> 'empty/object'
 [libs]
 flow-typed
 ../kauri-web/graphql-export.flow.js
-../kauri-web/flow-typed
 [include]

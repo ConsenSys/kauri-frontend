@@ -1,41 +1,43 @@
 // @flow
-import * as React from 'react'
-import styled from 'styled-components'
-import { space, bg } from 'styled-system'
-import { Form, Field, FieldArray } from 'formik'
-import Stack from 'stack-styled'
-import R from 'ramda'
-import ActionsSection from '../../../../kauri-components/components/Section/ActionsSection'
-import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection'
-import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx'
-import UserAvatar from '../../../../kauri-components/components/UserAvatar'
-import { Label } from '../../../../kauri-components/components/Typography'
-import CuratorHeaderLabel from '../../../../kauri-components/components/Typography/CuratorHeaderLabel'
-import Input from '../../../../kauri-components/components/Input/Input'
-import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
-import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton'
-import ArticleCard from '../../connections/ArticleCard'
-import setImageUploader from '../../common/ImageUploader'
-import showFormValidationErrors from '../../../lib/show-form-validation-errors'
-import ChooseArticleModal from './ChooseArticleModal'
-import CreateCollectionOptions from './CreateCollectionOptions'
+import * as React from 'react';
+import styled from 'styled-components';
+import { space, bg } from 'styled-system';
+import { Form, Field, FieldArray } from 'formik';
+import Stack from 'stack-styled';
+import R from 'ramda';
+import ActionsSection from '../../../../kauri-components/components/Section/ActionsSection';
+import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection';
+import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx';
+import UserAvatar from '../../../../kauri-components/components/UserAvatar';
+import { Label } from '../../../../kauri-components/components/Typography';
+import CuratorHeaderLabel from '../../../../kauri-components/components/Typography/CuratorHeaderLabel';
+import Input from '../../../../kauri-components/components/Input/Input';
+import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton';
+import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton';
+import ArticleCard from '../../connections/ArticleCard';
+import setImageUploader from '../../common/ImageUploader';
+import showFormValidationErrors from '../../../lib/show-form-validation-errors';
+import ChooseArticleModal from './ChooseArticleModal';
+import CreateCollectionOptions from './CreateCollectionOptions';
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 
-import type { FormState } from './index'
-import type { ShowNotificationPayload } from '../../../lib/Module'
+import type { FormState } from './index';
+import type { ShowNotificationPayload } from '../../../lib/Module';
 
 const emptySection: SectionDTO = {
   name: '',
   description: undefined,
   resourcesId: [],
-}
-const RemoveIcon = () => <img src='https://png.icons8.com/windows/50/000000/delete-sign.png' />
+};
+const RemoveIcon = () => (
+  <img src='https://png.icons8.com/windows/50/000000/delete-sign.png' />
+);
 
 const Section = styled.section`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const ResourcesSection = styled.section`
   display: flex;
@@ -43,7 +45,7 @@ const ResourcesSection = styled.section`
   align-items: center;
   justify-content: center;
   margin-bottom: ${props => props.theme.space[2]}px;
-`
+`;
 
 const ResourceSection = styled.section`
   display: flex;
@@ -54,7 +56,7 @@ const ResourceSection = styled.section`
   > button:last-child {
     margin-top: ${props => props.theme.space[1]}px;
   }
-`
+`;
 
 const SectionSection = styled.section`
   display: flex;
@@ -67,7 +69,7 @@ const SectionSection = styled.section`
   > button:nth-child(4) {
     margin-top: ${props => props.theme.space[2]}px;
   }
-`
+`;
 
 const ContentSection = styled.section`
   display: flex;
@@ -76,7 +78,7 @@ const ContentSection = styled.section`
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
   min-height: calc(100vh - 270px);
   ${bg};
-`
+`;
 
 const CreateCollectionDetails = styled.div`
   display: flex;
@@ -84,14 +86,14 @@ const CreateCollectionDetails = styled.div`
   > :not(:last-child) {
     ${space};
   }
-`
+`;
 
 const AddAnotherSectionContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   ${space};
-`
+`;
 const CreateCollectionActionsPlaceHolder = styled.div`
   display: flex;
   mix-blend-mode: normal;
@@ -101,7 +103,7 @@ const CreateCollectionActionsPlaceHolder = styled.div`
     ${space};
     cursor: initial !important;
   }
-`
+`;
 
 const CreateCollectionMetaDetails = styled.div`
   display: flex;
@@ -110,7 +112,7 @@ const CreateCollectionMetaDetails = styled.div`
   > * {
     ${space};
   }
-`
+`;
 
 const CreateCollectionCuratorDetails = styled.div`
   display: flex;
@@ -124,14 +126,16 @@ const CreateCollectionCuratorDetails = styled.div`
   > :nth-child(2) {
     margin-bottom: ${props => props.theme.space[1]}px;
   }
-`
+`;
 
 const CreateCollectionCurators = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
-const UploadIcon = () => <img src='https://png.icons8.com/color/50/000000/upload.png' />
+const UploadIcon = () => (
+  <img src='https://png.icons8.com/color/50/000000/upload.png' />
+);
 
 const DisplayFormikState = props => (
   <div style={{ margin: '1rem 0', background: '#f6f8fa', padding: '.5rem' }}>
@@ -146,11 +150,11 @@ const DisplayFormikState = props => (
       <code>isSubmitting:</code> {JSON.stringify(props.isSubmitting, null, 2)}
     </div>
   </div>
-)
+);
 
 const ErrorMessageRenderer = styled.h2`
   color: #ffffff !important;
-`
+`;
 
 const ShareIcon = () => (
   <svg role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'>
@@ -160,20 +164,37 @@ const ShareIcon = () => (
       className=''
     />
   </svg>
-)
+);
 
 const handleBackgroundSetFormField = setFieldValue => () =>
   setImageUploader(payload => {
-    setFieldValue('background', payload.background.background)
-  }, 'background')
+    setFieldValue('background', payload.background.background);
+  }, 'background');
 
-const renderResourceSection = (index, arrayHelpers, section, values, mappingKey) => (resource, resourceIndex) => (
+const renderResourceSection = (
+  index,
+  arrayHelpers,
+  section,
+  values,
+  mappingKey
+) => (resource, resourceIndex) => (
   <ResourceSection key={resourceIndex} mt={3} p={2}>
-    {R.path(['sections', index, mappingKey, resourceIndex, 'version'], values) && (
+    {R.path(
+      ['sections', index, mappingKey, resourceIndex, 'version'],
+      values
+    ) && (
       <div id='article-card'>
         <ArticleCard
-          id={R.path(['sections', index, mappingKey, resourceIndex, 'id'], values)}
-          version={parseInt(R.path(['sections', index, mappingKey, resourceIndex, 'version'], values))}
+          id={R.path(
+            ['sections', index, mappingKey, resourceIndex, 'id'],
+            values
+          )}
+          version={parseInt(
+            R.path(
+              ['sections', index, mappingKey, resourceIndex, 'version'],
+              values
+            )
+          )}
           cardHeight={420}
         />
       </div>
@@ -196,7 +217,7 @@ const renderResourceSection = (index, arrayHelpers, section, values, mappingKey)
       Remove Article
     </TertiaryButton>
   </ResourceSection>
-)
+);
 
 type Props = {
   userId: string,
@@ -220,7 +241,7 @@ type Props = {
   userId: string,
   username: string,
   userAvatar: string,
-}
+};
 
 const BackIcon = styled.div`
   width: 10px !important;
@@ -228,7 +249,7 @@ const BackIcon = styled.div`
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
   border-right: 10px solid ${props => props.theme.colors['primary']};
-`
+`;
 
 export default ({
   touched,
@@ -248,14 +269,25 @@ export default ({
 }: Props) => (
   <Section>
     <Form>
-      <ActionsSection bg={(typeof values.background === 'string' && 'transparent') || 'bgPrimary'}>
+      <ActionsSection
+        bg={
+          (typeof values.background === 'string' && 'transparent') ||
+          'bgPrimary'
+        }
+      >
         <Stack alignItems={['', 'center']}>
-          <TertiaryButton onClick={() => routeChangeAction('back')} icon={<BackIcon />}>
+          <TertiaryButton
+            onClick={() => routeChangeAction('back')}
+            icon={<BackIcon />}
+          >
             Cancel Collection
           </TertiaryButton>
         </Stack>
         <Stack alignItems={['', 'center']} justifyContent={['', 'center']}>
-          <TertiaryButton icon={<UploadIcon />} handleClick={handleBackgroundSetFormField(setFieldValue)}>
+          <TertiaryButton
+            icon={<UploadIcon />}
+            handleClick={handleBackgroundSetFormField(setFieldValue)}
+          >
             Background Image
           </TertiaryButton>
         </Stack>
@@ -263,7 +295,9 @@ export default ({
           <PrimaryButton
             disabled={isSubmitting}
             type='submit'
-            onClick={() => showFormValidationErrors(validateForm, showNotificationAction)}
+            onClick={() =>
+              showFormValidationErrors(validateForm, showNotificationAction)
+            }
           >
             {data ? 'Update' : 'Create'}
           </PrimaryButton>
@@ -276,13 +310,27 @@ export default ({
           <Field
             type='text'
             name='name'
-            render={({ field }) => <Input {...field} type='text' placeHolder='Add collection title' fontSize={7} />}
+            render={({ field }) => (
+              <Input
+                {...field}
+                type='text'
+                placeHolder='Add collection title'
+                fontSize={7}
+              />
+            )}
           />
           {/* <ErrorMessage name='name' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
           <Field
             type='text'
             name='description'
-            render={({ field }) => <Input {...field} type='text' placeHolder='Add description' fontSize={4} />}
+            render={({ field }) => (
+              <Input
+                {...field}
+                type='text'
+                placeHolder='Add description'
+                fontSize={4}
+              />
+            )}
           />
           {/* <ErrorMessage name='description' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
 
@@ -303,9 +351,12 @@ export default ({
                   // { name: 'Followers', count: 0 },
                   {
                     name: 'Articles',
-                    count: R.pipe(R.reduce((current, next) => current + next['resourcesId'].length, 0))(
-                      values.sections
-                    ),
+                    count: R.pipe(
+                      R.reduce(
+                        (current, next) => current + next['resourcesId'].length,
+                        0
+                      )
+                    )(values.sections),
                   },
                   // { name: 'Views', count: 0 },
                   // { name: 'Upvotes', count: 0 },
@@ -313,7 +364,13 @@ export default ({
               />
               <CuratorHeaderLabel>Curator</CuratorHeaderLabel>
               <CreateCollectionCurators>
-                <UserAvatar variant='white' fullWidth username={username} userId={userId} avatar={userAvatar} />
+                <UserAvatar
+                  variant='white'
+                  fullWidth
+                  username={username}
+                  userId={userId}
+                  avatar={userAvatar}
+                />
                 {/* <AddMemberButton /> */}
               </CreateCollectionCurators>
             </CreateCollectionCuratorDetails>
@@ -368,14 +425,24 @@ export default ({
                       {section.resourcesId &&
                         Array.isArray(section.resourcesId) &&
                         section.resourcesId.map(
-                          renderResourceSection(index, arrayHelpers, section, values, 'resourcesId')
+                          renderResourceSection(
+                            index,
+                            arrayHelpers,
+                            section,
+                            values,
+                            'resourcesId'
+                          )
                         )}
                     </ResourcesSection>
 
                     <CreateCollectionOptions
                       currentSectionIndex={index}
                       previousSectionHasArticles={R.pipe(
-                        R.path(['sections', index > 0 ? index : 0, 'resourcesId']),
+                        R.path([
+                          'sections',
+                          index > 0 ? index : 0,
+                          'resourcesId',
+                        ]),
                         R.defaultTo([]),
                         resourcesId => resourcesId.length,
                         Boolean
@@ -386,12 +453,19 @@ export default ({
                         openModalAction({
                           children: (
                             <ChooseArticleModal
-                              chosenArticles={R.path(['sections', index, 'resourcesId'])(values)}
+                              chosenArticles={R.path([
+                                'sections',
+                                index,
+                                'resourcesId',
+                              ])(values)}
                               closeModalAction={() => closeModalAction()}
                               confirmModal={chosenArticles =>
                                 arrayHelpers.form.setFieldValue(
                                   `sections[${index}].resourcesId`,
-                                  chosenArticles.map(article => ({ ...article, type: 'ARTICLE' }))
+                                  chosenArticles.map(article => ({
+                                    ...article,
+                                    type: 'ARTICLE',
+                                  }))
                                 )
                               }
                             />
@@ -409,4 +483,4 @@ export default ({
       </ContentSection>
     </Form>
   </Section>
-)
+);
