@@ -13,7 +13,7 @@ gtag('js', new Date());
 gtag('config', 'UA-112179323-1');
 `;
 
-const mixpanelToken = `7d83001be784f09b212b9b3274e41530`;
+const mixpanelToken = '7d83001be784f09b212b9b3274e41530';
 
 const uppyConfig = {
   debug: true,
@@ -33,8 +33,8 @@ const getApiURL = (hostName = global.window && global.window.location.host) => {
     apiURL = 'api.dev.kauri.io';
   } else if (hostName.includes('beta')) {
     apiURL = global.window
-      ? `api.beta.kauri.io`
-      : (apiURL = `monolith.uat:8081`);
+      ? 'api.beta.kauri.io'
+      : (apiURL = 'monolith.uat:8081');
   } else {
     const env = hostName.split('.')[0];
     apiURL = global.window

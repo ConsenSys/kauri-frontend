@@ -56,9 +56,6 @@ myStory.add("User title/Blurb", () =>
     blurb="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sed cursus purus."
   />
 );
-myStory.add("PersonalWebsite", () =>
-  <PersonalWebsite website="www.personalwebsite.com" />
-);
 myStory.add("Profile Header Label - Badges", () =>
   <ProfileHeaderLabel header="Badges" />
 );
