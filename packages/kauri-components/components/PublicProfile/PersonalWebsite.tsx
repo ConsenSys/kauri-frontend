@@ -1,6 +1,7 @@
 import * as React from "react";
+import styled from 'styled-components'
 
-interface PersonalWebsiteProps {
+interface IPersonalWebsiteProps {
   website: string;
 }
 
@@ -13,7 +14,7 @@ const PersonalWebsiteLink = styled.a`
   word-wrap: break-word;
 `;
 
-const PersonalWebsite: React.SFC<PersonalWebsiteProps> = ({ website }) => (
+const PersonalWebsite: React.SFC<IPersonalWebsiteProps> = ({ website }) => (
   <PersonalWebsiteLink href={"https://" + website}>
     {website}
   </PersonalWebsiteLink>

@@ -5,16 +5,16 @@ const InvertSocialIcon = styled.img`
   filter: invert(100%);
 `;
 
-interface SocialWebsiteIconProps {
+interface ISocialWebsiteIconProps {
   brand: string;
   height: string;
   socialURL: string;
 }
 
-const SocialWebsiteIcon: React.SFC<SocialWebsiteIconProps> = ({
+const SocialWebsiteIcon: React.SFC<ISocialWebsiteIconProps> = ({
   height = 20,
   brand,
-  socialURL
+  socialURL,
 }) => (
   <a target="_blank" href={socialURL}>
     <InvertSocialIcon

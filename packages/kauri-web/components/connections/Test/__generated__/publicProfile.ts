@@ -6,7 +6,7 @@
 // ====================================================
 
 export interface publicProfile_getMyProfile {
-  __typename: 'UserDTO';
+  __typename: "UserDTO";
   username: string | null;
 }
 

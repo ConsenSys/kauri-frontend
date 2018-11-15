@@ -10,7 +10,11 @@
     "dev": "concurrently \"npm run dev:bs\" \"STORYBOOK=true npm run start:storybook\"",
     "test:chromatic": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006",
     "test:chromatic-auto-accept-changes": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006 --auto-accept-changes",
-    "test": "STORYBOOK=true npm run test:chromatic"
+    "test": "STORYBOOK=true npm run test:chromatic",
+    "format": "prettier --trailing-comma es5 --single-quote --write --ignore-path '**/__generated__' '**/**/__generated__'",
+    "lint": "tslint --fix '**/*.ts' '**/*.tsx' -e 'node_modules/**' '**/*.js' '*.js' '*.*.js' '.eslintrc.js'",
+    "check-types": "tsc",
+    "watch-types": "tsc --watch"
   },
   "author": {
     "name": "Eric Juta"
@@ -19,12 +23,18 @@
   "esy": {},
   "dependencies": {
     "@glennsl/bs-revamp": "^0.1.1",
+    "@storybook/addon-knobs": "4.0.0-alpha.16",
+    "@storybook/addons": "4.0.0-alpha.16",
+    "@storybook/core": "4.0.0-alpha.16",
+    "@storybook/react": "4.0.0-alpha.16",
     "bs-css": "^7.0.1",
     "bs-moment": "^0.3.0",
     "bs-webapi": "^0.11.0",
     "dependency-env": "^0.1.1",
+    "io-ts": "^1.4.1",
     "moment": "2.20.1",
     "next": "7.0.2-canary.21",
+    "ramda": "^0.25.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.7",
@@ -39,7 +49,6 @@
   },
   "devDependencies": {
     "@babel/core": "7.1.2",
-    "@babel/preset-typescript": "^7.1.0",
     "@babel/plugin-proposal-class-properties": "7.1.0",
     "@babel/plugin-proposal-decorators": "7.0.0",
     "@babel/plugin-proposal-do-expressions": "7.0.0",
@@ -58,11 +67,8 @@
     "@babel/plugin-syntax-import-meta": "7.0.0",
     "@babel/preset-env": "7.1.0",
     "@babel/preset-flow": "7.0.0",
+    "@babel/preset-typescript": "^7.1.0",
     "@babel/register": "7.0.0",
-    "@storybook/addon-knobs": "4.0.0-alpha.16",
-    "@storybook/addons": "4.0.0-alpha.16",
-    "@storybook/core": "4.0.0-alpha.16",
-    "@storybook/react": "4.0.0-alpha.16",
     "@types/next": "^7.0.4",
     "@types/ramda": "^0.25.41",
     "@types/react": "^16.7.3",
@@ -90,14 +96,36 @@
     "eslint-plugin-ramda": "^2.5.1",
     "eslint-plugin-react": "^7.11.0",
     "eslint-plugin-standard": "^3.0.1",
-    "io-ts": "^1.4.1",
     "flow-bin": "^0.81.0",
     "flow-typed": "^2.5.1",
+    "husky": "^1.1.2",
+    "lint-staged": "^8.0.3",
+    "prettier": "^1.15.2",
     "reason-react": "^0.5.0",
     "storybook-chromatic": "latest",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.16.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-react": "^3.6.0",
     "typescript": "^3.1.6",
     "vrroom": "glennsl/vrroom",
     "webpack": "4.25.1"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "yarn format",
+      "yarn lint",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "semi": true
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && yarn check-types"
+    }
   },
   "_registry": "npm",
   "_loc": "/Users/rej156/Documents/flow-frontend-boilerplate/node_modules/kauri-components/package.json",
