@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { storiesOf } from '@storybook/react'
 import AddOptions from '../components/AddOptions'
 import theme from '../lib/theme-config'
+import Test from './Test.tsx'
 
 const TooltipContainer = styled.div`
   display: flex;
@@ -61,6 +62,7 @@ const Content = () => (
     <Label>Add New Section</Label>
     <Divider />
     <Label>Remove Section</Label>
+    {/* <Test /> */}
   </TooltipContainer>
 )
 

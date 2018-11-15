@@ -38,6 +38,7 @@
     "postcss-loader": "2.1.5",
     "promise": "8.0.1",
     "raf": "3.4.0",
+    "io-ts": "^1.4.1",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
     "react-dev-utils": "6.0.0-next.a671462c",
@@ -70,6 +71,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.0.0",
+    "@babel/preset-typescript": "^7.1.0",
     "@babel/plugin-proposal-class-properties": "7.0.0",
     "@babel/plugin-proposal-decorators": "7.0.0",
     "@babel/plugin-proposal-do-expressions": "7.0.0",
@@ -98,7 +100,8 @@
     "babel-plugin-ramda": "^1.6.3",
     "babel-plugin-styled-components": "1.5.1",
     "babel-plugin-transform-imports": "^1.5.0",
-    "babel-polyfill": "^6.26.0"
+    "babel-polyfill": "^6.26.0",
+    "typescript": "^3.1.6"
   },
   "scripts": {
     "start": "node scripts/start.js",

@@ -148,7 +148,6 @@ type Action =
   | FetchUserDetailsAction
   | SetUserDetailsAction
   | HideIntroBannerAction
-  | SetWalletAvailableFundsAction
 
 type State = {
   userId?: ?string,
@@ -174,9 +173,9 @@ export const showConfirmationModal = (payload: ShowConfirmationModalPayload): vo
 
 export const routeChange = (payload: RouteChangePayload): any => {
   if (window.location.search.indexOf('redirected=true') !== -1 && payload === 'back') {
-    return Router.pushRoute('/');
+    return Router.pushRoute('/')
   } else {
-    return payload === 'back' ? Router.back() : Router.pushRoute(payload);
+    return payload === 'back' ? Router.back() : Router.pushRoute(payload)
   }
 }
 

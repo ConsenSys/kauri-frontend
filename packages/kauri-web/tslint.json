@@ -1,0 +1,19 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:latest",
+    "tslint-react",
+    "tslint-eslint-rules",
+    "tslint-config-prettier"
+  ],
+  "linterOptions": {
+    "exclude": ["node_modules/**", "**/*.js", "*.js", "*.*.js", ".eslintrc.js"]
+  },
+  "jsRules": {},
+  "rules": {
+    "no-submodule-imports": false,
+    "ordered-imports": false,
+    "quotemark": [true, "single", "jsx-double"]
+  },
+  "rulesDirectory": []
+}
