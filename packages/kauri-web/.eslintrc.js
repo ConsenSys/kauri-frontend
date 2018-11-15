@@ -13,6 +13,7 @@ module.exports = {
     'react/prop-types': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'comma-dangle': ['error', 'always-multiline'],
+    quotes: ['error', 'single'],
     camelcase: 0,
   },
   env: {

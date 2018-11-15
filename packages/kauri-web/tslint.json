@@ -12,7 +12,8 @@
   "jsRules": {},
   "rules": {
     "no-submodule-imports": false,
-    "ordered-imports": false
+    "ordered-imports": false,
+    "quotemark": [true, "single", "jsx-double"]
   },
   "rulesDirectory": []
 }
