@@ -9,6 +9,7 @@
     "noEmit": true,
     "pretty": true,
     "allowSyntheticDefaultImports": true,
+    "strict": true,
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

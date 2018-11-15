@@ -1,10 +1,12 @@
 import { Epic } from 'redux-observable';
-import { showNotificationAction } from '../../../lib/Module';
 import { Observable } from 'rxjs/Observable';
-import { deleteDraftArticle } from './__generated__/deleteDraftArticle';
-import { getArticleTitle } from './__generated__/getArticleTitle';
 import gql from 'graphql-tag';
 import { ApolloClient } from 'apollo-client';
+import * as t from 'io-ts';
+import { failure } from 'io-ts/lib/PathReporter';
+import { showNotificationAction } from '../../../lib/Module';
+import { deleteDraftArticle } from './__generated__/deleteDraftArticle';
+import { getArticleTitle } from './__generated__/getArticleTitle';
 
 export const deleteDraftArticleMutation = gql`
   mutation deleteDraftArticle($id: String, $version: Int) {
@@ -63,7 +65,15 @@ interface IDeleteDraftArticleCommandOutput {
   version: number;
 }
 
-export const deleteDraftArticleEpic: Epic<IAction, {}, IDependencies> = (
+const CommandOutput = t.interface({
+  hash: t.string,
+});
+
+const GetArticle = t.interface({
+  title: t.string,
+});
+
+export const deleteDraftArticleEpic: Epic<any, {}, IDependencies> = (
   action$,
   _,
   { apolloClient, apolloSubscriber }
@@ -72,13 +82,17 @@ export const deleteDraftArticleEpic: Epic<IAction, {}, IDependencies> = (
     .ofType(DELETE_DRAFT_ARTICLE)
     .switchMap(({ payload: variables }: IDeleteDraftArticleAction) =>
       Observable.fromPromise(
-        apolloClient.query<deleteDraftArticle>({
-          query: deleteDraftArticleMutation,
+        apolloClient.mutate<deleteDraftArticle>({
+          mutation: deleteDraftArticleMutation,
           variables,
         })
       )
-        .mergeMap(({ data: { cancelArticle: { hash } } }) =>
-          apolloSubscriber<IDeleteDraftArticleCommandOutput>(hash)
+        .mergeMap(({ data: { cancelArticle } }) =>
+          apolloSubscriber<IDeleteDraftArticleCommandOutput>(
+            CommandOutput.decode(cancelArticle).getOrElseL(errors => {
+              throw new Error(failure(errors).join('\n'));
+            }).hash
+          )
         )
         .mergeMap(({ data: { output: { id, version } } }) =>
           apolloClient.query<getArticleTitle>({
@@ -86,10 +100,16 @@ export const deleteDraftArticleEpic: Epic<IAction, {}, IDependencies> = (
             variables: { id, version },
           })
         )
-        .mergeMap(({ data: { getArticle: { title } } }) =>
+        .map(
+          ({ data: { getArticle } }) =>
+            GetArticle.decode(getArticle).getOrElseL(errors => {
+              throw new Error(failure(errors).join('\n'));
+            }).title
+        )
+        .mergeMap(title =>
           Observable.merge(
             Observable.of(
-              showNotificationAction({
+              (showNotificationAction as any)({
                 description: `Your draft article "${title}" has been deleted!`,
                 message: 'Draft article deleted',
                 notificationType: 'success',
