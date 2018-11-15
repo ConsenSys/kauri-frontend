@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { PrimaryButton } from '../../../../kauri-components/components/Button';
-import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.bs';
+import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx';
 import SocialWebsiteIcon from '../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.tsx';
 
 import type { HeaderProps } from './types';
@@ -122,14 +122,14 @@ const ProfileHeader = ({
       <Links>
         {github && (
           <SocialWebsiteIcon
-            brand="github"
+            brand='github'
             height={20}
             socialURL={`https://www.github.com/${github}`}
           />
         )}
         {twitter && (
           <SocialWebsiteIcon
-            brand="twitter"
+            brand='twitter'
             height={20}
             socialURL={`https://www.twitter.com/${twitter}`}
           />

@@ -4,6 +4,10 @@
 all=warn
 [options]
 include_warnings=true
+module.file_ext=.tsx
+module.file_ext=.ts
+module.name_mapper.extension='ts' -> 'empty/object'
+module.name_mapper.extension='tsx' -> 'empty/object'
 [libs]
 flow-typed
 ../kauri-web/graphql-export.flow.js

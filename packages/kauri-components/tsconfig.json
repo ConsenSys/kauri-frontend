@@ -17,5 +17,5 @@
     "preserveConstEnums": true,
     "sourceMap": true
   },
-  "include": ["components/**/**.tsx"]
+  "include": ["components/**/**.tsx", "../kauri-web/lib/theme-config.d.ts"]
 }
