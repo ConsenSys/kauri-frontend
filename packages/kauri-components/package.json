@@ -125,7 +125,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn check-types"
+      "pre-commit": "yarn build && lint-staged && yarn check-types"
     }
   },
   "_registry": "npm",
