@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, Button, Tabs, Tab, FormControl } from 'react-bootstrap';
+import { Modal, Tabs, Tab, FormControl } from 'react-bootstrap';
+import { PrimaryButton } from '../../../../kauri-components/components/Button';
 import Configuration from '../Configuration';
 
 
@@ -36,13 +37,13 @@ class AddArticle extends Component {
                 />
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                     {this.state.articles.length > 0 && this.state.articles.map(i =>
-                        <Button
+                        <PrimaryButton
                             onClick={() => this.handleChange(i.id)}
                             bsStyle="link"
                             style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
                             key={i.id}>
                             {i.title}
-                        </Button>
+                        </PrimaryButton>
                     )}
                 </div>
             </div>);
@@ -82,13 +83,13 @@ class AddCollection extends Component {
                 />
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                     {this.state.collections.length > 0 && this.state.collections.map(i =>
-                        <Button
+                        <PrimaryButton
                             onClick={() => this.handleChange(i.id)}
                             bsStyle="link"
                             style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
                             key={i.id}>
                             {i.name}
-                        </Button>
+                        </PrimaryButton>
                     )}
                 </div>
             </div>);
@@ -136,8 +137,8 @@ class AddHeader extends Component {
                     </Tabs>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.props.closeModal}>Cancel</Button>
-                    <Button onClick={this.handleSubmit} bsStyle="primary">Add Header</Button>
+                    <PrimaryButton onClick={this.props.closeModal}>Cancel</PrimaryButton>
+                    <PrimaryButton onClick={this.handleSubmit} bsStyle="primary">Add Header</PrimaryButton>
                 </Modal.Footer>
             </Modal>);
     }

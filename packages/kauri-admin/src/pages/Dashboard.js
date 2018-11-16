@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import WebService from '../components/WebService'
 import Configuration from '../components/Configuration'
-import { FormGroup, FormControl, ControlLabel, Col, Alert } from 'react-bootstrap'
+import { FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap'
 
 class Dashboard extends Component {
   constructor(props) {
@@ -133,7 +133,7 @@ class Dashboard extends Component {
           <div>
             <Col sm={2} />
             <Col sm={10}>
-              <Alert bsStyle="danger">{this.state.error && this.state.error.message}</Alert>
+              <div bsStyle="danger">{this.state.error && this.state.error.message}</div>
             </Col>
           </div>
         ) : null}{' '}
@@ -141,7 +141,7 @@ class Dashboard extends Component {
           <div>
             <Col sm={2} />
             <Col sm={10}>
-              <Alert bsStyle="success">{this.state.success}</Alert>
+              <div bsStyle="success">{this.state.success}</div>
             </Col>
           </div>
         ) : null}

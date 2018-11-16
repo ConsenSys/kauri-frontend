@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import WebService from '../components/WebService'
-import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Alert } from 'react-bootstrap';
+import { Form, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
+import { PrimaryButton } from '../../../kauri-components/components/Button';
 
 class Authenticator extends Component {
     constructor(props) {
@@ -94,7 +95,7 @@ class Authenticator extends Component {
                   <div>
                     <Col sm={2}></Col>
                     <Col sm={10}>
-                    <Alert bsStyle="danger">{this.state.error && this.state.error.message}</Alert>
+                    <div bsStyle="danger">{this.state.error && this.state.error.message}</div>
                     </Col> 
                   </div>
                  : null }
@@ -103,7 +104,7 @@ class Authenticator extends Component {
                   <div>
                     <Col sm={2}></Col>
                     <Col sm={10}>
-                      <Alert bsStyle="success">{this.state.success}</Alert> 
+                      <div bsStyle="success">{this.state.success}</div> 
                     </Col> 
                   </div>
                  : null }
@@ -139,7 +140,7 @@ class Authenticator extends Component {
 
               <FormGroup>
                 <Col smOffset={2} sm={10}>
-                    <Button type="button" onClick={this.handleSubmit}>Submit</Button>
+                    <PrimaryButton type="button" onClick={this.handleSubmit}>Submit</PrimaryButton>
                 </Col>
               </FormGroup>
 
