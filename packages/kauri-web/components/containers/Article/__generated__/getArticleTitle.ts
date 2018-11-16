@@ -6,7 +6,7 @@
 // ====================================================
 
 export interface getArticleTitle_getArticle {
-  __typename: 'ArticleDTO';
+  __typename: "ArticleDTO";
   title: string | null;
 }
 

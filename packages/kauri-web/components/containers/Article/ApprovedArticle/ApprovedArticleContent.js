@@ -13,7 +13,7 @@ import DescriptionRow from '../../Requests/DescriptionRow'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
 import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
-import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
+import TertiaryButton from '../../../../../kauri-components/components/Button/TertiaryButton'
 import userIdTrim from '../../../../lib/userid-trim'
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
@@ -141,9 +141,8 @@ export default ({
           text={ownerId ? 'OWNER' : 'AUTHOR'}
           routeChangeAction={routeChangeAction}
         />
-        <ArticleAction
-          svgIcon={<UpdateArticleSvgIcon />}
-          text={'Update Article'}
+        <TertiaryButton
+          icon={<UpdateArticleSvgIcon />}
           handleClick={() =>
             userId
               ? routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)
@@ -151,7 +150,7 @@ export default ({
           }
         >
           Update article
-        </ArticleAction>
+        </TertiaryButton>
         <ShareArticle
           url={`${hostName.replace(/api\./g, '')}/article/${article_id}/${slugify(subject, {
             lower: true,

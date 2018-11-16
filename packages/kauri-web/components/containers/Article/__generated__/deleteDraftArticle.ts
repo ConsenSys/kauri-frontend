@@ -6,7 +6,7 @@
 // ====================================================
 
 export interface deleteDraftArticle_cancelArticle {
-  __typename: 'MutationResponse';
+  __typename: "MutationResponse";
   hash: string | null;
 }
 

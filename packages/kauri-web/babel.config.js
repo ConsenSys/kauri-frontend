@@ -55,7 +55,7 @@ const config = {
   plugins,
   overrides: [
     {
-      test: ['./**/*.ts', './**/*.tsx'],
+      test: ['./**/*.ts', './**/*.tsx', '*.ts', '*.tsx'],
       presets: [
         '@babel/preset-typescript',
         [

@@ -8,6 +8,7 @@
   "scripts": {
     "get-schema": "yarn send-introspection-query https://api.dev.kauri.io/graphql && node scripts/convertGQLSchemaToFlowTypes.js",
     "generate-query-types": "npx apollo client:codegen --target=typescript",
+    "gqt": "npm run generate-query-types",
     "clean": "bsb -clean-world",
     "dev": "concurrently \"npm run dev:bs\" \"npm run dev:web\"",
     "dev:bs": "bsb -make-world -w",
@@ -29,14 +30,14 @@
     "test:e2e": "NODE_ENV=test jest --testRegex '(/__tests__/e2e/.*)\\.spec.js?$'",
     "test:bs": "NODE_ENV=test jest --testRegex '(/__tests__/reasonml/.*)\\.bs.js?$'",
     "test:integration": "NODE_ENV=test jest integration",
-    "format": "prettier --trailing-comma es5 --single-quote --write --ignore-path '**/__generated__' '**/**/__generated__'",
+    "format": "prettier --trailing-comma es5 --write --ignore-path '**/__generated__' '**/**/__generated__'",
     "lint": "tslint --fix '**/*.ts' '**/*.tsx' -e 'node_modules/**' '**/*.js' '*.js' '*.*.js' '.eslintrc.js'",
     "check-types": "tsc",
     "watch-types": "tsc --watch"
   },
   "dependencies": {
     "@glennsl/bs-revamp": "^0.1.1",
-    "@rej156/react-mde": "5.5.7",
+    "@rej156/react-mde": "5.6.0",
     "antd": "3.2.1",
     "apollo-cache-inmemory": "^1.3.5",
     "apollo-client": "^2.4.2",
@@ -240,7 +241,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn generate-query-types && lint-staged && yarn check-types"
+      "pre-commit": "lint-staged && yarn check-types"
     }
   },
   "private": true,

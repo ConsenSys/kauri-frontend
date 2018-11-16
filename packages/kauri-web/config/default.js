@@ -4,16 +4,16 @@ const hotJarTrackingCode = `(function(h,o,t,j,a,r){h.hj=h.hj||function(){(h.hj.q
   "r=o.createElement('script');r.async=1;" +
   'r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;' +
   'a.appendChild(r);' +
-  "})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=')`
+  "})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=')`;
 
 const googleTagManagerCode = `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 
 gtag('config', 'UA-112179323-1');
-`
+`;
 
-const mixpanelToken = `7d83001be784f09b212b9b3274e41530`
+const mixpanelToken = '7d83001be784f09b212b9b3274e41530';
 
 const uppyConfig = {
   debug: true,
@@ -24,29 +24,34 @@ const uppyConfig = {
     minNumberOfFiles: 1,
     allowedFileTypes: ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'],
   },
-}
+};
 
 const getApiURL = (hostName = global.window && global.window.location.host) => {
-  if (!hostName) return process.env.monolithExternalApi
-  let apiURL
+  if (!hostName) return process.env.monolithExternalApi;
+  let apiURL;
   if (hostName.includes('localhost')) {
-    apiURL = 'api.dev2.kauri.io'
+    apiURL = 'api.dev.kauri.io';
   } else if (hostName.includes('beta')) {
-    apiURL = global.window ? `api.beta.kauri.io` : (apiURL = `monolith.uat:8081`)
+    apiURL = global.window
+      ? 'api.beta.kauri.io'
+      : (apiURL = 'monolith.uat:8081');
   } else {
-    const env = hostName.split('.')[0]
-    apiURL = global.window ? `api.${env}.kauri.io` : (apiURL = `monolith.${env}:8081`)
+    const env = hostName.split('.')[0];
+    apiURL = global.window
+      ? `api.${env}.kauri.io`
+      : (apiURL = `monolith.${env}:8081`);
   }
 
   // Local config override if exists
-  const localConfig = require('./local.js')
-  if (typeof localConfig.apiURL === 'string') apiURL = localConfig.apiURL
+  const localConfig = require('./local.js');
+  if (typeof localConfig.apiURL === 'string') apiURL = localConfig.apiURL;
 
-  return apiURL
-}
+  return apiURL;
+};
 
 module.exports = {
-  ethUsdPriceEndpoint: 'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD',
+  ethUsdPriceEndpoint:
+    'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD',
   subCategories: ['General', 'Tutorial', 'Walkthrough'],
   hotJarTrackingCode,
   googleTagManagerCode,
@@ -67,4 +72,4 @@ module.exports = {
     '0xC3EF09a2BdEec9De6Ab74cfA0B5491FA4Cd0b7c8',
   ],
   getApiURL,
-}
+};

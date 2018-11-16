@@ -43,28 +43,10 @@ myStory.add("Updated Date", () =>
     dateType=PostedDate.Updated
   />
 );
-myStory.add("Username handle - Article page type", () =>
-  <Username pageType=Article username="@writereyes" />
-);
-myStory.add("Username handle - PublicProfile page type", () =>
-  <Username pageType=PublicProfile username="@writereyes" />
-);
 
-myStory.add("FullName handle", () => <FullName fullName="Name Surname" />);
-myStory.add("User title/Blurb", () =>
-  <Blurb
-    blurb="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sed cursus purus."
-  />
-);
-myStory.add("PersonalWebsite", () =>
-  <PersonalWebsite website="www.personalwebsite.com" />
-);
 myStory.add("Profile Header Label - Badges", () =>
   <ProfileHeaderLabel header="Badges" />
 );
 myStory.add("Profile Header Label - Contributor", () =>
   <ProfileHeaderLabel header="Contributor" />
-);
-myStory.add("Statistic Count", () =>
-  <StatisticCount pageType=None count=3 name="Article Views" />
 );
