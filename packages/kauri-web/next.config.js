@@ -48,7 +48,7 @@ const nextConfig = {
     // config.module.rules[0].include.push(join(__dirname, '../kauri-components'))
     if (!isServer) {
       config.plugins.push(new webpack.IgnorePlugin(/jsdom$/))
-      // Fuck regex and webpack.
+      // butterfly regex and webpack.
       const languages = ['dutch', 'english', 'german', 'italian', 'portugese', 'spanish', 'swedish']
       languages.map(lang => config.plugins.push(new webpack.IgnorePlugin(new RegExp(`${lang}.js.map`))))
     }
