@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, FormControl } from 'react-bootstrap';
 import Configuration from '../Configuration';
 import { PrimaryButton, SecondaryButton } from '../../../../kauri-components/components/Button';
 import { BaseModal, Footer, Content } from './BaseModal';
+import Tabs from '../../../../kauri-components/components/Tabs';
 
 
 class AddArticle extends Component {
@@ -30,7 +30,7 @@ class AddArticle extends Component {
   render() {
     return (
       <div>
-        <FormControl
+        <input
           type="text"
           value={this.state.value}
           placeholder="Search Article"
@@ -49,18 +49,6 @@ class AddArticle extends Component {
         </div>
       </div>);
   }
-}
-
-const AddTopic = (props) => {
-  return (
-    <FormControl
-      componentClass="select"
-      placeholder="select"
-      onChange={(i) => props.handleChange({ id: i.target.value, type: 'TOPIC' })}>
-      <option value="select">Select a topic</option>
-      {Configuration._TOPICS.map(i => <option key={i} value={i}>{i}</option>)}
-    </FormControl>
-  );
 }
 
 class AddCollection extends Component {
@@ -88,7 +76,7 @@ class AddCollection extends Component {
   render() {
     return (
       <div>
-        <FormControl
+        <input
           type="text"
           value={this.state.value}
           placeholder="Search Collection"
@@ -109,51 +97,6 @@ class AddCollection extends Component {
   }
 }
 
-class AddRequest extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      requests: [],
-      selected_id: '',
-    }
-    this.fetchRequests = this.fetchRequests.bind(this);
-  }
-
-  async fetchRequests(e) {
-    if (e.target.value.length >= 3) {
-      const requests = await this.props.searchRequests({ val: e.target.value });
-      this.setState({ requests: requests.content });
-    }
-  }
-
-  handleChange(id) {
-    this.setState({ selected_id: id });
-    this.props.handleChange({ type: 'REQUEST', id: id });
-  }
-
-  render() {
-    return (
-      <div>
-        <FormControl
-          type="text"
-          value={this.state.value}
-          placeholder="Search Request"
-          onChange={this.fetchRequests}
-        />
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-          {this.state.requests.length > 0 && this.state.requests.map(i =>
-            <PrimaryButton
-              onClick={() => this.handleChange(i.id)}
-              bsStyle="link"
-              style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
-              key={i.id}>
-              {i.title}
-            </PrimaryButton>
-          )}
-        </div>
-      </div>);
-  }
-}
 
 class CreateCuratedList extends Component {
   constructor(props) {
@@ -185,20 +128,13 @@ class CreateCuratedList extends Component {
         content={
           <Content>
               <h1>Add Item to List</h1>
-          <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-            <Tab style={{ padding: 20 }} eventKey={1} title="Article">
-              <AddArticle handleChange={this.handleChange} searchArticles={this.props.searchArticles} />
-            </Tab>
-            <Tab style={{ padding: 20 }} eventKey={2} title="Topic">
-              <AddTopic handleChange={this.handleChange} />
-            </Tab>
-            <Tab style={{ padding: 20 }} eventKey={3} title="Collection">
-              <AddCollection handleChange={this.handleChange} searchCollections={this.props.searchCollections} />
-            </Tab>
-            <Tab style={{ padding: 20 }} eventKey={4} title="Request">
-              <AddRequest handleChange={this.handleChange} searchRequests={this.props.searchRequests} />
-            </Tab>
-          </Tabs>
+          <Tabs
+            tabs={['Article','Collection']}
+            panels={[
+              <AddArticle handleChange={this.handleChange} searchArticles={this.props.searchArticles} />,
+              <AddCollection handleChange={this.handleChange} searchCollections={this.props.searchCollections} />,
+            ]}
+          />
         </Content>
         }
         footer={

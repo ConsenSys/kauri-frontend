@@ -40,7 +40,6 @@
     "promise": "8.0.1",
     "raf": "3.4.0",
     "react": "^16.2.0",
-    "react-bootstrap": "^0.32.4",
     "react-dev-utils": "6.0.0-next.a671462c",
     "react-dom": "^16.2.0",
     "react-fast-highlight": "^2.2.0",

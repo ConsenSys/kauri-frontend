@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import Web3Utils from '../components/Web3Utils'
 import PrimaryButton from '../../../kauri-components/components/Button/PrimaryButton';
 
@@ -86,31 +85,31 @@ class TransactionReceipt extends Component {
         <div className="Authenticator">
             <h1 className="Title">Transaction Receipt</h1>
 
-            <Form horizontal  className="Section">
+            <form>
 
                 { this.state.error ? 
                   <div>
-                    <Col sm={2}></Col>
-                    <Col sm={10}>
+                    <div></div>
+                    <div>
                       <div bsStyle="danger">{this.state.error}</div> 
-                    </Col> 
+                    </div> 
                   </div>
                  : null }
 
                 { this.state.success ? 
                   <div>
-                    <Col sm={2}></Col>
-                    <Col sm={10}>
+                    <div></div>
+                    <div>
                       <div bsStyle="success">{this.state.success}</div> 
-                    </Col> 
+                    </div> 
                   </div>
                  : null }
                 
 
-              <FormGroup controlId="formUsername" validationState={this.validateField("transacionHash")}>
-                <Col componentClass={ControlLabel} sm={2}>Transaction Hash*</Col>
-                <Col sm={10}>
-                    <FormControl
+              <div controlId="formUsername" validationState={this.validateField("transacionHash")}>
+                <label>Transaction Hash*</label>
+                <div>
+                    <input
                       type="text"
                       name="transacionHash"
                       placeholder="Enter transacion Hash"
@@ -118,27 +117,26 @@ class TransactionReceipt extends Component {
                       onChange={this.handleChange}
                       required="true"
                     />
-                </Col>
-              </FormGroup>
+                </div>
+              </div>
 
-              <FormGroup>
-                <Col smOffset={2} sm={10}>
+              <div>
+                <div>
                     <PrimaryButton type="button" onClick={this.handleSubmit}>Submit</PrimaryButton>
-                </Col>
-              </FormGroup>
+                </div>
+              </div>
 
-              <FormGroup controlId="formResultJwt">
-                <Col componentClass={ControlLabel} sm={2}>Transaction Receipt</Col>
-                <Col sm={10}>
-                    <FormControl
+              <div>
+                <label>Transaction Receipt</label>
+                <div>
+                    <textarea
                       name="transactionReceipt"
-                      componentClass="textarea"
                       value={this.state.transactionReceipt}
                       readOnly
                     />
-                </Col>
-              </FormGroup>
-            </Form>;
+                </div>
+              </div>
+            </form>;
 
         </div>
         );

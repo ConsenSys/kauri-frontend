@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { FormControl, Glyphicon } from 'react-bootstrap';
 import WebService from '../../components/WebService';
 import { ScaleLoader } from 'react-spinners';
 import { CreateCollection } from '../../components/modals';
 import { H2 } from '../../components/common/typography';
-import { Button } from '../../components/common/button';
+import { PrimaryButton } from '../../../../kauri-components/components/Button';
 import { Input, InlineInput } from '../../components/common/input';
 
 const Container = styled.div`
@@ -18,7 +17,6 @@ const CollectionHeader = styled.div`
   flex-direction: row;
   width: 100%;
   padding: 40px;
-  
 `;
 
 const BgPreview = styled.div`
@@ -91,9 +89,9 @@ const Collection = ({ updateCollBg, updateCollDescription, updateCollName, addAr
       <BgPreview background={background} />
     </CollectionHeader>
     <div className="actions">
-      <Button onClick={() => removeCollection({ id })} style={{ marginRight: 20 }} bsStyle="danger">Remove Collection</Button>
-      <Button onClick={addSection} style={{ marginRight: 20 }} >Add Section</Button>
-      <Button onClick={update} primary>Update Collection</Button>
+      <PrimaryButton onClick={() => removeCollection({ id })} style={{ marginRight: 20 }} bsStyle="danger">Remove Collection</PrimaryButton>
+      <PrimaryButton onClick={addSection} style={{ marginRight: 20 }} >Add Section</PrimaryButton>
+      <PrimaryButton onClick={update} primary>Update Collection</PrimaryButton>
     </div>
     {sections.map((i, key) => <Section addArticle={addArticle} searchArticles={searchArticles} removeArticle={removeArticle} edit={edit} removeSection={removeSection} key={key} index={key} section={i} />)}
   </CollectionContainer >;
@@ -101,22 +99,22 @@ const Collection = ({ updateCollBg, updateCollDescription, updateCollName, addAr
 const Section = ({ addArticle, searchArticles, removeArticle, edit, removeSection, index, section: { name, description, resources } }) =>
   <div style={{ marginBottom: 40 }}>
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <FormControl
+      <input
         style={{ border: 'none', boxShadow: 'none', fontSize: 20 }}
         type="text"
         value={name}
         onChange={(e) => edit(index, 'name', e.target.value)}
       />
-      <Button onClick={() => removeSection(index)}>Remove Section</Button>
+      <PrimaryButton onClick={() => removeSection(index)}>Remove Section</PrimaryButton>
     </div>
-    <FormControl
+    <input
       style={{ border: 'none', boxShadow: 'none', fontSize: 16 }}
       type="text"
       value={description}
       onChange={(e) => edit(index, 'description', e.target.value)}
     />
     {resources && resources.map(i =>
-      <div key={`${i.id}-${i.version}`} style={{ marginLeft: 20 }}>{i.title} <Glyphicon onClick={() => removeArticle(index, i.id)} glyph="trash" /></div>)}
+      <div key={`${i.id}-${i.version}`} style={{ marginLeft: 20 }}>{i.title} <div onClick={() => removeArticle(index, i.id)} />🗑️</div>)}
     <AddArticle index={index} addArticle={addArticle} searchArticles={searchArticles} />
   </div>;
 
@@ -152,13 +150,13 @@ class AddArticle extends Component {
         />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           {this.state.articles.length > 0 && this.state.articles.map(i =>
-            <Button
+            <PrimaryButton
               onClick={() => this.handleChange(i)}
               bsStyle="link"
               style={{ outline: 'none' }}
               key={i.id}>
               {i.title} - version {i.version}
-            </Button>
+            </PrimaryButton>
           )}
         </div>
       </div>);
@@ -255,7 +253,7 @@ class Collections extends Component {
       <Container >
         <aside style={{ maxWidth: 260 }}>
           <H2>Collections</H2>
-          <Button onClick={() => this.setState({ modal: 'CreateCollection' })} primary>Create New Collection</Button>
+          <PrimaryButton onClick={() => this.setState({ modal: 'CreateCollection' })} primary>Create New Collection</PrimaryButton>
           <div style={{ height: 600, overflow: "scroll" }}>
             {content && content.map(i => <CollectionItem onClick={() => this.setState({ selectedCollection: i })} key={i.id} collection={i} selectedCollection={selectedCollection} />)}
           </div>
