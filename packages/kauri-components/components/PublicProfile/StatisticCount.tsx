@@ -49,17 +49,17 @@ const pluraliseName = (payload: { count: number; name: string }) =>
   R.cond([
     [
       ({ count, name }) => count > 1 && lastStringValue(name) === 's',
-      name => name,
+      ({ name }) => name,
     ],
     [
       ({ count, name }) => count > 1 && lastStringValue(name) !== 's',
-      name => `${name}s`,
+      ({ name }) => `${name}s`,
     ],
     [
       ({ count, name }) => count === 1 && lastStringValue(name) === 's',
-      name => name.substring(0, name.length - 1),
+      ({ name }) => name.substring(0, name.length - 1),
     ],
-    [({ name }) => typeof name === 'string', name => name],
+    [({ name }) => typeof name === 'string', ({ name }) => name],
   ])(payload);
 
 const RuntimeProps = t.interface({
