@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const babelConfig = require('./babel.config');
 
 // Export a function. Accept the base config as the only param.
 module.exports = (config, configType) => {
@@ -14,9 +13,6 @@ module.exports = (config, configType) => {
   };
   config.module.rules[0].include.push(path.join(__dirname, '../../kauri-web'));
   config.resolve.extensions.push('.ts', '.tsx');
-  // config.module.rules[0].use[0].loader = require.resolve('babel-loader');
-  // config.module.rules[0].use[0].options.presets = babelConfig.presets;
-  // config.module.rules[0].use[0].options.plugins = babelConfig.plugins;
   config.plugins.push(new webpack.EnvironmentPlugin(['STORYBOOK']));
   config.plugins.push(new webpack.IgnorePlugin(/jsdom$/));
   config.module.rules.push({
