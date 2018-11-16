@@ -90,6 +90,7 @@ export class SharedEditor extends React.Component<*> {
           layout='tabbed'
           readOnly={readOnly}
           spellCheck
+          stickyToolbar
           onChange={handleChange}
           editorState={editorState}
           generateMarkdownPreview={markdown => Promise.resolve(this.converter.makeHtml(markdown))}
