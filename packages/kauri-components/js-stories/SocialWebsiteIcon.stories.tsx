@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { storiesOf } from "@storybook/react";
-import SocialWebsiteIcon from "../components/PublicProfile/SocialWebsiteIcon";
-import PersonalWebsite from "../components/PublicProfile/PersonalWebsite";
+import React from 'react';
+import styled from 'styled-components';
+import { storiesOf } from '@storybook/react';
+import SocialWebsiteIcon from '../components/PublicProfile/SocialWebsiteIcon';
+import PersonalWebsite from '../components/PublicProfile/PersonalWebsite';
 
 const SocialWebsites = styled.div`
   display: flex;
@@ -12,24 +12,24 @@ const SocialWebsites = styled.div`
   }
 `;
 
-storiesOf("SocialWebsiteIcon", module)
-  .add("Github", () => (
+storiesOf('SocialWebsiteIcon', module)
+  .add('Github', () => (
     <SocialWebsiteIcon socialURL="https://github.com/rej156" brand="github" />
   ))
-  .add("Twitter", () => (
+  .add('Twitter', () => (
     <SocialWebsiteIcon
       socialURL="https://twitter.com/ericjuta"
       brand="twitter"
     />
   ))
-  .add("Linkedin with height prop", () => (
+  .add('Linkedin with height prop', () => (
     <SocialWebsiteIcon
       socialURL="https://twitter.com/ericjuta"
       height={30}
       brand="linkedin"
     />
   ))
-  .add("Social Websites", () => (
+  .add('Social Websites', () => (
     <SocialWebsites>
       <SocialWebsiteIcon
         socialURL="https://twitter.com/ericjuta"
