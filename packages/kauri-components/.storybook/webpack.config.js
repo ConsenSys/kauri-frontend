@@ -14,19 +14,11 @@ module.exports = (config, configType) => {
   config.module.rules[0].include.push(path.join(__dirname, '../../kauri-web'));
   config.resolve.extensions.push('.ts', '.tsx');
   config.plugins.push(new webpack.EnvironmentPlugin(['STORYBOOK']));
-  config.plugins.push(new webpack.IgnorePlugin(/jsdom$/));
   config.module.rules.push({
     exclude: /node_modules/,
     test: /\.(ts|tsx)$/,
     use: 'babel-loader',
   });
-  config.node = {
-    child_process: 'empty',
-    dgram: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-  };
   // Return the altered config
   return config;
 };
