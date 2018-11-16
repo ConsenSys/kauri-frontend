@@ -12,6 +12,8 @@ function loadStories() {
   req.keys().forEach(filename => req(filename));
   const jsreq = require.context('../js-stories', true, /.stories.js$/);
   jsreq.keys().forEach(filename => jsreq(filename));
+  const tsreq = require.context('../js-stories', true, /.stories.tsx$/);
+  tsreq.keys().forEach(filename => tsreq(filename));
 }
 
 configure(loadStories, module);
