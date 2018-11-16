@@ -57,11 +57,12 @@ let make =
   render: _self =>
     <div className=Styles.container>
       <div className=Styles.leftSide>
-        <PostedDate date_field=updated dateType=PostedDate.Updated />
-        <Heading size=28 text=name color="ffffff" />
-        <Paragraph cardHeight=9000 size=16 text=description color="ffffff" />
-        <ShareArticle url title=name />
-      </div>
+
+          <PostedDate date_field=updated dateType=PostedDate.Updated />
+          <Heading size=28 text=name color="ffffff" />
+          <Paragraph cardHeight=9000 size=16 text=description color="ffffff" />
+        </div>
+        /* <ShareArticle url title=name /> */
       <div className=Styles.rightSide>
         <Label text="Curator" color="ffffff" />
         {

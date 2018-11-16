@@ -1,12 +1,15 @@
 // @flow
-import React from 'react'
-import styled from 'styled-components'
-import slugify from 'slugify'
-import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from '../../CreateRequestForm/CreateRequestHeader'
-import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
-import PostedDate from '../../../../../kauri-components/components/Typography/PostedDate.bs'
-import { H5, Title1 } from '../../../../../kauri-components/components/Typography'
-import theme from '../../../../lib/theme-config'
+import React from 'react';
+import styled from 'styled-components';
+import slugify from 'slugify';
+import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from '../../CreateRequestForm/CreateRequestHeader';
+import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle';
+import PostedDate from '../../../../../kauri-components/components/Typography/PostedDate.bs';
+import {
+  H5,
+  Title1,
+} from '../../../../../kauri-components/components/Typography';
+import theme from '../../../../lib/theme-config';
 
 const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
   display: flex;
@@ -15,7 +18,7 @@ const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
   padding-bottom: 140px;
   position: relative;
   padding-left: 0;
-`
+`;
 
 const Overlay = styled.div`
   display: flex;
@@ -26,7 +29,7 @@ const Overlay = styled.div`
   width: 100%;
   position: absolute;
   margin-top: -160px;
-`
+`;
 
 const InfoContainer = styled.div`
   display: flex;
@@ -45,7 +48,7 @@ const InfoContainer = styled.div`
       padding-left: ${props => props.theme.space[1]}px;
     }
   }
-`
+`;
 
 export const PullRight = styled.div`
   display: flex;
@@ -54,7 +57,7 @@ export const PullRight = styled.div`
   align-items: center;
   margin-top: ${props => props.theme.space[2]}px;
   z-index: 9;
-`
+`;
 
 const MobileShareContainer = styled.div`
   display: none;
@@ -68,12 +71,24 @@ const MobileShareContainer = styled.div`
     display: flex;
     flex-direction: column;
   }
-`
+`;
 
-export default ({ id, version, datePublished, dateCreated, title, attributes, status, hostName }: *) => (
+export default ({
+  id,
+  version,
+  datePublished,
+  dateCreated,
+  title,
+  attributes,
+  status,
+  hostName,
+}: *) => (
   <ApproveArticleHeader
     style={{
-      background: attributes && attributes.background ? `url(${attributes.background}) center center` : '#1E2428',
+      background:
+        attributes && attributes.background
+          ? `url(${attributes.background}) center center`
+          : '#1E2428',
       backgroundSize: 'cover',
     }}
     type='article'
@@ -81,21 +96,28 @@ export default ({ id, version, datePublished, dateCreated, title, attributes, st
   >
     <Overlay />
     <InfoContainer>
-      <PostedDate dateType='FromNow' date_field={datePublished || dateCreated} />
+      <PostedDate
+        dateType='FromNow'
+        date_field={datePublished || dateCreated}
+      />
       <Title1 color='white'>{title}</Title1>
       <MobileShareContainer>
         <ShareArticle
-          url={`${hostName.replace(/api\./g, '')}/article/${id}/${slugify(title, {
-            lower: true,
-          })}`}
+          url={`${hostName.replace(/api\./g, '')}/article/${id}/${slugify(
+            title,
+            {
+              lower: true,
+            }
+          )}`}
           title={title}
         />
       </MobileShareContainer>
     </InfoContainer>
     {status !== 'PUBLISHED' && (
       <PullRight>
-        <H5 color='white'>{`STATUS ${typeof status === 'string' && status.replace(/_/g, ' ')}`}</H5>
+        <H5 color='white'>{`STATUS ${typeof status === 'string' &&
+          status.replace(/_/g, ' ')}`}</H5>
       </PullRight>
     )}
   </ApproveArticleHeader>
-)
+);

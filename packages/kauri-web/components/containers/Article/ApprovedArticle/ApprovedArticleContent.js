@@ -11,7 +11,7 @@ import {
 } from '../../CreateRequestForm/CreateRequestContent'
 import DescriptionRow from '../../Requests/DescriptionRow'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
-import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
+import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 import TertiaryButton from '../../../../../kauri-components/components/Button/TertiaryButton'
 import userIdTrim from '../../../../lib/userid-trim'

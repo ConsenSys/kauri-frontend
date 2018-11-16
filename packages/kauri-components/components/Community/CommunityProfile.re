@@ -65,17 +65,18 @@ let make = (~id, ~community, ~website, ~avatar, ~hostName, _children) => {
   ...component,
   render: _self =>
     <Container>
-      <CommunityAvatar avatar />
-      <CommunityName>
-        community->getCommunity->ReasonReact.string
-      </CommunityName>
-      <CommunityWebsite href=website>
-        website->stripWebsite->ReasonReact.string
-      </CommunityWebsite>
-      <ShareArticle
-        pageType=CommunityProfile
-        url={assembleShareWebsiteURL(~id, ~hostName)}
-        title=community->String.capitalize
-      />
-    </Container>,
+
+        <CommunityAvatar avatar />
+        <CommunityName>
+          community->getCommunity->ReasonReact.string
+        </CommunityName>
+        <CommunityWebsite href=website>
+          website->stripWebsite->ReasonReact.string
+        </CommunityWebsite>
+      </Container>,
+      /* <ShareArticle
+           pageType=CommunityProfile
+           url={assembleShareWebsiteURL(~id, ~hostName)}
+           title=community->String.capitalize
+         /> */
 };
