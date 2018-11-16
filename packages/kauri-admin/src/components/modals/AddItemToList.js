@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Modal, Tabs, Tab, FormControl } from 'react-bootstrap';
+import { Tabs, Tab, FormControl } from 'react-bootstrap';
 import Configuration from '../Configuration';
-import { PrimaryButton } from '../../../../kauri-components/components/Button';
+import { PrimaryButton, SecondaryButton } from '../../../../kauri-components/components/Button';
+import { BaseModal, Footer, Content } from './BaseModal';
 
 
 class AddArticle extends Component {
@@ -180,11 +181,10 @@ class CreateCuratedList extends Component {
 
   render() {
     return (
-      <Modal show={this.props.show} onHide={this.props.closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Item To List</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <BaseModal show={this.props.show} onHide={this.props.closeModal}
+        content={
+          <Content>
+              <h1>Add Item to List</h1>
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
             <Tab style={{ padding: 20 }} eventKey={1} title="Article">
               <AddArticle handleChange={this.handleChange} searchArticles={this.props.searchArticles} />
@@ -199,12 +199,14 @@ class CreateCuratedList extends Component {
               <AddRequest handleChange={this.handleChange} searchRequests={this.props.searchRequests} />
             </Tab>
           </Tabs>
-        </Modal.Body>
-        <Modal.Footer>
-          <PrimaryButton onClick={this.props.closeModal}>Cancel</PrimaryButton>
+        </Content>
+        }
+        footer={
+          <Footer>
+          <SecondaryButton color='primaryDark' onClick={this.props.closeModal}>Cancel</SecondaryButton>
           <PrimaryButton onClick={this.handleSubmit} bsStyle="primary">Add Item to List</PrimaryButton>
-        </Modal.Footer>
-      </Modal>);
+        </Footer>
+        } />);
   }
 };
 
