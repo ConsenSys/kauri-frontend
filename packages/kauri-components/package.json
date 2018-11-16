@@ -11,7 +11,7 @@
     "test:chromatic": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006",
     "test:chromatic-auto-accept-changes": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006 --auto-accept-changes",
     "test": "STORYBOOK=true npm run test:chromatic",
-    "format": "prettier --trailing-comma es5 --single-quote --write --ignore-path '**/__generated__' '**/**/__generated__'",
+    "format": "prettier --write --ignore-path '**/__generated__' '**/**/__generated__'",
     "lint": "tslint --fix '**/*.ts' '**/*.tsx' -e 'node_modules/**' '**/*.js' '*.js' '*.*.js' '.eslintrc.js'",
     "check-types": "tsc",
     "watch-types": "tsc --watch"
