@@ -6,7 +6,12 @@ import * as t from "io-ts";
 import styled from "../../../lib/styled-components";
 // import R from 'ramda'
 
-const Hey = styled<{ h: number }, "h3">("h3")``;
+interface IHeyProps {
+  test: number;
+}
+const Hey = styled<IHeyProps, "h3">("h3")`
+  color: blue;
+`;
 
 const GetMyProfile = t.type({
   __typename: t.string,
@@ -44,7 +49,7 @@ const Lol: React.SFC<{ id?: string }> = ({
           // console.error(JSON.stringify(errors));
           throw new Error(errors.join("\n"));
         });
-        return <Hey h={1}>{username}</Hey>;
+        return <Hey test={2}>{username}</Hey>;
       }
     }}
   </Query>

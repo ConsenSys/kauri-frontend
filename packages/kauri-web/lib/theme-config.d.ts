@@ -43,6 +43,6 @@ export interface IThemeInterface {
   paddingTop: string;
 }
 
-var theme: IThemeInterface
+const theme: IThemeInterface;
 
-export default theme
+export default theme;

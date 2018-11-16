@@ -17,5 +17,10 @@
     "preserveConstEnums": true,
     "sourceMap": true
   },
-  "include": ["components/**/**.tsx", "lib/**/**.ts", "components/**/**.ts"]
+  "include": [
+    "components/**/**.tsx",
+    "lib/**/**.ts",
+    "components/**/**.ts",
+    "typings/*"
+  ]
 }

@@ -21,7 +21,6 @@
     "js-stories/**/**.tsx",
     "components/**/**.tsx",
     "../kauri-web/lib/theme-config.d.ts",
-    "../kauri-web/types/*",
-    "types/*"
+    "typings/*"
   ]
 }
