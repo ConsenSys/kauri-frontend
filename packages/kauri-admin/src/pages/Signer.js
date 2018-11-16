@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Web3Utils from '../components/Web3Utils'
-import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Alert } from 'react-bootstrap';
+import { Form, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
+import { PrimaryButton } from '../../../kauri-components/components/Button'
 
 class Signer extends Component {
 
@@ -128,7 +129,7 @@ class Signer extends Component {
               <div>
                 <Col sm={2}></Col>
                 <Col sm={10}>
-                  <Alert bsStyle="danger">{this.state.error1}</Alert> 
+                  <div bsStyle="danger">{this.state.error1}</div> 
                 </Col> 
               </div>
              : null }
@@ -137,7 +138,7 @@ class Signer extends Component {
               <div>
                 <Col sm={2}></Col>
                 <Col sm={10}>
-                  <Alert bsStyle="success">{this.state.success1}</Alert> 
+                  <div bsStyle="success">{this.state.success1}</div> 
                 </Col> 
               </div>
              : null }
@@ -155,7 +156,7 @@ class Signer extends Component {
                 />
             </Col>
             <Col sm={2}>
-              <Button type="button" onClick={this.ecsign}>Sign</Button>
+              <PrimaryButton type="button" onClick={this.ecsign}>Sign</PrimaryButton>
             </Col>
           </FormGroup>
 
@@ -181,7 +182,7 @@ class Signer extends Component {
               <div>
                 <Col sm={2}></Col>
                 <Col sm={10}>
-                  <Alert bsStyle="danger">{this.state.error2}</Alert> 
+                  <div bsStyle="danger">{this.state.error2}</div> 
                 </Col> 
               </div>
              : null }
@@ -190,7 +191,7 @@ class Signer extends Component {
               <div>
                 <Col sm={2}></Col>
                 <Col sm={10}>
-                  <Alert bsStyle="success">{this.state.success2}</Alert> 
+                  <div bsStyle="success">{this.state.success2}</div> 
                 </Col> 
               </div>
              : null }
@@ -224,7 +225,7 @@ class Signer extends Component {
 
             <FormGroup>
               <Col smOffset={2} sm={10}>
-                  <Button type="button" onClick={this.ecrecover}>Recover</Button>
+                  <PrimaryButton type="button" onClick={this.ecrecover}>Recover</PrimaryButton>
               </Col>
             </FormGroup>
 

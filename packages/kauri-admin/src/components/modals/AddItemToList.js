@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Modal, Button, Tabs, Tab, FormControl } from 'react-bootstrap';
+import { Tabs, Tab, FormControl } from 'react-bootstrap';
 import Configuration from '../Configuration';
+import { PrimaryButton, SecondaryButton } from '../../../../kauri-components/components/Button';
+import { BaseModal, Footer, Content } from './BaseModal';
 
 
 class AddArticle extends Component {
@@ -36,13 +38,13 @@ class AddArticle extends Component {
         />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           {this.state.articles.length > 0 && this.state.articles.map(i =>
-            <Button
+            <PrimaryButton
               onClick={() => this.handleChange(i.id)}
               bsStyle="link"
               style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
               key={i.id}>
               {i.title}
-            </Button>
+            </PrimaryButton>
           )}
         </div>
       </div>);
@@ -94,13 +96,13 @@ class AddCollection extends Component {
         />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           {this.state.collections.length > 0 && this.state.collections.map(i =>
-            <Button
+            <PrimaryButton
               onClick={() => this.handleChange(i.id)}
               bsStyle="link"
               style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
               key={i.id}>
               {i.name}
-            </Button>
+            </PrimaryButton>
           )}
         </div>
       </div>);
@@ -140,13 +142,13 @@ class AddRequest extends Component {
         />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           {this.state.requests.length > 0 && this.state.requests.map(i =>
-            <Button
+            <PrimaryButton
               onClick={() => this.handleChange(i.id)}
               bsStyle="link"
               style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
               key={i.id}>
               {i.title}
-            </Button>
+            </PrimaryButton>
           )}
         </div>
       </div>);
@@ -179,11 +181,10 @@ class CreateCuratedList extends Component {
 
   render() {
     return (
-      <Modal show={this.props.show} onHide={this.props.closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Item To List</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <BaseModal show={this.props.show} onHide={this.props.closeModal}
+        content={
+          <Content>
+              <h1>Add Item to List</h1>
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
             <Tab style={{ padding: 20 }} eventKey={1} title="Article">
               <AddArticle handleChange={this.handleChange} searchArticles={this.props.searchArticles} />
@@ -198,12 +199,14 @@ class CreateCuratedList extends Component {
               <AddRequest handleChange={this.handleChange} searchRequests={this.props.searchRequests} />
             </Tab>
           </Tabs>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={this.props.closeModal}>Cancel</Button>
-          <Button onClick={this.handleSubmit} bsStyle="primary">Add Item to List</Button>
-        </Modal.Footer>
-      </Modal>);
+        </Content>
+        }
+        footer={
+          <Footer>
+          <SecondaryButton color='primaryDark' onClick={this.props.closeModal}>Cancel</SecondaryButton>
+          <PrimaryButton onClick={this.handleSubmit} bsStyle="primary">Add Item to List</PrimaryButton>
+        </Footer>
+        } />);
   }
 };
 

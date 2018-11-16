@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Alert } from 'react-bootstrap';
+import { Form, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import Configuration from '../components/Configuration'
 import Web3Utils from '../components/Web3Utils'
 import { PrimaryButton } from '../../../kauri-components/components/Button';
@@ -114,7 +114,7 @@ class Config extends Component {
                   <div>
                     <Col sm={2}></Col>
                     <Col sm={10}>
-                      <Alert bsStyle="danger">{this.state.error}</Alert> 
+                      <div>{this.state.error}</div> 
                     </Col> 
                   </div>
                  : null }
@@ -123,7 +123,7 @@ class Config extends Component {
                   <div>
                     <Col sm={2}></Col>
                     <Col sm={10}>
-                      <Alert bsStyle="success">{this.state.success}</Alert> 
+                      <div>{this.state.success}</div> 
                     </Col> 
                   </div>
                  : null } 

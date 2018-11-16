@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Alert } from 'react-bootstrap';
+import { Form, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import Web3Utils from '../components/Web3Utils'
+import PrimaryButton from '../../../kauri-components/components/Button/PrimaryButton';
 
 class TransactionReceipt extends Component {
     constructor(props) {
@@ -91,7 +92,7 @@ class TransactionReceipt extends Component {
                   <div>
                     <Col sm={2}></Col>
                     <Col sm={10}>
-                      <Alert bsStyle="danger">{this.state.error}</Alert> 
+                      <div bsStyle="danger">{this.state.error}</div> 
                     </Col> 
                   </div>
                  : null }
@@ -100,7 +101,7 @@ class TransactionReceipt extends Component {
                   <div>
                     <Col sm={2}></Col>
                     <Col sm={10}>
-                      <Alert bsStyle="success">{this.state.success}</Alert> 
+                      <div bsStyle="success">{this.state.success}</div> 
                     </Col> 
                   </div>
                  : null }
@@ -122,7 +123,7 @@ class TransactionReceipt extends Component {
 
               <FormGroup>
                 <Col smOffset={2} sm={10}>
-                    <Button type="button" onClick={this.handleSubmit}>Submit</Button>
+                    <PrimaryButton type="button" onClick={this.handleSubmit}>Submit</PrimaryButton>
                 </Col>
               </FormGroup>
 
