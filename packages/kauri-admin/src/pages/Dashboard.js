@@ -2,7 +2,6 @@
 import React, { Component } from 'react'
 import WebService from '../components/WebService'
 import Configuration from '../components/Configuration'
-import { FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap'
 
 class Dashboard extends Component {
   constructor(props) {
@@ -131,36 +130,33 @@ class Dashboard extends Component {
         <h1 className="Title">Dashboard</h1>{' '}
         {this.state.error ? (
           <div>
-            <Col sm={2} />
-            <Col sm={10}>
+            <div/>
+            <div>
               <div bsStyle="danger">{this.state.error && this.state.error.message}</div>
-            </Col>
+            </div>
           </div>
         ) : null}{' '}
         {this.state.success ? (
           <div>
-            <Col sm={2} />
-            <Col sm={10}>
+            <div/>
+            <div>
               <div bsStyle="success">{this.state.success}</div>
-            </Col>
+            </div>
           </div>
         ) : null}
         <div className="row">
-          <FormGroup controlId="formTopic">
-            <Col componentClass={ControlLabel} sm={2}>
-              Filter by topic
-            </Col>
-            <Col sm={2}>
-              <FormControl componentClass="select" name="topic" value={this.state.topic} onChange={this.handleChange}>
+          <div>
+            <div>
+              <select name="topic" value={this.state.topic} onChange={this.handleChange}>
                 <option value="" />
                 {Configuration._TOPICS.map(value => (
                   <option key={value} value={value}>
                     {value}
                   </option>
                 ))}
-              </FormControl>
-            </Col>
-          </FormGroup>
+              </select>
+            </div>
+          </div>
         </div>
         <br />
         <br />

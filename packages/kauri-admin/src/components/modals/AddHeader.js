@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, FormControl } from 'react-bootstrap';
 import { PrimaryButton, SecondaryButton } from '../../../../kauri-components/components/Button';
 import Configuration from '../Configuration';
 import { BaseModal, Footer, Content } from './BaseModal';
+import Tabs from '../../../../kauri-components/components/Tabs';
 
 
 class AddArticle extends Component {
@@ -30,7 +30,7 @@ class AddArticle extends Component {
     render() {
         return (
             <div>
-                <FormControl
+                <input
                     type="text"
                     value={this.state.value}
                     placeholder="Search Article"
@@ -76,7 +76,7 @@ class AddCollection extends Component {
     render() {
         return (
             <div>
-                <FormControl
+                <input
                     type="text"
                     value={this.state.value}
                     placeholder="Search Collection"
@@ -127,14 +127,11 @@ class AddHeader extends Component {
             content={
                 <Content>
                     <h1>Add Header</h1>
-                <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-                    <Tab style={{ padding: 20 }} eventKey={1} title="Article">
-                        <AddArticle handleChange={this.handleChange} searchArticles={this.props.searchArticles} />
-                    </Tab>
-                    <Tab style={{ padding: 20 }} eventKey={3} title="Collection">
-                        <AddCollection handleChange={this.handleChange} searchCollections={this.props.searchCollections} />
-                    </Tab>
-                </Tabs>
+                <Tabs defaultActiveKey={1} id="uncontrolled-tab-example"
+                    tabs={['Article', 'Collection']}
+                    panels={[
+                    <AddArticle handleChange={this.handleChange} searchArticles={this.props.searchArticles} />,
+                    <AddCollection handleChange={this.handleChange} searchCollections={this.props.searchCollections} />]} />
             </Content>
             }
             footer={

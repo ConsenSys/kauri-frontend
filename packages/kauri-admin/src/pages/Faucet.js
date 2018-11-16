@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Web3Utils from '../components/Web3Utils'
 import Configuration from '../components/Configuration'
-import { Form, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import PrimaryButton from '../../../kauri-components/components/Button/PrimaryButton';
 
 class Faucet extends Component {
@@ -82,47 +81,46 @@ class Faucet extends Component {
         <div className="Authenticator">
             <h1 className="Title">Faucet</h1>
 
-            <Form horizontal  className="Section">
+            <form>
 
                 { this.state.error ? 
                   <div>
-                    <Col sm={2}></Col>
-                    <Col sm={10}>
+                    <div></div>
+                    <div>
                       <div bsStyle="danger">{this.state.error}</div> 
-                    </Col> 
+                    </div> 
                   </div>
                  : null }
                 { this.state.success ? 
                   <div>
-                    <Col sm={2}></Col>
-                    <Col sm={10}>
+                    <div></div>
+                    <div>
                       <div bsStyle="success">{this.state.success}</div> 
-                    </Col> 
+                    </div> 
                   </div>
                  : null }
                 
 
-              <FormGroup controlId="formEmail" validationState={this.validateField("address")}>
-                <Col componentClass={ControlLabel} sm={2}>Address*</Col>
-                <Col sm={10}>
-                    <FormControl
+              <div controlId="formEmail" validationState={this.validateField("address")}>
+                <label>Address*</label>
+                <div>
+                    <input
                       type="text"
                       name="address"
                       placeholder="Enter your address"
                       value={this.state.address}
                       onChange={this.handleChange}
-                      required="true"
                     />
-                </Col>
-              </FormGroup>
+                </div>
+              </div>
 
-              <FormGroup>
-                <Col smOffset={2} sm={10}>
+              <div>
+                <div>
                     <PrimaryButton type="button" onClick={this.handleSubmit}>Submit</PrimaryButton>
-                </Col>
-              </FormGroup>
+                </div>
+              </div>
 
-            </Form>;
+            </form>;
 
         </div>
         );

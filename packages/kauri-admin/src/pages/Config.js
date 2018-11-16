@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import Configuration from '../components/Configuration'
 import Web3Utils from '../components/Web3Utils'
 import { PrimaryButton } from '../../../kauri-components/components/Button';
@@ -11,7 +10,6 @@ class Config extends Component {
     this.web3Utils = new Web3Utils();
     this.web3Utils.getNetwork().then(function(network) {
       this.networkId = network.networkId;
-      console.log(this.networkId)
     }.bind(this));
 
     this.state = { 
@@ -29,7 +27,7 @@ class Config extends Component {
   }
 
 
-    validateForm(fields) {
+    validateform(fields) {
         var valid = fields.reduce(function(prevVal, elem) {
             return prevVal && this.validateField(elem) === 'success';
         }.bind(this), true);
@@ -88,8 +86,8 @@ class Config extends Component {
     handleSubmit(event) {
         this.setState({error: null, success: null})
 
-        if(!this.validateForm(["environment", "kauri_sm", "wallet_sm", "topics_sm"])) {
-            this.setState({error: "Form not valid - Please check your Ethereum network"})
+        if(!this.validateform(["environment", "kauri_sm", "wallet_sm", "topics_sm"])) {
+            this.setState({error: "form not valid - Please check your Ethereum network"})
             return;
 
         } else {
@@ -108,30 +106,30 @@ class Config extends Component {
       <div className="Topics">
         <h1 className="Title">Configuration</h1>
 
-            <Form horizontal  className="Section">
+            <form horizontal  className="Section">
 
                 { this.state.error ? 
                   <div>
-                    <Col sm={2}></Col>
-                    <Col sm={10}>
+                    <div></div>
+                    <div>
                       <div>{this.state.error}</div> 
-                    </Col> 
+                    </div> 
                   </div>
                  : null }
 
                 { this.state.success ? 
                   <div>
-                    <Col sm={2}></Col>
-                    <Col sm={10}>
+                    <div></div>
+                    <div>
                       <div>{this.state.success}</div> 
-                    </Col> 
+                    </div> 
                   </div>
                  : null } 
 
-              <FormGroup controlId="formEnv" validationState={this.validateField("environment")}>
-                <Col componentClass={ControlLabel} sm={2}>Backend Environment</Col>
-                <Col sm={10}>
-                    <FormControl
+              <div>
+                <label>Backend Environment</label>
+                <div>
+                    <select
                       componentClass="select" 
                       name="environment"
                       value={this.state.environment}
@@ -140,60 +138,60 @@ class Config extends Component {
                         <option value=""></option>
                         { Object.keys(Configuration._BACKEND).map(key => 
                             <option key={key} selected={key === this.state.config.getBackend().name} value={key}>{key + ' [compatible network ' + Configuration._BACKEND[key].network_id + ']'}</option>) }
-                    </FormControl>
-                </Col>
-              </FormGroup>
+                    </select>
+                </div>
+              </div>
 
 
-              <FormGroup controlId="formKauriSM" validationState={this.validateField("kauri_sm")}>
-                <Col componentClass={ControlLabel} sm={2}>Kauri SmartContract address</Col>
-                <Col sm={10}>
-                    <FormControl
+              <div>
+                <label>Kauri SmartContract address</label>
+                <div>
+                    <input
                       type="text"
                       name="kauri_sm"
                       value={this.state.kauri_sm}
                       onChange={this.handleChange}
                       required="true"
                     />
-                </Col>
-              </FormGroup>
+                </div>
+              </div>
 
 
-              <FormGroup controlId="formWalletSM" validationState={this.validateField("wallet_sm")}>
-                <Col componentClass={ControlLabel} sm={2}>Wallet SmartContract address</Col>
-                <Col sm={10}>
-                    <FormControl
+              <div>
+                <label>Wallet SmartContract address</label>
+                <div>
+                    <input
                       type="text"
                       name="wallet_sm"
                       value={this.state.wallet_sm}
                       onChange={this.handleChange}
                       required="true"
                     />
-                </Col>
-              </FormGroup>
+                </div>
+              </div>
 
 
-              <FormGroup controlId="formTopicsSM" validationState={this.validateField("topics_sm")}>
-                <Col componentClass={ControlLabel} sm={2}>TopicModerator SmartContract address</Col>
-                <Col sm={10}>
-                    <FormControl
+              <div>
+                <label>TopicModerator SmartContract address</label>
+                <div>
+                    <input
                       type="text"
                       name="topics_sm"
                       value={this.state.topics_sm}
                       onChange={this.handleChange}
                       required="true"
                     />
-                </Col>
-              </FormGroup>
+                </div>
+              </div>
 
 
 
-              <FormGroup>
-                <Col smOffset={2} sm={10}>
+              <div>
+                <div>
                     <PrimaryButton type="button" onClick={this.handleSubmit}>Submit</PrimaryButton>
-                </Col>
-              </FormGroup>
-            </Form>;
+                </div>
+              </div>
+            </form>;
 
       </div>
     );
