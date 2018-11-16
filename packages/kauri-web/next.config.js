@@ -18,7 +18,7 @@ const processedConfig = Object.keys(config).reduce((current, next, i) => {
 console.log(processedConfig);
 
 const nextPlugins = [
-  withTypescript,
+  [withTypescript, { transpileModules: ['../kauri-components'] }],
   [withTM, { transpileModules: ['../kauri-components'] }],
   withSourceMaps,
   withLess,
@@ -45,6 +45,7 @@ if (process.env.BUNDLE_ANALYZE) {
 }
 const nextConfig = {
   webpack: (config, { isServer }) => {
+    config.resolve.extensions.push('.ts', '.tsx');
     config.resolve.alias['styled-components'] = resolve(
       __dirname,
       './node_modules',

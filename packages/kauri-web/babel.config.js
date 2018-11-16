@@ -55,7 +55,16 @@ const config = {
   plugins,
   overrides: [
     {
-      test: ['./**/*.ts', './**/*.tsx', '*.ts', '*.tsx'],
+      test: [
+        './**/*.ts',
+        './**/*.tsx',
+        '../kauri-components/**/**/*.tsx',
+        '../kauri-components/**/*.tsx',
+        '../kauri-components/**/**/*.ts',
+        '../kauri-components/**/*.ts',
+        '*.ts',
+        '*.tsx',
+      ],
       presets: [
         '@babel/preset-typescript',
         [
