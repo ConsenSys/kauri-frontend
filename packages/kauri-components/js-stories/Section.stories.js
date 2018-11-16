@@ -14,7 +14,7 @@ import {
   TertiaryButton,
 } from '../components/Button';
 import ProfileHeaderLabel from '../components/PublicProfile/ProfileHeaderLabel.bs';
-import StatisticsContainer from '../components/PublicProfile/StatisticsContainer.tsx';
+import StatisticsContainer from '../components/PublicProfile/StatisticsContainer';
 import UserWidgetSmall from '../components/UserWidget/UserWidgetSmall.bs';
 import CuratorHeaderLabel from '../components/Typography/CuratorHeaderLabel';
 import Input from '../components/Input/Input';

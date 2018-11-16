@@ -1,7 +1,8 @@
-import * as React from "react";
-import * as t from "io-ts";
-import styled from "styled-components";
-import StatisticCount from "./StatisticCount";
+import * as React from 'react';
+import * as t from 'io-ts';
+import { failure } from 'io-ts/lib/PathReporter';
+import styled from 'styled-components';
+import StatisticCount from './StatisticCount';
 
 const StatisticsContainer = styled.section`
   display: flex;
@@ -11,7 +12,7 @@ const StatisticsContainer = styled.section`
   }
 `;
 
-const PageType = t.literal("CollectionPage");
+const PageType = t.literal('CollectionPage');
 
 const Statistic = t.type({
   count: t.number,
@@ -27,17 +28,23 @@ const RuntimeProps = t.interface({
 
 type Props = t.TypeOf<typeof RuntimeProps>;
 
-const Container: React.SFC<Props> = ({ statistics, pageType }) => (
-  <StatisticsContainer>
-    {statistics.map(({ name, count }) => (
-      <StatisticCount
-        pageType={pageType}
-        key={name}
-        name={name}
-        count={count}
-      />
-    ))}
-  </StatisticsContainer>
-);
+const Container: React.SFC<Props> = props => {
+  RuntimeProps.decode(props).getOrElseL(errors => {
+    throw new Error(failure(errors).join('\n'));
+  });
+  const { statistics, pageType } = props;
+  return (
+    <StatisticsContainer>
+      {statistics.map(({ name, count }) => (
+        <StatisticCount
+          pageType={pageType}
+          key={name}
+          name={name}
+          count={count}
+        />
+      ))}
+    </StatisticsContainer>
+  );
+};
 
 export default Container;

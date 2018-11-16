@@ -3,9 +3,13 @@ import * as t from 'io-ts';
 import styled from '../../lib/styled-components';
 import * as R from 'ramda';
 
+interface IPageTypeProps {
+  pageType: t.TypeOf<typeof PageType>;
+}
+
 const PageType = t.union([t.literal('CollectionPage'), t.nullType]);
 
-const Count = styled<{ pageType: t.TypeOf<typeof PageType> }, 'h3'>('h3')`
+const Count = styled<IPageTypeProps, 'h3'>('h3')`
   color: white;
   font-size: ${props => props.theme.fontSizes[7]}px;
   font-weight: ${props => props.theme.fontWeight[2]};
@@ -21,7 +25,7 @@ const SectionContainer = styled.section`
   max-width: 150px;
 `;
 
-const Name = styled<{ pageType: t.TypeOf<typeof PageType> }, 'span'>('span')`
+const Name = styled<IPageTypeProps, 'span'>('span')`
   color: white;
   font-size: ${props => props.theme.fontSizes[0]}px;
   font-weight: ${props => props.theme.fontWeight[3]};

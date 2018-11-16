@@ -1,9 +1,12 @@
-import * as React from 'react';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
-import { publicProfile } from './__generated__/publicProfile';
-import * as t from 'io-ts';
+import * as React from "react";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
+import { publicProfile } from "./__generated__/publicProfile";
+import * as t from "io-ts";
+import styled from "../../../lib/styled-components";
 // import R from 'ramda'
+
+const Hey = styled<{ h: number }, "h3">("h3")``;
 
 const GetMyProfile = t.type({
   __typename: t.string,
@@ -22,8 +25,8 @@ const query = gql`
   }
 `;
 
-const Hey: React.SFC<{ id?: string }> = ({
-  id = '0xbfeceC47dD8bf5F6264A9830A9d26ef387c38A67',
+const Lol: React.SFC<{ id?: string }> = ({
+  id = "0xbfeceC47dD8bf5F6264A9830A9d26ef387c38A67",
 }) => (
   <Query<publicProfile> query={query} variables={{ id }}>
     {props => {
@@ -39,12 +42,12 @@ const Hey: React.SFC<{ id?: string }> = ({
           getMyProfile: { username },
         } = RootInterface.decode(props.data).getOrElseL(errors => {
           // console.error(JSON.stringify(errors));
-          throw new Error(errors.join('\n'));
+          throw new Error(errors.join("\n"));
         });
-        return <p>{username}</p>;
+        return <Hey h={1}>{username}</Hey>;
       }
     }}
   </Query>
 );
 
-export default Hey;
+export default Lol;
