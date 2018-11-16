@@ -17,5 +17,9 @@
     "preserveConstEnums": true,
     "sourceMap": true
   },
-  "include": ["components/**/**.tsx", "../kauri-web/lib/theme-config.d.ts"]
+  "include": [
+    "js-stories/**/**.tsx",
+    "components/**/**.tsx",
+    "../kauri-web/lib/theme-config.d.ts"
+  ]
 }
