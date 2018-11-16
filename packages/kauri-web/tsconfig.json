@@ -19,7 +19,8 @@
   },
   "include": [
     "components/**/**.tsx",
-    "lib/**/**.ts",
+    "lib/*",
+    "lib/**/*.ts",
     "components/**/**.ts",
     "typings/*"
   ]
