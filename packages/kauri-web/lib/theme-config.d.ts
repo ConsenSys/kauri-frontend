@@ -1,4 +1,5 @@
 interface IColors {
+  [key: string]: string;
   padding: string;
   paddingTop: string;
   primaryColor: string;
