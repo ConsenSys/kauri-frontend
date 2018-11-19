@@ -40,6 +40,7 @@ const RightSide = styled.div`
   display: flex;
   flex: 1;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
   > button:last-child {
     margin-top: ${props => props.theme.space[3]}px;
@@ -52,7 +53,7 @@ const changeRoute = (
 ) => () => routeChangeAction(`/collection/${id}/update-collection`);
 
 const RuntimeProps = t.interface({
-  description: t.union([t.string, t.undefined]),
+  description: t.string,
   id: t.string,
   linkComponent: t.any,
   name: t.string,
@@ -60,9 +61,9 @@ const RuntimeProps = t.interface({
   routeChangeAction: t.any,
   updated: t.string,
   url: t.string,
-  userAvatar: t.union([t.string, t.undefined]),
+  userAvatar: t.union([t.string, t.null]),
   userId: t.string,
-  username: t.union([t.string, t.undefined]),
+  username: t.union([t.string, t.null]),
 });
 
 type Props = t.TypeOf<typeof RuntimeProps>;

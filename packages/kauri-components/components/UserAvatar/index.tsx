@@ -39,7 +39,7 @@ const Container = styled<IContainerProps, "div">("div")`
 
 interface IAvatarProps {
   variant: "white" | undefined;
-  avatar: string | "none" | undefined;
+  avatar: string | "none" | null;
   color: string;
 }
 
@@ -80,8 +80,8 @@ const ProfileImage = styled<{ avatar: string | "none" }, "div">("div")`
 
 interface IProps {
   color?: string;
-  avatar?: string;
-  username: string | undefined;
+  avatar: string | null;
+  username: string | null;
   userId: string;
   imageURL?: string;
   fullWidth?: boolean;

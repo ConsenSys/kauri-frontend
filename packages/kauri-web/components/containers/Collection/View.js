@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet'
 import slugify from 'slugify'
 import rake from 'rake-js'
 import R from 'ramda'
-import CollectionHeader from '../../../../kauri-components/components/Headers/CollectionHeader.bs'
+import CollectionHeader from '../../../../kauri-components/components/Headers/CollectionHeader'
 import CollectionSection from './CollectionSection.bs'
 import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
 import { Link } from '../../../routes'
@@ -75,6 +75,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       lower: true,
     })}`
 
+    console.log(JSON.stringify(this.props.data.getCollection))
     const resourceType = R.pipe(
       R.path(['data', 'getCollection', 'owner', 'resourceIdentifier', 'type']),
       R.toLower
