@@ -28,6 +28,12 @@ const LeftSide = styled.div`
   flex: 3;
   flex-direction: column;
   color: white;
+  > :nth-child(2) {
+    margin-top: ${props => props.theme.space[1]}px;
+  }
+  > :last-child {
+    margin-top: ${props => props.theme.space[2]}px;
+  }
 `;
 
 const RightSide = styled.div`
@@ -86,7 +92,7 @@ const Container: React.SFC<Props> = props => {
         <ShareArticle url={url} title={name} />
       </LeftSide>
       <RightSide>
-        <Label color="ffffff">Curator</Label>
+        <Label color="white">Curator</Label>
         {linkComponent ? (
           linkComponent(
             <UserAvatar
