@@ -22,7 +22,7 @@ const Statistic = t.type({
 const Statistics = t.array(Statistic);
 
 const RuntimeProps = t.interface({
-  pageType: t.union([PageType, t.nullType]),
+  pageType: t.union([PageType, t.undefined]),
   statistics: Statistics,
 });
 
