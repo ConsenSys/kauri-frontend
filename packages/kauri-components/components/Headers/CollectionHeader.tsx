@@ -83,8 +83,8 @@ const Container: React.SFC<Props> = props => {
         <Label>Updated {moment(updated).fromNow()}</Label>
         <Title1 color="white">{name}</Title1>
         <PageDescription color="white">{description}</PageDescription>
+        <ShareArticle url={url} title={name} />
       </LeftSide>
-      <ShareArticle url={url} title={name} />
       <RightSide>
         <Label color="ffffff">Curator</Label>
         {linkComponent ? (
