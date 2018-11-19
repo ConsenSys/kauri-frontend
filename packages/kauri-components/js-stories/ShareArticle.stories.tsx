@@ -8,11 +8,22 @@ const DummyContainerForTippy = styled.div`
   width: 100%;
 `;
 
-storiesOf("Share Article", module).add("Click for dropdown", () => (
-  <DummyContainerForTippy>
-    <ShareArticle
-      url="https://www.facebook.com/donate/1937650849680964"
-      title="Kauri"
-    />
-  </DummyContainerForTippy>
-));
+storiesOf("Share Article", module)
+  .add("Click for dropdown", () => (
+    <DummyContainerForTippy>
+      <ShareArticle
+        color={"white"}
+        url="https://www.facebook.com/donate/1937650849680964"
+        title="Kauri"
+      />
+    </DummyContainerForTippy>
+  ))
+  .add("textPrimary", () => (
+    <DummyContainerForTippy>
+      <ShareArticle
+        color={"textPrimary"}
+        url="https://www.facebook.com/donate/1937650849680964"
+        title="Kauri"
+      />
+    </DummyContainerForTippy>
+  ));

@@ -54,6 +54,7 @@ const Container: React.SFC<Props> = props => {
       </Title2>
       <Website>{stripWebsite(website)}</Website>
       <ShareArticle
+        color={"white"}
         title={capitalize(name)}
         url={`https://${hostName.replace("api.", "")}/community/${id}`}
       />

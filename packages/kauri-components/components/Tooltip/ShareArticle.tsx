@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as t from "io-ts";
+import { failure } from "io-ts/lib/PathReporter";
 import TertiaryButton from "../Button/TertiaryButton";
 import { Tooltip } from "react-tippy";
 import {
@@ -168,13 +169,14 @@ const RedditIcon = () => (
 );
 
 const RuntimeProps = t.interface({
+  color: t.string,
   title: t.string,
   url: t.string,
 });
 
 type Props = t.TypeOf<typeof RuntimeProps>;
 
-const Content: React.SFC<Props> = ({ url, title }) => (
+const Content: React.SFC<{ title: string; url: string }> = ({ url, title }) => (
   <TooltipContainer>
     <TooltipArrow />
     <LinkedinShareButton url={url} title={title}>
@@ -192,17 +194,26 @@ const Content: React.SFC<Props> = ({ url, title }) => (
   </TooltipContainer>
 );
 
-const Container: React.SFC<Props> = ({ url, title }) => (
-  <ReferenceContainer>
-    <Tooltip
-      html={<Content url={url} title={title} />}
-      position="bottom"
-      trigger="click"
-      unmountHTMLWhenHide={true}
-    >
-      <TertiaryButton icon={icon}>Share</TertiaryButton>
-    </Tooltip>
-  </ReferenceContainer>
-);
+const Container: React.SFC<Props> = props => {
+  const { url, title, color } = RuntimeProps.decode(props).getOrElseL(
+    errors => {
+      throw new Error(failure(errors).join("\n"));
+    }
+  );
+  return (
+    <ReferenceContainer>
+      <Tooltip
+        html={<Content url={url} title={title} />}
+        position="bottom"
+        trigger="click"
+        unmountHTMLWhenHide={true}
+      >
+        <TertiaryButton color={color} icon={icon}>
+          Share
+        </TertiaryButton>
+      </Tooltip>
+    </ReferenceContainer>
+  );
+};
 
 export default Container;

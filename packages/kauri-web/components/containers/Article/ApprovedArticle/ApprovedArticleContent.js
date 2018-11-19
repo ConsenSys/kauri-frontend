@@ -180,6 +180,7 @@ export default ({
           Update article
         </TertiaryButton>
         <ShareArticle
+          color='textPrimary'
           url={`${hostName.replace(
             /api\./g,
             ''

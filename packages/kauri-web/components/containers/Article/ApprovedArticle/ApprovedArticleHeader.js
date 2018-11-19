@@ -103,6 +103,7 @@ export default ({
       <Title1 color='white'>{title}</Title1>
       <MobileShareContainer>
         <ShareArticle
+          color='white'
           url={`${hostName.replace(/api\./g, '')}/article/${id}/${slugify(
             title,
             {
