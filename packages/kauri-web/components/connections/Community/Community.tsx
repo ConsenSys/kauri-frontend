@@ -2,6 +2,8 @@ import * as React from "react";
 import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 import gql from "graphql-tag";
+import moment from "moment";
+import { Query } from "react-apollo";
 import Loading from "../../common/Loading";
 import { ErrorMessage } from "../../../lib/with-apollo-error";
 import { Link } from "../../../routes";
@@ -9,7 +11,6 @@ import styled from "../../../lib/styled-components";
 import CommunityProfile from "../../../../kauri-components/components/Community/CommunityProfile";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
 import Empty from "../../containers/PublicProfile/Empty";
-import { Query } from "react-apollo";
 import {
   searchCommunityArticles,
   searchCommunityArticlesVariables,
@@ -72,14 +73,11 @@ const query = gql`
 
 const CommunityHeader = styled.section`
   display: flex;
-  height: 190px;
+  height: 255px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   background-color: ${props => props.theme.colors.textPrimary};
   padding: 0px ${props => props.theme.padding};
-  > :last-child {
-    margin-right: 136px;
-  }
 `;
 
 const ArticlesSection = styled.section`
@@ -165,7 +163,7 @@ const Container: React.SFC<Props> = props => {
                           linkComponent={linkComponent}
                           title={String(article.title)}
                           content={String(article.content)}
-                          date={article.datePublished}
+                          date={`${moment(article.datePublished).fromNow()}`}
                           username={name}
                           userAvatar={avatar}
                           userId={id}

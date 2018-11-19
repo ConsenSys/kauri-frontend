@@ -98,7 +98,7 @@ export default ({
     <Overlay />
     <InfoContainer>
       <Label color='white'>
-        {moment(datePublished || dateCreated).fromNow()}{' '}
+        {`POSTED ${moment(datePublished || dateCreated).fromNow()}`}
       </Label>
       <Title1 color='white'>{title}</Title1>
       <MobileShareContainer>
