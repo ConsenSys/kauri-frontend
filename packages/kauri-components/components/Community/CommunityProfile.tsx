@@ -1,9 +1,10 @@
 import * as React from "react";
 import * as t from "io-ts";
-import { Title2 } from "../Typography";
 import { failure } from "io-ts/lib/PathReporter";
+import { Title2 } from "../Typography";
 import styled from "../../lib/styled-components";
 import ShareArticle from "../Tooltip/ShareArticle";
+import CommunityAvatar from "./CommunityAvatar";
 
 const CommunityProfileSection = styled.section`
   display: flex;
@@ -29,6 +30,7 @@ const getCommunity = (communityName: string) =>
   communityName === "metamask" ? "MetaMask" : capitalize(communityName);
 
 const RuntimeProps = t.interface({
+  avatar: t.string,
   hostName: t.string,
   id: t.string,
   name: t.string,
@@ -38,15 +40,15 @@ const RuntimeProps = t.interface({
 type Props = t.TypeOf<typeof RuntimeProps>;
 
 const Container: React.SFC<Props> = props => {
-  const { id, hostName, name, website } = RuntimeProps.decode(props).getOrElseL(
-    errors => {
-      throw new Error(failure(errors).join("\n"));
-    }
-  );
+  const { avatar, hostName, id, name, website } = RuntimeProps.decode(
+    props
+  ).getOrElseL(errors => {
+    throw new Error(failure(errors).join("\n"));
+  });
 
   return (
     <CommunityProfileSection>
-      {/* CommunityAvatar */}
+      <CommunityAvatar avatar={avatar} />
       <Title2 textTransform="capitalize" color="white">
         {getCommunity(name)}
       </Title2>
