@@ -33,12 +33,12 @@ export const CollectionsContainer = styled.div`
 
 class Collections extends Component<Props> {
   render() {
-    if (this.props.data.error) {
-      console.log("There was an issue", this.props.data);
+    if (this.props.CollectionQuery.error) {
+      console.log("There was an issue", this.props.CollectionQuery);
       return null;
     } // TODO replace with an error message if exists
 
-    const { searchCollections } = this.props.data;
+    const { searchCollections } = this.props.CollectionQuery;
 
     return (
       <Fragment>
