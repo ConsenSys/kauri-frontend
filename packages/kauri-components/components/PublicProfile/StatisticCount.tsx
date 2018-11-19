@@ -7,7 +7,7 @@ interface IPageTypeProps {
   pageType: t.TypeOf<typeof PageType>;
 }
 
-const PageType = t.union([t.literal('CollectionPage'), t.nullType]);
+const PageType = t.union([t.literal('CollectionPage'), t.undefined]);
 
 const Count = styled<IPageTypeProps, 'h3'>('h3')`
   color: white;
