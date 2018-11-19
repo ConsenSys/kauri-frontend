@@ -1528,6 +1528,13 @@
     "@types/react" "*"
     "@types/webpack" "*"
 
+"@types/react-share@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@types/react-share/-/react-share-2.1.1.tgz#0b6b6c73440f6100745db832d69bb0d639f8ccf4"
+  integrity sha512-xIWTe2lveY2wPJgbxw/DAJgroNLEvXFr9doahGjWIdQdIacB2wBXa4Yiwi6EJI2YWuJi6tN/z43q1rzq+7pdpg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^16.7.3":
   version "16.7.6"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.7.6.tgz#80e4bab0d0731ad3ae51f320c4b08bdca5f03040"
@@ -1552,6 +1559,11 @@
     "@types/node" "*"
     "@types/react" "*"
     csstype "^2.2.0"
+
+"@types/styled-system@^3.0.8":
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/@types/styled-system/-/styled-system-3.0.8.tgz#a544e726e58404bf77d4108ed6c50fa405651c3c"
+  integrity sha512-c1vSmGcLqTUXdcq0QIt7xHPv0EFuVjkGSkEF8j8D7XGUCn8OrR61HdrjwridVcsn8VyAFYHc75Amcx+v0aUH9g==
 
 "@types/tapable@*":
   version "1.0.4"
@@ -2318,19 +2330,19 @@ babel-helper-to-multiple-sequence-expressions@^0.5.0:
   resolved "https://registry.yarnpkg.com/babel-helper-to-multiple-sequence-expressions/-/babel-helper-to-multiple-sequence-expressions-0.5.0.tgz#a3f924e3561882d42fcf48907aa98f7979a4588d"
   integrity sha512-m2CvfDW4+1qfDdsrtf4dwOslQC3yhbgyBFptncp4wvtdrDHqueW7slsYv4gArie056phvQFhT2nRcGS4bnm6mA==
 
-babel-loader@8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.0.0.tgz#c42f2bef268d0d8bb4ceec5d02b540a9055d58a0"
-  integrity sha512-lBUGBz411lSfT+8MHPEaqIVQ44odS1D/wxuTMhijqHc9arZR6jhJEaJa0RpZlCSITZoeK6xoDXTaVTrSoFD7IQ==
+babel-loader@8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.0.2.tgz#2079b8ec1628284a929241da3d90f5b3de2a5ae5"
   dependencies:
     find-cache-dir "^1.0.0"
     loader-utils "^1.0.2"
     mkdirp "^0.5.1"
     util.promisify "^1.0.0"
 
-babel-loader@8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.0.2.tgz#2079b8ec1628284a929241da3d90f5b3de2a5ae5"
+babel-loader@8.0.4:
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.0.4.tgz#7bbf20cbe4560629e2e41534147692d3fecbdce6"
+  integrity sha512-fhBhNkUToJcW9nV46v8w87AJOwAJDz84c1CL57n3Stj73FANM/b9TbCUK4YhdOwEyZ+OxhYpdeZDNzSI29Firw==
   dependencies:
     find-cache-dir "^1.0.0"
     loader-utils "^1.0.2"

@@ -1,4 +1,5 @@
 interface IColors {
+  [key: string]: string;
   padding: string;
   paddingTop: string;
   primaryColor: string;
@@ -32,7 +33,7 @@ type Breakpoints = string[];
 
 type Space = number[];
 
-export default interface IThemeInterface {
+export interface IThemeInterface {
   space: Space;
   fontSizes: FontSizes;
   fontWeight: FontWeight;
@@ -42,3 +43,7 @@ export default interface IThemeInterface {
   padding: string;
   paddingTop: string;
 }
+
+const theme: IThemeInterface;
+
+export default theme;

@@ -77,6 +77,7 @@ class Communities extends Component<Props> {
 
     const pageTitle = 'Discover Communities'
 
+    console.log(searchCommunities)
     return (
       <ContentContainer>
         <Helmet>

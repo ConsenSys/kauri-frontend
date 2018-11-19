@@ -1,4 +1,4 @@
-[@bs.module "./index.js"]
+[@bs.module "./index"]
 external userAvatarComponent: ReasonReact.reactClass = "default";
 
 [@bs.deriving jsConverter]

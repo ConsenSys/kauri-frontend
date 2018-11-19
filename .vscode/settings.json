@@ -2,6 +2,7 @@
   "javascript.validate.enable": false,
   "typescript.validate.enable": true,
   "typescript.suggest.autoImports": true,
+  "javascript.suggest.autoImports": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "json.schemas": [
     {
