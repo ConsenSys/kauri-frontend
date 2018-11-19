@@ -1,22 +1,19 @@
-import Collections from './View.js'
-import { compose, graphql } from 'react-apollo'
-import { getLatestCollections } from '../../../../queries/Collection'
-import { connect } from 'react-redux'
-import { routeChangeAction } from '../../../../lib/Module'
-import withLoading from '../../../../lib/with-loading'
-import withPagination from '../../../../lib/with-pagination'
+import React from "react";
+import List from "./List";
+import Header from "./Header";
+import styled from "styled-components";
 
-const mapStateToProps = (state, ownProps) => {
-  return { hostName: state.app && state.app.hostName }
-}
+const ContentContainer = styled.section`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
 
-export default compose(
-  connect(mapStateToProps, { routeChangeAction }),
-  graphql(getLatestCollections, {
-    options: () => ({
-      variables: {},
-      fetchPolicy: 'no-cache',
-    }),
-  }),
-  withLoading()
-)(withPagination(Collections, "searchCollections"))
+const CollectionDiscover = props => (
+  <ContentContainer>
+    <Header />
+    <List />
+  </ContentContainer>
+);
+
+export default CollectionDiscover;
