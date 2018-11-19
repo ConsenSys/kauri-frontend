@@ -17,8 +17,8 @@ const AvatarContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  height: ${avatarSize} px;
-  width: ${avatarSize} px;
+  height: ${avatarSize}px;
+  width: ${avatarSize}px;
 `;
 
 const RuntimeProps = t.interface({
