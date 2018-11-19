@@ -22,6 +22,8 @@
     "lib/*",
     "lib/**/*.ts",
     "components/**/**.ts",
-    "typings/*"
-  ]
+    "typings/*",
+    "../kauri-components/typings"
+  ],
+  "exclude": []
 }
