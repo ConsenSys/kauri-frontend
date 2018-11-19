@@ -2,10 +2,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import slugify from 'slugify';
+import moment from 'moment';
 import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from '../../CreateRequestForm/CreateRequestHeader';
 import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle';
-import PostedDate from '../../../../../kauri-components/components/Typography/PostedDate.bs';
 import {
+  Label,
   H5,
   Title1,
 } from '../../../../../kauri-components/components/Typography';
@@ -96,10 +97,9 @@ export default ({
   >
     <Overlay />
     <InfoContainer>
-      <PostedDate
-        dateType='FromNow'
-        date_field={datePublished || dateCreated}
-      />
+      <Label color='white'>
+        {moment(datePublished || dateCreated).fromNow()}{' '}
+      </Label>
       <Title1 color='white'>{title}</Title1>
       <MobileShareContainer>
         <ShareArticle
