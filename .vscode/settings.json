@@ -16,6 +16,5 @@
   "reason_language_server.cross_file_as_you_type": true,
   "reason_language_server.dependencies_codelens": true,
   "reason_language_server.per_value_codelens": true,
-  "flow.pathToFlow": "./packages/kauri-web/node_modules/.bin/flow",
-  "C_Cpp.intelliSenseEngineFallback": "Disabled"
+  "flow.pathToFlow": "./packages/kauri-web/node_modules/.bin/flow"
 }
