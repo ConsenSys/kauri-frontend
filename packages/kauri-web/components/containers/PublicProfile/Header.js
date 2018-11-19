@@ -142,7 +142,7 @@ const ProfileHeader = ({
       </Links>
     </DetailsContainer>
     <RightSide>
-      {articles && collections && (
+      {(articles > 0 || (collections && collections.length > 0)) && (
         <StatisticsContainer
           statistics={[
             {

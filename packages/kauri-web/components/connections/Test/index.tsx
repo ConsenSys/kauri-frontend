@@ -4,7 +4,6 @@ import gql from "graphql-tag";
 import { publicProfile } from "./__generated__/publicProfile";
 import * as t from "io-ts";
 import styled from "../../../lib/styled-components";
-// import R from 'ramda'
 
 interface IHeyProps {
   test: number;
