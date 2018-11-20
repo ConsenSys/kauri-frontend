@@ -4,6 +4,7 @@ type ILinkProps = {
   useAnchorTag?: boolean,
   children: any,
   fullWidth?: boolean,
+  toSlug?: string,
 }
 
 export const Link: React.SFC<ILinkProps>

@@ -19,7 +19,7 @@ const Divider = styled.div`
   height: 2px;
   width: 100%;
   background-color: ${props => props.theme.colors.divider};
-  margin: ${props => props.theme.space[3]}px 0px;
+  margin: ${props => props.theme.space[2]}px 0px;
 `;
 
 const UserContainer = styled.div`
@@ -54,13 +54,17 @@ const Container: React.SFC<Props> = props => {
   });
   return (
     <OutlineContainer>
-      <Label>Outline</Label>
-      <List>
-        {headings.map(heading => (
-          <OutlineHeading heading={heading} />
-        ))}
-      </List>
-      <Divider />
+      {Array.isArray(headings) && headings.length > 0 && (
+        <React.Fragment>
+          <Label>Outline</Label>
+          <List>
+            {headings.map(heading => (
+              <OutlineHeading heading={heading} />
+            ))}
+          </List>
+          <Divider />
+        </React.Fragment>
+      )}
       <UserContainer>
         <Label textTransform="uppercase">{text}</Label>
         {linkComponent ? (

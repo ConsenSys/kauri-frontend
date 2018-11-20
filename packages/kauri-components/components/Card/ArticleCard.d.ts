@@ -18,10 +18,10 @@ interface IProps {
   content: string;
   date: string;
   title: string;
-  username: string | undefined;
+  username: string | null;
   userId: string;
-  userAvatar: string;
-  imageURL?: string;
+  userAvatar: string | null;
+  imageURL?: string | undefined | null;
   cardHeight?: number;
   cardWidth?: number;
   linkComponent?: (

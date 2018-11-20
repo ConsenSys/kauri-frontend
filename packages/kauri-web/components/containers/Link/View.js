@@ -1,10 +1,10 @@
 // @flow
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
-import { Router } from '../../../routes'
-import slugify from 'slugify'
+import React, { Fragment } from 'react';
+import styled from 'styled-components';
+import { Router } from '../../../routes';
+import slugify from 'slugify';
 
-import type { TrackAnalyticsPayload } from './Module'
+import type { TrackAnalyticsPayload } from './Module';
 
 type LinkProps = {
   href: string,
@@ -13,7 +13,8 @@ type LinkProps = {
   children: any,
   trackAnalyticsAction: TrackAnalyticsPayload => void,
   fullWidth?: boolean,
-}
+  toSlug?: string,
+};
 
 const A = styled.a`
   text-decoration: none;
@@ -28,35 +29,42 @@ const A = styled.a`
       }
     }
   }
-`
+`;
 
 class Link extends React.Component<LinkProps> {
   handleClick = (e, url) => {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
     // TODO: Uncomment again later
     // this.props.trackAnalyticsAction({ url })
-    this.props.routeChangeAction(url)
-  }
+    this.props.routeChangeAction(url);
+  };
 
   render () {
-    let url = this.props.as || this.props.href || this.props.children.props.href
-    const slug = this.props.toSlug ? slugify(this.props.toSlug, { lower: true }) : null
-    if (slug) url += `/${slug}`
-    const { fullWidth } = this.props
+    let url =
+      this.props.as || this.props.href || this.props.children.props.href;
+    const slug = this.props.toSlug
+      ? slugify(this.props.toSlug, { lower: true })
+      : null;
+    if (slug) url += `/${slug}`;
+    const { fullWidth } = this.props;
 
     if (this.props.useAnchorTag) {
       return (
-        <A href={url} onClick={e => this.handleClick(e, url)} fullWidth={fullWidth}>
+        <A
+          href={url}
+          onClick={e => this.handleClick(e, url)}
+          fullWidth={fullWidth}
+        >
           {this.props.children}
         </A>
-      )
+      );
     }
     return React.cloneElement(this.props.children, {
       onClick: e => this.handleClick(e, url),
-    })
+    });
   }
 }
 
-export default Link
-export { Link }
+export default Link;
+export { Link };

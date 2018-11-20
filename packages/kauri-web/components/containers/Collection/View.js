@@ -6,8 +6,8 @@ import slugify from 'slugify';
 import rake from 'rake-js';
 import R from 'ramda';
 import CollectionHeader from '../../../../kauri-components/components/Headers/CollectionHeader';
-import CollectionSection from './CollectionSection.bs';
-import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount';
+import CollectionSection from './CollectionSection';
+import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount';
 import { Link } from '../../../routes';
 
 type Props = {
@@ -90,7 +90,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       lower: true,
     })}`;
 
-    console.log(JSON.stringify(this.props.data.getCollection));
+    // console.log(JSON.stringify(this.props.data.getCollection));
     const resourceType = R.pipe(
       R.path(['data', 'getCollection', 'owner', 'resourceIdentifier', 'type']),
       R.toLower
