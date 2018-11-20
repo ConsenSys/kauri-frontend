@@ -6,21 +6,24 @@ import { DataValue } from "react-apollo";
 interface IState {
   showLoading: boolean;
   page: number;
-};
+}
 
-
-type PaginationDataQuery = 'searchCommunities' | 'searchCollections' | 'searchArticles'
+type PaginationDataQuery =
+  | "searchCommunities"
+  | "searchCollections"
+  | "searchArticles";
 
 interface IProps {
-  [queryName: string]: {
-    [key in PaginationDataQuery]: { isLast: boolean }
-  } & DataValue<{}>;
-};
+  [queryName: string]: { [key in PaginationDataQuery]: { isLast: boolean } } &
+    DataValue<{}>;
+}
 
-
-const withPagination = (Paginated: React.SFC<any>, key: PaginationDataQuery, queryName: string = 'data') => {
+const withPagination = (
+  Paginated: React.ComponentClass<any>,
+  key: PaginationDataQuery,
+  queryName: string = "data"
+) => {
   class WithPagination extends Component<IProps, IState> {
-
     childRef: HTMLElement | null;
     childRefElement: Element | null;
 
@@ -38,7 +41,10 @@ const withPagination = (Paginated: React.SFC<any>, key: PaginationDataQuery, que
       if (this.childRef) {
         const childRefElement = ReactDOM.findDOMNode(this.childRef);
         this.childRefElement = childRefElement as Element;
-        (childRefElement as Element).addEventListener("scroll", this.handleOnScroll);
+        (childRefElement as Element).addEventListener(
+          "scroll",
+          this.handleOnScroll
+        );
       }
       window.addEventListener("scroll", this.handleOnScroll);
       window.addEventListener("touchend", this.handleOnScroll);
@@ -60,12 +66,14 @@ const withPagination = (Paginated: React.SFC<any>, key: PaginationDataQuery, que
         document.body.scrollHeight;
       const clientHeight =
         (this.childRefElement && this.childRefElement.clientHeight) ||
-        document && document.documentElement && document.documentElement.clientHeight ||
+        (document &&
+          document.documentElement &&
+          document.documentElement.clientHeight) ||
         window.innerHeight;
       const scrolledToBottom =
         Math.ceil(scrollTop + clientHeight + 50) >= scrollHeight;
       if (scrolledToBottom && this.props[queryName][key].isLast !== true) {
-        const nextPage = (this.state.page + 1);
+        const nextPage = this.state.page + 1;
         this.setState({ showLoading: true });
         this.props[queryName].fetchMore({
           updateQuery: (prev, { fetchMoreResult }) => {
@@ -83,7 +91,7 @@ const withPagination = (Paginated: React.SFC<any>, key: PaginationDataQuery, que
                 isLast: fetchMoreResult[key].isLast,
                 totalElements: prev[key].totalElements,
                 totalPages: prev[key].totalPages,
-              }
+              },
             };
             return result;
           },
@@ -95,12 +103,11 @@ const withPagination = (Paginated: React.SFC<any>, key: PaginationDataQuery, que
     };
 
     render() {
+      const setChildRef = (childRef: HTMLElement) => (this.childRef = childRef);
+
       return (
         <Fragment>
-          <Paginated
-            setRef={(childRef: HTMLElement) => (this.childRef = childRef)}
-            {...this.props}
-          />
+          <Paginated setRef={setChildRef} {...this.props} />
           {this.state.showLoading && <Loading />}
         </Fragment>
       );

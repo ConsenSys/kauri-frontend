@@ -1,24 +1,25 @@
-import React from 'react';
-import styled from 'styled-components';
-import { searchCollections } from '../../../../queries/Collection';
-import { Icon, Input, AutoComplete } from 'antd';
-import { Subject } from 'rxjs/Subject';
-import { compose, withApollo } from 'react-apollo';
-import { connect } from 'react-redux';
-import { routeChangeAction } from '../../../../lib/Module';
-import ApolloClient from 'apollo-client';
-
-interface ICollectionType {
-  collection_id: string;
-  subject: string;
-  text: string;
-}
-
-interface IDataSource extends Array<ICollectionType>{}
+import React from "react";
+import styled from "styled-components";
+import { searchCollections } from "../../../../queries/Collection";
+import { Icon, Input, AutoComplete } from "antd";
+import { Subject } from "rxjs/Subject";
+import { compose, withApollo } from "react-apollo";
+import { connect } from "react-redux";
+import { routeChangeAction } from "../../../../lib/Module";
+import { InputProps } from "antd/lib/input/input";
+import ApolloClient from "apollo-client";
+import { SelectValue } from "antd/lib/select";
+import { Subscription } from "rxjs/Subscription";
 
 const Option = AutoComplete.Option;
 
-const SearchInput = styled(Input)`
+interface IAutoResizeProps {
+  autosize: boolean;
+}
+
+const SearchInput = styled<InputProps & IAutoResizeProps>(props => (
+  <Input {...props} />
+))`
   background-color: #262c35 !important;
   .ant-select-selection {
     background-color: transparent;
@@ -46,17 +47,18 @@ const SearchInput = styled(Input)`
 interface ISearchWrapperProps {
   collapsible: boolean;
 }
-const SearchWrapper = styled.div`
+
+const SearchWrapper = styled<ISearchWrapperProps, "div">("div")`
   width: 300px;
   margin-bottom: 64px;
   margin-top: 19px;
   display: grid;
   position: relative;
   > *:not(.certain-category-icon) {
-    opacity: ${(p:ISearchWrapperProps) => (p.collapsible ? "0" : "1")};
+    opacity: ${props => (props.collapsible ? "0" : "1")};
     transition: all 0.3s;
   }
-  &: hover {
+  &:hover {
     > * {
       opacity: 1;
     }
@@ -72,27 +74,40 @@ const IconOverlay = styled(Icon)`
   font-size: 17px;
 `;
 
-const handleSearch$ = new Subject();
+const handleSearch$: Subject<string> = new Subject();
+
+interface ICollectionType {
+  id: string;
+  name: string;
+}
+
+interface IDataSource extends Array<ICollectionType> {}
 
 interface IState {
   dataSource: IDataSource;
-  sub?: any;
-};
+  sub?: Subscription;
+}
 
 interface IProps {
   client: ApolloClient<{}>;
+  routeChangeAction: (route: string) => void;
 }
 
-class Complete extends React.Component<IProps, IState> {
-  state = {
-    dataSource: [],
-  };
+class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
+  constructor(props: IProps & ISearchWrapperProps) {
+    super(props);
+    this.state = {
+      dataSource: [],
+    };
+  }
 
   componentDidMount() {
     const sub = handleSearch$
       .debounceTime(300)
       .flatMap((text: string) =>
-        this.props.client.query({
+        this.props.client.query<{
+          searchCollections: { content: ICollectionType[] };
+        }>({
           fetchPolicy: "no-cache",
           query: searchCollections,
           variables: { filter: { nameContains: text } },
@@ -109,30 +124,35 @@ class Complete extends React.Component<IProps, IState> {
         if (dataSource.length === 0) {
           dataSource = [
             {
-              collection_id: "No collections found",
-              subject: "No collections found",
-              text: "No collections found",
+              id: "No collections found",
+              name: "No collections found",
             },
           ];
         }
-        this.setState({ dataSource });
+        this.setState({ ...this.state, dataSource });
       });
-    this.setState({ sub });
+    this.setState({ ...this.state, sub });
   }
 
+  isSubscription = (v: any): v is Subscription => typeof v === "object";
+
   componentWillUnmount() {
-    this.state.sub.unsubscribe();
+    if (this.state.sub) {
+      this.state.sub.unsubscribe();
+    }
   }
 
   handleSearch = (text: string) => {
     handleSearch$.next(text);
   };
 
-  onSelect = (collectionRoute: string) => {
-    this.props.routeChangeAction(collectionRoute);
+  onSelect = (collectionRoute: SelectValue) => {
+    if (typeof collectionRoute === "string") {
+      this.props.routeChangeAction(collectionRoute);
+    }
   };
 
-  renderOption = (collection: CollectionDTO) =>
+  renderOption = (collection: ICollectionType) =>
     collection.name !== "No collections found" ? (
       <Option
         key={`/collection/${collection.id}`}
@@ -163,11 +183,12 @@ class Complete extends React.Component<IProps, IState> {
           className="global-search"
           size="large"
           style={{ width: "100%", backgroundColor: "transparent" }}
-          dataSource={dataSource.map(this.renderOption)}
+          dataSource={dataSource.map(this.renderOption) as any}
           onSelect={this.onSelect}
           onSearch={this.handleSearch}
         >
           <SearchInput
+            autosize={false}
             style={{ backgroundColor: "transparent" }}
             suffix={<Icon type="search" className="certain-category-icon" />}
           />
