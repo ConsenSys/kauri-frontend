@@ -3,20 +3,7 @@
   "reason": {
     "react-jsx": 2
   },
-  "sources": [
-    {
-      "dir": "components",
-      "subdirs": true
-    },
-    {
-      "dir": "stories",
-      "subdirs": true
-    },
-    {
-      "dir": "lib/bs-storybook",
-      "subdirs": true
-    }
-  ],
+  "sources": [],
   "package-specs": [
     {
       "module": "commonjs",
@@ -25,7 +12,14 @@
   ],
   "suffix": ".bs.js",
   "namespace": true,
-  "bs-dependencies": ["reason-react", "bs-css", "vrroom", "bs-moment", "bs-webapi", "@glennsl/bs-revamp"],
+  "bs-dependencies": [
+    "reason-react",
+    "bs-css",
+    "vrroom",
+    "bs-moment",
+    "bs-webapi",
+    "@glennsl/bs-revamp"
+  ],
   "bsc-flags": ["-bs-super-errors", "-bs-g"],
   "refmt": 3
 }
