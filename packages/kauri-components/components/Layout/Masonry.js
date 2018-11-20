@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 const Column = styled.div`
-  display: flex;
-  align-items: center;
   flex: 1;
   flex-direction: column;
   & > div {
@@ -64,7 +62,7 @@ class Masonry extends Component {
     return (
       <MasonryContainer>
         {columnsArray.map(i => (
-          <Column key={i}>{i}</Column>
+          <Column>{i}</Column>
         ))}
       </MasonryContainer>
     );

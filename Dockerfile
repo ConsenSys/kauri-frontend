@@ -14,7 +14,6 @@ WORKDIR /usr/src/app/packages/kauri-components
 RUN yarn install
 
 WORKDIR /usr/src/app/packages/kauri-web
-RUN node scripts/remove-bsc-debug-flag.js
 RUN yarn install
 RUN npm run build
 
