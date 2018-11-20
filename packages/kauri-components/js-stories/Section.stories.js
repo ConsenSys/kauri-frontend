@@ -13,7 +13,7 @@ import {
   PrimaryButton,
   TertiaryButton,
 } from "../components/Button";
-import ProfileHeaderLabel from "../components/PublicProfile/ProfileHeaderLabel.bs";
+import { Label } from "../components/Typography";
 import StatisticsContainer from "../components/PublicProfile/StatisticsContainer";
 import UserAvatar from "../components/UserAvatar";
 import CuratorHeaderLabel from "../components/Typography/CuratorHeaderLabel";
@@ -98,7 +98,7 @@ storiesOf("Section", module)
   .add("PrimaryHeaderSection", () => (
     <PrimaryHeaderSection>
       <CreateCollectionDetails mb={2}>
-        <ProfileHeaderLabel header="Collection" />
+        <Label>{"Collection"}</Label>
         <Input
           placeHolder="Add collection title"
           fontSize={5}
