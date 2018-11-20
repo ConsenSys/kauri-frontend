@@ -108,6 +108,9 @@ export const searchCommunities = gql`
         website
         avatar
         social
+        approvedId {
+          type
+        }
       }
     }
   }

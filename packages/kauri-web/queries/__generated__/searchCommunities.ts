@@ -1,11 +1,16 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { CommunityFilterInput, CommunityStatus } from "./../../__generated__/globalTypes";
+import { CommunityFilterInput, CommunityStatus, ResourceType } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchCommunities
 // ====================================================
+
+export interface searchCommunities_searchCommunities_content_approvedId {
+  __typename: "ResourceIdentifier";
+  type: ResourceType | null;
+}
 
 export interface searchCommunities_searchCommunities_content {
   __typename: "CommunityDTO";
@@ -19,6 +24,7 @@ export interface searchCommunities_searchCommunities_content {
   website: string | null;
   avatar: string | null;
   social: any | null;
+  approvedId: (searchCommunities_searchCommunities_content_approvedId | null)[] | null;
 }
 
 export interface searchCommunities_searchCommunities {
