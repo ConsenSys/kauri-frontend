@@ -253,49 +253,6 @@ export const totalArticlesCount = gql`
   }
 `;
 
-// TODO: Rewrite approvals
-export const searchPublishedArticleHistory = gql`
-  query searchPublishedArticleHistory($userId: String, $categories: [String]) {
-    searchArticles(
-      filter: {
-        category_in: $categories
-        status_in: [PUBLISHED]
-        moderator_eq: $userId
-      }
-    ) {
-      totalElements
-      isLast
-      content {
-        ...Article
-      }
-    }
-  }
-`;
-
-export const storeArticleOwnershipSignature = gql`
-  mutation storeArticleOwnershipSignature($id: String, $signature: String) {
-    storeArticleOwnershipSignature(id: $id, signature: $signature) {
-      hash
-    }
-  }
-`;
-
-export const storeArticleValidationSignature = gql`
-  mutation storeArticleValidationSignature($id: String, $signature: String) {
-    storeArticleValidationSignature(id: $id, signature: $signature) {
-      hash
-    }
-  }
-`;
-
-export const deleteArticleComment = gql`
-  mutation deleteArticleComment($article_id: String, $comment_id: Int) {
-    deleteArticleComment(id: $article_id, comment_id: $comment_id) {
-      hash
-    }
-  }
-`;
-
 export const searchPersonalArticles = gql`
   query searchPersonalArticles(
     $userId: String

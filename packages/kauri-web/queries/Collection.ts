@@ -83,41 +83,7 @@ export const globalCollectionDetails = gql`
 `;
 
 export const getCollection = globalCollectionDetails;
-
-export const getCollectionForAnalytics = gql`
-  query getCollectionForAnalytics($id: String) {
-    getCollection(id: $id) {
-      id
-      name
-      dateCreated
-      description
-      owner {
-        id
-        name
-      }
-      sections {
-        name
-        description
-        ... on ArticleDTO {
-          id
-          title
-          version
-          authorId
-          author {
-            id
-            name
-          }
-          datePublished
-          status
-        }
-      }
-      resourceIdentifier {
-        type
-        id
-      }
-    }
-  }
-`;
+export const getCollectionForAnalytics = globalCollectionDetails;
 
 export const createCollection = gql`
   mutation createCollection(

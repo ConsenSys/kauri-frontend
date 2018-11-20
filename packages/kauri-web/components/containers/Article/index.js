@@ -2,7 +2,6 @@ import { compose, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import {
   tipArticleAction,
-  deleteArticleCommentAction,
   approveArticleAction,
   rejectArticleAction,
 } from './Module';
@@ -46,7 +45,6 @@ export default compose(
       publishArticleAction,
       openModalAction,
       closeModalAction,
-      deleteArticleCommentAction,
       setNavcolorOverrideAction,
       deleteDraftArticleAction,
     }

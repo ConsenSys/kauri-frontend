@@ -1,7 +1,7 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { ResourceType } from "./../../__generated__/globalTypes";
+import { CollectionFilterInput, ResourceType } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchCollections
@@ -48,6 +48,7 @@ export interface searchCollections_searchCollections_content {
 
 export interface searchCollections_searchCollections {
   __typename: "ResponsePage_CollectionDTO";
+  totalElements: any | null;
   content: (searchCollections_searchCollections_content | null)[] | null;
   isLast: boolean | null;
 }
@@ -57,6 +58,7 @@ export interface searchCollections {
 }
 
 export interface searchCollectionsVariables {
+  filter?: CollectionFilterInput | null;
   size?: number | null;
   page?: number | null;
 }
