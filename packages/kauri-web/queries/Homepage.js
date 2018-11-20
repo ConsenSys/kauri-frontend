@@ -1,4 +1,3 @@
-// @flow
 import gql from 'graphql-tag'
 
 // TODO - Sync with backend once CollectionDTO > owner becomes author
