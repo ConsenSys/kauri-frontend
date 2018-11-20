@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 import Loading from "../components/common/Loading";
-import { ApolloQueryResult } from 'apollo-client';
+import { DataValue } from "react-apollo";
 
 interface IState {
   showLoading: boolean;
@@ -9,15 +9,21 @@ interface IState {
 };
 
 
+type PaginationDataQuery = 'searchCommunities' | 'searchCollections' | 'searchArticles'
+
 interface IProps {
-  [query: string]: ApolloQueryResult<any>;
+  [queryName: string]: {
+    [key in PaginationDataQuery]: { isLast: boolean }
+  } & DataValue<{}>;
 };
 
 
-const withPagination = (Paginated, key: string, queryName: string = 'data') => {
+const withPagination = (Paginated: React.SFC<any>, key: PaginationDataQuery, queryName: string = 'data') => {
   class WithPagination extends Component<IProps, IState> {
+
     childRef: HTMLElement | null;
     childRefElement: Element | null;
+
     constructor(props: IProps) {
       super(props);
       this.state = {

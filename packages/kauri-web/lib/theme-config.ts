@@ -80,4 +80,6 @@ const themeConfig = {
   paddingTop: '2.5em',
 }
 
+export type IThemeInterface = typeof themeConfig
+
 export default themeConfig
