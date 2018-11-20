@@ -23,6 +23,22 @@ export enum ResourceType {
   USER = "USER",
 }
 
+export enum ResourceTypeInput {
+  ARTICLE = "ARTICLE",
+  COLLECTION = "COLLECTION",
+  COMMENT = "COMMENT",
+  COMMUNITY = "COMMUNITY",
+  CURATED_LIST = "CURATED_LIST",
+  REQUEST = "REQUEST",
+  USER = "USER",
+}
+
+export interface ResourceIdentifierInput {
+  id?: string | null;
+  type?: ResourceTypeInput | null;
+  version?: number | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
