@@ -23,7 +23,7 @@ const Image = styled.img`
   width: 46px;
 `;
 
-const ImageContainer = styled.img`
+const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
