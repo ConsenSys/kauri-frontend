@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import CommunitySearch from './CommunitySearch'
 import { Helmet } from 'react-helmet'
-import CommunityCardConnection from '../../../connections/Community/CommunityCard_Connection.bs'
+import CommunityCard from '../../../../../kauri-components/components/Card/CommunityCard'
 import { Link } from '../../../../routes'
 
 type Props = {
@@ -98,7 +98,7 @@ class Communities extends Component<Props> {
           <CommunitiesContainer>
             {searchCommunities.content.map(community => {
               return (
-                <CommunityCardConnection
+                <CommunityCard
                   changeRoute={this.props.routeChangeAction}
                   key={community.id}
                   communityLogo={community.avatar}
