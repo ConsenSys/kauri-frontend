@@ -107,6 +107,7 @@ const typographySpecifications: ITypography[] = [
         font-size: 14px;
         font-weight: bold;
         list-style: circle outside none;
+        color: ${props => props.theme.colors.primary};
       `,
     name: "ListBulletPoint",
   },
