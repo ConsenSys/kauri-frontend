@@ -1,14 +1,13 @@
-// @flow
 import React from 'react'
 import { connect } from 'react-redux'
 import theme from '../../lib/theme-config'
 import { setNavcolorOverrideAction } from '../../lib/Module'
 
-type Props = {
-  setNavcolorOverrideAction: (?string) => void,
+interface IProps {
+  setNavcolorOverrideAction(value: string | null): void;
 }
 
-class Loading extends React.Component<Props> {
+class Loading extends React.Component<IProps> {
   componentDidMount () {
     this.props.setNavcolorOverrideAction(theme.colors.bgPrimary)
   }

@@ -1,23 +1,38 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 import Loading from "../components/common/Loading";
+import { ApolloQueryResult } from 'apollo-client';
 
-const withPagination = (Paginated, key, queryName) => {
-  const query = queryName || "data";
-  class WithPagination extends Component {
-    constructor(props) {
+interface IState {
+  showLoading: boolean;
+  page: number;
+};
+
+
+interface IProps {
+  [query: string]: ApolloQueryResult<any>;
+};
+
+
+const withPagination = (Paginated, key: string, queryName: string = 'data') => {
+  class WithPagination extends Component<IProps, IState> {
+    childRef: HTMLElement | null;
+    childRefElement: Element | null;
+    constructor(props: IProps) {
       super(props);
       this.state = {
         page: 0,
         showLoading: false,
       };
+      this.childRef = null;
+      this.childRefElement = null;
     }
 
     componentDidMount() {
       if (this.childRef) {
         const childRefElement = ReactDOM.findDOMNode(this.childRef);
-        this.childRefElement = childRefElement;
-        childRefElement.addEventListener("scroll", this.handleOnScroll);
+        this.childRefElement = childRefElement as Element;
+        (childRefElement as Element).addEventListener("scroll", this.handleOnScroll);
       }
       window.addEventListener("scroll", this.handleOnScroll);
       window.addEventListener("touchend", this.handleOnScroll);
@@ -39,21 +54,20 @@ const withPagination = (Paginated, key, queryName) => {
         document.body.scrollHeight;
       const clientHeight =
         (this.childRefElement && this.childRefElement.clientHeight) ||
-        document.documentElement.clientHeight ||
+        document && document.documentElement && document.documentElement.clientHeight ||
         window.innerHeight;
       const scrolledToBottom =
         Math.ceil(scrollTop + clientHeight + 50) >= scrollHeight;
-      if (scrolledToBottom && this.props[query][key].isLast !== true) {
-        const nextPage = (this.state.page += 1);
+      if (scrolledToBottom && this.props[queryName][key].isLast !== true) {
+        const nextPage = (this.state.page + 1);
         this.setState({ showLoading: true });
-        this.props.data.fetchMore({
-          variables: {
-            page: nextPage,
-          },
+        this.props[queryName].fetchMore({
           updateQuery: (prev, { fetchMoreResult }) => {
             this.setState({ showLoading: false, page: nextPage });
-            if (!fetchMoreResult) return prev;
-            const result = Object.assign({}, prev, {
+            if (!fetchMoreResult) {
+              return prev;
+            }
+            const result = {
               [key]: {
                 __typename: prev[key].__typename,
                 content: [
@@ -63,9 +77,12 @@ const withPagination = (Paginated, key, queryName) => {
                 isLast: fetchMoreResult[key].isLast,
                 totalElements: prev[key].totalElements,
                 totalPages: prev[key].totalPages,
-              },
-            });
+              }
+            };
             return result;
+          },
+          variables: {
+            page: nextPage,
           },
         });
       }
@@ -73,13 +90,13 @@ const withPagination = (Paginated, key, queryName) => {
 
     render() {
       return (
-        <>
+        <Fragment>
           <Paginated
-            setRef={childRef => (this.childRef = childRef)}
+            setRef={(childRef: HTMLElement) => (this.childRef = childRef)}
             {...this.props}
           />
           {this.state.showLoading && <Loading />}
-        </>
+        </Fragment>
       );
     }
   }

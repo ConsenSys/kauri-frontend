@@ -1,12 +1,20 @@
-// @flow
-import React from "react";
-import styled from "styled-components";
-import { searchCollections } from "../../../../queries/Collection";
-import { Icon, Input, AutoComplete } from "antd";
-import { Subject } from "rxjs/Subject";
-import { compose, withApollo } from "react-apollo";
-import { connect } from "react-redux";
-import { routeChangeAction } from "../../../../lib/Module";
+import React from 'react';
+import styled from 'styled-components';
+import { searchCollections } from '../../../../queries/Collection';
+import { Icon, Input, AutoComplete } from 'antd';
+import { Subject } from 'rxjs/Subject';
+import { compose, withApollo } from 'react-apollo';
+import { connect } from 'react-redux';
+import { routeChangeAction } from '../../../../lib/Module';
+import ApolloClient from 'apollo-client';
+
+interface ICollectionType {
+  collection_id: string;
+  subject: string;
+  text: string;
+}
+
+interface IDataSource extends Array<ICollectionType>{}
 
 const Option = AutoComplete.Option;
 
@@ -35,6 +43,9 @@ const SearchInput = styled(Input)`
   }
 `;
 
+interface ISearchWrapperProps {
+  collapsible: boolean;
+}
 const SearchWrapper = styled.div`
   width: 300px;
   margin-bottom: 64px;
@@ -42,7 +53,7 @@ const SearchWrapper = styled.div`
   display: grid;
   position: relative;
   > *:not(.certain-category-icon) {
-    opacity: ${props => (props.collapsible ? "0" : "1")};
+    opacity: ${(p:ISearchWrapperProps) => (p.collapsible ? "0" : "1")};
     transition: all 0.3s;
   }
   &: hover {
@@ -63,7 +74,16 @@ const IconOverlay = styled(Icon)`
 
 const handleSearch$ = new Subject();
 
-class Complete extends React.Component<any, any> {
+interface IState {
+  dataSource: IDataSource;
+  sub?: any;
+};
+
+interface IProps {
+  client: ApolloClient<{}>;
+}
+
+class Complete extends React.Component<IProps, IState> {
   state = {
     dataSource: [],
   };
@@ -71,7 +91,7 @@ class Complete extends React.Component<any, any> {
   componentDidMount() {
     const sub = handleSearch$
       .debounceTime(300)
-      .flatMap(text =>
+      .flatMap((text: string) =>
         this.props.client.query({
           fetchPolicy: "no-cache",
           query: searchCollections,
@@ -85,13 +105,13 @@ class Complete extends React.Component<any, any> {
           },
         }) => content
       )
-      .subscribe(dataSource => {
+      .subscribe((dataSource: IDataSource) => {
         if (dataSource.length === 0) {
           dataSource = [
             {
               collection_id: "No collections found",
-              text: "No collections found",
               subject: "No collections found",
+              text: "No collections found",
             },
           ];
         }
@@ -124,7 +144,7 @@ class Complete extends React.Component<any, any> {
       </Option>
     ) : (
       <Option
-        disabled
+        disabled={true}
         key={"No collections found"}
         value={"No collections found"}
       >
@@ -158,7 +178,7 @@ class Complete extends React.Component<any, any> {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = () => {
   return {};
 };
 

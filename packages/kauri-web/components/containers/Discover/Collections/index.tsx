@@ -9,7 +9,7 @@ const ContentContainer = styled.section`
   flex-direction: column;
 `;
 
-const CollectionDiscover = props => (
+const CollectionDiscover = () => (
   <ContentContainer>
     <Header />
     <List />

@@ -1,14 +1,13 @@
-// @flow
-const Link = require('./components/containers/Link').default
+export const Link = require('./components/containers/Link').default
 
 const nextRoutes = require('next-routes')
 
 export const Router = nextRoutes().Router
 
-const routes = (module.exports = nextRoutes({
+const routes = nextRoutes({
   Link,
   Router,
-}))
+});
 
 routes
   .add('submit-article', '/request/:request_id/submit-article')
@@ -34,3 +33,6 @@ routes
   .add('view-article-version-with-slug', '/article/:article_id/v:article_version/:slug', 'view-article-version')
   .add('update-collection', '/collection/:id/update-collection', 'update-collection')
   .add('collection-with-slug', '/collection/:collection_id/:slug', 'collection')
+
+
+  export default routes;

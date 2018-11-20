@@ -1,21 +1,18 @@
-// @flow
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment, ReactElement } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-import CollectionSearch from "./CollectionSearch";
-
 import CollectionCard from "../../../../../kauri-components/components/Card/CollectionCard";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
 import moment from "moment";
-import userIdTrim from "../../../../lib/userid-trim";
 
-type Props = {
-  data: {
-    searchCollections: ?Array<CollectionDTO>,
+interface IProps {
+  CollectionQuery: {
+    error: string;
+    searchCollections?: CollectionDTO[],
   },
   hostName: string,
-  routeChangeAction: string => void,
+  routeChangeAction(route: string): void;
 };
 
 export const CollectionsContainer = styled.div`
@@ -31,10 +28,9 @@ export const CollectionsContainer = styled.div`
   }
 `;
 
-class Collections extends Component<Props> {
+class Collections extends Component<IProps> {
   render() {
     if (this.props.CollectionQuery.error) {
-      console.log("There was an issue", this.props.CollectionQuery);
       return null;
     } // TODO replace with an error message if exists
 
@@ -62,7 +58,7 @@ class Collections extends Component<Props> {
             {searchCollections.content.map(collection => {
               const articleCount =
                 collection.sections &&
-                collection.sections.reduce((current, next) => {
+                collection.sections.reduce((current: number, next) => {
                   current += next.resourcesId && next.resourcesId.length;
                   return current;
                 }, 0);
@@ -80,7 +76,7 @@ class Collections extends Component<Props> {
                   articleCount={articleCount}
                   date={moment(collection.dateUpdated).format("D MMM YYYY")}
                   cardHeight={290}
-                  linkComponent={(childrenProps, route) => (
+                  linkComponent={(childrenProps, route: string) => (
                     <Link
                       toSlug={route.includes("collection") && collection.name}
                       useAnchorTag

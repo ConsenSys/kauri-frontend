@@ -12,7 +12,9 @@
   "jsRules": {},
   "rules": {
     "no-submodule-imports": false,
-    "ordered-imports": false
+    "ordered-imports": false,
+    "member-access": [true, "no-public"],
+    "no-var-requires": false,
   },
   "rulesDirectory": []
 }
