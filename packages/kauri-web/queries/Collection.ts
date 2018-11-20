@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export const Collection = gql`
   fragment Collection on CollectionDTO {
@@ -26,7 +26,7 @@ export const Collection = gql`
       id
     }
   }
-`
+`;
 
 export const globalCollectionDetails = gql`
   query getCollection($id: String) {
@@ -80,9 +80,9 @@ export const globalCollectionDetails = gql`
       }
     }
   }
-`
+`;
 
-export const getCollection = globalCollectionDetails
+export const getCollection = globalCollectionDetails;
 
 export const getCollectionForAnalytics = gql`
   query getCollectionForAnalytics($id: String) {
@@ -117,23 +117,41 @@ export const getCollectionForAnalytics = gql`
       }
     }
   }
-`
+`;
 
 export const createCollection = gql`
-  mutation createCollection($name: String, $description: String, $background: String) {
-    createCollection(name: $name, description: $description, background: $background) {
+  mutation createCollection(
+    $name: String
+    $description: String
+    $background: String
+  ) {
+    createCollection(
+      name: $name
+      description: $description
+      background: $background
+    ) {
       hash
     }
   }
-`
+`;
 
 export const editCollection = gql`
-  mutation editCollection($id: String, $name: String, $description: String, $background: String) {
-    createCollection(id: $id, name: $name, description: $description, background: $background) {
+  mutation editCollection(
+    $id: String
+    $name: String
+    $description: String
+    $background: String
+  ) {
+    createCollection(
+      id: $id
+      name: $name
+      description: $description
+      background: $background
+    ) {
       hash
     }
   }
-`
+`;
 
 export const composeCollection = gql`
   mutation composeCollection($id: String, $sections: [SectionDTOInput]) {
@@ -141,10 +159,15 @@ export const composeCollection = gql`
       hash
     }
   }
-`
+`;
 export const getLatestCollections = gql`
   query searchCollections($size: Int = 12, $page: Int = 0) {
-    searchCollections(size: $size, page: $page, sort: "dateUpdated", dir: DESC) {
+    searchCollections(
+      size: $size
+      page: $page
+      sort: "dateUpdated"
+      dir: DESC
+    ) {
       content {
         ...Collection
       }
@@ -153,7 +176,7 @@ export const getLatestCollections = gql`
   }
 
   ${Collection}
-`
+`;
 
 export const searchCollections = gql`
   query searchCollections($filter: CollectionFilterInput) {
@@ -164,10 +187,14 @@ export const searchCollections = gql`
     }
   }
   ${Collection}
-`
+`;
 
 export const getCollectionsForUser = gql`
-  query searchCollections($filter: CollectionFilterInput, $size: Int = 8, $page: Int = 0) {
+  query searchCollections(
+    $filter: CollectionFilterInput
+    $size: Int = 8
+    $page: Int = 0
+  ) {
     searchCollections(filter: $filter, page: $page, size: $size) {
       totalElements
       content {
@@ -177,4 +204,4 @@ export const getCollectionsForUser = gql`
     }
   }
   ${Collection}
-`
+`;

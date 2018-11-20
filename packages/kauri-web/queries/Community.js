@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export const getCommunity = gql`
   query getCommunity($id: String) {
@@ -69,14 +69,11 @@ export const getCommunity = gql`
       }
     }
   }
-`
+`;
 
 export const getAllCommunities = gql`
-  query searchCommunities ($size: Int = 12, $page: Int = 0) {
-    searchCommunities (
-      size: $size
-      page: $page
-    ) {
+  query searchCommunities($size: Int = 12, $page: Int = 0) {
+    searchCommunities(size: $size, page: $page) {
       content {
         id
         dateCreated
@@ -95,7 +92,7 @@ export const getAllCommunities = gql`
       isLast
     }
   }
-`
+`;
 
 export const searchCommunities = gql`
   query searchCommunities($filter: CommunityFilterInput) {
@@ -114,4 +111,4 @@ export const searchCommunities = gql`
       }
     }
   }
-`
+`;

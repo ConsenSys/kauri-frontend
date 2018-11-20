@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 // TODO - Sync with backend once CollectionDTO > owner becomes author
 export const HomePageQuery = gql`
@@ -96,7 +96,10 @@ export const HomePageQuery = gql`
           sections {
             name
             description
-            resourcesId {id type }
+            resourcesId {
+              id
+              type
+            }
           }
         }
         ... on CommunityDTO {
@@ -110,4 +113,4 @@ export const HomePageQuery = gql`
       }
     }
   }
-`
+`;
