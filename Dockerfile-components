@@ -7,7 +7,6 @@ WORKDIR /usr/src/app/packages/kauri-web
 RUN yarn install
 WORKDIR /usr/src/app/packages/kauri-components
 RUN yarn install
-RUN yarn build
 
 EXPOSE 6006
 CMD "yarn" "test:chromatic"
