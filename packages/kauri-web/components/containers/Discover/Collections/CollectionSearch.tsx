@@ -14,7 +14,7 @@ import { Subscription } from "rxjs/Subscription";
 const Option = AutoComplete.Option;
 
 const SearchInput = styled<InputProps>(props => (
-  <Input {...props} />
+  <Input autosize={{ minRows: 1, maxRows: 1 }} {...props} />
 ))`
   background-color: #262c35 !important;
   .ant-select-selection {
@@ -184,7 +184,6 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
           onSearch={this.handleSearch}
         >
           <SearchInput
-            style={{ backgroundColor: "transparent" }}
             suffix={<Icon type="search" className="certain-category-icon" />}
           />
         </AutoComplete>
