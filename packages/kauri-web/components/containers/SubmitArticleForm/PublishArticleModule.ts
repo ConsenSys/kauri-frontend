@@ -36,7 +36,7 @@ export interface IDependencies {
   web3PersonalSign: any;
   getGasPrice: any;
   driverJS: any;
-  personalSign: any;
+  personalSign: (dataToSign: string) => Promise<string>;
 }
 
 interface IAction {
@@ -81,10 +81,10 @@ const CommandOutput = t.interface({
   hash: t.string,
 });
 
-export const PublishArticleEpic: Epic<any, {}, IDependencies> = (
+export const publishArticleEpic: Epic<any, {}, IDependencies> = (
   action$,
   _,
-  { apolloClient, apolloSubscriber }
+  { apolloClient, apolloSubscriber, personalSign }
 ) =>
   action$
     .ofType(PUBLISH_ARTICLE)
@@ -92,7 +92,7 @@ export const PublishArticleEpic: Epic<any, {}, IDependencies> = (
       ({
         payload: { id, version, contentHash, contributor, dateCreated, owner },
       }: IPublishArticleAction) => {
-        const signature = generatePublishArticleHash(
+        const signatureToSign = generatePublishArticleHash(
           id,
           version,
           contentHash,
@@ -100,12 +100,17 @@ export const PublishArticleEpic: Epic<any, {}, IDependencies> = (
           dateCreated
         );
 
-        return Observable.fromPromise<ApolloQueryResult<publishArticle>>(
-          apolloClient.mutate<publishArticle>({
-            mutation: publishArticleMutation,
-            variables: { id, version, signature, owner },
-          })
-        )
+        const articleOwner = owner ? { id: owner.id, type: "USER" } : null;
+
+        return Observable.fromPromise(personalSign(signatureToSign))
+          .mergeMap(signature =>
+            Observable.fromPromise<ApolloQueryResult<publishArticle>>(
+              apolloClient.mutate<publishArticle>({
+                mutation: publishArticleMutation,
+                variables: { id, version, signature, owner: articleOwner },
+              })
+            )
+          )
           .mergeMap(({ data: { publishArticle: publishArticleData } }) =>
             apolloSubscriber<IPublishArticleCommandOutput>(
               CommandOutput.decode(publishArticleData).getOrElseL(errors => {
@@ -147,6 +152,7 @@ export const PublishArticleEpic: Epic<any, {}, IDependencies> = (
                 )
               )
             )
-          );
+          )
+          .catch(err => console.error(err));
       }
     );

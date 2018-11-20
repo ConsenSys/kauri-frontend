@@ -7,7 +7,7 @@ import {
   rejectArticleAction,
 } from './Module';
 import { deleteDraftArticleAction } from './DeleteDraftArticleModule';
-import { publishArticleAction } from './Article_Module.bs';
+import { publishArticleAction } from '../SubmitArticleForm/PublishArticleModule';
 import { getArticle } from '../../../queries/Article';
 import {
   toggleModalAction,
