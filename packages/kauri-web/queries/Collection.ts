@@ -6,7 +6,7 @@ export const Collection = gql`
     name
     description
     background
-    dateCreated
+    dateUpdated
     owner {
       id
       name

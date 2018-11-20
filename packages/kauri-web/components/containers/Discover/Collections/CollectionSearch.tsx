@@ -13,11 +13,7 @@ import { Subscription } from "rxjs/Subscription";
 
 const Option = AutoComplete.Option;
 
-interface IAutoResizeProps {
-  autosize: boolean;
-}
-
-const SearchInput = styled<InputProps & IAutoResizeProps>(props => (
+const SearchInput = styled<InputProps>(props => (
   <Input {...props} />
 ))`
   background-color: #262c35 !important;
@@ -188,7 +184,6 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
           onSearch={this.handleSearch}
         >
           <SearchInput
-            autosize={false}
             style={{ backgroundColor: "transparent" }}
             suffix={<Icon type="search" className="certain-category-icon" />}
           />

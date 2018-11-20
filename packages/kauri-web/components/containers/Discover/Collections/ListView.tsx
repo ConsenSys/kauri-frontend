@@ -1,15 +1,17 @@
-import React, { Component, Fragment, ReactElement } from "react";
+import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
+//@ts-ignore
 import CollectionCard from "../../../../../kauri-components/components/Card/CollectionCard";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
 import moment from "moment";
+import { searchCollections_searchCollections } from '../../../../queries/__generated__/searchCollections';
 
 interface IProps {
   CollectionQuery: {
     error: string;
-    searchCollections?: CollectionDTO[],
+    searchCollections?: searchCollections_searchCollections,
   },
   hostName: string,
   routeChangeAction(route: string): void;
@@ -55,31 +57,32 @@ class Collections extends Component<IProps> {
         </Helmet>
         {searchCollections ? (
           <CollectionsContainer>
-            {searchCollections.content.map(collection => {
+            {searchCollections && searchCollections.content && searchCollections.content.map(collection => {
               const articleCount =
-                collection.sections &&
-                collection.sections.reduce((current: number, next) => {
-                  current += next.resourcesId && next.resourcesId.length;
+                collection && collection.sections &&
+                collection.sections.reduce((current, next) => {
+                  const sectionCount = next && next.resourcesId && next.resourcesId.length || 0;
+                  current += sectionCount;
                   return current;
                 }, 0);
               return (
                 <CollectionCard
                   changeRoute={this.props.routeChangeAction}
-                  key={collection.id}
-                  id={collection.id}
-                  name={collection.name}
-                  description={collection.description}
-                  username={collection.owner && collection.owner.username}
-                  userId={collection.owner && collection.owner.id}
-                  userAvatar={collection.owner && collection.owner.avatar}
-                  imageURL={collection.background}
+                  key={collection && collection.id}
+                  id={collection && collection.id}
+                  name={collection && collection.name}
+                  description={collection && collection.description}
+                  username={collection && collection.owner && collection.owner.username}
+                  userId={collection && collection.owner && collection.owner.id}
+                  userAvatar={collection && collection.owner && collection.owner.avatar}
+                  imageURL={collection && collection.background}
                   articleCount={articleCount}
-                  date={moment(collection.dateUpdated).format("D MMM YYYY")}
+                  date={moment(collection && collection.dateUpdated).format("D MMM YYYY")}
                   cardHeight={290}
-                  linkComponent={(childrenProps, route: string) => (
+                  linkComponent={(childrenProps: Element[], route: string) => (
                     <Link
-                      toSlug={route.includes("collection") && collection.name}
-                      useAnchorTag
+                      toSlug={route.includes("collection") && collection && collection.name}
+                      useAnchorTag={true}
                       href={route}
                     >
                       {childrenProps}

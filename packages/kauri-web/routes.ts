@@ -4,10 +4,10 @@ const nextRoutes = require('next-routes')
 
 export const Router = nextRoutes().Router
 
-const routes = nextRoutes({
+const routes = (module.exports = nextRoutes({
   Link,
   Router,
-});
+}));
 
 routes
   .add('submit-article', '/request/:request_id/submit-article')
@@ -33,6 +33,3 @@ routes
   .add('view-article-version-with-slug', '/article/:article_id/v:article_version/:slug', 'view-article-version')
   .add('update-collection', '/collection/:id/update-collection', 'update-collection')
   .add('collection-with-slug', '/collection/:collection_id/:slug', 'collection')
-
-
-  export default routes;
