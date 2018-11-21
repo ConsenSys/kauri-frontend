@@ -1,6 +1,6 @@
-export type TrackAnalyticsPayload = {
+export interface ITrackAnalyticsPayload {
   url: string,
-};
+}
 
 type TrackingEvent = 'View' | 'Onchain' | 'Offchain';
 
@@ -23,20 +23,20 @@ export type Classification =
       resourceAction: ?string,
     };
 
-export type TrackMixpanelPayload = {
+export interface ITrackMixpanelPayload {
   event: TrackingEvent,
   metaData: Classification,
-};
+}
 
-export type TrackMixpanelAction = {
+export interface ITrackMixpanelAction {
   type: string,
   payload: TrackMixpanelPayload,
-};
+}
 
-export type TrackAnalyticsAction = {
+export interface ITrackAnalyticsAction {
   type: string,
   payload: TrackAnalyticsPayload,
-};
+}
 
 const TRACK_ANALYTICS = 'TRACK_ANALYTICS';
 

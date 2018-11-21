@@ -152,7 +152,6 @@ export const publishArticleEpic: Epic<any, {}, IDependencies> = (
                 )
               )
             )
-          )
-          .catch(err => console.error(err));
+          );
       }
     );
