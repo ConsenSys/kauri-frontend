@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
+import * as t from "io-ts";
+import { failure } from "io-ts/lib/PathReporter";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
@@ -20,6 +22,15 @@ interface IProps {
   hostName: string;
   routeChangeAction(route: string): void;
 }
+
+const Article = t.interface({
+  attributes: t.union([t.any, t.undefined]),
+  content: t.string,
+  dateCreated: t.string,
+  id: t.string,
+  title: t.string,
+  version: t.number,
+});
 
 class Articles extends Component<IProps> {
   render() {
@@ -50,14 +61,20 @@ class Articles extends Component<IProps> {
         searchArticles.content &&
         searchArticles.content.length > 0 ? (
           <Masonry minWidth={310} columns={4}>
-            {searchArticles.content.map(article => {
+            {searchArticles.content.map(undecodedArticle => {
               const resourceType = R.path([
                 "owner",
                 "resourceIdentifier",
                 "type",
-              ])(article);
+              ])(undecodedArticle);
 
-              const owner = article && article.owner;
+              const owner = undecodedArticle && undecodedArticle.owner;
+
+              const article = Article.decode(undecodedArticle).getOrElseL(
+                errors => {
+                  throw new Error(failure(errors).join("m"));
+                }
+              );
 
               return (
                 <ArticleCard
@@ -78,7 +95,13 @@ class Articles extends Component<IProps> {
                         (owner as globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO)
                           .username
                   }
-                  userId={owner ? owner.id : "Anonymous"}
+                  userId={
+                    owner
+                      ? typeof owner.id === "string"
+                        ? owner.id
+                        : "Anoymous"
+                      : "Anonymous"
+                  }
                   userAvatar={owner && owner.avatar}
                   id={article && article.id}
                   version={article && article.version}

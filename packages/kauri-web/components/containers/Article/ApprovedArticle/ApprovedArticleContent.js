@@ -15,7 +15,7 @@ import {
   getHTMLFromMarkdown,
 } from '../../../../lib/markdown-converter-helper';
 import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle';
-import Outline from '../../../../../kauri-components/components/Typography/Outline.bs';
+import Outline from '../../../../../kauri-components/components/Outline';
 import TertiaryButton from '../../../../../kauri-components/components/Button/TertiaryButton';
 import userIdTrim from '../../../../lib/userid-trim';
 

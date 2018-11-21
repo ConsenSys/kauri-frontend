@@ -12,7 +12,7 @@ import Banner from './ApprovedArticleBanner';
 import Footer from './ApprovedArticleFooter';
 import Comments from './ApprovedArticleComments';
 import { hljs } from '../../../../lib/hljs';
-import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs';
+import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount';
 import ScrollToTopButton from '../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton';
 
 import type { TipArticlePayload } from '../Module';
@@ -49,13 +49,13 @@ class ApprovedArticle extends React.Component<Props, State> {
     showBanner: false,
   };
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll('pre code')
     );
   }
 
-  componentDidMount() {
+  componentDidMount () {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll('pre code')
     );
@@ -66,7 +66,7 @@ class ApprovedArticle extends React.Component<Props, State> {
       ? this.setState({ showBanner: status })
       : this.setState({ showBanner: !this.state.showBanner });
 
-  render() {
+  render () {
     const props = this.props;
     if (!props.data.getArticle) return;
     const { title, id, content, attributes } = props.data.getArticle;
@@ -97,43 +97,43 @@ class ApprovedArticle extends React.Component<Props, State> {
       <ArticleContent>
         <Helmet>
           <title>{title} - Kauri</title>
-          <meta name="keywords" content={articleKeywords.map(i => i)} />
+          <meta name='keywords' content={articleKeywords.map(i => i)} />
           <link
-            rel="canonical"
+            rel='canonical'
             href={`${hostName}/article/${id}/${slugify(title, {
               lower: true,
             })}`}
           />
-          <meta name="description" content={description} />
-          <meta property="og:title" content={title} />
-          <meta property="og:site_name" content="kauri.io" />
+          <meta name='description' content={description} />
+          <meta property='og:title' content={title} />
+          <meta property='og:site_name' content='kauri.io' />
           <meta
-            property="og:url"
+            property='og:url'
             content={`${hostName}/article/${id}/${slugify(title, {
               lower: true,
             })}`}
           />
-          <meta property="og:description" content={`${description}...`} />
-          <meta property="og:type" content="article" />
+          <meta property='og:description' content={`${description}...`} />
+          <meta property='og:type' content='article' />
           <meta
-            property="og:image"
+            property='og:image'
             content={
               (attributes && attributes.background && attributes.background) ||
               '/static/images/logo.svg'
             }
           />
-          <meta name="twitter:card" content="summary" />
+          <meta name='twitter:card' content='summary' />
           <meta
-            name="twitter:site"
+            name='twitter:site'
             ccontent={`https://${hostName}/article/${id}/${slugify(title, {
               lower: true,
             })}`}
           />
-          <meta name="twitter:title" content={title} />
-          <meta name="twitter:description" content={`${description}...`} />
-          <meta name="twitter:creator" content="@kauri_io" />
+          <meta name='twitter:title' content={title} />
+          <meta name='twitter:description' content={`${description}...`} />
+          <meta name='twitter:creator' content='@kauri_io' />
           <meta
-            name="twitter:image"
+            name='twitter:image'
             content={
               (attributes && attributes.background && attributes.background) ||
               '/static/images/logo.svg'
@@ -176,8 +176,8 @@ class ApprovedArticle extends React.Component<Props, State> {
             isCommunityOwned
               ? R.path(['data', 'getArticle', 'owner', 'name'])(props)
               : R.path(['data', 'getArticle', 'owner'])(props)
-              ? R.path(['data', 'getArticle', 'owner', 'username'])(props)
-              : R.path(['data', 'getArticle', 'author', 'username'])(props)
+                ? R.path(['data', 'getArticle', 'owner', 'username'])(props)
+                : R.path(['data', 'getArticle', 'author', 'username'])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner

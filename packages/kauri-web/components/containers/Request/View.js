@@ -15,7 +15,7 @@ import DatePosted from '../../common/DatePosted'
 import { Badge, ActionIcon } from '../../common/ActionBadge'
 import { PositiveRequestActionBadge } from '../../common/ActionButton'
 import GreenArrow from '../../common/GreenArrow'
-import UserWidgetSmall from '../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
+import UserAvatar from '../../../../kauri-components/components/UserAvatar'
 import { Link } from '../../../routes'
 
 import type { ToggleModalPayload } from '../../../lib/Module'
@@ -531,7 +531,7 @@ class Request extends Component<Props, State> {
                   <span>REQUESTED BY</span>
                   {/* <Link to=''> */}
                   <Link useAnchorTag route={`/public-profile/${getRequest && getRequest.user_id}`}>
-                    <UserWidgetSmall
+                    <UserAvatar
                       username={(getRequest && getRequest.user && getRequest.user.username) || getRequest.user_id}
                     />
                   </Link>

@@ -2,12 +2,9 @@
   "name": "kauri-components",
   "version": "1.0.0",
   "scripts": {
-    "build": "bsb -make-world",
-    "dev:bs": "bsb -make-world -w",
-    "clean": "bsb -clean-world",
     "start:storybook": "STORYBOOK=true start-storybook -p 6006",
-    "storybook": "concurrently \"npm run build\" \"STORYBOOK=true npm run start:storybook\"",
-    "dev": "concurrently \"npm run dev:bs\" \"STORYBOOK=true npm run start:storybook\"",
+    "storybook": "STORYBOOK=true npm run start:storybook",
+    "dev": "STORYBOOK=true npm run start:storybook",
     "test:chromatic": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006",
     "test:chromatic-auto-accept-changes": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006 --auto-accept-changes",
     "test": "STORYBOOK=true npm run test:chromatic",
@@ -22,14 +19,10 @@
   "license": "MIT",
   "esy": {},
   "dependencies": {
-    "@glennsl/bs-revamp": "^0.1.1",
     "@storybook/addon-knobs": "4.0.7",
     "@storybook/addons": "4.0.7",
     "@storybook/core": "4.0.7",
     "@storybook/react": "4.0.7",
-    "bs-css": "^7.0.1",
-    "bs-moment": "^0.3.0",
-    "bs-webapi": "^0.11.0",
     "dependency-env": "^0.1.1",
     "io-ts": "^1.4.1",
     "moment": "2.20.1",
@@ -87,7 +80,6 @@
     "babel-plugin-transform-imports": "^1.5.0",
     "babel-runtime": "7.0.0-beta.3",
     "bs-platform": "4.0.5",
-    "concurrently": "^3.6.0",
     "eslint": "^5.4.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-standard": "^10.2.1",
@@ -106,14 +98,12 @@
     "husky": "^1.1.2",
     "lint-staged": "^8.0.3",
     "prettier": "^1.15.2",
-    "reason-react": "^0.5.0",
     "storybook-chromatic": "latest",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.16.0",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-react": "^3.6.0",
     "typescript": "^3.1.6",
-    "vrroom": "glennsl/vrroom",
     "webpack": "4.25.1"
   },
   "lint-staged": {
@@ -129,7 +119,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn build && lint-staged && yarn check-types"
+      "pre-commit": "lint-staged && yarn check-types"
     }
   },
   "_registry": "npm",

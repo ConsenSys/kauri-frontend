@@ -5,7 +5,7 @@ import cookie from 'cookie'
 import { Router } from '../routes'
 import { categories } from './theme-config'
 import createReducer from './createReducer'
-import { getMyProfile } from '../queries/Profile_Queries.bs'
+import { getOwnProfile as getMyProfile } from '../queries/User'
 const config = require('../config').default
 
 const { confirm } = Modal

@@ -1,17 +1,20 @@
 // @flow
-import React from 'react'
+import React from 'react';
 import {
   CreateRequestContent as InReviewArticleFormContent,
   CreateRequestContainer as InReviewArticleFormContainer,
-} from '../../CreateRequestForm/CreateRequestContent'
-import { ApprovedArticleDetails as InReviewArticleDetails } from '../ApprovedArticle/ApprovedArticleContent'
-import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
-import userIdTrim from '../../../../lib/userid-trim'
-import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
-import { Link } from '../../../../routes'
-import DescriptionRow from '../../../common/DescriptionRow'
+} from '../../CreateRequestForm/CreateRequestContent';
+import { ApprovedArticleDetails as InReviewArticleDetails } from '../ApprovedArticle/ApprovedArticleContent';
+import {
+  contentStateFromHTML,
+  getHTMLFromMarkdown,
+} from '../../../../lib/markdown-converter-helper';
+import userIdTrim from '../../../../lib/userid-trim';
+import Outline from '../../../../../kauri-components/components/Outline';
+import { Link } from '../../../../routes';
+import DescriptionRow from '../../../common/DescriptionRow';
 
-type Comments = Array<?CommentDTO>
+type Comments = Array<?CommentDTO>;
 
 export default ({
   editorState,
@@ -50,7 +53,10 @@ export default ({
   userId: string,
   userAvatar: ?string,
 }) => {
-  editorState = editorState && typeof editorState === 'string' ? JSON.parse(editorState) : editorState
+  editorState =
+    editorState && typeof editorState === 'string'
+      ? JSON.parse(editorState)
+      : editorState;
 
   const outlineHeadings =
     typeof editorState === 'object' &&
@@ -61,7 +67,9 @@ export default ({
         .filter(block => block.type.includes('header-one'))
         .map(header => header.text)
       : editorState.blocks &&
-        editorState.blocks.filter(block => block.type.includes('header-one')).map(header => header.text))
+        editorState.blocks
+          .filter(block => block.type.includes('header-one'))
+          .map(header => header.text));
 
   return (
     <InReviewArticleFormContent>
@@ -84,5 +92,5 @@ export default ({
         />
       </InReviewArticleDetails>
     </InReviewArticleFormContent>
-  )
-}
+  );
+};

@@ -26,7 +26,7 @@ import {
   rejectArticleEpic,
   approveArticleEpic,
 } from '../components/containers/Article/Module';
-import { publishArticleEpic } from '../components/containers/Article/Article_Module.bs';
+import { publishArticleEpic } from '../components/containers/SubmitArticleForm/PublishArticleModule';
 import {
   submitArticleEpic,
   submitArticleVersionEpic,

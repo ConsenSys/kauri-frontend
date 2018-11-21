@@ -112,7 +112,6 @@ const Container: React.SFC<Props> = props => {
   });
   return (
     <section>
-      {/* <ScrollToTopOnMount></ScrollToTopOnMount> */}
       <CommunityHeader>
         <CommunityProfile
           id={id}
