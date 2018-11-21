@@ -1,8 +1,9 @@
 import * as React from "react";
 import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
+import TextTruncate from "react-text-truncate";
 import styled from "../../lib/styled-components";
-import { Label, BodyCard, Title2 } from "../Typography";
+import { Label, BodyCard, H1 } from "../Typography";
 import BaseCard from "../Card/BaseCard";
 
 const Container = styled<{ cardHeight: number | null }, "section">("section")`
@@ -35,10 +36,9 @@ const ImageContainer = styled.div`
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   height: 50px;
-  padding-bottom: ${props => props.theme.space[2]}px;
 `;
 
 const Content = styled.div`
@@ -51,13 +51,19 @@ const Content = styled.div`
   flex: 1;
   height: 100%;
   overflow: hidden;
+  > :first-child {
+    margin-bottom: ${props => props.theme.space[2]}px;
+  }
+  > h1 {
+    margin-bottom: ${props => props.theme.space[1]}px;
+  }
 `;
 
 const Divider = styled.div`
   height: 2px;
   width: 100%;
   background-color: ${props => props.theme.colors.divider};
-  margin: ${props => props.theme.space[2]}px 0px;
+  margin-top: auto;
 `;
 
 const CountContainer = styled.div`
@@ -86,8 +92,14 @@ const CardContent: React.SFC<ICardContentProps> = ({
           <Image src={communityLogo} />
         </ImageContainer>
       ) : null}
-      <Title2>{communityName}</Title2>
-      <BodyCard>{communityDescription}</BodyCard>
+      <H1>{communityName}</H1>
+      <BodyCard>
+        <TextTruncate
+          line={typeof communityLogo === "string" ? 4 : 2}
+          truncateText="…"
+          text={communityDescription}
+        />
+      </BodyCard>
     </Content>
   </React.Fragment>
 );
