@@ -1,12 +1,12 @@
 // @flow
-import React from 'react'
-import Community from './Community.bs'
+import React from 'react';
+import Community from './Community';
 
 type Props = {
   category: string,
   hostName: string,
   data: { getCommunity: CommunityDTO },
-}
+};
 
 class CommunityConnection extends React.Component<Props> {
   render () {
@@ -19,8 +19,8 @@ class CommunityConnection extends React.Component<Props> {
         category={this.props.category}
         hostName={this.props.hostName}
       />
-    ) : null
+    ) : null;
   }
 }
 
-export default CommunityConnection
+export default CommunityConnection;

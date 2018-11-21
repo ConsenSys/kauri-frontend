@@ -58,6 +58,7 @@ const config = {
       test: [
         './**/*.ts',
         './**/*.tsx',
+        '../kauri-web/lib',
         '../kauri-components/**/**/*.tsx',
         '../kauri-components/**/*.tsx',
         '../kauri-components/**/**/*.ts',

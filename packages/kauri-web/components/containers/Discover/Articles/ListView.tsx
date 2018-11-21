@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
-//@ts-ignore
+// @ts-ignore
 import ArticleCard from '../../../../../kauri-components/components/Card/ArticleCard'
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
@@ -18,6 +18,8 @@ interface IProps {
   hostName: string,
   routeChangeAction(route: string): void;
 };
+
+const 
 
 class Articles extends Component<IProps> {
   render() {
@@ -71,7 +73,7 @@ class Articles extends Component<IProps> {
                   cardHeight={420}
                   imageURL={article && article.attributes && article.attributes.background}
                   linkComponent={(childrenProps: Element[], route: string) => (
-                    <Link toSlug={route.includes('article') && article && article.title} useAnchorTag href={route}>
+                    <Link toSlug={route.includes('article') && article && article.title} useAnchorTag={true} href={route}>
                       {childrenProps}
                     </Link>
                   )}

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-//@ts-ignore
+// @ts-ignore
 import CollectionCard from "../../../../../kauri-components/components/Card/CollectionCard";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";

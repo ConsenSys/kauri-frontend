@@ -1,4 +1,4 @@
-//@flow
+// @flow
 import gql from 'graphql-tag'
 
 export const User = gql`

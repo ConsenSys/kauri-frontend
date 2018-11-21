@@ -14,7 +14,8 @@
     "no-submodule-imports": false,
     "ordered-imports": false,
     "member-access": [true, "no-public"],
-    "no-var-requires": false
+    "no-var-requires": false,
+    "jsx-no-lambda": false
   },
   "rulesDirectory": []
 }

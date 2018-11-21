@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-//@ts-ignore
+// @ts-ignore
 import CommunityCardConnection from '../../../connections/Community/CommunityCard_Connection.bs'
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
@@ -72,7 +72,7 @@ class Communities extends Component<IProps> {
                     '0'
                   }
                   linkComponent={(childrenProps: Element[]) => (
-                    <Link useAnchorTag href={`/community/${community && community.id}`}>
+                    <Link useAnchorTag={true} href={`/community/${community && community.id}`}>
                       {childrenProps}
                     </Link>
                   )}
