@@ -1,4 +1,4 @@
-import { combineEpics } from 'redux-observable';
+import { combineEpics } from "redux-observable";
 import app, {
   showNotificationEpic,
   showConfirmationModalEpic,
@@ -6,52 +6,52 @@ import app, {
   ethUsdPriceEpic,
   userDetailsEpic,
   hideIntroBannerEpic,
-} from './Module';
+} from "./Module";
 import request, {
   flagRequestEpic,
   addRequestCommentEpic,
   addToBountyEpic,
   requestRefundEpic,
   resubmitRequestEpic,
-} from '../components/containers/Requests/Module';
+} from "../components/containers/Requests/Module";
 import createRequests, {
   createRequestEpic,
   updateRequestEpic,
-} from '../components/containers/CreateRequestForm/Module';
+} from "../components/containers/CreateRequestForm/Module";
 import register, {
   registerEpic,
-} from '../components/containers/LoginForm/Module';
+} from "../components/containers/LoginForm/Module";
 import {
   tipArticleEpic,
   rejectArticleEpic,
   approveArticleEpic,
-} from '../components/containers/Article/Module';
-import { publishArticleEpic } from '../components/containers/Article/Article_Module.bs';
+} from "../components/containers/Article/Module";
+import { publishArticleEpic } from "../components/containers/SubmitArticleForm/PublishArticleModule";
 import {
   submitArticleEpic,
   submitArticleVersionEpic,
   editArticleEpic,
   draftArticleEpic,
-} from '../components/containers/SubmitArticleForm/Module';
-import { addCommentEpic } from '../components/containers/Article/CommentArticleForm/Module';
+} from "../components/containers/SubmitArticleForm/Module";
+import { addCommentEpic } from "../components/containers/Article/CommentArticleForm/Module";
 import {
   trackAnalyticsEpic,
   trackMixpanelEpic,
-} from '../components/containers/Link/Module';
+} from "../components/containers/Link/Module";
 import localStorage, {
   startDriverStepsEpic,
   persistStateToLocalStorageEpic,
   finishedDriverStepsEpic,
-} from './LocalStorageModule';
+} from "./LocalStorageModule";
 import {
   createCollectionEpic,
   editCollectionEpic,
   composeCollectionEpic,
-} from '../components/containers/CreateCollectionForm/Module';
-import { saveUserDetailsEpic } from '../components/common/EditProfile/Module';
-import modal from '../../kauri-components/components/Modal/Module';
-import { checkpointArticlesEpic } from '../components/containers/CheckpointArticles/Module';
-import { deleteDraftArticleEpic } from '../components/containers/Article/DeleteDraftArticleModule';
+} from "../components/containers/CreateCollectionForm/Module";
+import { saveUserDetailsEpic } from "../components/common/EditProfile/Module";
+import modal from "../../kauri-components/components/Modal/Module";
+import { checkpointArticlesEpic } from "../components/containers/CheckpointArticles/Module";
+import { deleteDraftArticleEpic } from "../components/containers/Article/DeleteDraftArticleModule";
 
 export const rootReducer = {
   app,

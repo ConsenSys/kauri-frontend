@@ -1,21 +1,21 @@
 // @flow
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import slugify from 'slugify';
-import rake from 'rake-js';
-import R from 'ramda';
-import styled from 'styled-components';
-import Actions from './ApprovedArticleActions';
-import Content from './ApprovedArticleContent';
-import Header from './ApprovedArticleHeader';
-import Banner from './ApprovedArticleBanner';
-import Footer from './ApprovedArticleFooter';
-import Comments from './ApprovedArticleComments';
-import { hljs } from '../../../../lib/hljs';
-import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs';
-import ScrollToTopButton from '../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton';
+import React from "react";
+import { Helmet } from "react-helmet";
+import slugify from "slugify";
+import rake from "rake-js";
+import R from "ramda";
+import styled from "styled-components";
+import Actions from "./ApprovedArticleActions";
+import Content from "./ApprovedArticleContent";
+import Header from "./ApprovedArticleHeader";
+import Banner from "./ApprovedArticleBanner";
+import Footer from "./ApprovedArticleFooter";
+import Comments from "./ApprovedArticleComments";
+import { hljs } from "../../../../lib/hljs";
+import ScrollToTopOnMount from "../../../../../kauri-components/components/ScrollToTopOnMount";
+import ScrollToTopButton from "../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton";
 
-import type { TipArticlePayload } from '../Module';
+import type { TipArticlePayload } from "../Module";
 
 const ArticleContent = styled.section`
   background: white;
@@ -51,18 +51,18 @@ class ApprovedArticle extends React.Component<Props, State> {
 
   componentDidUpdate() {
     R.map(block => hljs.highlightBlock(block))(
-      document.querySelectorAll('pre code')
+      document.querySelectorAll("pre code")
     );
   }
 
   componentDidMount() {
     R.map(block => hljs.highlightBlock(block))(
-      document.querySelectorAll('pre code')
+      document.querySelectorAll("pre code")
     );
   }
 
   toggleBanner = (status?: boolean) =>
-    typeof status === 'boolean'
+    typeof status === "boolean"
       ? this.setState({ showBanner: status })
       : this.setState({ showBanner: !this.state.showBanner });
 
@@ -71,27 +71,27 @@ class ApprovedArticle extends React.Component<Props, State> {
     if (!props.data.getArticle) return;
     const { title, id, content, attributes } = props.data.getArticle;
     const articleContent =
-      content[0] === '{' && JSON.parse(content).markdown
+      content[0] === "{" && JSON.parse(content).markdown
         ? JSON.parse(content).markdown
         : content;
     const articleKeywords = rake(articleContent, {
-      language: 'english',
-      delimiters: ['#', '##', '###', '####', '\n', '\n\n'],
+      language: "english",
+      delimiters: ["#", "##", "###", "####", "\n", "\n\n"],
     });
-    const hostName = `https://${props.hostName.replace(/api\./g, '')}`;
+    const hostName = `https://${props.hostName.replace(/api\./g, "")}`;
 
     const resourceType = R.path([
-      'data',
-      'getArticle',
-      'owner',
-      'resourceIdentifier',
-      'type',
+      "data",
+      "getArticle",
+      "owner",
+      "resourceIdentifier",
+      "type",
     ])(props);
-    const isCommunityOwned = resourceType === 'COMMUNITY';
+    const isCommunityOwned = resourceType === "COMMUNITY";
     const description = articleContent
-      .replace(/\n|\r/g, ' ')
-      .replace(/\u00a0/g, ' ')
-      .replace('#', '')
+      .replace(/\n|\r/g, " ")
+      .replace(/\u00a0/g, " ")
+      .replace("#", "")
       .substring(0, 120);
     return (
       <ArticleContent>
@@ -119,7 +119,7 @@ class ApprovedArticle extends React.Component<Props, State> {
             property="og:image"
             content={
               (attributes && attributes.background && attributes.background) ||
-              '/static/images/logo.svg'
+              "/static/images/logo.svg"
             }
           />
           <meta name="twitter:card" content="summary" />
@@ -136,7 +136,7 @@ class ApprovedArticle extends React.Component<Props, State> {
             name="twitter:image"
             content={
               (attributes && attributes.background && attributes.background) ||
-              '/static/images/logo.svg'
+              "/static/images/logo.svg"
             }
           />
         </Helmet>
@@ -174,10 +174,10 @@ class ApprovedArticle extends React.Component<Props, State> {
           }
           username={
             isCommunityOwned
-              ? R.path(['data', 'getArticle', 'owner', 'name'])(props)
-              : R.path(['data', 'getArticle', 'owner'])(props)
-              ? R.path(['data', 'getArticle', 'owner', 'username'])(props)
-              : R.path(['data', 'getArticle', 'author', 'username'])(props)
+              ? R.path(["data", "getArticle", "owner", "name"])(props)
+              : R.path(["data", "getArticle", "owner"])(props)
+              ? R.path(["data", "getArticle", "owner", "username"])(props)
+              : R.path(["data", "getArticle", "author", "username"])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -194,15 +194,15 @@ class ApprovedArticle extends React.Component<Props, State> {
           address={props.userId}
           hostName={hostName}
           resourceType={
-            typeof resourceType === 'string' && R.toLower(resourceType)
+            typeof resourceType === "string" && R.toLower(resourceType)
           }
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.attributes}
-          articleCheckpointed={R.path(['data', 'getArticle', 'checkpoint'])(
+          articleCheckpointed={R.path(["data", "getArticle", "checkpoint"])(
             props
           )}
-          status={R.path(['data', 'getArticle', 'status'])(props)}
+          status={R.path(["data", "getArticle", "status"])(props)}
           ownerId={
             props.data.getArticle &&
             props.data.getArticle.owner &&

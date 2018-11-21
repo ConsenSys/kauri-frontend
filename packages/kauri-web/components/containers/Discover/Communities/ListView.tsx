@@ -1,20 +1,21 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
+import * as t from "io-ts";
+import { failure } from "io-ts/lib/PathReporter";
 import { Helmet } from "react-helmet";
-// @ts-ignore
-import CommunityCardConnection from '../../../connections/Community/CommunityCard_Connection.bs'
+import CommunityCard from "../../../../../kauri-components/components/Card/CommunityCard";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
-import { searchCommunities_searchCommunities } from '../../../../queries/__generated__/searchCommunities';
+import { searchCommunities_searchCommunities } from "../../../../queries/__generated__/searchCommunities";
 
 interface IProps {
   CommunityQuery: {
     error: string;
-    searchCommunities?: searchCommunities_searchCommunities,
-  },
-  hostName: string,
+    searchCommunities?: searchCommunities_searchCommunities;
+  };
+  hostName: string;
   routeChangeAction(route: string): void;
-};
+}
 
 export const CommunitiesContainer = styled.div`
   display: flex;
@@ -28,6 +29,18 @@ export const CommunitiesContainer = styled.div`
     margin: 15px;
   }
 `;
+
+const Resource = t.interface({
+  type: t.string,
+});
+
+const Community = t.interface({
+  approvedId: t.array(Resource),
+  avatar: t.string,
+  description: t.string,
+  id: t.string,
+  name: t.string,
+});
 
 class Communities extends Component<IProps> {
   render() {
@@ -56,29 +69,49 @@ class Communities extends Component<IProps> {
         </Helmet>
         {searchCommunities ? (
           <CommunitiesContainer>
-            {searchCommunities && searchCommunities.content && searchCommunities.content.map(community => {
-              return (
-                <CommunityCardConnection
-                  changeRoute={this.props.routeChangeAction}
-                  key={community && community.id}
-                  communityLogo={community && community.avatar}
-                  communityName={community && community.name}
-                  communityDescription={community && community.description ? community.description.split('.')[0] : ''}
-                  communityId={community && community.id}
-                  cardHeight={290}
-                  articles={
-                    (Array.isArray(community && community.approvedId) &&
-                      String(community && community.approvedId && community.approvedId.map(resource => resource && resource.type === 'ARTICLE').length)) ||
-                    '0'
-                  }
-                  linkComponent={(childrenProps: Element[]) => (
-                    <Link useAnchorTag={true} href={`/community/${community && community.id}`}>
-                      {childrenProps}
-                    </Link>
-                  )}
-                />
-              )
-            })}
+            {searchCommunities &&
+              searchCommunities.content &&
+              searchCommunities.content.map(undecodedCommunity => {
+                const community = Community.decode(
+                  undecodedCommunity
+                ).getOrElseL(errors => {
+                  throw new Error(failure(errors).join("\n"));
+                });
+
+                return (
+                  <CommunityCard
+                    key={community.id}
+                    communityLogo={community && community.avatar}
+                    communityName={community && community.name}
+                    communityDescription={
+                      community && community.description
+                        ? community.description.split(".")[0]
+                        : ""
+                    }
+                    cardHeight={290}
+                    articles={
+                      (Array.isArray(community && community.approvedId) &&
+                        String(
+                          community &&
+                            community.approvedId &&
+                            community.approvedId.map(
+                              resource =>
+                                resource && resource.type === "ARTICLE"
+                            ).length
+                        )) ||
+                      "0"
+                    }
+                    linkComponent={(childrenProps: React.ReactElement<any>) => (
+                      <Link
+                        useAnchorTag={true}
+                        href={`/community/${community && community.id}`}
+                      >
+                        {childrenProps}
+                      </Link>
+                    )}
+                  />
+                );
+              })}
           </CommunitiesContainer>
         ) : (
           <Loading />

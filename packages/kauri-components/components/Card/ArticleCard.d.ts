@@ -13,15 +13,15 @@ interface IViewActionPayload {
 }
 
 interface IProps {
-  id: string | null;
-  version: number | null;
-  content: string | null;
+  id: string;
+  version: number;
+  content: string;
   date: string;
-  title: string | null;
+  title: string;
   username: string | null;
-  userId: string | null;
+  userId: string;
   userAvatar: string | null;
-  imageURL?: string;
+  imageURL?: string | undefined | null;
   cardHeight?: number;
   cardWidth?: number;
   linkComponent?: (
@@ -33,7 +33,7 @@ interface IProps {
   viewAction?: (IViewActionPayload) => void;
   isChosenArticle?: boolean;
   resourceType: string | null;
-  changeRoute?: (route: string) => void; 
+  changeRoute?: (route: string) => void;
 }
 
 declare const ArticleCard: React.SFC<IProps>;

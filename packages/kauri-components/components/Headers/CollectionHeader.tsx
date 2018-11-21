@@ -115,7 +115,7 @@ const Container: React.SFC<Props> = props => {
         )}
         {userId === ownerId ? (
           <PrimaryButton onClick={changeRoute(routeChangeAction, id)}>
-            "Update Collection
+            Update Collection
           </PrimaryButton>
         ) : null}
       </RightSide>

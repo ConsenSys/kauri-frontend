@@ -1,27 +1,27 @@
-import { compose, graphql } from 'react-apollo';
-import { connect } from 'react-redux';
+import { compose, graphql } from "react-apollo";
+import { connect } from "react-redux";
 import {
   tipArticleAction,
   approveArticleAction,
   rejectArticleAction,
-} from './Module';
-import { deleteDraftArticleAction } from './DeleteDraftArticleModule';
-import { publishArticleAction } from './Article_Module.bs';
-import { getArticle } from '../../../queries/Article';
+} from "./Module";
+import { deleteDraftArticleAction } from "./DeleteDraftArticleModule";
+import { publishArticleAction } from "../SubmitArticleForm/PublishArticleModule";
+import { getArticle } from "../../../queries/Article";
 import {
   toggleModalAction,
   routeChangeAction,
   setNavcolorOverrideAction,
-} from '../../../lib/Module';
-import { addCommentAction } from '../AddCommentForm/Module';
-import withLoading from '../../../lib/with-loading';
-import withApolloError from '../../../lib/with-apollo-error';
-import { addToBountyAction } from '../Requests/Module';
+} from "../../../lib/Module";
+import { addCommentAction } from "../AddCommentForm/Module";
+import withLoading from "../../../lib/with-loading";
+import withApolloError from "../../../lib/with-apollo-error";
+import { addToBountyAction } from "../Requests/Module";
 import {
   closeModalAction,
   openModalAction,
-} from '../../../../kauri-components/components/Modal/Module';
-import View from './View';
+} from "../../../../kauri-components/components/Modal/Module";
+import View from "./View";
 
 const mapStateToProps = (state, ownProps) => ({
   ethUsdPrice: state.app.ethUsdPrice,

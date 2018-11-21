@@ -1,16 +1,16 @@
 // @flow
-import React from 'react';
-import R from 'ramda';
-import { EditorState, ContentState } from 'draft-js';
-import Actions from './InReviewArticleActions';
-import Header from './InReviewArticleHeader';
-import Content from './InReviewArticleContent';
-import Footer from '../ApprovedArticle/ApprovedArticleFooter';
-import NetworkBanner from '../../StyledFooter/NetworkBanner';
-import { hljs } from '../../../../lib/hljs';
-import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs';
-import ScrollToTopButton from '../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton';
-import theme from '../../../../lib/theme-config';
+import React from "react";
+import R from "ramda";
+import { EditorState, ContentState } from "draft-js";
+import Actions from "./InReviewArticleActions";
+import Header from "./InReviewArticleHeader";
+import Content from "./InReviewArticleContent";
+import Footer from "../ApprovedArticle/ApprovedArticleFooter";
+import NetworkBanner from "../../StyledFooter/NetworkBanner";
+import { hljs } from "../../../../lib/hljs";
+import ScrollToTopOnMount from "../../../../../kauri-components/components/ScrollToTopOnMount";
+import ScrollToTopButton from "../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton";
+import theme from "../../../../lib/theme-config";
 
 type Props =
   | {
@@ -72,7 +72,7 @@ class InReviewArticle extends React.Component<Props, State> {
   componentDidMount() {
     this.props.setNavcolorOverrideAction(theme.colors.bgPrimary);
     R.map(block => hljs.highlightBlock(block))(
-      document.querySelectorAll('pre code')
+      document.querySelectorAll("pre code")
     );
   }
 
@@ -83,7 +83,7 @@ class InReviewArticle extends React.Component<Props, State> {
   componentDidUpdate() {
     this.props.setNavcolorOverrideAction(theme.colors.bgPrimary);
     R.map(block => hljs.highlightBlock(block))(
-      document.querySelectorAll('pre code')
+      document.querySelectorAll("pre code")
     );
   }
 

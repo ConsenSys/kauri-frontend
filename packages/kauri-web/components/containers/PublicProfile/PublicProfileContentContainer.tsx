@@ -7,7 +7,7 @@ const ContentContainer = styled.div`
   flex: 1;
   flex-wrap: wrap;
   padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
-  padding-bottom: 0;
+  padding-top: 0px;
 `;
 
 export default ContentContainer;
