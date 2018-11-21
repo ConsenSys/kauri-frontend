@@ -1,3 +1,4 @@
+/* tslint:disable */
 export const metamask = {
   borderColor: "#93949D",
   description: `MetaMask is a bridge that allows you to visit the distributed web of tomorrow in your browser today. It allows you to run Ethereum dApps right in your browser without running a full Ethereum node.`,
@@ -187,6 +188,18 @@ const themeConfig = {
   ...colors, // TODO: Deprecate across the app
   padding: "calc((100vw - 1280px) / 2)",
   paddingTop: "2.5em",
+  // categories for stories
+  aragon,
+  dharma,
+  ens,
+  kauri,
+  makerdao,
+  metamask,
+  // ethereum,
+  remix,
+  toshi,
+  uport,
+  zeppelin,
 };
 
 export type IThemeInterface = typeof themeConfig;
