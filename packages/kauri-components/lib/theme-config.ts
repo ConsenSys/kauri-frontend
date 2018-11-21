@@ -1,4 +1,8 @@
-import theme, { IThemeInterface } from "../../kauri-web/lib/theme-config";
+import theme, {
+  IThemeInterface,
+  metamask,
+  categories,
+} from "../../kauri-web/lib/theme-config";
 
 export default theme;
-export { IThemeInterface };
+export { IThemeInterface, metamask, categories };
