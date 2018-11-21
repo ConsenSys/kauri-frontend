@@ -13,9 +13,9 @@ interface IViewActionPayload {
 }
 
 interface IProps {
-  id: string | null;
-  version: number | null;
-  content: string | null;
+  id: string;
+  version: number;
+  content: string;
   date: string;
   title: string;
   username: string | null;

@@ -87,7 +87,7 @@ const Component: React.SFC<Props> = props => {
             <ArticleCard
               key={article.id}
               id={article.id}
-              version={String(article.version)}
+              version={article.version}
               content={article.content}
               date={moment(article.datePublished).format("D MMM YYYY")}
               title={article.title}

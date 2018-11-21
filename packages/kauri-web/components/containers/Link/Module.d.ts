@@ -1,58 +1,58 @@
 export interface ITrackAnalyticsPayload {
-  url: string,
+  url: string;
 }
 
-type TrackingEvent = 'View' | 'Onchain' | 'Offchain';
+type TrackingEvent = "View" | "Onchain" | "Offchain";
 
 type Resource =
-  | 'request'
-  | 'article'
-  | 'community'
-  | 'kauri'
-  | 'collection'
-  | 'public-profile';
+  | "request"
+  | "article"
+  | "community"
+  | "kauri"
+  | "collection"
+  | "public-profile";
 
 export type Classification =
   | {
-      page: string,
+      page: string;
     }
   | {
-      resource: Resource | string,
-      resourceID?: string,
-      resourceVersion?: string,
-      resourceAction: ?string,
+      resource: Resource | string;
+      resourceID?: string;
+      resourceVersion?: string;
+      resourceAction: string | null;
     };
 
 export interface ITrackMixpanelPayload {
-  event: TrackingEvent,
-  metaData: Classification,
+  event: TrackingEvent;
+  metaData: Classification;
 }
 
 export interface ITrackMixpanelAction {
-  type: string,
-  payload: TrackMixpanelPayload,
+  payload: TrackMixpanelPayload;
+  type: string;
 }
 
 export interface ITrackAnalyticsAction {
-  type: string,
-  payload: TrackAnalyticsPayload,
+  payload: TrackAnalyticsPayload;
+  type: string;
 }
 
-const TRACK_ANALYTICS = 'TRACK_ANALYTICS';
+const TRACK_ANALYTICS = "TRACK_ANALYTICS";
 
-const TRACK_MIXPANEL = 'TRACK_MIXPANEL';
+const TRACK_MIXPANEL = "TRACK_MIXPANEL";
 
 export const trackAnalyticsAction = (
   payload: TrackAnalyticsPayload
 ): TrackAnalyticsAction => ({
-  type: TRACK_ANALYTICS,
   payload,
+  type: TRACK_ANALYTICS,
 });
 
 export const trackMixpanelAction = (
   payload: TrackMixpanelPayload,
   callback: any
 ): TrackMixpanelAction => ({
-  type: TRACK_MIXPANEL,
   payload,
+  type: TRACK_MIXPANEL,
 });
