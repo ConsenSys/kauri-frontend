@@ -24,7 +24,6 @@ import register, {
 import {
   tipArticleEpic,
   rejectArticleEpic,
-  deleteArticleCommentEpic,
   approveArticleEpic,
 } from '../components/containers/Article/Module';
 import { publishArticleEpic } from '../components/containers/SubmitArticleForm/PublishArticleModule';
@@ -84,7 +83,6 @@ const epics = [
   rejectArticleEpic,
   requestRefundEpic,
   resubmitRequestEpic,
-  deleteArticleCommentEpic,
   trackAnalyticsEpic,
   trackMixpanelEpic,
   startDriverStepsEpic,

@@ -13,9 +13,9 @@ interface IViewActionPayload {
 }
 
 interface IProps {
-  id: string;
-  version: string;
-  content: string;
+  id: string | null;
+  version: number | null;
+  content: string | null;
   date: string;
   title: string;
   username: string | null;
@@ -32,7 +32,8 @@ interface IProps {
   hoverAction?: (IHoverActionPayload) => void;
   viewAction?: (IViewActionPayload) => void;
   isChosenArticle?: boolean;
-  resourceType: "article" | "community";
+  resourceType: string | null;
+  changeRoute?: (route: string) => void;
 }
 
 declare const ArticleCard: React.SFC<IProps>;

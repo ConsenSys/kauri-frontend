@@ -20,20 +20,3 @@ import "rxjs/add/operator/ignoreElements";
 import "rxjs/add/operator/delay";
 import "rxjs/add/operator/take";
 import "rxjs/add/operator/toPromise";
-// import {
-//   filter,
-//   reduce,
-//   map,
-//   mapTo,
-//   concat,
-//   combineAll,
-//   mergeMap,
-//   mergeMapTo,
-//   switchMap,
-//   _do,
-//   _catch,
-//   ignoreElements,
-//   delay,
-//   take,
-//   toPromise,
-// } from 'rxjs/operator'

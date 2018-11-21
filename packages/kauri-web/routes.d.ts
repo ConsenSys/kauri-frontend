@@ -1,3 +1,5 @@
+import * as React from "react";
+
 interface ILinkProps {
   href: string;
   as?: string;

@@ -7,3 +7,5 @@ export function showNotificationAction(payload: {
 }): void;
 
 export function routeChangeAction(url: string): void;
+
+export const setNavcolorOverrideAction = any;
