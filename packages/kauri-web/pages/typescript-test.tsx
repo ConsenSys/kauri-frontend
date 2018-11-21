@@ -5,7 +5,7 @@ import App from '../layouts/App';
 import Test from '../components/connections/Test';
 
 class TypescriptTest extends React.Component<{}> {
-  public render() {
+  render() {
     return (
       <App>
         <Test />

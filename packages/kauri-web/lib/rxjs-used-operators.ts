@@ -17,6 +17,7 @@ import 'rxjs/add/operator/ignoreElements'
 import 'rxjs/add/operator/delay'
 import 'rxjs/add/operator/take'
 import 'rxjs/add/operator/toPromise'
+import 'rxjs/add/operator/debounceTime'
 // import {
 //   filter,
 //   reduce,

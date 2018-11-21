@@ -1,4 +1,4 @@
-type ILinkProps = {
+interface ILinkProps {
   href: string,
   as?: ?string,
   useAnchorTag?: boolean,

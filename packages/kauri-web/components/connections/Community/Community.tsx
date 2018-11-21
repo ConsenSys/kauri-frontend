@@ -155,7 +155,7 @@ const Container: React.SFC<Props> = props => {
                         <ArticleCard
                           key={String(article.id)}
                           id={String(article.id)}
-                          version={String(article.version)}
+                          version={Number(article.version)}
                           cardHeight={420}
                           imageURL={
                             article.attributes && article.attributes.background

@@ -107,6 +107,7 @@ const typographySpecifications: ITypography[] = [
         font-size: 14px;
         font-weight: bold;
         list-style: circle outside none;
+        color: ${props => props.theme.colors.primary};
       `,
     name: "ListBulletPoint",
   },
@@ -153,6 +154,7 @@ interface ITypographyProps {
   hoverColor?: string;
   textAlign?: string;
   color?: string;
+  onClick?: any;
 }
 
 let typography = {};
@@ -171,6 +173,7 @@ typographySpecifications.map(
     const styledComponent =
       typeof as === "string"
         ? styled<ITypographyProps, typeof as>(as)`
+            color: ${props => props.theme.colors[props.color || color]};
             margin: 0px;
             font-weight: ${fontWeight};
             font-size: ${fontSize}px;
@@ -179,15 +182,15 @@ typographySpecifications.map(
             text-align: ${props => props.textAlign};
             :hover {
               color: ${props =>
-                typeof props.hoverColor === "string" &&
-                props.theme.colors[
-                  props.hoverColor ||
-                    (typeof hoverColor === "string" ? hoverColor : "")
-                ]};
+                typeof props.hoverColor === "string"
+                  ? props.theme.colors[props.hoverColor]
+                  : props.theme.colors[
+                      typeof hoverColor === "string" ? hoverColor : ""
+                    ]};
               cursor: ${props =>
-                typeof props.hoverColor === "string" && "pointer"};
+                (typeof props.hoverColor === "string" || hoverColor) &&
+                "pointer"};
             }
-            color: ${props => props.theme.colors[props.color || color]};
           `
         : component;
 
