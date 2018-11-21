@@ -1,25 +1,25 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import theme from '../../lib/theme-config'
-import { setNavcolorOverrideAction } from '../../lib/Module'
+import * as React from "react";
+import { connect } from "react-redux";
+import theme from "../../lib/theme-config";
+import { setNavcolorOverrideAction } from "../../lib/Module";
 
 interface IProps {
   setNavcolorOverrideAction(value: string | null): void;
 }
 
-class Loading extends React.Component<IProps> {
-  componentDidMount () {
-    this.props.setNavcolorOverrideAction(theme.colors.bgPrimary)
+class LoadingComponent extends React.Component<IProps> {
+  componentDidMount() {
+    this.props.setNavcolorOverrideAction(theme.colors.bgPrimary);
   }
 
-  componentWillUnmount () {
-    this.props.setNavcolorOverrideAction(null)
+  componentWillUnmount() {
+    this.props.setNavcolorOverrideAction(null);
   }
 
-  render () {
+  render() {
     return (
       <React.Fragment>
-        <style type='text/css'>
+        <style type="text/css">
           {`
         .centered-wrapper{
           display: flex;
@@ -84,8 +84,8 @@ class Loading extends React.Component<IProps> {
         }
         `}
         </style>
-        <div className='centered-wrapper'>
-          <div className='lds-ellipsis'>
+        <div className="centered-wrapper">
+          <div className="lds-ellipsis">
             <div />
             <div />
             <div />
@@ -93,11 +93,11 @@ class Loading extends React.Component<IProps> {
           </div>
         </div>
       </React.Fragment>
-    )
+    );
   }
 }
 
 export default connect(
   () => ({}),
   { setNavcolorOverrideAction }
-)(Loading)
+)(LoadingComponent);

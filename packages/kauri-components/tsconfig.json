@@ -18,10 +18,11 @@
     "sourceMap": true
   },
   "include": [
-    "js-stories/**/**.tsx",
-    "components/**/**.tsx",
-    "../kauri-web/lib",
-    "lib/*",
-    "typings/*"
+    "js-stories",
+    "components",
+    "../kauri-web/lib/theme-config.ts",
+    "../kauri-web/typings",
+    "lib",
+    "typings"
   ]
 }

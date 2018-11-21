@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import * as React from "react";
 import ReactDOM from "react-dom";
 import Loading from "../components/common/Loading";
 import { DataValue } from "react-apollo";
@@ -23,7 +23,7 @@ const withPagination = (
   key: PaginationDataQuery,
   queryName: string = "data"
 ) => {
-  class WithPagination extends Component<IProps, IState> {
+  class WithPagination extends React.Component<IProps, IState> {
     childRef: HTMLElement | null;
     childRefElement: Element | null;
 
@@ -106,10 +106,10 @@ const withPagination = (
       const setChildRef = (childRef: HTMLElement) => (this.childRef = childRef);
 
       return (
-        <Fragment>
+        <React.Fragment>
           <Paginated setRef={setChildRef} {...this.props} />
           {this.state.showLoading && <Loading />}
-        </Fragment>
+        </React.Fragment>
       );
     }
   }
