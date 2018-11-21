@@ -25,4 +25,4 @@ bs-ppx-css
 .bsb.lock
 esy.lock
 Dockerfile-local
-yarn.lock
+/yarn.lock
