@@ -1,13 +1,13 @@
 // @flow
-import React from 'react';
-import { EditorState, ContentState } from 'draft-js';
-import SharedEditor from '../../common/SharedEditor';
-import styled from 'styled-components';
+import React from "react";
+import { EditorState, ContentState } from "draft-js";
+import SharedEditor from "../../common/SharedEditor";
+import styled from "styled-components";
 import {
   CreateRequestContent as SubmitArticleFormContent,
   CreateRequestContainer as SubmitArticleFormContainer,
-} from '../CreateRequestForm/CreateRequestContent';
-import type { EditArticlePayload, SubmitArticlePayload } from './Module';
+} from "../CreateRequestForm/CreateRequestContent";
+import type { EditArticlePayload, SubmitArticlePayload } from "./Module";
 
 type Props =
   | any
@@ -32,7 +32,7 @@ type State = {
 };
 
 class SubmitArticleFormText extends React.Component<Props, State> {
-  constructor (props) {
+  constructor(props) {
     super(props);
     if (props.text) {
       const rawData = ContentState.createFromText(
@@ -46,14 +46,14 @@ class SubmitArticleFormText extends React.Component<Props, State> {
     } else {
       this.state = {
         editorState: {
-          markdown: 'Write markdown content here!',
-          text: 'Write markdown content here!',
+          markdown: "Write markdown content here!",
+          text: "Write markdown content here!",
         },
       };
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (this.props.text) {
       const rawData = ContentState.createFromText(
         JSON.parse(this.props.text).markdown
@@ -76,22 +76,22 @@ class SubmitArticleFormText extends React.Component<Props, State> {
     );
   };
 
-  render () {
-    return this.props.getFieldDecorator('text', {
+  render() {
+    return this.props.getFieldDecorator("text", {
       rules: [
         {
           required: true,
-          message: 'Please input the description of the request!',
+          message: "Please input the description of the request!",
           whitespace: true,
         },
       ],
       initialValue:
-        typeof this.props.text === 'string'
+        typeof this.props.text === "string"
           ? JSON.stringify({ markdown: this.props.text })
           : null,
     })(
       <SharedEditor
-        hasErrors={this.props.getFieldError('text')}
+        hasErrors={this.props.getFieldError("text")}
         editorState={this.state.editorState}
         handleChange={this.handleChange}
       />
@@ -127,7 +127,7 @@ export default class extends React.Component<
     focused: false,
   };
 
-  render () {
+  render() {
     const {
       getFieldDecorator,
       setFieldsValue,

@@ -1,6 +1,6 @@
 // @flow
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from "rxjs/Observable";
 import {
   submitArticleVersion,
   editArticle,
@@ -8,13 +8,13 @@ import {
   submitNewArticle,
   approveArticle,
   rejectArticle,
-} from '../../../queries/Article';
-import { showNotificationAction, routeChangeAction } from '../../../lib/Module';
-import { trackMixpanelAction } from '../Link/Module';
-import { publishArticleAction } from './PublishArticleModule';
+} from "../../../queries/Article";
+import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
+import { trackMixpanelAction } from "../Link/Module";
+import { publishArticleAction } from "./PublishArticleModule";
 
-import type { Classification } from '../Link/Module';
-import type { Dependencies } from '../../../lib/Module';
+import type { Classification } from "../Link/Module";
+import type { Dependencies } from "../../../lib/Module";
 
 export type AttributesPayload = {
   version?: string,
@@ -44,13 +44,13 @@ export type DraftArticleActionPayload = {
   attributes?: AttributesPayload,
 };
 
-const SUBMIT_ARTICLE = 'SUBMIT_ARTICLE';
+const SUBMIT_ARTICLE = "SUBMIT_ARTICLE";
 
-const EDIT_ARTICLE = 'EDIT_ARTICLE';
+const EDIT_ARTICLE = "EDIT_ARTICLE";
 
-const SUBMIT_ARTICLE_VERSION = 'SUBMIT_ARTICLE_VERSION';
+const SUBMIT_ARTICLE_VERSION = "SUBMIT_ARTICLE_VERSION";
 
-const DRAFT_ARTICLE = 'DRAFT_ARTICLE';
+const DRAFT_ARTICLE = "DRAFT_ARTICLE";
 
 export type EditArticlePayload = {
   id: string,
@@ -140,7 +140,7 @@ export const submitArticleEpic = (
             variables: { content: text, title: subject, attributes },
           })
         )
-          .do(h => console.log('submitNewArticle'))
+          .do(h => console.log("submitNewArticle"))
           .do(h => console.log(h))
           .flatMap(
             ({
@@ -159,7 +159,7 @@ export const submitArticleEpic = (
                 id,
                 version,
               },
-              fetchPolicy: 'network-only',
+              fetchPolicy: "network-only",
             })
           )
           .do(h => console.log(h))
@@ -176,45 +176,45 @@ export const submitArticleEpic = (
                 },
               },
             }) =>
-              typeof selfPublish !== 'undefined'
+              typeof selfPublish !== "undefined"
                 ? Observable.of(
-                  publishArticleAction({
-                    id,
-                    version,
-                    contentHash,
-                    dateCreated,
-                    contributor: authorId,
-                    owner,
-                  })
-                )
+                    publishArticleAction({
+                      id,
+                      version,
+                      contentHash,
+                      dateCreated,
+                      contributor: authorId,
+                      owner,
+                    })
+                  )
                 : Observable.of(
-                  routeChangeAction(
-                    `/article/${id}/v${version}/article-published`
-                  ),
-                  trackMixpanelAction({
-                    event: 'Offchain',
-                    metaData: {
-                      resource: 'article',
-                      resourceID: id,
-                      resourceVersion: version,
-                      resourceAction: 'submit article',
-                    },
-                  }),
-                  showNotificationAction({
-                    notificationType: 'success',
-                    message: 'Article published',
-                    description:
-                        'Your personal article has now been published!',
-                  })
-                )
+                    routeChangeAction(
+                      `/article/${id}/v${version}/article-published`
+                    ),
+                    trackMixpanelAction({
+                      event: "Offchain",
+                      metaData: {
+                        resource: "article",
+                        resourceID: id,
+                        resourceVersion: version,
+                        resourceAction: "submit article",
+                      },
+                    }),
+                    showNotificationAction({
+                      notificationType: "success",
+                      message: "Article published",
+                      description:
+                        "Your personal article has now been published!",
+                    })
+                  )
           )
           .catch(err => {
             console.error(err);
             return Observable.of(
               showNotificationAction({
-                notificationType: 'error',
-                message: 'Submission error',
-                description: 'Please try again!',
+                notificationType: "error",
+                message: "Submission error",
+                description: "Please try again!",
               })
             );
           })
@@ -258,7 +258,7 @@ export const submitArticleVersionEpic = (
                 id,
                 version,
               },
-              fetchPolicy: 'network-only',
+              fetchPolicy: "network-only",
             })
           )
           .do(h => console.log(h))
@@ -268,61 +268,61 @@ export const submitArticleVersionEpic = (
                 getArticle: { id, version, contentHash, dateCreated, authorId },
               },
             }) =>
-              typeof selfPublish !== 'undefined'
+              typeof selfPublish !== "undefined"
                 ? Observable.of(
-                  publishArticleAction({
-                    id,
-                    version,
-                    contentHash,
-                    dateCreated,
-                    contributor: authorId,
-                    owner,
-                  })
-                )
+                    publishArticleAction({
+                      id,
+                      version,
+                      contentHash,
+                      dateCreated,
+                      contributor: authorId,
+                      owner,
+                    })
+                  )
                 : Observable.of(
-                  routeChangeAction(
-                    `/article/${id}/v${version}/article-${
-                      typeof selfPublish === 'undefined'
-                        ? 'drafted'
-                        : owner.id === authorId
-                          ? 'published'
-                          : 'proposed'
-                    }`
-                  ),
-                  trackMixpanelAction({
-                    event: 'Offchain',
-                    metaData: {
-                      resource: 'article',
-                      resourceID: id,
-                      resourceVersion: version,
-                      resourceAction: 'submit article version',
-                    },
-                  }),
-                  showNotificationAction({
-                    notificationType: 'success',
-                    message: `Article ${
-                      typeof selfPublish === 'undefined'
-                        ? 'drafted'
-                        : owner.id === authorId
-                          ? 'published'
-                          : 'proposed'
-                    }`,
-                    description:
-                        typeof selfPublish === 'undefined'
-                          ? 'Your article has now been drafted to be updated or published in the future'
+                    routeChangeAction(
+                      `/article/${id}/v${version}/article-${
+                        typeof selfPublish === "undefined"
+                          ? "drafted"
                           : owner.id === authorId
-                            ? 'Your personal article has now been published!'
-                            : 'Waiting for it to be reviewed!',
-                  })
-                )
+                          ? "published"
+                          : "proposed"
+                      }`
+                    ),
+                    trackMixpanelAction({
+                      event: "Offchain",
+                      metaData: {
+                        resource: "article",
+                        resourceID: id,
+                        resourceVersion: version,
+                        resourceAction: "submit article version",
+                      },
+                    }),
+                    showNotificationAction({
+                      notificationType: "success",
+                      message: `Article ${
+                        typeof selfPublish === "undefined"
+                          ? "drafted"
+                          : owner.id === authorId
+                          ? "published"
+                          : "proposed"
+                      }`,
+                      description:
+                        typeof selfPublish === "undefined"
+                          ? "Your article has now been drafted to be updated or published in the future"
+                          : owner.id === authorId
+                          ? "Your personal article has now been published!"
+                          : "Waiting for it to be reviewed!",
+                    })
+                  )
           )
           .catch(err => {
             console.error(err);
             return Observable.of(
               showNotificationAction({
-                notificationType: 'error',
-                message: 'Submission error',
-                description: 'Please try again!',
+                notificationType: "error",
+                message: "Submission error",
+                description: "Please try again!",
               })
             );
           })
@@ -362,7 +362,7 @@ export const editArticleEpic = (
                 id,
                 version,
               },
-              fetchPolicy: 'network-only',
+              fetchPolicy: "network-only",
             })
           )
           .mergeMap(
@@ -371,36 +371,36 @@ export const editArticleEpic = (
                 getArticle: { id, version, contentHash, dateCreated, authorId },
               },
             }) =>
-              typeof selfPublish !== 'undefined'
+              typeof selfPublish !== "undefined"
                 ? Observable.of(
-                  publishArticleAction({
-                    id,
-                    version,
-                    contentHash,
-                    dateCreated,
-                    contributor: authorId,
-                    owner: null,
-                  })
-                )
+                    publishArticleAction({
+                      id,
+                      version,
+                      contentHash,
+                      dateCreated,
+                      contributor: authorId,
+                      owner: null,
+                    })
+                  )
                 : Observable.of(
-                  routeChangeAction(
-                    `/article/${id}/v${version}/article-updated`
-                  ),
-                  trackMixpanelAction({
-                    event: 'Offchain',
-                    metaData: {
-                      resource: 'article',
-                      resourceID: id,
-                      resourceVersion: version,
-                      resourceAction: 'update article',
-                    },
-                  }),
-                  showNotificationAction({
-                    notificationType: 'info',
-                    message: 'Article updated',
-                    description: 'The article version has been updated!',
-                  })
-                )
+                    routeChangeAction(
+                      `/article/${id}/v${version}/article-updated`
+                    ),
+                    trackMixpanelAction({
+                      event: "Offchain",
+                      metaData: {
+                        resource: "article",
+                        resourceID: id,
+                        resourceVersion: version,
+                        resourceAction: "update article",
+                      },
+                    }),
+                    showNotificationAction({
+                      notificationType: "info",
+                      message: "Article updated",
+                      description: "The article version has been updated!",
+                    })
+                  )
           )
     );
 
@@ -433,19 +433,19 @@ export const draftArticleEpic = (
             Observable.of(
               routeChangeAction(`/article/${id}/v${version}/article-drafted`),
               trackMixpanelAction({
-                event: 'Offchain',
+                event: "Offchain",
                 metaData: {
-                  resource: 'article',
+                  resource: "article",
                   resourceID: id,
                   resourceVersion: version,
-                  resourceAction: 'article-drafted',
+                  resourceAction: "article-drafted",
                 },
               }),
               showNotificationAction({
-                notificationType: 'info',
-                message: 'Draft Created',
+                notificationType: "info",
+                message: "Draft Created",
                 description:
-                  'The draft has just been saved. You can go back and submit it whenever you are ready.',
+                  "The draft has just been saved. You can go back and submit it whenever you are ready.",
               })
             )
           )

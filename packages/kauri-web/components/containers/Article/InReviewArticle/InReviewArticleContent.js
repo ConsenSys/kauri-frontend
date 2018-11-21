@@ -1,18 +1,18 @@
 // @flow
-import React from 'react';
+import React from "react";
 import {
   CreateRequestContent as InReviewArticleFormContent,
   CreateRequestContainer as InReviewArticleFormContainer,
-} from '../../CreateRequestForm/CreateRequestContent';
-import { ApprovedArticleDetails as InReviewArticleDetails } from '../ApprovedArticle/ApprovedArticleContent';
+} from "../../CreateRequestForm/CreateRequestContent";
+import { ApprovedArticleDetails as InReviewArticleDetails } from "../ApprovedArticle/ApprovedArticleContent";
 import {
   contentStateFromHTML,
   getHTMLFromMarkdown,
-} from '../../../../lib/markdown-converter-helper';
-import userIdTrim from '../../../../lib/userid-trim';
-import Outline from '../../../../../kauri-components/components/Outline';
-import { Link } from '../../../../routes';
-import DescriptionRow from '../../../common/DescriptionRow';
+} from "../../../../lib/markdown-converter-helper";
+import userIdTrim from "../../../../lib/userid-trim";
+import Outline from "../../../../../kauri-components/components/Outline";
+import { Link } from "../../../../routes";
+import DescriptionRow from "../../../common/DescriptionRow";
 
 type Comments = Array<?CommentDTO>;
 
@@ -54,29 +54,29 @@ export default ({
   userAvatar: ?string,
 }) => {
   editorState =
-    editorState && typeof editorState === 'string'
+    editorState && typeof editorState === "string"
       ? JSON.parse(editorState)
       : editorState;
 
   const outlineHeadings =
-    typeof editorState === 'object' &&
+    typeof editorState === "object" &&
     (editorState.markdown
       ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
-        .getBlocksAsArray()
-        .map(block => block.toJS())
-        .filter(block => block.type.includes('header-one'))
-        .map(header => header.text)
+          .getBlocksAsArray()
+          .map(block => block.toJS())
+          .filter(block => block.type.includes("header-one"))
+          .map(header => header.text)
       : editorState.blocks &&
         editorState.blocks
-          .filter(block => block.type.includes('header-one'))
+          .filter(block => block.type.includes("header-one"))
           .map(header => header.text));
 
   return (
     <InReviewArticleFormContent>
-      <InReviewArticleFormContainer type='in review article'>
+      <InReviewArticleFormContainer type="in review article">
         <DescriptionRow fullText record={{ text }} />
       </InReviewArticleFormContainer>
-      <InReviewArticleDetails type='outline'>
+      <InReviewArticleDetails type="outline">
         <Outline
           routeChangeAction={routeChangeAction}
           linkComponent={children => (
@@ -88,7 +88,7 @@ export default ({
           username={username}
           userId={userIdTrim(userId)}
           userAvatar={userAvatar}
-          text={'AUTHOR'}
+          text={"AUTHOR"}
         />
       </InReviewArticleDetails>
     </InReviewArticleFormContent>

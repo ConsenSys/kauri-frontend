@@ -1,10 +1,10 @@
 // @flow
-import React, { Fragment } from 'react';
-import styled from 'styled-components';
-import { Router } from '../../../routes';
-import slugify from 'slugify';
+import React, { Fragment } from "react";
+import styled from "styled-components";
+import { Router } from "../../../routes";
+import slugify from "slugify";
 
-import type { TrackAnalyticsPayload } from './Module';
+import type { TrackAnalyticsPayload } from "./Module";
 
 type LinkProps = {
   href: string,
@@ -19,13 +19,13 @@ type LinkProps = {
 const A = styled.a`
   text-decoration: none;
   color: inherit;
-  ${props => props.fullWidth && 'width: 100%;'};
+  ${props => props.fullWidth && "width: 100%;"};
   :hover {
-    color: ${props => props.theme.colors['hoverTextColor']} !important;
+    color: ${props => props.theme.colors["hoverTextColor"]} !important;
     > * {
-      color: ${props => props.theme.colors['hoverTextColor']} !important;
+      color: ${props => props.theme.colors["hoverTextColor"]} !important;
       > * {
-        color: ${props => props.theme.colors['hoverTextColor']} !important;
+        color: ${props => props.theme.colors["hoverTextColor"]} !important;
       }
     }
   }
@@ -40,7 +40,7 @@ class Link extends React.Component<LinkProps> {
     this.props.routeChangeAction(url);
   };
 
-  render () {
+  render() {
     let url =
       this.props.as || this.props.href || this.props.children.props.href;
     const slug = this.props.toSlug

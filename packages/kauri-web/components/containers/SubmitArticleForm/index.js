@@ -1,23 +1,23 @@
-import { compose, graphql } from 'react-apollo';
-import { connect } from 'react-redux';
-import { getArticle } from '../../../queries/Article';
-import { getRequest } from '../../../queries/Request';
+import { compose, graphql } from "react-apollo";
+import { connect } from "react-redux";
+import { getArticle } from "../../../queries/Article";
+import { getRequest } from "../../../queries/Request";
 import {
   submitArticleAction,
   submitArticleVersionAction,
   editArticleAction,
   draftArticleAction,
-} from './Module';
-import { routeChangeAction, showNotificationAction } from '../../../lib/Module';
-import { publishArticleAction } from './PublishArticleModule';
-import withLoading from '../../../lib/with-loading';
-import View from './View';
+} from "./Module";
+import { routeChangeAction, showNotificationAction } from "../../../lib/Module";
+import { publishArticleAction } from "./PublishArticleModule";
+import withLoading from "../../../lib/with-loading";
+import View from "./View";
 
 const mapStateToProps = (state, ownProps) => ({
   isKauriTopicOwner: Boolean(
     state.app.user &&
       state.app.user.topics &&
-      state.app.user.topics.find(topic => topic === 'kauri')
+      state.app.user.topics.find(topic => topic === "kauri")
   ),
   categories: state.app && state.app.user && state.app.user.topics,
   username: state.app.user && state.app.user.username,

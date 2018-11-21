@@ -1,16 +1,16 @@
 // @flow
-import React from 'react';
-import R from 'ramda';
-import { EditorState, ContentState } from 'draft-js';
-import Actions from './InReviewArticleActions';
-import Header from './InReviewArticleHeader';
-import Content from './InReviewArticleContent';
-import Footer from '../ApprovedArticle/ApprovedArticleFooter';
-import NetworkBanner from '../../StyledFooter/NetworkBanner';
-import { hljs } from '../../../../lib/hljs';
-import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount';
-import ScrollToTopButton from '../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton';
-import theme from '../../../../lib/theme-config';
+import React from "react";
+import R from "ramda";
+import { EditorState, ContentState } from "draft-js";
+import Actions from "./InReviewArticleActions";
+import Header from "./InReviewArticleHeader";
+import Content from "./InReviewArticleContent";
+import Footer from "../ApprovedArticle/ApprovedArticleFooter";
+import NetworkBanner from "../../StyledFooter/NetworkBanner";
+import { hljs } from "../../../../lib/hljs";
+import ScrollToTopOnMount from "../../../../../kauri-components/components/ScrollToTopOnMount";
+import ScrollToTopButton from "../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton";
+import theme from "../../../../lib/theme-config";
 
 type Props =
   | {
@@ -40,7 +40,7 @@ class InReviewArticle extends React.Component<Props, State> {
   static Content = Content;
   static Footer = Footer;
 
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props);
     if (props.data && props.data.getArticle && props.data.getArticle.content) {
       const newEditorUsed = JSON.parse(props.data.getArticle.content).markdown;
@@ -69,21 +69,21 @@ class InReviewArticle extends React.Component<Props, State> {
     };
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.setNavcolorOverrideAction(theme.colors.bgPrimary);
     R.map(block => hljs.highlightBlock(block))(
-      document.querySelectorAll('pre code')
+      document.querySelectorAll("pre code")
     );
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.setNavcolorOverrideAction(null);
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.props.setNavcolorOverrideAction(theme.colors.bgPrimary);
     R.map(block => hljs.highlightBlock(block))(
-      document.querySelectorAll('pre code')
+      document.querySelectorAll("pre code")
     );
   }
 
@@ -92,14 +92,14 @@ class InReviewArticle extends React.Component<Props, State> {
     this.setState({ editorState });
   };
 
-  render () {
+  render() {
     const props = this.props;
     if (!this.props.data && !this.props.data.getArticle) return;
     return (
       <section>
         <ScrollToTopOnMount />
         <ScrollToTopButton />
-        <NetworkBanner type='withActionsHeader' />
+        <NetworkBanner type="withActionsHeader" />
         <InReviewArticle.Actions
           {...props.data.getArticle}
           routeChangeAction={props.routeChangeAction}
@@ -190,7 +190,7 @@ class InReviewArticle extends React.Component<Props, State> {
           }
         />
         <InReviewArticle.Footer
-          type='in review article'
+          type="in review article"
           date_updated={
             props.data &&
             props.data.getArticle &&

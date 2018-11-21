@@ -1,11 +1,12 @@
 // @flow
-import React, { Fragment } from 'react';
-import styled from 'styled-components';
-import { PrimaryButton } from '../../../../kauri-components/components/Button';
-import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx';
-import SocialWebsiteIcon from '../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.tsx';
+import React, { Fragment } from "react";
+import styled from "styled-components";
+import anchorme from "anchorme";
+import { PrimaryButton } from "../../../../kauri-components/components/Button";
+import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx";
+import SocialWebsiteIcon from "../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.tsx";
 
-import type { HeaderProps } from './types';
+import type { HeaderProps } from "./types";
 
 const PublicProfileHeader = styled.div`
   background-color: #1e2428;
@@ -21,7 +22,7 @@ const PublicProfileHeader = styled.div`
 
 const Avatar = styled.div`
   background: ${props =>
-    props.avatar ? `url(${props.avatar}) center center` : '#0ba986'};
+    props.avatar ? `url(${props.avatar}) center center` : "#0ba986"};
   background-size: cover;
   width: 100px;
   height: 100px;
@@ -79,6 +80,21 @@ const Links = styled.div`
   }
 `;
 
+const getURL = (string, type) => {
+  const split = string.split("/");
+  switch (type) {
+    case "website":
+      const url = anchorme(string, { list: true })[0];
+      return `${url.protocol}${url.encoded}`;
+    case "twitter":
+      return `https://www.twitter.com/${split[split.length - 1]}`;
+    case "github":
+      return `https://www.github.com/${split[split.length - 1]}`;
+    default:
+      return "";
+  }
+};
+
 const ProfileHeader = ({
   id,
   avatar,
@@ -95,7 +111,7 @@ const ProfileHeader = ({
 }: HeaderProps) => (
   <PublicProfileHeader>
     <Avatar avatar={avatar}>
-      {avatar ? '' : (name || id).substring(0, 1).toUpperCase()}
+      {avatar ? "" : (name || id).substring(0, 1).toUpperCase()}
     </Avatar>
     <DetailsContainer>
       {username ? (
@@ -122,20 +138,20 @@ const ProfileHeader = ({
       <Links>
         {github && (
           <SocialWebsiteIcon
-            brand='github'
+            brand="github"
             height={20}
-            socialURL={`https://www.github.com/${github}`}
+            socialURL={getURL(github, "github")}
           />
         )}
         {twitter && (
           <SocialWebsiteIcon
-            brand='twitter'
+            brand="twitter"
             height={20}
-            socialURL={`https://www.twitter.com/${twitter}`}
+            socialURL={getURL(twitter, "twitter")}
           />
         )}
         {website && (
-          <a href={website}>
+          <a target="_blank" href={getURL(website, "website")}>
             <Details size={1}>{website}</Details>
           </a>
         )}
@@ -146,11 +162,11 @@ const ProfileHeader = ({
         <StatisticsContainer
           statistics={[
             {
-              name: 'Articles',
+              name: "Articles",
               count: articles,
             },
             {
-              name: 'Collections',
+              name: "Collections",
               count: collections.length,
             },
           ]}
