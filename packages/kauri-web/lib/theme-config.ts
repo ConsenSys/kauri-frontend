@@ -95,20 +95,6 @@ export const zeppelin = {
   primaryColor: "#3566B2",
 };
 
-export const categories = Object.keys({
-  aragon,
-  dharma,
-  ens,
-  kauri,
-  makerdao,
-  metamask,
-  // ethereum,
-  remix,
-  toshi,
-  uport,
-  zeppelin,
-});
-
 interface IColors {
   [key: string]: string;
   padding: string;

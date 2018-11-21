@@ -1,14 +1,14 @@
 // @flow
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Helmet } from 'react-helmet';
-import slugify from 'slugify';
-import rake from 'rake-js';
-import R from 'ramda';
-import CollectionHeader from '../../../../kauri-components/components/Headers/CollectionHeader';
-import CollectionSection from './CollectionSection';
-import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount';
-import { Link } from '../../../routes';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { Helmet } from "react-helmet";
+import slugify from "slugify";
+import rake from "rake-js";
+import R from "ramda";
+import CollectionHeader from "../../../../kauri-components/components/Headers/CollectionHeader";
+import CollectionSection from "./CollectionSection";
+import ScrollToTopOnMount from "../../../../kauri-components/components/ScrollToTopOnMount";
+import { Link } from "../../../routes";
 
 type Props = {
   data: {
@@ -47,28 +47,28 @@ const HeaderContainer = styled(ContentContainer)`
 
 class CollectionPage extends Component<Props, { trianglify: string }> {
   state = {
-    trianglify: '',
+    trianglify: "",
   };
 
-  componentDidMount () {
-    const trianglify = require('trianglify');
+  componentDidMount() {
+    const trianglify = require("trianglify");
     const trianglifyBg = trianglify({
       width: 1920,
       height: 400,
       cell_size: 60,
       variance: 1,
-      x_colors: ['#0BA986', '#1E3D3B', '#1E2428'],
+      x_colors: ["#0BA986", "#1E3D3B", "#1E2428"],
     });
 
     const generatedSvgString = new XMLSerializer().serializeToString(
       trianglifyBg.svg()
     );
     const trianglifyBgString =
-      'data:image/svg+xml;base64,' + window.btoa(generatedSvgString);
+      "data:image/svg+xml;base64," + window.btoa(generatedSvgString);
     this.setState({ trianglifyBg: trianglifyBgString });
   }
 
-  render () {
+  render() {
     if (!this.props.data || !this.props.data.getCollection) return null;
     const {
       id,
@@ -81,18 +81,17 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     } = this.props.data.getCollection;
     const { userId, routeChangeAction, hostName } = this.props;
     const extractedKeywords = description
-      ? rake(description, { language: 'english' })
+      ? rake(description, { language: "english" })
       : [];
     const bg = (background && background) || this.state.trianglifyBg;
-    const url = `https://${hostName.replace(/api\./g, '')}/collection/${
+    const url = `https://${hostName.replace(/api\./g, "")}/collection/${
       this.props.id
     }/${slugify(name, {
       lower: true,
     })}`;
 
-    // console.log(JSON.stringify(this.props.data.getCollection));
     const resourceType = R.pipe(
-      R.path(['data', 'getCollection', 'owner', 'resourceIdentifier', 'type']),
+      R.path(["data", "getCollection", "owner", "resourceIdentifier", "type"]),
       R.toLower
     )(this.props);
 
@@ -101,42 +100,42 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
         <Helmet>
           <title>{name} - Kauri</title>
           <meta
-            name='description'
+            name="description"
             content={`${description && description.slice(0, 151)}...`}
           />
           <meta
-            name='keywords'
+            name="keywords"
             content={extractedKeywords.map(keyword => keyword)}
           />
-          <link rel='canonical' href={url} />
-          <meta property='og:title' content={name} />
-          <meta property='og:site_name' content='kauri.io' />
+          <link rel="canonical" href={url} />
+          <meta property="og:title" content={name} />
+          <meta property="og:site_name" content="kauri.io" />
           <meta
-            property='og:url'
+            property="og:url"
             content={`https://${hostName}/article/${id}/${slugify(name, {
               lower: true,
             })}`}
           />
           <meta
-            property='og:description'
+            property="og:description"
             content={`${description && description.substring(0, 100)}...`}
           />
-          <meta property='og:type' content='article' />
-          <meta property='og:image' content={bg} />
-          <meta name='twitter:card' content='summary' />
+          <meta property="og:type" content="article" />
+          <meta property="og:image" content={bg} />
+          <meta name="twitter:card" content="summary" />
           <meta
-            name='twitter:site'
+            name="twitter:site"
             ccontent={`https://${hostName}/article/${id}/${slugify(name, {
               lower: true,
             })}`}
           />
-          <meta name='twitter:title' content={name} />
+          <meta name="twitter:title" content={name} />
           <meta
-            name='twitter:description'
+            name="twitter:description"
             content={`${description && description.substring(0, 100)}...`}
           />
-          <meta name='twitter:creator' content='@kauri_io' />
-          <meta name='twitter:image' content={bg} />
+          <meta name="twitter:creator" content="@kauri_io" />
+          <meta name="twitter:image" content={bg} />
         </Helmet>
         <ScrollToTopOnMount />
         <HeaderContainer background={bg}>
@@ -144,18 +143,18 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
           <CollectionHeader
             id={id}
             name={name}
-            description={description || ''}
+            description={description || ""}
             updated={dateCreated}
             username={owner && owner.username}
             ownerId={owner.id}
-            userId={userId || ''}
+            userId={userId || ""}
             userAvatar={owner && owner.avatar}
             linkComponent={childrenProps => (
               <Link
                 fullWidth={false}
                 useAnchorTag
                 href={
-                  resourceType === 'community'
+                  resourceType === "community"
                     ? `/community/${owner && owner.id}`
                     : `/public-profile/${owner && owner.id}`
                 }
@@ -175,7 +174,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
                 <CollectionSection
                   key={section.name}
                   name={section.name}
-                  description={section.description || ''}
+                  description={section.description || ""}
                   articles={section.resources}
                 />
               );

@@ -10,7 +10,6 @@ import { Link } from "../../../routes";
 import styled from "../../../lib/styled-components";
 import CommunityProfile from "../../../../kauri-components/components/Community/CommunityProfile";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
-import ScrollToTopOnMount from "../../../../kauri-components/components/ScrollToTopOnMount";
 import Empty from "../../containers/PublicProfile/Empty";
 import {
   searchCommunityArticles,
@@ -113,7 +112,6 @@ const Container: React.SFC<Props> = props => {
   });
   return (
     <section>
-      <ScrollToTopOnMount />
       <CommunityHeader>
         <CommunityProfile
           id={id}
