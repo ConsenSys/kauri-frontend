@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
 const Column = styled.div`
   flex: 1;
@@ -18,7 +18,7 @@ const MasonryContainer = styled.div`
 `;
 
 class Masonry extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       minWidth: props.minWidth,
@@ -33,22 +33,22 @@ class Masonry extends Component {
     this.updateColumns = this.updateColumns.bind(this);
   }
 
-  updateColumns() {
+  updateColumns () {
     const newMaxCol = Math.floor(window.innerWidth / this.props.minWidth);
     const newNumCol =
       this.props.columns <= newMaxCol ? this.props.columns : newMaxCol;
     if (newNumCol !== this.state.numCol) this.setState({ numCol: newNumCol });
   }
 
-  componentDidMount() {
-    window.addEventListener("resize", this.updateColumns);
+  componentDidMount () {
+    window.addEventListener('resize', this.updateColumns);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateColumns);
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.updateColumns);
   }
 
-  render() {
+  render () {
     const { children } = this.props;
     const columnsArray = [];
     for (let j = 0; j < this.state.numCol; j++) {

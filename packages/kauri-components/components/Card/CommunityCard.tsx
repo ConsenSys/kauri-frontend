@@ -95,7 +95,7 @@ const CardContent: React.SFC<ICardContentProps> = ({
       <H1>{communityName}</H1>
       <BodyCard>
         <TextTruncate
-          line={typeof communityLogo === "string" ? 4 : 2}
+          line={typeof communityLogo === "string" ? 2 : 4}
           truncateText="…"
           text={communityDescription}
         />
