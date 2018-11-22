@@ -53,7 +53,11 @@ export default compose(
     options: ({ id, version }) => ({
       variables: {
         id,
-        version: version.length <= 3 ? parseInt(version) : null,
+        version: parseInt(version),
+        test:
+          version.length <= 2 && isNaN(version) === false
+            ? parseInt(version)
+            : null,
       },
     }),
   }),
