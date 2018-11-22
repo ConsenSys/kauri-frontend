@@ -114,7 +114,7 @@ const ProfileHeader = ({
       {avatar ? "" : (name || id).substring(0, 1).toUpperCase()}
     </Avatar>
     <DetailsContainer>
-      {username ? (
+      {username || name ? (
         <Fragment>
           {username && (
             <Details weight={700} size={2}>
