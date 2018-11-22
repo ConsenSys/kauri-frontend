@@ -89,7 +89,8 @@ const Footer = styled<IContentStyledComponentProps, "div">("div")`
   > * {
     text-transform: uppercase;
   }
-  padding: ${props => props.imageURL && props.theme.space[2]}px;
+  padding: ${props =>
+    typeof props.imageURL === "string" ? props.theme.space[2] + "px" : ""};
 `;
 
 const Divider = styled.div`
@@ -203,12 +204,10 @@ interface IActualContentProps {
   imageURL: string | undefined;
   description: string;
   id: string;
-  linkComponent:
-    | ((
-        childrenProps: React.ReactElement<any>,
-        route: string
-      ) => React.ReactElement<any>)
-    | undefined;
+  linkComponent: ((
+    childrenProps: React.ReactElement<any>,
+    route: string
+  ) => React.ReactElement<any>);
   name: string | null;
   username: string | null;
   userId: string;
@@ -231,20 +230,7 @@ const RenderActualContent: React.SFC<IActualContentProps> = ({
 }) => (
   <React.Fragment>
     <Label>{"Collection"}</Label>
-    {typeof linkComponent !== "undefined" ? (
-      linkComponent(
-        <RenderBodyContent
-          name={name}
-          cardHeight={cardHeight}
-          cardWidth={cardWidth}
-          imageURL={imageURL}
-          description={description}
-          userId={userId}
-          userAvatar={userAvatar}
-        />,
-        `/collection/${id}`
-      )
-    ) : (
+    {linkComponent(
       <RenderBodyContent
         name={name}
         cardHeight={cardHeight}
@@ -253,27 +239,18 @@ const RenderActualContent: React.SFC<IActualContentProps> = ({
         description={description}
         userId={userId}
         userAvatar={userAvatar}
-      />
+      />,
+      `/collection/${id}`
     )}
-    {typeof linkComponent !== "undefined" ? (
-      linkComponent(
-        <RenderPublicProfile
-          cardWidth={cardWidth}
-          username={username}
-          userId={userId}
-          userAvatar={userAvatar}
-          imageURL={imageURL}
-        />,
-        `/public-profile/${userId}`
-      )
-    ) : (
+    {linkComponent(
       <RenderPublicProfile
         cardWidth={cardWidth}
         username={username}
         userId={userId}
         userAvatar={userAvatar}
         imageURL={imageURL}
-      />
+      />,
+      `/public-profile/${userId}`
     )}
     <Label>{"Updated " + date}</Label>
   </React.Fragment>
@@ -285,12 +262,10 @@ interface ICardContentProps {
   imageURL: string | undefined;
   description: string;
   id: string;
-  linkComponent:
-    | ((
-        childrenProps: React.ReactElement<any>,
-        route: string
-      ) => React.ReactElement<any>)
-    | undefined;
+  linkComponent: ((
+    childrenProps: React.ReactElement<any>,
+    route: string
+  ) => React.ReactElement<any>);
   name: string | null;
   username: string | null;
   userId: string;
@@ -467,7 +442,7 @@ interface IContentProps {
   cardHeight: number;
   cardWidth: number;
   id: string;
-  linkComponent?: (
+  linkComponent: (
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
@@ -519,9 +494,9 @@ interface IProps {
   userAvatar: string;
   articleCount: string;
   imageURL?: string;
-  cardHeight?: number;
-  cardWidth?: number;
-  linkComponent?: (
+  cardHeight: number;
+  cardWidth: number;
+  linkComponent: (
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;

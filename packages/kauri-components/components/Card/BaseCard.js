@@ -4,11 +4,9 @@ import styled, { css } from "styled-components";
 
 const withoutImageURLPaddingCss = css`
   padding: ${props => props.theme.space[2]}px;
-  height: ${props => props.cardHeight - props.theme.space[2] * 2}px;
-  width: ${props => props.cardWidth - props.theme.space[2] * 2}px;
 `;
 const chosenArticleCss = css`
-  border: 2px solid ${props => props.theme.colors["primary"]};
+  border: 2px solid ${props => props.theme.colors.primary};
 `;
 const hoverBoxShadowCss = css`
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.22);
