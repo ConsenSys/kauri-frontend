@@ -12,7 +12,6 @@ const Container = styled<{ cardHeight: number | null }, "section">("section")`
   flex: 1;
   text-align: center;
   min-width: 262px;
-  height: ${props => props.cardHeight}px;
   > a {
     display: flex;
     margin-bottom: auto;
