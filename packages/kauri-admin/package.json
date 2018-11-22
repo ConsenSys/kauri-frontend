@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "7.0.0",
     "autoprefixer": "8.5.0",
     "axios": "^0.18.0",
     "bfj": "5.2.0",
@@ -32,7 +31,7 @@
     "jest": "22.4.3",
     "loader-utils": "^1.1.0",
     "mini-css-extract-plugin": "^0.4.0",
-    "next": "7.0.2-canary.26",
+    "next": "canary",
     "object-assign": "4.1.1",
     "optimize-css-assets-webpack-plugin": "^4.0.1",
     "postcss-flexbugs-fixes": "3.3.1",
@@ -61,14 +60,14 @@
     "url-loader": "1.0.1",
     "uws": "^9.14.0",
     "web3": "^0.20.6",
-    "webpack": "4.19.1",
-    "webpack-dev-server": "3.1.5",
+    "webpack": "latest",
+    "webpack-dev-server": "latest",
     "webpack-manifest-plugin": "2.0.3",
     "whatwg-fetch": "2.0.4",
     "ws": "^5.1.0"
   },
   "devDependencies": {
-    "@babel/core": "7.0.0",
+    "@babel/core": "latest",
     "@babel/plugin-proposal-class-properties": "7.0.0",
     "@babel/plugin-proposal-decorators": "7.0.0",
     "@babel/plugin-proposal-do-expressions": "7.0.0",
@@ -85,10 +84,10 @@
     "@babel/plugin-proposal-throw-expressions": "7.0.0",
     "@babel/plugin-syntax-dynamic-import": "7.0.0",
     "@babel/plugin-syntax-import-meta": "7.0.0",
-    "@babel/preset-env": "7.0.0",
-    "@babel/preset-flow": "7.0.0",
-    "@babel/preset-typescript": "^7.1.0",
-    "@babel/register": "7.0.0",
+    "@babel/preset-env": "latest",
+    "@babel/preset-flow": "latest",
+    "@babel/preset-typescript": "latest",
+    "@babel/register": "latest",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0-beta.3",
     "babel-jest": "^23.4.2",
@@ -99,7 +98,10 @@
     "babel-plugin-styled-components": "1.5.1",
     "babel-plugin-transform-imports": "^1.5.0",
     "babel-polyfill": "^6.26.0",
-    "typescript": "^3.1.6"
+    "typescript": "latest"
+  },
+  "resolutions": {
+    "babel-plugin-react-require": "3.0.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
