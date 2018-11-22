@@ -199,7 +199,7 @@
     "typescript-styled-plugin": "latest",
     "web3-provider-engine": "8.4.0",
     "webdriverio": "^4.13.1",
-    "webpack": "latest",
+    "webpack": "^4.26.0",
     "xmlhttprequest": "^1.8.0"
   },
   "resolutions": {
