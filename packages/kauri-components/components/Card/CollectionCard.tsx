@@ -2,13 +2,20 @@ import * as React from "react";
 import styled, { css } from "../../lib/styled-components";
 import BaseCard from "./BaseCard";
 import R from "ramda";
+import TextTruncate from "react-text-truncate";
 import { Label, Title2, H4, BodyCard } from "../Typography";
 import theme from "../../lib/theme-config";
-import withToggle, { IToggleProps } from "../../../kauri-web/lib/with-toggle";
-import TextTruncate from "react-text-truncate";
 import PrimaryButton from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
 import UserAvatar from "../UserAvatar";
+import {
+  toggleReducer,
+  IToggleState,
+  IToggleAction,
+  showDispatch,
+  hideDispatch,
+  toggleInitialState,
+} from "../../../kauri-web/lib/use-toggle";
 
 const DEFAULT_CARD_HEIGHT = 290;
 const DEFAULT_CARD_WIDTH = 290;
@@ -43,6 +50,7 @@ const Mask = styled.div`
   flex: 1;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
+  width: 100%;
   > a:nth-child(2) {
     height: 100%;
   }
@@ -448,7 +456,7 @@ interface IContentProps {
   ) => React.ReactElement<any>;
   username: string | null;
   userId: string;
-  userAvatar: string;
+  userAvatar: string | null;
   date: string;
 }
 
@@ -490,12 +498,12 @@ interface IProps {
   date: string;
   name: string;
   username: string | null;
+  userAvatar: string | null;
   userId: string;
-  userAvatar: string;
   articleCount: string;
   imageURL?: string;
   cardHeight: number;
-  cardWidth: number;
+  cardWidth?: number;
   linkComponent: (
     childrenProps: React.ReactElement<any>,
     route: string
@@ -505,7 +513,7 @@ interface IProps {
   isChosenCollection?: boolean;
 }
 
-const CollectionCard: React.SFC<IProps & IToggleProps> = ({
+const CollectionCard: React.FunctionComponent<IProps> = ({
   id,
   description,
   date,
@@ -519,53 +527,57 @@ const CollectionCard: React.SFC<IProps & IToggleProps> = ({
   linkComponent,
   hoverAction,
   viewAction,
-  toggledOn,
-  show,
-  hide,
   isChosenCollection,
   articleCount,
-}) => (
-  <BaseCard
-    imageURL={imageURL}
-    cardWidth={calculateCardWidth({ cardWidth, imageURL })}
-    cardHeight={calculateCardHeight({ cardHeight, cardWidth, imageURL })}
-    handleMouseEnter={show}
-    handleMouseLeave={hide}
-    isChosenArticle={isChosenCollection}
-    toggledOn={toggledOn}
-    hoverAction={hoverAction}
-  >
-    {typeof hoverAction === "function" &&
-      typeof viewAction === "function" &&
-      toggledOn === true && (
-        <Hover
-          hasImageURL={Boolean(imageURL)}
-          viewAction={viewAction}
-          hoverAction={hoverAction}
-          id={id}
-        />
-      )}
-    <Container>
-      <RenderContent
-        cardHeight={cardHeight}
-        cardWidth={cardWidth}
-        date={date}
-        description={description}
-        id={id}
-        imageURL={imageURL}
-        linkComponent={linkComponent}
-        name={name}
-        userAvatar={userAvatar}
-        userId={userId}
-        username={username}
-      />
-      {typeof imageURL !== "string" && <Divider />}
-      <Footer imageURL={imageURL}>
-        <H4>{articleCount || "0"}</H4>
-        <Label>Articles</Label>
-      </Footer>
-    </Container>
-  </BaseCard>
-);
+}) => {
+  const [{ toggledOn }, dispatch] = React.useReducer<
+    IToggleState,
+    IToggleAction
+  >(toggleReducer, toggleInitialState);
 
-export default withToggle(CollectionCard);
+  return (
+    <BaseCard
+      imageURL={imageURL}
+      cardWidth={calculateCardWidth({ cardWidth, imageURL })}
+      cardHeight={calculateCardHeight({ cardHeight, cardWidth, imageURL })}
+      handleMouseEnter={showDispatch(dispatch)}
+      handleMouseLeave={hideDispatch(dispatch)}
+      isChosenArticle={isChosenCollection}
+      toggledOn={toggledOn}
+      hoverAction={hoverAction}
+    >
+      {typeof hoverAction === "function" &&
+        typeof viewAction === "function" &&
+        toggledOn === true && (
+          <Hover
+            hasImageURL={Boolean(imageURL)}
+            viewAction={viewAction}
+            hoverAction={hoverAction}
+            id={id}
+          />
+        )}
+      <Container>
+        <RenderContent
+          cardHeight={cardHeight}
+          cardWidth={cardWidth}
+          date={date}
+          description={description}
+          id={id}
+          imageURL={imageURL}
+          linkComponent={linkComponent}
+          name={name}
+          userAvatar={userAvatar}
+          userId={userId}
+          username={username}
+        />
+        {typeof imageURL !== "string" && <Divider />}
+        <Footer imageURL={imageURL}>
+          <H4>{articleCount || "0"}</H4>
+          <Label>Articles</Label>
+        </Footer>
+      </Container>
+    </BaseCard>
+  );
+};
+
+export default CollectionCard;

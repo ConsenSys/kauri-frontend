@@ -142,17 +142,20 @@ let renderCardContent = ({
           text={title}
         />
       </H1>
-      {cardHeight >= 420 && content.substring(0, 2).includes("{")
-        ? renderDescriptionRowContent(content, cardHeight, imageURL)
-        : (cardHeight >= 420 || typeof imageURL !== "string") && (
-            <BodyCard>
-              <TextTruncate
-                line={contentLineHeight({ cardHeight, cardWidth, imageURL })}
-                truncateText="…"
-                text={content}
-              />
-            </BodyCard>
-          )}
+      {cardHeight <= 290 &&
+      typeof imageURL === "string" ? null : content
+          .substring(0, 2)
+          .includes("{") ? (
+        renderDescriptionRowContent(content, cardHeight, imageURL)
+      ) : (
+        <BodyCard>
+          <TextTruncate
+            line={contentLineHeight({ cardHeight, cardWidth, imageURL })}
+            truncateText="…"
+            text={content}
+          />
+        </BodyCard>
+      )}
     </Content>
   </React.Fragment>
 );

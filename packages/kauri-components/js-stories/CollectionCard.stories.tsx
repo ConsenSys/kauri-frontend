@@ -35,7 +35,6 @@ storiesOf("CollectionCard", module)
         "Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title HEY"
       }
       id={"1234567890"}
-      version={"1"}
       description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
@@ -48,8 +47,11 @@ storiesOf("CollectionCard", module)
       Nam lectus ipsum, molestie sit…
       `}
       username={"USERNAME GOES HERE"}
+      userAvatar={null}
       userId={"HEY"}
       linkComponent={linkComponent}
+      articleCount={"3"}
+      cardHeight={290}
     />
   ))
   .add("Card height of 420, three line title, no image", () => (
@@ -59,7 +61,6 @@ storiesOf("CollectionCard", module)
         "Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title"
       }
       id={"1234567890"}
-      version={"1"}
       description={`
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Praesent sed cursus purus.
@@ -78,6 +79,8 @@ storiesOf("CollectionCard", module)
       userId={"HEY"}
       cardHeight={420}
       linkComponent={linkComponent}
+      userAvatar={null}
+      articleCount={"5"}
     />
   ))
   .add("Default height of 290, two line title, with image", () => (
@@ -86,7 +89,6 @@ storiesOf("CollectionCard", module)
       date={"5 DAYS AGO"}
       name={"Two Line Title Two Line Title Two Line Title Two Line Title"}
       id={"1234567890"}
-      version={"1"}
       description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
@@ -106,6 +108,8 @@ storiesOf("CollectionCard", module)
         "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       }
       linkComponent={linkComponent}
+      userAvatar={null}
+      articleCount={"5"}
     />
   ))
   .add("Card height of 420, two line title, with image", () => (
@@ -113,7 +117,6 @@ storiesOf("CollectionCard", module)
       date={"5 DAYS AGO"}
       name={"Two Line Title Two Line Title Two Line Title Two Line Title"}
       id={"1234567890"}
-      version={"1"}
       description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
@@ -134,6 +137,8 @@ storiesOf("CollectionCard", module)
         "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       }
       linkComponent={linkComponent}
+      userAvatar={null}
+      articleCount={"5"}
     />
   ))
   .add(
@@ -143,7 +148,8 @@ storiesOf("CollectionCard", module)
         date={"5 DAYS AGO"}
         name={"Two Line Title Two Line Title Two Line Title Two Line Title"}
         id={"1234567890"}
-        version={"1"}
+        userAvatar={null}
+        articleCount={"5"}
         description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
@@ -176,7 +182,8 @@ storiesOf("CollectionCard", module)
         date={"5 DAYS AGO"}
         name={"Two Line Title Two Line Title Two Line Title Two Line Title"}
         id={"1234567890"}
-        version={"1"}
+        userAvatar={null}
+        articleCount={"5"}
         description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
@@ -210,7 +217,8 @@ storiesOf("CollectionCard", module)
         "Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title"
       }
       id={"1234567890"}
-      version={"1"}
+      userAvatar={null}
+      articleCount={"5"}
       description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
@@ -248,6 +256,7 @@ storiesOf("CollectionCard", module)
       username={"USERNAME GOES HERE"}
       userId={"HEY"}
       cardWidth={610}
+      cardHeight={290}
       linkComponent={linkComponent}
     />
   ))
@@ -258,7 +267,8 @@ storiesOf("CollectionCard", module)
         "Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title"
       }
       id={"1234567890"}
-      version={"1"}
+      userAvatar={null}
+      articleCount={"5"}
       description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
@@ -296,6 +306,7 @@ storiesOf("CollectionCard", module)
       username={"USERNAME GOES HERE"}
       userId={"HEY"}
       cardWidth={610}
+      cardHeight={290}
       imageURL={
         "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       }
