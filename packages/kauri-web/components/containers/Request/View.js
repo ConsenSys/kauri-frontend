@@ -41,7 +41,7 @@ const HeaderStrip = styled.div`
   }
 `;
 
-const UserBadge = Badge.extend`
+const UserBadge = styled(Badge)`
   margin-right: 0px;
   margin-left: 0px;
   > :first-child {
@@ -128,7 +128,7 @@ export const ContributeToBounty = ({ toggleBanner, type }: *) => (
   </ContributeToBountyContainer>
 );
 
-const TextBadge = ActionBadge.extend`
+const TextBadge = styled(ActionBadge)`
   cursor: inherit;
   color: white;
   > :first-child {
@@ -180,7 +180,7 @@ const AskAQuestion = styled(Button)`
   }
 `;
 
-const GeneralActions = BountyActions.extend`
+const GeneralActions = styled(BountyActions)`
   flex-direction: column;
   > * {
     margin-bottom: 10px;
