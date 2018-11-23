@@ -17,6 +17,7 @@ import {
 import ShareArticle from "../../../../../kauri-components/components/Tooltip/ShareArticle";
 import Outline from "../../../../../kauri-components/components/Outline";
 import TertiaryButton from "../../../../../kauri-components/components/Button/TertiaryButton";
+import styled from "../../../../lib/styled-components";
 import userIdTrim from "../../../../lib/userid-trim";
 
 export const ApprovedArticleDetails = styled(CreateRequestDetails)`
@@ -35,15 +36,15 @@ export const ApprovedArticleDetails = styled(CreateRequestDetails)`
 
 const UpdateArticleSvgIcon = () => (
   <svg
-    aria-hidden="true"
-    data-prefix="fas"
-    data-icon="file"
-    role="img"
-    viewBox="0 0 384 512"
+    aria-hidden='true'
+    data-prefix='fas'
+    data-icon='file'
+    role='img'
+    viewBox='0 0 384 512'
   >
     <path
-      fill="#0BA986"
-      d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"
+      fill='#0BA986'
+      d='M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z'
     />
   </svg>
 );
@@ -68,8 +69,8 @@ const ApprovedArticleHelmet = ({ blocks, contentState }) => {
 
   return (
     <Helmet>
-      <meta name="description" content={description} />
-      {image && <meta name="image" content={image} />}
+      <meta name='description' content={description} />
+      {image && <meta name='image' content={image} />}
     </Helmet>
   );
 };
@@ -126,9 +127,9 @@ export default ({
     (editorState.markdown
       ? contentState.getBlocksAsArray().map(block => block.toJS())
       : editorState
-          .getCurrentContent()
-          .getBlocksAsArray()
-          .map(block => block.toJS()));
+        .getCurrentContent()
+        .getBlocksAsArray()
+        .map(block => block.toJS()));
 
   const outlineHeadings = blocks
     .filter(({ type }) => type.includes("header-one"))
@@ -137,10 +138,10 @@ export default ({
   return (
     <SubmitArticleFormContent>
       <ApprovedArticleHelmet contentState={contentState} blocks={blocks} />
-      <SubmitArticleFormContainer type="approved article">
+      <SubmitArticleFormContainer type='approved article'>
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>
-      <ApprovedArticleDetails type="outline">
+      <ApprovedArticleDetails type='outline'>
         <Outline
           linkComponent={children => (
             <Link
@@ -170,17 +171,17 @@ export default ({
           handleClick={() =>
             userId
               ? routeChangeAction(
-                  `/article/${article_id}/v${article_version}/update-article`
-                )
+                `/article/${article_id}/v${article_version}/update-article`
+              )
               : routeChangeAction(
-                  `/login?r=article/${article_id}/v${article_version}/update-article`
-                )
+                `/login?r=article/${article_id}/v${article_version}/update-article`
+              )
           }
         >
           Update article
         </TertiaryButton>
         <ShareArticle
-          color="textPrimary"
+          color='textPrimary'
           url={`${hostName.replace(
             /api\./g,
             ""

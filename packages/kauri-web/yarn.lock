@@ -1125,10 +1125,10 @@
   dependencies:
     styled-system "^3.0.1"
 
-"@rej156/react-mde@5.6.0":
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/@rej156/react-mde/-/react-mde-5.6.0.tgz#3bc232e05c4aa2f618837675ad65e897a28cbfe6"
-  integrity sha512-EJ1ZdxpUiiNHlsvjBXnjmAl570yescLTNrKmY5A8sHg5IABB/elARKsD4LysBoOWaU6YzFimR6jPsOGuytQOzA==
+"@rej156/react-mde@5.6.2":
+  version "5.6.2"
+  resolved "https://registry.yarnpkg.com/@rej156/react-mde/-/react-mde-5.6.2.tgz#083852c60d34aaa74d889ce35082c3077e3ebd65"
+  integrity sha512-fVz7VoDw5VVAaZb17sBspSTjn+w0zpBjJDF6baP9NFCl1mb+Bxr05Fat0Ds/7pGSfqomj3vtMtGtAC1N32BEgA==
   dependencies:
     classnames "^2.2.5"
     npm "^6.0.0"
@@ -4890,16 +4890,7 @@ draft-js-utils@^1.2.0:
   resolved "https://registry.yarnpkg.com/draft-js-utils/-/draft-js-utils-1.2.0.tgz#f5cb23eb167325ffed3d79882fdc317721d2fd12"
   integrity sha1-9csj6xZzJf/tPXmIL9wxdyHS/RI=
 
-draft-js@0.10.4:
-  version "0.10.4"
-  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.4.tgz#147741642097c8120d8edc232e9503e8b7fb8d35"
-  integrity sha1-FHdBZCCXyBINjtwjLpUD6Lf7jTU=
-  dependencies:
-    fbjs "^0.8.15"
-    immutable "~3.7.4"
-    object-assign "^4.1.0"
-
-draft-js@^0.10.0, draft-js@~0.10.0:
+draft-js@0.10.5, draft-js@^0.10.0, draft-js@~0.10.0:
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
   integrity sha512-LE6jSCV9nkPhfVX2ggcRLA4FKs6zWq9ceuO/88BpXdNCS7mjRTgs0NsV6piUCJX9YxMsB9An33wnkMmU2sD2Zg==
