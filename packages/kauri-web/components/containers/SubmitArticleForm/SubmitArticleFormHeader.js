@@ -106,14 +106,14 @@ const SubmitArticleFormSubject = ({
   attributes,
 }: *) => (
   <SubmitArticleFormSubjectContainer>
-    <InputWrapper maxlength={100}>
+    <InputWrapper maxlength={150}>
       {getFieldDecorator("subject", {
         rules: [
           {
             required: true,
             message: "Please input the subject of the article!",
             whitespace: true,
-            max: 100,
+            max: 150,
           },
         ],
         initialValue: subject,
