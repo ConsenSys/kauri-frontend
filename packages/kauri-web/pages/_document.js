@@ -51,7 +51,10 @@ export default class MyDocument extends Document {
   // should render on <head>
   get helmetHeadComponents() {
     return Object.keys(this.props.helmet)
-      .filter(el => el !== "htmlAttributes" && el !== "bodyAttributes")
+      .filter(
+        el =>
+          el !== "htmlAttributes" && el !== "bodyAttributes" && el !== "title"
+      )
       .map(el => this.props.helmet[el].toComponent());
   }
 
@@ -59,7 +62,6 @@ export default class MyDocument extends Document {
     return (
       <Helmet
         htmlAttributes={{ lang: "en" }}
-        title="Kauri"
         meta={[{ charSet: "utf8" }]}
         script={scripts}
       />
