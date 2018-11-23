@@ -24,7 +24,7 @@ interface IHandlerProps {
   ) => React.MouseEvent<HTMLElement>;
 }
 
-const withToggle = compose(
+const withToggle = compose<any, any>(
   withState("toggledOn", "toggle", false),
   withHandlers<IOutterProps, IHandlerProps>({
     hide: ({ toggle }) => () => toggle(false),
