@@ -1,24 +1,27 @@
-import React from 'react'
-import styled, { css } from 'styled-components'
-import { InputNumber, DatePicker } from 'antd'
-import moment from 'moment'
-import SharedEditor from '../../common/SharedEditor'
-import { Badge } from '../../common/ActionBadge'
-import theme from '../../../lib/theme-config'
-import Web3 from 'web3'
+import React from "react";
+import styled, { css } from "styled-components";
+import { InputNumber, DatePicker } from "antd";
+import moment from "moment";
+import SharedEditor from "../../common/SharedEditor";
+import { Badge } from "../../common/ActionBadge";
+import theme from "../../../lib/theme-config";
+import Web3 from "web3";
 
-const web3 = new Web3()
+const web3 = new Web3();
 
-const dateFormat = 'YYYY/MM/DD'
+const dateFormat = "YYYY/MM/DD";
 
-function disabledDate (current) {
+function disabledDate(current) {
   // Can not select days before 3 days time and past 30 days time
-  return (current && current < moment().add(2, 'days')) || current > moment().add(30, 'days')
+  return (
+    (current && current < moment().add(2, "days")) ||
+    current > moment().add(30, "days")
+  );
 }
 
 const displayNoneCss = css`
   display: none;
-`
+`;
 
 const RandomLineThatGoesAcrossTheContent = styled.div`
   width: 100%;
@@ -26,18 +29,18 @@ const RandomLineThatGoesAcrossTheContent = styled.div`
   left: 0;
   position: absolute;
   border-bottom: 1px solid #c8ccd0;
-`
+`;
 
 export const CreateRequestContent = styled.div`
   display: flex;
   padding: 0 ${props => props.theme.padding};
   min-height: 70vh;
-`
+`;
 
 const DollarAmount = styled.span`
   margin-left: 10px;
   color: ${props => props.theme.secondaryTextColor} !important;
-`
+`;
 
 export const CreateRequestLabel = styled.span`
   height: 16px;
@@ -48,17 +51,17 @@ export const CreateRequestLabel = styled.span`
   line-height: 16px;
   color: ${props => props.theme.primaryColor};
   text-transform: uppercase;
-`
+`;
 
 const inReviewArticleContainerCss = css`
   display: flex;
   padding-top: 2.5em;
   flex-direction: column;
-`
+`;
 
 const approvedArticleContainerCss = css`
   padding-top: 2.5em;
-`
+`;
 
 export const CreateRequestContainer = styled.div`
   width: 74%;
@@ -66,13 +69,13 @@ export const CreateRequestContainer = styled.div`
     width: 100%;
     padding: 10px;
   }
-  ${props => props.type === 'in review article' && inReviewArticleContainerCss};
-  ${props => props.type === 'approved article' && approvedArticleContainerCss};
-`
+  ${props => props.type === "in review article" && inReviewArticleContainerCss};
+  ${props => props.type === "approved article" && approvedArticleContainerCss};
+`;
 
 const isSubmittingOutlineHeaderCss = css`
   padding-top: 4em;
-`
+`;
 
 const outlineHeaderCss = css`
   position: sticky;
@@ -88,13 +91,13 @@ const outlineHeaderCss = css`
   }
   ${props => props.isSubmitting && isSubmittingOutlineHeaderCss};
   ::-webkit-scrollbar {
-      width: 0px;
-      background: transparent;
+    width: 0px;
+    background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-      background: transparent;
+    background: transparent;
   }
-`
+`;
 
 export const CreateRequestDetails = styled.section`
   display: flex;
@@ -105,19 +108,19 @@ export const CreateRequestDetails = styled.section`
   > :last-child {
     margin-top: 15px;
   }
-  padding-left: ${props => props.type === 'createRequest' && '110px'};
-  padding-top: ${props => (props.type === 'createRequest' ? '4em' : '2.5em')};
-  ${props => props.type === 'outline' && outlineHeaderCss};
-`
+  padding-left: ${props => props.type === "createRequest" && "110px"};
+  padding-top: ${props => (props.type === "createRequest" ? "4em" : "2.5em")};
+  ${props => props.type === "outline" && outlineHeaderCss};
+`;
 
-const DetailBadge = Badge.extend`
+const DetailBadge = styled(Badge)`
   width: 100%;
   margin-right: 0px;
   > * {
     color: ${props => props.theme.primaryTextColor};
   }
   ${props => props.request && displayNoneCss};
-`
+`;
 
 const Bounty = styled.div`
   display: flex;
@@ -131,7 +134,7 @@ const Bounty = styled.div`
     line-height: 19px;
     color: ${props => props.theme.primaryColor};
   }
-`
+`;
 
 export const DetailLabel = styled.span`
   color: ${props => props.theme.primaryTextColor};
@@ -140,22 +143,34 @@ export const DetailLabel = styled.span`
   font-style: normal;
   font-size: 12px;
   text-transform: uppercase;
-`
+`;
 
 class CreateRequestText extends React.Component {
-  render () {
-    const { getFieldDecorator, editorState, handleChange, request, getFieldError } = this.props
-    return getFieldDecorator('text', {
+  render() {
+    const {
+      getFieldDecorator,
+      editorState,
+      handleChange,
+      request,
+      getFieldError,
+    } = this.props;
+    return getFieldDecorator("text", {
       rules: [
         {
           required: true,
-          message: 'Please input the description of the request!',
+          message: "Please input the description of the request!",
           whitespace: true,
         },
       ],
       initialValue: request && request.text,
       defaultValue: request && request.text,
-    })(<SharedEditor hasErrors={getFieldError('text')} editorState={editorState} handleChange={handleChange} />)
+    })(
+      <SharedEditor
+        hasErrors={getFieldError("text")}
+        editorState={editorState}
+        handleChange={handleChange}
+      />
+    );
   }
 }
 
@@ -172,18 +187,20 @@ const BountyInputNumber = styled(InputNumber)`
   .ant-input-number-handler-wrap {
     border-left: 1px solid #2a3b3b;
   }
-`
+`;
 
 const BountyInput = ({ getFieldDecorator, ethUsdPrice, request }) =>
-  getFieldDecorator('bounty', {
+  getFieldDecorator("bounty", {
     rules: [
       {
         required: true,
-        message: 'Please input the bounty of the request!',
+        message: "Please input the bounty of the request!",
       },
     ],
-    initialValue: parseInt(request && web3.fromWei(request.bounty, 'ether')) || 0.0,
-    defaultValue: parseInt(request && web3.fromWei(request.bounty, 'ether')) || 0.0,
+    initialValue:
+      parseInt(request && web3.fromWei(request.bounty, "ether")) || 0.0,
+    defaultValue:
+      parseInt(request && web3.fromWei(request.bounty, "ether")) || 0.0,
   })(
     <BountyInputNumber
       style={{
@@ -191,8 +208,8 @@ const BountyInput = ({ getFieldDecorator, ethUsdPrice, request }) =>
         borderRadius: 4,
         width: 105,
         height: 40,
-        textAlign: 'center',
-        verticalAlign: 'middle',
+        textAlign: "center",
+        verticalAlign: "middle",
         color: `${theme.primaryTextColor} !important`,
       }}
       min={0}
@@ -200,35 +217,37 @@ const BountyInput = ({ getFieldDecorator, ethUsdPrice, request }) =>
       precision={2}
       formatter={value => `${value}`}
       parser={value => {
-        return value.replace(/[^0-9^.]/g, '')
+        return value.replace(/[^0-9^.]/g, "");
       }}
     />
-  )
+  );
 
 const DeadlineDatePicker = styled(DatePicker)`
   height: 40px;
   input {
     height: 40px;
   }
-`
+`;
 
 const RequestDeadline = ({ getFieldDecorator, setFieldsValue, request }) =>
-  getFieldDecorator('dead_line', {
+  getFieldDecorator("dead_line", {
     rules: [
       {
         required: true,
-        message: 'Please input the deadline date of the request!',
+        message: "Please input the deadline date of the request!",
       },
     ],
-    initialValue: (request && moment(request.dead_line)) || moment().add(4, 'days'),
-    defaultvalue: (request && moment(request.dead_line)) || moment().add(4, 'days'),
-  })(<DeadlineDatePicker disabledDate={disabledDate} format={dateFormat} />)
+    initialValue:
+      (request && moment(request.dead_line)) || moment().add(4, "days"),
+    defaultvalue:
+      (request && moment(request.dead_line)) || moment().add(4, "days"),
+  })(<DeadlineDatePicker disabledDate={disabledDate} format={dateFormat} />);
 
 export default class extends React.Component {
   state = {
     focused: false,
-  }
-  render () {
+  };
+  render() {
     const {
       getFieldDecorator,
       editorState,
@@ -237,12 +256,14 @@ export default class extends React.Component {
       setFieldsValue,
       getFieldValue,
       getFieldError,
-    } = this.props
-    const request = this.props.data && this.props.data.getRequest
+    } = this.props;
+    const request = this.props.data && this.props.data.getRequest;
 
     return (
       <CreateRequestContent>
-        <CreateRequestContainer onClick={() => this.setState({ focused: true })}>
+        <CreateRequestContainer
+          onClick={() => this.setState({ focused: true })}
+        >
           <RandomLineThatGoesAcrossTheContent />
           <CreateRequestText
             request={request}
@@ -252,23 +273,33 @@ export default class extends React.Component {
             handleChange={handleChange}
           />
         </CreateRequestContainer>
-        <CreateRequestDetails type='createRequest'>
+        <CreateRequestDetails type="createRequest">
           <DetailBadge request={!!request}>
             <Bounty>
-              <BountyInput request={request} ethUsdPrice={ethUsdPrice} getFieldDecorator={getFieldDecorator} />
+              <BountyInput
+                request={request}
+                ethUsdPrice={ethUsdPrice}
+                getFieldDecorator={getFieldDecorator}
+              />
               <DollarAmount>{`ETH ($${(
-                (getFieldValue('bounty') && parseFloat(getFieldValue('bounty')) * parseFloat(ethUsdPrice)) ||
+                (getFieldValue("bounty") &&
+                  parseFloat(getFieldValue("bounty")) *
+                    parseFloat(ethUsdPrice)) ||
                 0.0
               ).toFixed(2)})`}</DollarAmount>
             </Bounty>
             <DetailLabel>Bounty Amount</DetailLabel>
           </DetailBadge>
           <DetailBadge request={!!request}>
-            <RequestDeadline request={request} getFieldDecorator={getFieldDecorator} setFieldsValue={setFieldsValue} />
+            <RequestDeadline
+              request={request}
+              getFieldDecorator={getFieldDecorator}
+              setFieldsValue={setFieldsValue}
+            />
             <DetailLabel>Deadline (30 days max)</DetailLabel>
           </DetailBadge>
         </CreateRequestDetails>
       </CreateRequestContent>
-    )
+    );
   }
 }

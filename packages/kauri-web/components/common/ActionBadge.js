@@ -1,7 +1,7 @@
-import React from 'react'
-import styled, { css } from 'styled-components'
-import { CreateRequestLogo } from '../containers/CreateRequestForm/CreateRequestHeader'
-import theme from '../../lib/theme-config'
+import React from "react";
+import styled, { css } from "styled-components";
+import { CreateRequestLogo } from "../containers/CreateRequestForm/CreateRequestHeader";
+import theme from "../../lib/theme-config";
 
 const Badge = styled.div`
   display: flex;
@@ -23,14 +23,14 @@ const Badge = styled.div`
     margin-right: 0px;
     text-transform: uppercase;
   }
-`
+`;
 
 const ActionIcon = styled.div`
-  height: ${props => props.height || '20'}px;
-  width: ${props => props.width || '20'}px;
+  height: ${props => props.height || "20"}px;
+  width: ${props => props.width || "20"}px;
   border-radius: 4px;
   background-color: ${props => props.theme.primaryColor};
-`
+`;
 
 const ActionBadge = styled.div`
   display: flex;
@@ -47,12 +47,12 @@ const ActionBadge = styled.div`
   > :nth-child(2) {
     margin-left: 8px;
   }
-`
+`;
 
 const individualCategoryCss = css`
   width: 100%;
   margin-right: 0;
-`
+`;
 
 const totalArticlesCss = css`
   height: 100%;
@@ -65,7 +65,7 @@ const totalArticlesCss = css`
   :hover {
     box-shadow: 0 0 0 2px ${props => props.theme.hoverTextColor};
   }
-`
+`;
 
 const Container = styled.div`
   display: flex;
@@ -75,9 +75,11 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: ${props => props.height || '76'}px;
-  width: ${props => props.width || '76'}px;
-  box-shadow: 0 0 0 1px ${props => props.theme[props.category] && props.theme[props.category].borderColor};
+  height: ${props => props.height || "76"}px;
+  width: ${props => props.width || "76"}px;
+  box-shadow: 0 0 0 1px
+    ${props =>
+      props.theme[props.category] && props.theme[props.category].borderColor};
   border-radius: 4px;
   background-color: #ffffff;
   ${props => props.individualCategory && individualCategoryCss};
@@ -85,21 +87,21 @@ const Container = styled.div`
   :hover {
     box-shadow: 0 0 0 2px ${props => props.theme.hoverTextColor};
   }
-`
+`;
 
 const Name = styled.span`
   height: 13px;
-  margin-top: ${props => (props.totalArticles ? '0px' : '9px')};
+  margin-top: ${props => (props.totalArticles ? "0px" : "9px")};
   font-size: 12px;
   font-weight: 700;
   line-height: 13px;
   text-align: center;
   text-transform: uppercase;
-`
+`;
 
 export const Avatar = styled.img`
-  max-height: ${props => props.avatarHeight || '30'}px;
-`
+  max-height: ${props => props.avatarHeight || "30"}px;
+`;
 
 const CategoryBadge = props => (
   <CategoryBadge.Container {...props}>
@@ -108,29 +110,31 @@ const CategoryBadge = props => (
         avatarWidth={props.avatarWidth}
         avatarHeight={props.avatarHeight}
         src={`/static/images/${props.category}/avatar.png`}
-        alt='logo'
+        alt="logo"
       />
     )}
-    <CategoryBadge.Name>{props.category || props.username || props.userId || 'Unknown Writer'}</CategoryBadge.Name>
+    <CategoryBadge.Name>
+      {props.category || props.username || props.userId || "Unknown Writer"}
+    </CategoryBadge.Name>
   </CategoryBadge.Container>
-)
+);
 
-CategoryBadge.Container = Container
-CategoryBadge.Name = Name
-CategoryBadge.Avatar = Avatar
+CategoryBadge.Container = Container;
+CategoryBadge.Name = Name;
+CategoryBadge.Avatar = Avatar;
 
 const Count = styled.h2`
   font-size: 40px;
   font-weight: 300;
   line-height: 53px;
   margin-bottom: 0px;
-`
+`;
 
 const ViewAll = styled.a`
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
-`
+`;
 
 const TotalArticleBadge = props =>
   props.data && props.data.searchArticles ? (
@@ -148,7 +152,7 @@ const TotalArticleBadge = props =>
     <Container totalArticles {...props}>
       <Count>Loading articles...</Count>
     </Container>
-  )
+  );
 
 const ConfirmationLogoBadgeContainer = styled.div`
   display: flex;
@@ -157,39 +161,46 @@ const ConfirmationLogoBadgeContainer = styled.div`
   > :first-child {
     margin-bottom: 14px;
   }
-`
+`;
 
-const ArticleApprovedConfirmationLogoContainer = ConfirmationLogoBadgeContainer.extend`
+const ArticleApprovedConfirmationLogoContainer = styled(
+  ConfirmationLogoBadgeContainer
+)`
   > :first-child {
     margin-bottom: 0px;
   }
-`
+`;
 
 const ConfirmationMessage = styled.span`
   font-size: 14px;
   font-weight: 500;
   color: #fff;
   text-transform: uppercase;
-`
+`;
 
-const ArticleApprovedConfirmationMessage = ConfirmationMessage.extend`
+const ArticleApprovedConfirmationMessage = styled(ConfirmationMessage)`
   font-size: 26px;
   font-weight: normal;
   text-transform: capitalize;
-`
+`;
 
 const ConfirmationLogoBadge = ({ chosenCategory, confirmationMessage }) => (
   <ConfirmationLogoBadgeContainer>
     <CreateRequestLogo chosenCategory={chosenCategory} />
     <ConfirmationMessage>{confirmationMessage}</ConfirmationMessage>
   </ConfirmationLogoBadgeContainer>
-)
+);
 
-const ArticleApprovedConfirmationLogoBadge = ({ chosenCategory, confirmationMessage }) => (
+const ArticleApprovedConfirmationLogoBadge = ({
+  chosenCategory,
+  confirmationMessage,
+}) => (
   <ArticleApprovedConfirmationLogoContainer>
-    <ArticleApprovedConfirmationMessage>{confirmationMessage}</ArticleApprovedConfirmationMessage>
+    <ArticleApprovedConfirmationMessage>
+      {confirmationMessage}
+    </ArticleApprovedConfirmationMessage>
   </ArticleApprovedConfirmationLogoContainer>
-)
+);
 
 const PossibleActionContainer = styled.div`
   display: flex;
@@ -204,27 +215,27 @@ const PossibleActionContainer = styled.div`
   :not(:last-child) {
     margin-right: 100px;
   }
-`
+`;
 
 const PossibleAction = styled.h4`
   text-transform: uppercase;
   color: #ffffff;
   font-size: 13px;
   font-weight: bold;
-`
+`;
 
 const PossibleActionDescription = styled.span`
   width: 150px;
   text-align: center;
   color: #ffffff;
   font-size: 14px;
-`
+`;
 
 const PossibleActions = styled.div`
   display: flex;
   flex-direction: row;
   margin: 60px 0;
-`
+`;
 
 const PossibleActionBadge = ({ action, description }) => (
   <PossibleActionContainer>
@@ -232,7 +243,7 @@ const PossibleActionBadge = ({ action, description }) => (
     <PossibleAction>{action}</PossibleAction>
     <PossibleActionDescription>{description}</PossibleActionDescription>
   </PossibleActionContainer>
-)
+);
 
 export {
   Badge,
@@ -244,6 +255,6 @@ export {
   PossibleActionBadge,
   PossibleActions,
   ArticleApprovedConfirmationLogoBadge,
-}
+};
 
-export default ActionBadge
+export default ActionBadge;

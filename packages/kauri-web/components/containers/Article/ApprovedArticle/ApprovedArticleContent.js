@@ -19,7 +19,7 @@ import Outline from "../../../../../kauri-components/components/Outline";
 import TertiaryButton from "../../../../../kauri-components/components/Button/TertiaryButton";
 import userIdTrim from "../../../../lib/userid-trim";
 
-export const ApprovedArticleDetails = CreateRequestDetails.extend`
+export const ApprovedArticleDetails = styled(CreateRequestDetails)`
   align-items: inherit;
   > :last-child {
     margin-top: 0px;
