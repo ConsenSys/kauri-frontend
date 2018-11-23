@@ -30,7 +30,6 @@
     "ramda": "^0.25.0",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
-    "react-hot-loader": "^4.5.1",
     "react-redux": "^5.0.7",
     "react-share": "^2.2.0",
     "react-text-truncate": "^0.13.1",
