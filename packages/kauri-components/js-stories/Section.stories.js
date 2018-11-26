@@ -115,7 +115,7 @@ storiesOf("Section", module)
       <Stack alignItems={["", "center"]} justifyContent={["", "end"]}>
         <CreateCollectionMetaDetails mb={4}>
           <StatisticsContainer
-            pageType="CollectionPage"
+            pageType="CreateCollectionPage"
             statistics={[
               { name: "Followers", count: 0 },
               { name: "Articles", count: 0 },
