@@ -1,44 +1,76 @@
 // @flow
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
-import moment from 'moment'
-import ArticleCard from '../../../../../kauri-components/components/Card/ArticleCard'
-import Empty from '../Empty'
-import { Link } from '../../../../routes'
-import ContentContainer from '../PublicProfileContentContainer'
-import CheckpointArticles from '../../CheckpointArticles'
-import withPagination from '../../../../lib/with-pagination'
+import React, { Fragment } from "react";
+import styled from "styled-components";
+import moment from "moment";
+import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
+import Empty from "../Empty";
+import { Link } from "../../../../routes";
+import ContentContainer from "../PublicProfileContentContainer";
+import CheckpointArticles from "../../CheckpointArticles";
+import withPagination from "../../../../lib/with-pagination";
 
-import { PrimaryButton } from '../../../../../kauri-components/components/Button'
-import Masonry from '../../../../../kauri-components/components/Layout/Masonry'
+import {
+  PrimaryButton,
+  MediumImportButton,
+} from "../../../../../kauri-components/components/Button";
+import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 
-import type { ArticlesProps } from '../types'
+import type { ArticlesProps } from "../types";
 
-const Articles = ({ data, type, routeChangeAction, isOwner }: ArticlesProps) => {
-  const articles = data.searchArticles && data.searchArticles.content
+const Centered = styled.div`
+  display: flex;
+  justify-content: center;
+  & > * {
+    margin: ${props => props.theme.space[1]}px;
+  }
+`;
+
+const Articles = ({
+  data,
+  type,
+  routeChangeAction,
+  isOwner,
+}: ArticlesProps) => {
+  const articles = data.searchArticles && data.searchArticles.content;
   return articles.length > 0 ? (
     <Fragment>
-      {typeof type === 'string' &&
-        type === 'published' &&
-        isOwner && <CheckpointArticles isOwner={isOwner} articles={articles} />}
+      {typeof type === "string" && type === "published" && isOwner && (
+        <CheckpointArticles isOwner={isOwner} articles={articles} />
+      )}
       <ContentContainer>
         <Masonry columns={4} minWidth={310}>
           {articles.map(article => (
             <ArticleCard
               key={`${article.id}-${article.version}`}
               changeRoute={routeChangeAction}
-              date={moment(article.dateCreated).format('D MMM YYYY')}
+              date={moment(article.dateCreated).format("D MMM YYYY")}
               title={article.title}
               content={article.content}
-              userId={type !== 'toBeApproved' && article.owner ? article.owner.id : article.author.id}
-              username={type !== 'toBeApproved' && article.owner ? article.owner.username : article.author.username}
-              userAvatar={type !== 'toBeApproved' && article.owner ? article.owner.avatar : article.author.avatar}
+              userId={
+                type !== "toBeApproved" && article.owner
+                  ? article.owner.id
+                  : article.author.id
+              }
+              username={
+                type !== "toBeApproved" && article.owner
+                  ? article.owner.username
+                  : article.author.username
+              }
+              userAvatar={
+                type !== "toBeApproved" && article.owner
+                  ? article.owner.avatar
+                  : article.author.avatar
+              }
               id={article.id}
               version={article.version}
               cardHeight={420}
               imageURL={article.attributes && article.attributes.background}
               linkComponent={(childrenProps, route) => (
-                <Link toSlug={route.includes('article') && article.title} useAnchorTag href={route}>
+                <Link
+                  toSlug={route.includes("article") && article.title}
+                  useAnchorTag
+                  href={route}
+                >
                   {childrenProps}
                 </Link>
               )}
@@ -46,12 +78,20 @@ const Articles = ({ data, type, routeChangeAction, isOwner }: ArticlesProps) => 
           ))}
         </Masonry>
       </ContentContainer>
+      <Centered>
+        <MediumImportButton border={true} />
+      </Centered>
     </Fragment>
   ) : (
     <Empty>
-      <PrimaryButton onClick={() => routeChangeAction(`/write-article`)}>WRITE ARTICLE</PrimaryButton>
+      <Centered>
+        <MediumImportButton border={true} />
+        <PrimaryButton onClick={() => routeChangeAction(`/write-article`)}>
+          WRITE ARTICLE
+        </PrimaryButton>
+      </Centered>
     </Empty>
-  )
-}
+  );
+};
 
-export default withPagination(Articles, 'searchArticles')
+export default withPagination(Articles, "searchArticles");
