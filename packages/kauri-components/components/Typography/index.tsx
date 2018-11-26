@@ -2,11 +2,13 @@ import * as React from "react";
 import styled, { css } from "../../lib/styled-components";
 import { StyledComponentClass } from "styled-components";
 
-export const BodyCardCss = css`
+export const BodyCardCss = css<{ color: string | undefined }>`
   font-size: 14px;
   font-weight: normal;
   letter-spacing: -0.1px;
   line-height: 18px;
+  color: ${props =>
+    typeof props.color === "string" && props.theme.colors[props.color]};
 `;
 
 interface ITypography {
