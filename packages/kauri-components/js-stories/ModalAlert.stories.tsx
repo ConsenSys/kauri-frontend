@@ -1,20 +1,34 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-// import styled from "../lib/styled-components";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import Modal from "../components/Modal";
+import AlertViewComponent from "../components/Modal/AlertView";
 
 const mockStore = configureStore();
 
-const ModalChildren = () => <p>Because Nelson!</p>;
+const ModalChildren = () => (
+  <section>
+    <p>Content goes here</p>
+  </section>
+);
+
+const handleConfirmAction = (action: any) => () => action();
 
 storiesOf("ModalAlert", module)
   .addDecorator(getStory => (
     <Provider
       store={mockStore({
         modal: {
-          children: <ModalChildren />,
+          children: (
+            <AlertViewComponent
+              // closeModalAction must be the redux connected dispatch action
+              closeModalAction={handleConfirmAction(() => alert("cancel"))}
+              confirmButtonAction={handleConfirmAction(() => alert("confirm"))}
+              content={<ModalChildren />}
+              title={"Title"}
+            />
+          ),
           isModalOpen: true,
         },
       })}
