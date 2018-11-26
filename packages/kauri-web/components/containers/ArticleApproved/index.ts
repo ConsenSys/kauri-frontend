@@ -5,7 +5,15 @@ import { connect } from "react-redux";
 import { compose, graphql } from "react-apollo";
 import withLoading from "../../../lib/with-loading";
 
-const mapStateToProps = (state, ownProps) => {
+interface IReduxState {
+  app: {
+    user: {
+      id: string;
+    };
+  };
+}
+
+const mapStateToProps = (state: IReduxState) => {
   return {
     user: state.app.user,
   };
@@ -17,7 +25,13 @@ export default compose(
     { routeChangeAction }
   ),
   graphql(getArticle, {
-    options: ({ article_id, article_version }) => ({
+    options: ({
+      article_id,
+      article_version,
+    }: {
+      article_id: string;
+      article_version: number;
+    }) => ({
       variables: { id: article_id, version: article_version, published: true },
     }),
   }),

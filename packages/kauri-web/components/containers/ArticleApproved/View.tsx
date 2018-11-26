@@ -1,6 +1,8 @@
 import React from "react";
-import styled from "../../../lib/styled-components";
+import { Helmet } from "react-helmet";
+import R from "ramda";
 import moment from "moment";
+import styled from "../../../lib/styled-components";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
 import { Link } from "../../../routes";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
@@ -12,8 +14,6 @@ import {
   Article,
   Article_owner_PublicUserDTO,
 } from "../../../queries/__generated__/Article";
-import { Helmet } from "react-helmet";
-import R from "ramda";
 
 interface IProps {
   data: {
