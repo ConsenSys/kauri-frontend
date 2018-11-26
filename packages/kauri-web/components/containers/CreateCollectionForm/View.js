@@ -346,7 +346,7 @@ export default ({
           <CreateCollectionMetaDetails mb={4}>
             <CreateCollectionCuratorDetails mr={4} mb={2}>
               <StatisticsContainer
-                pageType='CollectionPage'
+                pageType='CreateCollectionPage'
                 statistics={[
                   // { name: 'Followers', count: 0 },
                   {
