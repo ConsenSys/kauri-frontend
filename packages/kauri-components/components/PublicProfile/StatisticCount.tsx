@@ -43,7 +43,8 @@ const pluraliseCount = (payload: number) =>
     [count => count < 1000, count => String(count)],
   ])(payload);
 
-const lastStringValue = (name: string) => name.substring(name.length - 1, 1);
+const lastStringValue = (name: string) =>
+  name && name.length > 0 && name[name.length - 1];
 
 const pluraliseName = (payload: { count: number; name: string }) =>
   R.cond([
