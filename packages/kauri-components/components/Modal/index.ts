@@ -1,4 +1,3 @@
-// @flow
 import { connect } from "react-redux";
 import { closeModalAction } from "./Module";
 import Modal from "./View";
