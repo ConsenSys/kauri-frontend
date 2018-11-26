@@ -38,7 +38,7 @@ const plugins = [
     },
   ],
   ["ramda"],
-  "react-hot-loader/babel",
+  // "react-hot-loader/babel",
 ];
 
 const config = {
