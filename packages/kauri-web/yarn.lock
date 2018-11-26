@@ -10330,7 +10330,7 @@ next-server@^7.0.2-canary.26:
     send "0.16.1"
     url "0.11.0"
 
-next@canary:
+next@^7.0.2-canary.26:
   version "7.0.2-canary.26"
   resolved "https://registry.yarnpkg.com/next/-/next-7.0.2-canary.26.tgz#77d3b7061cace2d8909ad4533657f50e4a9931db"
   integrity sha512-RAn0ufjnCYvofUfPtK5/wmWhFfUbD+aaByKg4RTlwf97DcDst6VT/t6Udb/rXMYrAHhzT2K9sAysgUss6rqvHA==

@@ -73,30 +73,29 @@ class Collections extends Component<IProps> {
                 return (
                   <CollectionCard
                     key={String(collection && collection.id)}
-                    changeRoute={this.props.routeChangeAction}
-                    id={collection && collection.id}
-                    name={collection && collection.name}
-                    description={collection && collection.description}
+                    id={String(collection && collection.id)}
+                    name={String(collection && collection.name)}
+                    description={String(collection && collection.description)}
                     username={
                       collection &&
                       collection.owner &&
                       collection.owner.username
                     }
-                    userId={
+                    userId={String(
                       collection && collection.owner && collection.owner.id
-                    }
+                    )}
                     userAvatar={
                       collection && collection.owner && collection.owner.avatar
                     }
-                    imageURL={collection && collection.background}
-                    articleCount={articleCount}
+                    imageURL={String(collection && collection.background)}
+                    articleCount={String(articleCount)}
                     date={moment(collection && collection.dateUpdated).format(
                       "D MMM YYYY"
                     )}
                     cardHeight={290}
                     cardWidth={290}
                     linkComponent={(
-                      childrenProps: Element[],
+                      childrenProps: React.ReactElement<any>,
                       route: string
                     ) => (
                       <Link
