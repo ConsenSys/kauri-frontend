@@ -34,7 +34,7 @@ interface IState {
 class EmailVerificationPage extends React.Component<IProps & IState> {
   render() {
     return (
-      <App url={this.props.router}>
+      <App>
         <ConnectedEmailVerification />
       </App>
     );
