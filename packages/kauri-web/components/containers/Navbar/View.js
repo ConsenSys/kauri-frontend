@@ -393,7 +393,7 @@ class Navbar extends React.Component {
             </Text>
           </Link>
         </StyledMenuItem>
-        <StyledMenuItem key="/contactus">
+        <StyledMenuItem onlyDesktop key="/contactus">
           <Text
             href="mailto:help@kauri.io"
             pathname={router.pathname}
