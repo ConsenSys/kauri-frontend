@@ -9,7 +9,18 @@ const mockStore = configureStore();
 
 const ModalChildren = () => (
   <section>
-    <p>Content goes here</p>
+    <p>
+      Content goes here. Content goes here. Content goes here. Content goes
+      here.{" "}
+    </p>
+    <p>
+      Content goes here. Content goes here. Content goes here. Content goes
+      here.{" "}
+    </p>
+    <p>
+      Content goes here. Content goes here. Content goes here. Content goes
+      here.{" "}
+    </p>
   </section>
 );
 

@@ -15,14 +15,24 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 130px;
+  justify-content: center;
+  align-items: center;
 `;
 
-const TitleContainer = styled.div``;
+const TitleContainer = styled.div`
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  > * {
+    text-align: center;
+  }
+`;
 
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: auto;
+  align-self: flex-end;
   > :first-child {
     margin-left: auto;
     margin-right: ${props => props.theme.space[2]}px;
