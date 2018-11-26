@@ -74,7 +74,7 @@
     "mezr": "^0.6.2",
     "mixpanel-browser": "^2.21.0",
     "moment": "2.20.1",
-    "next": "canary",
+    "next": "^7.0.2-canary.26",
     "next-routes": "^1.4.2",
     "rake-js": "^0.1.1",
     "ramda": "^0.25.0",
