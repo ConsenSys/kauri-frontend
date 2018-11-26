@@ -513,6 +513,30 @@ interface IProps {
   isChosenCollection?: boolean;
 }
 
+interface IRenderFooterProps {
+  id: string;
+  imageURL: string | undefined;
+  articleCount: string;
+  linkComponent: (
+    childrenProps: React.ReactElement<any>,
+    route: string
+  ) => React.ReactElement<any>;
+}
+
+const RenderFooter: React.FunctionComponent<IRenderFooterProps> = ({
+  id,
+  imageURL,
+  articleCount,
+  linkComponent,
+}) =>
+  linkComponent(
+    <Footer imageURL={imageURL}>
+      <H4>{articleCount || "0"}</H4>
+      <Label>Articles</Label>
+    </Footer>,
+    `/collection/${id}`
+  );
+
 const CollectionCard: React.FunctionComponent<IProps> = ({
   id,
   description,
@@ -571,10 +595,12 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
           username={username}
         />
         {typeof imageURL !== "string" && <Divider />}
-        <Footer imageURL={imageURL}>
-          <H4>{articleCount || "0"}</H4>
-          <Label>Articles</Label>
-        </Footer>
+        <RenderFooter
+          id={id}
+          imageURL={imageURL}
+          linkComponent={linkComponent}
+          articleCount={articleCount}
+        />
       </Container>
     </BaseCard>
   );

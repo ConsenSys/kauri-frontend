@@ -87,7 +87,7 @@ const Container: React.SFC<Props> = props => {
   return (
     <CollectionHeaderSection>
       <LeftSide>
-        <Label>Updated {moment(updated).fromNow()}</Label>
+        <Label>Collection Updated {moment(updated).fromNow()}</Label>
         <Title1 color="white">{name}</Title1>
         <PageDescription color="white">{description}</PageDescription>
         <ShareArticle color={"white"} url={url} title={name} />
