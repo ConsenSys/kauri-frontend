@@ -10477,10 +10477,27 @@ next-routes@^1.4.2:
   dependencies:
     path-to-regexp "^2.1.0"
 
+next-server@^7.0.2-canary.26:
+  version "7.0.2-canary.26"
+  resolved "https://registry.yarnpkg.com/next-server/-/next-server-7.0.2-canary.26.tgz#29fd7c44fe3b86a8857eccea5e0c5229a53368f1"
+  integrity sha512-3YvIk8BuMCvnZVex5jOQNSHrwqNfcdjnxQiiOR4meC+y8t3GwPoRUsjkKY2+klZIkAD0m965wKFCHmNPcCJ0EQ==
+  dependencies:
+    "@babel/runtime-corejs2" "7.1.2"
+    ansi-html "0.0.7"
+    etag "1.8.1"
+    find-up "3.0.0"
+    fresh "0.5.2"
+    hoist-non-react-statics "3.0.1"
+    htmlescape "1.1.1"
+    path-to-regexp "2.1.0"
+    prop-types "15.6.2"
+    send "0.16.1"
+    url "0.11.0"
+
 next@^7.0.2-canary.26:
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/next/-/next-7.0.2.tgz#5ff6b3f0e6cf03ce539d5779a55dc1f8fb1759d7"
-  integrity sha512-DOPKKk+2rAEvXS/JMaZL5+jd2WUJI5BEv8xXiR4ijqIuvAL0dI/cT8H6bhFCqbYIgFNuefp+NSVh2kvxpELyeg==
+  version "7.0.2-canary.26"
+  resolved "https://registry.yarnpkg.com/next/-/next-7.0.2-canary.26.tgz#77d3b7061cace2d8909ad4533657f50e4a9931db"
+  integrity sha512-RAn0ufjnCYvofUfPtK5/wmWhFfUbD+aaByKg4RTlwf97DcDst6VT/t6Udb/rXMYrAHhzT2K9sAysgUss6rqvHA==
   dependencies:
     "@babel/core" "7.0.0"
     "@babel/plugin-proposal-class-properties" "7.0.0"

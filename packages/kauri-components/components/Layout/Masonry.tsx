@@ -20,7 +20,7 @@ const MasonryContainer = styled.div`
 interface IProps {
   minWidth: number;
   columns: number;
-  children: Element[];
+  children: React.ReactElement<any>[];
 };
 
 interface IState {
@@ -62,7 +62,7 @@ class Masonry extends Component<IProps, IState> {
 
   render () {
     const { children } = this.props;
-    const columnsArray: Element[][] = [];
+    const columnsArray: React.ReactElement<any>[][] = [];
     for (let j = 0; j < this.state.numCol; j++) {
       columnsArray.push([]);
     }
