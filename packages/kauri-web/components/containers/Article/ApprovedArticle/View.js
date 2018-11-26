@@ -30,6 +30,7 @@ type Props =
       ethUsdPrice: number,
       address?: string,
       data: { getArticle: ArticleDTO },
+      openModalAction: ({ children: React.ReactNode }) => void,
     }
   | any;
 
@@ -49,13 +50,13 @@ class ApprovedArticle extends React.Component<Props, State> {
     showBanner: false,
   };
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
   }
 
-  componentDidMount() {
+  componentDidMount () {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
@@ -66,7 +67,7 @@ class ApprovedArticle extends React.Component<Props, State> {
       ? this.setState({ showBanner: status })
       : this.setState({ showBanner: !this.state.showBanner });
 
-  render() {
+  render () {
     const props = this.props;
     if (!props.data.getArticle) return;
     const { title, id, content, attributes } = props.data.getArticle;
@@ -97,43 +98,43 @@ class ApprovedArticle extends React.Component<Props, State> {
       <ArticleContent>
         <Helmet>
           <title>{title} - Kauri</title>
-          <meta name="keywords" content={articleKeywords.map(i => i)} />
+          <meta name='keywords' content={articleKeywords.map(i => i)} />
           <link
-            rel="canonical"
+            rel='canonical'
             href={`${hostName}/article/${id}/${slugify(title, {
               lower: true,
             })}`}
           />
-          <meta name="description" content={description} />
-          <meta property="og:title" content={title} />
-          <meta property="og:site_name" content="kauri.io" />
+          <meta name='description' content={description} />
+          <meta property='og:title' content={title} />
+          <meta property='og:site_name' content='kauri.io' />
           <meta
-            property="og:url"
+            property='og:url'
             content={`${hostName}/article/${id}/${slugify(title, {
               lower: true,
             })}`}
           />
-          <meta property="og:description" content={`${description}...`} />
-          <meta property="og:type" content="article" />
+          <meta property='og:description' content={`${description}...`} />
+          <meta property='og:type' content='article' />
           <meta
-            property="og:image"
+            property='og:image'
             content={
               (attributes && attributes.background && attributes.background) ||
               "/static/images/logo.svg"
             }
           />
-          <meta name="twitter:card" content="summary" />
+          <meta name='twitter:card' content='summary' />
           <meta
-            name="twitter:site"
+            name='twitter:site'
             ccontent={`https://${hostName}/article/${id}/${slugify(title, {
               lower: true,
             })}`}
           />
-          <meta name="twitter:title" content={title} />
-          <meta name="twitter:description" content={`${description}...`} />
-          <meta name="twitter:creator" content="@kauri_io" />
+          <meta name='twitter:title' content={title} />
+          <meta name='twitter:description' content={`${description}...`} />
+          <meta name='twitter:creator' content='@kauri_io' />
           <meta
-            name="twitter:image"
+            name='twitter:image'
             content={
               (attributes && attributes.background && attributes.background) ||
               "/static/images/logo.svg"
@@ -163,10 +164,8 @@ class ApprovedArticle extends React.Component<Props, State> {
         <ApprovedArticle.Content
           text={props.data.getArticle && props.data.getArticle.content}
           subject={props.data.getArticle && props.data.getArticle.title}
-          article_id={props.data.getArticle && props.data.getArticle.id}
-          article_version={
-            props.data.getArticle && props.data.getArticle.version
-          }
+          id={props.data.getArticle && props.data.getArticle.id}
+          version={props.data.getArticle && props.data.getArticle.version}
           ownerId={
             props.data.getArticle &&
             props.data.getArticle.owner &&
@@ -176,8 +175,8 @@ class ApprovedArticle extends React.Component<Props, State> {
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)
               : R.path(["data", "getArticle", "owner"])(props)
-              ? R.path(["data", "getArticle", "owner", "username"])(props)
-              : R.path(["data", "getArticle", "author", "username"])(props)
+                ? R.path(["data", "getArticle", "owner", "username"])(props)
+                : R.path(["data", "getArticle", "author", "username"])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -196,6 +195,9 @@ class ApprovedArticle extends React.Component<Props, State> {
           resourceType={
             typeof resourceType === "string" && R.toLower(resourceType)
           }
+          openModalAction={props.openModalAction}
+          closeModalAction={props.closeModalAction}
+          deleteDraftArticleAction={props.deleteDraftArticleAction}
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.attributes}

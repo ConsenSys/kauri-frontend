@@ -15,6 +15,7 @@ import {
   getHTMLFromMarkdown,
 } from "../../../../lib/markdown-converter-helper";
 import ShareArticle from "../../../../../kauri-components/components/Tooltip/ShareArticle";
+import AlertView from "../../../../../kauri-components/components/Modal/AlertView";
 import Outline from "../../../../../kauri-components/components/Outline";
 import TertiaryButton from "../../../../../kauri-components/components/Button/TertiaryButton";
 import styled from "../../../../lib/styled-components";
@@ -111,12 +112,15 @@ export default ({
   authorId,
   userAvatar,
   routeChangeAction,
-  article_id,
-  article_version,
+  id,
+  version,
   subject,
   address,
   hostName,
   resourceType,
+  openModalAction,
+  closeModalAction,
+  deleteDraftArticleAction,
 }: {
   text?: string,
   username?: ?string,
@@ -124,12 +128,15 @@ export default ({
   ownerId?: ?string,
   authorId: string,
   routeChangeAction: string => void,
-  article_id: string,
+  id: string,
+  version: number,
   subject?: string,
-  article_version: number,
   address?: string,
   hostName: string,
   resourceType: "user" | "community",
+  openModalAction: ({ children: React.ReactNode }) => void,
+  closeModalAction: () => void,
+  deleteDraftArticleAction: ({ id: string, version: number }) => void,
 }) => {
   let editorState =
     typeof text === "string" && text[0] === "{" && JSON.parse(text);
@@ -198,11 +205,9 @@ export default ({
           icon={<UpdateArticleSvgIcon />}
           handleClick={() =>
             userId
-              ? routeChangeAction(
-                `/article/${article_id}/v${article_version}/update-article`
-              )
+              ? routeChangeAction(`/article/${id}/v${version}/update-article`)
               : routeChangeAction(
-                `/login?r=article/${article_id}/v${article_version}/update-article`
+                `/login?r=article/${id}/v${version}/update-article`
               )
           }
         >
@@ -212,25 +217,37 @@ export default ({
           color={"textPrimary"}
           icon={<DeleteDraftArticleSvgIcon />}
           handleClick={() =>
-            userId
-              ? routeChangeAction(
-                `/article/${article_id}/v${article_version}/update-article`
-              )
-              : routeChangeAction(
-                `/login?r=article/${article_id}/v${article_version}/update-article`
-              )
+            openModalAction({
+              children: (
+                <AlertView
+                  closeModalAction={() => closeModalAction()}
+                  confirmButtonAction={() =>
+                    deleteDraftArticleAction({ id, version }, closeModalAction)
+                  }
+                  content={
+                    <div>
+                      <p>
+                        You won't be able to retrieve the draft article after
+                        deleting.
+                      </p>
+                    </div>
+                  }
+                  title={"Are you sure?"}
+                />
+              ),
+            })
           }
         >
           Delete Draft
         </TertiaryButton>
         <ShareArticle
           color='textPrimary'
-          url={`${hostName.replace(
-            /api\./g,
-            ""
-          )}/article/${article_id}/${slugify(subject, {
-            lower: true,
-          })}`}
+          url={`${hostName.replace(/api\./g, "")}/article/${id}/${slugify(
+            subject,
+            {
+              lower: true,
+            }
+          )}`}
           title={subject}
         />
       </ApprovedArticleDetails>

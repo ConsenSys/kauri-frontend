@@ -11,12 +11,20 @@ interface IProps {
   closeModalAction: () => void;
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 130px;
+`;
+
 const TitleContainer = styled.div``;
 
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: auto;
   > :first-child {
+    margin-left: auto;
     margin-right: ${props => props.theme.space[2]}px;
   }
 `;
@@ -25,7 +33,7 @@ const handleConfirmAction = (confirmButtonAction: any) => () =>
   confirmButtonAction();
 
 const AlertViewComponent: React.FunctionComponent<IProps> = props => (
-  <section>
+  <Container>
     <TitleContainer>
       <Title2>{props.title}</Title2>
     </TitleContainer>
@@ -42,7 +50,7 @@ const AlertViewComponent: React.FunctionComponent<IProps> = props => (
         Confirm
       </PrimaryButton>
     </Footer>
-  </section>
+  </Container>
 );
 
 export default AlertViewComponent;

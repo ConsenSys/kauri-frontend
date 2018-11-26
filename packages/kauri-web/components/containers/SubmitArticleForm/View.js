@@ -276,7 +276,7 @@ class SubmitArticleForm extends React.Component<Props> {
     );
   };
 
-  render() {
+  render () {
     const { routeChangeAction, isKauriTopicOwner, form } = this.props;
 
     const articleData = this.props.data && this.props.data.getArticle;
