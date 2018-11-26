@@ -41,12 +41,22 @@ const ArticleApprovedActionButtons = styled(ActionButtons)`
 `;
 
 class ArticleApproved extends React.Component<Props> {
-  render() {
+  render () {
     const { data, routeChangeAction, type } = this.props;
     const article = data.getArticle;
     const subjectCopy = R.cond([
-      [R.equals("updated"), R.always("draft has been updated")],
-      [R.equals("drafted"), R.always("draft has been saved")],
+      [
+        R.equals("updated"),
+        R.always(
+          "draft has been updated. You can view all drafts on your profile page."
+        ),
+      ],
+      [
+        R.equals("drafted"),
+        R.always(
+          "has been saved as a draft. You can view all drafts on your profile page."
+        ),
+      ],
       [R.equals("published"), R.always("is now live")],
       [
         R.equals("approved"),
@@ -104,8 +114,8 @@ class ArticleApproved extends React.Component<Props> {
             }
             height={40}
             width={183}
-            label="My Articles"
-            type="primary"
+            label='My Articles'
+            type='primary'
           />
         </ArticleApprovedActionButtons>
       </Container>
