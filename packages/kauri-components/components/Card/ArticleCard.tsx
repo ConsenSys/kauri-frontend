@@ -51,7 +51,7 @@ const Content = styled<{ imageURL: string | undefined }, "div">("div")`
   display: flex;
   flex-direction: column;
   flex: 1;
-  > span:first-child {
+  > div:first-child {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
   > :nth-child(2) {
@@ -198,6 +198,13 @@ const RenderDescriptionRowContent: React.FunctionComponent<
   }
 };
 
+const Header = styled.div`
+  display: flex;
+  > :first-child {
+    margin-right: auto;
+  }
+`;
+
 interface ICardContentProps {
   title: string;
   content: string;
@@ -205,6 +212,7 @@ interface ICardContentProps {
   cardWidth: number;
   imageURL: string | undefined;
   date: string;
+  status: undefined | "PUBLISHED" | "DRAFT";
 }
 
 const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
@@ -214,13 +222,16 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   cardWidth,
   imageURL,
   date,
+  status,
 }) => (
   <React.Fragment>
     {typeof imageURL === "string" && (
       <Image cardHeight={cardHeight} imageURL={imageURL} />
     )}
     <Content imageURL={imageURL}>
-      <Label>{"Posted " + date}</Label>
+      <Header>
+        <Label>{(status === "DRAFT" ? "Drafted " : "Posted ") + date}</Label>
+      </Header>
       <H1>
         <TextTruncate
           line={titleLineHeight({ cardHeight, imageURL })}
@@ -353,7 +364,8 @@ interface IProps {
   hoverAction?: (payload: IActionPayload) => void | undefined;
   viewAction?: (payload: IActionPayload) => void | undefined;
   isChosenArticle?: boolean;
-  resourceType: "article" | "community";
+  resourceType: "USER" | "COMMUNITY";
+  status?: "PUBLISHED" | "DRAFT";
 }
 
 const ArticleCard: React.FunctionComponent<IProps> = ({
@@ -372,7 +384,8 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   hoverAction,
   viewAction,
   isChosenArticle,
-  resourceType = "article",
+  resourceType,
+  status,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
     IToggleState,
@@ -411,6 +424,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             cardWidth={cardWidth}
             imageURL={imageURL}
             date={date}
+            status={status}
           />,
           `/article/${id}/v${version}`
         )}
@@ -423,7 +437,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
               cardWidth={calculateCardWidth({ cardWidth, imageURL })}
               userAvatar={userAvatar}
             />,
-            resourceType === "community"
+            resourceType === "COMMUNITY"
               ? `/community/${userId}`
               : `/public-profile/${userId}`
           )}

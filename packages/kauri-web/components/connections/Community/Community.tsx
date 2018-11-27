@@ -166,7 +166,7 @@ const Container: React.SFC<Props> = props => {
                           username={name}
                           userAvatar={avatar}
                           userId={id}
-                          resourceType="community"
+                          resourceType="COMMUNITY"
                         />
                       )
                   )}

@@ -90,10 +90,13 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       lower: true,
     })}`;
 
-    const resourceType = R.pipe(
-      R.path(["data", "getCollection", "owner", "resourceIdentifier", "type"]),
-      R.toLower
-    )(this.props);
+    const resourceType = R.path([
+      "data",
+      "getCollection",
+      "owner",
+      "resourceIdentifier",
+      "type",
+    ])(this.props);
 
     return (
       <div>
@@ -154,7 +157,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
                 fullWidth={false}
                 useAnchorTag
                 href={
-                  resourceType === "community"
+                  resourceType === "COMMUNITY"
                     ? `/community/${owner && owner.id}`
                     : `/public-profile/${owner && owner.id}`
                 }
