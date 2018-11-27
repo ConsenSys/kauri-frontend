@@ -30,6 +30,10 @@ routes
     "/article/:article_id/v:article_version/article-drafted"
   )
   .add(
+    "article-draft-deleted",
+    "/article/:article_id/v:article_version/article-draft-deleted"
+  )
+  .add(
     "article-proposed",
     "/article/:article_id/v:article_version/article-proposed"
   )
@@ -68,5 +72,9 @@ routes
     "/collection/:id/update-collection",
     "update-collection"
   )
-  .add("collection-with-slug", "/collection/:collection_id/:slug", "collection")
-  .add("email-verification", "/activate/:uuid", "activate");
+  .add("email-verification", "/activate/:uuid", "activate")
+  .add(
+    "collection-with-slug",
+    "/collection/:collection_id/:slug",
+    "collection"
+  );

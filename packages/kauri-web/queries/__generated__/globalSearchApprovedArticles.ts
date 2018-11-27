@@ -21,14 +21,7 @@ export interface globalSearchApprovedArticles_searchArticles_content_author {
 }
 
 export interface globalSearchApprovedArticles_searchArticles_content_owner_ArticleDTO {
-  __typename:
-    | "ArticleDTO"
-    | "CommentDTO"
-    | "CommunityMemberDTO"
-    | "CuratedListDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
@@ -60,9 +53,7 @@ export interface globalSearchApprovedArticles_searchArticles_content_owner_Commu
   resourceIdentifier: globalSearchApprovedArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type globalSearchApprovedArticles_searchArticles_content_owner =
-  | globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO
-  | globalSearchApprovedArticles_searchArticles_content_owner_CommunityDTO;
+export type globalSearchApprovedArticles_searchArticles_content_owner = globalSearchApprovedArticles_searchArticles_content_owner_ArticleDTO | globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO | globalSearchApprovedArticles_searchArticles_content_owner_CommunityDTO;
 
 export interface globalSearchApprovedArticles_searchArticles_content_comments_content_author {
   __typename: "PublicUserDTO";
@@ -81,9 +72,7 @@ export interface globalSearchApprovedArticles_searchArticles_content_comments_co
 
 export interface globalSearchApprovedArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
-  content:
-    | (globalSearchApprovedArticles_searchArticles_content_comments_content | null)[]
-    | null;
+  content: (globalSearchApprovedArticles_searchArticles_content_comments_content | null)[] | null;
   totalPages: number | null;
   totalElements: any | null;
 }
@@ -117,9 +106,7 @@ export interface globalSearchApprovedArticles_searchArticles_content {
 
 export interface globalSearchApprovedArticles_searchArticles {
   __typename: "ResponsePage_ArticleDTO";
-  content:
-    | (globalSearchApprovedArticles_searchArticles_content | null)[]
-    | null;
+  content: (globalSearchApprovedArticles_searchArticles_content | null)[] | null;
   isLast: boolean | null;
 }
 

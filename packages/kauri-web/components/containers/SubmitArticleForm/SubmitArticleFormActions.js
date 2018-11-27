@@ -93,7 +93,7 @@ export default ({
         </TertiaryButton>
       </Stack>
       <ContainerRow>
-        <SecondaryButton action={handleSubmit("draft")}>
+        <SecondaryButton onClick={handleSubmit("draft")}>
           Save draft
         </SecondaryButton>
         <PrimaryButton onClick={handleSubmit("submit/update")}>

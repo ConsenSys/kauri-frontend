@@ -2,7 +2,6 @@
 import React from "react";
 import styled from "styled-components";
 import Web3 from "web3";
-import { ContributeToBounty } from "../../Request/View";
 import { ActionBadge } from "../../../common/ActionBadge";
 import GreenArrow from "../../../common/GreenArrow";
 
@@ -51,7 +50,7 @@ export default ({
 }: *) => (
   <ApprovedArticleActions>
     <ActionBadge onClick={() => routeChangeAction("back")}>
-      <GreenArrow direction="left" />
+      <GreenArrow direction='left' />
       <span>Go Back</span>
     </ActionBadge>
     {/* <ContributeToBounty
