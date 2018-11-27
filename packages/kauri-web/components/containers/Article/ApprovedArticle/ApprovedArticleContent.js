@@ -20,6 +20,7 @@ import Outline from "../../../../../kauri-components/components/Outline";
 import TertiaryButton from "../../../../../kauri-components/components/Button/TertiaryButton";
 import styled from "../../../../lib/styled-components";
 import userIdTrim from "../../../../lib/userid-trim";
+import { BodyCard } from "../../../../../kauri-components/components/Typography";
 
 export const ApprovedArticleDetails = styled(CreateRequestDetails)`
   align-items: inherit;
@@ -115,6 +116,7 @@ export default ({
   id,
   version,
   subject,
+  status,
   address,
   hostName,
   resourceType,
@@ -130,6 +132,7 @@ export default ({
   routeChangeAction: string => void,
   id: string,
   version: number,
+  status: string,
   subject?: string,
   address?: string,
   hostName: string,
@@ -211,35 +214,40 @@ export default ({
               )
           }
         >
-          Update article
+          {`Update ${status === "DRAFT" ? "draft" : "article"}`}
         </TertiaryButton>
-        <TertiaryButton
-          color={"textPrimary"}
-          icon={<DeleteDraftArticleSvgIcon />}
-          handleClick={() =>
-            openModalAction({
-              children: (
-                <AlertView
-                  closeModalAction={() => closeModalAction()}
-                  confirmButtonAction={() =>
-                    deleteDraftArticleAction({ id, version }, closeModalAction)
-                  }
-                  content={
-                    <div>
-                      <p>
-                        You won't be able to retrieve the draft article after
-                        deleting.
-                      </p>
-                    </div>
-                  }
-                  title={"Are you sure?"}
-                />
-              ),
-            })
-          }
-        >
-          Delete Draft
-        </TertiaryButton>
+        {status === "DRAFT" && (
+          <TertiaryButton
+            color={"textPrimary"}
+            icon={<DeleteDraftArticleSvgIcon />}
+            handleClick={() =>
+              openModalAction({
+                children: (
+                  <AlertView
+                    closeModalAction={() => closeModalAction()}
+                    confirmButtonAction={() =>
+                      deleteDraftArticleAction(
+                        { id, version },
+                        closeModalAction
+                      )
+                    }
+                    content={
+                      <div>
+                        <BodyCard>
+                          You won't be able to retrieve the draft article after
+                          deleting.
+                        </BodyCard>
+                      </div>
+                    }
+                    title={"Are you sure?"}
+                  />
+                ),
+              })
+            }
+          >
+            Delete Draft Article
+          </TertiaryButton>
+        )}
         <ShareArticle
           color='textPrimary'
           url={`${hostName.replace(/api\./g, "")}/article/${id}/${slugify(

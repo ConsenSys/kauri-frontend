@@ -14,7 +14,7 @@ interface IProps {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 130px;
+  min-height: 120px;
   justify-content: center;
   align-items: center;
 `;
@@ -32,9 +32,8 @@ const Footer = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: auto;
-  align-self: flex-end;
+  align-self: center;
   > :first-child {
-    margin-left: auto;
     margin-right: ${props => props.theme.space[2]}px;
   }
 `;

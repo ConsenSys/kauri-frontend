@@ -147,23 +147,10 @@ class ApprovedArticle extends React.Component<Props, State> {
           {...props.data.getArticle}
           hostName={hostName}
         />
-        {/*
-        works!
-        <button
-          onClick={() =>
-            this.props.deleteDraftArticleAction({
-              id: this.props.data.getArticle.id,
-              version: this.props.data.getArticle.version,
-            })
-          }
-        >
-          {' '}
-          Delete{' '}
-        </button> */}
-
         <ApprovedArticle.Content
           text={props.data.getArticle && props.data.getArticle.content}
           subject={props.data.getArticle && props.data.getArticle.title}
+          status={props.data.getArticle && props.data.getArticle.status}
           id={props.data.getArticle && props.data.getArticle.id}
           version={props.data.getArticle && props.data.getArticle.version}
           ownerId={

@@ -20,7 +20,7 @@ interface IProps {
     getArticle: Article;
   };
   routeChangeAction: (route: string) => void;
-  type: "published" | "approved" | "drafted" | "updated" | "draft deleted";
+  type: "published" | "approved" | "drafted" | "updated";
   user: { id: string };
 }
 
@@ -55,12 +55,6 @@ class ArticleApproved extends React.Component<IProps> {
     const { data, routeChangeAction, type } = this.props;
     const subjectCopy = R.cond([
       [
-        R.equals("draft deleted"),
-        R.always(
-          "draft has been deleted. You can view all other drafts on your profile page."
-        ),
-      ],
-      [
         R.equals("updated"),
         R.always(
           "draft has been updated. You can view all drafts on your profile page."
@@ -93,45 +87,43 @@ class ArticleApproved extends React.Component<IProps> {
           </Helmet>
           <Title1 color="white">{capitalize(type)}</Title1>
           <BodyCard color="white">{`The article ${subjectCopy}`}</BodyCard>
-          {type !== "draft deleted" && (
-            <ArticleCard
-              key={String(article.id)}
-              resourceType={"article"}
-              id={String(article.id)}
-              version={Number(article.version)}
-              date={moment(article.datePublished || article.dateCreated).format(
-                "D MMM YYYY"
-              )}
-              title={String(article.title)}
-              content={String(article.content)}
-              username={
-                (article.owner &&
-                  (article.owner as Article_owner_PublicUserDTO).username) ||
-                (article.author && article.author.username)
-              }
-              userId={R.defaultTo("")(
-                R.path<string>(["owner", "id"])(article) ||
-                  R.path<string>(["author", "id"])(article)
-              )}
-              userAvatar={
-                (article.owner &&
-                  (article.owner as Article_owner_PublicUserDTO).avatar) ||
-                (article.author && article.author.avatar)
-              }
-              imageURL={article.attributes && article.attributes.background}
-              cardHeight={420}
-              linkComponent={(childrenProps, route) => (
-                <Link
-                  toSlug={route.includes("article") && article.title}
-                  useAnchorTag={true}
-                  href={route}
-                >
-                  {childrenProps}
-                </Link>
-              )}
-              changeRoute={routeChangeAction}
-            />
-          )}
+          <ArticleCard
+            key={String(article.id)}
+            resourceType={"article"}
+            id={String(article.id)}
+            version={Number(article.version)}
+            date={moment(article.datePublished || article.dateCreated).format(
+              "D MMM YYYY"
+            )}
+            title={String(article.title)}
+            content={String(article.content)}
+            username={
+              (article.owner &&
+                (article.owner as Article_owner_PublicUserDTO).username) ||
+              (article.author && article.author.username)
+            }
+            userId={R.defaultTo("")(
+              R.path<string>(["owner", "id"])(article) ||
+                R.path<string>(["author", "id"])(article)
+            )}
+            userAvatar={
+              (article.owner &&
+                (article.owner as Article_owner_PublicUserDTO).avatar) ||
+              (article.author && article.author.avatar)
+            }
+            imageURL={article.attributes && article.attributes.background}
+            cardHeight={420}
+            linkComponent={(childrenProps, route) => (
+              <Link
+                toSlug={route.includes("article") && article.title}
+                useAnchorTag={true}
+                href={route}
+              >
+                {childrenProps}
+              </Link>
+            )}
+            changeRoute={routeChangeAction}
+          />
           <ArticleApprovedActionButtons>
             <PrimaryButton
               onClick={() =>

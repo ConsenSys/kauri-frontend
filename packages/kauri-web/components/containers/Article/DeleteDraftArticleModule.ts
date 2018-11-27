@@ -52,6 +52,14 @@ interface IDeleteDraftArticleAction extends IAction {
   callback: () => void;
 }
 
+interface IReduxState {
+  app: {
+    user: {
+      id: string;
+    };
+  };
+}
+
 const DELETE_DRAFT_ARTICLE = "DELETE_DRAFT_ARTICLE";
 
 export const deleteDraftArticleAction = (
@@ -76,9 +84,9 @@ const GetArticle = t.interface({
   title: t.string,
 });
 
-export const deleteDraftArticleEpic: Epic<any, {}, IDependencies> = (
+export const deleteDraftArticleEpic: Epic<any, IReduxState, IDependencies> = (
   action$,
-  _,
+  store,
   { apolloClient, apolloSubscriber }
 ) =>
   action$
@@ -121,9 +129,7 @@ export const deleteDraftArticleEpic: Epic<any, {}, IDependencies> = (
             ),
             Observable.of(
               routeChangeAction(
-                `/article/${variables.id}/v${
-                  variables.version
-                }/article-draft-deleted`
+                `/public-profile/${store.getState().app.user.id}`
               )
             )
           )
