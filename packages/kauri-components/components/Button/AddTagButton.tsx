@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import styled, { css } from 'styled-components'
-import { space, fontSize, fontWeight, bg, color } from 'styled-system'
+import { space, fontSize, fontWeight } from 'styled-system'
 
 export const BaseButtonCss = css`
   display: flex;
@@ -9,7 +9,6 @@ export const BaseButtonCss = css`
   justify-content: center;
   height: 26px;
   width: 80px;
-  border: 1px solid ${bg};
   border-radius: 13px;
   cursor: pointer;
   opacity: ${({ disabled }) => disabled ? '0.3' : '1'};
@@ -31,26 +30,30 @@ export const BaseButtonCss = css`
 const AddTagButton = styled.button`
   ${BaseButtonCss};
   :hover {
-    border: 2px solid ${(props) => props.theme.colors[props.bg]};
+    border: 2px solid ${(props: IProps) => props.theme && props.theme.colors[props.bg]};
   }
 `
 
-type Props = {
-  icon?: React.Node,
+interface IProps {
   handleClick?: () => void,
   onClick?: () => void,
   disabled?: boolean,
-  bg?: string,
+  bg: string,
   fontWeight?: number,
   fontSize?: number,
   space?: number,
   color?: string,
   text?: string,
-  children?: React.Node,
+  children?: Element,
+  theme?: {
+    colors: {
+      [color: string]: string;
+    }
+  }
 }
 
-export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, space = 2, color = 'textPrimary', text = 'Add Tag', handleClick, children, disabled }: Props) =>
-  <AddTagButton disabled={disabled} mr={space} onClick={handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
+export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, color = 'textPrimary', text = 'Add Tag', handleClick, children, disabled }: IProps) =>
+  <AddTagButton disabled={disabled} onClick={handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
     <img src='https://png.icons8.com/ios-glyphs/50/000000/plus-math.png' />
     {text || children}
   </AddTagButton>
