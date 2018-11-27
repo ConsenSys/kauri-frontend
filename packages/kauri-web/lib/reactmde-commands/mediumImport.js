@@ -10,9 +10,7 @@ export const mediumImport = {
     style: { marginTop: -6, height: 18 },
   },
 
-  execute: () => {
-    console.log("Opening medium importer");
-  },
+  execute: () => {},
 };
 
 export default mediumImport;
