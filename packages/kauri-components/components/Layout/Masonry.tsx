@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React, { Component } from "react";
+import styled from "styled-components";
 
 const Column = styled.div`
   flex: 1;
@@ -20,21 +20,21 @@ const MasonryContainer = styled.div`
 interface IProps {
   minWidth: number;
   columns: number;
-  children: React.ReactElement<any>[];
-};
+  children: Array<React.ReactElement<any>>;
+}
 
 interface IState {
   minWidth: number;
   columns: number;
   numCol: number;
-};
+}
 
 class Masonry extends Component<IProps, IState> {
-  constructor (props: IProps) {
+  constructor(props: IProps) {
     super(props);
     this.state = {
-      minWidth: props.minWidth,
       columns: props.columns,
+      minWidth: props.minWidth,
       numCol: (global as any).window
         ? props.columns <= Math.floor(window.innerWidth / props.minWidth)
           ? props.columns
@@ -45,24 +45,26 @@ class Masonry extends Component<IProps, IState> {
     this.updateColumns = this.updateColumns.bind(this);
   }
 
-  updateColumns () {
+  public updateColumns() {
     const newMaxCol = Math.floor(window.innerWidth / this.props.minWidth);
     const newNumCol =
       this.props.columns <= newMaxCol ? this.props.columns : newMaxCol;
-    if (newNumCol !== this.state.numCol) this.setState({ numCol: newNumCol });
+    if (newNumCol !== this.state.numCol) {
+      this.setState({ numCol: newNumCol });
+    }
   }
 
-  componentDidMount () {
-    window.addEventListener('resize', this.updateColumns);
+  public componentDidMount() {
+    window.addEventListener("resize", this.updateColumns);
   }
 
-  componentWillUnmount () {
-    window.removeEventListener('resize', this.updateColumns);
+  public componentWillUnmount() {
+    window.removeEventListener("resize", this.updateColumns);
   }
 
-  render () {
+  public render() {
     const { children } = this.props;
-    const columnsArray: React.ReactElement<any>[][] = [];
+    const columnsArray: Array<Array<React.ReactElement<any>>> = [];
     for (let j = 0; j < this.state.numCol; j++) {
       columnsArray.push([]);
     }

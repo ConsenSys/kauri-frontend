@@ -122,7 +122,6 @@ class ArticleApproved extends React.Component<IProps> {
                 {childrenProps}
               </Link>
             )}
-            changeRoute={routeChangeAction}
           />
           <ArticleApprovedActionButtons>
             <PrimaryButton

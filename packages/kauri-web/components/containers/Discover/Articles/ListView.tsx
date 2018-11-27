@@ -12,6 +12,7 @@ import moment from "moment";
 import {
   globalSearchApprovedArticles_searchArticles,
   globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO,
+  globalSearchApprovedArticles_searchArticles_content_owner_CommunityDTO,
 } from "../../../../queries/__generated__/globalSearchApprovedArticles";
 
 interface IProps {
@@ -62,13 +63,11 @@ class Articles extends Component<IProps> {
         searchArticles.content.length > 0 ? (
           <Masonry minWidth={310} columns={4}>
             {searchArticles.content.map(undecodedArticle => {
-              const resourceType = R.path([
+              const resourceType = R.path<"COMMUNITY" | "ARTICLE">([
                 "owner",
                 "resourceIdentifier",
                 "type",
               ])(undecodedArticle);
-
-              const owner = undecodedArticle && undecodedArticle.owner;
 
               const article = Article.decode(undecodedArticle).getOrElseL(
                 errors => {
@@ -76,9 +75,16 @@ class Articles extends Component<IProps> {
                 }
               );
 
+              const owner =
+                R.path<
+                  globalSearchApprovedArticles_searchArticles_content_owner_CommunityDTO
+                >(["owner"])(article) ||
+                R.path<
+                  globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO
+                >(["owner"])(article);
+
               return (
                 <ArticleCard
-                  changeRoute={this.props.routeChangeAction}
                   key={(article && article.id) || undefined}
                   date={moment(article && article.dateCreated).format(
                     "D MMM YYYY"
@@ -86,14 +92,14 @@ class Articles extends Component<IProps> {
                   title={article && article.title}
                   content={article && article.content}
                   username={
-                    owner &&
+                    (owner &&
                     owner.resourceIdentifier &&
                     owner.resourceIdentifier.type &&
                     owner.resourceIdentifier.type.toLowerCase() === "community"
                       ? owner && owner.name
                       : owner &&
                         (owner as globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO)
-                          .username
+                          .username) || null
                   }
                   userId={
                     owner
@@ -102,7 +108,7 @@ class Articles extends Component<IProps> {
                         : "Anoymous"
                       : "Anonymous"
                   }
-                  userAvatar={owner && owner.avatar}
+                  userAvatar={(owner && owner.avatar) || null}
                   id={article && article.id}
                   version={article && article.version}
                   cardHeight={420}
@@ -126,9 +132,9 @@ class Articles extends Component<IProps> {
                     </Link>
                   )}
                   resourceType={
-                    typeof resourceType === "string"
-                      ? R.toLower(resourceType)
-                      : null
+                    (resourceType &&
+                      (R.toLower(resourceType) as "community" | "article")) ||
+                    "article"
                   }
                 />
               );
