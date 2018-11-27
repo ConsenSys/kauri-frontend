@@ -7,6 +7,7 @@ const buttons = {
   AddTagButton: require('./AddTagButton').default,
   AddMemberButton: require('./AddMemberButton').default,
   UploadLogoButton: require('./UploadLogoButton').default,
+  MediumImportButton: require('./MediumImportButton').default,
 }
 
 module.exports = buttons;

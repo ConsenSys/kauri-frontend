@@ -17,13 +17,25 @@ const MasonryContainer = styled.div`
   flex-direction: row;
 `;
 
-class Masonry extends Component {
-  constructor (props) {
+interface IProps {
+  minWidth: number;
+  columns: number;
+  children: React.ReactElement<any>[];
+};
+
+interface IState {
+  minWidth: number;
+  columns: number;
+  numCol: number;
+};
+
+class Masonry extends Component<IProps, IState> {
+  constructor (props: IProps) {
     super(props);
     this.state = {
       minWidth: props.minWidth,
       columns: props.columns,
-      numCol: global.window
+      numCol: (global as any).window
         ? props.columns <= Math.floor(window.innerWidth / props.minWidth)
           ? props.columns
           : Math.floor(window.innerWidth / props.minWidth)
@@ -50,7 +62,7 @@ class Masonry extends Component {
 
   render () {
     const { children } = this.props;
-    const columnsArray = [];
+    const columnsArray: React.ReactElement<any>[][] = [];
     for (let j = 0; j < this.state.numCol; j++) {
       columnsArray.push([]);
     }
@@ -61,8 +73,8 @@ class Masonry extends Component {
     }
     return (
       <MasonryContainer>
-        {columnsArray.map(i => (
-          <Column>{i}</Column>
+        {columnsArray.map((i, index) => (
+          <Column key={index}>{i}</Column>
         ))}
       </MasonryContainer>
     );
