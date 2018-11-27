@@ -1,9 +1,9 @@
 // @flow
-import * as React from 'react';
-import styled from 'styled-components';
-import slugify from 'slugify';
+import * as React from "react";
+import styled from "styled-components";
+import slugify from "slugify";
 
-import type { TrackAnalyticsPayload } from './Module';
+import type { TrackAnalyticsPayload } from "./Module";
 
 type LinkProps = {
   href: string,
@@ -18,7 +18,7 @@ type LinkProps = {
 const A = styled.a`
   text-decoration: none;
   color: inherit;
-  ${props => props.fullWidth && 'width: 100%;'};
+  ${props => props.fullWidth && "width: 100%;"};
   :hover {
     color: ${props => props.theme.colors.hoverTextColor} !important;
     > * {
@@ -39,10 +39,12 @@ class Link extends React.Component<LinkProps> {
     e.stopPropagation();
     // TODO: Uncomment again later
     // this.props.trackAnalyticsAction({ url })
-    this.props.routeChangeAction(url);
+    url.indexOf("https://") !== -1
+      ? window.open(url, "_blank")
+      : this.props.routeChangeAction(url);
   };
 
-  render () {
+  render() {
     let url =
       this.props.as || this.props.href || this.props.children.props.href;
     const slug = this.props.toSlug

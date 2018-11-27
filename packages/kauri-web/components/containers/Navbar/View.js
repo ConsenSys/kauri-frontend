@@ -335,6 +335,22 @@ class Navbar extends React.Component {
                   Create Collection
                 </TooltipItem>
               </Link>
+              <TooltipDivider />
+              <Link
+                route={
+                  userId
+                    ? "https://import.beta.kauri.io"
+                    : `/login?r=https://import.beta.kauri.io`
+                }
+              >
+                <TooltipItem
+                  href="https://import.beta.kauri.io"
+                  pathname={router.pathname}
+                  link="https://import.beta.kauri.io"
+                >
+                  Import from medium
+                </TooltipItem>
+              </Link>
             </TooltipItemContainer>
           </Tooltip>
         </StyledMenuItem>
