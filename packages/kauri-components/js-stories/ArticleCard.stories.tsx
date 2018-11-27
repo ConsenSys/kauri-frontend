@@ -1,18 +1,46 @@
-// @flow
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import ArticleCard from '../components/Card/ArticleCard'
-import moment from 'moment'
+import React from "react";
+import { storiesOf } from "@storybook/react";
+import moment from "moment";
+import ArticleCard from "../components/Card/ArticleCard";
+import styled from "../lib/styled-components";
 
-storiesOf('ArticleCard', module)
-  .add('Default height of 290, two line title, no image', () => (
+const Link = styled.a`
+  text-decoration: none;
+  color: inherit;
+  :hover {
+    color: ${props => props.theme.colors.hoverTextColor} !important;
+    > * {
+      color: ${props => props.theme.colors.hoverTextColor} !important;
+      > * {
+        color: ${props => props.theme.colors.hoverTextColor} !important;
+        > * {
+          color: ${props => props.theme.colors.hoverTextColor} !important;
+        }
+      }
+    }
+  }
+`;
+
+const handleAction = (
+  actionType: string,
+  payload: { id: string; version: number }
+) => () => alert(actionType + payload.id + payload.version);
+
+const linkComponent = (
+  childrenProps: React.ReactElement<any>,
+  route: string
+) => <Link href={route}>{childrenProps}</Link>;
+
+storiesOf("ArticleCard", module)
+  .add("Default height of 290, two line title, no image", () => (
     <ArticleCard
-      date={moment(1538734619928).format('D MMM YYYY')}
-      title={'Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title'}
-      id={'1234567890'}
-      version={'1'}
-      content={
-        `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      date={moment(1538734619928).format("D MMM YYYY")}
+      title={
+        "Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title"
+      }
+      id={"1234567890"}
+      version={1}
+      content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -22,20 +50,24 @@ storiesOf('ArticleCard', module)
       Nunc nec dui id magna ullamcorper semper.
       Morbi mollis mauris quis orci tristique posuere ac non magna.
       Nam lectus ipsum, molestie sit…
-      `
-      }
-      username={'USERNAME GOES HERE'}
-      userId={'HEY'}
+      `}
+      username={"USERNAME GOES HERE"}
+      userId={"HEY"}
+      userAvatar={null}
+      cardHeight={290}
+      linkComponent={linkComponent}
+      resourceType={"article"}
     />
   ))
-  .add('Card height of 420, three line title, no image', () => (
+  .add("Card height of 420, three line title, no image", () => (
     <ArticleCard
-      date={moment(1538734619928).format('D MMM YYYY')}
-      title={'Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title'}
-      id={'1234567890'}
-      version={'1'}
-      content={
-        `
+      date={moment(1538734619928).format("D MMM YYYY")}
+      title={
+        "Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title"
+      }
+      id={"1234567890"}
+      version={1}
+      content={`
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Praesent sed cursus purus.
         In facilisis nulla sed efficitur posuere.
@@ -48,21 +80,22 @@ storiesOf('ArticleCard', module)
         Nam lectus ipsum, molestie sit
         Morbi mollis mauris quis orci tristique posuere ac non magna.
         Nam lectus ipsum, molestie sit…
-      `
-      }
-      username={'USERNAME GOES HERE'}
-      userId={'HEY'}
+      `}
+      username={"USERNAME GOES HERE"}
+      userId={"HEY"}
+      userAvatar={null}
       cardHeight={420}
+      linkComponent={linkComponent}
+      resourceType={"article"}
     />
   ))
-  .add('Default height of 290, two line title, with image', () => (
+  .add("Default height of 290, two line title, with image", () => (
     <ArticleCard
-      date={moment(1538734619928).format('D MMM YYYY')}
-      title={'Two Line Title Two Line Title Two Line Title Two Line Title'}
-      id={'1234567890'}
-      version={'1'}
-      content={
-        `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      date={moment(1538734619928).format("D MMM YYYY")}
+      title={"Two Line Title Two Line Title Two Line Title Two Line Title"}
+      id={"1234567890"}
+      version={1}
+      content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -74,21 +107,25 @@ storiesOf('ArticleCard', module)
       Nam lectus ipsum, molestie sit
       Morbi mollis mauris quis orci tristique posuere ac non magna.
       Nam lectus ipsum, molestie sit…
-      `
+      `}
+      username={"USERNAME GOES HERE"}
+      userId={"HEY"}
+      userAvatar={null}
+      imageURL={
+        "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       }
-      username={'USERNAME GOES HERE'}
-      userId={'HEY'}
-      imageURL={'https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80'}
+      cardHeight={290}
+      linkComponent={linkComponent}
+      resourceType={"article"}
     />
   ))
-  .add('Card height of 420, two line title, with image', () => (
+  .add("Card height of 420, two line title, with image", () => (
     <ArticleCard
-      date={moment(1538734619928).format('D MMM YYYY')}
-      title={'Two Line Title Two Line Title Two Line Title Two Line Title'}
-      id={'1234567890'}
-      version={'1'}
-      content={
-        `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      date={moment(1538734619928).format("D MMM YYYY")}
+      title={"Two Line Title Two Line Title Two Line Title Two Line Title"}
+      id={"1234567890"}
+      version={1}
+      content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -100,21 +137,27 @@ storiesOf('ArticleCard', module)
       Nam lectus ipsum, molestie sit
       Morbi mollis mauris quis orci tristique posuere ac non magna.
       Nam lectus ipsum, molestie sit…
-      `
-      }
-      userId={'bfecec47dd8bf5f6264a9830a9d26ef387c38a67'}
+      `}
+      userId={"bfecec47dd8bf5f6264a9830a9d26ef387c38a67"}
+      username={"bfecec47dd8bf5f6264a9830a9d26ef387c38a67"}
+      userAvatar={null}
+      resourceType={"article"}
+      linkComponent={linkComponent}
       cardHeight={420}
-      imageURL={'https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80'}
+      imageURL={
+        "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
+      }
     />
   ))
-  .add('Card height of 420, two line title, with image, with hoverAction prop', () => (
-    <ArticleCard
-      date={moment(1538734619928).format('D MMM YYYY')}
-      title={'Two Line Title Two Line Title Two Line Title Two Line Title'}
-      id={'1234567890'}
-      version={'1'}
-      content={
-        `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  .add(
+    "Card height of 420, two line title, with image, with hoverAction prop",
+    () => (
+      <ArticleCard
+        date={moment(1538734619928).format("D MMM YYYY")}
+        title={"Two Line Title Two Line Title Two Line Title Two Line Title"}
+        id={"1234567890"}
+        version={1}
+        content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -126,24 +169,30 @@ storiesOf('ArticleCard', module)
       Nam lectus ipsum, molestie sit
       Morbi mollis mauris quis orci tristique posuere ac non magna.
       Nam lectus ipsum, molestie sit…
-      `
-      }
-      username={'USERNAME GOES HERE'}
-      userId={'HEY'}
-      cardHeight={420}
-      imageURL={'https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80'}
-      hoverAction={({ id, version }) => alert('hover action', id)}
-      viewAction={({ id, version }) => alert('view action', id)}
-    />
-  ))
-  .add('Card height of 420, two line title, with image, is chosen article', () => (
-    <ArticleCard
-      date={moment(1538734619928).format('D MMM YYYY')}
-      title={'Two Line Title Two Line Title Two Line Title Two Line Title'}
-      id={'1234567890'}
-      version={'1'}
-      content={
-        `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      `}
+        username={"USERNAME GOES HERE"}
+        userId={"HEY"}
+        userAvatar={null}
+        linkComponent={linkComponent}
+        resourceType="article"
+        cardHeight={420}
+        imageURL={
+          "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
+        }
+        hoverAction={handleAction("choose", { id: "12345", version: 1 })}
+        viewAction={handleAction("view", { id: "12345", version: 1 })}
+      />
+    )
+  )
+  .add(
+    "Card height of 420, two line title, with image, is chosen article",
+    () => (
+      <ArticleCard
+        date={moment(1538734619928).format("D MMM YYYY")}
+        title={"Two Line Title Two Line Title Two Line Title Two Line Title"}
+        id={"1234567890"}
+        version={1}
+        content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -155,109 +204,124 @@ storiesOf('ArticleCard', module)
       Nam lectus ipsum, molestie sit
       Morbi mollis mauris quis orci tristique posuere ac non magna.
       Nam lectus ipsum, molestie sit…
-      `
-      }
-      username={'USERNAME GOES HERE'}
-      userId={'HEY'}
-      cardHeight={420}
-      imageURL={'https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80'}
-      hoverAction={({ id, version }) => alert('hover action', id)}
-      viewAction={({ id, version }) => alert('view action', id)}
-      isChosenArticle
-    />
-  ))
-  .add('Card width of 610, two line title, no image', () => (
+      `}
+        username={"USERNAME GOES HERE"}
+        userId={"HEY"}
+        userAvatar={null}
+        linkComponent={linkComponent}
+        resourceType="article"
+        cardHeight={420}
+        imageURL={
+          "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
+        }
+        hoverAction={handleAction("remove", { id: "12345", version: 1 })}
+        viewAction={handleAction("view", { id: "12345", version: 1 })}
+        isChosenArticle={true}
+      />
+    )
+  )
+  .add("Card width of 610, two line title, no image", () => (
     <ArticleCard
-      date={moment(1538734619928).format('D MMM YYYY')}
-      title={'Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title'}
-      id={'1234567890'}
-      version={'1'}
-      content={
-        `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-       Praesent sed cursus purus.
-      In facilisis nulla sed efficitur posuere.
-      Maecenas vestibulum elementum interdum.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Donec non eleifend ex, eu interdum justo.
-      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
-      Nunc nec dui id magna ullamcorper semper.
-      Morbi mollis mauris quis orci tristique posuere ac non magna.
-      Nam lectus ipsum, molestie sit
-      Morbi mollis mauris quis orci tristique posuere ac non magna.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-       Praesent sed cursus purus.
-      In facilisis nulla sed efficitur posuere.
-      Maecenas vestibulum elementum interdum.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Donec non eleifend ex, eu interdum justo.
-      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
-      Nunc nec dui id magna ullamcorper semper.
-      Morbi mollis mauris quis orci tristique posuere ac non magna.
-      Nam lectus ipsum, molestie sit
-      Morbi mollis mauris quis orci tristique posuere ac non magna.
-      Nam lectus ipsum, molestie sit
-      In facilisis nulla sed efficitur posuere.
-      Maecenas vestibulum elementum interdum.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Donec non eleifend ex, eu interdum justo.
-      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
-      Nunc nec dui id magna ullamcorper semper.
-      Morbi mollis mauris quis orci tristique posuere ac non magna.
-      Nam lectus ipsum, molestie sit
-      Morbi mollis mauris quis orci tristique posuere ac non magna.
-      Nam lectus ipsum, molestie sit
-      `
+      date={moment(1538734619928).format("D MMM YYYY")}
+      title={
+        "Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title"
       }
-      username={'USERNAME GOES HERE'}
-      userId={'HEY'}
+      id={"1234567890"}
+      version={1}
+      content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Praesent sed cursus purus.
+      In facilisis nulla sed efficitur posuere.
+      Maecenas vestibulum elementum interdum.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Donec non eleifend ex, eu interdum justo.
+      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
+      Nunc nec dui id magna ullamcorper semper.
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Praesent sed cursus purus.
+      In facilisis nulla sed efficitur posuere.
+      Maecenas vestibulum elementum interdum.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Donec non eleifend ex, eu interdum justo.
+      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
+      Nunc nec dui id magna ullamcorper semper.
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit
+      In facilisis nulla sed efficitur posuere.
+      Maecenas vestibulum elementum interdum.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Donec non eleifend ex, eu interdum justo.
+      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
+      Nunc nec dui id magna ullamcorper semper.
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit
+      `}
+      username={"USERNAME GOES HERE"}
+      userAvatar={null}
+      userId={"HEY"}
+      cardHeight={290}
+      linkComponent={linkComponent}
+      resourceType="community"
       cardWidth={610}
     />
   ))
-  .add('Card width of 610, two line title, with image', () => (
+  .add("Card width of 610, two line title, with image", () => (
     <ArticleCard
-      date={moment(1538734619928).format('D MMM YYYY')}
-      title={'Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title'}
-      id={'1234567890'}
-      version={'1'}
-      content={
-        `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-       Praesent sed cursus purus.
-      In facilisis nulla sed efficitur posuere.
-      Maecenas vestibulum elementum interdum.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Donec non eleifend ex, eu interdum justo.
-      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
-      Nunc nec dui id magna ullamcorper semper.
-      Morbi mollis mauris quis orci tristique posuere ac non magna.
-      Nam lectus ipsum, molestie sit
-      Morbi mollis mauris quis orci tristique posuere ac non magna.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-       Praesent sed cursus purus.
-      In facilisis nulla sed efficitur posuere.
-      Maecenas vestibulum elementum interdum.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Donec non eleifend ex, eu interdum justo.
-      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
-      Nunc nec dui id magna ullamcorper semper.
-      Morbi mollis mauris quis orci tristique posuere ac non magna.
-      Nam lectus ipsum, molestie sit
-      Morbi mollis mauris quis orci tristique posuere ac non magna.
-      Nam lectus ipsum, molestie sit
-      In facilisis nulla sed efficitur posuere.
-      Maecenas vestibulum elementum interdum.
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Donec non eleifend ex, eu interdum justo.
-      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
-      Nunc nec dui id magna ullamcorper semper.
-      Morbi mollis mauris quis orci tristique posuere ac non magna.
-      Nam lectus ipsum, molestie sit
-      Morbi mollis mauris quis orci tristique posuere ac non magna.
-      Nam lectus ipsum, molestie sit
-      `
+      date={moment(1538734619928).format("D MMM YYYY")}
+      title={
+        "Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title"
       }
-      username={'USERNAME GOES HERE'}
-      userId={'HEY'}
+      id={"1234567890"}
+      version={1}
+      content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+       Praesent sed cursus purus.
+      In facilisis nulla sed efficitur posuere.
+      Maecenas vestibulum elementum interdum.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Donec non eleifend ex, eu interdum justo.
+      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
+      Nunc nec dui id magna ullamcorper semper.
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+       Praesent sed cursus purus.
+      In facilisis nulla sed efficitur posuere.
+      Maecenas vestibulum elementum interdum.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Donec non eleifend ex, eu interdum justo.
+      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
+      Nunc nec dui id magna ullamcorper semper.
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit
+      In facilisis nulla sed efficitur posuere.
+      Maecenas vestibulum elementum interdum.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Donec non eleifend ex, eu interdum justo.
+      Duis dolor nibh, ornare eu egestas non, dapibus ornare nisl.
+      Nunc nec dui id magna ullamcorper semper.
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit
+      Morbi mollis mauris quis orci tristique posuere ac non magna.
+      Nam lectus ipsum, molestie sit
+      `}
+      username={"USERNAME GOES HERE"}
+      userId={"HEY"}
+      userAvatar={null}
+      cardHeight={420}
+      linkComponent={linkComponent}
+      resourceType="community"
       cardWidth={610}
-      imageURL={'https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80'}
+      imageURL={
+        "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
+      }
     />
-  ))
+  ));
