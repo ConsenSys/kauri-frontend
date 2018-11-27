@@ -63,7 +63,7 @@ class Articles extends Component<IProps> {
         searchArticles.content.length > 0 ? (
           <Masonry minWidth={310} columns={4}>
             {searchArticles.content.map(undecodedArticle => {
-              const resourceType = R.path<"COMMUNITY" | "ARTICLE">([
+              const resourceType = R.path<"COMMUNITY" | "USER">([
                 "owner",
                 "resourceIdentifier",
                 "type",
@@ -132,9 +132,9 @@ class Articles extends Component<IProps> {
                     </Link>
                   )}
                   resourceType={
-                    (resourceType &&
-                      (R.toLower(resourceType) as "community" | "article")) ||
-                    "article"
+                    (typeof resourceType === "string" &&
+                      (resourceType as "USER" | "COMMUNITY")) ||
+                    "USER"
                   }
                 />
               );

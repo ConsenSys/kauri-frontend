@@ -136,7 +136,7 @@ export default ({
   subject?: string,
   address?: string,
   hostName: string,
-  resourceType: "user" | "community",
+  resourceType: "USER" | "COMMUNITY",
   openModalAction: ({ children: React.ReactNode }) => void,
   closeModalAction: () => void,
   deleteDraftArticleAction: ({ id: string, version: number }) => void,
@@ -185,7 +185,7 @@ export default ({
             <Link
               useAnchorTag
               href={
-                resourceType === "community"
+                resourceType === "COMMUNITY"
                   ? `/community/${ownerId}`
                   : `/public-profile/${ownerId || authorId}`
               }

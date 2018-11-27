@@ -88,12 +88,15 @@ class ApprovedArticle extends React.Component<Props, State> {
       "resourceIdentifier",
       "type",
     ])(props);
+
     const isCommunityOwned = resourceType === "COMMUNITY";
+
     const description = articleContent
       .replace(/\n|\r/g, " ")
       .replace(/\u00a0/g, " ")
       .replace("#", "")
       .substring(0, 120);
+
     return (
       <ArticleContent>
         <Helmet>
@@ -179,9 +182,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           routeChangeAction={props.routeChangeAction}
           address={props.userId}
           hostName={hostName}
-          resourceType={
-            typeof resourceType === "string" && R.toLower(resourceType)
-          }
+          resourceType={typeof resourceType === "string" && resourceType}
           openModalAction={props.openModalAction}
           closeModalAction={props.closeModalAction}
           deleteDraftArticleAction={props.deleteDraftArticleAction}

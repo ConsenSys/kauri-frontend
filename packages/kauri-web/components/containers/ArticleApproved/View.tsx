@@ -89,7 +89,7 @@ class ArticleApproved extends React.Component<IProps> {
           <BodyCard color="white">{`The article ${subjectCopy}`}</BodyCard>
           <ArticleCard
             key={String(article.id)}
-            resourceType={"article"}
+            resourceType={"USER"}
             id={String(article.id)}
             version={Number(article.version)}
             date={moment(article.datePublished || article.dateCreated).format(

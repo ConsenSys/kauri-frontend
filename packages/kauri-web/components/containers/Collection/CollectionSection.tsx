@@ -96,7 +96,7 @@ const Component: React.SFC<Props> = props => {
               userAvatar={article.owner.avatar}
               imageURL={article.imageURL}
               linkComponent={linkComponent(article)}
-              resourceType="article"
+              resourceType={"USER"}
               cardHeight={420}
             />
           ))}
