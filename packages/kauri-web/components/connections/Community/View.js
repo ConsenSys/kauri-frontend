@@ -1,10 +1,11 @@
 // @flow
-import React from 'react';
-import Community from './Community';
+import React from "react";
+import Community from "./Community";
 
 type Props = {
   category: string,
   hostName: string,
+  isLoggedIn: boolean,
   data: { getCommunity: CommunityDTO },
 };
 
@@ -18,6 +19,7 @@ class CommunityConnection extends React.Component<Props> {
         website={this.props.data.getCommunity.website}
         category={this.props.category}
         hostName={this.props.hostName}
+        isLoggedIn={this.props.isLoggedIn}
       />
     ) : null;
   }

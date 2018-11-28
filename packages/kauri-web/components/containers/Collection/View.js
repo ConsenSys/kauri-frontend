@@ -177,6 +177,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
                 <CollectionSection
                   key={section.name}
                   name={section.name}
+                  isLoggedIn={!!this.props.userId}
                   description={section.description || ""}
                   articles={section.resources}
                 />

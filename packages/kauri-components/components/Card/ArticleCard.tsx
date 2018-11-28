@@ -402,7 +402,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
       isChosenArticle={isChosenArticle}
       toggledOn={toggledOn}
     >
-      {hoverChildren && toggledOn === true && (
+      {!!hoverChildren && toggledOn === true && (
         <Hover
           hasImageURL={!!imageURL}
           cancelAction={hideDispatch(dispatch)}

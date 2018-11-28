@@ -53,17 +53,18 @@ const Article = t.interface({
 const RuntimeProps = t.interface({
   articles: t.array(Article),
   description: t.union([t.string, t.undefined, t.null]),
+  isLoggedIn: t.boolean,
   name: t.string,
 });
 
 type Props = t.TypeOf<typeof RuntimeProps>;
 
 const Component: React.SFC<Props> = props => {
-  const { name, description, articles } = RuntimeProps.decode(props).getOrElseL(
-    errors => {
-      throw new Error(failure(errors).join("\n"));
-    }
-  );
+  const { name, description, articles, isLoggedIn } = RuntimeProps.decode(
+    props
+  ).getOrElseL(errors => {
+    throw new Error(failure(errors).join("\n"));
+  });
   if (articles) {
     const linkComponent = (article: t.TypeOf<typeof Article>) => (
       childrenProps: React.ReactElement<any>,
@@ -98,6 +99,7 @@ const Component: React.SFC<Props> = props => {
               linkComponent={linkComponent(article)}
               resourceType={"USER"}
               cardHeight={420}
+              isLoggedIn={isLoggedIn}
             />
           ))}
         </ArticlesSection>
