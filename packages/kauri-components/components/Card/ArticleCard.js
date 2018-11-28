@@ -41,7 +41,6 @@ const Container = styled.div`
 
 const Content = styled.div`
   display: flex;
-  height: 100%;
   flex-direction: column;
   flex: 1;
   > span:first-child {
@@ -243,7 +242,6 @@ const shiftMarginDueToNoImageURLCss = css`
 
 const HoverContainer = styled.div`
   display: flex;
-  height: 100%;
   width: 100%;
   z-index: 9001;
   flex-direction: column;

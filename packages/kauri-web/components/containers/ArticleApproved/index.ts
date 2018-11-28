@@ -7,6 +7,7 @@ import withLoading from "../../../lib/with-loading";
 
 interface IReduxState {
   app: {
+    hostName: string;
     user: {
       id: string;
     };
@@ -15,6 +16,7 @@ interface IReduxState {
 
 const mapStateToProps = (state: IReduxState) => {
   return {
+    hostName: state.app.hostName,
     user: state.app.user,
   };
 };
