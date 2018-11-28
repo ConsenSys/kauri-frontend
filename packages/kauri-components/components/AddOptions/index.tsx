@@ -1,7 +1,6 @@
-// @flow
 import * as React from 'react'
 import { Tooltip } from 'react-tippy'
-import styled from 'styled-components'
+import styled from "../../lib/styled-components";
 import { H6 } from '../Typography'
 
 const AddButtonIcon = () => (
@@ -45,9 +44,9 @@ const AddButton = styled.div`
   }
 `
 
-type Props = { children: React.Node }
+interface IProps { children: React.ReactElement<any> }
 
-export default ({ children }: Props) => (
+export default ({ children }: IProps) => (
   <Tooltip html={children} position='bottom' trigger='click' unmountHTMLWhenHide>
     <AddButton>
       <AddButtonIcon />

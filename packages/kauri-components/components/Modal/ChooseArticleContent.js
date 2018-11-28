@@ -1,6 +1,5 @@
-// @flow
 import * as React from 'react'
-import styled from 'styled-components'
+import styled from "../../lib/styled-components";
 import Stack from 'stack-styled'
 
 const Content = styled.section`

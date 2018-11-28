@@ -1,11 +1,27 @@
-// @flow
 import * as React from 'react';
-import styled from 'styled-components';
+import styled from "../../lib/styled-components";
+
+interface ITheme {
+  bg: {[val: string]: string}
+  space: {
+    [val: number]: number;
+  };
+};
+
+interface ITabContainerProps {
+  minWidth?: string;
+}
 
 const TabContainer = styled.div`
-  min-width: ${props => props.minWidth};
+  min-width: ${(props: ITabContainerProps) => props.minWidth};
 `;
 
+interface ITabsProps {
+  padContent: boolean;
+  centerTabs?: boolean;
+  bg: string;
+  theme?: ITheme;
+}
 const Tabs = styled.div`
     height: 50px;
     width: 100%;
@@ -13,15 +29,18 @@ const Tabs = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: ${props => props.theme.bg[props.bg]};
+    background-color: ${(props: ITabsProps) => props.theme && props.theme.bg[props.bg]};
     ${props => props.padContent && 'padding: 0px calc((100vw - 1280px) / 2)'};
     ${props => props.centerTabs && 'justify-content: center'};
 `;
 
-const Panels = styled.div``;
-
+interface ITabProps {
+  selected: boolean;
+  theme?: ITheme;
+  minWidth?: string;
+}
 const Tab = styled.div`
-    margin: 0px ${props => props.theme.space[2]}px;
+    margin: 0px ${(props: ITabProps) => props.theme && props.theme.space[2]}px;
     height: 50px;
     display: flex;
     align-items: center;
@@ -35,7 +54,7 @@ const Tab = styled.div`
 
 type Props = {
     tabs: Array<String>,
-    panels: Array<React.Node>,
+    panels: Element[],
     padContent?: boolean,
     centerTabs?: boolean,
     bg?: string,

@@ -15,10 +15,13 @@ import {
   Article_owner_PublicUserDTO,
 } from "../../../queries/__generated__/Article";
 
+import { ShareButtons } from "../../../../kauri-components/components/Tooltip/ShareButtons";
+
 interface IProps {
   data: {
     getArticle: Article;
   };
+  hostName: string;
   routeChangeAction: (route: string) => void;
   type: "published" | "approved" | "drafted" | "updated";
   user: { id: string };
@@ -39,7 +42,7 @@ const Container = styled.section`
 const ArticleApprovedActionButtons = styled.div`
   display: flex;
   > :first-child:not(:only-child) {
-    margin-right: 20px;
+    margin-right: 10px;
   }
   > :only-child {
     margin-right: 0px;
@@ -52,7 +55,7 @@ const ArticleApprovedActionButtons = styled.div`
 
 class ArticleApproved extends React.Component<IProps> {
   render() {
-    const { data, routeChangeAction, type } = this.props;
+    const { data, routeChangeAction, type, hostName } = this.props;
     const subjectCopy = R.cond([
       [
         R.equals("updated"),
@@ -125,6 +128,13 @@ class ArticleApproved extends React.Component<IProps> {
             changeRoute={routeChangeAction}
           />
           <ArticleApprovedActionButtons>
+            <ShareButtons
+              horizontal={true}
+              title={String(article.title)}
+              url={String(
+                `${hostName.replace("api.", "")}/article/${article.id}`
+              )}
+            />
             <PrimaryButton
               onClick={() =>
                 routeChangeAction(

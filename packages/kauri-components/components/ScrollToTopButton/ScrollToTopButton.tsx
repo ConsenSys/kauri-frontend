@@ -1,5 +1,6 @@
+
 import React from 'react'
-import styled from 'styled-components'
+import styled from "../../lib/styled-components"
 
 const ScrollToTopButton = styled.button`
   cursor: pointer;
@@ -23,13 +24,17 @@ const ArrowUp = styled.img`
   height: 20px;
   width: 20px;
 `
-//  <ScrollButton scrollStepInPx="50" delayInMs="16.66"/>
-export default class ScrollButton extends React.Component {
-  constructor () {
-    super()
-    this.state = {
-      intervalId: 0,
-    };
+
+interface IProps {
+  scrollStepInPx: number;
+  delayInMs: number;
+}
+interface IState {
+  intervalId: NodeJS.Timeout;
+}
+export default class ScrollButton extends React.Component<IProps, IState> {
+  constructor (props: IProps) {
+    super(props)
   }
   scrollStep () {
     if (window.pageYOffset === 0) {
@@ -37,10 +42,12 @@ export default class ScrollButton extends React.Component {
     }
     window.scroll(0, window.pageYOffset - this.props.scrollStepInPx)
   }
+
   scrollToTop () {
     let intervalId = setInterval(this.scrollStep.bind(this), this.props.delayInMs)
-    this.setState({ intervalId: intervalId })
+    this.setState({ intervalId })
   }
+
   render () {
     return (
       <ScrollToTopButton title='Back to top' className='scroll' onClick={() => { this.scrollToTop() }}>

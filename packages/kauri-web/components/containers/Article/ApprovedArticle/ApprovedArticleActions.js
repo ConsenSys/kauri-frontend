@@ -50,7 +50,7 @@ export default ({
 }: *) => (
   <ApprovedArticleActions>
     <ActionBadge onClick={() => routeChangeAction("back")}>
-      <GreenArrow direction='left' />
+      <GreenArrow direction="left" />
       <span>Go Back</span>
     </ActionBadge>
     {/* <ContributeToBounty

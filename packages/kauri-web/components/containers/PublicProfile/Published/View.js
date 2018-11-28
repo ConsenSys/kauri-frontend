@@ -78,14 +78,12 @@ const Articles = ({
           ))}
         </Masonry>
       </ContentContainer>
-      <Centered>
-        <MediumImportButton border={true} />
-      </Centered>
+      <Centered>{isOwner && <MediumImportButton border={true} />}</Centered>
     </Fragment>
   ) : (
     <Empty>
       <Centered>
-        <MediumImportButton border={true} />
+        {isOwner && <MediumImportButton border={true} />}
         <PrimaryButton onClick={() => routeChangeAction(`/write-article`)}>
           WRITE ARTICLE
         </PrimaryButton>

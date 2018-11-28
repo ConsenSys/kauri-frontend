@@ -89,7 +89,9 @@ export class SharedEditor extends React.Component<*> {
       );
       this.props.handleChange(mdeState);
     }
-    if (process.env.NODE_ENV !== "development") { window.addEventListener("beforeunload", this.handleCloseBrowserTab); }
+    if (process.env.NODE_ENV !== "development") {
+      window.addEventListener("beforeunload", this.handleCloseBrowserTab);
+    }
   }
 
   componentWillUnmount() {
