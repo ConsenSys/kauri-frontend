@@ -127,7 +127,7 @@ class Articles extends Component<IProps> {
                   )}
                   resourceType={
                     typeof resourceType === "string"
-                      ? R.toLower(resourceType)
+                      ? (R.toLower(resourceType) as "community" | "article")
                       : null
                   }
                 />
