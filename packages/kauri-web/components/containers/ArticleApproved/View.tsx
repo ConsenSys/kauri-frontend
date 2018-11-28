@@ -22,6 +22,7 @@ interface IProps {
   routeChangeAction: (route: string) => void;
   type: "published" | "approved" | "drafted" | "updated";
   user: { id: string };
+  isLoggedIn: boolean;
 }
 
 const Container = styled.section`
@@ -52,7 +53,7 @@ const ArticleApprovedActionButtons = styled.div`
 
 class ArticleApproved extends React.Component<IProps> {
   render() {
-    const { data, routeChangeAction, type } = this.props;
+    const { data, routeChangeAction, type, isLoggedIn } = this.props;
     const subjectCopy = R.cond([
       [
         R.equals("updated"),
@@ -113,6 +114,7 @@ class ArticleApproved extends React.Component<IProps> {
             }
             imageURL={article.attributes && article.attributes.background}
             cardHeight={420}
+            isLoggedIn={isLoggedIn}
             linkComponent={(childrenProps, route) => (
               <Link
                 toSlug={route.includes("article") && article.title}

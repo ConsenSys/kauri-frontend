@@ -9,13 +9,14 @@ interface IReduxState {
   app: {
     user: {
       id: string;
-    };
-  };
+    } | null;
+  } | null;
 }
 
 const mapStateToProps = (state: IReduxState) => {
   return {
-    user: state.app.user,
+    isLoggedIn: !!(state.app && state.app.user && state.app.user.id),
+    user: state.app && state.app.user,
   };
 };
 

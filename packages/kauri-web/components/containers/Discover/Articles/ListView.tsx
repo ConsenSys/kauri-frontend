@@ -21,6 +21,7 @@ interface IProps {
     searchArticles?: globalSearchApprovedArticles_searchArticles;
   };
   hostName: string;
+  isLoggedIn: boolean;
   routeChangeAction(route: string): void;
 }
 
@@ -40,6 +41,7 @@ class Articles extends Component<IProps> {
     } // TODO replace with an error message if exists
 
     const { searchArticles } = this.props.ArticlesQuery;
+    const { isLoggedIn } = this.props;
 
     return (
       <Fragment>
@@ -117,6 +119,7 @@ class Articles extends Component<IProps> {
                     article.attributes &&
                     article.attributes.background
                   }
+                  isLoggedIn={isLoggedIn}
                   linkComponent={(
                     childrenProps: React.ReactElement<any>,
                     route: string

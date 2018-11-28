@@ -1,32 +1,32 @@
 // @flow
-import * as React from 'react';
-import styled from 'styled-components';
-import { space, bg } from 'styled-system';
-import { Form, Field, FieldArray } from 'formik';
-import Stack from 'stack-styled';
-import R from 'ramda';
-import ActionsSection from '../../../../kauri-components/components/Section/ActionsSection';
-import PrimaryHeaderSection from '../../../../kauri-components/components/Section/PrimaryHeaderSection';
-import StatisticsContainer from '../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx';
-import UserAvatar from '../../../../kauri-components/components/UserAvatar';
-import { Label } from '../../../../kauri-components/components/Typography';
-import CuratorHeaderLabel from '../../../../kauri-components/components/Typography/CuratorHeaderLabel';
-import Input from '../../../../kauri-components/components/Input/Input';
-import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton';
-import TertiaryButton from '../../../../kauri-components/components/Button/TertiaryButton';
-import ArticleCard from '../../connections/ArticleCard';
-import setImageUploader from '../../common/ImageUploader';
-import showFormValidationErrors from '../../../lib/show-form-validation-errors';
-import ChooseArticleModal from './ChooseArticleModal';
-import CreateCollectionOptions from './CreateCollectionOptions';
+import * as React from "react";
+import styled from "styled-components";
+import { space, bg } from "styled-system";
+import { Form, Field, FieldArray } from "formik";
+import Stack from "stack-styled";
+import R from "ramda";
+import ActionsSection from "../../../../kauri-components/components/Section/ActionsSection";
+import PrimaryHeaderSection from "../../../../kauri-components/components/Section/PrimaryHeaderSection";
+import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx";
+import UserAvatar from "../../../../kauri-components/components/UserAvatar";
+import { Label } from "../../../../kauri-components/components/Typography";
+import CuratorHeaderLabel from "../../../../kauri-components/components/Typography/CuratorHeaderLabel";
+import Input from "../../../../kauri-components/components/Input/Input";
+import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
+import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
+import ArticleCard from "../../connections/ArticleCard";
+import setImageUploader from "../../common/ImageUploader";
+import showFormValidationErrors from "../../../lib/show-form-validation-errors";
+import ChooseArticleModal from "./ChooseArticleModal";
+import CreateCollectionOptions from "./CreateCollectionOptions";
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 
-import type { FormState } from './index';
-import type { ShowNotificationPayload } from '../../../lib/Module';
+import type { FormState } from "./index";
+import type { ShowNotificationPayload } from "../../../lib/Module";
 
 const emptySection: SectionDTO = {
-  name: '',
+  name: "",
   description: undefined,
   resourcesId: [],
 };
@@ -138,7 +138,7 @@ const UploadIcon = () => (
 );
 
 const DisplayFormikState = props => (
-  <div style={{ margin: '1rem 0', background: '#f6f8fa', padding: '.5rem' }}>
+  <div style={{ margin: "1rem 0", background: "#f6f8fa", padding: ".5rem" }}>
     <strong>Injected Formik props (the form's state)</strong>
     <div>
       <code>errors:</code> {JSON.stringify(props.errors, null, 2)}
@@ -168,8 +168,8 @@ const ShareIcon = () => (
 
 const handleBackgroundSetFormField = setFieldValue => () =>
   setImageUploader(payload => {
-    setFieldValue('background', payload.background.background);
-  }, 'background');
+    setFieldValue("background", payload.background.background);
+  }, "background");
 
 const renderResourceSection = (
   index,
@@ -180,18 +180,18 @@ const renderResourceSection = (
 ) => (resource, resourceIndex) => (
   <ResourceSection key={resourceIndex} mt={3} p={2}>
     {R.path(
-      ['sections', index, mappingKey, resourceIndex, 'version'],
+      ["sections", index, mappingKey, resourceIndex, "version"],
       values
     ) && (
       <div id='article-card'>
         <ArticleCard
           id={R.path(
-            ['sections', index, mappingKey, resourceIndex, 'id'],
+            ["sections", index, mappingKey, resourceIndex, "id"],
             values
           )}
           version={parseInt(
             R.path(
-              ['sections', index, mappingKey, resourceIndex, 'version'],
+              ["sections", index, mappingKey, resourceIndex, "version"],
               values
             )
           )}
@@ -241,6 +241,7 @@ type Props = {
   userId: string,
   username: string,
   userAvatar: string,
+  isLoggedIn: boolean,
 };
 
 const BackIcon = styled.div`
@@ -248,7 +249,7 @@ const BackIcon = styled.div`
   height: 14px !important;
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
-  border-right: 10px solid ${props => props.theme.colors['primary']};
+  border-right: 10px solid ${props => props.theme.colors["primary"]};
 `;
 
 export default ({
@@ -271,19 +272,19 @@ export default ({
     <Form>
       <ActionsSection
         bg={
-          (typeof values.background === 'string' && 'transparent') ||
-          'bgPrimary'
+          (typeof values.background === "string" && "transparent") ||
+          "bgPrimary"
         }
       >
-        <Stack alignItems={['', 'center']}>
+        <Stack alignItems={["", "center"]}>
           <TertiaryButton
-            onClick={() => routeChangeAction('back')}
+            onClick={() => routeChangeAction("back")}
             icon={<BackIcon />}
           >
             Cancel Collection
           </TertiaryButton>
         </Stack>
-        <Stack alignItems={['', 'center']} justifyContent={['', 'center']}>
+        <Stack alignItems={["", "center"]} justifyContent={["", "center"]}>
           <TertiaryButton
             icon={<UploadIcon />}
             handleClick={handleBackgroundSetFormField(setFieldValue)}
@@ -291,7 +292,7 @@ export default ({
             Background Image
           </TertiaryButton>
         </Stack>
-        <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
+        <Stack alignItems={["", "center"]} justifyContent={["", "end"]}>
           <PrimaryButton
             disabled={isSubmitting}
             type='submit'
@@ -299,7 +300,7 @@ export default ({
               showFormValidationErrors(validateForm, showNotificationAction)
             }
           >
-            {data ? 'Update' : 'Create'}
+            {data ? "Update" : "Create"}
           </PrimaryButton>
         </Stack>
       </ActionsSection>
@@ -342,7 +343,7 @@ export default ({
             <TertiaryButton icon={<ShareIcon />}>Share</TertiaryButton>
           </CreateCollectionActionsPlaceHolder>
         </CreateCollectionDetails>
-        <Stack alignItems={['', 'center']} justifyContent={['', 'end']}>
+        <Stack alignItems={["", "center']} justifyContent={['', 'end']}>
           <CreateCollectionMetaDetails mb={4}>
             <CreateCollectionCuratorDetails mr={4} mb={2}>
               <StatisticsContainer
