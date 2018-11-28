@@ -6,7 +6,7 @@ branches:
   only:
     - master
     - development
-    - dev2
+    - dev
 cache:
   directories:
     - '$HOME/google-cloud-sdk/'
