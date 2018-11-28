@@ -1,5 +1,6 @@
 // @flow
 import React from "react";
+import styled from "styled-components";
 import { ActionButtons, ActionButton } from "../../common/ActionButton";
 import { ArticleApprovedConfirmationLogoBadge } from "../../common/ActionBadge";
 import {
@@ -39,7 +40,8 @@ class ArticleRejected extends React.Component<Props> {
           confirmationMessage={"Article Rejected"}
         />
         <ConfirmationSubject>
-          {data && data.getArticle && data.getArticle.subject}
+          {(data && data.getArticle && data.getArticle.subject) ||
+            "The author has been notified by email with your note."}
         </ConfirmationSubject>
         <ArticleApprovedActionButtons>
           <ActionButton
