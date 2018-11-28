@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled from "../../lib/styled-components";
 import theme from '../../../kauri-web/lib/theme-config'
 
 const Header = styled.div`

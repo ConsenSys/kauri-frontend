@@ -1,6 +1,6 @@
 //@flow
 import * as React from 'react'
-import styled from 'styled-components'
+import styled from "../../lib/styled-components"
 import { fontSize } from 'styled-system'
 
 const CuratorHeaderLabel = styled.span`

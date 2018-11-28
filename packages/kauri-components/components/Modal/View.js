@@ -1,6 +1,5 @@
-// @flow
 import * as React from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes } from "../../lib/styled-components"
 
 const ModalContainer = styled.div`
   height: 100%;

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled from "../../lib/styled-components";
 import { fontSize, color, space } from 'styled-system'
 
 interface IButtonProps {

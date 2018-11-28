@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "../../lib/styled-components";
 import SecondaryButton from './SecondaryButton';
 import TertiaryButton from './TertiaryButton';
 

@@ -1,6 +1,5 @@
-// @flow
 import * as React from 'react';
-import styled, { css } from 'styled-components'
+import styled, { css } from "../../lib/styled-components";
 import { space, fontSize, fontWeight } from 'styled-system'
 
 export const BaseButtonCss = css`
@@ -26,11 +25,15 @@ export const BaseButtonCss = css`
     cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
   }
 `
-
-const AddTagButton = styled.button`
+interface IButtonProps {
+  bg: string;
+  fontWeight: number;
+  fontSize: number;
+}
+const AddTagButton = styled<IButtonProps, "button">("button")`
   ${BaseButtonCss};
   :hover {
-    border: 2px solid ${(props: IProps) => props.theme && props.theme.colors[props.bg]};
+    border: 2px solid ${props => props.theme.colors[props.bg]};
   }
 `
 
@@ -45,11 +48,6 @@ interface IProps {
   color?: string,
   text?: string,
   children?: Element,
-  theme?: {
-    colors: {
-      [color: string]: string;
-    }
-  }
 }
 
 export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, color = 'textPrimary', text = 'Add Tag', handleClick, children, disabled }: IProps) =>

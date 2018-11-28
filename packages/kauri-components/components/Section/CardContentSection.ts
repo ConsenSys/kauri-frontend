@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "../../lib/styled-components"
 
 const CardContentSection = styled.section`
   display: flex;

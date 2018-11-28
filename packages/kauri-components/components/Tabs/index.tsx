@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled from "../../lib/styled-components";
 
 interface ITheme {
   bg: {[val: string]: string}
