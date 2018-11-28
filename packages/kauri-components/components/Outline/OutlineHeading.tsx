@@ -9,8 +9,7 @@ const handleClick = (heading: string) => (
   event.preventDefault();
 
   const newHeading = heading
-    .replace(" ", "")
-    .replace("_", "")
+    .replace(/[\W_]+/g,"")
     .toLowerCase();
   const headerDOMNode = document.getElementById(newHeading);
 

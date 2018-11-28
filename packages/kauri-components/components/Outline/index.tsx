@@ -58,8 +58,8 @@ const Container: React.SFC<Props> = props => {
         <React.Fragment>
           <Label>Outline</Label>
           <List>
-            {headings.map(heading => (
-              <OutlineHeading heading={heading} />
+            {headings.map((heading, index) => (
+              <OutlineHeading key={index} heading={heading} />
             ))}
           </List>
           <Divider />

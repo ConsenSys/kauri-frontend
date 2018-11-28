@@ -30,6 +30,7 @@ type Props =
       ethUsdPrice: number,
       address?: string,
       data: { getArticle: ArticleDTO },
+      openModalAction: ({ children: React.ReactNode }) => void,
     }
   | any;
 
@@ -146,27 +147,12 @@ class ApprovedArticle extends React.Component<Props, State> {
           {...props.data.getArticle}
           hostName={hostName}
         />
-        {/*
-        works!
-        <button
-          onClick={() =>
-            this.props.deleteDraftArticleAction({
-              id: this.props.data.getArticle.id,
-              version: this.props.data.getArticle.version,
-            })
-          }
-        >
-          {' '}
-          Delete{' '}
-        </button> */}
-
         <ApprovedArticle.Content
           text={props.data.getArticle && props.data.getArticle.content}
           subject={props.data.getArticle && props.data.getArticle.title}
-          article_id={props.data.getArticle && props.data.getArticle.id}
-          article_version={
-            props.data.getArticle && props.data.getArticle.version
-          }
+          status={props.data.getArticle && props.data.getArticle.status}
+          id={props.data.getArticle && props.data.getArticle.id}
+          version={props.data.getArticle && props.data.getArticle.version}
           ownerId={
             props.data.getArticle &&
             props.data.getArticle.owner &&
@@ -196,6 +182,9 @@ class ApprovedArticle extends React.Component<Props, State> {
           resourceType={
             typeof resourceType === "string" && R.toLower(resourceType)
           }
+          openModalAction={props.openModalAction}
+          closeModalAction={props.closeModalAction}
+          deleteDraftArticleAction={props.deleteDraftArticleAction}
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.attributes}

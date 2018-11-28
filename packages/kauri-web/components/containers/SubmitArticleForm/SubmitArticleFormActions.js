@@ -10,7 +10,7 @@ import SecondaryButton from "../../../../kauri-components/components/Button/Seco
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
 
 const UploadIcon = () => (
-  <img src='https://png.icons8.com/color/50/000000/upload.png' />
+  <img src="https://png.icons8.com/color/50/000000/upload.png" />
 );
 
 const BackIcon = styled.div`
@@ -70,7 +70,7 @@ export default ({
       width={"100%"}
       justifyContent={["", "start"]}
       gridAutoFlow={["", "column"]}
-      gridTemplateColumns='minmax(auto, 1fr) minmax(auto, 1fr) minmax(auto, 1fr)'
+      gridTemplateColumns="minmax(auto, 1fr) minmax(auto, 1fr) minmax(auto, 1fr)"
     >
       <TertiaryButton
         icon={<BackIcon />}
@@ -93,7 +93,7 @@ export default ({
         </TertiaryButton>
       </Stack>
       <ContainerRow>
-        <SecondaryButton action={handleSubmit("draft")}>
+        <SecondaryButton onClick={handleSubmit("draft")}>
           Save draft
         </SecondaryButton>
         <PrimaryButton onClick={handleSubmit("submit/update")}>

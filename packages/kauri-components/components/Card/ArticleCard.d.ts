@@ -32,7 +32,7 @@ interface IProps {
   hoverAction?: (IHoverActionPayload) => void;
   viewAction?: (IViewActionPayload) => void;
   isChosenArticle?: boolean;
-  resourceType: string | null;
+  resourceType: "article" | "community" | null;
   changeRoute?: (route: string) => void;
 }
 
