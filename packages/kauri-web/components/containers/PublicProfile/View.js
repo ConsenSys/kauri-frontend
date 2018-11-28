@@ -53,7 +53,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       typeof ApprovalsQuery.searchArticles === "object";
 
     const isEditing = this.state.isEditing;
-
+    const isOwner = UserQuery.getUser && UserQuery.getUser.id === currentUser;
     return (
       <React.Fragment>
         {!isHeaderLoaded ? (
@@ -86,16 +86,15 @@ class PublicProfile extends Component<ViewProps, ViewState> {
           <Tabs
             tabs={[
               `Articles (${ArticlesQuery.searchArticles.totalElements})`,
-              UserQuery.getUser.id === currentUser &&
-                `Drafts (${DraftsQuery.searchArticles.totalElements})`,
+              isOwner && `Drafts (${DraftsQuery.searchArticles.totalElements})`,
               `Collections (${
                 CollectionQuery.searchCollections.totalElements
               })`,
-              UserQuery.getUser.id === currentUser &&
+              isOwner &&
                 `Awaiting Owner Approval (${
                   ApprovalsQuery.searchArticles.totalElements
                 })`,
-              UserQuery.getUser.id === currentUser &&
+              isOwner &&
                 `Pending My Approval(${
                   PendingQuery.searchArticles.totalElements
                 })`,
@@ -105,9 +104,9 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 data={ArticlesQuery}
                 type="published"
                 routeChangeAction={routeChangeAction}
-                isOwner={UserQuery.getUser.id === currentUser}
+                isOwner={isOwner}
               />,
-              UserQuery.getUser.id === currentUser && (
+              isOwner && (
                 <Drafts
                   data={DraftsQuery}
                   type="draft"
