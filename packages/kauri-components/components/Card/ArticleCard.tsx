@@ -5,15 +5,14 @@ import TextTruncate from "react-text-truncate";
 import BaseCard from "./BaseCard";
 import { Label, H1, BodyCard } from "../Typography";
 import theme from "../../lib/theme-config";
-import PrimaryButton from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
 import UserAvatar from "../UserAvatar";
 import {
   toggleReducer,
   IToggleState,
   IToggleAction,
-  showDispatch,
   hideDispatch,
+  toggleDispatch,
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
 
@@ -82,6 +81,22 @@ const Divider = styled<{ imageURL: string | undefined }, "div">("div")`
   height: 1px;
   ${props => typeof props.imageURL === "string" && withImageURLDividerCss};
 `;
+
+const MoreOptionsIcon: React.FunctionComponent<{}> = () => (
+  <svg
+    width="23"
+    height="5"
+    viewBox="0 0 23 5"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g opacity="0.6">
+      <circle cx="20.5" cy="2.5" r="2.5" fill="#1E2428" />
+      <circle cx="11.5" cy="2.5" r="2.5" fill="#1E2428" />
+      <circle cx="2.5" cy="2.5" r="2.5" fill="#1E2428" />
+    </g>
+  </svg>
+);
 
 const titleLineHeight = R.cond([
   [
@@ -205,6 +220,18 @@ const Header = styled.div`
   }
 `;
 
+const MoreOptions = styled<{ hasImageURL: boolean }, "div">("div")`
+  display: flex;
+  height: 20px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: ${props => (props.hasImageURL ? "180" : "10")}px;
+  right: 15px;
+  z-index: 5;
+`;
+
 interface ICardContentProps {
   title: string;
   content: string;
@@ -297,53 +324,28 @@ const HoverContainer = styled<{ hasImageURL: boolean }, "div">("div")`
   align-items: center;
   border-radius: 4px;
   background: ${props => props.theme.colors.textPrimary};
-  > :first-child {
+  > :not(:last-child) {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
   ${props => !props.hasImageURL && shiftMarginDueToNoImageURLCss};
 `;
 
-interface IHoverActionPayload {
-  id: string;
-  version: number;
-}
-
-const handleAction = (
-  action: any,
-  { id, version }: IHoverActionPayload
-) => () => action({ id, version });
-
 interface IHoverProps {
   hasImageURL: boolean;
-  hoverAction?: (payload: IHoverActionPayload) => void;
-  viewAction?: (payload: IHoverActionPayload) => void;
-  id: string;
-  version: number;
-  isChosenArticle: any;
+  hoverChildren: React.ReactElement<any>;
+  cancelAction: () => void;
 }
 
 const Hover: React.FunctionComponent<IHoverProps> = ({
   hasImageURL,
-  hoverAction,
-  viewAction,
-  id,
-  version,
-  isChosenArticle,
+  cancelAction,
+  hoverChildren,
 }) => (
   <HoverContainer hasImageURL={hasImageURL}>
-    <PrimaryButton onClick={handleAction(hoverAction, { id, version })}>{`${
-      isChosenArticle === true ? "Remove" : "Choose"
-    } Article`}</PrimaryButton>
-    <SecondaryButton onClick={handleAction(viewAction, { id, version })}>
-      View Article
-    </SecondaryButton>
+    {hoverChildren}
+    <SecondaryButton onClick={cancelAction}>Cancel</SecondaryButton>
   </HoverContainer>
 );
-
-interface IActionPayload {
-  id: string;
-  version: number;
-}
 
 interface IProps {
   id: string;
@@ -361,11 +363,11 @@ interface IProps {
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
-  hoverAction?: (payload: IActionPayload) => void | undefined;
-  viewAction?: (payload: IActionPayload) => void | undefined;
+  hoverChildren?: React.ReactElement<any>;
   isChosenArticle?: boolean;
   resourceType: "USER" | "COMMUNITY";
   status?: "PUBLISHED" | "DRAFT";
+  isLoggedIn: boolean;
 }
 
 const ArticleCard: React.FunctionComponent<IProps> = ({
@@ -381,11 +383,11 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   cardWidth = DEFAULT_CARD_WIDTH,
   cardHeight = DEFAULT_CARD_HEIGHT,
   linkComponent,
-  hoverAction,
-  viewAction,
   isChosenArticle,
   resourceType,
   status,
+  isLoggedIn,
+  hoverChildren,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
     IToggleState,
@@ -397,25 +399,25 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
       imageURL={imageURL}
       cardWidth={calculateCardWidth({ cardWidth, imageURL })}
       cardHeight={calculateCardHeight({ cardHeight, cardWidth, imageURL })}
-      handleMouseEnter={showDispatch(dispatch)}
-      handleMouseLeave={hideDispatch(dispatch)}
       isChosenArticle={isChosenArticle}
       toggledOn={toggledOn}
-      hoverAction={hoverAction}
     >
-      {typeof hoverAction === "function" &&
-        typeof viewAction === "function" &&
-        toggledOn === true && (
-          <Hover
-            isChosenArticle={isChosenArticle}
-            hasImageURL={!!imageURL}
-            viewAction={viewAction}
-            hoverAction={hoverAction}
-            id={id}
-            version={version}
-          />
-        )}
+      {hoverChildren && toggledOn === true && (
+        <Hover
+          hasImageURL={!!imageURL}
+          cancelAction={hideDispatch(dispatch)}
+          hoverChildren={hoverChildren}
+        />
+      )}
       <Container imageURL={imageURL}>
+        {isLoggedIn && (
+          <MoreOptions
+            hasImageURL={!!imageURL}
+            onClick={toggleDispatch(dispatch)}
+          >
+            <MoreOptionsIcon />
+          </MoreOptions>
+        )}
         {linkComponent(
           <RenderCardContent
             title={title}
