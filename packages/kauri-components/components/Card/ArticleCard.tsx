@@ -319,7 +319,7 @@ const HoverContainer = styled<{ hasImageURL: boolean }, "div">("div")`
   display: flex;
   height: 100%;
   width: 100%;
-  z-index: 9001;
+  z-index: 2;
   flex-direction: column;
   position: absolute;
   justify-content: center;
@@ -412,7 +412,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
         />
       )}
       <Container imageURL={imageURL}>
-        {isLoggedIn && (
+        {isLoggedIn && !!hoverChildren && (
           <MoreOptions
             hasImageURL={!!imageURL}
             onClick={toggleDispatch(dispatch)}
