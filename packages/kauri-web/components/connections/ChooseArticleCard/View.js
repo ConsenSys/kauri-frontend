@@ -26,11 +26,11 @@ export default ({
           date={moment(article.datePublished).format("D MMM YYYY")}
           title={article.title}
           username={article.owner && article.owner.username}
-          isLoggedIn={!!userId}
           userAvatar={article.owner && article.owner.avatar}
           userId={article.owner && article.owner.id}
           imageURL={article.attributes && article.attributes.background}
           cardHeight={420}
+          isLoggedIn={!!userId}
           hoverChildren={
             <React.Fragment>
               <PrimaryButton

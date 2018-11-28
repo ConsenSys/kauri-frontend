@@ -1,7 +1,7 @@
 // @flow
 
 export type ArticlesProps = {
-  type?: 'toBeApproved' | 'published' | 'draft' | 'pending',
+  type?: "toBeApproved" | "published" | "draft" | "pending",
   data: {
     searchArticles: {
       content: Array<ArticleDTO>,
@@ -9,7 +9,7 @@ export type ArticlesProps = {
   },
   routeChangeAction: () => void,
   isOwner: boolean,
-}
+};
 
 export type CollectionsProps = {
   data: {
@@ -18,7 +18,7 @@ export type CollectionsProps = {
     },
   },
   routeChangeAction: () => void,
-}
+};
 
 export type ViewState = {
   isEditing?: boolean,
@@ -29,11 +29,17 @@ export type ViewState = {
   website: string,
   twitter: string,
   github: string,
-}
+};
 
 export type ViewProps = {
   saveUserDetailsAction: () => void,
   currentUser?: string,
+  deleteDraftArticleAction: (
+    payload: { id: string, version: number },
+    callback: () => void
+  ) => void,
+  closeModalAction: () => void,
+  openModalAction: (payload: any) => void,
   ArticlesQuery: {
     searchArticles: {
       content: Array<ArticleDTO>,
@@ -74,7 +80,7 @@ export type ViewProps = {
     },
   },
   routeChangeAction: () => void,
-}
+};
 
 export type HeaderState = {
   username: string,
@@ -84,7 +90,7 @@ export type HeaderState = {
   twitter: string,
   github: string,
   name: string,
-}
+};
 
 export type HeaderProps = {
   username: string,
@@ -101,4 +107,4 @@ export type HeaderProps = {
   currentUser?: string,
   collections?: CollectionsProps,
   articles?: ArticlesProps,
-}
+};

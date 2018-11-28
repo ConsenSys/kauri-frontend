@@ -7,7 +7,7 @@ const ModalContainer = styled<{ open: boolean }, "div">("div")`
   top: 0;
   left: 0;
   background-color: rgb(30, 36, 40, 0.5);
-  z-index: 100;
+  z-index: 9001;
   justify-content: center;
   align-items: center;
   position: fixed;
