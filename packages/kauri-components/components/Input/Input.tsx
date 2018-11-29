@@ -64,7 +64,6 @@ const Wrapper = styled.div`
   position: relative;
   align-self: auto;
   width: 100%;
-  margin-bottom: ${props => props.theme.space[1]}px;
 `
 
 class Input extends React.Component<IWrapperProps, IInputState> {
