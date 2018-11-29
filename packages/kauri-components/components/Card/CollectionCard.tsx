@@ -17,7 +17,7 @@ import {
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
 
-const DEFAULT_CARD_HEIGHT = 290;
+const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
 const DEFAULT_CARD_PADDING = theme.space[2];
 
@@ -35,6 +35,7 @@ const AvatarContainer = styled.div`
     width: 100%;
     justify-content: center;
   }
+  margin-bottom: ${props => props.theme.space[2]}px;
 `;
 
 const Container = styled.div`
@@ -51,19 +52,17 @@ const Mask = styled.div`
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
   width: 100%;
-  > a:nth-child(2) {
+  > a:nth-child(1) {
     height: 100%;
   }
-  > *:nth-child(4) {
+  > *:nth-child(2) {
     margin-top: auto;
-  }
-  > *:not(:last-child) {
-    margin-bottom: ${props => props.theme.space[2]}px;
   }
   ${withImageURLCss};
 `;
+
 interface IContentStyledComponentProps {
-  imageURL: string | undefined;
+  imageURL: string | null;
 }
 
 const Content = styled<IContentStyledComponentProps, "div">("div")`
@@ -73,19 +72,16 @@ const Content = styled<IContentStyledComponentProps, "div">("div")`
   flex: 1;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  width: 100%;
   height: 100%;
+  width: 100%;
   background: url(${props =>
       typeof props.imageURL === "string" && props.imageURL})
     center center / cover;
-  > a:nth-child(2) {
+  > a:nth-child(1) {
     height: 100%;
   }
-  > *:nth-child(3) {
+  > *:nth-child(2) {
     margin-top: auto;
-  }
-  > *:not(:last-child) {
-    margin-bottom: ${props => props.theme.space[2]}px;
   }
 `;
 
@@ -99,11 +95,14 @@ const Footer = styled<IContentStyledComponentProps, "div">("div")`
   }
   padding: ${props =>
     typeof props.imageURL === "string" ? props.theme.space[2] + "px" : ""};
+  padding-top: ${props =>
+    typeof props.imageURL === "string" ? props.theme.space[1] + "px" : ""};
 `;
 
 const Divider = styled.div`
   width: 100%;
   margin: ${props => props.theme.space[2]}px 0px;
+  margin-bottom: ${props => props.theme.space[1]}px;
   background-color: ${props => props.theme.colors.divider};
   height: 2px;
 `;
@@ -151,8 +150,9 @@ interface IPublicProfileProps {
   userId: string;
   cardWidth: number;
   userAvatar: string | null;
-  imageURL: string | undefined;
+  imageURL: string | null;
 }
+
 const RenderPublicProfile: React.SFC<IPublicProfileProps> = ({
   username,
   userId,
@@ -165,11 +165,19 @@ const RenderPublicProfile: React.SFC<IPublicProfileProps> = ({
       fullWidth={cardWidth > DEFAULT_CARD_WIDTH}
       username={username}
       userId={userId}
-      avatar={userAvatar}
+      cardType="COLLECTION"
       imageURL={imageURL}
+      avatar={userAvatar}
     />
   </AvatarContainer>
 );
+
+const LabelContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: ${props => props.theme.space[2]}px;
+`;
 
 interface IBodyProps {
   name: string | null;
@@ -177,7 +185,7 @@ interface IBodyProps {
   cardHeight: number;
   cardWidth: number;
   userAvatar: string | null;
-  imageURL: string | undefined;
+  imageURL: string | null;
   description: string;
 }
 
@@ -189,6 +197,9 @@ const RenderBodyContent: React.SFC<IBodyProps> = ({
   description,
 }) => (
   <React.Fragment>
+    <LabelContainer>
+      <Label textAlign="center">{"Collection"}</Label>
+    </LabelContainer>
     <Title2 textAlign="center">
       <TextTruncate
         line={nameLineHeight({ cardHeight, imageURL })}
@@ -209,7 +220,7 @@ const RenderBodyContent: React.SFC<IBodyProps> = ({
 interface IActualContentProps {
   cardHeight: number;
   cardWidth: number;
-  imageURL: string | undefined;
+  imageURL: string | null;
   description: string;
   id: string;
   linkComponent: ((
@@ -237,7 +248,6 @@ const RenderActualContent: React.SFC<IActualContentProps> = ({
   date,
 }) => (
   <React.Fragment>
-    <Label>{"Collection"}</Label>
     {linkComponent(
       <RenderBodyContent
         name={name}
@@ -255,8 +265,8 @@ const RenderActualContent: React.SFC<IActualContentProps> = ({
         cardWidth={cardWidth}
         username={username}
         userId={userId}
-        userAvatar={userAvatar}
         imageURL={imageURL}
+        userAvatar={userAvatar}
       />,
       `/public-profile/${userId}`
     )}
@@ -267,7 +277,7 @@ const RenderActualContent: React.SFC<IActualContentProps> = ({
 interface ICardContentProps {
   cardHeight: number;
   cardWidth: number;
-  imageURL: string | undefined;
+  imageURL: string | null;
   description: string;
   id: string;
   linkComponent: ((
@@ -444,7 +454,7 @@ const Hover: React.SFC<IHoverProps> = ({
 );
 
 interface IContentProps {
-  imageURL: string | undefined;
+  imageURL: string | null;
   name: string;
   description: string;
   cardHeight: number;
@@ -501,7 +511,7 @@ interface IProps {
   userAvatar: string | null;
   userId: string;
   articleCount: string;
-  imageURL?: string;
+  imageURL: string | null;
   cardHeight: number;
   cardWidth?: number;
   linkComponent: (
@@ -515,7 +525,7 @@ interface IProps {
 
 interface IRenderFooterProps {
   id: string;
-  imageURL: string | undefined;
+  imageURL: string | null;
   articleCount: string;
   linkComponent: (
     childrenProps: React.ReactElement<any>,

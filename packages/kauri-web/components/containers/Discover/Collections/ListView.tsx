@@ -87,12 +87,12 @@ class Collections extends Component<IProps> {
                     userAvatar={
                       collection && collection.owner && collection.owner.avatar
                     }
-                    imageURL={String(collection && collection.background)}
+                    imageURL={collection && collection.background}
                     articleCount={String(articleCount)}
                     date={moment(collection && collection.dateUpdated).format(
                       "D MMM YYYY"
                     )}
-                    cardHeight={290}
+                    cardHeight={310}
                     cardWidth={290}
                     linkComponent={(
                       childrenProps: React.ReactElement<any>,

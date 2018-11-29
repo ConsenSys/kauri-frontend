@@ -21,3 +21,5 @@ lerna-error.log
 Dockerfile-local
 esy.lock
 .graphql_ppx_cache
+/yarn.lock
+/packages/yarn.lock

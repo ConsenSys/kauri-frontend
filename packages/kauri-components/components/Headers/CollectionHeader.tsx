@@ -55,6 +55,7 @@ const changeRoute = (
 const RuntimeProps = t.interface({
   description: t.string,
   id: t.string,
+  imageURL: t.union([t.string, t.null]),
   linkComponent: t.any,
   name: t.string,
   ownerId: t.string,
@@ -81,6 +82,7 @@ const Container: React.SFC<Props> = props => {
     username,
     userId,
     routeChangeAction,
+    imageURL,
   } = RuntimeProps.decode(props).getOrElseL(errors => {
     throw new Error(failure(errors).join("\n"));
   });
@@ -97,6 +99,8 @@ const Container: React.SFC<Props> = props => {
         {linkComponent ? (
           linkComponent(
             <UserAvatar
+              cardType={"COLLECTION"}
+              imageURL={imageURL}
               variant="white"
               fullWidth={true}
               username={username ? username : "0x" + ownerId}
@@ -106,6 +110,8 @@ const Container: React.SFC<Props> = props => {
           )
         ) : (
           <UserAvatar
+            imageURL={imageURL}
+            cardType={"COLLECTION"}
             variant="white"
             username={username ? username : "0x" + ownerId}
             avatar={userAvatar}

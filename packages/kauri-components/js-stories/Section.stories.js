@@ -70,6 +70,28 @@ const CreateCollectionCurators = styled.div`
   }
 `;
 
+const Link = styled.a`
+  text-decoration: none;
+  color: inherit;
+  :hover {
+    color: ${props => props.theme.colors.hoverTextColor} !important;
+    > * {
+      color: ${props => props.theme.colors.hoverTextColor} !important;
+      > * {
+        color: ${props => props.theme.colors.hoverTextColor} !important;
+        > * {
+          color: ${props => props.theme.colors.hoverTextColor} !important;
+        }
+      }
+    }
+  }
+`;
+
+const linkComponent = (
+  childrenProps: React.ReactElement<any>,
+  route: string
+) => <Link href={route}>{childrenProps}</Link>;
+
 storiesOf("Section", module)
   .add("ActionsSection", () => (
     <ActionsSection>
@@ -141,6 +163,8 @@ storiesOf("Section", module)
   .add("CardContentSection", () => (
     <CardContentSection>
       <ArticleCard
+        isLoggedIn
+        linkComponent={linkComponent}
         date={moment(1538734619928).format("D MMM YYYY")}
         title={
           "Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title"
@@ -166,6 +190,8 @@ storiesOf("Section", module)
         cardHeight={420}
       />
       <ArticleCard
+        isLoggedIn
+        linkComponent={linkComponent}
         date={moment(1538734619928).format("D MMM YYYY")}
         title={"Two Line Title Two Line Title Two Line Title Two Line Title"}
         id={"1234567890"}

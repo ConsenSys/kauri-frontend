@@ -90,10 +90,13 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       lower: true,
     })}`;
 
-    const resourceType = R.pipe(
-      R.path(["data", "getCollection", "owner", "resourceIdentifier", "type"]),
-      R.toLower
-    )(this.props);
+    const resourceType = R.path([
+      "data",
+      "getCollection",
+      "owner",
+      "resourceIdentifier",
+      "type",
+    ])(this.props);
 
     return (
       <div>
@@ -141,6 +144,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
         <HeaderContainer background={bg}>
           <Overlay />
           <CollectionHeader
+            imageURL={bg}
             id={id}
             name={name}
             description={description || ""}
@@ -154,7 +158,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
                 fullWidth={false}
                 useAnchorTag
                 href={
-                  resourceType === "community"
+                  resourceType === "COMMUNITY"
                     ? `/community/${owner && owner.id}`
                     : `/public-profile/${owner && owner.id}`
                 }
@@ -174,6 +178,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
                 <CollectionSection
                   key={section.name}
                   name={section.name}
+                  isLoggedIn={!!this.props.userId}
                   description={section.description || ""}
                   articles={section.resources}
                 />

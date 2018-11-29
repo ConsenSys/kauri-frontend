@@ -44,7 +44,7 @@ class Link extends React.Component<LinkProps> {
       : this.props.routeChangeAction(url);
   };
 
-  render() {
+  render () {
     let url =
       this.props.as || this.props.href || this.props.children.props.href;
     const slug = this.props.toSlug

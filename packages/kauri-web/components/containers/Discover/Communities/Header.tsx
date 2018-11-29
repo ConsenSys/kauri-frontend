@@ -37,7 +37,7 @@ const KauriDescription = styled.div`
 const Header = () => (
   <CommunitiesHeader>
     <KauriTitle>Discover Communities</KauriTitle>
-    <KauriDescription>Users' and Communities' Communities</KauriDescription>
+    <KauriDescription>User Communities</KauriDescription>
     <CommunitySearch />
   </CommunitiesHeader>
 );

@@ -72,7 +72,12 @@ const withPagination = (
         window.innerHeight;
       const scrolledToBottom =
         Math.ceil(scrollTop + clientHeight + 50) >= scrollHeight;
-      if (scrolledToBottom && this.props[queryName][key].isLast !== true) {
+      if (
+        scrolledToBottom &&
+        this.props[queryName] &&
+        this.props[queryName][key] &&
+        this.props[queryName][key].isLast !== true
+      ) {
         const nextPage = this.state.page + 1;
         this.setState({ showLoading: true });
         this.props[queryName].fetchMore({

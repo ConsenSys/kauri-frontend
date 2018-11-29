@@ -98,6 +98,7 @@ const RuntimeProps = t.interface({
   category: t.string,
   hostName: t.string,
   id: t.string,
+  isLoggedIn: t.boolean,
   name: t.string,
   website: t.string,
 });
@@ -105,11 +106,12 @@ const RuntimeProps = t.interface({
 type Props = t.TypeOf<typeof RuntimeProps>;
 
 const Container: React.SFC<Props> = props => {
-  const { avatar, category, hostName, id, name, website } = RuntimeProps.decode(
+  const { avatar, category, hostName, isLoggedIn, id, name, website } = RuntimeProps.decode(
     props
   ).getOrElseL(errors => {
     throw new Error(failure(errors).join("\n"));
   });
+
   return (
     <section>
       <CommunityHeader>
@@ -166,7 +168,8 @@ const Container: React.SFC<Props> = props => {
                           username={name}
                           userAvatar={avatar}
                           userId={id}
-                          resourceType="community"
+                          isLoggedIn={isLoggedIn}
+                          resourceType="COMMUNITY"
                         />
                       )
                   )}
