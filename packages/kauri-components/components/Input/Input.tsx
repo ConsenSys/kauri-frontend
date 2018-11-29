@@ -6,9 +6,6 @@ interface IInputProps {
     fontSize: number;
     fontWeight: number;
     color: string;
-    placeHolder?: string;
-    value: string;
-    hideUnderline?: boolean;
 }
 
 interface IInputState {
@@ -49,7 +46,14 @@ const Underline = styled<IUnderline, "span">("span")`
   overflow: hidden;
   font-size: ${props => props.theme.fontSizes[props.fontSize]}px;
 `
-interface IWrapperProps extends IInputProps {
+interface IWrapperProps {
+    textAlign?: string;
+    fontSize?: number;
+    fontWeight?: number;
+    color?: string;
+    placeHolder?: string;
+    value?: string;
+    hideUnderline?: boolean;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -66,7 +70,7 @@ class Input extends React.Component<IWrapperProps, IInputState> {
         super(props);
         this.state = {
             focused: false,
-            value: props.value,
+            value: props.value || '',
         }
         this.handleChange = this.handleChange.bind(this)
         this.toggleFocus = this.toggleFocus.bind(this)
