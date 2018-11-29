@@ -5,7 +5,6 @@ import userIdTrim from "../../../kauri-web/lib/userid-trim";
 
 interface IContainerProps {
   fullWidth: boolean;
-  imageURL: string | undefined;
   variant: "white" | undefined;
   color: string | undefined;
 }
@@ -23,9 +22,6 @@ const Container = styled<IContainerProps, "div">("div")`
     text-overflow: ellipsis;
     max-width: ${props => !props.fullWidth && "100px"};
     color: ${props => {
-      if (props.imageURL) {
-        return "white";
-      }
       if (props.variant === "white") {
         return "white";
       }
@@ -83,7 +79,6 @@ interface IProps {
   avatar: string | null;
   username: string | null;
   userId: string;
-  imageURL?: string;
   fullWidth?: boolean;
   variant?: "white";
 }
@@ -92,7 +87,6 @@ const UserAvatarComponent: React.SFC<IProps> = props => (
   <Container
     variant={props.variant}
     color={typeof props.color === "string" ? props.color : "textPrimary"}
-    imageURL={props.imageURL}
     fullWidth={Boolean(props.fullWidth)}
   >
     <Avatar
