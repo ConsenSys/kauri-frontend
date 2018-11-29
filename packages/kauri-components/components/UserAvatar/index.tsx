@@ -5,8 +5,10 @@ import userIdTrim from "../../../kauri-web/lib/userid-trim";
 
 interface IContainerProps {
   fullWidth: boolean;
+  imageURL?: string | null;
   variant: "white" | undefined;
   color: string | undefined;
+  cardType?: "COLLECTION" | "ARTICLE";
 }
 
 const Container = styled<IContainerProps, "div">("div")`
@@ -22,6 +24,9 @@ const Container = styled<IContainerProps, "div">("div")`
     text-overflow: ellipsis;
     max-width: ${props => !props.fullWidth && "100px"};
     color: ${props => {
+      if (props.imageURL && props.cardType === "COLLECTION") {
+        return "white";
+      }
       if (props.variant === "white") {
         return "white";
       }
@@ -79,14 +84,18 @@ interface IProps {
   avatar: string | null;
   username: string | null;
   userId: string;
+  imageURL?: string | null;
   fullWidth?: boolean;
   variant?: "white";
+  cardType?: "COLLECTION" | "ARTICLE";
 }
 
 const UserAvatarComponent: React.SFC<IProps> = props => (
   <Container
+    cardType={props.cardType}
     variant={props.variant}
     color={typeof props.color === "string" ? props.color : "textPrimary"}
+    imageURL={props.imageURL}
     fullWidth={Boolean(props.fullWidth)}
   >
     <Avatar

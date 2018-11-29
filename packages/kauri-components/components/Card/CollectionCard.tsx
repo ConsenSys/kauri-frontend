@@ -52,6 +52,9 @@ const Mask = styled.div`
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
   width: 100%;
+  > a:nth-child(1) {
+    height: 100%;
+  }
   > *:nth-child(2) {
     margin-top: auto;
   }
@@ -69,11 +72,14 @@ const Content = styled<IContentStyledComponentProps, "div">("div")`
   flex: 1;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  width: 100%;
   height: 100%;
+  width: 100%;
   background: url(${props =>
       typeof props.imageURL === "string" && props.imageURL})
     center center / cover;
+  > a:nth-child(1) {
+    height: 100%;
+  }
   > *:nth-child(2) {
     margin-top: auto;
   }
@@ -144,6 +150,7 @@ interface IPublicProfileProps {
   userId: string;
   cardWidth: number;
   userAvatar: string | null;
+  imageURL: string | null;
 }
 
 const RenderPublicProfile: React.SFC<IPublicProfileProps> = ({
@@ -151,12 +158,15 @@ const RenderPublicProfile: React.SFC<IPublicProfileProps> = ({
   userId,
   cardWidth = DEFAULT_CARD_WIDTH,
   userAvatar,
+  imageURL,
 }) => (
   <AvatarContainer>
     <UserAvatar
       fullWidth={cardWidth > DEFAULT_CARD_WIDTH}
       username={username}
       userId={userId}
+      cardType="COLLECTION"
+      imageURL={imageURL}
       avatar={userAvatar}
     />
   </AvatarContainer>
@@ -255,6 +265,7 @@ const RenderActualContent: React.SFC<IActualContentProps> = ({
         cardWidth={cardWidth}
         username={username}
         userId={userId}
+        imageURL={imageURL}
         userAvatar={userAvatar}
       />,
       `/public-profile/${userId}`
