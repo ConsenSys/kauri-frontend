@@ -44,7 +44,7 @@ const Article = t.interface({
   content: t.string,
   datePublished: t.string,
   id: t.string,
-  imageURL: t.union([t.undefined, t.string]),
+  imageURL: t.union([t.null, t.string, t.undefined]),
   owner: Owner,
   title: t.string,
   version: t.number,
@@ -95,7 +95,9 @@ const Component: React.SFC<Props> = props => {
               username={article.owner.username}
               userId={article.owner.id}
               userAvatar={article.owner.avatar}
-              imageURL={article.imageURL}
+              imageURL={
+                typeof article.imageURL === "string" ? article.imageURL : null
+              }
               linkComponent={linkComponent(article)}
               resourceType={"USER"}
               cardHeight={420}

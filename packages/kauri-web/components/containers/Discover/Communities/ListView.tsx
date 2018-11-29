@@ -88,7 +88,7 @@ class Communities extends Component<IProps> {
                         ? community.description.split(".")[0]
                         : ""
                     }
-                    cardHeight={290}
+                    cardHeight={310}
                     articles={
                       (Array.isArray(community && community.approvedId) &&
                         String(

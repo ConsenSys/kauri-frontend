@@ -6,6 +6,9 @@ import styled from "../../lib/styled-components";
 import { Label, BodyCard, H1 } from "../Typography";
 import BaseCard from "../Card/BaseCard";
 
+const DEFAULT_CARD_HEIGHT = 310;
+const DEFAULT_CARD_WIDTH = 290;
+
 const Container = styled<{ cardHeight: number | null }, "section">("section")`
   display: flex;
   flex-direction: column;
@@ -37,7 +40,6 @@ const Footer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 50px;
 `;
 
 const Content = styled.div`
@@ -45,8 +47,6 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: ${props => props.theme.space[2]}px ${props => props.theme.space[2]}px
-    0px ${props => props.theme.space[2]}px;
   flex: 1;
   height: 100%;
   overflow: hidden;
@@ -63,6 +63,7 @@ const Divider = styled.div`
   width: 100%;
   background-color: ${props => props.theme.colors.divider};
   margin-top: auto;
+  margin-bottom: ${props => props.theme.space[1]}px;
 `;
 
 const CountContainer = styled.div`
@@ -94,7 +95,7 @@ const CardContent: React.SFC<ICardContentProps> = ({
       <H1>{communityName}</H1>
       <BodyCard>
         <TextTruncate
-          line={typeof communityLogo === "string" ? 2 : 4}
+          line={typeof communityLogo === "string" ? 3 : 6}
           truncateText="…"
           text={communityDescription}
         />
@@ -117,7 +118,7 @@ type Props = t.TypeOf<typeof RuntimeProps>;
 const Component: React.SFC<Props> = props => {
   const {
     linkComponent,
-    cardHeight = 290,
+    cardHeight = DEFAULT_CARD_HEIGHT,
     articles,
     communityLogo,
     communityDescription,
@@ -126,7 +127,11 @@ const Component: React.SFC<Props> = props => {
     throw new Error(failure(errors).join("\n"));
   });
   return (
-    <BaseCard cardWidth={cardHeight} cardHeight={cardHeight}>
+    <BaseCard
+      imageURL={null}
+      cardWidth={DEFAULT_CARD_WIDTH}
+      cardHeight={cardHeight}
+    >
       <Container cardHeight={cardHeight}>
         {linkComponent ? (
           linkComponent(

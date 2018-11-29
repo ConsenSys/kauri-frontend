@@ -84,12 +84,14 @@ const typographySpecifications: ITypography[] = [
   {
     component:
       // Because Nelson
-      styled.span`
+      styled<{ color: string; textAlign: string }, "span">("span")`
         font-size: 11px;
         font-weight: bold;
         text-transform: uppercase;
         color: ${props =>
           typeof props.color === "string" && props.theme.colors[props.color]};
+        text-align: ${props =>
+          typeof props.textAlign === "string" && props.textAlign};
       `,
     name: "Label",
   },
