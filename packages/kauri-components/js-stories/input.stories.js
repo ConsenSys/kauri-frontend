@@ -7,7 +7,7 @@ const mockState = {
 };
 
 const handleChange = (value) => {
-    console.log(value);
+    console.log('HandleChange: ', value);
     mockState.value = value;
 }
 
@@ -21,7 +21,7 @@ storiesOf('Input', module)
         />
         <br />
         <Input
-            onChange={(e) => handleChange(e.target.value)}
+            onChange={(e) => handleChange(e)}
             value={mockState.value}
             fontWeight="normal"
             fontSize={6}
@@ -29,7 +29,7 @@ storiesOf('Input', module)
         />
         <br />
         <Input
-            handleChange={(e) => handleChange(e.target.value)}
+            handleChange={(e) => handleChange(e)}
             fontWeight="normal"
             fontSize={6}
             placeHolder="handleChange"

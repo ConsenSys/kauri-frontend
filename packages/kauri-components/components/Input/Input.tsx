@@ -8,8 +8,7 @@ interface IInputProps {
     color: string;
     placeHolder?: string;
     value: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    hideUnderline?: boolean;
 }
 
 interface IInputState {
@@ -50,7 +49,10 @@ const Underline = styled<IUnderline, "span">("span")`
   overflow: hidden;
   font-size: ${props => props.theme.fontSizes[props.fontSize]}px;
 `
-
+interface IWrapperProps extends IInputProps {
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
 const Wrapper = styled.div`
   display: flex;
   position: relative;
@@ -59,8 +61,8 @@ const Wrapper = styled.div`
   margin-bottom: ${props => props.theme.space[1]}px;
 `
 
-class Input extends React.Component<IInputProps, IInputState> {
-    constructor(props: IInputProps) {
+class Input extends React.Component<IWrapperProps, IInputState> {
+    constructor(props: IWrapperProps) {
         super(props);
         this.state = {
             focused: false,
@@ -76,6 +78,11 @@ class Input extends React.Component<IInputProps, IInputState> {
 
     public handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         this.setState({ value : e.target.value})
+        if (this.props.handleChange) {
+            this.props.handleChange(e);
+        } else if (this.props.onChange) {
+            this.props.onChange(e);
+        }
     }
 
     public render () {
@@ -85,6 +92,7 @@ class Input extends React.Component<IInputProps, IInputState> {
             color = 'white',
             textAlign = 'left',
             placeHolder,
+            hideUnderline
         } = this.props;
 
         const underlineValue = this.state.value || (this.state.focused ? '' : placeHolder);
@@ -100,7 +108,7 @@ class Input extends React.Component<IInputProps, IInputState> {
             onBlur={this.toggleFocus}
             onFocus={this.toggleFocus}
         />
-        <Underline fontSize={fontSize}>{underlineValue && underlineValue.replace(/ /g, '\u00a0') }</Underline>
+        {!hideUnderline && <Underline fontSize={fontSize}>{underlineValue && underlineValue.replace(/ /g, '\u00a0') }</Underline>}
         </Wrapper>
     }
 }
