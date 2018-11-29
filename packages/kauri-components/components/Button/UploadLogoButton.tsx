@@ -1,44 +1,55 @@
-import * as React from 'react'
+import * as React from "react";
 import styled from "../../lib/styled-components";
-import { fontSize, color, space } from 'styled-system'
+import { fontSize as fontSizeSS, color as colorSS, space } from "styled-system";
 
 interface IButtonProps {
   bg?: string;
   height: string;
   width: string;
-  fontSize?: number,
-  color?: string,
+  fontSize?: number;
+  color?: string;
 }
 
 interface IProps extends IButtonProps {
   className: string;
-  children?: Element,
+  children?: Element;
   handleClick: () => void;
   disabled?: boolean;
-  space?: number,
-  text?: string,
+  space?: number;
+  text?: string;
 }
 
 const UploadLogoButton = styled.button`
-  border: 1px solid ${({theme: { colors: { primary } }}) => primary};
+  border: 1px solid
+    ${({
+      theme: {
+        colors: { primary },
+      },
+    }) => primary};
   border-radius: 4px;
-  background: ${(props:IButtonProps) => props.bg ? `url(${props.bg}) center center` : 'transparent'};
+  background: ${(props: IButtonProps) =>
+    props.bg ? `url(${props.bg}) center center` : "transparent"};
   background-size: cover;
-  cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'};
+  cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
   height: ${props => props.height};
   width: ${props => props.width};
   padding: 0;
   text-transform: uppercase;
-  opacity: ${props => props.disabled ? '0.5' : '1'};
+  opacity: ${props => (props.disabled ? "0.5" : "1")};
   :hover {
-    border: 2px solid ${({theme: { colors: { primary } }}) => primary};
+    border: 2px solid
+      ${({
+        theme: {
+          colors: { primary },
+        },
+      }) => primary};
   }
-  ${fontSize};
-  ${color};
-`
+  ${fontSizeSS};
+  ${colorSS};
+`;
 
 const Overlay = styled.div`
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -53,18 +64,31 @@ const Overlay = styled.div`
   }
 `;
 
-export default ({ className, bg, fontSize = 0, color = 'textPrimary', height = '100px', width = '100px', text = 'Logo', handleClick, children, disabled }: IProps) =>
+export default ({
+  className,
+  bg,
+  fontSize = 0,
+  color = "textPrimary",
+  height = "100px",
+  width = "100px",
+  text = "Logo",
+  handleClick,
+  children,
+  disabled,
+}: IProps) => (
   <UploadLogoButton
     className={className}
     bg={bg}
     height={height}
     width={width}
-    disabled={disabled} 
+    disabled={disabled}
     onClick={handleClick}
     color={color}
-    fontSize={fontSize}>
+    fontSize={fontSize}
+  >
     <Overlay>
-    <img src='https://png.icons8.com/color/50/000000/upload.png' />
+      <img src="https://png.icons8.com/color/50/000000/upload.png" />
       {text || children}
     </Overlay>
   </UploadLogoButton>
+);

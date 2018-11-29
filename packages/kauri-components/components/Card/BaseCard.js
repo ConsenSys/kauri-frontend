@@ -5,12 +5,9 @@ import styled, { css } from "styled-components";
 const withoutImageURLPaddingCss = css`
   padding: ${props => props.theme.space[2]}px;
 `;
+
 const chosenArticleCss = css`
   border: 2px solid ${props => props.theme.colors.primary};
-`;
-const hoverBoxShadowCss = css`
-  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.22);
-  transform: translateY(-6px);
 `;
 
 const BaseCard = styled.div`
@@ -23,11 +20,6 @@ const BaseCard = styled.div`
   cursor: pointer;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.11);
   position: relative;
-  transition-property: all;
-  transition-duration: 300ms;
-  :hover {
-    ${props => !props.toggledOn && hoverBoxShadowCss};
-  }
   ${props => typeof props.imageURL !== "string" && withoutImageURLPaddingCss};
   ${props => Boolean(props.isChosenArticle) && chosenArticleCss};
 `;
