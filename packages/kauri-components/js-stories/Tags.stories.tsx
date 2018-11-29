@@ -1,3 +1,4 @@
+/* tslint:disable */
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { TagInput, TagSelector } from '../components/Tags'
@@ -18,6 +19,6 @@ storiesOf('Tags', module)
   ))
   .add('TagSelector', () => (
     <Container>
-      <TagSelector />
+      <TagSelector updateTags={console.log} availableTags={[{name: 'Ethereum', count: 3000, id: '0'}, {name: 'Metamask', count: 450, id: '1'}, {name: 'MakerDao', count: 2500, id: '2'}, {name: 'Kauri', count: 7842, id: '3'}]} maxTags={5} />
   </Container>
 ))

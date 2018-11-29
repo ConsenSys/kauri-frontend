@@ -1,14 +1,13 @@
-/* tslint:disable */
 import * as React from 'react'
 import { Input } from '../Input';
-import Tag from './Tag'
 import styled from "../../lib/styled-components";
 import Plus from './Plus';
-import Close from './Close';
 import { ITag } from './types'
 
 interface IProps {
     tags?: ITag[];
+    onChange?: () => void;
+    onSelect?: (tag: ITag) => void;
 }
 
 interface IState {
@@ -73,25 +72,21 @@ class TagInput extends React.Component<IProps, IState> {
     }
 
     public handleClick (tag: ITag) {
-        this.setState({ selected: tag })
+        if(this.props.onSelect) {
+            this.props.onSelect(tag);
+        }
     }
 
     public render() {
         return <Wrapper>
         <div>
-            {!this.state.selected && <TopRow>
-                {!this.state.expanded && <Plus />}
-                <Input toggleFocus={this.toggleFocus} textAlign="left" fontSize={0} fontWeight={600} color="white" placeHolder="ADD TAG" />
-                </TopRow>
-            }
-            {this.state.selected && <TopRow>
-                <Close onClick={() => this.setState({ selected: null})} />
-                <Tag color="white">{this.state.selected.name}</Tag>
-                </TopRow>
-            }
+            <TopRow>
+                <Plus />
+                <Input onChange={this.props.onChange} toggleFocus={this.toggleFocus} textAlign="left" fontSize={0} fontWeight={600} color="white" placeHolder="ADD TAG" />
+            </TopRow>
         </div>
             {this.props.tags && this.state.expanded && <Results>
-                {this.props.tags.map((i, index) => <Result onClick={() => this.handleClick(i)} key={index}>{i.name} <span>({i.count})</span></Result>)}
+                {this.props.tags.map((i, index) => <Result onClick={this.handleClick.bind(this, i)} key={index}>{i.name} <span>({i.count})</span></Result>)}
             </Results>}
         </Wrapper>
     }
