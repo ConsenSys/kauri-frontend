@@ -144,7 +144,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
         <HeaderContainer background={bg}>
           <Overlay />
           <CollectionHeader
-            imageURL={bg}
+            imageURL={typeof bg === "string" ? bg : null}
             id={id}
             name={name}
             description={description || ""}
