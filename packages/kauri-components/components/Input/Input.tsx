@@ -45,6 +45,7 @@ const Underline = styled<IUnderline, "span">("span")`
   color: transparent;
   overflow: hidden;
   font-size: ${props => props.theme.fontSizes[props.fontSize]}px;
+  margin-left: 2px;
 `
 interface IWrapperProps {
     textAlign?: string;
@@ -56,6 +57,7 @@ interface IWrapperProps {
     hideUnderline?: boolean;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    toggleFocus?: () => void;
 }
 const Wrapper = styled.div`
   display: flex;
@@ -78,6 +80,9 @@ class Input extends React.Component<IWrapperProps, IInputState> {
 
     public toggleFocus() {
         this.setState({ focused: !this.state.focused })
+        if (this.props.toggleFocus) {
+            this.props.toggleFocus();
+        }
     }
 
     public handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -96,22 +101,23 @@ class Input extends React.Component<IWrapperProps, IInputState> {
             color = 'white',
             textAlign = 'left',
             placeHolder,
-            hideUnderline
+            hideUnderline,
         } = this.props;
 
         const underlineValue = this.state.value || (this.state.focused ? '' : placeHolder);
 
-        return <Wrapper><InputComp
-            value={this.state.value || ''}
-            onChange={this.handleChange}
-            placeholder={placeHolder}
-            fontSize={fontSize}
-            fontWeight={fontWeight}
-            color={color}
-            textAlign={textAlign}
-            onBlur={this.toggleFocus}
-            onFocus={this.toggleFocus}
-        />
+        return <Wrapper>
+            <InputComp
+                value={this.state.value || ''}
+                onChange={this.handleChange}
+                placeholder={placeHolder}
+                fontSize={fontSize}
+                fontWeight={fontWeight}
+                color={color}
+                textAlign={textAlign}
+                onBlur={this.toggleFocus}
+                onFocus={this.toggleFocus}
+            />
         {!hideUnderline && <Underline fontSize={fontSize}>{underlineValue && underlineValue.replace(/ /g, '\u00a0') }</Underline>}
         </Wrapper>
     }
