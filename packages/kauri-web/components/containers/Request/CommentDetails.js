@@ -1,7 +1,7 @@
 // @flow
-import React from 'react'
-import styled from 'styled-components'
-import { Badge } from '../../common/ActionBadge'
+import React from "react";
+import styled from "styled-components";
+import { Badge } from "../../common/ActionBadge";
 
 const Strip = styled.div`
   display: flex;
@@ -11,19 +11,23 @@ const Strip = styled.div`
   > :last-child {
     margin-right: 0px;
   }
-`
+`;
 
-const CommentBadge = Badge.extend`
+const CommentBadge = styled(Badge)`
   color: white;
-`
+`;
 
 type CommentDetailsProps = {
   comments: number,
   submissions: number,
   inProgress: number,
-}
+};
 
-const CommentDetails = ({ comments, submissions, inProgress }: CommentDetailsProps) => (
+const CommentDetails = ({
+  comments,
+  submissions,
+  inProgress,
+}: CommentDetailsProps) => (
   <CommentDetails.Strip>
     <CommentDetails.CommentBadge>
       <strong>{comments}</strong>
@@ -40,9 +44,9 @@ const CommentDetails = ({ comments, submissions, inProgress }: CommentDetailsPro
       <strong>SUBMISSIONS</strong>
     </CommentDetails.CommentBadge>
   </CommentDetails.Strip>
-)
+);
 
-CommentDetails.Strip = Strip
-CommentDetails.CommentBadge = CommentBadge
+CommentDetails.Strip = Strip;
+CommentDetails.CommentBadge = CommentBadge;
 
-export default CommentDetails
+export default CommentDetails;

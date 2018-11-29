@@ -14,18 +14,25 @@ else
   DOCKER_PULL_COMMAND='gcloud docker -- pull'
 fi
 
-DOCKERFILE=Dockerfile
+DOCKERFILE=Dockerfile-admin
 
 # kubectl delete -f frontend-service.yml || true
 
 # Build docker image
 
+cd ../..
 BUILD_TAG="${BUILD_TAG}/kauri-admin:latest"
 docker build -t $BUILD_TAG -f $DOCKERFILE .
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 
-cd k8s
+cd packages/kauri-admin/k8s
 # Push docker image to registry
 ${DOCKER_PUSH_COMMAND} $BUILD_TAG
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 # Create app if not exists
 kubectl apply -f kauri-admin-service.yml || true
 kubectl delete -f kauri-admin-deployment.yml || true

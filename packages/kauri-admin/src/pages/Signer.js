@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Web3Utils from '../components/Web3Utils'
-import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Alert } from 'react-bootstrap';
+import { PrimaryButton } from '../../../kauri-components/components/Button'
 
 class Signer extends Component {
 
@@ -122,52 +122,52 @@ class Signer extends Component {
         <h1 className="Title">EC Sign</h1>
 
 
-        <Form horizontal  className="Section">
+        <form >
 
             { this.state.error1 ? 
               <div>
-                <Col sm={2}></Col>
-                <Col sm={10}>
-                  <Alert bsStyle="danger">{this.state.error1}</Alert> 
-                </Col> 
+                <div></div>
+                <div>
+                  <div bsStyle="danger">{this.state.error1}</div> 
+                </div> 
               </div>
              : null }
 
             { this.state.success1 ? 
               <div>
-                <Col sm={2}></Col>
-                <Col sm={10}>
-                  <Alert bsStyle="success">{this.state.success1}</Alert> 
-                </Col> 
+                <div></div>
+                <div>
+                  <div bsStyle="success">{this.state.success1}</div> 
+                </div> 
               </div>
              : null }
             
 
-          <FormGroup controlId="formData" validationState={this.validateField("ecsign", "dataToSign")}>
-            <Col componentClass={ControlLabel} sm={2}>Data to sign*</Col>
-            <Col sm={8}>
-                <FormControl
+          <div>
+            <label>Data to sign*</label>
+            <div>
+                <input
                   type="text"
                   name="dataToSign"
                   placeholder="Enter data to sign"
                   value={this.state.dataToSign}
                   onChange={this.handleChange}
                 />
-            </Col>
-            <Col sm={2}>
-              <Button type="button" onClick={this.ecsign}>Sign</Button>
-            </Col>
-          </FormGroup>
+            </div>
+            <div>
+              <PrimaryButton type="button" onClick={this.ecsign}>Sign</PrimaryButton>
+            </div>
+          </div>
 
 
-          <FormGroup>
-            <Col componentClass={ControlLabel} sm={2}>Signature</Col>
-            <Col sm={10}>
-              <FormControl componentClass="textarea" value={this.state.signature} readOnly />
-            </Col>
-          </FormGroup>
+          <div>
+            <label>Signature</label>
+            <div>
+              <textarea value={this.state.signature} readOnly />
+            </div>
+          </div>
 
-        </Form>;
+        </form>;
 
 
 
@@ -175,68 +175,68 @@ class Signer extends Component {
         <h1 className="Title">EC Recover</h1>
 
 
-        <Form horizontal  className="Section">
+        <form horizontal  className="Section">
 
             { this.state.error2 ? 
               <div>
-                <Col sm={2}></Col>
-                <Col sm={10}>
-                  <Alert bsStyle="danger">{this.state.error2}</Alert> 
-                </Col> 
+                <div></div>
+                <div>
+                  <div bsStyle="danger">{this.state.error2}</div> 
+                </div> 
               </div>
              : null }
 
             { this.state.success2 ? 
               <div>
-                <Col sm={2}></Col>
-                <Col sm={10}>
-                  <Alert bsStyle="success">{this.state.success2}</Alert> 
-                </Col> 
+                <div></div>
+                <div>
+                  <div bsStyle="success">{this.state.success2}</div> 
+                </div> 
               </div>
              : null }
 
-          <FormGroup controlId="formData" validationState={this.validateField("ecrecover", "data")}>
-            <Col componentClass={ControlLabel} sm={2}>Data signed*</Col>
-            <Col sm={10}>
-                <FormControl
+          <div controlId="formData" validationState={this.validateField("ecrecover", "data")}>
+            <label>Data signed*</label>
+            <div>
+                <input
                   type="text"
                   name="data"
                   placeholder="Enter data signed"
                   value={this.state.data}
                   onChange={this.handleChange}
                 />
-            </Col>
-          </FormGroup>
+            </div>
+          </div>
 
-          <FormGroup controlId="formSignature" validationState={this.validateField("ecrecover", "signatureToRecov")}>
-            <Col componentClass={ControlLabel} sm={2}>Signature*</Col>
-            <Col sm={10}>
-                <FormControl
+          <div controlId="formSignature" validationState={this.validateField("ecrecover", "signatureToRecov")}>
+            <label>Signature*</label>
+            <div>
+                <input
                   type="text"
                   name="signatureToRecov"
                   placeholder="Enter signature"
                   value={this.state.signatureToRecov}
                   onChange={this.handleChange}
                 />
-            </Col>
-          </FormGroup>
+            </div>
+          </div>
 
 
-            <FormGroup>
-              <Col smOffset={2} sm={10}>
-                  <Button type="button" onClick={this.ecrecover}>Recover</Button>
-              </Col>
-            </FormGroup>
+            <div>
+              <div>
+                  <PrimaryButton type="button" onClick={this.ecrecover}>Recover</PrimaryButton>
+              </div>
+            </div>
 
 
-          <FormGroup>
-            <Col componentClass={ControlLabel} sm={2}>Address recovered</Col>
-            <Col sm={10}>
-              <FormControl componentClass="textarea" value={this.state.address} readOnly />
-            </Col>
-          </FormGroup>
+          <div>
+            <label>Address recovered</label>
+            <div>
+              <textarea value={this.state.address} readOnly />
+            </div>
+          </div>
 
-        </Form>;
+        </form>;
 
       </div>
     );

@@ -33,6 +33,7 @@ const articleHeaderCss = css`
 `
 
 export const CreateRequestSecondaryHeader = styled.div`
+  position: relative;
   display: flex;
   height: 163px;
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
@@ -92,6 +93,7 @@ export const TopicActionsContainer = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
+  position: relative;
 `
 
 const handleKeyPress = e => {

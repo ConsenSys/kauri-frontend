@@ -1,34 +1,34 @@
 // @flow
-import React, { Component, Fragment } from 'react'
-import styled, { css } from 'styled-components'
-import { Button, Row, Col, Divider } from 'antd'
-import Web3 from 'web3'
-import moment from 'moment'
-import CommentDetails from './CommentDetails'
-import Comment from './Comment'
-import SubmitQuestion from './SubmitQuestion'
-import theme from '../../../lib/theme-config'
-import DescriptionRow from '../Requests/DescriptionRow'
-import { Mask } from '../CreateRequestForm/CreateRequestHeader'
-import RequestBanner from '../Article/ApprovedArticle/ApprovedArticleBanner'
-import DatePosted from '../../common/DatePosted'
-import { Badge, ActionIcon } from '../../common/ActionBadge'
-import { PositiveRequestActionBadge } from '../../common/ActionButton'
-import GreenArrow from '../../common/GreenArrow'
-import UserWidgetSmall from '../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
-import { Link } from '../../../routes'
+import React, { Component, Fragment } from "react";
+import styled, { css } from "styled-components";
+import { Button, Row, Col, Divider } from "antd";
+import Web3 from "web3";
+import moment from "moment";
+import CommentDetails from "./CommentDetails";
+import Comment from "./Comment";
+import SubmitQuestion from "./SubmitQuestion";
+import theme from "../../../lib/theme-config";
+import DescriptionRow from "../Requests/DescriptionRow";
+import { Mask } from "../CreateRequestForm/CreateRequestHeader";
+import RequestBanner from "../Article/ApprovedArticle/ApprovedArticleBanner";
+import DatePosted from "../../common/DatePosted";
+import { Badge, ActionIcon } from "../../common/ActionBadge";
+import { PositiveRequestActionBadge } from "../../common/ActionButton";
+import GreenArrow from "../../common/GreenArrow";
+import UserAvatar from "../../../../kauri-components/components/UserAvatar";
+import { Link } from "../../../routes";
 
-import type { ToggleModalPayload } from '../../../lib/Module'
-import type { SubmitArticlePayload } from '../SubmitArticleForm/Module'
+import type { ToggleModalPayload } from "../../../lib/Module";
+import type { SubmitArticlePayload } from "../SubmitArticleForm/Module";
 import type {
   FlagRequestPayload,
   AddRequestCommentPayload,
   AddToBountyPayload,
   RequestRefundPayload,
   ResubmitRequestPayload,
-} from '../Requests/Module'
+} from "../Requests/Module";
 
-const web3 = new Web3()
+const web3 = new Web3();
 
 const HeaderStrip = styled.div`
   display: flex;
@@ -39,9 +39,9 @@ const HeaderStrip = styled.div`
   > :not(:first-child) {
     margin-left: auto;
   }
-`
+`;
 
-const UserBadge = Badge.extend`
+const UserBadge = styled(Badge)`
   margin-right: 0px;
   margin-left: 0px;
   > :first-child {
@@ -57,25 +57,25 @@ const UserBadge = Badge.extend`
     overflow: hidden;
     text-overflow: ellipsis;
   }
-`
+`;
 
 const RequestOverflow = styled.div`
   background-color: #ffffff;
   min-height: calc(100vh - 76px - 163px);
   overflow: hidden;
-`
+`;
 
 const actionBorderColor = css`
   border: 1px solid ${props => props.theme.primaryColor};
   &:hover {
     box-shadow: 0 0 0 2px ${props => props.theme.primaryColor};
   }
-`
+`;
 
 const ActionBadge = styled.div`
   display: flex;
   height: 40px;
-  color: ${props => props.type === 'contribution' && 'white'};
+  color: ${props => props.type === "contribution" && "white"};
   font-weight: bold;
   text-transform: uppercase;
   margin-right: 0px;
@@ -83,7 +83,7 @@ const ActionBadge = styled.div`
   cursor: pointer;
   justify-content: center;
   border-radius: 4px;
-  ${props => props.type === 'action' && actionBorderColor};
+  ${props => props.type === "action" && actionBorderColor};
   > :first-child {
     padding-left: 10px;
     margin-right: 10px;
@@ -96,37 +96,39 @@ const ActionBadge = styled.div`
     font-weight: bold;
     line-height: 1em;
   }
-`
+`;
 
 const BountyActions = styled.div`
   display: flex;
   flex-direction: row;
-`
+`;
 
 const GoBack = ({ routeChangeAction }: *) => (
-  <ActionBadge type='contribution' onClick={() => routeChangeAction('back')}>
-    <GreenArrow direction={'left'} />
+  <ActionBadge type="contribution" onClick={() => routeChangeAction("back")}>
+    <GreenArrow direction={"left"} />
     <span>Go Back</span>
   </ActionBadge>
-)
+);
 
 const ContributeToBountyContainer = styled.div`
   align-self: center;
   @media (max-width: 500px) {
     display: none;
   }
-`
+`;
 
 export const ContributeToBounty = ({ toggleBanner, type }: *) => (
   <ContributeToBountyContainer>
-    <ActionBadge onClick={() => toggleBanner()} type='contribution'>
+    <ActionBadge onClick={() => toggleBanner()} type="contribution">
       <ActionIcon />
-      <span>{type === 'article' ? 'Reward article creator' : 'Increase Reward'}</span>
+      <span>
+        {type === "article" ? "Reward article creator" : "Increase Reward"}
+      </span>
     </ActionBadge>
   </ContributeToBountyContainer>
-)
+);
 
-const TextBadge = ActionBadge.extend`
+const TextBadge = styled(ActionBadge)`
   cursor: inherit;
   color: white;
   > :first-child {
@@ -139,19 +141,22 @@ const TextBadge = ActionBadge.extend`
   > span:first-child {
     font-weight: 300;
   }
-`
+`;
 
 const Bounty = ({ bounty }: *) => (
   <TextBadge>
-    <strong>{web3.fromWei(bounty, 'ether')} ETH</strong>
+    <strong>{web3.fromWei(bounty, "ether")} ETH</strong>
   </TextBadge>
-)
+);
 
 const UsdPrice = ({ bounty, ethUsdPrice }: *) => (
   <TextBadge>
-    <span>{`$${((bounty && web3.fromWei(bounty, 'ether') * ethUsdPrice) || 0.0).toFixed(2)}`}</span>
+    <span>{`$${(
+      (bounty && web3.fromWei(bounty, "ether") * ethUsdPrice) ||
+      0.0
+    ).toFixed(2)}`}</span>
   </TextBadge>
-)
+);
 
 const AskAQuestion = styled(Button)`
   width: 100%;
@@ -173,9 +178,9 @@ const AskAQuestion = styled(Button)`
     border: none;
     box-shadow: 0 0 0 2px ${props => props.theme.primaryColor};
   }
-`
+`;
 
-const GeneralActions = BountyActions.extend`
+const GeneralActions = styled(BountyActions)`
   flex-direction: column;
   > * {
     margin-bottom: 10px;
@@ -183,30 +188,32 @@ const GeneralActions = BountyActions.extend`
   > :last-child {
     margin-bottom: 0px;
   }
-`
+`;
 
 const RequestHeader = styled.div`
   display: flex;
   height: 163px;
   background-color: ${props => props.theme.primaryTextColor};
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
-`
+`;
 
 const Logo = styled.img`
   max-height: 37.71px;
   max-width: 55px;
-`
+`;
 
 const RequestLogo = ({ category }) => (
-  <Mask chosenCategory={category}>{!!category && <Logo src={`/static/images/${category}/avatar.png`} />}</Mask>
-)
+  <Mask chosenCategory={category}>
+    {!!category && <Logo src={`/static/images/${category}/avatar.png`} />}
+  </Mask>
+);
 
 const RequestHeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
   margin-left: 19px;
-`
+`;
 
 const RequestCategory = styled.h3`
   color: #fff;
@@ -215,14 +222,14 @@ const RequestCategory = styled.h3`
   font-weight: 500;
   line-height: 16px;
   margin-top 6px;
-`
+`;
 
 const RequestSubject = styled.h2`
   color: white;
   font-size: 20px;
   font-weight: 500;
   line-height: 26px;
-`
+`;
 
 const RequestDatesContainer = styled.div`
   display: flex;
@@ -238,35 +245,37 @@ const RequestDatesContainer = styled.div`
   span {
     font-weight: 300;
   }
-`
+`;
 
 const RequestDates = ({ date_created, dead_line }) => (
   <RequestDatesContainer>
     <DatePosted>
       <span>POSTED</span>
-      <strong>{moment(date_created).format('DD/MM/YYYY')}</strong>
+      <strong>{moment(date_created).format("DD/MM/YYYY")}</strong>
     </DatePosted>
     <DatePosted>
       <span>
         EXPIRE
-        {moment(dead_line).isBefore() ? 'D' : 'S'}
+        {moment(dead_line).isBefore() ? "D" : "S"}
       </span>
-      <strong>{`${moment(dead_line).fromNow()} ${moment(dead_line).format('(DD MMM YYYY)')}`}</strong>
+      <strong>{`${moment(dead_line).fromNow()} ${moment(dead_line).format(
+        "(DD MMM YYYY)"
+      )}`}</strong>
     </DatePosted>
   </RequestDatesContainer>
-)
+);
 
 const RequestContent = styled(Row)`
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
-`
+`;
 
 const RequestCategoryAndSubCategoryContainer = styled.div`
   display: flex;
   > :last-child {
     margin-left: 30px;
   }
-`
-const RequestSubcategory = RequestCategory
+`;
+const RequestSubcategory = RequestCategory;
 
 type Props = {
   userId: ?string,
@@ -285,26 +294,26 @@ type Props = {
   submitArticleAction: SubmitArticlePayload => void,
   requestRefundAction: RequestRefundPayload => void,
   resubmitRequestAction: ResubmitRequestPayload => void,
-  disabledFlagRequest: boolean
-}
+  disabledFlagRequest: boolean,
+};
 
 type State = {
   askingQuestion: boolean,
   showBanner: boolean,
-}
+};
 
 class Request extends Component<Props, State> {
   state = {
     askingQuestion: false,
     showBanner: false,
-  }
+  };
 
   toggleBanner = (status?: boolean) =>
-    typeof status === 'boolean'
+    typeof status === "boolean"
       ? this.setState({ showBanner: status })
-      : this.setState({ showBanner: !this.state.showBanner })
+      : this.setState({ showBanner: !this.state.showBanner });
 
-  render () {
+  render() {
     const {
       ethUsdPrice,
       routeChangeAction,
@@ -314,17 +323,21 @@ class Request extends Component<Props, State> {
       submitArticleAction,
       userId,
       resubmitRequestAction,
-    } = this.props
-    const { getRequest, refetch, searchArticles } = this.props.data
-    if (!getRequest) return <p>Request not found</p>
+    } = this.props;
+    const { getRequest, refetch, searchArticles } = this.props.data;
+    if (!getRequest) return <p>Request not found</p>;
 
     const personalSubmittedArticle =
       searchArticles &&
       searchArticles.content.length > 0 &&
-      typeof searchArticles.content.find(article => article.user_id === this.props.userId) === 'object' &&
-      searchArticles.content.find(article => article.user_id === this.props.userId)
+      typeof searchArticles.content.find(
+        article => article.user_id === this.props.userId
+      ) === "object" &&
+      searchArticles.content.find(
+        article => article.user_id === this.props.userId
+      );
 
-    const isCreator = getRequest && getRequest.user_id === userId
+    const isCreator = getRequest && getRequest.user_id === userId;
 
     return (
       <Fragment>
@@ -342,7 +355,7 @@ class Request extends Component<Props, State> {
           </BountyActions>
         </HeaderStrip>
         <RequestBanner
-          type='request'
+          type="request"
           showBanner={this.state.showBanner}
           ethUsdPrice={ethUsdPrice}
           addToBountyAction={addToBountyAction}
@@ -357,7 +370,10 @@ class Request extends Component<Props, State> {
               <RequestSubcategory>{getRequest.sub_category}</RequestSubcategory>
             </RequestCategoryAndSubCategoryContainer>
             <RequestSubject>{getRequest.subject}</RequestSubject>
-            <RequestDates date_created={getRequest.date_created} dead_line={getRequest.dead_line} />
+            <RequestDates
+              date_created={getRequest.date_created}
+              dead_line={getRequest.dead_line}
+            />
           </RequestHeaderContainer>
           <CommentDetails
             comments={getRequest.comments.length}
@@ -368,37 +384,53 @@ class Request extends Component<Props, State> {
         <RequestOverflow>
           <RequestContent>
             <Col md={20}>
-              <DescriptionRow requestPage fullText record={{ text: getRequest.text }} />
+              <DescriptionRow
+                requestPage
+                fullText
+                record={{ text: getRequest.text }}
+              />
               <Divider />
               {Array.isArray(getRequest.comments) &&
                 getRequest.comments.length > 0 &&
-                getRequest.comments.map(({ comment, user_id, date_created, user }, index, comments) => (
-                  <div key={date_created}>
-                    <Comment
-                      key={date_created}
-                      user_id={user_id}
-                      comment={comment}
-                      user={user}
-                      posted={moment(date_created).fromNow()}
-                    />
-                    <Divider />
-                  </div>
-                ))}
-              {getRequest.status === 'OPENED' &&
+                getRequest.comments.map(
+                  (
+                    { comment, user_id, date_created, user },
+                    index,
+                    comments
+                  ) => (
+                    <div key={date_created}>
+                      <Comment
+                        key={date_created}
+                        user_id={user_id}
+                        comment={comment}
+                        user={user}
+                        posted={moment(date_created).fromNow()}
+                      />
+                      <Divider />
+                    </div>
+                  )
+                )}
+              {getRequest.status === "OPENED" &&
                 (this.state.askingQuestion ? (
                   <SubmitQuestion
                     addRequestCommentAction={addRequestCommentAction}
                     request_id={getRequest.request_id}
                     refetchRequest={refetch}
-                    cancelAskingQuestion={() => this.setState({ askingQuestion: false })}
+                    cancelAskingQuestion={() =>
+                      this.setState({ askingQuestion: false })
+                    }
                   />
                 ) : (
                   <AskAQuestion
                     onClick={() =>
                       this.setState({ askingQuestion: true }, () => {
-                        const editorDOMNode = document.getElementById('editor')
+                        const editorDOMNode = document.getElementById("editor");
                         if (editorDOMNode) {
-                          editorDOMNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
+                          editorDOMNode.scrollIntoView({
+                            block: "start",
+                            inline: "nearest",
+                            behavior: "smooth",
+                          });
                         }
                       })
                     }
@@ -409,46 +441,61 @@ class Request extends Component<Props, State> {
             </Col>
             <Col md={4}>
               <GeneralActions>
-                {getRequest.status === 'OPENED' &&
+                {getRequest.status === "OPENED" &&
                   getRequest.user_id === userId &&
-                  (typeof getRequest.total_submissions === 'number' && getRequest.total_submissions < 1) &&
-                  (typeof getRequest.total_flag === 'number' && getRequest.total_flag < 1) && (
-                  <PositiveRequestActionBadge
-                    alone='true'
-                    type='secondary color primary'
-                    width='auto'
-                    action={() => routeChangeAction(`/request/${getRequest.request_id}/update-request`)}
-                    label='Update'
-                  />
-                )}
-                {typeof userId === 'string' &&
-                  getRequest.status !== 'CREATED' &&
-                  getRequest.status !== 'EXPIRED' &&
-                  getRequest.status !== 'CLOSED' &&
-                  typeof getRequest.user_id === 'string' && (
-                  <PositiveRequestActionBadge
-                    disabled={this.props.disabledFlagRequest}
-                    alone='true'
-                    type={getRequest.is_flagged ? 'secondary color primary' : 'primary'}
-                    preIcon={getRequest.is_flagged ? '/static/images/icons/green-tick.png' : ''}
-                    width='auto'
-                    action={() => {
-                      const flaggingPayload =
-                          getRequest.is_flagged
-                            ? { request_id: getRequest.request_id, isFlagged: true }
-                            : { request_id: getRequest.request_id }
+                  (typeof getRequest.total_submissions === "number" &&
+                    getRequest.total_submissions < 1) &&
+                  (typeof getRequest.total_flag === "number" &&
+                    getRequest.total_flag < 1) && (
+                    <PositiveRequestActionBadge
+                      alone="true"
+                      type="secondary color primary"
+                      width="auto"
+                      action={() =>
+                        routeChangeAction(
+                          `/request/${getRequest.request_id}/update-request`
+                        )
+                      }
+                      label="Update"
+                    />
+                  )}
+                {typeof userId === "string" &&
+                  getRequest.status !== "CREATED" &&
+                  getRequest.status !== "EXPIRED" &&
+                  getRequest.status !== "CLOSED" &&
+                  typeof getRequest.user_id === "string" && (
+                    <PositiveRequestActionBadge
+                      disabled={this.props.disabledFlagRequest}
+                      alone="true"
+                      type={
+                        getRequest.is_flagged
+                          ? "secondary color primary"
+                          : "primary"
+                      }
+                      preIcon={
+                        getRequest.is_flagged
+                          ? "/static/images/icons/green-tick.png"
+                          : ""
+                      }
+                      width="auto"
+                      action={() => {
+                        const flaggingPayload = getRequest.is_flagged
+                          ? {
+                              request_id: getRequest.request_id,
+                              isFlagged: true,
+                            }
+                          : { request_id: getRequest.request_id };
 
-                      flagRequestAction(flaggingPayload)
-                    }}
-                    label="I'm on it!"
-                  />
-                )}
-                {getRequest.status === 'CREATED' &&
-                  isCreator && (
+                        flagRequestAction(flaggingPayload);
+                      }}
+                      label="I'm on it!"
+                    />
+                  )}
+                {getRequest.status === "CREATED" && isCreator && (
                   <PositiveRequestActionBadge
-                    alone='true'
-                    type={'primary'}
-                    width='100%'
+                    alone="true"
+                    type={"primary"}
+                    width="100%"
                     action={() =>
                       resubmitRequestAction({
                         request_id: getRequest.request_id,
@@ -458,81 +505,107 @@ class Request extends Component<Props, State> {
                         dead_line: getRequest.dead_line,
                       })
                     }
-                    label='Resubmit Request'
+                    label="Resubmit Request"
                   />
                 )}
-                {typeof userId === 'string' &&
-                  getRequest.status !== 'CREATED' &&
-                  getRequest.status !== 'CLOSED' &&
-                  getRequest.status !== 'EXPIRED' &&
-                  (typeof personalSubmittedArticle === 'object' &&
-                  personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
-                      <PositiveRequestActionBadge
-                      type='secondary color primary'
-                      alone='true'
-                      width='auto'
+                {typeof userId === "string" &&
+                  getRequest.status !== "CREATED" &&
+                  getRequest.status !== "CLOSED" &&
+                  getRequest.status !== "EXPIRED" &&
+                  (typeof personalSubmittedArticle === "object" &&
+                  personalSubmittedArticle.status !==
+                    "SUBMISSION_IN_PROGRESS" ? (
+                    <PositiveRequestActionBadge
+                      type="secondary color primary"
+                      alone="true"
+                      width="auto"
                       action={() =>
-                          routeChangeAction(
-                            `/article/${personalSubmittedArticle.article_id}/v${personalSubmittedArticle.article_version}`
-                          )
-                        }
-                      label='View Article'
-                      />
-                    ) : (
-                      <PositiveRequestActionBadge
-                        alone='true'
-                        type={!getRequest.is_flagged ? 'secondary color primary' : 'primary'}
-                        width='auto'
-                        action={() =>
-                          typeof personalSubmittedArticle === 'object' &&
-                        personalSubmittedArticle.status === 'SUBMISSION_IN_PROGRESS'
-                            ? submitArticleAction({
+                        routeChangeAction(
+                          `/article/${personalSubmittedArticle.article_id}/v${
+                            personalSubmittedArticle.article_version
+                          }`
+                        )
+                      }
+                      label="View Article"
+                    />
+                  ) : (
+                    <PositiveRequestActionBadge
+                      alone="true"
+                      type={
+                        !getRequest.is_flagged
+                          ? "secondary color primary"
+                          : "primary"
+                      }
+                      width="auto"
+                      action={() =>
+                        typeof personalSubmittedArticle === "object" &&
+                        personalSubmittedArticle.status ===
+                          "SUBMISSION_IN_PROGRESS"
+                          ? submitArticleAction({
                               article_id: personalSubmittedArticle.article_id,
                               request_id: personalSubmittedArticle.request_id,
                               text: personalSubmittedArticle.text,
                               subject: personalSubmittedArticle.subject,
-                              sub_category: personalSubmittedArticle.sub_category,
+                              sub_category:
+                                personalSubmittedArticle.sub_category,
                             })
-                            : routeChangeAction(`/request/${getRequest.request_id}/submit-article`)
-                        }
-                        label='Write Article'
-                      />
-                    ))}
-                {getRequest.status === 'CLOSED' && (
+                          : routeChangeAction(
+                              `/request/${getRequest.request_id}/submit-article`
+                            )
+                      }
+                      label="Write Article"
+                    />
+                  ))}
+                {getRequest.status === "CLOSED" && (
                   <PositiveRequestActionBadge
-                    width='auto'
-                    alone='true'
-                    type='secondary color primary'
+                    width="auto"
+                    alone="true"
+                    type="secondary color primary"
                     action={() => {
                       const satisfyingArticle =
                         searchArticles.content &&
                         searchArticles.content.length > 0 &&
-                        searchArticles.content.find(article => article.status === 'PUBLISHED')
+                        searchArticles.content.find(
+                          article => article.status === "PUBLISHED"
+                        );
                       routeChangeAction(
-                        `/article/${satisfyingArticle.article_id}/v${satisfyingArticle.article_version}`
-                      )
+                        `/article/${satisfyingArticle.article_id}/v${
+                          satisfyingArticle.article_version
+                        }`
+                      );
                     }}
-                    label='View Article'
+                    label="View Article"
                   />
                 )}
-                {getRequest.status === 'EXPIRED' &&
-                  typeof getRequest.user_id === 'string' && (
-                  <PositiveRequestActionBadge
-                    alone='true'
-                    type={'primary'}
-                    width='auto'
-                    action={() => {
-                      this.props.requestRefundAction({ request_id: getRequest.request_id })
-                    }}
-                    label='Refund funds'
-                  />
-                )}
+                {getRequest.status === "EXPIRED" &&
+                  typeof getRequest.user_id === "string" && (
+                    <PositiveRequestActionBadge
+                      alone="true"
+                      type={"primary"}
+                      width="auto"
+                      action={() => {
+                        this.props.requestRefundAction({
+                          request_id: getRequest.request_id,
+                        });
+                      }}
+                      label="Refund funds"
+                    />
+                  )}
                 <UserBadge>
                   <span>REQUESTED BY</span>
                   {/* <Link to=''> */}
-                  <Link useAnchorTag route={`/public-profile/${getRequest && getRequest.user_id}`}>
-                    <UserWidgetSmall
-                      username={(getRequest && getRequest.user && getRequest.user.username) || getRequest.user_id}
+                  <Link
+                    useAnchorTag
+                    route={`/public-profile/${getRequest &&
+                      getRequest.user_id}`}
+                  >
+                    <UserAvatar
+                      username={
+                        (getRequest &&
+                          getRequest.user &&
+                          getRequest.user.username) ||
+                        getRequest.user_id
+                      }
                     />
                   </Link>
                   {/* <a>{(getRequest && getRequest.user && getRequest.user.username) || getRequest.user_id}</a> */}
@@ -543,8 +616,8 @@ class Request extends Component<Props, State> {
           </RequestContent>
         </RequestOverflow>
       </Fragment>
-    )
+    );
   }
 }
 
-export default Request
+export default Request;

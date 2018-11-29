@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import WebService from '../components/WebService'
-import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Alert } from 'react-bootstrap';
+import { PrimaryButton } from '../../../kauri-components/components/Button';
 
 class Authenticator extends Component {
     constructor(props) {
@@ -64,7 +64,7 @@ class Authenticator extends Component {
             this.setState({success: null})
 
         if(!this.validateForm(["email", "username"])) {
-            this.setState({error: "Form not valid"})
+            this.setState({error: "form not valid"})
             return;
 
         } else {
@@ -88,31 +88,31 @@ class Authenticator extends Component {
         <div className="Authenticator">
             <h1 className="Title">Authenticator</h1>
 
-            <Form horizontal  className="Section">
+            <form horizontal  className="Section">
 
                 { this.state.error ? 
                   <div>
-                    <Col sm={2}></Col>
-                    <Col sm={10}>
-                    <Alert bsStyle="danger">{this.state.error && this.state.error.message}</Alert>
-                    </Col> 
+                    <div></div>
+                    <div>
+                    <div bsStyle="danger">{this.state.error && this.state.error.message}</div>
+                    </div> 
                   </div>
                  : null }
 
                 { this.state.success ? 
                   <div>
-                    <Col sm={2}></Col>
-                    <Col sm={10}>
-                      <Alert bsStyle="success">{this.state.success}</Alert> 
-                    </Col> 
+                    <div></div>
+                    <div>
+                      <div bsStyle="success">{this.state.success}</div> 
+                    </div> 
                   </div>
                  : null }
                 
 
-              <FormGroup controlId="formEmail" validationState={this.validateField("email")}>
-                <Col componentClass={ControlLabel} sm={2}>Email</Col>
-                <Col sm={10}>
-                    <FormControl
+              <div>
+                <div>Email</div>
+                <div>
+                    <input
                       type="text"
                       name="email"
                       placeholder="Enter email"
@@ -120,13 +120,13 @@ class Authenticator extends Component {
                       onChange={this.handleChange}
                       required="true"
                     />
-                </Col>
-              </FormGroup>
+                </div>
+              </div>
 
-              <FormGroup controlId="formUsername" validationState={this.validateField("username")}>
-                <Col componentClass={ControlLabel} sm={2}>Username</Col>
-                <Col sm={10}>
-                    <FormControl
+              <div>
+                <div>Username</div>
+                <div>
+                    <input
                       type="text"
                       name="username"
                       placeholder="Enter username"
@@ -134,28 +134,27 @@ class Authenticator extends Component {
                       onChange={this.handleChange}
                       required="true"
                     />
-                </Col>
-              </FormGroup>
+                </div>
+              </div>
 
-              <FormGroup>
-                <Col smOffset={2} sm={10}>
-                    <Button type="button" onClick={this.handleSubmit}>Submit</Button>
-                </Col>
-              </FormGroup>
+              <div>
+                <div>
+                    <PrimaryButton type="button" onClick={this.handleSubmit}>Submit</PrimaryButton>
+                </div>
+              </div>
 
-              <FormGroup controlId="formResultJwt">
-                <Col componentClass={ControlLabel} sm={2}>JWT</Col>
-                <Col sm={10}>
-                    <FormControl
+              <div controlId="formResultJwt">
+                <div>JWT</div>
+                <div>
+                    <input
                       name="jwt"
                       componentClass="textarea"
                       value={this.state.jwt}
                       readOnly
                     />
-                </Col>
-              </FormGroup>
-            </Form>;
-
+                </div>
+              </div>
+            </form>
         </div>
         );
     }

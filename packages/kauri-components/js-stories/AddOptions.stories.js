@@ -1,9 +1,10 @@
 // @flow
-import React from 'react'
-import styled from 'styled-components'
-import { storiesOf } from '@storybook/react'
-import AddOptions from '../components/AddOptions'
-import theme from '../lib/theme-config'
+import React from 'react';
+import styled from 'styled-components';
+import { storiesOf } from '@storybook/react';
+import AddOptions from '../components/AddOptions';
+import theme from '../lib/theme-config.ts';
+import Test from './Test.tsx';
 
 const TooltipContainer = styled.div`
   display: flex;
@@ -22,7 +23,7 @@ const TooltipContainer = styled.div`
   > * {
     cursor: pointer;
   }
-`
+`;
 
 const TooltipArrow = styled.div`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
@@ -34,14 +35,14 @@ const TooltipArrow = styled.div`
   background: white;
   transform: rotate(45deg);
   border-radius: 2px;
-`
+`;
 
 const Label = styled.span`
   font-size: 11px;
   font-weight: bold;
   text-transform: uppercase;
   color: ${theme.colors['primary']};
-`
+`;
 
 const Divider = styled.div`
   display: flex;
@@ -51,7 +52,7 @@ const Divider = styled.div`
   margin-top: ${theme.space[2]}px;
   margin-bottom: ${theme.space[2]}px;
   cursor: default;
-`
+`;
 
 const Content = () => (
   <TooltipContainer>
@@ -61,14 +62,15 @@ const Content = () => (
     <Label>Add New Section</Label>
     <Divider />
     <Label>Remove Section</Label>
+    {/* <Test /> */}
   </TooltipContainer>
-)
+);
 
 const Container = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-`
+`;
 
 storiesOf('AddOptions', module).add('Create Collection Options', () => (
   <Container>
@@ -76,4 +78,4 @@ storiesOf('AddOptions', module).add('Create Collection Options', () => (
       <Content />
     </AddOptions>
   </Container>
-))
+));

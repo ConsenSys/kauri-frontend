@@ -1,20 +1,20 @@
 // @flow
-import React from 'react'
-import styled, { css } from 'styled-components'
-import { InputNumber, Button } from 'antd'
-import theme from '../../../../lib/theme-config'
-import NetworkBanner from '../../StyledFooter/NetworkBanner'
+import React from "react";
+import styled, { css } from "styled-components";
+import { InputNumber, Button } from "antd";
+import theme from "../../../../lib/theme-config";
+import NetworkBanner from "../../StyledFooter/NetworkBanner";
 
-import type { TipArticlePayload } from '../Module'
-import type { AddToBountyPayload } from '../../Requests/Module'
+import type { TipArticlePayload } from "../Module";
+import type { AddToBountyPayload } from "../../Requests/Module";
 
 const slideBannerCss = css`
   overflow-y: hidden;
-  max-height: ${props => (props.showBanner ? '100px' : '0px')};
+  max-height: ${props => (props.showBanner ? "100px" : "0px")};
   transition-property: all;
   transition-duration: 0.5s;
   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-`
+`;
 
 const Banner = styled.section`
   display: flex;
@@ -23,11 +23,11 @@ const Banner = styled.section`
   justify-content: center;
   align-items: center;
   ${slideBannerCss};
-`
+`;
 
 const BountyContainer = styled.div`
   display: flex;
-`
+`;
 const ContributionsNotice = styled.div`
   margin-top: 10px;
   > span {
@@ -35,7 +35,7 @@ const ContributionsNotice = styled.div`
     font-size: 14px;
     color: ${props => props.theme.secondaryColor};
   }
-`
+`;
 
 const ContributeButton = styled(Button)`
   width: 150px;
@@ -59,7 +59,7 @@ const ContributeButton = styled(Button)`
     background-color: ${props => props.theme.hoverTextColor} !important;
     border: 1px solid ${props => props.theme.hoverTextColor} !important;
   }
-`
+`;
 
 const BountyInputNumber = styled(InputNumber)`
   .ant-input-number-handler-down {
@@ -68,9 +68,9 @@ const BountyInputNumber = styled(InputNumber)`
   .ant-input-number-handler-wrap {
     border-left: 1px solid #2a3b3b;
   }
-`
+`;
 
-const CancelButton = ContributeButton.extend`
+const CancelButton = styled(ContributeButton)`
   margin-left: 30px;
   background-color: #fff !important;
   border: 1px solid ${props => props.theme.primaryColor} !important;
@@ -80,11 +80,11 @@ const CancelButton = ContributeButton.extend`
     background: #fff !important;
     box-shadow: 0 0 0 2px ${props => props.theme.hoverTextColor} !important;
   }
-`
+`;
 
 type Props = {
   toggleBanner: *,
-  type: 'article' | 'request',
+  type: "article" | "request",
   ethUsdPrice: number,
   showBanner: boolean,
   tipArticleAction?: (payload: TipArticlePayload, callback: any) => void,
@@ -92,7 +92,7 @@ type Props = {
   request_id?: ?string,
   article_id?: string,
   user_id?: string,
-}
+};
 
 const BountyInputContainer = styled.div`
   display: flex;
@@ -107,23 +107,26 @@ const BountyInputContainer = styled.div`
       height: 100%;
     }
   }
-`
+`;
 
 const DollarAmount = styled.span`
   color: ${props => props.theme.secondaryTextColor} !important;
   height: 25px;
-`
+`;
 
-export default class ApprovedArticleBanner extends React.Component<Props, { bounty: number }> {
+export default class ApprovedArticleBanner extends React.Component<
+  Props,
+  { bounty: number }
+> {
   state = {
     bounty: 0,
+  };
+
+  componentWillUnmount() {
+    this.props.toggleBanner(false);
   }
 
-  componentWillUnmount () {
-    this.props.toggleBanner(false)
-  }
-
-  render () {
+  render() {
     const {
       toggleBanner,
       showBanner,
@@ -135,11 +138,11 @@ export default class ApprovedArticleBanner extends React.Component<Props, { boun
       article_id,
       user_id,
       article_version,
-    } = this.props
-    const { bounty } = this.state
+    } = this.props;
+    const { bounty } = this.state;
     return (
       <Banner showBanner={showBanner}>
-        <NetworkBanner type='rewardContributor' showBanner={showBanner} />
+        <NetworkBanner type="rewardContributor" showBanner={showBanner} />
         <BountyContainer>
           <BountyInputContainer>
             <BountyInputNumber
@@ -149,7 +152,7 @@ export default class ApprovedArticleBanner extends React.Component<Props, { boun
                 width: 90,
                 height: 40,
                 lineHeight: 40,
-                textAlign: 'center',
+                textAlign: "center",
                 color: `${theme.primaryTextColor} !important`,
               }}
               precision={2}
@@ -158,30 +161,42 @@ export default class ApprovedArticleBanner extends React.Component<Props, { boun
               defaultValue={0.0}
               formatter={value => `${value}`}
               parser={(value: string) => {
-                return value.replace(/[^0-9^.]/g, '')
+                return value.replace(/[^0-9^.]/g, "");
               }}
               onChange={bounty => this.setState({ bounty })}
             />
             <DollarAmount>{`ETH ($${(
-              (this.state.bounty && parseFloat(this.state.bounty) * parseFloat(ethUsdPrice)) ||
+              (this.state.bounty &&
+                parseFloat(this.state.bounty) * parseFloat(ethUsdPrice)) ||
               0.0
             ).toFixed(2)})`}</DollarAmount>
           </BountyInputContainer>
           <ContributeButton
             onClick={() => {
-              type === 'article'
-                ? tipArticleAction({ article_id, article_version, request_id, user_id, bounty }, toggleBanner)
-                : addToBountyAction({ request_id, bounty }, toggleBanner)
+              type === "article"
+                ? tipArticleAction(
+                    {
+                      article_id,
+                      article_version,
+                      request_id,
+                      user_id,
+                      bounty,
+                    },
+                    toggleBanner
+                  )
+                : addToBountyAction({ request_id, bounty }, toggleBanner);
             }}
           >
             Contribute
           </ContributeButton>
-          <CancelButton onClick={() => this.props.toggleBanner(false)}>Cancel</CancelButton>
+          <CancelButton onClick={() => this.props.toggleBanner(false)}>
+            Cancel
+          </CancelButton>
         </BountyContainer>
         <ContributionsNotice>
           <span>All contributions go towards the creator</span>
         </ContributionsNotice>
       </Banner>
-    )
+    );
   }
 }

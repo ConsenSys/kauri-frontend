@@ -50,7 +50,6 @@ type Props = {
   onMouseLeave?: any,
   username?: ?string,
   personalUsername: ?string,
-  deleteArticleComment: any,
   comment_id: number,
 }
 
@@ -69,7 +68,6 @@ export default class Comment extends React.Component<Props, { offsetTop: ?number
       onMouseLeave,
       username,
       personalUsername,
-      deleteArticleComment,
       comment_id,
     } = this.props
     return (

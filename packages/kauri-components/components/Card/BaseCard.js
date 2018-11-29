@@ -1,17 +1,17 @@
 // @flow
-import * as React from 'react'
-import styled, { css } from 'styled-components'
+import * as React from "react";
+import styled, { css } from "styled-components";
 
 const withoutImageURLPaddingCss = css`
   padding: ${props => props.theme.space[2]}px;
-`
+`;
 const chosenArticleCss = css`
-  border: 2px solid ${props => props.theme.colors['primary']};
-`
+  border: 2px solid ${props => props.theme.colors.primary};
+`;
 const hoverBoxShadowCss = css`
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.22);
   transform: translateY(-6px);
-`
+`;
 
 const BaseCard = styled.div`
   display: flex;
@@ -28,9 +28,9 @@ const BaseCard = styled.div`
   :hover {
     ${props => !props.toggledOn && hoverBoxShadowCss};
   }
-  ${props => typeof props.imageURL !== 'string' && withoutImageURLPaddingCss};
+  ${props => typeof props.imageURL !== "string" && withoutImageURLPaddingCss};
   ${props => Boolean(props.isChosenArticle) && chosenArticleCss};
-`
+`;
 
 type Props = {
   children: React.Node,
@@ -42,7 +42,7 @@ type Props = {
   handleMouseLeave?: () => void,
   hoverAction?: ({ id: string, version: string }) => void,
   toggledOn?: boolean,
-}
+};
 
 export default ({
   cardWidth,
@@ -66,4 +66,4 @@ export default ({
   >
     {children}
   </BaseCard>
-)
+);

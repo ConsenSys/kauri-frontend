@@ -1,6 +1,6 @@
-import React from 'react'
-import styled, { css } from 'styled-components'
-import { Button } from 'antd'
+import React from "react";
+import styled, { css } from "styled-components";
+import { Button } from "antd";
 
 const ActionButtons = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const ActionButtons = styled.div`
   > :only-child {
     margin-right: 0px;
   }
-`
+`;
 
 const secondaryActionBadgeCss = css`
   color: #ffffff;
@@ -24,7 +24,7 @@ const secondaryActionBadgeCss = css`
   :focus {
     background-color: transparent !important;
   }
-`
+`;
 const secondaryActionBadgeColorPrimaryCss = css`
   color: ${props => props.theme.primaryTextColor};
   > * {
@@ -37,7 +37,7 @@ const secondaryActionBadgeColorPrimaryCss = css`
   :focus {
     background-color: transparent !important;
   }
-`
+`;
 
 const altActionBadgeCss = css`
   color: #fff;
@@ -45,14 +45,14 @@ const altActionBadgeCss = css`
     color: #fff;
   }
   background-color: transparent !important;
-`
+`;
 
 const disabledBadgeCss = css`
   background-color: ${props => props.theme.disabledBackgroundColor} !important;
   > span {
     color: ${props => props.theme.disabledTextColor} !important;
   }
-`
+`;
 
 const ActionBadge = styled(Button)`
   display: flex;
@@ -68,14 +68,20 @@ const ActionBadge = styled(Button)`
   > :nth-child(2) {
     margin-left: 8px;
   }
-`
+`;
 
-const PositiveActionBadge = ActionBadge.extend`
+const PositiveActionBadge = styled(ActionBadge)`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: ${props => (props.height && typeof props.height === 'string' ? props.height : props.height + 'px')};
-  width: ${props => (props.width && typeof props.width === 'string' ? props.width : props.width + 'px')};
+  height: ${props =>
+    props.height && typeof props.height === "string"
+      ? props.height
+      : props.height + "px"};
+  width: ${props =>
+    props.width && typeof props.width === "string"
+      ? props.width
+      : props.width + "px"};
   color: #fff;
   border-radius: 4px;
   background-color: ${props => props.theme.primaryColor};
@@ -85,26 +91,32 @@ const PositiveActionBadge = ActionBadge.extend`
     transition: none !important;
   }
   :hover {
-    background-color: ${props => props.type === 'primary' && props.theme.hoverTextColor} !important;
-    border: ${props => props.type === 'primary' && props.theme.hoverTextColor} !important;
-    box-shadow: ${props => props.type !== 'primary' && `0 0 0 2px ${props.theme.primaryColor}`};
+    background-color: ${props =>
+      props.type === "primary" && props.theme.hoverTextColor} !important;
+    border: ${props =>
+      props.type === "primary" && props.theme.hoverTextColor} !important;
+    box-shadow: ${props =>
+      props.type !== "primary" && `0 0 0 2px ${props.theme.primaryColor}`};
   }
   :focus {
-    background-color: ${props => props.type === 'primary' && props.theme.hoverTextColor} !important;
+    background-color: ${props =>
+      props.type === "primary" && props.theme.hoverTextColor} !important;
   }
-  margin-right: ${({ alone }) => alone && '0px'};
-  ${props => props.type === 'secondary' && secondaryActionBadgeCss};
-  ${props => props.type === 'secondary color primary' && secondaryActionBadgeColorPrimaryCss};
-  ${props => props.type === 'alt' && altActionBadgeCss};
+  margin-right: ${({ alone }) => alone && "0px"};
+  ${props => props.type === "secondary" && secondaryActionBadgeCss};
+  ${props =>
+    props.type === "secondary color primary" &&
+    secondaryActionBadgeColorPrimaryCss};
+  ${props => props.type === "alt" && altActionBadgeCss};
   ${props => props.disabled && disabledBadgeCss};
-`
+`;
 
 const PositiveRequestActionBadge = ({
   label,
   action,
   type,
-  width = '184px',
-  height = '40px',
+  width = "184px",
+  height = "40px",
   preIcon,
   alone,
   disabled,
@@ -123,9 +135,14 @@ const PositiveRequestActionBadge = ({
     {preIcon && <img src={preIcon} height={18} width={18} />}
     {label ? <span>{label}</span> : children}
   </PositiveActionBadge>
-)
+);
 
-const ActionButton = PositiveRequestActionBadge
+const ActionButton = PositiveRequestActionBadge;
 
-export { ActionButtons, PositiveActionBadge, PositiveRequestActionBadge, ActionButton }
-export default ActionButton
+export {
+  ActionButtons,
+  PositiveActionBadge,
+  PositiveRequestActionBadge,
+  ActionButton,
+};
+export default ActionButton;

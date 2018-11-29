@@ -1,12 +1,11 @@
 // @flow
-import React from 'react'
-import styled from 'styled-components'
-import Web3 from 'web3'
-import { ContributeToBounty } from '../../Request/View'
-import { ActionBadge } from '../../../common/ActionBadge'
-import GreenArrow from '../../../common/GreenArrow'
+import React from "react";
+import styled from "styled-components";
+import Web3 from "web3";
+import { ActionBadge } from "../../../common/ActionBadge";
+import GreenArrow from "../../../common/GreenArrow";
 
-const web3 = new Web3()
+const web3 = new Web3();
 
 const ApprovedArticleActions = styled.section`
   display: flex;
@@ -21,30 +20,37 @@ const ApprovedArticleActions = styled.section`
   @media (max-width: 500px) {
     padding: 36px 10px;
   }
-`
+`;
 
-const ArticleTipAmount = ActionBadge.extend`
+const ArticleTipAmount = styled(ActionBadge)`
   cursor: initial;
   :first-child {
     margin-right: 0px;
   }
-`
+`;
 
 const EthTipAmount = styled.h3`
   color: #ffffff;
   font-size: 20px !important;
   font-weight: bold;
   line-height: 26px;
-`
+`;
 
-const DollarTipAmount = EthTipAmount.extend`
+const DollarTipAmount = styled(EthTipAmount)`
   font-weight: 300;
-`
+`;
 
-export default ({ toggleBanner, routeChangeAction, tipArticleAction, ethUsdPrice, request_id, tip }: *) => (
+export default ({
+  toggleBanner,
+  routeChangeAction,
+  tipArticleAction,
+  ethUsdPrice,
+  request_id,
+  tip,
+}: *) => (
   <ApprovedArticleActions>
-    <ActionBadge onClick={() => routeChangeAction('back')}>
-      <GreenArrow direction='left' />
+    <ActionBadge onClick={() => routeChangeAction("back")}>
+      <GreenArrow direction="left" />
       <span>Go Back</span>
     </ActionBadge>
     {/* <ContributeToBounty
@@ -55,8 +61,10 @@ export default ({ toggleBanner, routeChangeAction, tipArticleAction, ethUsdPrice
       request_id={request_id}
     /> */}
     <ArticleTipAmount>
-      <EthTipAmount>{`${web3.fromWei(tip || 0, 'ether')} ETH`}</EthTipAmount>
-      <DollarTipAmount>{`$${(web3.fromWei(tip || 0, 'ether') * ethUsdPrice).toFixed(2)}`}</DollarTipAmount>
+      <EthTipAmount>{`${web3.fromWei(tip || 0, "ether")} ETH`}</EthTipAmount>
+      <DollarTipAmount>{`$${(
+        web3.fromWei(tip || 0, "ether") * ethUsdPrice
+      ).toFixed(2)}`}</DollarTipAmount>
     </ArticleTipAmount>
   </ApprovedArticleActions>
-)
+);

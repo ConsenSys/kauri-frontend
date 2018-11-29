@@ -16,7 +16,7 @@ export const getAllCuratedList = (payload, maxResult, filter) => ({
               type
               version
             } },
-            ...on CollectionDTO { id, name, resourceIdentifier {
+            ...on CollectionDTO { id, name, background, attributes, resourceIdentifier {
               id
               type
               version
@@ -35,6 +35,7 @@ export const getAllCuratedList = (payload, maxResult, filter) => ({
           resources {
             ... on ArticleDTO {
               id
+              attributes
               version
               author {
                 id
@@ -72,6 +73,10 @@ export const getAllCuratedList = (payload, maxResult, filter) => ({
                   ...on ArticleDTO {
                     id
                   }
+                }
+                resourcesId {
+                  id
+                  type
                 }
               }
             }
@@ -114,7 +119,7 @@ export const removeResourceFromCuratedList = (payload, maxResult, filter) => ({
 });
 
 export const addHeaderToCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation addHeaderToCuratedList($id: String, $resource: ResourceIdentifierInput) { addHeaderToCuratedList (id: $id, resource: $resource) {hash}    }",
+    query: "mutation addHeaderToCuratedList($id: String, $header: ResourceIdentifierInput) { addHeaderToCuratedList (id: $id, header: $header) {hash}    }",
     variables: payload,
     operationName: "addHeaderToCuratedList"
 });

@@ -1,70 +1,106 @@
-const withBundleAnalyzer = require('@zeit/next-bundle-analyzer')
-const webpack = require('webpack')
-const config = require('./config').default
-const withPlugins = require('next-compose-plugins')
-const withCss = require('@zeit/next-css')
-const withLess = require('@zeit/next-less')
-const withSourceMaps = require('@zeit/next-source-maps')
-const withTM = require('next-plugin-transpile-modules')
-const { join, resolve } = require('path')
-global.process.env = Object.assign(process.env, config)
+const withBundleAnalyzer = require("@zeit/next-bundle-analyzer");
+const webpack = require("webpack");
+const config = require("./config").default;
+const withPlugins = require("next-compose-plugins");
+const withCss = require("@zeit/next-css");
+const withLess = require("@zeit/next-less");
+const withSourceMaps = require("@zeit/next-source-maps");
+const withTM = require("next-plugin-transpile-modules");
+const withTypescript = require("./lib/with-typescript");
+const { join, resolve } = require("path");
+global.process.env = Object.assign(process.env, config);
 
 const processedConfig = Object.keys(config).reduce((current, next, i) => {
-  current[`process.env.${next}`] = JSON.stringify(config[next])
-  return current
-}, {})
+  current[`process.env.${next}`] = JSON.stringify(config[next]);
+  return current;
+}, {});
 
-console.log(processedConfig)
+console.log(processedConfig);
 
-const nextPlugins = [[withTM, { transpileModules: ['../kauri-components'] }], withSourceMaps, withLess, withCss]
+const nextPlugins = [
+  [withTypescript, { transpileModules: ["../kauri-components"] }],
+  [withTM, { transpileModules: ["../kauri-components"] }],
+  withSourceMaps,
+  withLess,
+  withCss,
+];
 if (process.env.BUNDLE_ANALYZE) {
   nextPlugins.push([
     withBundleAnalyzer,
     {
-      analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
-      analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
+      analyzeServer: ["server", "both"].includes(process.env.BUNDLE_ANALYZE),
+      analyzeBrowser: ["browser", "both"].includes(process.env.BUNDLE_ANALYZE),
       bundleAnalyzerConfig: {
         server: {
-          analyzerMode: 'static',
-          reportFilename: './bundles/server.html',
+          analyzerMode: "static",
+          reportFilename: "./bundles/server.html",
         },
         browser: {
-          analyzerMode: 'static',
-          reportFilename: './bundles/client.html',
+          analyzerMode: "static",
+          reportFilename: "./bundles/client.html",
         },
       },
     },
-  ])
+  ]);
 }
 const nextConfig = {
   webpack: (config, { isServer }) => {
-    config.resolve.alias['styled-components'] = resolve(__dirname, './node_modules', 'styled-components')
+    config.resolve.extensions.push(".ts", ".tsx");
+    config.resolve.alias["styled-components"] = resolve(
+      __dirname,
+      "./node_modules",
+      "styled-components"
+    );
+
+    config.resolve.alias["react"] = resolve(
+      __dirname,
+      "./node_modules",
+      "react"
+    );
+
+    config.resolve.alias["react-dom"] = resolve(
+      __dirname,
+      "./node_modules",
+      "react-dom"
+    );
+
     config.plugins.push(
       new webpack.IgnorePlugin(/^\/lib\/languages\/*$/, /highlight\.js$/),
       new webpack.IgnorePlugin(/^\.\/lib\/languages$/, /highlight\.js$/),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      new webpack.DefinePlugin(processedConfig),
-    )
+      new webpack.DefinePlugin(processedConfig)
+    );
     // config.module.rules[0].include.push(join(__dirname, '../kauri-components'))
     if (!isServer) {
-      config.plugins.push(new webpack.IgnorePlugin(/jsdom$/))
-      // butterfly regex and webpack.
-      const languages = ['dutch', 'english', 'german', 'italian', 'portugese', 'spanish', 'swedish']
-      languages.map(lang => config.plugins.push(new webpack.IgnorePlugin(new RegExp(`${lang}.js.map`))))
+      config.plugins.push(new webpack.IgnorePlugin(/jsdom$/));
+      const languages = [
+        "dutch",
+        "english",
+        "german",
+        "italian",
+        "portugese",
+        "spanish",
+        "swedish",
+      ];
+      languages.map(lang =>
+        config.plugins.push(
+          new webpack.IgnorePlugin(new RegExp(`${lang}.js.map`))
+        )
+      );
     }
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       // Do production stuff
     } else {
       // Do development stuff
     }
 
-    return config
+    return config;
   },
   // webpackDevMiddleware: config => {
   //   console.log(config)
   //   config.module.rules[0].include.push(join(__dirname, '../kauri-components'))
   //   return config
   // },
-}
+};
 
-module.exports = withPlugins(nextPlugins, nextConfig)
+module.exports = withPlugins(nextPlugins, nextConfig);

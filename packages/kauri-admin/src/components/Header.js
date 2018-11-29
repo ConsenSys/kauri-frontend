@@ -27,7 +27,7 @@ const StyledLink = styled(Link)`
 
 const Header = props =>
     <NavBar>
-        <img src="./images/logo.svg" alt="kauri-logo" />
+        <StyledLink to="/"><img src="./images/logo.svg" alt="kauri-logo" /></StyledLink>
         <StyledLink to="/dashboard">Dashboard</StyledLink>
         <StyledLink to="/curated-lists">Homepage</StyledLink>
         <StyledLink to="/collections">Collections</StyledLink>
@@ -40,8 +40,6 @@ const Header = props =>
             name: 'Transaction Receipt', action: () => props.history.push('/transactionReceipt')
         }, {
             name: 'Faucet', action: () => props.history.push('/faucet')
-        }, {
-            name: 'Article Submission', action: () => props.history.push('/submission')
         }, {
             name: 'Article Migration', action: () => props.history.push('/migration')
         }, {

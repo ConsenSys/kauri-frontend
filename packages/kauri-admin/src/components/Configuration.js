@@ -10,13 +10,13 @@ class Configuration {
     },
     DEV: {
       name: 'DEV',
-      host: 'api.dev2.kauri.io',
+      host: 'api.dev.kauri.io',
       port: 443,
       network_id: 224895
     },
     UAT: {
       name: 'UAT',
-      host: 'api.rinkeby.kauri.io',
+      host: 'api.beta.kauri.io',
       port: 443,
       network_id: 4
     }
@@ -29,7 +29,7 @@ class Configuration {
     Unknown: 'NO FAUCET for the DEV blockchain'
   }
 
-  static _DEFAULT_BACKEND = 'DEV'
+  static _DEFAULT_BACKEND = 'UAT'
   static _JWT_MSG = 'v0G9u7huK4mJb2K1'
   static _TIMEOUT = 10000
 
@@ -330,8 +330,8 @@ class Configuration {
     this.backend = Configuration._BACKEND[backend]
     this.endpoints = {
       // auth: 'https://' + this.backend.host + ':' + this.backend.port + '/auth',
-      initiateAuth: 'https://api.dev2.kauri.io/web3auth/api/login?app_id=kauri&client_id=kauri-gateway',
-      auth: 'https://api.dev2.kauri.io/web3auth/api/login',
+      initiateAuth: 'https://api.dev.kauri.io/web3auth/api/login?app_id=kauri&client_id=kauri-gateway',
+      auth: 'https://api.dev.kauri.io/web3auth/api/login',
       gql: 'https://' + this.backend.host + ':' + this.backend.port + '/graphql',
       ws: 'wss://' + this.backend.host + ':' + this.backend.port + '/socket/graphql'
     }

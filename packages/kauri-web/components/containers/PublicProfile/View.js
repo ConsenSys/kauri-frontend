@@ -1,37 +1,36 @@
 // @flow
-import React, { Component } from 'react'
-import Tabs from '../../../../kauri-components/components/Tabs'
-import Articles from './Articles'
-import Collections from './Collections'
-import Header from './Header'
-import EditableHeader from './EditableHeader'
-import Loading from '../../common/Loading'
-import type { ViewProps, ViewState } from './types'
-import Published from './Published/View'
-import Drafts from './Drafts/View'
-import Awaiting from './Awaiting/View'
-import Pending from './Pending/View'
+import React, { Component } from "react";
+import Tabs from "../../../../kauri-components/components/Tabs";
+import Collections from "./Collections";
+import Header from "./Header";
+import EditableHeader from "./EditableHeader";
+import Loading from "../../common/Loading";
+import type { ViewProps, ViewState } from "./types";
+import Published from "./Published/View";
+import Drafts from "./Drafts/View";
+import Awaiting from "./Awaiting/View";
+import Pending from "./Pending/View";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor (props: ViewProps) {
-    super(props)
+  constructor(props: ViewProps) {
+    super(props);
     this.state = {
       isEditing: false,
-      avatar: '',
-      username: '',
-      name: '',
-      title: '',
-      website: '',
-      twitter: '',
-      github: '',
-    }
+      avatar: "",
+      username: "",
+      name: "",
+      title: "",
+      website: "",
+      twitter: "",
+      github: "",
+    };
   }
 
-  toggleEditing () {
-    this.setState({ isEditing: !this.state.isEditing })
+  toggleEditing() {
+    this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render () {
+  render() {
     const {
       PendingQuery,
       UserQuery,
@@ -41,20 +40,20 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       ApprovalsQuery,
       routeChangeAction,
       currentUser,
-    } = this.props
+    } = this.props;
 
     const isHeaderLoaded =
-      typeof UserQuery.getUser === 'object' &&
-      typeof ArticlesQuery.searchArticles === 'object' &&
-      typeof CollectionQuery.searchCollections === 'object'
+      typeof UserQuery.getUser === "object" &&
+      typeof ArticlesQuery.searchArticles === "object" &&
+      typeof CollectionQuery.searchCollections === "object";
 
     const areListsLoaded =
-      typeof DraftsQuery.searchArticles === 'object' &&
-      typeof PendingQuery.searchArticles === 'object' &&
-      typeof ApprovalsQuery.searchArticles === 'object'
+      typeof DraftsQuery.searchArticles === "object" &&
+      typeof PendingQuery.searchArticles === "object" &&
+      typeof ApprovalsQuery.searchArticles === "object";
 
-    const isEditing = this.state.isEditing
-
+    const isEditing = this.state.isEditing;
+    const isOwner = UserQuery.getUser && UserQuery.getUser.id === currentUser;
     return (
       <React.Fragment>
         {!isHeaderLoaded ? (
@@ -72,8 +71,14 @@ class PublicProfile extends Component<ViewProps, ViewState> {
             name={this.state.name || UserQuery.getUser.name}
             title={this.state.title || UserQuery.getUser.title}
             website={this.state.website || UserQuery.getUser.website}
-            twitter={this.state.twitter || (UserQuery.getUser.social && UserQuery.getUser.social.twitter)}
-            github={this.state.github || (UserQuery.getUser.social && UserQuery.getUser.social.github)}
+            twitter={
+              this.state.twitter ||
+              (UserQuery.getUser.social && UserQuery.getUser.social.twitter)
+            }
+            github={
+              this.state.github ||
+              (UserQuery.getUser.social && UserQuery.getUser.social.github)
+            }
             toggleEditing={() => this.toggleEditing()}
           />
         )}
@@ -81,34 +86,55 @@ class PublicProfile extends Component<ViewProps, ViewState> {
           <Tabs
             tabs={[
               `Articles (${ArticlesQuery.searchArticles.totalElements})`,
-              UserQuery.getUser.id === currentUser && `My Drafts (${DraftsQuery.searchArticles.totalElements})`,
-              `Collections (${CollectionQuery.searchCollections.totalElements})`,
-              UserQuery.getUser.id === currentUser &&
-                `Awaiting Owner Approval (${ApprovalsQuery.searchArticles.totalElements})`,
-              UserQuery.getUser.id === currentUser &&
-                `Pending My Approval(${PendingQuery.searchArticles.totalElements})`,
+              isOwner && `Drafts (${DraftsQuery.searchArticles.totalElements})`,
+              `Collections (${
+                CollectionQuery.searchCollections.totalElements
+              })`,
+              isOwner &&
+                `Awaiting Owner Approval (${
+                  ApprovalsQuery.searchArticles.totalElements
+                })`,
+              isOwner &&
+                `Pending My Approval(${
+                  PendingQuery.searchArticles.totalElements
+                })`,
             ]}
             panels={[
               <Published
                 data={ArticlesQuery}
-                type='published'
+                type="published"
                 routeChangeAction={routeChangeAction}
-                isOwner={UserQuery.getUser.id === currentUser}
+                isOwner={isOwner}
               />,
-              UserQuery.getUser.id === currentUser && (
-                <Drafts data={DraftsQuery} type='draft' routeChangeAction={routeChangeAction} />
+              isOwner && (
+                <Drafts
+                  data={DraftsQuery}
+                  type="draft"
+                  routeChangeAction={routeChangeAction}
+                />
               ),
-              <Collections data={CollectionQuery} routeChangeAction={routeChangeAction} />,
-              <Awaiting data={ApprovalsQuery} type='pending' routeChangeAction={routeChangeAction} />,
-              <Pending data={PendingQuery} type='toBeApproved' routeChangeAction={routeChangeAction} />,
+              <Collections
+                data={CollectionQuery}
+                routeChangeAction={routeChangeAction}
+              />,
+              <Awaiting
+                data={ApprovalsQuery}
+                type="pending"
+                routeChangeAction={routeChangeAction}
+              />,
+              <Pending
+                data={PendingQuery}
+                type="toBeApproved"
+                routeChangeAction={routeChangeAction}
+              />,
             ]}
           />
         ) : !isHeaderLoaded ? null : (
           <Loading />
         )}
       </React.Fragment>
-    )
+    );
   }
 }
 
-export default PublicProfile
+export default PublicProfile;

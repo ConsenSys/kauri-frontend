@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Modal, Button, Tabs, Tab, FormControl } from 'react-bootstrap';
 import Configuration from '../Configuration';
+import { PrimaryButton, SecondaryButton } from '../../../../kauri-components/components/Button';
+import { BaseModal, Footer, Content } from './BaseModal';
+import Tabs from '../../../../kauri-components/components/Tabs';
 
 
 class AddArticle extends Component {
@@ -28,7 +30,7 @@ class AddArticle extends Component {
   render() {
     return (
       <div>
-        <FormControl
+        <input
           type="text"
           value={this.state.value}
           placeholder="Search Article"
@@ -36,29 +38,17 @@ class AddArticle extends Component {
         />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           {this.state.articles.length > 0 && this.state.articles.map(i =>
-            <Button
+            <PrimaryButton
               onClick={() => this.handleChange(i.id)}
               bsStyle="link"
               style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
               key={i.id}>
               {i.title}
-            </Button>
+            </PrimaryButton>
           )}
         </div>
       </div>);
   }
-}
-
-const AddTopic = (props) => {
-  return (
-    <FormControl
-      componentClass="select"
-      placeholder="select"
-      onChange={(i) => props.handleChange({ id: i.target.value, type: 'TOPIC' })}>
-      <option value="select">Select a topic</option>
-      {Configuration._TOPICS.map(i => <option key={i} value={i}>{i}</option>)}
-    </FormControl>
-  );
 }
 
 class AddCollection extends Component {
@@ -86,7 +76,7 @@ class AddCollection extends Component {
   render() {
     return (
       <div>
-        <FormControl
+        <input
           type="text"
           value={this.state.value}
           placeholder="Search Collection"
@@ -94,64 +84,19 @@ class AddCollection extends Component {
         />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           {this.state.collections.length > 0 && this.state.collections.map(i =>
-            <Button
+            <PrimaryButton
               onClick={() => this.handleChange(i.id)}
               bsStyle="link"
               style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
               key={i.id}>
               {i.name}
-            </Button>
+            </PrimaryButton>
           )}
         </div>
       </div>);
   }
 }
 
-class AddRequest extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      requests: [],
-      selected_id: '',
-    }
-    this.fetchRequests = this.fetchRequests.bind(this);
-  }
-
-  async fetchRequests(e) {
-    if (e.target.value.length >= 3) {
-      const requests = await this.props.searchRequests({ val: e.target.value });
-      this.setState({ requests: requests.content });
-    }
-  }
-
-  handleChange(id) {
-    this.setState({ selected_id: id });
-    this.props.handleChange({ type: 'REQUEST', id: id });
-  }
-
-  render() {
-    return (
-      <div>
-        <FormControl
-          type="text"
-          value={this.state.value}
-          placeholder="Search Request"
-          onChange={this.fetchRequests}
-        />
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-          {this.state.requests.length > 0 && this.state.requests.map(i =>
-            <Button
-              onClick={() => this.handleChange(i.id)}
-              bsStyle="link"
-              style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
-              key={i.id}>
-              {i.title}
-            </Button>
-          )}
-        </div>
-      </div>);
-  }
-}
 
 class CreateCuratedList extends Component {
   constructor(props) {
@@ -179,31 +124,25 @@ class CreateCuratedList extends Component {
 
   render() {
     return (
-      <Modal show={this.props.show} onHide={this.props.closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Item To List</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-            <Tab style={{ padding: 20 }} eventKey={1} title="Article">
-              <AddArticle handleChange={this.handleChange} searchArticles={this.props.searchArticles} />
-            </Tab>
-            <Tab style={{ padding: 20 }} eventKey={2} title="Topic">
-              <AddTopic handleChange={this.handleChange} />
-            </Tab>
-            <Tab style={{ padding: 20 }} eventKey={3} title="Collection">
-              <AddCollection handleChange={this.handleChange} searchCollections={this.props.searchCollections} />
-            </Tab>
-            <Tab style={{ padding: 20 }} eventKey={4} title="Request">
-              <AddRequest handleChange={this.handleChange} searchRequests={this.props.searchRequests} />
-            </Tab>
-          </Tabs>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={this.props.closeModal}>Cancel</Button>
-          <Button onClick={this.handleSubmit} bsStyle="primary">Add Item to List</Button>
-        </Modal.Footer>
-      </Modal>);
+      <BaseModal show={this.props.show} onHide={this.props.closeModal}
+        content={
+          <Content>
+              <h1>Add Item to List</h1>
+          <Tabs
+            tabs={['Article','Collection']}
+            panels={[
+              <AddArticle handleChange={this.handleChange} searchArticles={this.props.searchArticles} />,
+              <AddCollection handleChange={this.handleChange} searchCollections={this.props.searchCollections} />,
+            ]}
+          />
+        </Content>
+        }
+        footer={
+          <Footer>
+          <SecondaryButton color='primaryDark' onClick={this.props.closeModal}>Cancel</SecondaryButton>
+          <PrimaryButton onClick={this.handleSubmit} bsStyle="primary">Add Item to List</PrimaryButton>
+        </Footer>
+        } />);
   }
 };
 
