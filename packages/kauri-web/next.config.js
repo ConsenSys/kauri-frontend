@@ -73,7 +73,6 @@ const nextConfig = {
     // config.module.rules[0].include.push(join(__dirname, '../kauri-components'))
     if (!isServer) {
       config.plugins.push(new webpack.IgnorePlugin(/jsdom$/));
-      // Fuck regex and webpack.
       const languages = [
         "dutch",
         "english",
