@@ -26,14 +26,14 @@ type Props = {
 const styles = {
   code: {
     backgroundColor: "rgba(0, 0, 0, 0.05)",
-    fontFamily: '"Roboto"',
+    fontFamily: "\"Roboto\"",
     fontSize: 16,
     lineHeight: 23,
     padding: 2,
   },
   codeBlock: {
     backgroundColor: "rgba(0, 0, 0, 0.05)",
-    fontFamily: '"Roboto"',
+    fontFamily: "\"Roboto\"",
     fontSize: 16,
     lineHeight: 23,
     padding: 20,
@@ -77,9 +77,10 @@ const pruneInlineStyles = (child, type) => {
 const truncateWithEllipsis = css`
   color: ${props => props.theme.primaryTextcolor};
   padding: 0 0;
-  font-size: 17px;
-  line-height: 24px;
+  font-size: 14px;
+  font-weight: normal;
   letter-spacing: -0.1px;
+  line-height: 18px;
   text-align: left;
   text-overflow: ellipsis;
 `;
@@ -90,9 +91,10 @@ const recentRequest = css`
 
 export const TruncateWithEllipsisCss = css`
   color: ${props => props.theme.primaryTextcolor};
-  font-size: 17px;
+  font-size: 14px;
+  font-weight: normal;
   letter-spacing: -0.1px;
-  line-height: 24px;
+  line-height: 18px;
 `;
 
 const TruncateWithEllipsis = styled.div`
@@ -136,7 +138,7 @@ class WithHover extends React.Component<*, { isHovered: boolean }> {
   handleEnter = () => this.setState({ isHovered: true });
   handleLeave = () => this.setState({ isHovered: false });
 
-  render() {
+  render () {
     return React.cloneElement(this.props.children, {
       ...this.state,
       ...this.props,
@@ -159,8 +161,8 @@ const Video = ({
     onMouseEnter={handleEnter}
     onMouseLeave={handleLeave}
   >
-    {isHovered && caption && <span className="Video-caption">{caption}</span>}
-    <video className="Video" src={src} controls />
+    {isHovered && caption && <span className='Video-caption'>{caption}</span>}
+    <video className='Video' src={src} controls />
   </figure>
 );
 
@@ -248,7 +250,7 @@ export const Image = ({
 );
 
 class YoutubeVideo extends React.Component<*> {
-  render() {
+  render () {
     const opts = {
       height: "390",
       width: "640",
@@ -386,10 +388,10 @@ export const blocks = (
     <ul>
       {fullText
         ? children.map((child, i) => (
-            <ListItem inReviewArticle={inReviewArticle} key={keys[i]}>
-              {pruneInlineStyles(child)}
-            </ListItem>
-          ))
+          <ListItem inReviewArticle={inReviewArticle} key={keys[i]}>
+            {pruneInlineStyles(child)}
+          </ListItem>
+        ))
         : addBreaklines(children, keys, fullText, recentRequest, type)}
     </ul>
   ),
@@ -397,10 +399,10 @@ export const blocks = (
     <ol>
       {fullText
         ? children.map((child, i) => (
-            <ListItem inReviewArticle={inReviewArticle} key={keys[i]}>
-              {pruneInlineStyles(child)}
-            </ListItem>
-          ))
+          <ListItem inReviewArticle={inReviewArticle} key={keys[i]}>
+            {pruneInlineStyles(child)}
+          </ListItem>
+        ))
         : addBreaklines(children, keys, fullText, recentRequest, type)}
     </ol>
   ),
@@ -417,49 +419,49 @@ export const blocks = (
   "header-two": (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
-          <div
-            id={
-              children && children.length > 0
-                ? children[0].length > 1 && child[1][1]
-                  ? child[1][1].props.children[1]
-                    ? child[1][1].props.children[1].props.children[0]
-                        .replace(/ /g, "")
-                        .toLowerCase()
-                    : child[1][1].props.children[0]
-                        .replace(/ /g, "")
-                        .toLowerCase()
-                  : child[1][0] && child[1][0].replace(/ /g, "").toLowerCase()
-                : null
-            }
-            key={keys[i]}
-          >
-            <HeaderTwo>{child}</HeaderTwo>
-          </div>
-        ))
+        <div
+          id={
+            children && children.length > 0
+              ? children[0].length > 1 && child[1][1]
+                ? child[1][1].props.children[1]
+                  ? child[1][1].props.children[1].props.children[0]
+                    .replace(/ /g, "")
+                    .toLowerCase()
+                  : child[1][1].props.children[0]
+                    .replace(/ /g, "")
+                    .toLowerCase()
+                : child[1][0] && child[1][0].replace(/ /g, "").toLowerCase()
+              : null
+          }
+          key={keys[i]}
+        >
+          <HeaderTwo>{child}</HeaderTwo>
+        </div>
+      ))
       : null,
   "header-three": (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
-          <HeaderThree key={keys[i]}>{child}</HeaderThree>
-        ))
+        <HeaderThree key={keys[i]}>{child}</HeaderThree>
+      ))
       : null,
   "header-four": (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
-          <HeaderThree key={keys[i]}>{child}</HeaderThree>
-        ))
+        <HeaderThree key={keys[i]}>{child}</HeaderThree>
+      ))
       : null,
   "header-five": (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
-          <HeaderThree key={keys[i]}>{child}</HeaderThree>
-        ))
+        <HeaderThree key={keys[i]}>{child}</HeaderThree>
+      ))
       : null,
   "header-six": (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
-          <HeaderThree key={keys[i]}>{child}</HeaderThree>
-        ))
+        <HeaderThree key={keys[i]}>{child}</HeaderThree>
+      ))
       : null,
 });
 
@@ -476,7 +478,7 @@ export const entities = {
   IMAGE: (children, data, { key }) => {
     // children.map((x, i) => console.log(data[i]))
     return children.map((item, i) => (
-      <AtomicBlock key={key} {...data} type="image" />
+      <AtomicBlock key={key} {...data} type='image' />
     ));
   },
 };
@@ -498,6 +500,9 @@ const articleCardCss = css`
   }
   > div {
     font-size: 14px;
+    font-weight: normal;
+    letter-spacing: -0.1px;
+    line-height: 18px;
     :nth-child(1n + ${props => (props.cardHeight > 290 ? "4" : "3")}) {
       display: none;
     }
@@ -571,7 +576,7 @@ export default compose(withErrorCatch())(
         ) : JSON.parse(text).markdown ? (
           <TextTruncate
             line={imageURL ? 2 : cardHeight > 290 ? 7 : 3}
-            truncateText="…"
+            truncateText='…'
             text={stripHTML(
               getHTMLFromMarkdown(JSON.parse(text).markdown)
             ).substring(0, imageURL ? 200 : 500)}
@@ -582,10 +587,10 @@ export default compose(withErrorCatch())(
       ) : inReviewArticleComment &&
         typeof text === "string" &&
         text.length > 5 ? (
-        text
-      ) : (
-        <span>Something went wrong.</span>
-      )}
+          text
+        ) : (
+          <span>Something went wrong.</span>
+        )}
     </MaxThreeLines>
   )
 );
