@@ -311,6 +311,7 @@ class SubmitArticleForm extends React.Component<Props> {
           subject={articleData && articleData.title}
           attributes={articleData && articleData.attributes}
           isKauriTopicOwner={isKauriTopicOwner}
+          tags={articleData && articleData.tags}
         />
         <SubmitArticleForm.Content
           {...this.props.form}

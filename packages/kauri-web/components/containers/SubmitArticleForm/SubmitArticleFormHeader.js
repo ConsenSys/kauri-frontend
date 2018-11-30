@@ -139,6 +139,7 @@ const SubmitArticleFormSubject = ({
           getFieldValue("subject").replace(/ /g, "\u00a0")}
       </UnderlineSpan>
       <TagSelector
+        tags={tags}
         setFieldsValue={setFieldsValue}
         getFieldDecorator={getFieldDecorator}
       />

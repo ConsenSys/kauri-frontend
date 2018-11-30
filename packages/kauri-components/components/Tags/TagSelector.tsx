@@ -23,6 +23,7 @@ const Heading = styled.div`
 interface IProps {
     maxTags: number;
     availableTags: ITag[];
+    tags: string[];
     onChange: (tags: string[]) => void;
     fetchMatches: (string?: string) => void;
 }
@@ -37,7 +38,7 @@ class TagSelector extends React.Component<IProps, IState> {
         super(props);
         this.state = {
             maxTags: props.maxTags,
-            tags: [],
+            tags: props.tags,
         }
         this.addTag = this.addTag.bind(this);
         this.removeTag = this.removeTag.bind(this);

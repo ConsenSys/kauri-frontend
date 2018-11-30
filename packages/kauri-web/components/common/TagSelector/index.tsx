@@ -20,6 +20,7 @@ interface IProps {
   client: ApolloClient<{}>;
   setFieldsValue: any;
   getFieldDecorator: any;
+  tags: string[];
 }
 
 class TagSelectorContainer extends React.Component<IProps, IState> {
@@ -27,7 +28,7 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
     super(props);
     this.state = {
       availableTags: [],
-      tags: [],
+      tags: props.tags,
     };
     this.updateTags = this.updateTags.bind(this);
   }
@@ -80,6 +81,7 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
       <>
         {this.props.getFieldDecorator("tags", {})(
           <TagSelector
+            tags={this.state.tags}
             fetchMatches={this.fetchMatches}
             onChange={this.updateTags}
             availableTags={this.state.availableTags}
