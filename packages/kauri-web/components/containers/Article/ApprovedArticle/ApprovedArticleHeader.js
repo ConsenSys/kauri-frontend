@@ -1,16 +1,17 @@
 // @flow
-import React from 'react';
-import styled from 'styled-components';
-import slugify from 'slugify';
-import moment from 'moment';
-import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from '../../CreateRequestForm/CreateRequestHeader';
-import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle';
+import React from "react";
+import styled from "styled-components";
+import slugify from "slugify";
+import moment from "moment";
+import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from "../../CreateRequestForm/CreateRequestHeader";
+import ShareArticle from "../../../../../kauri-components/components/Tooltip/ShareArticle";
+import { TagList } from "../../../../../kauri-components/components/Tags";
 import {
   Label,
   H5,
   Title1,
-} from '../../../../../kauri-components/components/Typography';
-import theme from '../../../../lib/theme-config';
+} from "../../../../../kauri-components/components/Typography";
+import theme from "../../../../lib/theme-config";
 
 const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
   display: flex;
@@ -83,28 +84,29 @@ export default ({
   attributes,
   status,
   hostName,
+  tags,
 }: *) => (
   <ApproveArticleHeader
     style={{
       background:
         attributes && attributes.background
           ? `url(${attributes.background}) center center`
-          : '#1E2428',
-      backgroundSize: 'cover',
+          : "#1E2428",
+      backgroundSize: "cover",
     }}
-    type='article'
+    type="article"
     theme={theme}
   >
     <Overlay />
     <InfoContainer>
-      <Label color='white'>
+      <Label color="white">
         {`POSTED ${moment(datePublished || dateCreated).fromNow()}`}
       </Label>
-      <Title1 color='white'>{title}</Title1>
+      <Title1 color="white">{title}</Title1>
       <MobileShareContainer>
         <ShareArticle
-          color='white'
-          url={`${hostName.replace(/api\./g, '')}/article/${id}/${slugify(
+          color="white"
+          url={`${hostName.replace(/api\./g, "")}/article/${id}/${slugify(
             title,
             {
               lower: true,
@@ -113,11 +115,12 @@ export default ({
           title={title}
         />
       </MobileShareContainer>
+      <TagList tags={tags} />;
     </InfoContainer>
-    {status !== 'PUBLISHED' && (
+    {status !== "PUBLISHED" && (
       <PullRight>
-        <H5 color='white'>{`STATUS ${typeof status === 'string' &&
-          status.replace(/_/g, ' ')}`}</H5>
+        <H5 color="white">{`STATUS ${typeof status === "string" &&
+          status.replace(/_/g, " ")}`}</H5>
       </PullRight>
     )}
   </ApproveArticleHeader>

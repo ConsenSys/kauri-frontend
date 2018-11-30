@@ -70,23 +70,31 @@ class TagInput extends React.Component<IProps, IState> {
             expanded: false,
             selected: null,
         }
-        this.toggleFocus = this.toggleFocus.bind(this)
+        this.enterFocus = this.enterFocus.bind(this)
         this.handleKey = this.handleKey.bind(this)
     }
 
-    public toggleFocus() {
-        setTimeout(() => this.setState({ expanded: !this.state.expanded }), 200);
+    public enterFocus() {
+        this.setState({ expanded: true });
+    }
+
+    public exitFocus() {
+        this.setState({ expanded: false });
+        (document.activeElement as HTMLElement).blur()
     }
 
     public handleClick (tag: ITag) {
         if(this.props.onSelect) {
             this.props.onSelect(tag);
+            this.setState({ expanded: false });
+            (document.activeElement as HTMLElement).blur()
         }
     }
 
     public handleKey (e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.keyCode === 13) {
             this.props.handleEnterKey(e.currentTarget.value);
+            this.exitFocus()
         }
     }
 
@@ -95,7 +103,7 @@ class TagInput extends React.Component<IProps, IState> {
         <div>
             <TopRow>
                 <Plus />
-                <Input onKeyUp={this.handleKey} onChange={this.props.onChange} toggleFocus={this.toggleFocus} textAlign="left" fontSize={0} fontWeight={600} color="white" placeHolder="ADD TAG" />
+                <Input onKeyUp={this.handleKey} onChange={this.props.onChange} enterFocus={this.enterFocus} textAlign="left" fontSize={0} fontWeight={600} color="white" placeHolder="ADD TAG" />
             </TopRow>
         </div>
             {this.props.availableTags && this.state.expanded && <Results>

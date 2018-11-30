@@ -59,7 +59,8 @@ interface IWrapperProps {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-    toggleFocus?: () => void;
+    enterFocus?: () => void;
+    exitFocus?: () => void;
 }
 const Wrapper = styled.div`
   display: flex;
@@ -76,14 +77,22 @@ class Input extends React.Component<IWrapperProps, IInputState> {
             value: props.value || '',
         }
         this.handleChange = this.handleChange.bind(this)
-        this.toggleFocus = this.toggleFocus.bind(this)
+        this.enterFocus = this.enterFocus.bind(this)
+        this.exitFocus = this.exitFocus.bind(this)
         this.handleKey = this.handleKey.bind(this)
     }
 
-    public toggleFocus() {
-        this.setState({ focused: !this.state.focused })
-        if (this.props.toggleFocus) {
-            this.props.toggleFocus();
+    public enterFocus() {
+        this.setState({ focused: true })
+        if (this.props.enterFocus) {
+            this.props.enterFocus();
+        }
+    }
+
+    public exitFocus() {
+        this.setState({ focused: false })
+        if (this.props.exitFocus) {
+            this.props.exitFocus();
         }
     }
 
@@ -124,8 +133,8 @@ class Input extends React.Component<IWrapperProps, IInputState> {
                 fontWeight={fontWeight}
                 color={color}
                 textAlign={textAlign}
-                onBlur={this.toggleFocus}
-                onFocus={this.toggleFocus}
+                onBlur={this.exitFocus}
+                onFocus={this.enterFocus}
                 onKeyUp={this.handleKey}
             />
         {!hideUnderline && <Underline fontSize={fontSize}>{underlineValue && underlineValue.replace(/ /g, '\u00a0') }</Underline>}

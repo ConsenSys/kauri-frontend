@@ -13,6 +13,7 @@ export const Article = gql`
     attributes
     contentHash
     checkpoint
+    tags
     vote {
       totalVote
     }
