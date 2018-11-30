@@ -1,3 +1,4 @@
+/* tslint:disable */
 import * as React from 'react'
 import { Input } from '../Input';
 import styled from "../../lib/styled-components";
@@ -39,7 +40,7 @@ const Results = styled.div`
     align-self: flex-start;
     padding: ${props => props.theme.space[1]}px;
     position: absolute;
-    top: 30px;
+    top: ${props => props.theme.space[3]}px;
     left: 0;
 `;
 

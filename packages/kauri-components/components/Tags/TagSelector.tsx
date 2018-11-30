@@ -8,6 +8,7 @@ import styled from 'styled-components';
 const Container = styled.div`
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 `;
 
 interface IProps {
@@ -47,6 +48,7 @@ class TagSelector extends React.Component<IProps, IState> {
     }
 
     public render () {
+        console.log(JSON.stringify(this.state.tags))
         return (
             <Container>
                 {this.state.tags.map(i => <Tag key={i.id} color="white" removeTag={this.removeTag} tag={i}/>)}

@@ -7,6 +7,7 @@ import {
   CreateRequestSecondaryHeader as SubmitArticleFormHeader,
   TopicActionsContainer as SubmitArticleFormSubjectContainer,
 } from "../CreateRequestForm/CreateRequestHeader";
+import { TagSelector } from "../../../../kauri-components/components/Tags";
 
 type Props = {
   getFieldValue: string => ?string,
@@ -136,6 +137,16 @@ const SubmitArticleFormSubject = ({
           getFieldValue("subject").replace(/ /g, "\u00a0")}
       </UnderlineSpan>
     </InputWrapper>
+    <TagSelector
+      updateTags={console.log}
+      availableTags={[
+        { name: "Ethereum", count: 3000, id: "0" },
+        { name: "Metamask", count: 450, id: "1" },
+        { name: "MakerDao", count: 2500, id: "2" },
+        { name: "Kauri", count: 7842, id: "3" },
+      ]}
+      maxTags={5}
+    />
   </SubmitArticleFormSubjectContainer>
 );
 
