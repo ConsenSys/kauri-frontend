@@ -10,7 +10,6 @@ import PrimaryHeaderSection from "../../../../kauri-components/components/Sectio
 import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx";
 import UserAvatar from "../../../../kauri-components/components/UserAvatar";
 import { Label } from "../../../../kauri-components/components/Typography";
-import CuratorHeaderLabel from "../../../../kauri-components/components/Typography/CuratorHeaderLabel";
 import Input from "../../../../kauri-components/components/Input/Input";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
@@ -122,9 +121,6 @@ const CreateCollectionCuratorDetails = styled.div`
   ${space};
   > :first-child {
     margin-bottom: ${props => props.theme.space[3]}px;
-  }
-  > :nth-child(2) {
-    margin-bottom: ${props => props.theme.space[1]}px;
   }
 `;
 
@@ -300,7 +296,7 @@ export default ({
               showFormValidationErrors(validateForm, showNotificationAction)
             }
           >
-            {data ? "Update" : "Create"}
+            {data ? "Update Collection" : "Create Collection"}
           </PrimaryButton>
         </Stack>
       </ActionsSection>
@@ -363,7 +359,7 @@ export default ({
                   // { name: 'Upvotes', count: 0 },
                 ]}
               />
-              <CuratorHeaderLabel>Curator</CuratorHeaderLabel>
+              <Label color='white'>Curator</Label>
               <CreateCollectionCurators>
                 <UserAvatar
                   variant='white'

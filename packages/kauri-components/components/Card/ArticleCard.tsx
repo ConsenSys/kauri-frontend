@@ -11,6 +11,7 @@ import {
   toggleReducer,
   IToggleState,
   IToggleAction,
+  showDispatch,
   hideDispatch,
   toggleDispatch,
   toggleInitialState,
@@ -367,7 +368,13 @@ interface IProps {
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
-  hoverChildren?: React.ReactElement<any>;
+  hoverChildren?: (
+    payload: {
+      hideDispatch: () => void;
+      showDispatch: () => void;
+      toggleDispatch: () => void;
+    }
+  ) => React.ReactElement<any>;
   isChosenArticle?: boolean;
   resourceType: "USER" | "COMMUNITY";
   status?: "PUBLISHED" | "DRAFT";
@@ -410,7 +417,11 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
         <Hover
           hasImageURL={!!imageURL}
           cancelAction={hideDispatch(dispatch)}
-          hoverChildren={hoverChildren}
+          hoverChildren={hoverChildren({
+            hideDispatch: hideDispatch(dispatch),
+            showDispatch: showDispatch(dispatch),
+            toggleDispatch: toggleDispatch(dispatch),
+          })}
         />
       )}
       <Container imageURL={imageURL}>

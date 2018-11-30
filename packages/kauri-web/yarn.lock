@@ -1125,10 +1125,10 @@
   dependencies:
     styled-system "^3.0.1"
 
-"@rej156/react-mde@5.6.2":
-  version "5.6.2"
-  resolved "https://registry.yarnpkg.com/@rej156/react-mde/-/react-mde-5.6.2.tgz#083852c60d34aaa74d889ce35082c3077e3ebd65"
-  integrity sha512-fVz7VoDw5VVAaZb17sBspSTjn+w0zpBjJDF6baP9NFCl1mb+Bxr05Fat0Ds/7pGSfqomj3vtMtGtAC1N32BEgA==
+"@rej156/react-mde@5.6.8":
+  version "5.6.8"
+  resolved "https://registry.yarnpkg.com/@rej156/react-mde/-/react-mde-5.6.8.tgz#5f3342b9e68e43d564ae960d50ed922d5cfdd687"
+  integrity sha512-Xu6Wx3Dn26WQKrOJBTf+b0Eu6OSt2zY1JUbJq6PRgl1jXqFmWv6H0kiBlx5WCo0ISq5A+peXQ6oWFPKhobw1Lg==
   dependencies:
     classnames "^2.2.5"
     npm "^6.0.0"
