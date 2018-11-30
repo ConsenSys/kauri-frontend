@@ -296,7 +296,7 @@ export default ({
               showFormValidationErrors(validateForm, showNotificationAction)
             }
           >
-            {data ? "Update" : "Create"}
+            {data ? "Update Collection" : "Create Collection"}
           </PrimaryButton>
         </Stack>
       </ActionsSection>

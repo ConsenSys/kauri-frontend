@@ -34,6 +34,9 @@ const handleAction = (
   payload: { id: string; version: number }
 ) => () => alert(actionType + payload.id + payload.version);
 
+const handleHoverChildren = (children: React.ReactElement<any>) => () =>
+  children;
+
 const linkComponent = (
   childrenProps: React.ReactElement<any>,
   route: string
@@ -192,13 +195,13 @@ storiesOf("ArticleCard", module)
       imageURL={
         "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       }
-      hoverChildren={
+      hoverChildren={handleHoverChildren(
         <PrimaryButton
           onClick={handleAction("choose", { id: "1", version: 2345 })}
         >
           Choose Article
         </PrimaryButton>
-      }
+      )}
       isLoggedIn={true}
     />
   ))
@@ -233,13 +236,13 @@ storiesOf("ArticleCard", module)
           "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
         }
         isChosenArticle={true}
-        hoverChildren={
+        hoverChildren={handleHoverChildren(
           <PrimaryButton
             onClick={handleAction("remove", { id: "1", version: 2345 })}
           >
             Remove Article
           </PrimaryButton>
-        }
+        )}
         isLoggedIn={true}
       />
     )
@@ -412,13 +415,13 @@ storiesOf("ArticleCard", module)
         linkComponent={linkComponent}
         resourceType={"USER"}
         status={"DRAFT"}
-        hoverChildren={
+        hoverChildren={handleHoverChildren(
           <PrimaryButton
             onClick={handleAction("draft deleted", { id: "1", version: 2345 })}
           >
             Delete Draft
           </PrimaryButton>
-        }
+        )}
       />
     )
   );
