@@ -98,7 +98,7 @@ export default ComposedComponent =>
       if (
         context.req &&
         context.req.url.includes("write-article") &&
-        !context.req.url.includes("/login")
+        !context.req.url.includes("/login") && !parsedToken
       ) {
         context.res.writeHead(302, {
           Location: "/login?r=/write-article",

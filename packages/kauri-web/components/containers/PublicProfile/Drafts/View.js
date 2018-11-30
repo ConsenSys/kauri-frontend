@@ -68,7 +68,7 @@ const Articles = ({
               )}
               status={"DRAFT"}
               isLoggedIn={isLoggedIn}
-              hoverChildren={
+              hoverChildren={() => (
                 <PrimaryButton
                   onClick={() =>
                     openModalAction({
@@ -97,7 +97,7 @@ const Articles = ({
                 >
                   Delete draft
                 </PrimaryButton>
-              }
+              )}
             />
           ))}
         </Masonry>

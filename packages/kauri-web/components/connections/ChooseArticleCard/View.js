@@ -31,12 +31,14 @@ export default ({
           imageURL={article.attributes && article.attributes.background}
           cardHeight={420}
           isLoggedIn={!!userId}
-          hoverChildren={
+          linkComponent={children => children}
+          hoverChildren={({ hideDispatch }) => (
             <React.Fragment>
               <PrimaryButton
-                onClick={() =>
-                  chooseArticle({ id: article.id, version: article.version })
-                }
+                onClick={() => {
+                  chooseArticle({ id: article.id, version: article.version });
+                  hideDispatch();
+                }}
               >
                 Choose
               </PrimaryButton>
@@ -50,10 +52,10 @@ export default ({
                   )
                 }
               >
-                Choose
+                View
               </SecondaryButton>
             </React.Fragment>
-          }
+          )}
           isChosenArticle={
             !!chosenArticles.find(
               ({ id, version }) =>

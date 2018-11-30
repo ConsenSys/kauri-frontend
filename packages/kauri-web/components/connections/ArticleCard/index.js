@@ -18,6 +18,7 @@ const View = ({
   cardHeight = 400,
 }) => (
   <ArticleCard
+    linkComponent={children => children}
     key={article.id + article.version}
     id={article.id}
     version={article.version}
