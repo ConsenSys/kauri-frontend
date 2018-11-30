@@ -2,7 +2,6 @@
 import styled from 'styled-components';
 import Close from './Close';
 import TagName from './TagName';
-import {ITag} from './types';
 
 const Container = styled.div`
     display: flex;
@@ -14,14 +13,14 @@ const Container = styled.div`
 `;
 
 interface IProps {
-    tag: ITag,
-    removeTag: (tag: ITag) => void;
+    tag: string,
+    removeTag: (tag: string) => void;
     color: string;
 }
 
 const Tag = (props: IProps) => <Container>
     <Close onClick={() => props.removeTag(props.tag)}/>
-    <TagName color={props.color}>{props.tag.tag}</TagName>
+    <TagName color={props.color}>{props.tag}</TagName>
 </Container>
 
 

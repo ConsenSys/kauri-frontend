@@ -115,7 +115,7 @@ export default ({
           title={title}
         />
       </MobileShareContainer>
-      <TagList tags={tags} />;
+      {tags && <TagList tags={tags} />};
     </InfoContainer>
     {status !== "PUBLISHED" && (
       <PullRight>

@@ -7,7 +7,7 @@ import { ITag } from './types'
 
 interface IProps {
     availableTags?: ITag[];
-    selectedTags?: ITag[];
+    selectedTags?: string[];
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onSelect?: (tag: ITag) => void;
     handleEnterKey: (val: string) => void;
@@ -98,7 +98,7 @@ class TagInput extends React.Component<IProps, IState> {
         const available = this.props.availableTags && this.props.availableTags.reduce((all, item) => {
             let match;
             if (this.props.selectedTags) {
-                match = this.props.selectedTags.find(i => i.tag === item.tag);
+                match = this.props.selectedTags.find(i => i === item.tag);
             }
             if (!match) {
                 all.push(item);

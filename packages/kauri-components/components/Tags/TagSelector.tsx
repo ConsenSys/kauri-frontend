@@ -23,13 +23,13 @@ const Heading = styled.div`
 interface IProps {
     maxTags: number;
     availableTags: ITag[];
-    updateTags: (tags: ITag[]) => void;
-    onChange: (string?: string) => void;
+    onChange: (tags: string[]) => void;
+    fetchMatches: (string?: string) => void;
 }
 
 interface IState {
     maxTags: number;
-    tags: ITag[];
+    tags: string[];
 }
 
 class TagSelector extends React.Component<IProps, IState> {
@@ -46,25 +46,25 @@ class TagSelector extends React.Component<IProps, IState> {
     }
 
     public componentDidMount() {
-        this.props.onChange();
+        this.props.fetchMatches();
     }
 
     public addTag(tag: ITag) {
         const prevTags = this.state.tags;
-        const tags = prevTags.concat([tag]);
+        const tags = prevTags.concat([tag.tag]);
         this.setState({ tags })
-        this.props.updateTags(tags);
+        this.props.onChange(tags);
     }
 
-    public removeTag(tag: ITag) {
+    public removeTag(tag: string) {
         const prevTags = this.state.tags;
-        const tags = prevTags.filter(i => i.tag !== tag.tag);
+        const tags = prevTags.filter(i => i !== tag);
         this.setState({ tags })
-        this.props.updateTags(tags);
+        this.props.onChange(tags);
     }
 
     public handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        this.props.onChange(e.target.value);
+        this.props.fetchMatches(e.target.value);
     }
 
     public handleEnterKey(val: string) {
@@ -75,7 +75,7 @@ class TagSelector extends React.Component<IProps, IState> {
         return (
             <Container>
                 <Heading>Tags Min 1 Max 5</Heading>
-                {this.state.tags.map(i => <Tag key={i.tag} color="white" removeTag={this.removeTag} tag={i}/>)}
+                {this.state.tags.map(i => <Tag key={i} color="white" removeTag={this.removeTag} tag={i}/>)}
                 {this.state.tags.length < this.props.maxTags && <TagInput selectedTags={this.state.tags} handleEnterKey={this.handleEnterKey} onChange={this.handleChange} onSelect={this.addTag}
                     availableTags={this.props.availableTags}
                 />}

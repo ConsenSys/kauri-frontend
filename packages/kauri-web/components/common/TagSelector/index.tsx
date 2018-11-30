@@ -10,21 +10,23 @@ import { ITag } from "../../../../kauri-components/components/Tags/types";
 
 const handleSearch$: Subject<string> = new Subject();
 
-interface IDataSource extends Array<ITag> {}
-
 interface IState {
-  tags: IDataSource;
+  tags: string[];
+  availableTags: ITag[];
   sub?: Subscription;
 }
 
 interface IProps {
   client: ApolloClient<{}>;
+  setFieldsValue: any;
+  getFieldDecorator: any;
 }
 
 class TagSelectorContainer extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
+      availableTags: [],
       tags: [],
     };
     this.updateTags = this.updateTags.bind(this);
@@ -32,7 +34,7 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
 
   componentDidMount() {
     const sub = handleSearch$
-      .debounceTime(300)
+      .debounceTime(200)
       .flatMap((text: string) =>
         this.props.client.query<{
           searchTags: { content: ITag[] };
@@ -49,11 +51,11 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
           },
         }) => content
       )
-      .subscribe((tags: IDataSource) => {
-        if (tags.length === 0) {
-          tags = [];
+      .subscribe((availableTags: ITag[]) => {
+        if (availableTags.length === 0) {
+          availableTags = [];
         }
-        this.setState({ ...this.state, tags });
+        this.setState({ ...this.state, availableTags });
       });
     this.setState({ ...this.state, sub });
     handleSearch$.next("");
@@ -65,22 +67,26 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
     }
   }
 
-  updateTags(tags: ITag[]) {
+  updateTags(tags: string[]) {
     this.setState({ tags });
   }
 
-  onChange(text?: string) {
+  fetchMatches(text?: string) {
     handleSearch$.next(text);
   }
 
   render() {
     return (
-      <TagSelector
-        onChange={this.onChange}
-        updateTags={this.updateTags}
-        availableTags={this.state.tags}
-        maxTags={5}
-      />
+      <>
+        {this.props.getFieldDecorator("tags", {})(
+          <TagSelector
+            fetchMatches={this.fetchMatches}
+            onChange={this.updateTags}
+            availableTags={this.state.availableTags}
+            maxTags={5}
+          />
+        )}
+      </>
     );
   }
 }
