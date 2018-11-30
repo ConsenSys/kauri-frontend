@@ -11,12 +11,13 @@ import {
   toggleReducer,
   IToggleState,
   IToggleAction,
+  showDispatch,
   hideDispatch,
   toggleDispatch,
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
 
-const DEFAULT_CARD_HEIGHT = 290;
+const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
 const DEFAULT_CARD_PADDING = theme.space[2];
 
@@ -24,10 +25,9 @@ const withImageURLPaddingCss = css`
   padding: ${props => props.theme.space[2]}px;
 `;
 
-const Image = styled<
-  { imageURL: string | undefined; cardHeight: number },
+const Image = styled<{ imageURL: string | null; cardHeight: number }, "div">(
   "div"
->("div")`
+)`
   height: ${props => (props.cardHeight < 420 ? "116px" : "170px")};
   background: url(${props =>
       typeof props.imageURL === "string" && props.imageURL})
@@ -36,7 +36,7 @@ const Image = styled<
   border-top-right-radius: 4px;
 `;
 
-const Container = styled<{ imageURL: string | undefined }, "div">("div")`
+const Container = styled<{ imageURL: string | null }, "div">("div")`
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -46,7 +46,7 @@ const Container = styled<{ imageURL: string | undefined }, "div">("div")`
   }
 `;
 
-const Content = styled<{ imageURL: string | undefined }, "div">("div")`
+const Content = styled<{ imageURL: string | null }, "div">("div")`
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -59,7 +59,7 @@ const Content = styled<{ imageURL: string | undefined }, "div">("div")`
   ${props => typeof props.imageURL === "string" && withImageURLPaddingCss};
 `;
 
-const Footer = styled<{ imageURL: string | undefined }, "div">("div")`
+const Footer = styled<{ imageURL: string | null }, "div">("div")`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -73,10 +73,10 @@ const withImageURLDividerCss = css`
   margin-left: ${props => props.theme.space[2]}px;
 `;
 
-const Divider = styled<{ imageURL: string | undefined }, "div">("div")`
+const Divider = styled<{ imageURL: string | null }, "div">("div")`
   width: 100%;
-  margin: ${props => props.theme.space[2]}px 0px;
   margin-top: auto;
+  margin-bottom: ${props => props.theme.space[1]}px;
   background-color: ${props => props.theme.colors.divider};
   height: 1px;
   ${props => typeof props.imageURL === "string" && withImageURLDividerCss};
@@ -144,7 +144,7 @@ const calculateCardHeight = R.cond([
       typeof imageURL !== "string" &&
       cardHeight === DEFAULT_CARD_HEIGHT &&
       cardWidth > DEFAULT_CARD_WIDTH,
-    R.always(290 - DEFAULT_CARD_PADDING * 2),
+    R.always(DEFAULT_CARD_HEIGHT - DEFAULT_CARD_PADDING * 2),
   ],
   [
     ({ cardHeight, imageURL }) =>
@@ -154,7 +154,7 @@ const calculateCardHeight = R.cond([
   [
     ({ cardHeight, imageURL }) =>
       typeof imageURL === "string" && cardHeight === DEFAULT_CARD_HEIGHT,
-    R.always(290),
+    R.always(DEFAULT_CARD_HEIGHT),
   ],
   [
     ({ cardHeight, imageURL }) =>
@@ -194,7 +194,7 @@ const calculateCardWidth = R.cond([
 interface IRenderDescriptionRowContentProps {
   content: string;
   cardHeight: number;
-  imageURL: string | undefined;
+  imageURL: string | null;
 }
 
 const RenderDescriptionRowContent: React.FunctionComponent<
@@ -237,7 +237,7 @@ interface ICardContentProps {
   content: string;
   cardHeight: number;
   cardWidth: number;
-  imageURL: string | undefined;
+  imageURL: string | null;
   date: string;
   status: undefined | "PUBLISHED" | "DRAFT";
 }
@@ -266,7 +266,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
           text={title}
         />
       </H1>
-      {cardHeight <= 290 &&
+      {cardHeight <= DEFAULT_CARD_HEIGHT &&
       typeof imageURL === "string" ? null : content
           .substring(0, 2)
           .includes("{") ? (
@@ -293,6 +293,7 @@ interface IPublicProfileProps {
   userId: string;
   cardWidth: number;
   userAvatar: string | null;
+  imageURL: string | null;
 }
 
 const RenderPublicProfile: React.FunctionComponent<IPublicProfileProps> = ({
@@ -300,8 +301,11 @@ const RenderPublicProfile: React.FunctionComponent<IPublicProfileProps> = ({
   userId,
   cardWidth,
   userAvatar,
+  imageURL,
 }) => (
   <UserAvatar
+    imageURL={imageURL}
+    cardType="ARTICLE"
     fullWidth={cardWidth > DEFAULT_CARD_WIDTH}
     username={username}
     userId={userId}
@@ -316,6 +320,7 @@ const shiftMarginDueToNoImageURLCss = css`
 
 const HoverContainer = styled<{ hasImageURL: boolean }, "div">("div")`
   display: flex;
+  height: 100%;
   width: 100%;
   z-index: 2;
   flex-direction: column;
@@ -356,14 +361,20 @@ interface IProps {
   username: string | null;
   userId: string;
   userAvatar: string | null;
-  imageURL?: string;
+  imageURL: string | null;
   cardHeight: number;
   cardWidth?: number;
   linkComponent: (
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
-  hoverChildren?: React.ReactElement<any>;
+  hoverChildren?: (
+    payload: {
+      hideDispatch: () => void;
+      showDispatch: () => void;
+      toggleDispatch: () => void;
+    }
+  ) => React.ReactElement<any>;
   isChosenArticle?: boolean;
   resourceType: "USER" | "COMMUNITY";
   status?: "PUBLISHED" | "DRAFT";
@@ -406,7 +417,11 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
         <Hover
           hasImageURL={!!imageURL}
           cancelAction={hideDispatch(dispatch)}
-          hoverChildren={hoverChildren}
+          hoverChildren={hoverChildren({
+            hideDispatch: hideDispatch(dispatch),
+            showDispatch: showDispatch(dispatch),
+            toggleDispatch: toggleDispatch(dispatch),
+          })}
         />
       )}
       <Container imageURL={imageURL}>
@@ -434,6 +449,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
         <Footer imageURL={imageURL}>
           {linkComponent(
             <RenderPublicProfile
+              imageURL={imageURL}
               username={username}
               userId={userId}
               cardWidth={calculateCardWidth({ cardWidth, imageURL })}

@@ -111,7 +111,7 @@ export default ({
             {
               lower: true,
             }
-          )}`}
+          )}?utm_campaign=read`}
           title={title}
         />
       </MobileShareContainer>

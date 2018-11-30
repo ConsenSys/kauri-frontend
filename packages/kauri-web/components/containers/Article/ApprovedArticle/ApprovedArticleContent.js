@@ -216,7 +216,7 @@ export default ({
         >
           {`Update ${status === "DRAFT" ? "draft" : "article"}`}
         </TertiaryButton>
-        {status === "DRAFT" && (
+        {status === "DRAFT" && userId === authorId && (
           <TertiaryButton
             color={"textPrimary"}
             icon={<DeleteDraftArticleSvgIcon />}
@@ -255,7 +255,7 @@ export default ({
             {
               lower: true,
             }
-          )}`}
+          )}?utm_campaign=read`}
           title={subject}
         />
       </ApprovedArticleDetails>

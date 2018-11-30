@@ -54,7 +54,7 @@ const Resources = styled.div`
   }
 `;
 
-const HOMEPAGE_CARD_HEIGHT = 290;
+const HOMEPAGE_CARD_HEIGHT = 310;
 
 type Props = {
   routeChangeAction: string => void,

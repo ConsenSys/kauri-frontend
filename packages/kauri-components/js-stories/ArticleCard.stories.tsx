@@ -34,6 +34,9 @@ const handleAction = (
   payload: { id: string; version: number }
 ) => () => alert(actionType + payload.id + payload.version);
 
+const handleHoverChildren = (children: React.ReactElement<any>) => () =>
+  children;
+
 const linkComponent = (
   childrenProps: React.ReactElement<any>,
   route: string
@@ -41,8 +44,9 @@ const linkComponent = (
 
 storiesOf("ArticleCard", module)
   .addDecorator(story => <Container>{story()}</Container>)
-  .add("Default height of 290, two line title, no image", () => (
+  .add("Default height of 310, two line title, no image", () => (
     <ArticleCard
+      imageURL={null}
       date={moment(1538734619928).format("D MMM YYYY")}
       title={
         "Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title"
@@ -63,7 +67,7 @@ storiesOf("ArticleCard", module)
       username={"USERNAME GOES HERE"}
       userId={"HEY"}
       userAvatar={null}
-      cardHeight={290}
+      cardHeight={310}
       linkComponent={linkComponent}
       resourceType={"USER"}
       isLoggedIn={false}
@@ -71,6 +75,7 @@ storiesOf("ArticleCard", module)
   ))
   .add("Card height of 420, three line title, no image", () => (
     <ArticleCard
+      imageURL={null}
       date={moment(1538734619928).format("D MMM YYYY")}
       title={
         "Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title Three Line Title"
@@ -100,7 +105,7 @@ storiesOf("ArticleCard", module)
       isLoggedIn={false}
     />
   ))
-  .add("Default height of 290, two line title, with image", () => (
+  .add("Default height of 310, two line title, with image", () => (
     <ArticleCard
       date={moment(1538734619928).format("D MMM YYYY")}
       title={"Two Line Title Two Line Title Two Line Title Two Line Title"}
@@ -125,7 +130,7 @@ storiesOf("ArticleCard", module)
       imageURL={
         "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       }
-      cardHeight={290}
+      cardHeight={310}
       linkComponent={linkComponent}
       resourceType={"USER"}
       isLoggedIn={false}
@@ -190,13 +195,13 @@ storiesOf("ArticleCard", module)
       imageURL={
         "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       }
-      hoverChildren={
+      hoverChildren={handleHoverChildren(
         <PrimaryButton
           onClick={handleAction("choose", { id: "1", version: 2345 })}
         >
           Choose Article
         </PrimaryButton>
-      }
+      )}
       isLoggedIn={true}
     />
   ))
@@ -231,19 +236,20 @@ storiesOf("ArticleCard", module)
           "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
         }
         isChosenArticle={true}
-        hoverChildren={
+        hoverChildren={handleHoverChildren(
           <PrimaryButton
             onClick={handleAction("remove", { id: "1", version: 2345 })}
           >
             Remove Article
           </PrimaryButton>
-        }
+        )}
         isLoggedIn={true}
       />
     )
   )
   .add("Card width of 610, two line title, no image", () => (
     <ArticleCard
+      imageURL={null}
       date={moment(1538734619928).format("D MMM YYYY")}
       title={
         "Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title"
@@ -287,7 +293,7 @@ storiesOf("ArticleCard", module)
       username={"USERNAME GOES HERE"}
       userAvatar={null}
       userId={"HEY"}
-      cardHeight={290}
+      cardHeight={310}
       linkComponent={linkComponent}
       resourceType="COMMUNITY"
       cardWidth={610}
@@ -349,8 +355,9 @@ storiesOf("ArticleCard", module)
       isLoggedIn={false}
     />
   ))
-  .add("Status Draft, Default height of 290, two line title, no image", () => (
+  .add("Status Draft, Default height of 310, two line title, no image", () => (
     <ArticleCard
+      imageURL={null}
       date={moment(1538734619928).format("D MMM YYYY")}
       title={
         "Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title"
@@ -371,7 +378,7 @@ storiesOf("ArticleCard", module)
       username={"USERNAME GOES HERE"}
       userId={"HEY"}
       userAvatar={null}
-      cardHeight={290}
+      cardHeight={310}
       linkComponent={linkComponent}
       resourceType={"USER"}
       status={"DRAFT"}
@@ -379,9 +386,10 @@ storiesOf("ArticleCard", module)
     />
   ))
   .add(
-    "Is logged in, Status Draft, Default height of 290, two line title, no image",
+    "Is logged in, Status Draft, Default height of 310, two line title, no image",
     () => (
       <ArticleCard
+        imageURL={null}
         date={moment(1538734619928).format("D MMM YYYY")}
         isLoggedIn={true}
         title={
@@ -403,17 +411,17 @@ storiesOf("ArticleCard", module)
         username={"USERNAME GOES HERE"}
         userId={"HEY"}
         userAvatar={null}
-        cardHeight={290}
+        cardHeight={310}
         linkComponent={linkComponent}
         resourceType={"USER"}
         status={"DRAFT"}
-        hoverChildren={
+        hoverChildren={handleHoverChildren(
           <PrimaryButton
             onClick={handleAction("draft deleted", { id: "1", version: 2345 })}
           >
             Delete Draft
           </PrimaryButton>
-        }
+        )}
       />
     )
   );

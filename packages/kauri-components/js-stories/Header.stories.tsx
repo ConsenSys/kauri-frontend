@@ -53,6 +53,7 @@ const Actions = () => (
 storiesOf("Headers", module)
   .add("Collection Header", () => (
     <CollectionHeader
+      imageURL={null}
       id={"1234567890"}
       ownerId={"1234567890"}
       name={"Test collection"}

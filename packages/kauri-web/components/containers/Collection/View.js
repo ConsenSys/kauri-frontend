@@ -50,7 +50,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     trianglify: "",
   };
 
-  componentDidMount () {
+  componentDidMount() {
     const trianglify = require("trianglify");
     const trianglifyBg = trianglify({
       width: 1920,
@@ -68,7 +68,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     this.setState({ trianglifyBg: trianglifyBgString });
   }
 
-  render () {
+  render() {
     if (!this.props.data || !this.props.data.getCollection) return null;
     const {
       id,
@@ -103,47 +103,48 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
         <Helmet>
           <title>{name} - Kauri</title>
           <meta
-            name='description'
+            name="description"
             content={`${description && description.slice(0, 151)}...`}
           />
           <meta
-            name='keywords'
+            name="keywords"
             content={extractedKeywords.map(keyword => keyword)}
           />
-          <link rel='canonical' href={url} />
-          <meta property='og:title' content={name} />
-          <meta property='og:site_name' content='kauri.io' />
+          <link rel="canonical" href={url} />
+          <meta property="og:title" content={name} />
+          <meta property="og:site_name" content="kauri.io" />
           <meta
-            property='og:url'
+            property="og:url"
             content={`https://${hostName}/article/${id}/${slugify(name, {
               lower: true,
             })}`}
           />
           <meta
-            property='og:description'
+            property="og:description"
             content={`${description && description.substring(0, 100)}...`}
           />
-          <meta property='og:type' content='article' />
-          <meta property='og:image' content={bg} />
-          <meta name='twitter:card' content='summary' />
+          <meta property="og:type" content="article" />
+          <meta property="og:image" content={bg} />
+          <meta name="twitter:card" content="summary" />
           <meta
-            name='twitter:site'
+            name="twitter:site"
             ccontent={`https://${hostName}/article/${id}/${slugify(name, {
               lower: true,
             })}`}
           />
-          <meta name='twitter:title' content={name} />
+          <meta name="twitter:title" content={name} />
           <meta
-            name='twitter:description'
+            name="twitter:description"
             content={`${description && description.substring(0, 100)}...`}
           />
-          <meta name='twitter:creator' content='@kauri_io' />
-          <meta name='twitter:image' content={bg} />
+          <meta name="twitter:creator" content="@kauri_io" />
+          <meta name="twitter:image" content={bg} />
         </Helmet>
         <ScrollToTopOnMount />
         <HeaderContainer background={bg}>
           <Overlay />
           <CollectionHeader
+            imageURL={typeof bg === "string" ? bg : null}
             id={id}
             name={name}
             description={description || ""}

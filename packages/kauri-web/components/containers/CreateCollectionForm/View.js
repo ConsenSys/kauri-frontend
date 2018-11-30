@@ -10,7 +10,6 @@ import PrimaryHeaderSection from "../../../../kauri-components/components/Sectio
 import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx";
 import UserAvatar from "../../../../kauri-components/components/UserAvatar";
 import { Label } from "../../../../kauri-components/components/Typography";
-import CuratorHeaderLabel from "../../../../kauri-components/components/Typography/CuratorHeaderLabel";
 import Input from "../../../../kauri-components/components/Input/Input";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
@@ -31,7 +30,7 @@ const emptySection: SectionDTO = {
   resourcesId: [],
 };
 const RemoveIcon = () => (
-  <img src='https://png.icons8.com/windows/50/000000/delete-sign.png' />
+  <img src="https://png.icons8.com/windows/50/000000/delete-sign.png" />
 );
 
 const Section = styled.section`
@@ -123,9 +122,6 @@ const CreateCollectionCuratorDetails = styled.div`
   > :first-child {
     margin-bottom: ${props => props.theme.space[3]}px;
   }
-  > :nth-child(2) {
-    margin-bottom: ${props => props.theme.space[1]}px;
-  }
 `;
 
 const CreateCollectionCurators = styled.div`
@@ -134,7 +130,7 @@ const CreateCollectionCurators = styled.div`
 `;
 
 const UploadIcon = () => (
-  <img src='https://png.icons8.com/color/50/000000/upload.png' />
+  <img src="https://png.icons8.com/color/50/000000/upload.png" />
 );
 
 const DisplayFormikState = props => (
@@ -157,11 +153,11 @@ const ErrorMessageRenderer = styled.h2`
 `;
 
 const ShareIcon = () => (
-  <svg role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'>
+  <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
     <path
-      fill='#0BA986'
-      d='M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z'
-      className=''
+      fill="#0BA986"
+      d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"
+      className=""
     />
   </svg>
 );
@@ -183,7 +179,7 @@ const renderResourceSection = (
       ["sections", index, mappingKey, resourceIndex, "version"],
       values
     ) && (
-      <div id='article-card'>
+      <div id="article-card">
         <ArticleCard
           id={R.path(
             ["sections", index, mappingKey, resourceIndex, "id"],
@@ -200,7 +196,7 @@ const renderResourceSection = (
       </div>
     )}
     <TertiaryButton
-      color='primaryTextColor'
+      color="primaryTextColor"
       icon={<RemoveIcon />}
       onClick={() =>
         arrayHelpers.form.setFieldValue(
@@ -295,40 +291,40 @@ export default ({
         <Stack alignItems={["", "center"]} justifyContent={["", "end"]}>
           <PrimaryButton
             disabled={isSubmitting}
-            type='submit'
+            type="submit"
             onClick={() =>
               showFormValidationErrors(validateForm, showNotificationAction)
             }
           >
-            {data ? "Update" : "Create"}
+            {data ? "Update Collection" : "Create Collection"}
           </PrimaryButton>
         </Stack>
       </ActionsSection>
 
       <PrimaryHeaderSection backgroundURL={values.background}>
         <CreateCollectionDetails mb={2}>
-          <Label color='white'>Collection</Label>
+          <Label color="white">Collection</Label>
           <Field
-            type='text'
-            name='name'
+            type="text"
+            name="name"
             render={({ field }) => (
               <Input
                 {...field}
-                type='text'
-                placeHolder='Add collection title'
+                type="text"
+                placeHolder="Add collection title"
                 fontSize={7}
               />
             )}
           />
           {/* <ErrorMessage name='name' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
           <Field
-            type='text'
-            name='description'
+            type="text"
+            name="description"
             render={({ field }) => (
               <Input
                 {...field}
-                type='text'
-                placeHolder='Add description'
+                type="text"
+                placeHolder="Add description"
                 fontSize={4}
               />
             )}
@@ -347,7 +343,7 @@ export default ({
           <CreateCollectionMetaDetails mb={4}>
             <CreateCollectionCuratorDetails mr={4} mb={2}>
               <StatisticsContainer
-                pageType='CreateCollectionPage'
+                pageType="CreateCollectionPage"
                 statistics={[
                   // { name: 'Followers', count: 0 },
                   {
@@ -363,10 +359,10 @@ export default ({
                   // { name: 'Upvotes', count: 0 },
                 ]}
               />
-              <CuratorHeaderLabel>Curator</CuratorHeaderLabel>
+              <Label color="white">Curator</Label>
               <CreateCollectionCurators>
                 <UserAvatar
-                  variant='white'
+                  variant="white"
                   fullWidth
                   username={username}
                   userId={userId}
@@ -379,9 +375,9 @@ export default ({
         </Stack>
       </PrimaryHeaderSection>
 
-      <ContentSection bg='tertiaryBackgroundColor'>
+      <ContentSection bg="tertiaryBackgroundColor">
         <FieldArray
-          name='sections'
+          name="sections"
           render={arrayHelpers => (
             <React.Fragment>
               {/* {console.log(arrayHelpers)} */}
@@ -390,13 +386,13 @@ export default ({
                 values.sections.map((section: SectionDTO, index) => (
                   <SectionSection key={index} mt={4}>
                     <Field
-                      type='text'
+                      type="text"
                       name={`sections.${index}.name`}
                       render={({ field }) => (
                         <Input
                           {...field}
-                          type='text'
-                          placeHolder='Section Name'
+                          type="text"
+                          placeHolder="Section Name"
                           fontSize={5}
                           fontWeight={500}
                           color={"primaryTextColor"}
@@ -406,13 +402,13 @@ export default ({
                       )}
                     />
                     <Field
-                      type='text'
+                      type="text"
                       name={`sections.${index}.description`}
                       render={({ field }) => (
                         <Input
                           {...field}
-                          type='text'
-                          placeHolder='Section description'
+                          type="text"
+                          placeHolder="Section description"
                           fontSize={2}
                           fontWeight={300}
                           color={"primaryTextColor"}

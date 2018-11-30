@@ -77,9 +77,10 @@ const pruneInlineStyles = (child, type) => {
 const truncateWithEllipsis = css`
   color: ${props => props.theme.primaryTextcolor};
   padding: 0 0;
-  font-size: 17px;
-  line-height: 24px;
+  font-size: 14px;
+  font-weight: normal;
   letter-spacing: -0.1px;
+  line-height: 18px;
   text-align: left;
   text-overflow: ellipsis;
 `;
@@ -90,9 +91,10 @@ const recentRequest = css`
 
 export const TruncateWithEllipsisCss = css`
   color: ${props => props.theme.primaryTextcolor};
-  font-size: 17px;
+  font-size: 14px;
+  font-weight: normal;
   letter-spacing: -0.1px;
-  line-height: 24px;
+  line-height: 18px;
 `;
 
 const TruncateWithEllipsis = styled.div`
@@ -498,6 +500,9 @@ const articleCardCss = css`
   }
   > div {
     font-size: 14px;
+    font-weight: normal;
+    letter-spacing: -0.1px;
+    line-height: 18px;
     :nth-child(1n + ${props => (props.cardHeight > 290 ? "4" : "3")}) {
       display: none;
     }
