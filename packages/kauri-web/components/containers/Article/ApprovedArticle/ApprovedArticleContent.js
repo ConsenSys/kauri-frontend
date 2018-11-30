@@ -255,7 +255,7 @@ export default ({
             {
               lower: true,
             }
-          )}`}
+          )}?utm_campaign=read`}
           title={subject}
         />
       </ApprovedArticleDetails>

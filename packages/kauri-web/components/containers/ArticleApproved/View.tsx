@@ -132,7 +132,9 @@ class ArticleApproved extends React.Component<IProps> {
               horizontal={true}
               title={String(article.title)}
               url={String(
-                `${hostName.replace("api.", "")}/article/${article.id}`
+                `https://${hostName.replace("api.", "")}/article/${
+                  article.id
+                }?utm_campaign=published`
               )}
             />
             <PrimaryButton
