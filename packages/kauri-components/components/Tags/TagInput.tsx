@@ -71,6 +71,7 @@ class TagInput extends React.Component<IProps, IState> {
             selected: null,
         }
         this.enterFocus = this.enterFocus.bind(this)
+        this.exitFocus = this.exitFocus.bind(this)
         this.handleKey = this.handleKey.bind(this)
     }
 
@@ -80,7 +81,6 @@ class TagInput extends React.Component<IProps, IState> {
 
     public exitFocus() {
         this.setState({ expanded: false });
-        (document.activeElement as HTMLElement).blur()
     }
 
     public handleClick (tag: ITag) {
@@ -103,7 +103,7 @@ class TagInput extends React.Component<IProps, IState> {
         <div>
             <TopRow>
                 <Plus />
-                <Input onKeyUp={this.handleKey} onChange={this.props.onChange} enterFocus={this.enterFocus} textAlign="left" fontSize={0} fontWeight={600} color="white" placeHolder="ADD TAG" />
+                <Input onKeyUp={this.handleKey} onChange={this.props.onChange} enterFocus={this.enterFocus} exitFocus={this.exitFocus} textAlign="left" fontSize={0} fontWeight={600} color="white" placeHolder="ADD TAG" />
             </TopRow>
         </div>
             {this.props.availableTags && this.state.expanded && <Results>

@@ -21,6 +21,7 @@ storiesOf('Tags', module)
   .add('TagSelector', () => (
     <Container>
       <TagSelector
+        handleEnterKey={console.log}
         onChange={(e) => console.log('Searching for', e)}
         updateTags={() => console.log('Updated tags')}
         availableTags={[{name: 'Ethereum', count: 3000}, {name: 'Metamask', count: 450}, {name: 'MakerDao', count: 2500}, {name: 'Kauri', count: 7842}]} maxTags={5} />

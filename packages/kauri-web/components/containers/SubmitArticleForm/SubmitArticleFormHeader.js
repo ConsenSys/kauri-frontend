@@ -138,6 +138,8 @@ const SubmitArticleFormSubject = ({
       </UnderlineSpan>
     </InputWrapper>
     <TagSelector
+      handleEnterKey={console.log}
+      onChange={console.log}
       updateTags={console.log}
       availableTags={[
         { name: "Ethereum", count: 3000, id: "0" },

@@ -25,6 +25,7 @@ interface IProps {
     maxTags: number;
     availableTags: ITag[];
     updateTags: (tags: ITag[]) => void;
+    handleEnterKey: (val: string) => void;
     onChange: (string?: string) => void;
 }
 
@@ -72,7 +73,7 @@ class TagSelector extends React.Component<IProps, IState> {
             <Container>
                 <Heading>Tags Min 1 Max 5</Heading>
                 {this.state.tags.map(i => <Tag key={i.name} color="white" removeTag={this.removeTag} tag={i}/>)}
-                {this.state.tags.length < this.props.maxTags && <TagInput handleEnterKey={(string) => console.log(string)} onChange={this.handleChange} onSelect={this.addTag}
+                {this.state.tags.length < this.props.maxTags && <TagInput handleEnterKey={this.props.handleEnterKey} onChange={this.handleChange} onSelect={this.addTag}
                     availableTags={this.props.availableTags}
                 />}
             </Container>
