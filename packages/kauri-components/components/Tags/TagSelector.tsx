@@ -9,12 +9,23 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin: ${props => props.theme.space[1]}px;
+`;
+
+const Heading = styled.div`
+    color: white;
+    text-transform: uppercase;
+    font-size: ${props => props.theme.fontSizes[0]}px;
+    width: 100%;
+    font-weight: 500;
+    margin-bottom: ${props => props.theme.space[1]}px;
 `;
 
 interface IProps {
     maxTags: number;
     availableTags: ITag[];
     updateTags: (tags: ITag[]) => void;
+    onChange: (string?: string) => void;
 }
 
 interface IState {
@@ -31,6 +42,11 @@ class TagSelector extends React.Component<IProps, IState> {
         }
         this.addTag = this.addTag.bind(this);
         this.removeTag = this.removeTag.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    public componentDidMount() {
+        this.props.onChange();
     }
 
     public addTag(tag: ITag) {
@@ -42,18 +58,22 @@ class TagSelector extends React.Component<IProps, IState> {
 
     public removeTag(tag: ITag) {
         const prevTags = this.state.tags;
-        const tags = prevTags.filter(i => i.id !== tag.id);
+        const tags = prevTags.filter(i => i.name !== tag.name);
         this.setState({ tags })
         this.props.updateTags(tags);
     }
 
+    public handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        this.props.onChange(e.target.value);
+    }
+
     public render () {
-        console.log(JSON.stringify(this.state.tags))
         return (
             <Container>
-                {this.state.tags.map(i => <Tag key={i.id} color="white" removeTag={this.removeTag} tag={i}/>)}
-                {this.state.tags.length < this.props.maxTags && <TagInput onChange={console.log} onSelect={this.addTag}
-                    tags={this.props.availableTags}
+                <Heading>Tags Min 1 Max 5</Heading>
+                {this.state.tags.map(i => <Tag key={i.name} color="white" removeTag={this.removeTag} tag={i}/>)}
+                {this.state.tags.length < this.props.maxTags && <TagInput handleEnterKey={(string) => console.log(string)} onChange={this.handleChange} onSelect={this.addTag}
+                    availableTags={this.props.availableTags}
                 />}
             </Container>
         )

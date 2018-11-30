@@ -6,9 +6,10 @@ import Plus from './Plus';
 import { ITag } from './types'
 
 interface IProps {
-    tags?: ITag[];
-    onChange?: () => void;
+    availableTags?: ITag[];
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onSelect?: (tag: ITag) => void;
+    handleEnterKey: (val: string) => void;
 }
 
 interface IState {
@@ -42,6 +43,8 @@ const Results = styled.div`
     position: absolute;
     top: ${props => props.theme.space[3]}px;
     left: 0;
+    box-shadow: 0px 0px 6px rgba(0,0,0,0.2);
+    z-index: 1000;
 `;
 
 const Result = styled.div`
@@ -49,6 +52,8 @@ const Result = styled.div`
     font-weight: ${props => props.theme.fontWeight[2]};
     cursor: pointer;
     text-transform: uppercase;
+    font-size: ${props => props.theme.fontSizes[0]}px;
+    padding: 2px;
 
     & > span {
         color: ${props => props.theme.colors.textPrimary};
@@ -66,10 +71,11 @@ class TagInput extends React.Component<IProps, IState> {
             selected: null,
         }
         this.toggleFocus = this.toggleFocus.bind(this)
+        this.handleKey = this.handleKey.bind(this)
     }
 
     public toggleFocus() {
-        setTimeout(() => this.setState({ expanded: !this.state.expanded }), 100);
+        setTimeout(() => this.setState({ expanded: !this.state.expanded }), 200);
     }
 
     public handleClick (tag: ITag) {
@@ -78,16 +84,22 @@ class TagInput extends React.Component<IProps, IState> {
         }
     }
 
+    public handleKey (e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.keyCode === 13) {
+            this.props.handleEnterKey(e.currentTarget.value);
+        }
+    }
+
     public render() {
         return <Wrapper>
         <div>
             <TopRow>
                 <Plus />
-                <Input onChange={this.props.onChange} toggleFocus={this.toggleFocus} textAlign="left" fontSize={0} fontWeight={600} color="white" placeHolder="ADD TAG" />
+                <Input onKeyUp={this.handleKey} onChange={this.props.onChange} toggleFocus={this.toggleFocus} textAlign="left" fontSize={0} fontWeight={600} color="white" placeHolder="ADD TAG" />
             </TopRow>
         </div>
-            {this.props.tags && this.state.expanded && <Results>
-                {this.props.tags.map((i, index) => <Result onClick={this.handleClick.bind(this, i)} key={index}>{i.name} <span>({i.count})</span></Result>)}
+            {this.props.availableTags && this.state.expanded && <Results>
+                {this.props.availableTags.map((i, index) => <Result onClick={this.handleClick.bind(this, i)} key={index}>{i.name} <span>({i.count})</span></Result>)}
             </Results>}
         </Wrapper>
     }

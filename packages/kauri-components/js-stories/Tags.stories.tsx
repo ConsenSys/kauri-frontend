@@ -12,13 +12,13 @@ const Container = styled.div`
 storiesOf('Tags', module)
   .add('TagInput', () => (
       <Container>
-        <TagInput
-          tags={[{name: 'Ethereum', count: 3000, id: '0'}, {name: 'Metamask', count: 450, id: '1'}, {name: 'MakerDao', count: 2500, id: '2'}, {name: 'Kauri', count: 7842, id: '3'}]}
+        <TagInput handleEnterKey={(val) => console.log(val)}
+          availableTags={[{name: 'Ethereum', count: 3000}, {name: 'Metamask', count: 450}, {name: 'MakerDao', count: 2500}, {name: 'Kauri', count: 7842}]}
         />
     </Container>
   ))
   .add('TagSelector', () => (
     <Container>
-      <TagSelector updateTags={console.log} availableTags={[{name: 'Ethereum', count: 3000, id: '0'}, {name: 'Metamask', count: 450, id: '1'}, {name: 'MakerDao', count: 2500, id: '2'}, {name: 'Kauri', count: 7842, id: '3'}]} maxTags={5} />
+      <TagSelector onChange={(e) => console.log(e)} updateTags={() => console.log('Updated tags')} availableTags={[{name: 'Ethereum', count: 3000}, {name: 'Metamask', count: 450}, {name: 'MakerDao', count: 2500}, {name: 'Kauri', count: 7842}]} maxTags={5} />
   </Container>
 ))

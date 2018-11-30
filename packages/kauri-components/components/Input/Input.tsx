@@ -1,3 +1,4 @@
+/* tslint:disable */
 import * as React from 'react'
 import styled from "../../lib/styled-components";
 
@@ -57,6 +58,7 @@ interface IWrapperProps {
     hideUnderline?: boolean;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     toggleFocus?: () => void;
 }
 const Wrapper = styled.div`
@@ -75,6 +77,7 @@ class Input extends React.Component<IWrapperProps, IInputState> {
         }
         this.handleChange = this.handleChange.bind(this)
         this.toggleFocus = this.toggleFocus.bind(this)
+        this.handleKey = this.handleKey.bind(this)
     }
 
     public toggleFocus() {
@@ -92,6 +95,13 @@ class Input extends React.Component<IWrapperProps, IInputState> {
             this.props.onChange(e);
         }
     }
+
+    public handleKey(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (this.props.onKeyUp) {
+            this.props.onKeyUp(e);
+        }
+    }
+
 
     public render () {
         const { 
@@ -116,6 +126,7 @@ class Input extends React.Component<IWrapperProps, IInputState> {
                 textAlign={textAlign}
                 onBlur={this.toggleFocus}
                 onFocus={this.toggleFocus}
+                onKeyUp={this.handleKey}
             />
         {!hideUnderline && <Underline fontSize={fontSize}>{underlineValue && underlineValue.replace(/ /g, '\u00a0') }</Underline>}
         </Wrapper>
