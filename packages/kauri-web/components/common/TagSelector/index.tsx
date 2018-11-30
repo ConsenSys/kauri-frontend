@@ -27,6 +27,7 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
     this.state = {
       tags: [],
     };
+    this.updateTags = this.updateTags.bind(this);
   }
 
   componentDidMount() {
@@ -64,12 +65,8 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
     }
   }
 
-  updateTags() {
-    //
-  }
-
-  handleEnterKey() {
-    //
+  updateTags(tags: ITag[]) {
+    this.setState({ tags });
   }
 
   onChange(text?: string) {
@@ -81,7 +78,6 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
       <TagSelector
         onChange={this.onChange}
         updateTags={this.updateTags}
-        handleEnterKey={this.handleEnterKey}
         availableTags={this.state.tags}
         maxTags={5}
       />

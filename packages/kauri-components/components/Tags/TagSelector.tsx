@@ -9,7 +9,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin: ${props => props.theme.space[1]}px;
 `;
 
 const Heading = styled.div`
@@ -25,7 +24,6 @@ interface IProps {
     maxTags: number;
     availableTags: ITag[];
     updateTags: (tags: ITag[]) => void;
-    handleEnterKey: (val: string) => void;
     onChange: (string?: string) => void;
 }
 
@@ -44,6 +42,7 @@ class TagSelector extends React.Component<IProps, IState> {
         this.addTag = this.addTag.bind(this);
         this.removeTag = this.removeTag.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleEnterKey = this.handleEnterKey.bind(this);
     }
 
     public componentDidMount() {
@@ -59,7 +58,7 @@ class TagSelector extends React.Component<IProps, IState> {
 
     public removeTag(tag: ITag) {
         const prevTags = this.state.tags;
-        const tags = prevTags.filter(i => i.name !== tag.name);
+        const tags = prevTags.filter(i => i.tag !== tag.tag);
         this.setState({ tags })
         this.props.updateTags(tags);
     }
@@ -68,12 +67,16 @@ class TagSelector extends React.Component<IProps, IState> {
         this.props.onChange(e.target.value);
     }
 
+    public handleEnterKey(val: string) {
+        this.addTag({ tag: val.replace(/\s/g, '-'), count: 1})
+    }
+
     public render () {
         return (
             <Container>
                 <Heading>Tags Min 1 Max 5</Heading>
-                {this.state.tags.map(i => <Tag key={i.name} color="white" removeTag={this.removeTag} tag={i}/>)}
-                {this.state.tags.length < this.props.maxTags && <TagInput handleEnterKey={this.props.handleEnterKey} onChange={this.handleChange} onSelect={this.addTag}
+                {this.state.tags.map(i => <Tag key={i.tag} color="white" removeTag={this.removeTag} tag={i}/>)}
+                {this.state.tags.length < this.props.maxTags && <TagInput selectedTags={this.state.tags} handleEnterKey={this.handleEnterKey} onChange={this.handleChange} onSelect={this.addTag}
                     availableTags={this.props.availableTags}
                 />}
             </Container>

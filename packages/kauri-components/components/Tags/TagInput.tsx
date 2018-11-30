@@ -7,13 +7,13 @@ import { ITag } from './types'
 
 interface IProps {
     availableTags?: ITag[];
+    selectedTags?: ITag[];
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onSelect?: (tag: ITag) => void;
     handleEnterKey: (val: string) => void;
 }
 
 interface IState {
-    expanded: boolean;
     selected: ITag | null;
 }
 
@@ -61,53 +61,59 @@ const Result = styled.div`
     &:hover {
         text-decoration: underline;
     }
+    &:first-child {
+        background: #f7f7f7
+    }
 `;
 
 class TagInput extends React.Component<IProps, IState> {
+    inputRef: any | null;
     constructor(props: IProps) {
         super(props);
         this.state = {
-            expanded: false,
             selected: null,
         }
-        this.enterFocus = this.enterFocus.bind(this)
-        this.exitFocus = this.exitFocus.bind(this)
         this.handleKey = this.handleKey.bind(this)
-    }
-
-    public enterFocus() {
-        this.setState({ expanded: true });
-    }
-
-    public exitFocus() {
-        this.setState({ expanded: false });
+        this.handleClick = this.handleClick.bind(this)
+        this.inputRef = null;
     }
 
     public handleClick (tag: ITag) {
         if(this.props.onSelect) {
             this.props.onSelect(tag);
-            this.setState({ expanded: false });
+            this.inputRef.editValue('');
             (document.activeElement as HTMLElement).blur()
         }
     }
 
     public handleKey (e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.keyCode === 13) {
-            this.props.handleEnterKey(e.currentTarget.value);
-            this.exitFocus()
+            this.inputRef.value = '';
+            this.inputRef.editValue('')
+            this.props.handleEnterKey(this.props.availableTags && this.props.availableTags.length > 0 ? this.props.availableTags[0].tag : e.currentTarget.value);
         }
     }
 
     public render() {
+        const available = this.props.availableTags && this.props.availableTags.reduce((all, item) => {
+            let match;
+            if (this.props.selectedTags) {
+                match = this.props.selectedTags.find(i => i.tag === item.tag);
+            }
+            if (!match) {
+                all.push(item);
+            }
+            return all
+        }, [] as ITag[])
         return <Wrapper>
         <div>
             <TopRow>
                 <Plus />
-                <Input onKeyUp={this.handleKey} onChange={this.props.onChange} enterFocus={this.enterFocus} exitFocus={this.exitFocus} textAlign="left" fontSize={0} fontWeight={600} color="white" placeHolder="ADD TAG" />
+                <Input ref={ref => this.inputRef = ref}  onKeyUp={this.handleKey} onChange={this.props.onChange} textAlign="left" fontSize={0} fontWeight={600} color="white" placeHolder="ADD TAG" />
             </TopRow>
         </div>
-            {this.props.availableTags && this.state.expanded && <Results>
-                {this.props.availableTags.map((i, index) => <Result onClick={this.handleClick.bind(this, i)} key={index}>{i.name} <span>({i.count})</span></Result>)}
+            { available && available.length > 0 && <Results>
+                {available.map((i, index) => <Result onClick={this.handleClick.bind(this, i)} key={index}>{i.tag} <span>({i.count})</span></Result>)}
             </Results>}
         </Wrapper>
     }

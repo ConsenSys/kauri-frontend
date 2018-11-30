@@ -281,6 +281,8 @@ class SubmitArticleForm extends React.Component<Props> {
 
     const articleData = this.props.data && this.props.data.getArticle;
 
+    console.log(form.getFieldValue("tags"));
+
     return (
       <Form>
         <ScrollToTopButton />

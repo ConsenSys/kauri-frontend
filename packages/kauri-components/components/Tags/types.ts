@@ -1,4 +1,4 @@
 export interface ITag {
-    name: string;
+    tag: string;
     count?: number;
 }

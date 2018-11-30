@@ -80,6 +80,7 @@ class Input extends React.Component<IWrapperProps, IInputState> {
         this.enterFocus = this.enterFocus.bind(this)
         this.exitFocus = this.exitFocus.bind(this)
         this.handleKey = this.handleKey.bind(this)
+        this.editValue = this.editValue.bind(this)
     }
 
     public enterFocus() {
@@ -109,6 +110,10 @@ class Input extends React.Component<IWrapperProps, IInputState> {
         if (this.props.onKeyUp) {
             this.props.onKeyUp(e);
         }
+    }
+
+    public editValue(value: string) {
+        this.setState({ value })
     }
 
 

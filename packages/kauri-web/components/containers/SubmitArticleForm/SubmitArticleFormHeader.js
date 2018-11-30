@@ -105,6 +105,7 @@ const SubmitArticleFormSubject = ({
   subject,
   isKauriTopicOwner,
   attributes,
+  form,
 }: *) => (
   <SubmitArticleFormSubjectContainer>
     <InputWrapper maxlength={150}>
