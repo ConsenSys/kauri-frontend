@@ -1,4 +1,3 @@
-/* tslint:disable */
 interface IProps {
     onClick: () => void;
 }

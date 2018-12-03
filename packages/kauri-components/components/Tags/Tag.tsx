@@ -1,4 +1,3 @@
-/* tslint:disable */
 import styled from 'styled-components';
 import Close from './Close';
 import TagName from './TagName';
@@ -19,7 +18,7 @@ interface IProps {
 }
 
 const Tag = (props: IProps) => <Container>
-    <Close onClick={() => props.removeTag(props.tag)}/>
+    <Close onClick={props.removeTag.bind(props.tag)}/>
     <TagName color={props.color}>{props.tag}</TagName>
 </Container>
 

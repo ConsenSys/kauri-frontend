@@ -16,6 +16,7 @@ import {
   toggleDispatch,
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
+import { TagList } from '../Tags';
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -240,6 +241,7 @@ interface ICardContentProps {
   imageURL: string | null;
   date: string;
   status: undefined | "PUBLISHED" | "DRAFT";
+  tags?: string[];
 }
 
 const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
@@ -250,6 +252,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   imageURL,
   date,
   status,
+  tags,
 }) => (
   <React.Fragment>
     {typeof imageURL === "string" && (
@@ -284,6 +287,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
           />
         </BodyCard>
       )}
+      {tags && <TagList maxTags={3} color='textPrimary' tags={tags} />}
     </Content>
   </React.Fragment>
 );
@@ -379,6 +383,7 @@ interface IProps {
   resourceType: "USER" | "COMMUNITY";
   status?: "PUBLISHED" | "DRAFT";
   isLoggedIn: boolean;
+  tags?: string[];
 }
 
 const ArticleCard: React.FunctionComponent<IProps> = ({
@@ -399,6 +404,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   status,
   isLoggedIn,
   hoverChildren,
+  tags,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
     IToggleState,
@@ -442,6 +448,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             imageURL={imageURL}
             date={date}
             status={status}
+            tags={tags}
           />,
           `/article/${id}/v${version}`
         )}

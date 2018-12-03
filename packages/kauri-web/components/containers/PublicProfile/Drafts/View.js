@@ -34,6 +34,7 @@ const Articles = ({
           {articles.map(article => (
             <ArticleCard
               key={`${article.id}-${article.version}`}
+              tags={article.tags}
               changeRoute={routeChangeAction}
               date={moment(article.dateCreated).format("D MMM YYYY")}
               title={article.title}

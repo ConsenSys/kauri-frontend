@@ -1,4 +1,3 @@
-/* tslint:disable */
 import * as React from 'react'
 import TagInput from './TagInput';
 import Tag from './Tag';
@@ -25,7 +24,7 @@ interface IProps {
     availableTags: ITag[];
     tags: string[];
     onChange: (tags: string[]) => void;
-    fetchMatches: (string?: string) => void;
+    fetchMatches: (val?: string) => void;
 }
 
 interface IState {
@@ -53,15 +52,14 @@ class TagSelector extends React.Component<IProps, IState> {
     public addTag(tag: ITag) {
         const prevTags = this.state.tags;
         const tags = prevTags.concat([tag.tag]);
-        this.setState({ tags })
-        this.props.onChange(tags);
+        this.setState({ tags },() => this.props.onChange(tags))
     }
 
     public removeTag(tag: string) {
         const prevTags = this.state.tags;
         const tags = prevTags.filter(i => i !== tag);
-        this.setState({ tags })
-        this.props.onChange(tags);
+        this.setState({ tags }, () => this.props.onChange(tags))
+
     }
 
     public handleChange(e: React.ChangeEvent<HTMLInputElement>) {

@@ -115,7 +115,7 @@ export default ({
           title={title}
         />
       </MobileShareContainer>
-      {tags && <TagList tags={tags} />};
+      {tags && <TagList color={"white"} maxTags={5} tags={tags} />};
     </InfoContainer>
     {status !== "PUBLISHED" && (
       <PullRight>

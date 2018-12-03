@@ -284,6 +284,7 @@ export const searchPersonalArticles = gql`
         version
         title
         content
+        tags
         dateCreated
         datePublished
         author {
@@ -349,6 +350,7 @@ export const searchPersonalDrafts = gql`
         version
         title
         content
+        tags
         dateCreated
         datePublished
         author {
@@ -445,6 +447,7 @@ export const searchPending = gql`
         version
         title
         content
+        tags
         dateCreated
         datePublished
         author {
@@ -509,6 +512,7 @@ export const searchAwaitingApproval = gql`
         version
         title
         content
+        tags
         dateCreated
         datePublished
         author {

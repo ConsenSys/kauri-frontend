@@ -542,6 +542,7 @@ export default compose(withErrorCatch())(
     type,
     cardHeight,
     imageURL,
+    tags,
   }): Props => (
     <MaxThreeLines
       cardHeight={cardHeight}

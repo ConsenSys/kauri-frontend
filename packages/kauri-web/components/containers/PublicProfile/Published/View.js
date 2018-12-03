@@ -46,6 +46,7 @@ const Articles = ({
               date={moment(article.dateCreated).format("D MMM YYYY")}
               title={article.title}
               content={article.content}
+              tags={article.tags}
               userId={
                 type !== "toBeApproved" && article.owner
                   ? article.owner.id

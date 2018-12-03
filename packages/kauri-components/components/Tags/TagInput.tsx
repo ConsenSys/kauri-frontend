@@ -1,4 +1,3 @@
-/* tslint:disable */
 import * as React from 'react'
 import { Input } from '../Input';
 import styled from "../../lib/styled-components";
@@ -67,7 +66,9 @@ const Result = styled.div`
 `;
 
 class TagInput extends React.Component<IProps, IState> {
-    inputRef: any | null;
+
+    private inputRef: any | null;
+
     constructor(props: IProps) {
         super(props);
         this.state = {
@@ -90,7 +91,9 @@ class TagInput extends React.Component<IProps, IState> {
         if (e.keyCode === 13) {
             this.inputRef.value = '';
             this.inputRef.editValue('')
-            this.props.handleEnterKey(this.props.availableTags && this.props.availableTags.length > 0 ? this.props.availableTags[0].tag : e.currentTarget.value);
+            if (e.currentTarget.value.length > 0) {
+                this.props.handleEnterKey(this.props.availableTags && this.props.availableTags.length > 0 ? this.props.availableTags[0].tag : e.currentTarget.value);
+            }
         }
     }
 

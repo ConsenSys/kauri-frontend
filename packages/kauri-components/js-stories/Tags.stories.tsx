@@ -21,8 +21,9 @@ storiesOf('Tags', module)
   .add('TagSelector', () => (
     <Container>
       <TagSelector
+        tags={['Ethereun', 'Web3']}
+        fetchMatches={()=> {}}
         onChange={(e) => console.log('Searching for', e)}
-        updateTags={() => console.log('Updated tags')}
         availableTags={[{tag: 'Ethereum', count: 3000}, {tag: 'Metamask', count: 450}, {tag: 'MakerDao', count: 2500}, {tag: 'Kauri', count: 7842}]} maxTags={5} />
   </Container>
 ))
