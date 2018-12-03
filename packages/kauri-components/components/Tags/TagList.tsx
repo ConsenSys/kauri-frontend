@@ -12,7 +12,6 @@ interface IProps {
 }
 
 const StyledTag = styled(TagName)`
-    margin-top: ${props => props.theme.space[1]}px;
     &:not(:first-child):before {
         content: '•';
         color: ${props => props.theme.colors.primary};
@@ -21,9 +20,9 @@ const StyledTag = styled(TagName)`
 `;
 
 const TagList = (props: IProps) => <Container>
-    {props.tags.map((i, key) => {
-        if (key < props.maxTags) {
-        return (<StyledTag color={props.color} key={key}>{i}</StyledTag>);
+    {Array.isArray(props.tags) && props.tags.map((tag, key) => {
+    if (key < props.maxTags) {
+        return (<StyledTag color={props.color} key={key}>{tag}</StyledTag>);
     } else if (key === props.maxTags) {
         return (<StyledTag key={key} color={props.color}>+{props.tags.length - props.maxTags}</StyledTag>)
     } else {

@@ -115,7 +115,7 @@ class TagInput extends React.Component<IProps, IState> {
                 <Input ref={ref => this.inputRef = ref}  onKeyUp={this.handleKey} onChange={this.props.onChange} textAlign="left" fontSize={0} fontWeight={600} color="white" placeHolder="ADD TAG" />
             </TopRow>
         </div>
-            { available && available.length > 0 && <Results>
+            { Array.isArray(available) && available.length > 0 && <Results>
                 {available.map((i, index) => <Result onClick={this.handleClick.bind(this, i)} key={index}>{i.tag} <span>({i.count})</span></Result>)}
             </Results>}
         </Wrapper>

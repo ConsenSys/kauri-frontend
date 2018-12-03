@@ -576,7 +576,7 @@ export default compose(withErrorCatch())(
           )
         ) : JSON.parse(text).markdown ? (
           <TextTruncate
-            line={imageURL ? 2 : cardHeight > 290 ? 7 : 3}
+            line={imageURL ? 2 : cardHeight > 290 ? 6 : 2}
             truncateText="…"
             text={stripHTML(
               getHTMLFromMarkdown(JSON.parse(text).markdown)

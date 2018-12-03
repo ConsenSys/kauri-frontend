@@ -29,15 +29,15 @@ interface IProps {
 
 interface IState {
     maxTags: number;
-    tags: string[];
+    currentSelectedTags: string[];
 }
 
 class TagSelector extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
+            currentSelectedTags: props.tags,
             maxTags: props.maxTags,
-            tags: props.tags,
         }
         this.addTag = this.addTag.bind(this);
         this.removeTag = this.removeTag.bind(this);
@@ -50,15 +50,15 @@ class TagSelector extends React.Component<IProps, IState> {
     }
 
     public addTag(tag: ITag) {
-        const prevTags = this.state.tags;
-        const tags = prevTags.concat([tag.tag]);
-        this.setState({ tags },() => this.props.onChange(tags))
+        const prevTags = this.state.currentSelectedTags;
+        const currentSelectedTags = prevTags.concat([tag.tag]);
+        this.setState({ currentSelectedTags },() => this.props.onChange(currentSelectedTags))
     }
 
     public removeTag(tag: string) {
-        const prevTags = this.state.tags;
-        const tags = prevTags.filter(i => i !== tag);
-        this.setState({ tags }, () => this.props.onChange(tags))
+        const prevTags = this.state.currentSelectedTags;
+        const currentSelectedTags = prevTags.filter(i => i !== tag);
+        this.setState({ currentSelectedTags }, () => this.props.onChange(currentSelectedTags))
 
     }
 
@@ -74,8 +74,8 @@ class TagSelector extends React.Component<IProps, IState> {
         return (
             <Container>
                 <Heading>Tags Min 1 Max 5</Heading>
-                {this.state.tags.map(i => <Tag key={i} color="white" removeTag={this.removeTag} tag={i}/>)}
-                {this.state.tags.length < this.props.maxTags && <TagInput selectedTags={this.state.tags} handleEnterKey={this.handleEnterKey} onChange={this.handleChange} onSelect={this.addTag}
+                {Array.isArray(this.state.currentSelectedTags) && this.state.currentSelectedTags.map(i => <Tag key={i} color="white" removeTag={this.removeTag} tag={i}/>)}
+                {Array.isArray(this.state.currentSelectedTags) && this.state.currentSelectedTags.length < this.props.maxTags && <TagInput selectedTags={this.state.currentSelectedTags} handleEnterKey={this.handleEnterKey} onChange={this.handleChange} onSelect={this.addTag}
                     availableTags={this.props.availableTags}
                 />}
             </Container>
