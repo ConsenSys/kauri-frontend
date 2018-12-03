@@ -5,6 +5,7 @@ import slugify from "slugify";
 import moment from "moment";
 import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from "../../CreateRequestForm/CreateRequestHeader";
 import ShareArticle from "../../../../../kauri-components/components/Tooltip/ShareArticle";
+import { TagList } from "../../../../../kauri-components/components/Tags";
 import {
   Label,
   H5,
@@ -83,6 +84,7 @@ export default ({
   attributes,
   status,
   hostName,
+  tags,
 }: *) => (
   <ApproveArticleHeader
     style={{
@@ -113,6 +115,7 @@ export default ({
           title={title}
         />
       </MobileShareContainer>
+      {tags && <TagList color={"white"} maxTags={5} tags={tags} />};
     </InfoContainer>
     {status !== "PUBLISHED" && (
       <PullRight>

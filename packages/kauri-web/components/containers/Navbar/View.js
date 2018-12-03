@@ -5,7 +5,7 @@ import { Link } from "../../../routes";
 import Web3Status from "../Web3Status";
 import ArticleSearchbar from "../ArticleSearchbar";
 import { H6 } from "../../../../kauri-components/components/Typography";
-import Tooltip from "../../common/Tooltip";
+import Tooltip from "../../../../kauri-components/components/Tooltip/Tooltip";
 import { withRouter } from "next/router";
 
 // const supportedNetworkIds = [4, 224895]

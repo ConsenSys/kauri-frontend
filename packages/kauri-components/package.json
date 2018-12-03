@@ -28,6 +28,7 @@
     "moment": "2.20.1",
     "next": "canary",
     "ramda": "^0.25.0",
+    "random-words": "^1.1.0",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
     "react-hot-loader": "^4.5.1",

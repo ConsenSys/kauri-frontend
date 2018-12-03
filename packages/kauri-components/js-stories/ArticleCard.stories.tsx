@@ -71,6 +71,7 @@ storiesOf("ArticleCard", module)
       linkComponent={linkComponent}
       resourceType={"USER"}
       isLoggedIn={false}
+      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
     />
   ))
   .add("Card height of 420, three line title, no image", () => (
@@ -103,6 +104,7 @@ storiesOf("ArticleCard", module)
       linkComponent={linkComponent}
       resourceType={"USER"}
       isLoggedIn={false}
+      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
     />
   ))
   .add("Default height of 310, two line title, with image", () => (
@@ -134,6 +136,7 @@ storiesOf("ArticleCard", module)
       linkComponent={linkComponent}
       resourceType={"USER"}
       isLoggedIn={false}
+      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
     />
   ))
   .add("Card height of 420, two line title, with image", () => (
@@ -165,6 +168,7 @@ storiesOf("ArticleCard", module)
         "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       }
       isLoggedIn={false}
+      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
     />
   ))
   .add("Is logged in, Card height of 420, two line title, with image", () => (
@@ -203,6 +207,7 @@ storiesOf("ArticleCard", module)
         </PrimaryButton>
       )}
       isLoggedIn={true}
+      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
     />
   ))
   .add(
@@ -244,6 +249,7 @@ storiesOf("ArticleCard", module)
           </PrimaryButton>
         )}
         isLoggedIn={true}
+        tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
       />
     )
   )
@@ -298,6 +304,7 @@ storiesOf("ArticleCard", module)
       resourceType="COMMUNITY"
       cardWidth={610}
       isLoggedIn={false}
+      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
     />
   ))
   .add("Card width of 610, two line title, with image", () => (
@@ -353,6 +360,7 @@ storiesOf("ArticleCard", module)
         "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       }
       isLoggedIn={false}
+      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
     />
   ))
   .add("Status Draft, Default height of 310, two line title, no image", () => (
@@ -383,6 +391,7 @@ storiesOf("ArticleCard", module)
       resourceType={"USER"}
       status={"DRAFT"}
       isLoggedIn={false}
+      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
     />
   ))
   .add(
@@ -422,6 +431,7 @@ storiesOf("ArticleCard", module)
             Delete Draft
           </PrimaryButton>
         )}
+        tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
       />
     )
   );
