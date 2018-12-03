@@ -6,6 +6,7 @@ export const BodyCardCss = css<{ color: string | undefined }>`
   font-size: 14px;
   font-weight: normal;
   letter-spacing: -0.1px;
+  margin-bottom: ${props => props.theme.space[1]}px;
   line-height: 18px;
   color: ${props =>
     typeof props.color === "string" && props.theme.colors[props.color]};
