@@ -36,7 +36,7 @@ class TagSelector extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
-            currentSelectedTags: props.tags,
+            currentSelectedTags: props.tags || [],
             maxTags: props.maxTags,
         }
         this.addTag = this.addTag.bind(this);
@@ -75,7 +75,7 @@ class TagSelector extends React.Component<IProps, IState> {
             <Container>
                 <Heading>Tags Min 1 Max 5</Heading>
                 {Array.isArray(this.state.currentSelectedTags) && this.state.currentSelectedTags.map(i => <Tag key={i} color="white" removeTag={this.removeTag} tag={i}/>)}
-                {Array.isArray(this.state.currentSelectedTags) && this.state.currentSelectedTags.length < this.props.maxTags && <TagInput selectedTags={this.state.currentSelectedTags} handleEnterKey={this.handleEnterKey} onChange={this.handleChange} onSelect={this.addTag}
+                {this.state.currentSelectedTags.length < this.props.maxTags && <TagInput selectedTags={this.state.currentSelectedTags} handleEnterKey={this.handleEnterKey} onChange={this.handleChange} onSelect={this.addTag}
                     availableTags={this.props.availableTags}
                 />}
             </Container>
