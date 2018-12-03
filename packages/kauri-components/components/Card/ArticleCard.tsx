@@ -287,7 +287,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
           />
         </BodyCard>
       )}
-      {tags && <TagList maxTags={3} color='textPrimary' tags={tags} />}
+      {Array.isArray(tags) && tags.length > 0 && <TagList maxTags={3} color='textPrimary' tags={tags} />}
     </Content>
   </React.Fragment>
 );
