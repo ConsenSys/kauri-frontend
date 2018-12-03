@@ -21,6 +21,7 @@ interface IProps {
   setFieldsValue: any;
   getFieldDecorator: any;
   tags: string[];
+  updateTags?: (tags: string[]) => void;
 }
 
 class TagSelectorContainer extends React.Component<IProps, IState> {
@@ -69,7 +70,10 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
   }
 
   updateTags(tags: string[]) {
-    this.setState({ tags });
+    this.setState(
+      { tags },
+      () => this.props.updateTags && this.props.updateTags(tags)
+    );
   }
 
   fetchMatches(text?: string) {
@@ -79,7 +83,17 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
   render() {
     return (
       <>
-        {this.props.getFieldDecorator("tags", {})(
+        {this.props.getFieldDecorator ? (
+          this.props.getFieldDecorator("tags", {})(
+            <TagSelector
+              tags={this.state.tags}
+              fetchMatches={this.fetchMatches}
+              onChange={this.updateTags}
+              availableTags={this.state.availableTags}
+              maxTags={5}
+            />
+          )
+        ) : (
           <TagSelector
             tags={this.state.tags}
             fetchMatches={this.fetchMatches}

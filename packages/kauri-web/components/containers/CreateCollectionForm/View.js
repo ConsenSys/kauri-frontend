@@ -20,6 +20,7 @@ import ChooseArticleModal from "./ChooseArticleModal";
 import CreateCollectionOptions from "./CreateCollectionOptions";
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
+import TagSelector from "../../common/TagSelector";
 
 import type { FormState } from "./index";
 import type { ShowNotificationPayload } from "../../../lib/Module";
@@ -329,6 +330,18 @@ export default ({
               />
             )}
           />
+
+          <FieldArray
+            name="tags"
+            render={arrayHelpers => (
+              <TagSelector
+                updateTags={tags =>
+                  arrayHelpers.form.setFieldValue("tags", tags)
+                }
+                tags={values.tags || []}
+              />
+            )}
+          />
           {/* <ErrorMessage name='description' render={(message: string) => <ErrorMessageRenderer>{message}</ErrorMessageRenderer>} /> */}
 
           {/* TODO: WAIT FOR BACKEND */}
@@ -476,7 +489,12 @@ export default ({
           )}
         />
 
-        {/* <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} /> */}
+        <DisplayFormikState
+          touched={touched}
+          errors={errors}
+          values={values}
+          isSubmitting={isSubmitting}
+        />
       </ContentSection>
     </Form>
   </Section>
