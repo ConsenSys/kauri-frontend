@@ -17,8 +17,10 @@ interface IProps {
     color: string;
 }
 
+const handleClick = (removeTag: (tag: string) => void, tag: string) => () => removeTag(tag)
+
 const Tag = (props: IProps) => <Container>
-    <Close onClick={props.removeTag.bind(props.tag)}/>
+    <Close onClick={handleClick(props.removeTag, props.tag)}/>
     <TagName color={props.color}>{props.tag}</TagName>
 </Container>
 
