@@ -13,7 +13,7 @@ const ConnectedArticles = connect(
 )(Articles);
 
 class ArticlesPage extends React.Component {
-  render () {
+  render() {
     return (
       <App url={this.props.router}>
         <ConnectedArticles
