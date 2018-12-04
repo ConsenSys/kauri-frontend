@@ -1,6 +1,7 @@
 import * as React from "react";
 import styled from "../../lib/styled-components";
 import theme from "../../lib/theme-config";
+import { ISection } from "./SectionsContent";
 
 const TooltipContainer = styled.div`
   display: flex;
@@ -41,25 +42,28 @@ const Divider = styled.div`
 `;
 
 export interface ICollection {
+  id: string;
   name: string;
+  sections: ISection[];
 }
 
 interface IProps {
   collections: ICollection[];
+  handleClick: (payload: string) => void;
 }
 
 const CollectionsContent: React.FunctionComponent<IProps> = props => {
   return (
     <TooltipContainer>
       {Array.isArray(props.collections) &&
-        props.collections.map(({ name }, index) =>
+        props.collections.map(({ name, id }, index) =>
           index !== props.collections.length - 1 ? (
             <React.Fragment>
-              <Label>{name}</Label>
+              <Label onClick={() => props.handleClick(id)}>{name}</Label>
               <Divider />
             </React.Fragment>
           ) : (
-            <Label>{name}</Label>
+            <Label onClick={() => props.handleClick(id)}>{name}</Label>
           )
         )}
     </TooltipContainer>
