@@ -476,7 +476,12 @@ export default ({
           )}
         />
 
-        {/* <DisplayFormikState touched={touched} errors={errors} values={values} isSubmitting={isSubmitting} /> */}
+        <DisplayFormikState
+          touched={touched}
+          errors={errors}
+          values={values}
+          isSubmitting={isSubmitting}
+        />
       </ContentSection>
     </Form>
   </Section>
