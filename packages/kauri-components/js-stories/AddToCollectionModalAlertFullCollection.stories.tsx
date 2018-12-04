@@ -24,7 +24,10 @@ storiesOf("AddToCollection ModalAlert - Full Collection", module)
                 <AddToCollectionModalContent
                   setCollection={() => alert("hello")}
                   setSection={() => alert("hello")}
-                  parentState={{ chosenCollection: null, chosenSection: null }}
+                  parentState={{
+                    chosenCollection: "1234567890",
+                    chosenSection: null,
+                  }}
                   collections={[
                     {
                       id: "1234567890",
