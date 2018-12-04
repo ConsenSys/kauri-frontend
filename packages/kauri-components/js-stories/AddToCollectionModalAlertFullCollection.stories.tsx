@@ -22,10 +22,14 @@ storiesOf("AddToCollection ModalAlert - Full Collection", module)
               confirmButtonAction={handleConfirmAction(() => alert("confirm"))}
               content={
                 <AddToCollectionModalContent
-                  setCollection={() => alert("hello")}
-                  setSection={() => alert("hello")}
+                  setCollection={() => alert("chose collection")}
+                  setSection={() => alert("chose section")}
                   parentState={{
-                    chosenCollection: "1234567890",
+                    chosenCollection: {
+                      id: "1234567890",
+                      name: "Collection 1",
+                      sections: [{ name: "Section 1" }],
+                    },
                     chosenSection: null,
                   }}
                   collections={[

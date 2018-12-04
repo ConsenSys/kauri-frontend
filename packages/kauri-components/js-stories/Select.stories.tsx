@@ -60,7 +60,7 @@ const Content = () => {
 
 storiesOf("Select", module).add("Create Collection", () => (
   <Container>
-    <Select placeHolder="Collection name">
+    <Select value={null} placeHolder="Collection name">
       <Content />
     </Select>
   </Container>

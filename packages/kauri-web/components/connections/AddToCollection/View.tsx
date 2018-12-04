@@ -9,8 +9,10 @@ import {
 } from "./__generated__/getUserCollections";
 import R from "ramda";
 import { ICollection } from "../../../../kauri-components/components/AddToCollection/CollectionsContent";
+import { ISection } from "../../../../kauri-components/components/AddToCollection/SectionsContent";
 import Loading from "../../common/Loading";
 import { ErrorMessage } from "../../../lib/with-apollo-error";
+import { Label } from "../../../../kauri-components/components/Typography";
 
 const query = gql`
   query getUserCollections($userId: String) {
@@ -27,18 +29,20 @@ const query = gql`
 `;
 
 interface IChosen {
-  chosenCollection: string | null;
-  chosenSection: number | null;
+  chosenCollection: ICollection | null;
+  chosenSection: ISection | null;
 }
 
 interface IProps {
   closeModalAction: () => void;
   userId: string;
+  routeChangeAction: (route: string) => void;
 }
 
 const Component: React.FunctionComponent<IProps> = ({
   closeModalAction,
   userId,
+  routeChangeAction,
 }) => {
   const [state, setState] = React.useState<IChosen>({
     chosenCollection: null,
@@ -68,7 +72,7 @@ const Component: React.FunctionComponent<IProps> = ({
             "content",
           ])(props.data);
 
-          return (
+          return Array.isArray(collections) && collections.length > 0 ? (
             <AlertView
               closeModalAction={closeModalAction}
               confirmButtonAction={
@@ -91,6 +95,19 @@ const Component: React.FunctionComponent<IProps> = ({
                 />
               }
               title={"Add to Collection"}
+            />
+          ) : (
+            <AlertView
+              title={"Create collection"}
+              closeModalAction={closeModalAction}
+              confirmButtonAction={() =>
+                routeChangeAction("/create-collection")
+              }
+              content={
+                <section>
+                  <Label>You don't have any collections.</Label>
+                </section>
+              }
             />
           );
         }

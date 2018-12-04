@@ -49,21 +49,25 @@ export interface ICollection {
 
 interface IProps {
   collections: ICollection[];
-  handleClick: (payload: string) => void;
+  handleClick: (payload: ICollection) => void;
 }
 
 const CollectionsContent: React.FunctionComponent<IProps> = props => {
   return (
     <TooltipContainer>
       {Array.isArray(props.collections) &&
-        props.collections.map(({ name, id }, index) =>
+        props.collections.map((collection, index) =>
           index !== props.collections.length - 1 ? (
             <React.Fragment>
-              <Label onClick={() => props.handleClick(id)}>{name}</Label>
+              <Label onClick={() => props.handleClick(collection)}>
+                {collection.name}
+              </Label>
               <Divider />
             </React.Fragment>
           ) : (
-            <Label onClick={() => props.handleClick(id)}>{name}</Label>
+            <Label onClick={() => props.handleClick(collection)}>
+              {collection.name}
+            </Label>
           )
         )}
     </TooltipContainer>

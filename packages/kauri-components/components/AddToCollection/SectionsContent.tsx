@@ -46,21 +46,25 @@ export interface ISection {
 
 interface IProps {
   sections: ISection[];
-  handleClick: (payload: number) => void;
+  handleClick: (payload: ISection) => void;
 }
 
 const SectionsContent: React.FunctionComponent<IProps> = props => {
   return (
     <TooltipContainer>
       {Array.isArray(props.sections) &&
-        props.sections.map(({ name }, index) =>
+        props.sections.map((section, index) =>
           index !== props.sections.length - 1 ? (
             <React.Fragment>
-              <Label onClick={() => props.handleClick(index)}>{name}</Label>
+              <Label onClick={() => props.handleClick(section)}>
+                {section.name}
+              </Label>
               <Divider />
             </React.Fragment>
           ) : (
-            <Label onClick={() => props.handleClick(index)}>{name}</Label>
+            <Label onClick={() => props.handleClick(section)}>
+              {section.name}
+            </Label>
           )
         )}
     </TooltipContainer>

@@ -3,7 +3,7 @@ import styled from "../../lib/styled-components";
 import theme from "../../lib/theme-config";
 import Select from "../../components/Select";
 import CollectionsContent, { ICollection } from "./CollectionsContent";
-import SectionsContent from "./SectionsContent";
+import SectionsContent, { ISection } from "./SectionsContent";
 
 export const AddToCollectionSection = styled.section`
   display: flex;
@@ -15,14 +15,14 @@ export const AddToCollectionSection = styled.section`
 `;
 
 interface IParentState {
-  chosenCollection: string | null;
-  chosenSection: number | null;
+  chosenCollection: ICollection | null;
+  chosenSection: ISection | null;
 }
 
 interface IProps {
   collections: ICollection[];
-  setCollection: (payload: { chosenCollection: string }) => void;
-  setSection: (payload: { chosenSection: number }) => void;
+  setCollection: (payload: { chosenCollection: ICollection }) => void;
+  setSection: (payload: { chosenSection: ISection }) => void;
   parentState: IParentState;
 }
 
@@ -32,24 +32,40 @@ const Content: React.FunctionComponent<IProps> = ({
   setSection,
   parentState,
 }) => {
-  const chosenCollection = collections.find(
-    ({ id }) => id === parentState.chosenCollection
+  const chosenCollection = collections.find(({ id }) =>
+    parentState.chosenCollection
+      ? id === parentState.chosenCollection.id
+      : false
   );
 
   return (
     <AddToCollectionSection>
       {Array.isArray(collections) && collections.length > 0 && (
-        <Select placeHolder="Collection name">
+        <Select
+          value={
+            parentState.chosenCollection
+              ? parentState.chosenCollection.name
+              : null
+          }
+          placeHolder={"Collection name"}
+        >
           <CollectionsContent
-            handleClick={id => setCollection({ chosenCollection: id })}
+            handleClick={collection =>
+              setCollection({ chosenCollection: collection })
+            }
             collections={collections}
           />
         </Select>
       )}
       {chosenCollection && chosenCollection.sections.length > 0 && (
-        <Select placeHolder="Section name">
+        <Select
+          value={
+            parentState.chosenSection ? parentState.chosenSection.name : null
+          }
+          placeHolder={"Section name"}
+        >
           <SectionsContent
-            handleClick={id => setSection({ chosenSection: id })}
+            handleClick={section => setSection({ chosenSection: section })}
             sections={chosenCollection.sections}
           />
         </Select>

@@ -215,11 +215,7 @@ export default ({
             icon={<AddIcon />}
             handleClick={() =>
               openModalAction({
-                children: (
-                  <AddToCollectionConnection
-                    closeModalAction={closeModalAction}
-                  />
-                ),
+                children: <AddToCollectionConnection />,
               })
             }
           >

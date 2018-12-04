@@ -96,9 +96,10 @@ const Select = styled.div`
 interface IProps {
   placeHolder: string;
   children: React.ReactElement<any>;
+  value: string | null;
 }
 
-export default ({ children, placeHolder }: IProps) => {
+export default ({ children, placeHolder, value }: IProps) => {
   React.useEffect(() => {
     const styleDOMNode = document.createElement("style");
     const newGlobalCss = ".tippy-tooltip { margin: 0px; }";
@@ -128,7 +129,7 @@ export default ({ children, placeHolder }: IProps) => {
       unmountHTMLWhenHide={true}
     >
       <Select>
-        <Label textTransform="uppercase">{placeHolder}</Label>
+        <Label textTransform="uppercase">{value || placeHolder}</Label>
         <DownArrowIcon />
       </Select>
     </Tooltip>
