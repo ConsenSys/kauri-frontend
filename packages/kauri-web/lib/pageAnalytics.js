@@ -1,4 +1,3 @@
-/* tslint:disable */
 import mixpanel from "mixpanel-browser";
 import ga from "react-ga";
 import devConfig from "../config/development";
