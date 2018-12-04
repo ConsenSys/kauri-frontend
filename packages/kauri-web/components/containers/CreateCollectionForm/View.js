@@ -20,7 +20,6 @@ import ChooseArticleModal from "./ChooseArticleModal";
 import CreateCollectionOptions from "./CreateCollectionOptions";
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
-import TagSelector from "../../common/TagSelector";
 
 import type { FormState } from "./index";
 import type { ShowNotificationPayload } from "../../../lib/Module";
@@ -327,18 +326,6 @@ export default ({
                 type="text"
                 placeHolder="Add description"
                 fontSize={4}
-              />
-            )}
-          />
-
-          <FieldArray
-            name="tags"
-            render={arrayHelpers => (
-              <TagSelector
-                updateTags={tags =>
-                  arrayHelpers.form.setFieldValue("tags", tags)
-                }
-                tags={values.tags || []}
               />
             )}
           />
