@@ -80,6 +80,12 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
     handleSearch$.next(text);
   }
 
+  handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+    }
+  }
+
   render() {
     return (
       <>

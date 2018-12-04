@@ -1,3 +1,4 @@
+/* tslint:disable */
 import * as React from 'react'
 import { Input } from '../Input';
 import styled from "../../lib/styled-components";

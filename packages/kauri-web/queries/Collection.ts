@@ -5,6 +5,7 @@ export const Collection = gql`
     id
     name
     description
+    tags
     background
     dateUpdated
     owner {
@@ -34,6 +35,7 @@ export const globalCollectionDetails = gql`
       id
       name
       description
+      tags
       background
       dateCreated
       owner {
@@ -90,11 +92,13 @@ export const createCollection = gql`
     $name: String
     $description: String
     $background: String
+    $tags: [String]
   ) {
     createCollection(
       name: $name
       description: $description
       background: $background
+      tags: $tags
     ) {
       hash
     }
@@ -107,11 +111,13 @@ export const editCollection = gql`
     $name: String
     $description: String
     $background: String
+    $tags: [String]
   ) {
     createCollection(
       id: $id
       name: $name
       description: $description
+      tags: $tags
       background: $background
     ) {
       hash
