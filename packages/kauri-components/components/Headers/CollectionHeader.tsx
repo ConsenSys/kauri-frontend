@@ -61,7 +61,7 @@ const RuntimeProps = t.interface({
   name: t.string,
   ownerId: t.string,
   routeChangeAction: t.any,
-  tags: t.array(t.string),
+  tags: t.union([t.array(t.string), t.undefined]),
   updated: t.string,
   url: t.string,
   userAvatar: t.union([t.string, t.null]),
