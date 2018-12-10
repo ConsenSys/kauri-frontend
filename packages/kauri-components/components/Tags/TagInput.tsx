@@ -11,6 +11,7 @@ interface IProps {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onSelect?: (tag: ITag) => void;
     handleEnterKey: (val: string) => void;
+    removeLastTag: () => void;
 }
 
 interface IState {
@@ -95,6 +96,9 @@ class TagInput extends React.Component<IProps, IState> {
             if (e.currentTarget.value.length > 0) {
                 this.props.handleEnterKey(this.props.availableTags && this.props.availableTags.length > 0 ? this.props.availableTags[0].tag : e.currentTarget.value);
             }
+        }
+        if (e.keyCode === 8) {
+            this.props.removeLastTag();
         }
     }
 

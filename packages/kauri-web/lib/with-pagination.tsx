@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import * as React from "react";
 import ReactDOM from "react-dom";
 import Loading from "../components/common/Loading";
@@ -76,7 +78,8 @@ const withPagination = (
         scrolledToBottom &&
         this.props[queryName] &&
         this.props[queryName][key] &&
-        this.props[queryName][key].isLast !== true
+        this.props[queryName][key].isLast !== true &&
+        this.state.showLoading === false
       ) {
         const nextPage = this.state.page + 1;
         this.setState({ showLoading: true });
