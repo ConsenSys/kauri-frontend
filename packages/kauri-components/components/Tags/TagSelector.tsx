@@ -43,6 +43,7 @@ class TagSelector extends React.Component<IProps, IState> {
         this.removeTag = this.removeTag.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleEnterKey = this.handleEnterKey.bind(this);
+        this.removeLastTag = this.removeLastTag.bind(this);
     }
 
     public componentDidMount() {
@@ -59,7 +60,12 @@ class TagSelector extends React.Component<IProps, IState> {
         const prevTags = this.state.currentSelectedTags;
         const currentSelectedTags = prevTags.filter(i => i !== tag);
         this.setState({ currentSelectedTags }, () => this.props.onChange(currentSelectedTags))
+    }
 
+    public removeLastTag() {
+        const tags = this.state.currentSelectedTags;
+        tags.pop();
+        this.setState({ currentSelectedTags: tags })
     }
 
     public handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -75,9 +81,16 @@ class TagSelector extends React.Component<IProps, IState> {
             <Container>
                 <Heading>Tags Min 1 Max 5</Heading>
                 {Array.isArray(this.state.currentSelectedTags) && this.state.currentSelectedTags.map(i => <Tag key={i} color="white" removeTag={this.removeTag} tag={i}/>)}
-                {this.state.currentSelectedTags.length < this.props.maxTags && <TagInput selectedTags={this.state.currentSelectedTags} handleEnterKey={this.handleEnterKey} onChange={this.handleChange} onSelect={this.addTag}
-                    availableTags={this.props.availableTags}
-                />}
+                {this.state.currentSelectedTags.length < this.props.maxTags &&
+                    <TagInput
+                        selectedTags={this.state.currentSelectedTags}
+                        handleEnterKey={this.handleEnterKey}
+                        onChange={this.handleChange}
+                        onSelect={this.addTag}
+                        availableTags={this.props.availableTags}
+                        removeLastTag={this.removeLastTag}
+                    />
+                }
             </Container>
         )
     }

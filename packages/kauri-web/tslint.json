@@ -15,7 +15,8 @@
     "ordered-imports": false,
     "member-access": [true, "no-public"],
     "no-var-requires": false,
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "no-console": false
   },
   "rulesDirectory": []
 }
