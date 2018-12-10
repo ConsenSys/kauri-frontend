@@ -36,7 +36,7 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
 
   componentDidMount() {
     const sub = handleSearch$
-      .debounceTime(200)
+      .debounceTime(100)
       .flatMap((text: string) =>
         this.props.client.query<{
           searchTags: { content: ITag[] };
@@ -71,7 +71,7 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
 
   updateTags(tags: string[]) {
     this.setState(
-      { tags },
+      { tags, availableTags: [] },
       () => this.props.updateTags && this.props.updateTags(tags)
     );
   }
