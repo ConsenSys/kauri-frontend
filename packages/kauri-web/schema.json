@@ -21,7 +21,7 @@
             "args": [
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -44,7 +44,7 @@
             "args": [
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -54,7 +54,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -64,7 +64,7 @@
               },
               {
                 "name": "title",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -74,7 +74,7 @@
               },
               {
                 "name": "content",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -97,7 +97,7 @@
             "args": [
               {
                 "name": "parent",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -120,7 +120,7 @@
             "args": [
               {
                 "name": "resource",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -130,7 +130,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -153,7 +153,7 @@
             "args": [
               {
                 "name": "parent",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -163,7 +163,7 @@
               },
               {
                 "name": "body",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -186,7 +186,7 @@
             "args": [
               {
                 "name": "website",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -196,7 +196,7 @@
               },
               {
                 "name": "social",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -206,7 +206,7 @@
               },
               {
                 "name": "name",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -216,7 +216,7 @@
               },
               {
                 "name": "avatar",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -226,7 +226,7 @@
               },
               {
                 "name": "title",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -236,7 +236,7 @@
               },
               {
                 "name": "email",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -246,7 +246,7 @@
               },
               {
                 "name": "username",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -269,7 +269,7 @@
             "args": [
               {
                 "name": "resource",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -292,7 +292,7 @@
             "args": [
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -315,7 +315,7 @@
             "args": [
               {
                 "name": "owner",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -325,7 +325,7 @@
               },
               {
                 "name": "signature",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -335,7 +335,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -345,7 +345,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -368,7 +368,7 @@
             "args": [
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -378,7 +378,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -401,7 +401,7 @@
             "args": [
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -424,7 +424,7 @@
             "args": [
               {
                 "name": "dateCreated",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Date",
@@ -434,7 +434,7 @@
               },
               {
                 "name": "background",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -444,7 +444,7 @@
               },
               {
                 "name": "name",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -454,7 +454,7 @@
               },
               {
                 "name": "description",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -464,7 +464,7 @@
               },
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -474,7 +474,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -484,7 +484,7 @@
               },
               {
                 "name": "ownerId",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -494,7 +494,7 @@
               },
               {
                 "name": "sections",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -521,7 +521,7 @@
             "args": [
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -531,7 +531,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -541,7 +541,7 @@
               },
               {
                 "name": "title",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -551,7 +551,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -561,7 +561,7 @@
               },
               {
                 "name": "content",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -584,7 +584,7 @@
             "args": [
               {
                 "name": "resource",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -594,7 +594,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -629,7 +629,7 @@
             "args": [
               {
                 "name": "website",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -639,7 +639,7 @@
               },
               {
                 "name": "social",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -649,7 +649,7 @@
               },
               {
                 "name": "background",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -659,7 +659,7 @@
               },
               {
                 "name": "name",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -669,7 +669,7 @@
               },
               {
                 "name": "description",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -679,7 +679,7 @@
               },
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -689,7 +689,7 @@
               },
               {
                 "name": "avatar",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -699,7 +699,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -709,7 +709,7 @@
               },
               {
                 "name": "sections",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -736,7 +736,7 @@
             "args": [
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -746,7 +746,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -756,7 +756,7 @@
               },
               {
                 "name": "title",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -766,7 +766,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -776,7 +776,7 @@
               },
               {
                 "name": "content",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -799,7 +799,7 @@
             "args": [
               {
                 "name": "filter",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "CommunityFilterInput",
@@ -809,7 +809,7 @@
               },
               {
                 "name": "size",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -819,7 +819,7 @@
               },
               {
                 "name": "sort",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -829,7 +829,7 @@
               },
               {
                 "name": "page",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -839,7 +839,7 @@
               },
               {
                 "name": "dir",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "ENUM",
                   "name": "DirectionInput",
@@ -878,7 +878,7 @@
             "args": [
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -901,7 +901,7 @@
             "args": [
               {
                 "name": "featured",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Boolean",
@@ -911,7 +911,7 @@
               },
               {
                 "name": "name",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -921,7 +921,7 @@
               },
               {
                 "name": "resources",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -935,7 +935,7 @@
               },
               {
                 "name": "header",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -945,7 +945,7 @@
               },
               {
                 "name": "description",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -955,7 +955,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -978,7 +978,7 @@
             "args": [
               {
                 "name": "filter",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ArticleFilterInput",
@@ -988,7 +988,7 @@
               },
               {
                 "name": "size",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -998,7 +998,7 @@
               },
               {
                 "name": "sort",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1008,7 +1008,7 @@
               },
               {
                 "name": "page",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1018,7 +1018,7 @@
               },
               {
                 "name": "dir",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "ENUM",
                   "name": "DirectionInput",
@@ -1041,7 +1041,7 @@
             "args": [
               {
                 "name": "filter",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "CollectionFilterInput",
@@ -1051,7 +1051,7 @@
               },
               {
                 "name": "size",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1061,7 +1061,7 @@
               },
               {
                 "name": "sort",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1071,7 +1071,7 @@
               },
               {
                 "name": "page",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1081,7 +1081,7 @@
               },
               {
                 "name": "dir",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "ENUM",
                   "name": "DirectionInput",
@@ -1104,7 +1104,7 @@
             "args": [
               {
                 "name": "resource",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -1114,7 +1114,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1137,7 +1137,7 @@
             "args": [
               {
                 "name": "size",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1147,7 +1147,7 @@
               },
               {
                 "name": "query",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1157,7 +1157,7 @@
               },
               {
                 "name": "page",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1180,7 +1180,7 @@
             "args": [
               {
                 "name": "resource",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -1190,7 +1190,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1213,7 +1213,7 @@
             "args": [
               {
                 "name": "parent",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -1223,7 +1223,7 @@
               },
               {
                 "name": "size",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1233,7 +1233,7 @@
               },
               {
                 "name": "sort",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1243,7 +1243,7 @@
               },
               {
                 "name": "page",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1253,7 +1253,7 @@
               },
               {
                 "name": "dir",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "ENUM",
                   "name": "DirectionInput",
@@ -1276,7 +1276,7 @@
             "args": [
               {
                 "name": "parent",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -1299,7 +1299,7 @@
             "args": [
               {
                 "name": "signature",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1309,7 +1309,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1319,7 +1319,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1354,7 +1354,7 @@
             "args": [
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1377,7 +1377,7 @@
             "args": [
               {
                 "name": "published",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Boolean",
@@ -1387,7 +1387,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1397,7 +1397,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1420,7 +1420,7 @@
             "args": [
               {
                 "name": "ids",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1451,7 +1451,7 @@
             "args": [
               {
                 "name": "owner",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -1461,7 +1461,7 @@
               },
               {
                 "name": "dateCreated",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Date",
@@ -1471,7 +1471,7 @@
               },
               {
                 "name": "author",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1481,7 +1481,7 @@
               },
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -1491,7 +1491,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1501,7 +1501,7 @@
               },
               {
                 "name": "title",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1511,7 +1511,7 @@
               },
               {
                 "name": "content",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1534,7 +1534,7 @@
             "args": [
               {
                 "name": "resource",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -1544,7 +1544,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1567,7 +1567,7 @@
             "args": [
               {
                 "name": "header",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -1577,7 +1577,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1600,7 +1600,7 @@
             "args": [
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -1610,7 +1610,7 @@
               },
               {
                 "name": "title",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1620,7 +1620,7 @@
               },
               {
                 "name": "content",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1643,7 +1643,7 @@
             "args": [
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1653,7 +1653,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1676,7 +1676,7 @@
             "args": [
               {
                 "name": "cause",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1686,7 +1686,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1696,7 +1696,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1732,7 +1732,7 @@
       {
         "kind": "OBJECT",
         "name": "CommunityDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "approved",
@@ -2021,7 +2021,7 @@
       {
         "kind": "INTERFACE",
         "name": "AbstractResourceDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "interfaceName",
@@ -2090,7 +2090,7 @@
       {
         "kind": "OBJECT",
         "name": "ResourceIdentifier",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "id",
@@ -2137,7 +2137,7 @@
       {
         "kind": "ENUM",
         "name": "ResourceType",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2210,7 +2210,7 @@
       {
         "kind": "OBJECT",
         "name": "PublicUserDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "articles",
@@ -2218,7 +2218,7 @@
             "args": [
               {
                 "name": "filter",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ArticleFilterInput",
@@ -2228,7 +2228,7 @@
               },
               {
                 "name": "size",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -2238,7 +2238,7 @@
               },
               {
                 "name": "sort",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -2248,7 +2248,7 @@
               },
               {
                 "name": "page",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -2258,7 +2258,7 @@
               },
               {
                 "name": "dir",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "ENUM",
                   "name": "DirectionInput",
@@ -2414,7 +2414,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "ArticleFilterInput",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": [
           {
@@ -2553,7 +2553,7 @@
       {
         "kind": "ENUM",
         "name": "ArticleStatusInput",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2604,7 +2604,7 @@
       {
         "kind": "ENUM",
         "name": "DirectionInput",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2627,7 +2627,7 @@
       {
         "kind": "OBJECT",
         "name": "ResponsePage_ArticleDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "content",
@@ -2774,7 +2774,7 @@
       {
         "kind": "OBJECT",
         "name": "ArticleDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "attributes",
@@ -2866,7 +2866,7 @@
             "args": [
               {
                 "name": "published",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Boolean",
@@ -3046,7 +3046,7 @@
       {
         "kind": "OBJECT",
         "name": "ResponsePage_CommentDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "content",
@@ -3193,7 +3193,7 @@
       {
         "kind": "OBJECT",
         "name": "CommentDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "author",
@@ -3328,7 +3328,7 @@
       {
         "kind": "ENUM",
         "name": "ArticleStatus",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -3369,7 +3369,7 @@
       {
         "kind": "OBJECT",
         "name": "VoteStatDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "parentId",
@@ -3404,7 +3404,7 @@
       {
         "kind": "OBJECT",
         "name": "CommunityMemberDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "articles",
@@ -3412,7 +3412,7 @@
             "args": [
               {
                 "name": "filter",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ArticleFilterInput",
@@ -3422,7 +3422,7 @@
               },
               {
                 "name": "size",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -3432,7 +3432,7 @@
               },
               {
                 "name": "sort",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -3442,7 +3442,7 @@
               },
               {
                 "name": "page",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -3452,7 +3452,7 @@
               },
               {
                 "name": "dir",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "ENUM",
                   "name": "DirectionInput",
@@ -3620,7 +3620,7 @@
       {
         "kind": "ENUM",
         "name": "CommunityPermission",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -3653,7 +3653,7 @@
       {
         "kind": "ENUM",
         "name": "CommunityStatus",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -3682,7 +3682,7 @@
       {
         "kind": "OBJECT",
         "name": "MutationResponse",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "hash",
@@ -3729,7 +3729,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "ResourceIdentifierInput",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": [
           {
@@ -3770,7 +3770,7 @@
       {
         "kind": "ENUM",
         "name": "ResourceTypeInput",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -3823,7 +3823,7 @@
       {
         "kind": "OBJECT",
         "name": "CuratedListDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "dateCreated",
@@ -4004,7 +4004,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "SectionDTOInput",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": [
           {
@@ -4049,7 +4049,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "CommunityFilterInput",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": [
           {
@@ -4140,7 +4140,7 @@
       {
         "kind": "OBJECT",
         "name": "ResponsePage_CommunityDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "content",
@@ -4287,7 +4287,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "CollectionFilterInput",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": [
           {
@@ -4388,7 +4388,7 @@
       {
         "kind": "OBJECT",
         "name": "ResponsePage_CollectionDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "content",
@@ -4535,7 +4535,7 @@
       {
         "kind": "OBJECT",
         "name": "CollectionDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "attributes",
@@ -4559,7 +4559,7 @@
               "ofType": null
             },
             "isDeprecated": false,
-            "deprecationReason": ""
+            "deprecationReason": null
           },
           {
             "name": "dateCreated",
@@ -4712,7 +4712,7 @@
       {
         "kind": "OBJECT",
         "name": "SectionDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "description",
@@ -4779,7 +4779,7 @@
       {
         "kind": "OBJECT",
         "name": "ResponsePage_SearchResultDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "content",
@@ -4926,7 +4926,7 @@
       {
         "kind": "OBJECT",
         "name": "SearchResultDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "description",
@@ -5053,7 +5053,7 @@
       {
         "kind": "OBJECT",
         "name": "UserDTO",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "articles",
@@ -5061,7 +5061,7 @@
             "args": [
               {
                 "name": "filter",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ArticleFilterInput",
@@ -5071,7 +5071,7 @@
               },
               {
                 "name": "size",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -5081,7 +5081,7 @@
               },
               {
                 "name": "sort",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5091,7 +5091,7 @@
               },
               {
                 "name": "page",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -5101,7 +5101,7 @@
               },
               {
                 "name": "dir",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "ENUM",
                   "name": "DirectionInput",
@@ -5269,7 +5269,7 @@
       {
         "kind": "OBJECT",
         "name": "ArticleProof",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "articleLeafHash",
@@ -5340,7 +5340,7 @@
             "args": [
               {
                 "name": "hash",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5363,7 +5363,7 @@
             "args": [
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -5373,7 +5373,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5383,7 +5383,7 @@
               },
               {
                 "name": "title",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5393,7 +5393,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -5403,7 +5403,7 @@
               },
               {
                 "name": "content",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5426,7 +5426,7 @@
             "args": [
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -5436,7 +5436,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5446,7 +5446,7 @@
               },
               {
                 "name": "title",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5456,7 +5456,7 @@
               },
               {
                 "name": "content",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5479,7 +5479,7 @@
             "args": [
               {
                 "name": "featured",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Boolean",
@@ -5489,7 +5489,7 @@
               },
               {
                 "name": "name",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5499,7 +5499,7 @@
               },
               {
                 "name": "resources",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -5513,7 +5513,7 @@
               },
               {
                 "name": "header",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -5523,7 +5523,7 @@
               },
               {
                 "name": "description",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5533,7 +5533,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5556,7 +5556,7 @@
             "args": [
               {
                 "name": "resource",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -5566,7 +5566,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5589,7 +5589,7 @@
             "args": [
               {
                 "name": "resource",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -5599,7 +5599,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5622,7 +5622,7 @@
             "args": [
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5632,7 +5632,7 @@
               },
               {
                 "name": "sections",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -5659,7 +5659,7 @@
             "args": [
               {
                 "name": "resource",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -5669,7 +5669,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5692,7 +5692,7 @@
             "args": [
               {
                 "name": "parent",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -5702,7 +5702,7 @@
               },
               {
                 "name": "body",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5725,7 +5725,7 @@
             "args": [
               {
                 "name": "parent",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -5748,7 +5748,7 @@
             "args": [
               {
                 "name": "signature",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5758,7 +5758,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5768,7 +5768,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -5791,7 +5791,7 @@
             "args": [
               {
                 "name": "website",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5801,7 +5801,7 @@
               },
               {
                 "name": "social",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -5811,7 +5811,7 @@
               },
               {
                 "name": "name",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5821,7 +5821,7 @@
               },
               {
                 "name": "avatar",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5831,7 +5831,7 @@
               },
               {
                 "name": "title",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5841,7 +5841,7 @@
               },
               {
                 "name": "email",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5851,7 +5851,7 @@
               },
               {
                 "name": "username",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5874,7 +5874,7 @@
             "args": [
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5897,7 +5897,7 @@
             "args": [
               {
                 "name": "owner",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -5907,7 +5907,7 @@
               },
               {
                 "name": "signature",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5917,7 +5917,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5927,7 +5927,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -5950,7 +5950,7 @@
             "args": [
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -5960,7 +5960,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -5983,7 +5983,7 @@
             "args": [
               {
                 "name": "dateCreated",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Date",
@@ -5993,7 +5993,7 @@
               },
               {
                 "name": "background",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6003,7 +6003,7 @@
               },
               {
                 "name": "name",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6013,7 +6013,7 @@
               },
               {
                 "name": "description",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6023,7 +6023,7 @@
               },
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -6033,7 +6033,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6043,7 +6043,7 @@
               },
               {
                 "name": "ownerId",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6053,7 +6053,7 @@
               },
               {
                 "name": "sections",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -6080,7 +6080,7 @@
             "args": [
               {
                 "name": "owner",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -6090,7 +6090,7 @@
               },
               {
                 "name": "dateCreated",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Date",
@@ -6100,7 +6100,7 @@
               },
               {
                 "name": "author",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6110,7 +6110,7 @@
               },
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -6120,7 +6120,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6130,7 +6130,7 @@
               },
               {
                 "name": "title",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6140,7 +6140,7 @@
               },
               {
                 "name": "content",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6163,7 +6163,7 @@
             "args": [
               {
                 "name": "resource",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -6173,7 +6173,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6196,7 +6196,7 @@
             "args": [
               {
                 "name": "header",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -6206,7 +6206,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6229,7 +6229,7 @@
             "args": [
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -6239,7 +6239,7 @@
               },
               {
                 "name": "title",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6249,7 +6249,7 @@
               },
               {
                 "name": "content",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6272,7 +6272,7 @@
             "args": [
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -6282,7 +6282,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6292,7 +6292,7 @@
               },
               {
                 "name": "title",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6302,7 +6302,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -6312,7 +6312,7 @@
               },
               {
                 "name": "content",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6335,7 +6335,7 @@
             "args": [
               {
                 "name": "resource",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -6345,7 +6345,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6368,7 +6368,7 @@
             "args": [
               {
                 "name": "cause",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6378,7 +6378,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6388,7 +6388,7 @@
               },
               {
                 "name": "version",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -6411,7 +6411,7 @@
             "args": [
               {
                 "name": "website",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6421,7 +6421,7 @@
               },
               {
                 "name": "social",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -6431,7 +6431,7 @@
               },
               {
                 "name": "name",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6441,7 +6441,7 @@
               },
               {
                 "name": "description",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6451,7 +6451,7 @@
               },
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -6461,7 +6461,7 @@
               },
               {
                 "name": "avatar",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6471,7 +6471,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6506,7 +6506,7 @@
             "args": [
               {
                 "name": "background",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6516,7 +6516,7 @@
               },
               {
                 "name": "name",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6526,7 +6526,7 @@
               },
               {
                 "name": "description",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6536,7 +6536,7 @@
               },
               {
                 "name": "attributes",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Map_String_StringScalar",
@@ -6546,7 +6546,7 @@
               },
               {
                 "name": "id",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -6580,7 +6580,7 @@
             "args": [
               {
                 "name": "hash",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -7402,8 +7402,33 @@
     ],
     "directives": [
       {
+        "name": "skip",
+        "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
+        "locations": [
+          "FIELD",
+          "FRAGMENT_SPREAD",
+          "INLINE_FRAGMENT"
+        ],
+        "args": [
+          {
+            "name": "if",
+            "description": "Skipped when true.",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          }
+        ]
+      },
+      {
         "name": "include",
-        "description": "Directs the executor to include this field or fragment only when the `if` argument is true",
+        "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
         "locations": [
           "FIELD",
           "FRAGMENT_SPREAD",
@@ -7427,27 +7452,22 @@
         ]
       },
       {
-        "name": "skip",
-        "description": "Directs the executor to skip this field or fragment when the `if`'argument is true.",
+        "name": "deprecated",
+        "description": "Marks an element of a GraphQL schema as no longer supported.",
         "locations": [
-          "FIELD",
-          "FRAGMENT_SPREAD",
-          "INLINE_FRAGMENT"
+          "FIELD_DEFINITION",
+          "ENUM_VALUE"
         ],
         "args": [
           {
-            "name": "if",
-            "description": "Skipped when true.",
+            "name": "reason",
+            "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax (as specified by [CommonMark](https://commonmark.org/).",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": "\"No longer supported\""
           }
         ]
       }

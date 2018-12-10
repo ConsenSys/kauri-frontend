@@ -6,7 +6,7 @@
   },
   "license": "ISC",
   "scripts": {
-    "get-schema": "yarn send-introspection-query https://api.dev.kauri.io/graphql && node scripts/convertGQLSchemaToFlowTypes.js",
+    "get-schema": "apollo schema:download --endpoint=https://api.dev.kauri.io/graphql && node scripts/convertGQLSchemaToFlowTypes.js",
     "generate-query-types": "npx apollo client:codegen --target=typescript",
     "gqt": "npm run generate-query-types",
     "dev": "npm run dev:web",
