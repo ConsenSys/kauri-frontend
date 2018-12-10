@@ -28,7 +28,9 @@ storiesOf("AddToCollection ModalAlert - Full Collection", module)
                     chosenCollection: {
                       id: "1234567890",
                       name: "Collection 1",
-                      sections: [{ name: "Section 1" }],
+                      sections: [
+                        { name: "Section 1", id: "1234567890", resources: [] },
+                      ],
                     },
                     chosenSection: null,
                   }}
@@ -36,7 +38,9 @@ storiesOf("AddToCollection ModalAlert - Full Collection", module)
                     {
                       id: "1234567890",
                       name: "Collection 1",
-                      sections: [{ name: "Section 1" }],
+                      sections: [
+                        { name: "Section 1", id: "1234567890", resources: [] },
+                      ],
                     },
                   ]}
                 />

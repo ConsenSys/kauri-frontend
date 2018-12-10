@@ -9,6 +9,9 @@ import {
   PageDescription,
 } from "../../../../kauri-components/components/Typography";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
+import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
+import { openModalAction } from "../../../../kauri-components/components/Modal/Module";
+import AddToCollectionConnection from "../../connections/AddToCollection/index";
 
 const Container = styled.section`
   display: flex;
@@ -112,6 +115,22 @@ const Component: React.SFC<Props> = props => {
               resourceType={"USER"}
               cardHeight={420}
               isLoggedIn={isLoggedIn}
+              hoverChildren={() => (
+                <PrimaryButton
+                  handleClick={() =>
+                    openModalAction({
+                      children: (
+                        <AddToCollectionConnection
+                          articleId={article.id}
+                          version={article.version}
+                        />
+                      ),
+                    })
+                  }
+                >
+                  Add To Collection
+                </PrimaryButton>
+              )}
             />
           ))}
         </ArticlesSection>

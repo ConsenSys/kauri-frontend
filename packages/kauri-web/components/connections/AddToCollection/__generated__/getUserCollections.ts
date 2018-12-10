@@ -14,7 +14,9 @@ export interface getUserCollections_searchCollections_content {
   __typename: "CollectionDTO";
   id: string | null;
   name: string | null;
-  sections: (getUserCollections_searchCollections_content_sections | null)[] | null;
+  sections:
+    | (getUserCollections_searchCollections_content_sections | null)[]
+    | null;
 }
 
 export interface getUserCollections_searchCollections {

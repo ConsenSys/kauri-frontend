@@ -13,6 +13,7 @@ import { ISection } from "../../../../kauri-components/components/AddToCollectio
 import Loading from "../../common/Loading";
 import { ErrorMessage } from "../../../lib/with-apollo-error";
 import { Label } from "../../../../kauri-components/components/Typography";
+import { IAddArticleToCollectionPayload } from "./Module";
 
 const query = gql`
   query getUserCollections($userId: String) {
@@ -21,7 +22,11 @@ const query = gql`
         id
         name
         sections {
+          id
           name
+          resources {
+            id
+          }
         }
       }
     }
@@ -37,12 +42,21 @@ interface IProps {
   closeModalAction: () => void;
   userId: string;
   routeChangeAction: (route: string) => void;
+  articleId: string;
+  addArticleToCollectionAction: (
+    payload: IAddArticleToCollectionPayload,
+    callback: () => void
+  ) => void;
+  version: number;
 }
 
 const Component: React.FunctionComponent<IProps> = ({
   closeModalAction,
   userId,
   routeChangeAction,
+  articleId,
+  version,
+  addArticleToCollectionAction,
 }) => {
   const [state, setState] = React.useState<IChosen>({
     chosenCollection: null,
@@ -75,13 +89,37 @@ const Component: React.FunctionComponent<IProps> = ({
           return Array.isArray(collections) && collections.length > 0 ? (
             <AlertView
               closeModalAction={closeModalAction}
-              confirmButtonAction={
-                () => 1 + 1
-                // addArticleToCollectionSection(
-                //   { id, sectionIndex, articleId },
-                //   closeModalAction
-                // )
-              }
+              confirmButtonAction={() => {
+                if (state.chosenCollection && state.chosenSection) {
+                  const chosenSectionid = state.chosenSection.id;
+                  const chosenCollectionSections = state.chosenCollection.sections.find(
+                    section => section.id === chosenSectionid
+                  );
+
+                  // Always insert article at the end
+                  const position = chosenCollectionSections
+                    ? Array.isArray(chosenCollectionSections.resources)
+                      ? chosenCollectionSections.resources.length - 1
+                      : 0
+                    : 0;
+
+                  addArticleToCollectionAction(
+                    {
+                      id: state.chosenCollection.id,
+                      position,
+                      resourceId: {
+                        id: articleId,
+                        type: "ARTICLE",
+                        version,
+                      },
+                      sectionId: state.chosenSection
+                        ? state.chosenSection.id
+                        : "",
+                    },
+                    closeModalAction
+                  );
+                }
+              }}
               content={
                 <AddToCollectionModalContent
                   parentState={state}

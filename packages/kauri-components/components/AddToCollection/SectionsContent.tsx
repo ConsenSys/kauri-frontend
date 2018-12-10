@@ -40,8 +40,14 @@ const Divider = styled.div`
   cursor: default;
 `;
 
+interface IResource {
+  id: string;
+}
+
 export interface ISection {
+  id: string;
   name: string;
+  resources: IResource[];
 }
 
 interface IProps {
