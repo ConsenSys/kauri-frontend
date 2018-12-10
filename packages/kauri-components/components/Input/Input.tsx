@@ -56,6 +56,7 @@ interface IWrapperProps {
     placeHolder?: string;
     value?: string;
     hideUnderline?: boolean;
+    name?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -125,6 +126,7 @@ class Input extends React.Component<IWrapperProps, IInputState> {
             textAlign = 'left',
             placeHolder,
             hideUnderline,
+            name
         } = this.props;
 
         const underlineValue = this.state.value || (this.state.focused ? '' : placeHolder);
@@ -141,6 +143,7 @@ class Input extends React.Component<IWrapperProps, IInputState> {
                 onBlur={this.exitFocus}
                 onFocus={this.enterFocus}
                 onKeyUp={this.handleKey}
+                name={name}
             />
         {!hideUnderline && <Underline fontSize={fontSize}>{underlineValue && underlineValue.replace(/ /g, '\u00a0') }</Underline>}
         </Wrapper>
