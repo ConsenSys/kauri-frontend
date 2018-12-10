@@ -489,12 +489,14 @@ export default ({
           )}
         />
 
-        <DisplayFormikState
-          touched={touched}
-          errors={errors}
-          values={values}
-          isSubmitting={isSubmitting}
-        />
+        {process.env.NODE_ENV !== "production" && (
+          <DisplayFormikState
+            touched={touched}
+            errors={errors}
+            values={values}
+            isSubmitting={isSubmitting}
+          />
+        )}
       </ContentSection>
     </Form>
   </Section>

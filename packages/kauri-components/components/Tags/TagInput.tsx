@@ -113,7 +113,21 @@ class TagInput extends React.Component<IProps, IState> {
         <div>
             <TopRow>
                 <Plus />
-                <Input ref={ref => this.inputRef = ref}  onKeyUp={this.handleKey} onChange={this.props.onChange} textAlign="left" fontSize={0} fontWeight={600} color="white" placeHolder="ADD TAG" />
+                <Input
+                    onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                        }
+                    }}
+                    ref={ref => this.inputRef = ref} 
+                    onKeyUp={this.handleKey}
+                    onChange={this.props.onChange}
+                    textAlign="left"
+                    fontSize={0}
+                    fontWeight={600}
+                    color="white"
+                    placeHolder="ADD TAG"
+                />
             </TopRow>
         </div>
             { Array.isArray(available) && available.length > 0 && <Results>

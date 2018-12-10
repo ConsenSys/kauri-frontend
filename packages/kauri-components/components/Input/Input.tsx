@@ -60,6 +60,7 @@ interface IWrapperProps {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+    onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     enterFocus?: () => void;
     exitFocus?: () => void;
 }
@@ -126,6 +127,7 @@ class Input extends React.Component<IWrapperProps, IInputState> {
             textAlign = 'left',
             placeHolder,
             hideUnderline,
+            onKeyPress,
             name
         } = this.props;
 
@@ -133,6 +135,7 @@ class Input extends React.Component<IWrapperProps, IInputState> {
 
         return <Wrapper>
             <InputComp
+                onKeyPress={onKeyPress}
                 value={this.state.value || ''}
                 onChange={this.handleChange}
                 placeholder={placeHolder}

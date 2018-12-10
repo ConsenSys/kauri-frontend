@@ -70,6 +70,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
 
   render() {
     if (!this.props.data || !this.props.data.getCollection) return null;
+
     const {
       id,
       name,
@@ -77,6 +78,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       description,
       dateCreated,
       owner,
+      tags,
       sections,
     } = this.props.data.getCollection;
     const { userId, routeChangeAction, hostName } = this.props;
@@ -153,6 +155,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             ownerId={owner.id}
             userId={userId || ""}
             userAvatar={owner && owner.avatar}
+            tags={tags}
             linkComponent={childrenProps => (
               <Link
                 fullWidth={false}

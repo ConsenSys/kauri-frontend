@@ -11,6 +11,7 @@ import {
 import ShareArticle from "../../../kauri-components/components/Tooltip/ShareArticle";
 import UserAvatar from "../../../kauri-components/components/UserAvatar";
 import PrimaryButton from "../../../kauri-components/components/Button/PrimaryButton";
+import { TagList } from '../Tags'
 
 const CollectionHeaderSection = styled.section`
   display: flex;
@@ -60,6 +61,7 @@ const RuntimeProps = t.interface({
   name: t.string,
   ownerId: t.string,
   routeChangeAction: t.any,
+  tags: t.array(t.string),
   updated: t.string,
   url: t.string,
   userAvatar: t.union([t.string, t.null]),
@@ -83,6 +85,7 @@ const Container: React.SFC<Props> = props => {
     userId,
     routeChangeAction,
     imageURL,
+    tags,
   } = RuntimeProps.decode(props).getOrElseL(errors => {
     throw new Error(failure(errors).join("\n"));
   });
@@ -92,6 +95,7 @@ const Container: React.SFC<Props> = props => {
         <Label>Collection Updated {moment(updated).fromNow()}</Label>
         <Title1 color="white">{name}</Title1>
         <PageDescription color="white">{description}</PageDescription>
+        {tags && <TagList color={"white"} maxTags={5} tags={tags} />}
         <ShareArticle color={"white"} url={url} title={name} />
       </LeftSide>
       <RightSide>
