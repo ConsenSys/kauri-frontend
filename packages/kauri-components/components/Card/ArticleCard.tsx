@@ -53,10 +53,10 @@ const Content = styled<{ imageURL: string | null }, "div">("div")`
   flex-direction: column;
   flex: 1;
   > div:first-child {
-    margin-bottom: ${props => props.theme.space[2]}px;
+    margin-bottom: ${props => props.theme.space[1]}px;
   }
   > :nth-child(2) {
-    margin-bottom: ${props => props.theme.space[2]}px;
+    margin-bottom: ${props => props.theme.space[1]}px;
   }
   ${props => typeof props.imageURL === "string" && withImageURLPaddingCss};
 `;
@@ -340,7 +340,7 @@ const HoverContainer = styled<{ hasImageURL: boolean }, "div">("div")`
   border-radius: 4px;
   background: ${props => props.theme.colors.textPrimary};
   > :not(:last-child) {
-    margin-bottom: ${props => props.theme.space[2]}px;
+    margin-bottom: ${props => props.theme.space[1]}px;
   }
   ${props => !props.hasImageURL && shiftMarginDueToNoImageURLCss};
 `;
