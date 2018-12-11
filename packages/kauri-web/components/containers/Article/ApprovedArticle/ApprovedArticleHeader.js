@@ -137,7 +137,7 @@ export default ({
           imageURL={
             attributes && attributes.background && attributes.background
           }
-          username={username ? username : "0x" + ownerId}
+          username={username || "0x" + ownerId}
           userId={
             (ownerId && userIdTrim(ownerId)) ||
             (authorId && userIdTrim(authorId))
