@@ -6,6 +6,7 @@ import moment from "moment";
 import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from "../../CreateRequestForm/CreateRequestHeader";
 import ShareArticle from "../../../../../kauri-components/components/Tooltip/ShareArticle";
 import { TagList } from "../../../../../kauri-components/components/Tags";
+import { Link } from "../../../../routes";
 import {
   Label,
   H5,
@@ -131,19 +132,21 @@ export default ({
           title={title}
         />
         <Label>{ownerId ? "OWNER" : "AUTHOR"}</Label>
-        <UserAvatar
-          variant={"white"}
-          fullWidth
-          imageURL={
-            attributes && attributes.background && attributes.background
-          }
-          username={username || "0x" + ownerId}
-          userId={
-            (ownerId && userIdTrim(ownerId)) ||
-            (authorId && userIdTrim(authorId))
-          }
-          avatar={userAvatar}
-        />
+        <Link useAnchorTag route={`/public-profile/${ownerId}`}>
+          <UserAvatar
+            variant={"white"}
+            fullWidth
+            imageURL={
+              attributes && attributes.background && attributes.background
+            }
+            username={username || "0x" + ownerId}
+            userId={
+              (ownerId && userIdTrim(ownerId)) ||
+              (authorId && userIdTrim(authorId))
+            }
+            avatar={userAvatar}
+          />
+        </Link>
       </MobileShareContainer>
     </InfoContainer>
     {status !== "PUBLISHED" && (
