@@ -43,7 +43,8 @@ const Container = styled<{ imageURL: string | null }, "div">("div")`
   flex: 1;
   text-align: left;
   > a {
-    height: ${props => (props.imageURL ? "calc(100% - 85px)" : "100%")};
+    height: ${props =>
+      props.imageURL ? "calc(100% - 85px)" : "calc(100% - 55px)"};
   }
 `;
 
@@ -67,6 +68,9 @@ const Footer = styled<{ imageURL: string | null }, "div">("div")`
   align-items: flex-start;
   ${props => typeof props.imageURL === "string" && withImageURLPaddingCss};
   padding-top: ${props => typeof props.imageURL === "string" && "0px"};
+  > a {
+    width: 100%;
+  }
 `;
 
 const withImageURLDividerCss = css`
@@ -79,7 +83,7 @@ const Divider = styled<{ imageURL: string | null }, "div">("div")`
   margin-top: auto;
   margin-bottom: ${props => props.theme.space[1]}px;
   background-color: ${props => props.theme.colors.divider};
-  height: 1px;
+  height: 2px;
   ${props => typeof props.imageURL === "string" && withImageURLDividerCss};
 `;
 
