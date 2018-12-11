@@ -16,7 +16,7 @@ const StyledTag = styled(TagName)`
     &:not(:first-child):before {
         content: '•';
         color: ${props => props.theme.colors.primary};
-        margin: 0 ${props => props.theme.space[1] / 2}px;
+        margin-bottom: ${props => props.theme.space[1] / 2}px;
     }
 `;
 

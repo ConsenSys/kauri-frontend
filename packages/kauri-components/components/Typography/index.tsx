@@ -6,7 +6,7 @@ export const BodyCardCss = css<{ color: string | undefined }>`
   font-size: 14px;
   font-weight: normal;
   letter-spacing: -0.1px;
-  margin-bottom: ${props => props.theme.space[1]}px;
+  margin-bottom: ${props => props.theme.space[0]}px;
   line-height: 18px;
   color: ${props =>
     typeof props.color === "string" && props.theme.colors[props.color]};
@@ -20,6 +20,7 @@ interface ITypography {
   textTransform?: "uppercase" | "lowercase" | "capitalize";
   color?: string;
   hoverColor?: string;
+  lineHeight?: string;
   component?: StyledComponentClass<any, any, any>;
 }
 
@@ -28,6 +29,7 @@ const typographySpecifications: ITypography[] = [
     as: "h1",
     fontSize: 20,
     fontWeight: "bold",
+    lineHeight: "24px"
   },
   {
     as: "h2",
@@ -169,6 +171,7 @@ typographySpecifications.map(
     name,
     as,
     fontWeight,
+    lineHeight,
     fontSize,
     textTransform,
     color = "textPrimary",
@@ -181,6 +184,7 @@ typographySpecifications.map(
             color: ${props => props.theme.colors[props.color || color]};
             margin: 0px;
             font-weight: ${fontWeight};
+            ${lineHeight && `line-height: ${lineHeight}`};
             font-size: ${fontSize}px;
             text-transform: ${props =>
               props.textTransform ? props.textTransform : textTransform};
