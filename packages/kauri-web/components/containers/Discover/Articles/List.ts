@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { routeChangeAction } from "../../../../lib/Module";
 import withLoading from "../../../../lib/with-loading";
 import withPagination from "../../../../lib/with-pagination";
+import { openModalAction } from "../../../../../kauri-components/components/Modal/Module";
 
 interface IState {
   app: {
@@ -25,7 +26,7 @@ const QUERY_NAME = "ArticlesQuery";
 export default compose(
   connect(
     mapStateToProps,
-    { routeChangeAction }
+    { routeChangeAction, openModalAction }
   ),
   graphql(globalSearchApprovedArticles, {
     name: QUERY_NAME,

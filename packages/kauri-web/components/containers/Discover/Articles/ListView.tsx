@@ -12,6 +12,8 @@ import {
   globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO,
   globalSearchApprovedArticles_searchArticles_content_owner_CommunityDTO,
 } from "../../../../queries/__generated__/globalSearchApprovedArticles";
+import PrimaryButton from "../../../../../kauri-components/components/Button/PrimaryButton";
+import AddToCollectionConnection from "../../../connections/AddToCollection";
 
 interface IProps {
   ArticlesQuery: {
@@ -20,6 +22,7 @@ interface IProps {
   };
   hostName: string;
   isLoggedIn: boolean;
+  openModalAction: (payload: { children: React.ReactElement<any> }) => void;
   routeChangeAction(route: string): void;
 }
 
@@ -40,7 +43,7 @@ class Articles extends Component<IProps> {
     } // TODO replace with an error message if exists
 
     const { searchArticles } = this.props.ArticlesQuery;
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, openModalAction } = this.props;
 
     return (
       <Fragment>
@@ -138,6 +141,22 @@ class Articles extends Component<IProps> {
                       (resourceType as "USER" | "COMMUNITY")) ||
                     "USER"
                   }
+                  hoverChildren={() => (
+                    <PrimaryButton
+                      handleClick={() =>
+                        openModalAction({
+                          children: (
+                            <AddToCollectionConnection
+                              articleId={article.id}
+                              version={article.version}
+                            />
+                          ),
+                        })
+                      }
+                    >
+                      Add to collection
+                    </PrimaryButton>
+                  )}
                 />
               );
             })}
