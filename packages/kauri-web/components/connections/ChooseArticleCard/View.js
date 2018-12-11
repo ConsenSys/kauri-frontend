@@ -56,6 +56,7 @@ export default ({
               </SecondaryButton>
             </React.Fragment>
           )}
+          triggerHoverChildrenOnFullCardClick
           isChosenArticle={
             !!chosenArticles.find(
               ({ id, version }) =>

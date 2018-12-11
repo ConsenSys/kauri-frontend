@@ -96,7 +96,10 @@ const Component: React.SFC<Props> = props => {
               userId={article.owner.id}
               userAvatar={article.owner.avatar}
               imageURL={
-                typeof article.imageURL === "string" ? article.imageURL : null
+                (article.attributes &&
+                  typeof article.attributes.background === "string" &&
+                  article.attributes.background) ||
+                null
               }
               linkComponent={linkComponent(article)}
               resourceType={"USER"}

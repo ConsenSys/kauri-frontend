@@ -1,14 +1,28 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint:latest", "tslint-react", "tslint-eslint-rules", "tslint-config-prettier"],
+  "extends": [
+    "tslint:latest",
+    "tslint-react",
+    "tslint-eslint-rules",
+    "tslint-config-prettier"
+  ],
   "linterOptions": {
-    "exclude": ["node_modules/**", "**/*.js", "*.js", "*.*.js", ".eslintrc.js", "**/*.bs.js", "*.bs.js"]
+    "exclude": [
+      "node_modules/**",
+      "**/*.js",
+      "*.js",
+      "*.*.js",
+      ".eslintrc.js",
+      "**/*.bs.js",
+      "*.bs.js"
+    ]
   },
   "jsRules": {},
   "rules": {
     "no-submodule-imports": false,
     "ordered-imports": false,
-    "no-console": false
+    "no-console": false,
+    "jsx-no-lambda": false
   },
   "rulesDirectory": []
 }

@@ -16,7 +16,7 @@ import {
   toggleDispatch,
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
-import { TagList } from '../Tags';
+import { TagList } from "../Tags";
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -43,7 +43,8 @@ const Container = styled<{ imageURL: string | null }, "div">("div")`
   flex: 1;
   text-align: left;
   > a {
-    height: ${props => (props.imageURL ? "calc(100% - 85px)" : "100%")};
+    height: ${props =>
+      props.imageURL ? "calc(100% - 85px)" : "calc(100% - 55px)"};
   }
 `;
 
@@ -67,6 +68,9 @@ const Footer = styled<{ imageURL: string | null }, "div">("div")`
   align-items: flex-start;
   ${props => typeof props.imageURL === "string" && withImageURLPaddingCss};
   padding-top: ${props => typeof props.imageURL === "string" && "0px"};
+  > a {
+    width: 100%;
+  }
 `;
 
 const withImageURLDividerCss = css`
@@ -79,7 +83,7 @@ const Divider = styled<{ imageURL: string | null }, "div">("div")`
   margin-top: auto;
   margin-bottom: ${props => props.theme.space[1]}px;
   background-color: ${props => props.theme.colors.divider};
-  height: 1px;
+  height: 2px;
   ${props => typeof props.imageURL === "string" && withImageURLDividerCss};
 `;
 
@@ -287,7 +291,9 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
           />
         </BodyCard>
       )}
-      {Array.isArray(tags) && tags.length > 0 && <TagList maxTags={3} color='textPrimary' tags={tags} />}
+      {Array.isArray(tags) && tags.length > 0 && (
+        <TagList maxTags={3} color="textPrimary" tags={tags} />
+      )}
     </Content>
   </React.Fragment>
 );
@@ -384,6 +390,7 @@ interface IProps {
   status?: "PUBLISHED" | "DRAFT";
   isLoggedIn: boolean;
   tags?: string[];
+  triggerHoverChildrenOnFullCardClick?: boolean;
 }
 
 const ArticleCard: React.FunctionComponent<IProps> = ({
@@ -405,6 +412,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   isLoggedIn,
   hoverChildren,
   tags,
+  triggerHoverChildrenOnFullCardClick = false,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
     IToggleState,
@@ -430,7 +438,12 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
           })}
         />
       )}
-      <Container imageURL={imageURL}>
+      <Container
+        onClick={() =>
+          triggerHoverChildrenOnFullCardClick && showDispatch(dispatch)()
+        }
+        imageURL={imageURL}
+      >
         {isLoggedIn && !!hoverChildren && (
           <MoreOptions
             hasImageURL={!!imageURL}
