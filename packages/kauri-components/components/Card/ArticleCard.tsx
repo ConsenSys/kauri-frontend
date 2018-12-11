@@ -16,7 +16,7 @@ import {
   toggleDispatch,
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
-import { TagList } from '../Tags';
+import { TagList } from "../Tags";
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -287,7 +287,9 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
           />
         </BodyCard>
       )}
-      {Array.isArray(tags) && tags.length > 0 && <TagList maxTags={3} color='textPrimary' tags={tags} />}
+      {Array.isArray(tags) && tags.length > 0 && (
+        <TagList maxTags={3} color="textPrimary" tags={tags} />
+      )}
     </Content>
   </React.Fragment>
 );
@@ -384,6 +386,7 @@ interface IProps {
   status?: "PUBLISHED" | "DRAFT";
   isLoggedIn: boolean;
   tags?: string[];
+  triggerHoverChildrenOnFullCardClick?: boolean;
 }
 
 const ArticleCard: React.FunctionComponent<IProps> = ({
@@ -405,6 +408,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   isLoggedIn,
   hoverChildren,
   tags,
+  triggerHoverChildrenOnFullCardClick = false,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
     IToggleState,
@@ -430,7 +434,12 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
           })}
         />
       )}
-      <Container imageURL={imageURL}>
+      <Container
+        onClick={() =>
+          triggerHoverChildrenOnFullCardClick && showDispatch(dispatch)()
+        }
+        imageURL={imageURL}
+      >
         {isLoggedIn && !!hoverChildren && (
           <MoreOptions
             hasImageURL={!!imageURL}
