@@ -132,7 +132,7 @@ export default ({
           title={title}
         />
         <Label>{ownerId ? "OWNER" : "AUTHOR"}</Label>
-        <Link useAnchorTag route={`/public-profile/${ownerId}`}>
+        <Link useAnchorTag route={`/public-profile/${ownerId || authorId}`}>
           <UserAvatar
             variant={"white"}
             fullWidth
