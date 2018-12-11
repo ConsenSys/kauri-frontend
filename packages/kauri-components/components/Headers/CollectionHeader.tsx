@@ -11,7 +11,7 @@ import {
 import ShareArticle from "../../../kauri-components/components/Tooltip/ShareArticle";
 import UserAvatar from "../../../kauri-components/components/UserAvatar";
 import PrimaryButton from "../../../kauri-components/components/Button/PrimaryButton";
-import { TagList } from '../Tags'
+import { TagList } from "../Tags";
 
 const CollectionHeaderSection = styled.section`
   display: flex;
@@ -61,7 +61,7 @@ const RuntimeProps = t.interface({
   name: t.string,
   ownerId: t.string,
   routeChangeAction: t.any,
-  tags: t.union([t.array(t.string), t.undefined]),
+  tags: t.union([t.array(t.string), t.null]),
   updated: t.string,
   url: t.string,
   userAvatar: t.union([t.string, t.null]),
