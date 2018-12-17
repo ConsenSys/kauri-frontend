@@ -77,6 +77,7 @@ export default compose(
         .max(100, "Too Long!")
         .required("Required"),
       description: Yup.string().min(2, "Too Short!"),
+      tags: Yup.array().min(1, "Minimum one tag"),
     }),
     handleSubmit: (
       values: FormState,

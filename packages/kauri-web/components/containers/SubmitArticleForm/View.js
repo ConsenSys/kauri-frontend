@@ -171,7 +171,7 @@ class SubmitArticleForm extends React.Component<Props> {
           return draftArticleAction({
             text,
             subject,
-            tags,
+            tags: tags || [],
             attributes: attributes || {},
           });
         }
@@ -203,7 +203,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 id,
                 text,
                 subject,
-                tags,
+                tags: tags || articleData.tags,
                 attributes: attributes || articleData.attributes,
               });
             } else if (
@@ -215,7 +215,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 id,
                 text,
                 subject,
-                tags,
+                tags: tags || articleData.tags,
                 attributes: attributes || articleData.attributes,
                 owner,
                 selfPublish: true,
@@ -229,7 +229,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 id,
                 text,
                 subject,
-                tags,
+                tags: tags || articleData.tags,
                 attributes: attributes || articleData.attributes,
                 owner,
               });
@@ -242,7 +242,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 id,
                 text,
                 subject,
-                tags,
+                tags: tags || articleData.tags,
                 attributes: attributes || articleData.attributes,
                 owner,
                 selfPublish: false,
@@ -257,7 +257,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 version,
                 subject,
                 text,
-                tags,
+                tags: tags || articleData.tags,
                 attributes: attributes || articleData.attributes,
               });
             } else if (
@@ -270,7 +270,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 version,
                 subject,
                 text,
-                tags,
+                tags: tags || articleData.tags,
                 attributes: attributes || articleData.attributes,
                 selfPublish: true,
               });

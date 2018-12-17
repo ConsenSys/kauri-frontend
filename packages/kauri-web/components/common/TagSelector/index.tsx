@@ -35,6 +35,11 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
+    // Set the field with existing data
+    if (this.props.setFieldsValue) {
+      this.props.setFieldsValue({ tags: this.state.tags });
+    }
+
     const sub = handleSearch$
       .debounceTime(100)
       .flatMap((text: string) =>
@@ -88,7 +93,14 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
     return (
       <>
         {this.props.getFieldDecorator ? (
-          this.props.getFieldDecorator("tags", {})(
+          this.props.getFieldDecorator("tags", {
+            rules: [
+              {
+                message: "Please enter at least one tag",
+                required: true,
+              },
+            ],
+          })(
             <TagSelector
               tags={this.state.tags}
               fetchMatches={this.fetchMatches}
