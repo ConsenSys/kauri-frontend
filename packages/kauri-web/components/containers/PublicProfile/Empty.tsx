@@ -9,6 +9,7 @@ const EmptyContainer = styled(ContentContainer)`
 `;
 
 const Image = styled.img`
+  margin-top: ${props => props.theme.space[3]}px;
   margin-bottom: ${props => props.theme.space[3]}px;
 `;
 
