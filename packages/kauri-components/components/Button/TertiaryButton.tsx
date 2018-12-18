@@ -31,6 +31,11 @@ const TertiaryButton = styled<
   :hover {
     color: ${props => props.theme.colors.primary};
   }
+  :focus,
+  :active {
+    outline: none;
+    box-shadow: none;
+  }
   ${fontSizeSS};
   ${fontWeightSS};
   ${colorSS};
