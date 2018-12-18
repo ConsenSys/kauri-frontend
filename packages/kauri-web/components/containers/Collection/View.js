@@ -32,7 +32,7 @@ const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
+  padding: 0 ${props => props.theme.padding};
 `;
 
 const HeaderContainer = styled(ContentContainer)`

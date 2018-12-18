@@ -71,12 +71,8 @@ const ProfileImage = styled<{ avatar: string | "none" }, "div">("div")`
   height: 100%;
   width: 100%;
   border-radius: 50%;
-  background-position: center center;
-  background: url(${props => props.avatar}) no-repeat;
+  background: url(${props => props.avatar}) center center;
   background-size: cover;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
 `;
 
 interface IProps {
