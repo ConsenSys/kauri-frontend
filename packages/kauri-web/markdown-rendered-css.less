@@ -83,7 +83,7 @@
     &::before,
     &::after {
       letter-spacing: -0.2em;
-      content: '\00a0';
+      content: "\00a0";
     }
   }
 
@@ -138,7 +138,7 @@
   &::after {
     display: table;
     clear: both;
-    content: '';
+    content: "";
   }
 
   img {
@@ -174,4 +174,14 @@
 
 .react-mde {
   border: none !important;
+}
+
+.public-DraftEditorPlaceholder-root {
+  position: absolute;
+  pointer-events: none;
+  line-height: 24px;
+  font-size: 17px;
+  margin-top: 10px;
+  margin-left: 13px;
+  letter-spacing: -0.1px;
 }

@@ -32,7 +32,7 @@
     "watch-types": "tsc --watch"
   },
   "dependencies": {
-    "@rej156/react-mde": "5.6.8",
+    "@rej156/react-mde": "5.7.0",
     "anchorme": "^1.1.2",
     "antd": "3.2.1",
     "apollo-cache-inmemory": "^1.3.5",
