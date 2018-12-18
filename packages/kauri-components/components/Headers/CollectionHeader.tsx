@@ -43,6 +43,9 @@ const RightSide = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  > :first-child {
+    margin-bottom: ${props => props.theme.space[1]}px;
+  }
   > button:last-child {
     margin-top: ${props => props.theme.space[3]}px;
   }
