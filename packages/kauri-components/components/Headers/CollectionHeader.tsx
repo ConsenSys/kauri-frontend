@@ -43,6 +43,9 @@ const RightSide = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  > :first-child {
+    margin-bottom: ${props => props.theme.space[1]}px;
+  }
   > button:last-child {
     margin-top: ${props => props.theme.space[3]}px;
   }
@@ -107,9 +110,9 @@ const Container: React.SFC<Props> = props => {
               imageURL={imageURL}
               variant="white"
               fullWidth={true}
-              username={username ? username : "0x" + ownerId}
+              username={username}
               avatar={userAvatar}
-              userId={"0x" + ownerId}
+              userId={ownerId}
             />
           )
         ) : (
@@ -117,10 +120,10 @@ const Container: React.SFC<Props> = props => {
             imageURL={imageURL}
             cardType={"COLLECTION"}
             variant="white"
-            username={username ? username : "0x" + ownerId}
+            username={username}
             avatar={userAvatar}
             fullWidth={true}
-            userId={"0x" + ownerId}
+            userId={ownerId}
           />
         )}
         {userId === ownerId ? (

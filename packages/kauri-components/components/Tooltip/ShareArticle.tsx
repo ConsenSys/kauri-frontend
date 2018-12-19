@@ -3,7 +3,7 @@ import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 import TertiaryButton from "../Button/TertiaryButton";
 import { Tooltip } from "react-tippy";
-import {ShareButtons} from './ShareButtons';
+import { ShareButtons } from "./ShareButtons";
 import styled from "../../lib/styled-components";
 import theme from "../../lib/theme-config";
 
@@ -63,7 +63,10 @@ const RuntimeProps = t.interface({
 
 type Props = t.TypeOf<typeof RuntimeProps>;
 
-export const Content: React.SFC<{ title: string; url: string }> = ({ url, title }) => (
+export const Content: React.SFC<{ title: string; url: string }> = ({
+  url,
+  title,
+}) => (
   <TooltipContainer>
     <TooltipArrow />
     <ShareButtons url={url} title={title} />
