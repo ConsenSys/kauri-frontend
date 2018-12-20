@@ -74,8 +74,8 @@ class Collections extends Component<IProps> {
                   <CollectionCard
                     key={String(collection && collection.id)}
                     id={String(collection && collection.id)}
-                    name={String(collection && collection.name)}
-                    description={String(collection && collection.description)}
+                    name={(collection && collection.name) || ""}
+                    description={(collection && collection.description) || ""}
                     username={
                       collection &&
                       collection.owner &&
