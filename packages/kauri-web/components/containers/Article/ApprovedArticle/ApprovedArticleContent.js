@@ -215,7 +215,7 @@ export default ({
             icon={<AddIcon />}
             handleClick={() =>
               openModalAction({
-                children: <AddToCollectionConnection />,
+                children: <AddToCollectionConnection articleId={id} version={version} />,
               })
             }
           >
