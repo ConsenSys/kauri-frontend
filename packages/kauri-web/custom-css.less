@@ -7,6 +7,13 @@ body.overflow-hidden {
   overflow: hidden;
 }
 
+::selection {
+  background: #0ba986; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: #0ba986; /* Gecko Browsers */
+}
+
 .editor {
   font-family: Roboto;
   font-size: 14px !important;
@@ -76,7 +83,10 @@ code.hljs,
 code.hljs span {
   display: inline;
   background-color: #1e2428 !important;
-  font-family: 'Source Code Pro', monospace;
+  font-family: "Source Code Pro", monospace;
+  &::selection {
+    background: #0ba986;
+  }
 }
 
 // Fix tooltip offset
@@ -86,11 +96,16 @@ code.hljs span {
 }
 
 // Fix broken unmountHTMLWhenHide
-.tippy-popper[aria-hidden='true'] {
+.tippy-popper[aria-hidden="true"] {
   display: none;
 }
 
 // Table rendering
-table td, table th {
+table td,
+table th {
   border: 1px solid #c8ccd0;
+}
+
+.DescriptionRow-markdown p {
+  overflow-wrap: break-word;
 }

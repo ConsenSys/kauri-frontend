@@ -148,6 +148,28 @@ class ApprovedArticle extends React.Component<Props, State> {
         <ScrollToTopButton />
         <ApprovedArticle.Header
           {...props.data.getArticle}
+          ownerId={
+            props.data.getArticle &&
+            props.data.getArticle.owner &&
+            props.data.getArticle.owner.id
+          }
+          username={
+            isCommunityOwned
+              ? R.path(["data", "getArticle", "owner", "name"])(props)
+              : R.path(["data", "getArticle", "owner"])(props)
+              ? R.path(["data", "getArticle", "owner", "username"])(props)
+              : R.path(["data", "getArticle", "author", "username"])(props)
+          }
+          userAvatar={
+            props.data.getArticle && props.data.getArticle.owner
+              ? props.data.getArticle.owner.avatar
+              : props.data.getArticle.author.avatar
+          }
+          authorId={
+            props.data.getArticle &&
+            props.data.getArticle.author &&
+            props.data.getArticle.author.id
+          }
           hostName={hostName}
         />
         <ApprovedArticle.Content

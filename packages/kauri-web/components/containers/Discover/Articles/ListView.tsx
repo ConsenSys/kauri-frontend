@@ -29,6 +29,7 @@ const Article = t.interface({
   content: t.string,
   dateCreated: t.string,
   id: t.string,
+  tags: t.union([t.array(t.string), t.null]),
   title: t.string,
   version: t.number,
 });
@@ -90,6 +91,7 @@ class Articles extends Component<IProps> {
                   date={moment(article && article.dateCreated).format(
                     "D MMM YYYY"
                   )}
+                  tags={article.tags || []}
                   title={article && article.title}
                   content={article && article.content}
                   username={

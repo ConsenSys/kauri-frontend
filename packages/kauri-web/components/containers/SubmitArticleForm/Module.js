@@ -24,6 +24,7 @@ export type AttributesPayload = {
 export type SubmitArticlePayload = {
   article_id?: string,
   subject: string,
+  tags: string[],
   text: string,
   attributes?: AttributesPayload,
   selfPublish?: boolean,
@@ -32,6 +33,7 @@ export type SubmitArticlePayload = {
 export type SubmitArticleVersionPayload = {
   id: string,
   subject: string,
+  tags: string[],
   text: string,
   attributes?: AttributesPayload,
   owner?: ?AbstractResourceDTO,
@@ -41,6 +43,7 @@ export type SubmitArticleVersionPayload = {
 export type DraftArticleActionPayload = {
   text: string,
   subject: string,
+  tags: string[],
   attributes?: AttributesPayload,
 };
 
@@ -57,6 +60,7 @@ export type EditArticlePayload = {
   version: number,
   text: string,
   subject: string,
+  tags: string[],
   attributes?: AttributesPayload,
   selfPublish?: boolean,
 };
@@ -129,6 +133,7 @@ export const submitArticleEpic = (
           request_id,
           text,
           subject,
+          tags,
           article_id,
           attributes,
           selfPublish,
@@ -137,7 +142,7 @@ export const submitArticleEpic = (
         Observable.fromPromise(
           apolloClient.mutate({
             mutation: submitNewArticle,
-            variables: { content: text, title: subject, attributes },
+            variables: { content: text, title: subject, tags, attributes },
           })
         )
           .do(h => console.log("submitNewArticle"))
@@ -228,7 +233,9 @@ export const submitArticleVersionEpic = (
   action$
     .ofType(SUBMIT_ARTICLE_VERSION)
     .switchMap(
-      ({ payload: { text, subject, id, attributes, owner, selfPublish } }) =>
+      ({
+        payload: { text, subject, tags, id, attributes, owner, selfPublish },
+      }) =>
         Observable.fromPromise(
           apolloClient.mutate({
             mutation: submitArticleVersion,
@@ -236,6 +243,7 @@ export const submitArticleVersionEpic = (
               id,
               text,
               subject,
+              tags,
               attributes,
             },
           })
@@ -337,12 +345,12 @@ export const editArticleEpic = (
     .ofType(EDIT_ARTICLE)
     .switchMap(
       ({
-        payload: { id, version, text, subject, attributes, selfPublish },
+        payload: { id, version, text, subject, tags, attributes, selfPublish },
       }: EditArticleAction) =>
         Observable.fromPromise(
           apolloClient.mutate({
             mutation: editArticle,
-            variables: { id, version, text, subject, attributes },
+            variables: { id, version, text, subject, tags, attributes },
           })
         )
           .flatMap(
@@ -412,11 +420,11 @@ export const draftArticleEpic = (
   action$
     .ofType(DRAFT_ARTICLE)
     .switchMap(
-      ({ payload: { text, subject, attributes } }: DraftArticleAction) =>
+      ({ payload: { text, subject, tags, attributes } }: DraftArticleAction) =>
         Observable.fromPromise(
           apolloClient.mutate({
             mutation: submitNewArticle,
-            variables: { content: text, title: subject, attributes },
+            variables: { content: text, title: subject, tags, attributes },
           })
         )
           .flatMap(

@@ -75,7 +75,7 @@ const epics = [
   flagRequestEpic,
   addCommentEpic,
   userDetailsEpic,
-  ethUsdPriceEpic,
+  // ethUsdPriceEpic,
   addRequestCommentEpic,
   addToBountyEpic,
   hideIntroBannerEpic,

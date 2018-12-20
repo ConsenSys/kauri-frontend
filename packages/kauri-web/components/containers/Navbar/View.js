@@ -5,7 +5,7 @@ import { Link } from "../../../routes";
 import Web3Status from "../Web3Status";
 import ArticleSearchbar from "../ArticleSearchbar";
 import { H6 } from "../../../../kauri-components/components/Typography";
-import Tooltip from "../../common/Tooltip";
+import Tooltip from "../../../../kauri-components/components/Tooltip/Tooltip";
 import { withRouter } from "next/router";
 
 // const supportedNetworkIds = [4, 224895]
@@ -154,12 +154,8 @@ const ProfileImage = styled.div`
   height: 100%;
   width: 100%;
   border-radius: 50%;
-  background-position: center center;
-  background: url(${props => props.avatar}) no-repeat;
+  background: url(${props => props.avatar}) center center;
   background-size: cover;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
 `;
 
 const deleteAllCookies = callback => {
@@ -271,7 +267,7 @@ class Navbar extends React.Component {
                 </TooltipItem>
               </Link>
               <TooltipDivider />
-              <Link route="/communities">
+              {/* <Link route="/communities">
                 <TooltipItem
                   href="/communities"
                   pathname={router.pathname}
@@ -280,7 +276,7 @@ class Navbar extends React.Component {
                   Communities
                 </TooltipItem>
               </Link>
-              <TooltipDivider />
+              <TooltipDivider /> */}
               <Link route="/collections">
                 <TooltipItem
                   href="/collections"

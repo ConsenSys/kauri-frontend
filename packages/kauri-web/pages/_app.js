@@ -1,8 +1,9 @@
 import App, { Container } from "next/app";
 import Head from "next/head";
 import React from "react";
+import pageAnalytics from "../lib/pageAnalytics";
 
-export default class MyApp extends App {
+class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
 
@@ -13,7 +14,13 @@ export default class MyApp extends App {
     return { pageProps };
   }
 
+  constructor(props) {
+    super(props);
+    pageAnalytics.init();
+  }
+
   render() {
+    pageAnalytics.page(this.props.router);
     const { Component, pageProps } = this.props;
     return (
       <Container>
@@ -25,3 +32,5 @@ export default class MyApp extends App {
     );
   }
 }
+
+export default MyApp;

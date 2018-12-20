@@ -1125,10 +1125,10 @@
   dependencies:
     styled-system "^3.0.1"
 
-"@rej156/react-mde@5.6.8":
-  version "5.6.8"
-  resolved "https://registry.yarnpkg.com/@rej156/react-mde/-/react-mde-5.6.8.tgz#5f3342b9e68e43d564ae960d50ed922d5cfdd687"
-  integrity sha512-Xu6Wx3Dn26WQKrOJBTf+b0Eu6OSt2zY1JUbJq6PRgl1jXqFmWv6H0kiBlx5WCo0ISq5A+peXQ6oWFPKhobw1Lg==
+"@rej156/react-mde@5.7.0":
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/@rej156/react-mde/-/react-mde-5.7.0.tgz#48d46067655f36c4fb62c4219406e39cc68c47fa"
+  integrity sha512-kHlpYSmS5r5hUirq5+9enTKuDbcBqQbTJXe8PKnIUDdvWBc8Kv/n/MqRdDrlVnQ3an7cUIajNdMHuTE4ngTspw==
   dependencies:
     classnames "^2.2.5"
     npm "^6.0.0"
@@ -12699,6 +12699,11 @@ react-fast-highlight@^2.2.0:
     classnames "^2.2.3"
     highlight.js "^9.0.0"
     prop-types "^15.5.6"
+
+react-ga@^2.5.6:
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.5.6.tgz#5a2e2fa78ae298e5b0a4498210eeec631ef1b562"
+  integrity sha512-g04dz6zrbdHRxVaURPWT3RUbjLflh74sS6dCuhGeZupj7ii+UEt9lwTjALb2ST2w+7wAmzG1YqYlNX4yvRXe1g==
 
 react-helmet@^5.2.0:
   version "5.2.0"

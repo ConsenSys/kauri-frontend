@@ -15,15 +15,6 @@ if (isProduction) {
     crossOrigin: "anonymous",
     innerHTML: config.hotJarTrackingCode,
   });
-
-  // Google Tag Manager
-  scripts.push({
-    async: true,
-    src: "https://www.googletagmanager.com/gtag/js?id=UA-112179323-1",
-  });
-  scripts.push({
-    innerHTML: config.googleTagManagerCode,
-  });
 }
 
 export default class MyDocument extends Document {

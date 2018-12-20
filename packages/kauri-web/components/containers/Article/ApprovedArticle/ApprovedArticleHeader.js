@@ -5,12 +5,16 @@ import slugify from "slugify";
 import moment from "moment";
 import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from "../../CreateRequestForm/CreateRequestHeader";
 import ShareArticle from "../../../../../kauri-components/components/Tooltip/ShareArticle";
+import { TagList } from "../../../../../kauri-components/components/Tags";
+import { Link } from "../../../../routes";
 import {
   Label,
   H5,
   Title1,
 } from "../../../../../kauri-components/components/Typography";
+import UserAvatar from "../../../../../kauri-components/components/UserAvatar";
 import theme from "../../../../lib/theme-config";
+import userIdTrim from "../../../../lib/userid-trim";
 
 const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
   display: flex;
@@ -71,6 +75,15 @@ const MobileShareContainer = styled.div`
   @media (max-width: 500px) {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    > :first-child {
+      margin-bottom: ${props => props.theme.space[2]}px;
+    }
+    > *:nth-child(2),
+    *:nth-child(3) {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 `;
 
@@ -83,6 +96,11 @@ export default ({
   attributes,
   status,
   hostName,
+  tags,
+  ownerId,
+  authorId,
+  userAvatar,
+  username,
 }: *) => (
   <ApproveArticleHeader
     style={{
@@ -101,6 +119,7 @@ export default ({
         {`POSTED ${moment(datePublished || dateCreated).fromNow()}`}
       </Label>
       <Title1 color="white">{title}</Title1>
+      {tags && <TagList color={"white"} maxTags={5} tags={tags} />}
       <MobileShareContainer>
         <ShareArticle
           color="white"
@@ -112,6 +131,22 @@ export default ({
           )}?utm_campaign=read`}
           title={title}
         />
+        <Label>{ownerId ? "OWNER" : "AUTHOR"}</Label>
+        <Link useAnchorTag route={`/public-profile/${ownerId || authorId}`}>
+          <UserAvatar
+            variant={"white"}
+            fullWidth
+            imageURL={
+              attributes && attributes.background && attributes.background
+            }
+            username={username || "0x" + ownerId}
+            userId={
+              (ownerId && userIdTrim(ownerId)) ||
+              (authorId && userIdTrim(authorId))
+            }
+            avatar={userAvatar}
+          />
+        </Link>
       </MobileShareContainer>
     </InfoContainer>
     {status !== "PUBLISHED" && (

@@ -16,6 +16,7 @@ import {
   toggleDispatch,
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
+import { TagList } from "../Tags";
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -42,7 +43,8 @@ const Container = styled<{ imageURL: string | null }, "div">("div")`
   flex: 1;
   text-align: left;
   > a {
-    height: ${props => (props.imageURL ? "calc(100% - 85px)" : "100%")};
+    height: ${props =>
+      props.imageURL ? "calc(100% - 85px)" : "calc(100% - 55px)"};
   }
 `;
 
@@ -51,10 +53,10 @@ const Content = styled<{ imageURL: string | null }, "div">("div")`
   flex-direction: column;
   flex: 1;
   > div:first-child {
-    margin-bottom: ${props => props.theme.space[2]}px;
+    margin-bottom: ${props => props.theme.space[1]}px;
   }
   > :nth-child(2) {
-    margin-bottom: ${props => props.theme.space[2]}px;
+    margin-bottom: ${props => props.theme.space[1]}px;
   }
   ${props => typeof props.imageURL === "string" && withImageURLPaddingCss};
 `;
@@ -66,6 +68,9 @@ const Footer = styled<{ imageURL: string | null }, "div">("div")`
   align-items: flex-start;
   ${props => typeof props.imageURL === "string" && withImageURLPaddingCss};
   padding-top: ${props => typeof props.imageURL === "string" && "0px"};
+  > a {
+    width: 100%;
+  }
 `;
 
 const withImageURLDividerCss = css`
@@ -78,7 +83,7 @@ const Divider = styled<{ imageURL: string | null }, "div">("div")`
   margin-top: auto;
   margin-bottom: ${props => props.theme.space[1]}px;
   background-color: ${props => props.theme.colors.divider};
-  height: 1px;
+  height: 2px;
   ${props => typeof props.imageURL === "string" && withImageURLDividerCss};
 `;
 
@@ -240,6 +245,7 @@ interface ICardContentProps {
   imageURL: string | null;
   date: string;
   status: undefined | "PUBLISHED" | "DRAFT";
+  tags?: string[];
 }
 
 const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
@@ -250,6 +256,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   imageURL,
   date,
   status,
+  tags,
 }) => (
   <React.Fragment>
     {typeof imageURL === "string" && (
@@ -283,6 +290,9 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
             text={content}
           />
         </BodyCard>
+      )}
+      {Array.isArray(tags) && tags.length > 0 && (
+        <TagList maxTags={3} color="textPrimary" tags={tags} />
       )}
     </Content>
   </React.Fragment>
@@ -330,7 +340,7 @@ const HoverContainer = styled<{ hasImageURL: boolean }, "div">("div")`
   border-radius: 4px;
   background: ${props => props.theme.colors.textPrimary};
   > :not(:last-child) {
-    margin-bottom: ${props => props.theme.space[2]}px;
+    margin-bottom: ${props => props.theme.space[1]}px;
   }
   ${props => !props.hasImageURL && shiftMarginDueToNoImageURLCss};
 `;
@@ -379,6 +389,8 @@ interface IProps {
   resourceType: "USER" | "COMMUNITY";
   status?: "PUBLISHED" | "DRAFT";
   isLoggedIn: boolean;
+  tags?: string[];
+  triggerHoverChildrenOnFullCardClick?: boolean;
 }
 
 const ArticleCard: React.FunctionComponent<IProps> = ({
@@ -399,6 +411,8 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   status,
   isLoggedIn,
   hoverChildren,
+  tags,
+  triggerHoverChildrenOnFullCardClick = false,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
     IToggleState,
@@ -424,7 +438,12 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
           })}
         />
       )}
-      <Container imageURL={imageURL}>
+      <Container
+        onClick={() =>
+          triggerHoverChildrenOnFullCardClick && showDispatch(dispatch)()
+        }
+        imageURL={imageURL}
+      >
         {isLoggedIn && !!hoverChildren && (
           <MoreOptions
             hasImageURL={!!imageURL}
@@ -442,6 +461,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             imageURL={imageURL}
             date={date}
             status={status}
+            tags={tags}
           />,
           `/article/${id}/v${version}`
         )}

@@ -7,6 +7,7 @@ import {
   CreateRequestSecondaryHeader as SubmitArticleFormHeader,
   TopicActionsContainer as SubmitArticleFormSubjectContainer,
 } from "../CreateRequestForm/CreateRequestHeader";
+import TagSelector from "../../common/TagSelector";
 
 type Props = {
   getFieldValue: string => ?string,
@@ -84,7 +85,6 @@ const articleUnderlineSpanCss = css`
 export const UnderlineSpan = styled.span`
   user-select: none;
   border-top: 3px solid ${props => props.theme.primaryColor};
-  position: absolute;
   left: 0;
   bottom: 0;
   max-width: 100%;
@@ -101,9 +101,12 @@ const SubmitArticleFormSubject = ({
   getFieldDecorator,
   getFieldError,
   getFieldValue,
+  setFieldsValue,
   subject,
+  tags,
   isKauriTopicOwner,
   attributes,
+  form,
 }: *) => (
   <SubmitArticleFormSubjectContainer>
     <InputWrapper maxlength={150}>
@@ -135,6 +138,11 @@ const SubmitArticleFormSubject = ({
         {typeof getFieldValue("subject") === "string" &&
           getFieldValue("subject").replace(/ /g, "\u00a0")}
       </UnderlineSpan>
+      <TagSelector
+        tags={tags}
+        setFieldsValue={setFieldsValue}
+        getFieldDecorator={getFieldDecorator}
+      />
     </InputWrapper>
   </SubmitArticleFormSubjectContainer>
 );
@@ -159,7 +167,9 @@ export default ({
   getFieldDecorator,
   status,
   subject,
+  tags,
   getFieldValue,
+  setFieldsValue,
   isKauriTopicOwner,
   attributes,
 }: Props) => (
@@ -173,8 +183,10 @@ export default ({
       getFieldError={getFieldError}
       getFieldValue={getFieldValue}
       subject={subject}
+      tags={tags}
       theme={theme}
       getFieldDecorator={getFieldDecorator}
+      setFieldsValue={setFieldsValue}
       isKauriTopicOwner={isKauriTopicOwner}
       attributes={attributes}
     />

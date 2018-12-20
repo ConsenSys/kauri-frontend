@@ -1,14 +1,14 @@
-import React from 'react'
-import { withApollo, compose } from 'react-apollo'
-import withData from '../lib/with-data'
-import AppWithoutNavbar from '../layouts/AppWithoutNavbar'
-import CreateRequestForm from '../components/containers/CreateRequestForm'
-import { Helmet } from 'react-helmet'
-import { withRouter } from 'next/router';
+import React from "react";
+import { withApollo, compose } from "react-apollo";
+import withData from "../lib/with-data";
+import AppWithoutNavbar from "../layouts/AppWithoutNavbar";
+import CreateRequestForm from "../components/containers/CreateRequestForm";
+import { Helmet } from "react-helmet";
+import { withRouter } from "next/router";
 
 class CreateRequest extends React.Component {
   static async getInitialProps(context, apolloClient) {
-    return {}
+    return {};
   }
 
   render() {
@@ -19,7 +19,7 @@ class CreateRequest extends React.Component {
         </Helmet>
         <CreateRequestForm />
       </AppWithoutNavbar>
-    )
+    );
   }
 }
 
@@ -28,5 +28,5 @@ export default compose(
   withData,
   // withApollo exposes `this.props.client` used when logging out
   withApollo,
-  withRouter,
-)(CreateRequest)
+  withRouter
+)(CreateRequest);

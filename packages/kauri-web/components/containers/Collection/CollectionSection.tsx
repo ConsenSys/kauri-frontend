@@ -29,6 +29,14 @@ const ArticlesSection = styled.section`
   }
 `;
 
+const StyledTitle = styled(Title2)`
+  margin-top: ${props => props.theme.space[3]}px;
+`;
+
+const StyledDescription = styled(PageDescription)`
+  margin-bottom: ${props => props.theme.space[3]}px;
+`;
+
 const Owner = t.interface({
   avatar: t.union([t.null, t.string]),
   id: t.string,
@@ -81,8 +89,8 @@ const Component: React.SFC<Props> = props => {
 
     return (
       <Container>
-        <Title2>{name}</Title2>
-        <PageDescription>{description}</PageDescription>
+        <StyledTitle>{name}</StyledTitle>
+        <StyledDescription>{description}</StyledDescription>
         <ArticlesSection>
           {articles.map(article => (
             <ArticleCard
@@ -96,7 +104,10 @@ const Component: React.SFC<Props> = props => {
               userId={article.owner.id}
               userAvatar={article.owner.avatar}
               imageURL={
-                typeof article.imageURL === "string" ? article.imageURL : null
+                (article.attributes &&
+                  typeof article.attributes.background === "string" &&
+                  article.attributes.background) ||
+                null
               }
               linkComponent={linkComponent(article)}
               resourceType={"USER"}

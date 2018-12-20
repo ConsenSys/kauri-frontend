@@ -59,6 +59,7 @@ type Props = {
 type SubmitArticleVariables = {
   subject: string,
   text: string,
+  tags: string[],
   owner: ?Owner,
   version?: string,
   attributes?: AttributesPayload,
@@ -143,10 +144,11 @@ class SubmitArticleForm extends React.Component<Props> {
   ) => {
     e.preventDefault();
     const attributes = this.props.form.getFieldValue("attributes");
+
     this.props.form.validateFieldsAndScroll(
       async (
         formErr,
-        { text, subject, attributes }: SubmitArticleVariables
+        { text, subject, attributes, tags }: SubmitArticleVariables
       ) => {
         const { networkName } = await this.getNetwork();
         await this.checkNetwork(networkName);
@@ -169,6 +171,7 @@ class SubmitArticleForm extends React.Component<Props> {
           return draftArticleAction({
             text,
             subject,
+            tags: tags || [],
             attributes: attributes || {},
           });
         }
@@ -178,6 +181,7 @@ class SubmitArticleForm extends React.Component<Props> {
             text,
             subject,
             attributes,
+            tags,
             selfPublish: true,
           });
         }
@@ -199,6 +203,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 id,
                 text,
                 subject,
+                tags: tags || articleData.tags,
                 attributes: attributes || articleData.attributes,
               });
             } else if (
@@ -210,6 +215,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 id,
                 text,
                 subject,
+                tags: tags || articleData.tags,
                 attributes: attributes || articleData.attributes,
                 owner,
                 selfPublish: true,
@@ -223,6 +229,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 id,
                 text,
                 subject,
+                tags: tags || articleData.tags,
                 attributes: attributes || articleData.attributes,
                 owner,
               });
@@ -235,6 +242,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 id,
                 text,
                 subject,
+                tags: tags || articleData.tags,
                 attributes: attributes || articleData.attributes,
                 owner,
                 selfPublish: false,
@@ -249,6 +257,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 version,
                 subject,
                 text,
+                tags: tags || articleData.tags,
                 attributes: attributes || articleData.attributes,
               });
             } else if (
@@ -261,6 +270,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 version,
                 subject,
                 text,
+                tags: tags || articleData.tags,
                 attributes: attributes || articleData.attributes,
                 selfPublish: true,
               });
@@ -301,6 +311,7 @@ class SubmitArticleForm extends React.Component<Props> {
           subject={articleData && articleData.title}
           attributes={articleData && articleData.attributes}
           isKauriTopicOwner={isKauriTopicOwner}
+          tags={articleData && articleData.tags}
         />
         <SubmitArticleForm.Content
           {...this.props.form}

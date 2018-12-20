@@ -44,7 +44,7 @@ class OnboardingEditProfile extends Component {
         ? this.props.routeChangeAction(
             "/" + this.props.query.r + "?redirected=true"
           )
-        : window.open(this.props.query.r, "_blank");
+        : this.props.routeChangeAction("/" + this.props.query.r);
     } else {
       this.props.routeChangeAction(`/public-profile/${this.props.userId}`);
     }

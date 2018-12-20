@@ -32,7 +32,7 @@ const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
+  padding: 0 ${props => props.theme.padding};
 `;
 
 const HeaderContainer = styled(ContentContainer)`
@@ -50,7 +50,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     trianglify: "",
   };
 
-  componentDidMount () {
+  componentDidMount() {
     const trianglify = require("trianglify");
     const trianglifyBg = trianglify({
       width: 1920,
@@ -68,8 +68,9 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     this.setState({ trianglifyBg: trianglifyBgString });
   }
 
-  render () {
+  render() {
     if (!this.props.data || !this.props.data.getCollection) return null;
+
     const {
       id,
       name,
@@ -77,6 +78,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       description,
       dateCreated,
       owner,
+      tags,
       sections,
     } = this.props.data.getCollection;
     const { userId, routeChangeAction, hostName } = this.props;
@@ -103,42 +105,42 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
         <Helmet>
           <title>{name} - Kauri</title>
           <meta
-            name='description'
+            name="description"
             content={`${description && description.slice(0, 151)}...`}
           />
           <meta
-            name='keywords'
+            name="keywords"
             content={extractedKeywords.map(keyword => keyword)}
           />
-          <link rel='canonical' href={url} />
-          <meta property='og:title' content={name} />
-          <meta property='og:site_name' content='kauri.io' />
+          <link rel="canonical" href={url} />
+          <meta property="og:title" content={name} />
+          <meta property="og:site_name" content="kauri.io" />
           <meta
-            property='og:url'
+            property="og:url"
             content={`https://${hostName}/article/${id}/${slugify(name, {
               lower: true,
             })}`}
           />
           <meta
-            property='og:description'
+            property="og:description"
             content={`${description && description.substring(0, 100)}...`}
           />
-          <meta property='og:type' content='article' />
-          <meta property='og:image' content={bg} />
-          <meta name='twitter:card' content='summary' />
+          <meta property="og:type" content="article" />
+          <meta property="og:image" content={bg} />
+          <meta name="twitter:card" content="summary" />
           <meta
-            name='twitter:site'
+            name="twitter:site"
             ccontent={`https://${hostName}/article/${id}/${slugify(name, {
               lower: true,
             })}`}
           />
-          <meta name='twitter:title' content={name} />
+          <meta name="twitter:title" content={name} />
           <meta
-            name='twitter:description'
+            name="twitter:description"
             content={`${description && description.substring(0, 100)}...`}
           />
-          <meta name='twitter:creator' content='@kauri_io' />
-          <meta name='twitter:image' content={bg} />
+          <meta name="twitter:creator" content="@kauri_io" />
+          <meta name="twitter:image" content={bg} />
         </Helmet>
         <ScrollToTopOnMount />
         <HeaderContainer background={bg}>
@@ -153,6 +155,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             ownerId={owner.id}
             userId={userId || ""}
             userAvatar={owner && owner.avatar}
+            tags={tags}
             linkComponent={childrenProps => (
               <Link
                 fullWidth={false}

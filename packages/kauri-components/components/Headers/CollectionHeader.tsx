@@ -11,6 +11,7 @@ import {
 import ShareArticle from "../../../kauri-components/components/Tooltip/ShareArticle";
 import UserAvatar from "../../../kauri-components/components/UserAvatar";
 import PrimaryButton from "../../../kauri-components/components/Button/PrimaryButton";
+import { TagList } from "../Tags";
 
 const CollectionHeaderSection = styled.section`
   display: flex;
@@ -42,6 +43,9 @@ const RightSide = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  > :first-child {
+    margin-bottom: ${props => props.theme.space[1]}px;
+  }
   > button:last-child {
     margin-top: ${props => props.theme.space[3]}px;
   }
@@ -60,6 +64,7 @@ const RuntimeProps = t.interface({
   name: t.string,
   ownerId: t.string,
   routeChangeAction: t.any,
+  tags: t.union([t.array(t.string), t.null]),
   updated: t.string,
   url: t.string,
   userAvatar: t.union([t.string, t.null]),
@@ -83,6 +88,7 @@ const Container: React.SFC<Props> = props => {
     userId,
     routeChangeAction,
     imageURL,
+    tags,
   } = RuntimeProps.decode(props).getOrElseL(errors => {
     throw new Error(failure(errors).join("\n"));
   });
@@ -92,6 +98,7 @@ const Container: React.SFC<Props> = props => {
         <Label>Collection Updated {moment(updated).fromNow()}</Label>
         <Title1 color="white">{name}</Title1>
         <PageDescription color="white">{description}</PageDescription>
+        {tags && <TagList color={"white"} maxTags={5} tags={tags} />}
         <ShareArticle color={"white"} url={url} title={name} />
       </LeftSide>
       <RightSide>
@@ -103,9 +110,9 @@ const Container: React.SFC<Props> = props => {
               imageURL={imageURL}
               variant="white"
               fullWidth={true}
-              username={username ? username : "0x" + ownerId}
+              username={username}
               avatar={userAvatar}
-              userId={"0x" + ownerId}
+              userId={ownerId}
             />
           )
         ) : (
@@ -113,10 +120,10 @@ const Container: React.SFC<Props> = props => {
             imageURL={imageURL}
             cardType={"COLLECTION"}
             variant="white"
-            username={username ? username : "0x" + ownerId}
+            username={username}
             avatar={userAvatar}
             fullWidth={true}
-            userId={"0x" + ownerId}
+            userId={ownerId}
           />
         )}
         {userId === ownerId ? (

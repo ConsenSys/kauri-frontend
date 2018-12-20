@@ -13,6 +13,7 @@ export const Article = gql`
     attributes
     contentHash
     checkpoint
+    tags
     vote {
       totalVote
     }
@@ -70,6 +71,7 @@ export const submitArticle = gql`
     $article_id: String
     $text: String
     $subject: String
+    $tags: [String]
     $attributes: Map_String_StringScalar
     $version: Int
   ) {
@@ -77,6 +79,7 @@ export const submitArticle = gql`
       id: $article_id
       content: $text
       title: $subject
+      tags: $tags
       attributes: $attributes
       version: $version
     ) {
@@ -89,11 +92,13 @@ export const submitNewArticle = gql`
   mutation submitNewArticle(
     $title: String
     $content: String
+    $tags: [String]
     $attributes: Map_String_StringScalar
   ) {
     submitNewArticle(
       title: $title
       content: $content
+      tags: $tags
       attributes: $attributes
     ) {
       hash
@@ -145,12 +150,14 @@ export const editArticle = gql`
     $version: Int
     $text: String
     $subject: String
+    $tags: [String]
     $attributes: Map_String_StringScalar
   ) {
     editArticleVersion(
       id: $id
       version: $version
       content: $text
+      tags: $tags
       title: $subject
       attributes: $attributes
     ) {
@@ -277,6 +284,7 @@ export const searchPersonalArticles = gql`
         version
         title
         content
+        tags
         dateCreated
         datePublished
         author {
@@ -342,6 +350,7 @@ export const searchPersonalDrafts = gql`
         version
         title
         content
+        tags
         dateCreated
         datePublished
         author {
@@ -399,12 +408,14 @@ export const submitArticleVersion = gql`
     $id: String
     $subject: String
     $text: String
+    $tags: [String]
     $attributes: Map_String_StringScalar
   ) {
     submitArticleVersion(
       id: $id
       title: $subject
       content: $text
+      tags: $tags
       attributes: $attributes
     ) {
       hash
@@ -436,6 +447,7 @@ export const searchPending = gql`
         version
         title
         content
+        tags
         dateCreated
         datePublished
         author {
@@ -500,6 +512,7 @@ export const searchAwaitingApproval = gql`
         version
         title
         content
+        tags
         dateCreated
         datePublished
         author {

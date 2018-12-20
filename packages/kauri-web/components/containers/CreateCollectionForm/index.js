@@ -54,21 +54,22 @@ export default compose(
       name: getCollectionField("name", data) || "",
       sections: R.path(["getCollection", "sections"])(data)
         ? R.pipe(
-          R.path(["getCollection", "sections"]),
-          R.map(section => ({
-            ...section,
-            resourcesId: R.map(({ id, version }) => ({
-              type: "ARTICLE",
-              id,
-              version,
-            }))(section.resources),
-          })),
-          R.map(section => R.dissocPath(["resources"])(section)),
-          R.map(section => R.dissocPath(["__typename"])(section))
-        )(data)
+            R.path(["getCollection", "sections"]),
+            R.map(section => ({
+              ...section,
+              resourcesId: R.map(({ id, version }) => ({
+                type: "ARTICLE",
+                id,
+                version,
+              }))(section.resources),
+            })),
+            R.map(section => R.dissocPath(["resources"])(section)),
+            R.map(section => R.dissocPath(["__typename"])(section))
+          )(data)
         : [emptySection],
       background: getCollectionField("background", data) || undefined,
       description: getCollectionField("description", data) || undefined,
+      tags: getCollectionField("tags", data) || undefined,
     }),
     validationSchema: Yup.object().shape({
       name: Yup.string()
@@ -76,6 +77,7 @@ export default compose(
         .max(100, "Too Long!")
         .required("Required"),
       description: Yup.string().min(2, "Too Short!"),
+      tags: Yup.array().min(1, "Minimum one tag"),
     }),
     handleSubmit: (
       values: FormState,
