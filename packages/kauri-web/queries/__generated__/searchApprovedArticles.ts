@@ -97,6 +97,7 @@ export interface searchApprovedArticles_searchArticles_content {
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
+  tags: (string | null)[] | null;
   vote: searchApprovedArticles_searchArticles_content_vote | null;
   author: searchApprovedArticles_searchArticles_content_author | null;
   owner: searchApprovedArticles_searchArticles_content_owner | null;

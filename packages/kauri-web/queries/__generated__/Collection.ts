@@ -39,6 +39,7 @@ export interface Collection {
   id: string | null;
   name: string | null;
   description: string | null;
+  tags: (string | null)[] | null;
   background: string | null;
   dateUpdated: any | null;
   owner: Collection_owner | null;

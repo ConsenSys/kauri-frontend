@@ -97,6 +97,7 @@ export interface searchPendingArticles_searchArticles_content {
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
+  tags: (string | null)[] | null;
   vote: searchPendingArticles_searchArticles_content_vote | null;
   author: searchPendingArticles_searchArticles_content_author | null;
   owner: searchPendingArticles_searchArticles_content_owner | null;

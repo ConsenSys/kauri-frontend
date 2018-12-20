@@ -97,6 +97,7 @@ export interface Article {
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
+  tags: (string | null)[] | null;
   vote: Article_vote | null;
   author: Article_author | null;
   owner: Article_owner | null;

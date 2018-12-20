@@ -80,6 +80,7 @@ export interface getCollection_getCollection {
   id: string | null;
   name: string | null;
   description: string | null;
+  tags: (string | null)[] | null;
   background: string | null;
   dateCreated: any | null;
   owner: getCollection_getCollection_owner | null;

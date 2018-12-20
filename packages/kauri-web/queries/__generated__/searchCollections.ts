@@ -39,6 +39,7 @@ export interface searchCollections_searchCollections_content {
   id: string | null;
   name: string | null;
   description: string | null;
+  tags: (string | null)[] | null;
   background: string | null;
   dateUpdated: any | null;
   owner: searchCollections_searchCollections_content_owner | null;

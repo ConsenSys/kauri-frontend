@@ -25,7 +25,23 @@ const query = gql`
           id
           name
           resources {
-            id
+            ... on ArticleDTO {
+              id
+              version
+              title
+              content
+              dateCreated
+              datePublished
+              author {
+                id
+                name
+              }
+              status
+              attributes
+              vote {
+                totalVote
+              }
+            }
           }
         }
       }

@@ -72,6 +72,7 @@ export interface searchArticles_searchArticles_content {
   version: number | null;
   title: string | null;
   content: string | null;
+  tags: (string | null)[] | null;
   dateCreated: any | null;
   datePublished: any | null;
   author: searchArticles_searchArticles_content_author | null;

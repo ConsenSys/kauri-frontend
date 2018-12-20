@@ -1,4 +1,3 @@
-/* tslint:disable */
 import { Epic } from "redux-observable";
 import { Observable } from "rxjs/Observable";
 import gql from "graphql-tag";
@@ -82,13 +81,11 @@ export const addArticleToCollectionEpic: Epic<
 > = (action$, store, { apolloClient, apolloSubscriber }) =>
   action$.ofType(ADD_ARTICLE_TO_COLLECTION).switchMap(actions =>
     Observable.fromPromise(
-      // @ts-ignore
       apolloClient.mutate<addArticleToCollection>({
         mutation: addArticleToCollectionMutation,
         variables: (actions as IAddArticleToCollectionAction).payload,
       })
     )
-      // @ts-ignore
       .mergeMap(({ data: { addCollectionResource } }) =>
         apolloSubscriber<IAddArticleToCollectionCommandOutput>(
           CommandOutput.decode(addCollectionResource).getOrElseL(errors => {
@@ -115,7 +112,6 @@ export const addArticleToCollectionEpic: Epic<
           }).title
       )
       .do(() => typeof actions.callback === "function" && actions.callback())
-      // @ts-ignore
       .mergeMap(title => {
         const user = store.getState().app.user;
         const userId = user ? user.id : "";
