@@ -28,19 +28,6 @@ const query = gql`
             ... on ArticleDTO {
               id
               version
-              title
-              content
-              dateCreated
-              datePublished
-              author {
-                id
-                name
-              }
-              status
-              attributes
-              vote {
-                totalVote
-              }
             }
           }
         }
@@ -89,7 +76,9 @@ const Component: React.FunctionComponent<IProps> = ({
           return <Loading />;
         }
         if (props.error) {
-          return <ErrorMessage message={props.error.message} />;
+          return (
+            <ErrorMessage data={{ error: { message: props.error.message } }} />
+          );
         }
 
         if (
@@ -154,9 +143,10 @@ const Component: React.FunctionComponent<IProps> = ({
             <AlertView
               title={"Create collection"}
               closeModalAction={closeModalAction}
-              confirmButtonAction={() =>
-                routeChangeAction("/create-collection")
-              }
+              confirmButtonAction={() => {
+                routeChangeAction("/create-collection");
+                closeModalAction();
+              }}
               content={
                 <section>
                   <Label>You don't have any collections.</Label>

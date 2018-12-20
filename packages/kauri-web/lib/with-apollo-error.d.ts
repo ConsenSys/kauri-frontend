@@ -1,7 +1,7 @@
 import * as React from "react";
 
 interface IErrorMessageProps {
-  message: string;
+  data: { error: { message: string } };
 }
 
 export class ErrorMessage extends React.Component<IErrorMessageProps> {}

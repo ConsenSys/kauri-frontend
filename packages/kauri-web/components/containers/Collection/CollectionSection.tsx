@@ -10,7 +10,6 @@ import {
 } from "../../../../kauri-components/components/Typography";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
-import { openModalAction } from "../../../../kauri-components/components/Modal/Module";
 import AddToCollectionConnection from "../../connections/AddToCollection/index";
 
 const Container = styled.section`
@@ -65,14 +64,19 @@ const RuntimeProps = t.interface({
   description: t.union([t.string, t.undefined, t.null]),
   isLoggedIn: t.boolean,
   name: t.string,
+  openModalAction: t.any,
 });
 
 type Props = t.TypeOf<typeof RuntimeProps>;
 
 const Component: React.SFC<Props> = props => {
-  const { name, description, articles, isLoggedIn } = RuntimeProps.decode(
-    props
-  ).getOrElseL(errors => {
+  const {
+    name,
+    description,
+    articles,
+    isLoggedIn,
+    openModalAction,
+  } = RuntimeProps.decode(props).getOrElseL(errors => {
     throw new Error(failure(errors).join("\n"));
   });
   if (articles) {
@@ -117,7 +121,7 @@ const Component: React.SFC<Props> = props => {
               isLoggedIn={isLoggedIn}
               hoverChildren={() => (
                 <PrimaryButton
-                  handleClick={() =>
+                  onClick={() =>
                     openModalAction({
                       children: (
                         <AddToCollectionConnection
