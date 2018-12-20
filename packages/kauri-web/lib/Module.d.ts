@@ -1,3 +1,4 @@
+import { ApolloClient } from "apollo-client";
 import { IAddArticleToCollectionAction } from "../components/connections/AddToCollection/Module";
 
 type NotificationType = "success" | "info" | "warning" | "error";

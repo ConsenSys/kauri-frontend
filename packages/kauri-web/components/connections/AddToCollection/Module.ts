@@ -13,7 +13,10 @@ import {
 } from "../../../lib/Module";
 import { getArticleTitle } from "../../containers/Article/__generated__/getArticleTitle";
 import { getArticleTitleQuery } from "../../containers/Article/DeleteDraftArticleModule";
-// import { addArticleToCollection } from "./__generated__/addArticleToCollection";
+import {
+  addArticleToCollection,
+  addArticleToCollectionVariables,
+} from "./__generated__/addArticleToCollection";
 
 export const addArticleToCollectionMutation = gql`
   mutation addArticleToCollection(
@@ -105,7 +108,6 @@ export const addArticleToCollectionEpic: Epic<
         })
       )
       .map(
-        // @ts-ignore
         ({ data: { getArticle } }) =>
           GetArticle.decode(getArticle).getOrElseL(errors => {
             throw new Error(failure(errors).join("\n"));
