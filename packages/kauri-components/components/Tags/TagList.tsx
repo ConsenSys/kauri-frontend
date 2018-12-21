@@ -4,6 +4,8 @@ import styled from 'styled-components';
 const Container = styled.div`
     display: flex;
     margin: ${props => props.theme.space[1]}px 0;
+    flex-direction: row;
+    flex-wrap: wrap;
 `;
 
 interface IProps {
