@@ -12,7 +12,7 @@ import Awaiting from "./Awaiting/View";
 import Pending from "./Pending/View";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor (props: ViewProps) {
+  constructor(props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -26,11 +26,11 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     };
   }
 
-  toggleEditing () {
+  toggleEditing() {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render () {
+  render() {
     const {
       PendingQuery,
       UserQuery,
@@ -89,10 +89,10 @@ class PublicProfile extends Component<ViewProps, ViewState> {
           <Tabs
             tabs={[
               `Articles (${ArticlesQuery.searchArticles.totalElements})`,
-              isOwner && `Drafts (${DraftsQuery.searchArticles.totalElements})`,
               `Collections (${
                 CollectionQuery.searchCollections.totalElements
               })`,
+              isOwner && `Drafts (${DraftsQuery.searchArticles.totalElements})`,
               isOwner &&
                 `Awaiting Owner Approval (${
                   ApprovalsQuery.searchArticles.totalElements
@@ -105,14 +105,18 @@ class PublicProfile extends Component<ViewProps, ViewState> {
             panels={[
               <Published
                 data={ArticlesQuery}
-                type='published'
+                type="published"
                 routeChangeAction={routeChangeAction}
                 isOwner={isOwner}
+              />,
+              <Collections
+                data={CollectionQuery}
+                routeChangeAction={routeChangeAction}
               />,
               isOwner && (
                 <Drafts
                   data={DraftsQuery}
-                  type='draft'
+                  type="draft"
                   routeChangeAction={routeChangeAction}
                   deleteDraftArticleAction={deleteDraftArticleAction}
                   isOwner={UserQuery.getUser.id === currentUser}
@@ -121,18 +125,14 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                   openModalAction={openModalAction}
                 />
               ),
-              <Collections
-                data={CollectionQuery}
-                routeChangeAction={routeChangeAction}
-              />,
               <Awaiting
                 data={ApprovalsQuery}
-                type='pending'
+                type="pending"
                 routeChangeAction={routeChangeAction}
               />,
               <Pending
                 data={PendingQuery}
-                type='toBeApproved'
+                type="toBeApproved"
                 routeChangeAction={routeChangeAction}
               />,
             ]}

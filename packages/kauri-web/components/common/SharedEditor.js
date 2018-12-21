@@ -27,15 +27,15 @@ export const EditorContainer = styled.div`
 
 let reactMdeCommands = getDefaultCommands();
 reactMdeCommands[2][7] = mediumImport;
-reactMdeCommands[1][4] = uploadImageCommand;
+reactMdeCommands[1][3] = uploadImageCommand;
 reactMdeCommands[1][5] = youtubeCommand;
 
-Showdown.extension("highlightjs", function () {
+Showdown.extension("highlightjs", function() {
   return [
     {
       type: "output",
       regex: new RegExp("<code>", "g"),
-      replace: "<code class=\"hljs\">",
+      replace: '<code class="hljs">',
     },
   ];
 });
@@ -58,7 +58,7 @@ export class SharedEditor extends React.Component<*> {
       "Do you want to leave this site? Changes you made may not be saved";
   };
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     if (document.querySelector(".mde-preview")) {
       R.map(block => hljs.highlightBlock(block))(
         document.querySelectorAll("pre code")
@@ -66,7 +66,7 @@ export class SharedEditor extends React.Component<*> {
     }
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     if (this.props.editorState) {
       const converter = new Showdown.Converter({
         tables: true,
@@ -75,7 +75,7 @@ export class SharedEditor extends React.Component<*> {
         tasklists: true,
         extensions: ["highlightjs"],
       });
-      // console.log(this.props.editorState)
+      console.log(this.props.editorState);
       const mdeState = await DraftUtil.getMdeStateFromDraftState(
         (this.props.editorState && this.props.editorState.draftEditorState) ||
           EditorState.createWithContent(
@@ -94,11 +94,11 @@ export class SharedEditor extends React.Component<*> {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener("beforeunload", this.handleCloseBrowserTab);
   }
 
-  render () {
+  render() {
     const { editorState, handleChange, readOnly } = this.props;
 
     return (
