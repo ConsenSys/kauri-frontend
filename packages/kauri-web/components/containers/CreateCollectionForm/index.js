@@ -53,7 +53,7 @@ export default compose(
     mapPropsToValues: ({ data, query }) => {
       const sections =
         // Prefill article in section 1 and create first collection
-        typeof query === "object"
+        typeof query === "object" && typeof query.articleId === "string"
           ? [
             {
               name: "",
@@ -99,6 +99,12 @@ export default compose(
         .required("Required"),
       description: Yup.string().min(2, "Too Short!"),
       tags: Yup.array().min(1, "Minimum one tag"),
+      sections: Yup.array(
+        Yup.object().shape({
+          name: Yup.string().required("Required section name!"),
+          resourcesId: Yup.array().required("Required resource!"),
+        })
+      ),
     }),
     handleSubmit: (
       values: FormState,
