@@ -385,13 +385,15 @@ interface IProps {
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
-  hoverChildren?: (
-    payload: {
-      hideDispatch: () => void;
-      showDispatch: () => void;
-      toggleDispatch: () => void;
-    }
-  ) => React.ReactElement<any>;
+  hoverChildren?:
+    | null
+    | ((
+        payload: {
+          hideDispatch: () => void;
+          showDispatch: () => void;
+          toggleDispatch: () => void;
+        }
+      ) => React.ReactElement<any>);
   isChosenArticle?: boolean;
   resourceType: "USER" | "COMMUNITY";
   status?: "PUBLISHED" | "DRAFT";

@@ -183,9 +183,11 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
                   key={section.name}
                   name={section.name}
                   isLoggedIn={!!this.props.userId}
+                  currentUser={this.props.userId}
                   description={section.description || ""}
                   articles={section.resources}
                   openModalAction={openModalAction}
+                  isOwnedByCurrentUser={this.props.userId === owner.id}
                 />
               );
             })}
