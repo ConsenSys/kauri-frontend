@@ -3,7 +3,7 @@ import styled from "styled-components";
 import EditProfile from "../../common/EditProfile";
 import {
   PrimaryButton,
-  TertiaryButton,
+  SecondaryButton,
 } from "../../../../kauri-components/components/Button";
 import Loading from "../../common/Loading";
 
@@ -18,15 +18,15 @@ const Page = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: ${props => props.theme.space[3]}px;
-  width: 300px;
   justify-content: space-between;
+  width: 100%;
 `;
 
 class OnboardingEditProfile extends Component {
@@ -71,9 +71,9 @@ class OnboardingEditProfile extends Component {
       twitter ||
       title ||
       website;
-    if (hasData) {
-      return this.redirect();
-    }
+    // if (hasData) {
+    //   return this.redirect();
+    // }
   }
 
   render() {
@@ -97,24 +97,26 @@ class OnboardingEditProfile extends Component {
       twitter ||
       title ||
       website;
-    if (hasData) {
-      return (
-        <Page>
-          <Loading />
-        </Page>
-      );
-    }
+    // if (hasData) {
+    //   return (
+    //     <Page>
+    //       <Loading />
+    //     </Page>
+    //   );
+    // }
     return (
       <Page>
         <Wrapper>
           <EditProfile ref={comp => (this.login = comp)} />
+          <ButtonWrapper>
+            <SecondaryButton onClick={() => this.redirect()}>
+              Skip
+            </SecondaryButton>
+            <PrimaryButton onClick={() => this.handleSubmit()}>
+              Next
+            </PrimaryButton>
+          </ButtonWrapper>
         </Wrapper>
-        <ButtonWrapper>
-          <TertiaryButton onClick={() => this.redirect()}>Skip</TertiaryButton>
-          <PrimaryButton onClick={() => this.handleSubmit()}>
-            Next
-          </PrimaryButton>
-        </ButtonWrapper>
       </Page>
     );
   }
