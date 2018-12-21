@@ -149,7 +149,9 @@ const Component: React.FunctionComponent<IProps> = ({
               title={"Create collection"}
               closeModalAction={closeModalAction}
               confirmButtonAction={() => {
-                routeChangeAction("/create-collection");
+                routeChangeAction(
+                  `/create-collection?articleId=${articleId}&version=${version}`
+                );
                 closeModalAction();
               }}
               confirmButtonText={"Create Collection"}
