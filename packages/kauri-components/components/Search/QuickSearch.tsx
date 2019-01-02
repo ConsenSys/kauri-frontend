@@ -1,13 +1,14 @@
 import { H3 } from '../Typography';
 import styled from '../../lib/styled-components';
 import { TagList } from '../Tags';
+import Tabs from '../Tabs';
 
 interface IResult {
     description: string;
     id: string;
     name: string;
     score: number;
-    tags: string[];
+    tags?: string[] | null;
     type: string;
 }
 
@@ -15,7 +16,7 @@ interface IProps {
     results: IResult[];
 }
 
-const Result = styled.div`
+const ResultComp = styled.div`
     padding: ${props => props.theme.space[1]}px ${props => props.theme.space[1]}px 0;
 
     & > * > .highlighter {
@@ -28,19 +29,32 @@ const Result = styled.div`
 
 const SearchComp = styled.div`
     margin: ${props => props.theme.space[2]}px;
-    padding: ${props => props.theme.space[2]}px;
     background: white;
     max-width: 400px;
+    padding-bottom: ${props => props.theme.space[1]}px;
 `;
 
-const SearchResult = (props: { key: string; result: IResult }) => <Result>
+const Result = (props: { key: string; result: IResult }) => <ResultComp>
     <H3 dangerouslySetInnerHTML={{__html: props.result.name}} />
     <div dangerouslySetInnerHTML={{__html: props.result.description}} />
-    <TagList color="textPrimary" tags={props.result.tags} maxTags={3} />
-</Result>
+    {props.result.tags && <TagList color="textPrimary" tags={props.result.tags} maxTags={3} />}
+</ResultComp>;
+
+const SearchResults = (props: { results: IResult[]}) => <>
+    {props.results.map(i => <Result key={i.id} result={i} />)}
+</>;
 
 const Search = (props: IProps) => <SearchComp>
-    {props.results.map((i) => <SearchResult key={i.id} result={i} />)}
+    {/* {props.results.map((i) => <Result key={i.id} result={i} />)} */}
+    <Tabs
+        tabs={['Articles','Collections', 'Communities','Users']}
+        panels={[
+            <SearchResults key="ARTICLE" results={props.results.filter(i => i.type === 'ARTICLE')} />,
+            <SearchResults key="COLLECTION" results={props.results.filter(i => i.type === 'COLLECTION')} />,
+            <SearchResults key="COMMUNITY" results={props.results.filter(i => i.type === 'COMMUNITY')} />,
+            <SearchResults key="USER" results={props.results.filter(i => i.type === 'USER')} />
+        ]}
+    />
 </SearchComp>;
 
 export default Search;

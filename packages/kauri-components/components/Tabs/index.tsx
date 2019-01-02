@@ -54,7 +54,7 @@ const Tab = styled<ITabProps, "div">("div")`
 
 interface IProps {
   tabs: string[];
-  panels: Element[];
+  panels: Element[] | JSX.Element[];
   padContent?: boolean;
   centerTabs?: boolean;
   bg?: string;
