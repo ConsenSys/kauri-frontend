@@ -51,6 +51,7 @@ class NavSearch extends React.Component<IProps, IState> {
   componentDidMount() {
     const sub = handleSearch$
       .debounceTime(300)
+      .filter((text: string) => text !== "")
       .flatMap((text: string) =>
         this.props.client.query<{
           searchAutocomplete: { content: IResult[] };
@@ -71,12 +72,15 @@ class NavSearch extends React.Component<IProps, IState> {
           },
         }) => content
       )
-      .subscribe((dataSource: IDataSource) => {
-        if (dataSource.length === 0) {
-          dataSource = [];
-        }
-        this.setState({ ...this.state, dataSource });
-      });
+      .subscribe(
+        (dataSource: IDataSource) => {
+          if (dataSource.length === 0) {
+            dataSource = [];
+          }
+          this.setState({ ...this.state, dataSource });
+        },
+        (err: string) => console.log(err)
+      );
     this.setState({ ...this.state, sub });
   }
 
