@@ -19,7 +19,7 @@ interface IProps {
 const ResultComp = styled.div`
     padding: ${props => props.theme.space[1]}px ${props => props.theme.space[1]}px 0;
 
-    & > * > .highlighter {
+    & .highlighter {
         background: ${props => props.theme.colors.primary};
         color: white;
         padding: 0px 2px;
@@ -35,7 +35,7 @@ const SearchComp = styled.div`
 `;
 
 const Result = (props: { key: string; result: IResult }) => <ResultComp>
-    <H3 dangerouslySetInnerHTML={{__html: props.result.name}} />
+    <H3><div dangerouslySetInnerHTML={{__html: props.result.name}} /></H3>
     <div dangerouslySetInnerHTML={{__html: props.result.description}} />
     {props.result.tags && <TagList color="textPrimary" tags={props.result.tags} maxTags={3} />}
 </ResultComp>;
@@ -45,8 +45,8 @@ const SearchResults = (props: { results: IResult[]}) => <>
 </>;
 
 const Search = (props: IProps) => <SearchComp>
-    {/* {props.results.map((i) => <Result key={i.id} result={i} />)} */}
     <Tabs
+        dark={false}
         tabs={['Articles','Collections', 'Communities','Users']}
         panels={[
             <SearchResults key="ARTICLE" results={props.results.filter(i => i.type === 'ARTICLE')} />,

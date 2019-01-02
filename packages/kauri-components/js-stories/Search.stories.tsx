@@ -37,7 +37,7 @@ storiesOf("Search", module).add("Quick Search", () => (
       "type": "COMMUNITY",
     },
     {
-      "description":  "This is a community description",
+      "description":  "This is a community description with a random <span class='highlighter'>Remix</span> tag on it",
       "id": "123213123",
       "name": "<span class='highlighter'>Remix</span> IDE - Your first smart contract",
       "score": 10,
