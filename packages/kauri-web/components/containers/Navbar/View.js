@@ -3,7 +3,8 @@ import { Menu, Icon } from "antd";
 import styled, { css } from "styled-components";
 import { Link } from "../../../routes";
 import Web3Status from "../Web3Status";
-import ArticleSearchbar from "../ArticleSearchbar";
+// import ArticleSearchbar from "../ArticleSearchbar";
+import NavSearch from "../QuickSearch";
 import { H6 } from "../../../../kauri-components/components/Typography";
 import Tooltip from "../../../../kauri-components/components/Tooltip/Tooltip";
 import { withRouter } from "next/router";
@@ -291,7 +292,8 @@ class Navbar extends React.Component {
         </StyledMenuItem>
         <Spacer />
         <StyledMenuItem onlyDesktop>
-          <ArticleSearchbar collapsible />
+          {/* <ArticleSearchbar collapsible /> */}
+          <NavSearch />
         </StyledMenuItem>
 
         <StyledMenuItem onlyDesktop>

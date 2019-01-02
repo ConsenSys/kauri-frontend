@@ -4,13 +4,15 @@ import { TagList } from '../Tags';
 import Tabs from '../Tabs';
 import PrimaryButton from '../Button/PrimaryButton';
 
-interface IResult {
+export interface IResult {
     description: string;
-    id: string;
     name: string;
     score: number;
     tags?: string[] | null;
-    type: string;
+    resourceIdentifier: {
+        type: string;
+        id: string;
+    }
 }
 
 interface IProps {
@@ -19,8 +21,9 @@ interface IProps {
 
 const ResultComp = styled.div`
     padding: ${props => props.theme.space[1]}px ${props => props.theme.space[1]}px 0;
-    width: 100%;
+    max-width: 400px;
     cursor: pointer;
+    color: ${props => props.theme.colors.textPrimary};
 
     &:hover {
         background: ${props => props.theme.colors.tertiaryBackgroundColor};
@@ -39,6 +42,7 @@ const SearchComp = styled.div`
     max-width: 400px;
     padding-bottom: ${props => props.theme.space[1]}px;
     border-radius: 4px;
+    box-shadow: 0px 0px 6px rgba(0,0,0,0.11);
 `;
 
 const ResultsComp = styled.div`
@@ -58,20 +62,20 @@ const Result = (props: { key: string; result: IResult }) => <ResultComp>
 </ResultComp>;
 
 const SearchResults = (props: { type: string; results: IResult[]}) => <ResultsComp>
-    {props.results.map(i => <Result key={i.id} result={i} />)}
+    {props.results.map(i => <Result key={i.resourceIdentifier.id} result={i} />)}
     <PrimaryButton text={`View all ${props.type}`} />
 </ResultsComp>;
 
 const Search = (props: IProps) => <>
-    {props.results && <SearchComp>
+    {props.results && props.results.length > 0 && <SearchComp>
         <Tabs
             dark={false}
             tabs={['Articles','Collections', 'Communities','Users']}
             panels={[
-                <SearchResults type="ARTICLES" key="ARTICLES" results={props.results.filter(i => i.type === 'ARTICLE')} />,
-                <SearchResults type="COLLECTIONS" key="COLLECTIONS" results={props.results.filter(i => i.type === 'COLLECTION')} />,
-                <SearchResults type="COMMUNITIES" key="COMMUNITIES" results={props.results.filter(i => i.type === 'COMMUNITY')} />,
-                <SearchResults type="USERS" key="USERS" results={props.results.filter(i => i.type === 'USER')} />
+                <SearchResults type="ARTICLES" key="ARTICLES" results={props.results.filter(i => i.resourceIdentifier.type === 'ARTICLE')} />,
+                <SearchResults type="COLLECTIONS" key="COLLECTIONS" results={props.results.filter(i => i.resourceIdentifier.type === 'COLLECTION')} />,
+                <SearchResults type="COMMUNITIES" key="COMMUNITIES" results={props.results.filter(i => i.resourceIdentifier.type === 'COMMUNITY')} />,
+                <SearchResults type="USERS" key="USERS" results={props.results.filter(i => i.resourceIdentifier.type === 'USER')} />
             ]}
         />
     </SearchComp>}
