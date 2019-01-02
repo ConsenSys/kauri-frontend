@@ -20,6 +20,11 @@ interface IProps {
 const ResultComp = styled.div`
     padding: ${props => props.theme.space[1]}px ${props => props.theme.space[1]}px 0;
     width: 100%;
+    cursor: pointer;
+
+    &:hover {
+        background: ${props => props.theme.colors.tertiaryBackgroundColor};
+    }
 
     & .highlighter {
         background: ${props => props.theme.colors.primary};
