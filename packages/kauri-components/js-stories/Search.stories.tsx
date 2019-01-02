@@ -1,8 +1,13 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import QuickSearch from "../components/Search/QuickSearch";
+import QuickSearchInput from "../components/Search/QuickSearchInput";
 
-storiesOf("Search", module).add("Quick Search", () => (
+storiesOf("Search", module)
+.add('QuickSearchInput', () => (
+  <QuickSearchInput />
+))
+.add("Quick Search", () => (
   <QuickSearch results={[
     {
       "description":  "This is a community description",

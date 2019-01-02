@@ -35,7 +35,6 @@ const ResultComp = styled.div`
 `;
 
 const SearchComp = styled.div`
-    margin: ${props => props.theme.space[2]}px;
     background: white;
     max-width: 400px;
     padding-bottom: ${props => props.theme.space[1]}px;
@@ -46,6 +45,10 @@ const ResultsComp = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    > :last-child {
+        margin-top: ${props => props.theme.space[1]}px;
+    }
 `;
 
 const Result = (props: { key: string; result: IResult }) => <ResultComp>
@@ -59,17 +62,19 @@ const SearchResults = (props: { type: string; results: IResult[]}) => <ResultsCo
     <PrimaryButton text={`View all ${props.type}`} />
 </ResultsComp>;
 
-const Search = (props: IProps) => <SearchComp>
-    <Tabs
-        dark={false}
-        tabs={['Articles','Collections', 'Communities','Users']}
-        panels={[
-            <SearchResults type="ARTICLES" key="ARTICLES" results={props.results.filter(i => i.type === 'ARTICLE')} />,
-            <SearchResults type="COLLECTIONS" key="COLLECTIONS" results={props.results.filter(i => i.type === 'COLLECTION')} />,
-            <SearchResults type="COMMUNITIES" key="COMMUNITIES" results={props.results.filter(i => i.type === 'COMMUNITY')} />,
-            <SearchResults type="USERS" key="USERS" results={props.results.filter(i => i.type === 'USER')} />
-        ]}
-    />
-</SearchComp>;
+const Search = (props: IProps) => <>
+    {props.results && <SearchComp>
+        <Tabs
+            dark={false}
+            tabs={['Articles','Collections', 'Communities','Users']}
+            panels={[
+                <SearchResults type="ARTICLES" key="ARTICLES" results={props.results.filter(i => i.type === 'ARTICLE')} />,
+                <SearchResults type="COLLECTIONS" key="COLLECTIONS" results={props.results.filter(i => i.type === 'COLLECTION')} />,
+                <SearchResults type="COMMUNITIES" key="COMMUNITIES" results={props.results.filter(i => i.type === 'COMMUNITY')} />,
+                <SearchResults type="USERS" key="USERS" results={props.results.filter(i => i.type === 'USER')} />
+            ]}
+        />
+    </SearchComp>}
+</>;
 
 export default Search;
