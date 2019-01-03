@@ -1,6 +1,7 @@
 import React from "react";
 import QuickSearch, {
   IResult,
+  IElementsBreakdown,
 } from "../../../../kauri-components/components/Search/QuickSearch";
 import QuickSearchInput from "../../../../kauri-components/components/Search/QuickSearchInput";
 import styled from "styled-components";
@@ -22,11 +23,13 @@ interface IProps {
   routeChangeAction: (route: string) => void;
 }
 
-interface IDataSource extends Array<IResult> {}
+interface IDataSource {
+  results: IResult[];
+  totalElementsBreakdown: IElementsBreakdown;
+}
 
 interface IState {
   dataSource: IDataSource;
-  results: IResult[];
   search: string;
   sub?: Subscription;
   open: boolean;
@@ -38,9 +41,19 @@ class NavSearch extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      dataSource: [],
+      dataSource: {
+        results: [],
+        totalElementsBreakdown: {
+          ARTICLE: 0,
+          COLLECTION: 0,
+          COMMENT: 0,
+          COMMUNITY: 0,
+          CURATED_LIST: 0,
+          REQUEST: 0,
+          USER: 0,
+        },
+      },
       open: false,
-      results: [],
       search: "",
     };
 
@@ -54,7 +67,10 @@ class NavSearch extends React.Component<IProps, IState> {
       .filter((text: string) => text !== "")
       .flatMap((text: string) =>
         this.props.client.query<{
-          searchAutocomplete: { content: IResult[] };
+          searchAutocomplete: {
+            content: IResult[];
+            totalElementsBreakdown: IElementsBreakdown;
+          };
         }>({
           fetchPolicy: "no-cache",
           query: searchAutocomplete,
@@ -65,17 +81,25 @@ class NavSearch extends React.Component<IProps, IState> {
           },
         })
       )
-      .map(
-        ({
-          data: {
-            searchAutocomplete: { content },
-          },
-        }) => content
-      )
+      .map(({ data: { searchAutocomplete: queryResult } }) => ({
+        results: queryResult.content,
+        totalElementsBreakdown: queryResult.totalElementsBreakdown,
+      }))
       .subscribe(
         (dataSource: IDataSource) => {
-          if (dataSource.length === 0) {
-            dataSource = [];
+          if (dataSource.results.length === 0) {
+            dataSource = {
+              results: [],
+              totalElementsBreakdown: {
+                ARTICLE: 0,
+                COLLECTION: 0,
+                COMMENT: 0,
+                COMMUNITY: 0,
+                CURATED_LIST: 0,
+                REQUEST: 0,
+                USER: 0,
+              },
+            };
           }
           this.setState({ ...this.state, dataSource });
         },
@@ -103,7 +127,10 @@ class NavSearch extends React.Component<IProps, IState> {
         onMouseLeave={this.collapseSearch}
       >
         <QuickSearchInput open={this.state.open} onChange={this.fetchResults} />
-        <QuickSearch results={this.state.dataSource} />
+        <QuickSearch
+          breakDown={this.state.dataSource.totalElementsBreakdown}
+          results={this.state.dataSource.results}
+        />
       </NavBarAdjusted>
     );
   }
