@@ -20,8 +20,9 @@ interface IProps {
 }
 
 const ResultComp = styled.div`
-    padding: ${props => props.theme.space[1]}px ${props => props.theme.space[1]}px 0;
+    padding: ${props => props.theme.space[1]}px ${props => props.theme.space[2]}px 0;
     max-width: 400px;
+    width: 100%;
     cursor: pointer;
     color: ${props => props.theme.colors.textPrimary};
 
@@ -34,6 +35,16 @@ const ResultComp = styled.div`
         color: white;
         padding: 0px 2px;
         border-radius: 2px;
+    }
+
+    & div {
+        line-height: normal !important;
+        height: auto !important;
+        white-space: normal;
+    }
+
+    > :first-child {
+        margin-bottom: ${props => props.theme.space[1]}px;
     }
 `;
 
@@ -52,10 +63,11 @@ const ResultsComp = styled.div`
 
     > :last-child {
         margin-top: ${props => props.theme.space[1]}px;
+        line-height: normal !important;
     }
 `;
 
-const Result = (props: { key: string; result: IResult }) => <ResultComp>
+const Result = (props: { key: string; result: IResult }) => <ResultComp className="quickSearch">
     <H3><div dangerouslySetInnerHTML={{__html: props.result.name}} /></H3>
     <div dangerouslySetInnerHTML={{__html: props.result.description}} />
     {props.result.tags && <TagList color="textPrimary" tags={props.result.tags} maxTags={3} />}
@@ -69,6 +81,7 @@ const SearchResults = (props: { type: string; results: IResult[]}) => <ResultsCo
 const Search = (props: IProps) => <>
     {props.results && props.results.length > 0 && <SearchComp>
         <Tabs
+            padContent={false}
             dark={false}
             tabs={['Articles','Collections', 'Communities','Users']}
             panels={[

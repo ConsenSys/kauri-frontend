@@ -89,7 +89,7 @@ class NavSearch extends React.Component<IProps, IState> {
   }
 
   collapseSearch() {
-    this.setState({ open: false, dataSource: [] });
+    // this.setState({ open: false, dataSource: [] });
   }
 
   fetchResults(e: React.ChangeEvent<HTMLInputElement>) {
