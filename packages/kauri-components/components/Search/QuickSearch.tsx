@@ -15,8 +15,14 @@ export interface IResult {
     }
 }
 
+export interface IElementsBreakdown {
+    [key:string]: number;
+}
+
 interface IProps {
     results: IResult[];
+    breakDown: IElementsBreakdown;
+    maxResults: number;
 }
 
 const ResultComp = styled.div`
@@ -41,6 +47,10 @@ const ResultComp = styled.div`
         line-height: normal !important;
         height: auto !important;
         white-space: normal;
+    }
+
+    & .quickSearchDescription {
+        font-size: ${props => props.theme.fontSizes[1]}px;
     }
 
     > :first-child {
@@ -69,27 +79,25 @@ const ResultsComp = styled.div`
 
 const Result = (props: { key: string; result: IResult }) => <ResultComp className="quickSearch">
     <H3><div dangerouslySetInnerHTML={{__html: props.result.name}} /></H3>
-    <div dangerouslySetInnerHTML={{__html: props.result.description}} />
+    <div className="quickSearchDescription" dangerouslySetInnerHTML={{__html: props.result.description}} />
     {props.result.tags && <TagList color="textPrimary" tags={props.result.tags} maxTags={3} />}
 </ResultComp>;
 
-const SearchResults = (props: { type: string; results: IResult[]}) => <ResultsComp>
-    {props.results.map(i => <Result key={i.resourceIdentifier.id} result={i} />)}
+const SearchResults = (props: {maxResults: number; type: string; results: IResult[]}) => <ResultsComp>
+    {props.results.slice(0, props.maxResults).map(i => <Result key={i.resourceIdentifier.id} result={i} />)}
     <PrimaryButton text={`View all ${props.type}`} />
 </ResultsComp>;
 
+
+const getTabs = (breakdown: IElementsBreakdown) => Object.keys(breakdown).filter(tab => breakdown[tab] > 0).sort((a,b) => breakdown[b] - breakdown[a]);
+
 const Search = (props: IProps) => <>
-    {props.results && props.results.length > 0 && <SearchComp>
+    {props.breakDown && props.results && props.results.length > 0 && <SearchComp>
         <Tabs
             padContent={false}
             dark={false}
-            tabs={['Articles','Collections', 'Communities','Users']}
-            panels={[
-                <SearchResults type="ARTICLES" key="ARTICLES" results={props.results.filter(i => i.resourceIdentifier.type === 'ARTICLE')} />,
-                <SearchResults type="COLLECTIONS" key="COLLECTIONS" results={props.results.filter(i => i.resourceIdentifier.type === 'COLLECTION')} />,
-                <SearchResults type="COMMUNITIES" key="COMMUNITIES" results={props.results.filter(i => i.resourceIdentifier.type === 'COMMUNITY')} />,
-                <SearchResults type="USERS" key="USERS" results={props.results.filter(i => i.resourceIdentifier.type === 'USER')} />
-            ]}
+            tabs={getTabs(props.breakDown).map(tab => `${tab} (${props.breakDown[tab]})`)}
+            panels={getTabs(props.breakDown).map(tab => <SearchResults maxResults={props.maxResults} type={tab} key={tab} results={props.results.filter(i => i.resourceIdentifier.type === tab)} />)}
         />
     </SearchComp>}
 </>;

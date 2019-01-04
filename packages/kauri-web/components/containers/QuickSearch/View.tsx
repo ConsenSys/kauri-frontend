@@ -77,7 +77,7 @@ class NavSearch extends React.Component<IProps, IState> {
           variables: {
             page: 0,
             query: text,
-            size: 20,
+            size: 10,
           },
         })
       )
@@ -108,6 +108,12 @@ class NavSearch extends React.Component<IProps, IState> {
     this.setState({ ...this.state, sub });
   }
 
+  componentWillUnmount() {
+    if (this.state.sub) {
+      this.state.sub.unsubscribe();
+    }
+  }
+
   expandSearch() {
     this.setState({ open: true });
   }
@@ -128,6 +134,7 @@ class NavSearch extends React.Component<IProps, IState> {
       >
         <QuickSearchInput open={this.state.open} onChange={this.fetchResults} />
         <QuickSearch
+          maxResults={3}
           breakDown={this.state.dataSource.totalElementsBreakdown}
           results={this.state.dataSource.results}
         />
