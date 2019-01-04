@@ -10,6 +10,19 @@ import { Subject } from "rxjs/Subject";
 import { Subscription } from "rxjs/Subscription";
 import ApolloClient from "apollo-client";
 
+const EmptyData = {
+  results: [],
+  totalElementsBreakdown: {
+    ARTICLE: 0,
+    COLLECTION: 0,
+    COMMENT: 0,
+    COMMUNITY: 0,
+    CURATED_LIST: 0,
+    REQUEST: 0,
+    USER: 0,
+  },
+};
+
 const NavBarAdjusted = styled.div`
   margin-top: 20px;
 
@@ -41,18 +54,7 @@ class NavSearch extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      dataSource: {
-        results: [],
-        totalElementsBreakdown: {
-          ARTICLE: 0,
-          COLLECTION: 0,
-          COMMENT: 0,
-          COMMUNITY: 0,
-          CURATED_LIST: 0,
-          REQUEST: 0,
-          USER: 0,
-        },
-      },
+      dataSource: EmptyData,
       open: false,
       search: "",
     };
@@ -88,18 +90,7 @@ class NavSearch extends React.Component<IProps, IState> {
       .subscribe(
         (dataSource: IDataSource) => {
           if (dataSource.results.length === 0) {
-            dataSource = {
-              results: [],
-              totalElementsBreakdown: {
-                ARTICLE: 0,
-                COLLECTION: 0,
-                COMMENT: 0,
-                COMMUNITY: 0,
-                CURATED_LIST: 0,
-                REQUEST: 0,
-                USER: 0,
-              },
-            };
+            dataSource = EmptyData;
           }
           this.setState({ ...this.state, dataSource });
         },
@@ -119,7 +110,7 @@ class NavSearch extends React.Component<IProps, IState> {
   }
 
   collapseSearch() {
-    // this.setState({ open: false, dataSource: [] });
+    this.setState({ open: false, dataSource: EmptyData });
   }
 
   fetchResults(e: React.ChangeEvent<HTMLInputElement>) {
