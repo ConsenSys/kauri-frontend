@@ -125,6 +125,7 @@ class NavSearch extends React.Component<IProps, IState> {
       >
         <QuickSearchInput open={this.state.open} onChange={this.fetchResults} />
         <QuickSearch
+          routeChangeAction={this.props.routeChangeAction}
           maxResults={3}
           breakDown={this.state.dataSource.totalElementsBreakdown}
           results={this.state.dataSource.results}

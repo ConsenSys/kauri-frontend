@@ -8,6 +8,8 @@ export interface IResult {
     description: string;
     name: string;
     score: number;
+    type: string;
+    id: string;
     tags?: string[] | null;
     resourceIdentifier: {
         type: string;
@@ -23,6 +25,7 @@ interface IProps {
     results: IResult[];
     breakDown: IElementsBreakdown;
     maxResults: number;
+    routeChangeAction: (route: string) => void;
 }
 
 const ResultComp = styled.div`
@@ -77,19 +80,47 @@ const ResultsComp = styled.div`
     }
 `;
 
-const Result = (props: { key: string; result: IResult }) => <ResultComp className="quickSearch">
+const getTabs = (breakdown: IElementsBreakdown) => Object.keys(breakdown).filter(tab => breakdown[tab] > 0).sort((a,b) => breakdown[b] - breakdown[a]);
+
+const getRoute = (element: IResult) => {
+    switch(element.resourceIdentifier.type) {
+        case 'ARTICLE':
+            return `/articles/${element.resourceIdentifier.id}`;
+        case 'COLLECTION':
+            return `/collections/${element.resourceIdentifier.id}`;
+        case 'COMMUNITY':
+            return `/communities/${element.resourceIdentifier.id}`;
+        case 'USER':
+            return `/public-profile/${element.resourceIdentifier.id}`;
+        default:
+            return '/'
+    }
+}
+
+interface IResultComp {
+    key: string;
+    result: IResult;
+    routeChangeAction: (route:string) => void;
+}
+
+const Result = (props: IResultComp) => <ResultComp className="quickSearch" onClick={() => props.routeChangeAction(getRoute(props.result))}>
     <H3><div dangerouslySetInnerHTML={{__html: props.result.name}} /></H3>
     <div className="quickSearchDescription" dangerouslySetInnerHTML={{__html: props.result.description}} />
     {props.result.tags && <TagList color="textPrimary" tags={props.result.tags} maxTags={3} />}
 </ResultComp>;
 
-const SearchResults = (props: {maxResults: number; type: string; results: IResult[]}) => <ResultsComp>
-    {props.results.slice(0, props.maxResults).map(i => <Result key={i.resourceIdentifier.id} result={i} />)}
+interface ISearchResults {
+    routeChangeAction: (route:string) => void;
+    maxResults: number;
+    type: string;
+    results: IResult[];
+}
+const SearchResults = (props: ISearchResults) => <ResultsComp>
+    {props.results.slice(0, props.maxResults).map(i => <Result routeChangeAction={props.routeChangeAction} key={i.resourceIdentifier.id} result={i} />)}
     <PrimaryButton text={`View all ${props.type}`} />
 </ResultsComp>;
 
 
-const getTabs = (breakdown: IElementsBreakdown) => Object.keys(breakdown).filter(tab => breakdown[tab] > 0).sort((a,b) => breakdown[b] - breakdown[a]);
 
 const Search = (props: IProps) => <>
     {props.breakDown && props.results && props.results.length > 0 && <SearchComp>
@@ -97,7 +128,7 @@ const Search = (props: IProps) => <>
             padContent={false}
             dark={false}
             tabs={getTabs(props.breakDown).map(tab => `${tab} (${props.breakDown[tab]})`)}
-            panels={getTabs(props.breakDown).map(tab => <SearchResults maxResults={props.maxResults} type={tab} key={tab} results={props.results.filter(i => i.resourceIdentifier.type === tab)} />)}
+            panels={getTabs(props.breakDown).map(tab => <SearchResults routeChangeAction={props.routeChangeAction} maxResults={props.maxResults} type={tab} key={tab} results={props.results.filter(i => i.resourceIdentifier.type === tab)} />)}
         />
     </SearchComp>}
 </>;
