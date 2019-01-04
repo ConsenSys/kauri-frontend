@@ -85,13 +85,28 @@ const getTabs = (breakdown: IElementsBreakdown) => Object.keys(breakdown).filter
 const getRoute = (element: IResult) => {
     switch(element.resourceIdentifier.type) {
         case 'ARTICLE':
-            return `/articles/${element.resourceIdentifier.id}`;
+            return `/article/${element.resourceIdentifier.id}`;
         case 'COLLECTION':
-            return `/collections/${element.resourceIdentifier.id}`;
+            return `/collection/${element.resourceIdentifier.id}`;
         case 'COMMUNITY':
-            return `/communities/${element.resourceIdentifier.id}`;
+            return `/community/${element.resourceIdentifier.id}`;
         case 'USER':
             return `/public-profile/${element.resourceIdentifier.id}`;
+        default:
+            return '/'
+    }
+}
+
+const getAllRoute = (type: string) => {
+    switch(type) {
+        case 'ARTICLE':
+            return `/articles`;
+        case 'COLLECTION':
+            return `/collections`;
+        case 'COMMUNITY':
+            return `/communities`;
+        case 'USER':
+            return `/users`;
         default:
             return '/'
     }
@@ -117,7 +132,7 @@ interface ISearchResults {
 }
 const SearchResults = (props: ISearchResults) => <ResultsComp>
     {props.results.slice(0, props.maxResults).map(i => <Result routeChangeAction={props.routeChangeAction} key={i.resourceIdentifier.id} result={i} />)}
-    <PrimaryButton text={`View all ${props.type}`} />
+    <PrimaryButton onClick={() => props.routeChangeAction(getAllRoute(props.type))} text={`View all ${props.type}`} />
 </ResultsComp>;
 
 
