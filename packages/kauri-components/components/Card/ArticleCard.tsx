@@ -247,7 +247,16 @@ interface ICardContentProps {
   date: string;
   status: undefined | "PUBLISHED" | "DRAFT";
   tags?: string[];
+  kudos?: string[];
 }
+
+const Kudos = styled<{}, "div">("div")`
+  & > img {
+    height: 24px;
+    width: 24px;
+    margin-right: ${props => props.theme.space[1]}px;
+  }
+`;
 
 const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   title,
@@ -258,6 +267,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   date,
   status,
   tags,
+  kudos,
 }) => (
   <React.Fragment>
     {typeof imageURL === "string" && (
@@ -295,6 +305,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
       {Array.isArray(tags) && tags.length > 0 && (
         <TagList maxTags={3} color="textPrimary" tags={tags} />
       )}
+      {Array.isArray(kudos) && kudos.length > 0 && (<Kudos>{kudos.map(kudo => <img key={kudo} src={kudo} />)}</Kudos>)}
     </Content>
   </React.Fragment>
 );
@@ -375,6 +386,7 @@ interface IProps {
   imageURL: string | null;
   cardHeight: number;
   cardWidth?: number;
+  kudos?: string[];
   linkComponent: (
     childrenProps: React.ReactElement<any>,
     route: string
@@ -413,6 +425,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   isLoggedIn,
   hoverChildren,
   tags,
+  kudos,
   triggerHoverChildrenOnFullCardClick = false,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
@@ -463,6 +476,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             date={date}
             status={status}
             tags={tags}
+            kudos={kudos}
           />,
           `/article/${id}/v${version}`
         )}

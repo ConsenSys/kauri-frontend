@@ -5,6 +5,8 @@ import ArticleCard from "../components/Card/ArticleCard";
 import PrimaryButton from "../components/Button/PrimaryButton";
 import styled from "../lib/styled-components";
 
+const Kudo = 'https://s.gitcoin.co/static/v2/images/kudos/kauri_2.b22f35d8111e.svg';
+
 const Link = styled.a`
   text-decoration: none;
   color: inherit;
@@ -71,6 +73,7 @@ storiesOf("ArticleCard", module)
       linkComponent={linkComponent}
       resourceType={"USER"}
       isLoggedIn={false}
+      kudos={[Kudo, Kudo]}
       tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
     />
   ))
@@ -104,6 +107,7 @@ storiesOf("ArticleCard", module)
       linkComponent={linkComponent}
       resourceType={"USER"}
       isLoggedIn={false}
+      kudos={[Kudo, Kudo, Kudo]}
       tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
     />
   ))
@@ -163,10 +167,11 @@ storiesOf("ArticleCard", module)
       userAvatar={null}
       resourceType={"USER"}
       linkComponent={linkComponent}
-      cardHeight={420}
+      cardHeight={450}
       imageURL={
         "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       }
+      kudos={[Kudo, Kudo, Kudo]}
       isLoggedIn={false}
       tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
     />
