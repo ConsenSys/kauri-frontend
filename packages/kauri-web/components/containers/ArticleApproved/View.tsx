@@ -1,7 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import R from "ramda";
-import moment from "moment";
 import styled from "../../../lib/styled-components";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
 import { Link } from "../../../routes";
@@ -96,9 +95,7 @@ class ArticleApproved extends React.Component<IProps> {
             resourceType={"USER"}
             id={String(article.id)}
             version={Number(article.version)}
-            date={moment(article.datePublished || article.dateCreated).format(
-              "D MMM YYYY"
-            )}
+            date={article.datePublished || article.dateCreated}
             title={String(article.title)}
             content={String(article.content)}
             username={

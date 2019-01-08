@@ -1,7 +1,6 @@
 // @flow
 import React, { Fragment } from "react";
 import styled from "styled-components";
-import moment from "moment";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
 import Empty from "../Empty";
 import { Link } from "../../../../routes";
@@ -33,7 +32,7 @@ const Articles = ({
               key={`${article.id}-${article.version}`}
               changeRoute={routeChangeAction}
               tags={article.tags}
-              date={moment(article.dateCreated).format("D MMM YYYY")}
+              date={article.dateCreated}
               title={article.title}
               content={article.content}
               userId={
