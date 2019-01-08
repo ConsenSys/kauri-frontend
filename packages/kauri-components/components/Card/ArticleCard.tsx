@@ -275,7 +275,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
     )}
     <Content imageURL={imageURL}>
       <Header>
-        <Label>{(status === "DRAFT" ? "Drafted " : "Posted ") + moment(date).format('DD MMMM YYYY HH:MM')}</Label>
+        <Label>{(status === "DRAFT" ? "Drafted " : "Posted ") + moment(date).format('DD MMM YYYY HH:MM')}</Label>
       </Header>
       <H1>
         <TextTruncate
