@@ -87,6 +87,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         )}
         {isHeaderLoaded && areListsLoaded ? (
           <Tabs
+            dark={true}
             tabs={[
               `Articles (${ArticlesQuery.searchArticles.totalElements})`,
               `Collections (${
