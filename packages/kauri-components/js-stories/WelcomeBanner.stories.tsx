@@ -1,12 +1,12 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import HomePage from '../components/WelcomeBanner/Homepage';
-import OtherPages from '../components/WelcomeBanner/OtherPages';
+import MainBanner from '../components/WelcomeBanner/MainBanner';
+import MobileBanner from '../components/WelcomeBanner/MobileBanner';
 
 storiesOf("Welcome Banner", module)
   .add("Home Page", () => (
-      <HomePage />
+      <MainBanner />
   ))
   .add("Other Pages", () => (
-    <OtherPages />
+    <MobileBanner />
   ));

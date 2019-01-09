@@ -1,10 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { routeChangeAction } from "../../../lib/Module";
-import HomePageBanner from "../../../../kauri-components/components/WelcomeBanner/Homepage";
+import MainBanner from "../../../../kauri-components/components/WelcomeBanner/MainBanner";
 
-class WelcomeBanner extends React.Component<{}, { shown: boolean | null }> {
-  constructor(props: {}) {
+interface IProps {
+  routeChangeAction: (route: string) => void;
+}
+class WelcomeBanner extends React.Component<IProps, { shown: boolean | null }> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       shown: false,
@@ -15,7 +18,7 @@ class WelcomeBanner extends React.Component<{}, { shown: boolean | null }> {
     if (this.state.shown) {
       return null;
     } else {
-      return <HomePageBanner />;
+      return <MainBanner routeChangeAction={this.props.routeChangeAction} />;
     }
   }
 }

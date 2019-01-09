@@ -6,7 +6,6 @@ import { routeChangeAction } from "../lib/Module";
 import App from "../layouts/App";
 import Collections from "../components/containers/Discover/Collections";
 import { withRouter } from "next/router";
-import WelcomeBanner from "../../kauri-components/components/WelcomeBanner/Homepage";
 
 const Connectedcollections = connect(
   () => ({}),
@@ -16,15 +15,12 @@ const Connectedcollections = connect(
 class CollectionsPage extends React.Component {
   render() {
     return (
-      <>
-        <WelcomeBanner />
-        <App url={this.props.router}>
-          <Connectedcollections
-            routeChangeAction={this.props.routeChangAction}
-            url={this.props.router}
-          />
-        </App>
-      </>
+      <App url={this.props.router}>
+        <Connectedcollections
+          routeChangeAction={this.props.routeChangAction}
+          url={this.props.router}
+        />
+      </App>
     );
   }
 }

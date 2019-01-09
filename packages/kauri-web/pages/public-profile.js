@@ -6,7 +6,6 @@ import App from "../layouts/App";
 import { routeChangeAction } from "../lib/Module";
 import PublicProfile from "../components/containers/PublicProfile";
 import { withRouter } from "next/router";
-import WelcomeBanner from "../../kauri-components/components/WelcomeBanner/Homepage";
 
 const ConnectedPublicProfile = connect(
   () => ({}),
@@ -16,19 +15,16 @@ const ConnectedPublicProfile = connect(
 class PublicProfilePage extends React.Component {
   render() {
     return (
-      <>
-        <WelcomeBanner />
-        <App url={this.props.router}>
-          <ConnectedPublicProfile
-            userId={
-              this.props.router &&
-              this.props.router.query &&
-              this.props.router.query["user_id"]
-            }
-            routeChangeAction={this.props.routeChangAction}
-          />
-        </App>
-      </>
+      <App url={this.props.router}>
+        <ConnectedPublicProfile
+          userId={
+            this.props.router &&
+            this.props.router.query &&
+            this.props.router.query["user_id"]
+          }
+          routeChangeAction={this.props.routeChangAction}
+        />
+      </App>
     );
   }
 }

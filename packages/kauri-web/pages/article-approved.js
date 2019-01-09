@@ -4,20 +4,16 @@ import withData from "../lib/with-data";
 import App from "../layouts/App";
 import ArticleApproved from "../components/containers/ArticleApproved";
 import { withRouter } from "next/router";
-import WelcomeBanner from "../../kauri-components/components/WelcomeBanner/Homepage";
 class ArticleApprovedPage extends React.Component {
   render() {
     return (
-      <>
-        <WelcomeBanner />
-        <App confirmationPage url={this.props.router}>
-          <ArticleApproved
-            type="approved"
-            article_id={this.props.router.query.article_id}
-            article_version={this.props.router.query.article_version}
-          />
-        </App>
-      </>
+      <App confirmationPage url={this.props.router}>
+        <ArticleApproved
+          type="approved"
+          article_id={this.props.router.query.article_id}
+          article_version={this.props.router.query.article_version}
+        />
+      </App>
     );
   }
 }
