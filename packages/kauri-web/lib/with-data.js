@@ -29,6 +29,7 @@ import "@rej156/react-mde/lib/styles/css/react-mde-all.css";
 import "../static/css/redraft-image.css";
 import "draft-js-inline-toolbar-plugin/lib/plugin.css";
 import "../ant-theme-vars.less";
+import WelcomeBanner from "../components/containers/WelcomeBanner";
 
 const config = require("../config").default;
 
@@ -172,7 +173,10 @@ export default ComposedComponent =>
             <ApolloProvider client={apollo}>
               <LocaleProvider locale={enUS}>
                 <ThemeProvider theme={themeConfig}>
-                  <ComposedComponent url={url} {...composedInitialProps} />
+                  <>
+                    <WelcomeBanner />
+                    <ComposedComponent url={url} {...composedInitialProps} />
+                  </>
                 </ThemeProvider>
               </LocaleProvider>
             </ApolloProvider>
@@ -278,10 +282,13 @@ export default ComposedComponent =>
           <ApolloProvider client={this.apollo}>
             <LocaleProvider locale={enUS}>
               <ThemeProvider theme={themeConfig}>
-                <ComposedComponent
-                  {...this.props}
-                  web3={global.window ? global.window.web3 : global.window}
-                />
+                <>
+                  <WelcomeBanner />
+                  <ComposedComponent
+                    {...this.props}
+                    web3={global.window ? global.window.web3 : global.window}
+                  />
+                </>
               </ThemeProvider>
             </LocaleProvider>
           </ApolloProvider>
