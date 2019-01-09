@@ -7,6 +7,7 @@ import { Label, H1, BodyCard } from "../Typography";
 import theme from "../../lib/theme-config";
 import SecondaryButton from "../Button/SecondaryButton";
 import UserAvatar from "../UserAvatar";
+import moment from 'moment';
 import {
   toggleReducer,
   IToggleState,
@@ -264,7 +265,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
     )}
     <Content imageURL={imageURL}>
       <Header>
-        <Label>{(status === "DRAFT" ? "Drafted " : "Posted ") + date}</Label>
+        <Label>{(status === "DRAFT" ? "Drafted " : "Posted ") + moment(date).format('DD MMM YYYY HH:MM')}</Label>
       </Header>
       <H1>
         <TextTruncate

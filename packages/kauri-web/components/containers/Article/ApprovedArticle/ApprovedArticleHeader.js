@@ -116,7 +116,9 @@ export default ({
     <Overlay />
     <InfoContainer>
       <Label color="white">
-        {`POSTED ${moment(datePublished || dateCreated).fromNow()}`}
+        {`POSTED ${moment(datePublished || dateCreated).format(
+          "DD MMMM YYYY HH:MM"
+        )}`}
       </Label>
       <Title1 color="white">{title}</Title1>
       {tags && <TagList color={"white"} maxTags={5} tags={tags} />}

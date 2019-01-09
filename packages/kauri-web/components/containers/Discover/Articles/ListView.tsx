@@ -7,7 +7,6 @@ import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 import R from "ramda";
-import moment from "moment";
 import {
   globalSearchApprovedArticles_searchArticles,
   globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO,
@@ -88,9 +87,7 @@ class Articles extends Component<IProps> {
               return (
                 <ArticleCard
                   key={(article && article.id) || undefined}
-                  date={moment(article && article.dateCreated).format(
-                    "D MMM YYYY"
-                  )}
+                  date={article && article.dateCreated}
                   tags={article.tags || []}
                   title={article && article.title}
                   content={article && article.content}

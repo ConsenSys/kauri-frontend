@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
-import moment from "moment";
 import { Link } from "../../../routes";
 import styled from "../../../lib/styled-components";
 import Empty from "../PublicProfile/Empty";
@@ -98,7 +97,7 @@ const Component: React.SFC<Props> = props => {
               id={article.id}
               version={article.version}
               content={article.content}
-              date={moment(article.datePublished).format("D MMM YYYY")}
+              date={article.datePublished}
               title={article.title}
               username={article.owner.username}
               userId={article.owner.id}
