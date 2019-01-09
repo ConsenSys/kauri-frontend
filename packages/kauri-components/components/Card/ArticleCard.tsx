@@ -249,14 +249,6 @@ interface ICardContentProps {
   tags?: string[];
 }
 
-const Kudos = styled<{}, "div">("div")`
-  & > img {
-    height: 24px;
-    width: 24px;
-    margin-right: ${props => props.theme.space[1]}px;
-  }
-`;
-
 const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   title,
   content,
