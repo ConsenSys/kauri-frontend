@@ -1,16 +1,19 @@
 import styled from '../../lib/styled-components';
 import { Label } from '../Typography';
 import PrimaryButton from '../Button/PrimaryButton';
-import TertiaryButton from '../Button/TertiaryButton';
+import SecondaryButton from '../Button/SecondaryButton';
 
 const Container = styled.div`
     background: ${props => props.theme.colors.secondaryColor};
     width: 100%;
-    padding: 0 ${props => props.theme.padding};
+    padding: ${props => props.theme.space[2]}px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    @media (min-width: 700px) {
+        display: none;
+    }
 `;
 
 const Buttons = styled.div`
@@ -21,12 +24,17 @@ const Buttons = styled.div`
     }
 `;
 
-const OtherPages = () => <Container>
+interface IProps {
+    handleLearnMore: () => void;
+    handleClose: () => void;
+}
+
+const MobileBanner = (props: IProps) => <Container>
     <Label color="white">WELCOME TO KAURI, THE COMMUNITY’S KNOWLEDGE NETWORK.</Label>
     <Buttons>
-        <PrimaryButton text="Learn More" />
-        <TertiaryButton>Close</TertiaryButton>
+        <PrimaryButton onClick={props.handleLearnMore} text="Learn More" />
+        <SecondaryButton onClick={props.handleClose}>Close</SecondaryButton>
     </Buttons>
 </Container>
 
-export default OtherPages;
+export default MobileBanner;

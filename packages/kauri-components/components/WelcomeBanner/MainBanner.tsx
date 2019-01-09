@@ -15,6 +15,9 @@ const BannerContainer = styled<{}, "div">("div")`
     text-align: center;
     transition: all 0.3s;
     max-height: 1000px;
+    @media (max-width: 700px) {
+        display: none;
+    }
     `;
 
 const Info = styled.div`
@@ -46,46 +49,11 @@ const Writer = () => <IMG src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHg
 const Communities = () => <IMG src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAAA5ZDbSAAAABmJLR0QA/wD/AP+gvaeTAAAGPUlEQVR4nO3dW4xdUxzH8d8qbd3qWiSokKCJe4SKBA3ayAhPvAkiGm9ePPAkRoSEuAVtInjhhUp4cSmDIEHaB3GvhAglEbego8Qw8/WwZ2LM2TNz9t7/tddeu/9P0qfOWud31v/sc/bZe611JOecc84555xzbvcRUgeYCzhF0gZJF0k6RtK+SQMtbpekryS9KumxEMLHaeN0FLAc2ARMkq9JYCOwLPV4zujEEQwsl/SSpAtSZzHyuqSREMJE6iBLUgeY9oD6U1xJulDSfalDSB04gik+c99Xd15sViYlnRZC+CRliC4M6gZ1I4e1PSRdlzpEFwZ2XeoAEa1PHaALb9HjkvZLnSOS8RDC/ikDdKHApM4QUwgh6Rh34S3aReQF7jkvcM95gXvOC9xzXuCe8wL3nBe457zAPecF7jkvcM91ocC/pw4Q0c7UAbpQ4B2pA0SU/Ll1ocBjqQNE9ErqAF24XXiyiik7e6TOYsyn7EjS9DziR1LniGBT6uJKHTiCJWl6HvFLKmYj9sFrki7xabPTpgdiRNJGFW9tuZqU9JA6UlypI0fwbMBJKmYjrlexdKXr87V+V7F0ZUzS4114W+4l4GbDJSi3pn4+roRRkb24XdawyF7cHNQsshc3JxWL7MXN0ZBF9uLmbJEie3H7YJ4i7xbFTXKhA9hL0tmS1kpaI+kISYdM/5uS9I2kNyU9GUJ41+gxRyXNFPW2EMJog75az58F4AJgM/BnhROgF4BVRo8/Ol3oLPN3FnA68FaFQZnrO+AMz98xQABuAf5uMDgzfgWuBc4DDvf8iQHLgGcMBqbMJLAFuNjzJwAsAZ6NNDhzPQLs7flbBNze0uDMeA4wm/KTe/6ogLOw+cyq6i7PP8j8ezDwhorvh237R9IZIYSPmnSSe/65TKfsAOcqzeBI0p7670JGLbnnL2M9Jyv1xl+XASsbtM89/wCzAgNB0qVW/dW0TNLldRrmnn8+lkfwSZJMX301nVOzXe75S1kW+ETDvpo4s2a73POXsizwsYZ9NVE3R+75S1kWOOmejLPsQ7HBeFW55y9lWeA9Dftqqk6xcs9fyrLAvxn21dQfNdrknr+UZYG/MOyriZ9DCLtqtMs9fynLAm+V1IWtgd+r2S73/KXMChxC+FrSNqv+Gni5TqPc88/H+lLlU8b91fFig7a55x9gejcJOEDSl5IOtuy3grdDCOfWbZx7/jKmR3AI4TdJd1v2WdHDTRrnnr9MjBX+f0Xoc1hHGfSRe/7/sX6LXirpB0kHWvZbwbiklXW3T8g9fxnrI/hopRscSVqhZkdB7vkHWBd4L+P+6mjyy5+55x9gXeDvjfurakLNtg/MPf8A67PonyR9ZtlnRWMhhNrXcXPPXybGWfSjEfocxpSkOwz6yT1/XMBSmi3UqmvU87cE2Bt4osXBud/zl4u2ABw4VMVJS+xF5lOSDp/+/DSTe/4Z0faqDCH8KOM7I/PYEmNwcs/fCuBU4q7z+YeIC6tzzy9F3m02hPChpE0RH+LBEILpDfLZcs/fCmAFsD3Cq387EH0n2tzztwI4AfjFcHB2Aq1NVM89fyuAEWDCYHAmgBHP30HAlQYDdJXnH17rG6EBjWYuhhCS7lKfW/5O/GaDi8cL3HNe4J5rtcDA8V3oo8FjrzboI1n+qICDgY8MzkI/AA5KlP/TXPNHRXGh4EODwZk9SK0dCcDR2Lw4k+SPhmIzz2sortxY2wlcTbF5Ssz8V2F7Fau1/FEBa4FtEQZmrq3A+RHyr6GdmR1R8kcDrKbYNLttY8AphvmncswfDcVdl/tJs8/jjL+Be6lxl4Zims6d2Fxvbj1/VMDFwLcJB2auHcC6CvnPAz5PnHm2SvkX0vh7MHC9pOclHdk8jplVkrYANw/594dJOi5inqqq5o8DuCfp63w4Q23TS5qpssOIss3wMANyY+pnXsENQzyfdalDLmDR/POp9R0MOFPSO5KW1n3glk1IOmex+U/A+5JOaydSJUPlL1P5MxhYomIiWi7FlYoVe5tY/KKC+Qp7I8PmH1DnJOsKSWfVaJfa2Vp8q96nVfxkexcNk39AnQLfWKNNV9y00H+GEMYlbW4pSx0L5nfOOeecc84555xzzjnnnHPOObf7+BerU6weUE2sRwAAAABJRU5ErkJggg==" />
 
 interface IProps {
-    routeChangeAction: (route: string) => void;
+    handleLearnMore: () => void;
+    handleClose: () => void;
 }
 
-interface IState {
-    shown: string | null;
-}
-
-class HomePage extends React.Component<IProps,IState> {
-    constructor (props: IProps) {
-        super(props);
-        this.state = {
-            shown: null,
-        }
-
-        this.handleLearnMore = this.handleLearnMore.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-    }
-
-    public componentDidMount() {
-        this.setState({ shown: window.localStorage.getItem('shownWelcomeBanner')});
-    }
-
-    public handleClose() {
-        const date = String(new Date());
-        window.localStorage.setItem('shownWelcomeBanner', date);
-        this.setState({ shown: date });
-    }
-
-    public handleLearnMore() {
-        this.props.routeChangeAction('/help')
-        this.handleClose();
-    }
-
-    public render() {
-        if (this.state.shown) {
-            return null;
-        }
-
-        return(
-            <BannerContainer>
+const DesktopBanner = (props: IProps) => <BannerContainer>
                 <Title1 color="white">Welcome to Kauri</Title1>
                 <Info>
                     <Box>
@@ -111,12 +79,9 @@ class HomePage extends React.Component<IProps,IState> {
                     </Box>
                 </Info>
                 <Buttons>
-                    <PrimaryButton onClick={this.handleLearnMore} text="Learn More" />
-                    <SecondaryButton onClick={this.handleClose} text="Close" />
+                    <PrimaryButton onClick={props.handleLearnMore} text="Learn More" />
+                    <SecondaryButton onClick={props.handleClose} text="Close" />
                 </Buttons>
                 </BannerContainer>
-        )
-    }
-} 
 
-export default HomePage;
+export default DesktopBanner;
