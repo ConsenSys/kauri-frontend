@@ -24,6 +24,7 @@ interface IProps {
     breakDown: IElementsBreakdown;
     maxResults: number;
     routeChangeAction: (route: string) => void;
+    fetchByType: (type: string) => void;
 }
 
 const ResultComp = styled.div`
@@ -140,7 +141,10 @@ const Search = (props: IProps) => <>
         <Tabs
             padContent={false}
             dark={false}
-            tabs={getTabs(props.breakDown).map(tab => `${tab} (${props.breakDown[tab]})`)}
+            tabs={getTabs(props.breakDown).map(tab => ({
+                callback: () => props.fetchByType(tab),
+                name: `${tab} (${props.breakDown[tab]})`,
+            }))}
             panels={getTabs(props.breakDown).map(tab => <SearchResults routeChangeAction={props.routeChangeAction} maxResults={props.maxResults} type={tab} key={tab} results={props.results.filter(i => i.resourceIdentifier.type === tab)} />)}
         />
     </SearchComp>}

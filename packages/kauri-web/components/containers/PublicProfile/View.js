@@ -89,19 +89,29 @@ class PublicProfile extends Component<ViewProps, ViewState> {
           <Tabs
             dark={true}
             tabs={[
-              `Articles (${ArticlesQuery.searchArticles.totalElements})`,
-              `Collections (${
-                CollectionQuery.searchCollections.totalElements
-              })`,
-              isOwner && `Drafts (${DraftsQuery.searchArticles.totalElements})`,
-              isOwner &&
-                `Awaiting Owner Approval (${
+              {
+                name: `Articles (${
+                  ArticlesQuery.searchArticles.totalElements
+                })`,
+              },
+              {
+                name: `Collections (${
+                  CollectionQuery.searchCollections.totalElements
+                })`,
+              },
+              isOwner && {
+                name: `Drafts (${DraftsQuery.searchArticles.totalElements})`,
+              },
+              isOwner && {
+                name: `Awaiting Owner Approval (${
                   ApprovalsQuery.searchArticles.totalElements
                 })`,
-              isOwner &&
-                `Pending My Approval(${
+              },
+              isOwner && {
+                name: `Pending My Approval(${
                   PendingQuery.searchArticles.totalElements
                 })`,
+              },
             ]}
             panels={[
               <Published
