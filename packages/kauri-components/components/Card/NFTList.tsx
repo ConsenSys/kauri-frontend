@@ -21,6 +21,11 @@ const NFT = styled<{ image: string, size: number }, "div">("div")`
     background: url(${props => props.image}) center center;
     background-size: contain;
     background-repeat: no-repeat;
+    transition: all 0.3s;
+
+    &:hover {
+        transform: scale(1.5);
+    }
 `;
 
 const NFTs = styled<{}, "div">("div")`
@@ -32,6 +37,6 @@ const NFTs = styled<{}, "div">("div")`
     }
 `;
 
-const NFTList = (props: IProps) => <NFTs>{props.nfts.map(nft => <a key={nft.tokenName} href={nft.externalUrl} target="_blank"><NFT  image={nft.image} size={props.nftSize} /></a>)}</NFTs>
+const NFTList = (props: IProps) => <NFTs>{props.nfts.map(nft => <a key={nft.tokenName} href={nft.externalUrl} target="_blank"><NFT title={nft.name}  image={nft.image} size={props.nftSize} /></a>)}</NFTs>
 
 export default NFTList;
