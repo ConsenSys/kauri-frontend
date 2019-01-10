@@ -43,12 +43,18 @@ interface IDataSource {
 
 interface IState {
   dataSource: IDataSource;
-  search: string;
   sub?: Subscription;
   open: boolean;
+  value: string;
+  type: string | null;
 }
 
-const handleSearch$: Subject<string> = new Subject();
+interface ISearch {
+  value: string;
+  type?: string;
+}
+
+const handleSearch$: Subject<ISearch> = new Subject();
 
 class NavSearch extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -56,18 +62,20 @@ class NavSearch extends React.Component<IProps, IState> {
     this.state = {
       dataSource: EmptyData,
       open: false,
-      search: "",
+      type: null,
+      value: "",
     };
 
     this.collapseSearch = this.collapseSearch.bind(this);
     this.expandSearch = this.expandSearch.bind(this);
+    this.fetchResults = this.fetchResults.bind(this);
   }
 
   componentDidMount() {
     const sub = handleSearch$
-      .debounceTime(300)
-      .filter((text: string) => text !== "")
-      .flatMap((text: string) =>
+      .debounceTime(200)
+      .filter((search: ISearch) => search.value !== "")
+      .flatMap(() =>
         this.props.client.query<{
           searchAutocomplete: {
             content: IResult[];
@@ -77,8 +85,11 @@ class NavSearch extends React.Component<IProps, IState> {
           fetchPolicy: "no-cache",
           query: searchAutocomplete,
           variables: {
+            filter: {
+              type: this.state.type,
+            },
             page: 0,
-            query: text,
+            query: this.state.value,
             size: 10,
           },
         })
@@ -91,6 +102,9 @@ class NavSearch extends React.Component<IProps, IState> {
         (dataSource: IDataSource) => {
           if (dataSource.results.length === 0) {
             dataSource = EmptyData;
+          }
+          if (this.state.type) {
+            dataSource.totalElementsBreakdown = this.state.dataSource.totalElementsBreakdown; // do not reset tabs if the query did not change
           }
           this.setState({ ...this.state, dataSource });
         },
@@ -113,8 +127,9 @@ class NavSearch extends React.Component<IProps, IState> {
     this.setState({ open: false, dataSource: EmptyData });
   }
 
-  fetchResults(e: React.ChangeEvent<HTMLInputElement>) {
-    handleSearch$.next(e.target.value);
+  fetchResults(value: string, type?: string) {
+    this.setState({ value, type: type ? type : null });
+    handleSearch$.next({ value });
   }
 
   render() {
@@ -123,8 +138,16 @@ class NavSearch extends React.Component<IProps, IState> {
         onMouseEnter={this.expandSearch}
         onMouseLeave={this.collapseSearch}
       >
-        <QuickSearchInput open={this.state.open} onChange={this.fetchResults} />
+        <QuickSearchInput
+          open={this.state.open}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            this.fetchResults(e.target.value)
+          }
+        />
         <QuickSearch
+          fetchByType={(type: string) =>
+            this.fetchResults(this.state.value, type)
+          }
           routeChangeAction={this.props.routeChangeAction}
           maxResults={3}
           breakDown={this.state.dataSource.totalElementsBreakdown}
