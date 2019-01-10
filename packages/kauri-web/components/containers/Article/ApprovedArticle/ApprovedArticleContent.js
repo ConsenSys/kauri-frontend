@@ -21,6 +21,7 @@ import TertiaryButton from "../../../../../kauri-components/components/Button/Te
 import styled from "../../../../lib/styled-components";
 import userIdTrim from "../../../../lib/userid-trim";
 import { BodyCard } from "../../../../../kauri-components/components/Typography";
+import { INFT } from "../../../../../kauri-components/components/Kudos/NFTList";
 
 export const ApprovedArticleDetails = styled(CreateRequestDetails)`
   align-items: inherit;
@@ -123,6 +124,7 @@ export default ({
   openModalAction,
   closeModalAction,
   deleteDraftArticleAction,
+  nfts,
 }: {
   text?: string,
   username?: ?string,
@@ -136,6 +138,7 @@ export default ({
   subject?: string,
   address?: string,
   hostName: string,
+  nfts: INFT[],
   resourceType: "USER" | "COMMUNITY",
   openModalAction: ({ children: React.ReactNode }) => void,
   closeModalAction: () => void,
@@ -165,9 +168,9 @@ export default ({
     (editorState.markdown
       ? contentState.getBlocksAsArray().map(block => block.toJS())
       : editorState
-        .getCurrentContent()
-        .getBlocksAsArray()
-        .map(block => block.toJS()));
+          .getCurrentContent()
+          .getBlocksAsArray()
+          .map(block => block.toJS()));
 
   const outlineHeadings = blocks
     .filter(({ type }) => type.includes("header-one"))
@@ -181,6 +184,7 @@ export default ({
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type="outline">
         <Outline
+          nfts={nfts}
           linkComponent={children => (
             <Link
               useAnchorTag
@@ -210,8 +214,8 @@ export default ({
             userId
               ? routeChangeAction(`/article/${id}/v${version}/update-article`)
               : routeChangeAction(
-                `/login?r=article/${id}/v${version}/update-article`
-              )
+                  `/login?r=article/${id}/v${version}/update-article`
+                )
           }
         >
           {`Update ${status === "DRAFT" ? "draft" : "article"}`}

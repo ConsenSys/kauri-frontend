@@ -18,6 +18,7 @@ import {
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
 import { TagList } from "../Tags";
+import NFTList, { INFT } from '../Kudos/NFTList';
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -247,6 +248,7 @@ interface ICardContentProps {
   date: string;
   status: undefined | "PUBLISHED" | "DRAFT";
   tags?: string[];
+  nfts?: INFT[]
 }
 
 const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
@@ -258,6 +260,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   date,
   status,
   tags,
+  nfts,
 }) => (
   <React.Fragment>
     {typeof imageURL === "string" && (
@@ -294,6 +297,9 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
       )}
       {Array.isArray(tags) && tags.length > 0 && (
         <TagList maxTags={3} color="textPrimary" tags={tags} />
+      )}
+      {Array.isArray(nfts) && nfts.length > 0 && (
+        <NFTList nftSize={20} nfts={nfts} />
       )}
     </Content>
   </React.Fragment>
@@ -391,6 +397,7 @@ interface IProps {
   status?: "PUBLISHED" | "DRAFT";
   isLoggedIn: boolean;
   tags?: string[];
+  nfts?: INFT[];
   triggerHoverChildrenOnFullCardClick?: boolean;
 }
 
@@ -413,6 +420,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   isLoggedIn,
   hoverChildren,
   tags,
+  nfts,
   triggerHoverChildrenOnFullCardClick = false,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
@@ -463,6 +471,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             date={date}
             status={status}
             tags={tags}
+            nfts={nfts}
           />,
           `/article/${id}/v${version}`
         )}

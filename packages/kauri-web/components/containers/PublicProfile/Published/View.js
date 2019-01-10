@@ -65,6 +65,7 @@ const Articles = ({
               version={article.version}
               cardHeight={420}
               imageURL={article.attributes && article.attributes.background}
+              nfts={article.attributes && article.attributes.nfts}
               linkComponent={(childrenProps, route) => (
                 <Link
                   toSlug={route.includes("article") && article.title}

@@ -183,6 +183,7 @@ class ApprovedArticle extends React.Component<Props, State> {
             props.data.getArticle.owner &&
             props.data.getArticle.owner.id
           }
+          nfts={attributes && attributes.nfts && attributes.nfts}
           username={
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)

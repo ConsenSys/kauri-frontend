@@ -5,6 +5,22 @@ import ArticleCard from "../components/Card/ArticleCard";
 import PrimaryButton from "../components/Button/PrimaryButton";
 import styled from "../lib/styled-components";
 
+const nfts = [{
+  contractAddress: "0xalis239qkljeu293hd",
+  description: "Out with the old and in with the new! Kudos to knowledge sharers, crossing the void from web2 to web3.  ",
+  externalUrl: "https://link-to-kudos",
+  image: "https://s.gitcoin.co/static/v2/images/kudos/kauri_2.b22f35d8111e.svg",
+  name: "Web3 Advocate",
+  tokenName: "kauri-web3-advocate",
+}, {
+  contractAddress: "0x384ahse9872eheqiuwye91",
+  description: "Cheers to you, one of the first Kauri contributors!",
+  externalUrl: "https://link-to-kudos",
+  image: "https://s.gitcoin.co/static/v2/images/kudos/kauri_1.d335211161dc.svg",
+  name: "Kauri Pioneer",
+  tokenName: "kauri-pioneer",
+}];
+
 const Link = styled.a`
   text-decoration: none;
   color: inherit;
@@ -72,6 +88,7 @@ storiesOf("ArticleCard", module)
       resourceType={"USER"}
       isLoggedIn={false}
       tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      nfts={nfts}
     />
   ))
   .add("Card height of 420, three line title, no image", () => (
@@ -105,6 +122,7 @@ storiesOf("ArticleCard", module)
       resourceType={"USER"}
       isLoggedIn={false}
       tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      nfts={nfts}
     />
   ))
   .add("Default height of 310, two line title, with image", () => (
@@ -137,6 +155,7 @@ storiesOf("ArticleCard", module)
       resourceType={"USER"}
       isLoggedIn={false}
       tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      nfts={nfts}
     />
   ))
   .add("Card height of 420, two line title, with image", () => (
@@ -169,6 +188,7 @@ storiesOf("ArticleCard", module)
       }
       isLoggedIn={false}
       tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      nfts={nfts}
     />
   ))
   .add("Is logged in, Card height of 420, two line title, with image", () => (
@@ -208,6 +228,7 @@ storiesOf("ArticleCard", module)
       )}
       isLoggedIn={true}
       tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      nfts={nfts}
     />
   ))
   .add(
@@ -250,6 +271,7 @@ storiesOf("ArticleCard", module)
         )}
         isLoggedIn={true}
         tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+        nfts={nfts}
       />
     )
   )
@@ -305,6 +327,7 @@ storiesOf("ArticleCard", module)
       cardWidth={610}
       isLoggedIn={false}
       tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      nfts={nfts}
     />
   ))
   .add("Card width of 610, two line title, with image", () => (
@@ -361,6 +384,7 @@ storiesOf("ArticleCard", module)
       }
       isLoggedIn={false}
       tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      nfts={nfts}
     />
   ))
   .add("Status Draft, Default height of 310, two line title, no image", () => (
@@ -392,6 +416,7 @@ storiesOf("ArticleCard", module)
       status={"DRAFT"}
       isLoggedIn={false}
       tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      nfts={nfts}
     />
   ))
   .add(
@@ -432,6 +457,7 @@ storiesOf("ArticleCard", module)
           </PrimaryButton>
         )}
         tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+        nfts={nfts}
       />
     )
   );

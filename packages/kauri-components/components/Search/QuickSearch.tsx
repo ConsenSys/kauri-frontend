@@ -8,8 +8,6 @@ export interface IResult {
     description: string;
     name: string;
     score: number;
-    type: string;
-    id: string;
     tags?: string[] | null;
     resourceIdentifier: {
         type: string;

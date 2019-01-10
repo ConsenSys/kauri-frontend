@@ -117,6 +117,7 @@ class Articles extends Component<IProps> {
                     article.attributes &&
                     article.attributes.background
                   }
+                  nfts={article.attributes && article.attributes.nfts}
                   isLoggedIn={isLoggedIn}
                   linkComponent={(
                     childrenProps: React.ReactElement<any>,
