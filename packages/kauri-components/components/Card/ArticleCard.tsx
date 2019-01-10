@@ -18,7 +18,7 @@ import {
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
 import { TagList } from "../Tags";
-import NFTList, { INFT } from './NFTList';
+import NFTList, { INFT } from '../Kudos/NFTList';
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
