@@ -299,7 +299,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
         <TagList maxTags={3} color="textPrimary" tags={tags} />
       )}
       {Array.isArray(nfts) && nfts.length > 0 && (
-        <NFTList nfts={nfts} />
+        <NFTList nftSize={20} nfts={nfts} />
       )}
     </Content>
   </React.Fragment>
