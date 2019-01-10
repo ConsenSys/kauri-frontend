@@ -88,9 +88,9 @@ const Container: React.SFC<Props> = props => {
         )}
       </UserContainer>
       <Divider />
-      <Label>Article Kudos</Label>
+      {nfts.length > 0 && <><Label>Article Kudos</Label>
       <NFTList nftSize={30} nfts={nfts} />
-      <Divider />
+      <Divider /></>}
     </OutlineContainer>
   );
 };
