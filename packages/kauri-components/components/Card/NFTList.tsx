@@ -27,11 +27,11 @@ const NFTs = styled<{}, "div">("div")`
     display: flex;
     flex-direction: row;
     
-    & > div {
+    & > a {
         margin-right: ${props => props.theme.space[1]}px;
     }
 `;
 
-const NFTList = (props: IProps) => <NFTs>{props.nfts.map(i => <NFT key={i.tokenName} image={i.image} size={props.nftSize} />)}</NFTs>
+const NFTList = (props: IProps) => <NFTs>{props.nfts.map(nft => <a key={nft.tokenName} href={nft.externalUrl} target="_blank"><NFT  image={nft.image} size={props.nftSize} /></a>)}</NFTs>
 
 export default NFTList;
