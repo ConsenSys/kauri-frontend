@@ -289,7 +289,25 @@ class SubmitArticleForm extends React.Component<Props> {
   render() {
     const { routeChangeAction, isKauriTopicOwner, form } = this.props;
 
-    const articleData = this.props.data && this.props.data.getArticle;
+    let articleData = this.props.data && this.props.data.getArticle;
+
+    // DIRTY HACK FOR ETH-DENVER - POPULATE TEMPLATE HERE
+    if (this.props.router.asPath.indexOf("#ethdenver") !== -1) {
+      articleData = {
+        title: "ETH DENVER SUBMISSION",
+        content: JSON.stringify({
+          markdown: `#Project Submission
+
+          Participants:
+          
+          
+          Project Outline:
+          
+          ETC:`,
+        }),
+        tags: ["ETHDenver"],
+      };
+    }
 
     return (
       <Form>
