@@ -15,10 +15,6 @@ interface IState {
 class WelcomeBanner extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    this.state = {
-      shown: null,
-    };
-
     this.handleLearnMore = this.handleLearnMore.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
@@ -39,7 +35,7 @@ class WelcomeBanner extends React.Component<IProps, IState> {
   }
 
   render() {
-    if (this.state.shown) {
+    if (!this.state || this.state.shown) {
       return null;
     } else {
       return (
