@@ -84,6 +84,8 @@ class Articles extends Component<IProps> {
                   globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO
                 >(["owner"])(article);
 
+              console.log(article.dateCreated);
+
               return (
                 <ArticleCard
                   key={(article && article.id) || undefined}
