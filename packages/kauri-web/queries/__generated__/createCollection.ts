@@ -18,4 +18,5 @@ export interface createCollectionVariables {
   name?: string | null;
   description?: string | null;
   background?: string | null;
+  tags?: (string | null)[] | null;
 }

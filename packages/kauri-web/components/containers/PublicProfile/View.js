@@ -12,7 +12,7 @@ import Awaiting from "./Awaiting/View";
 import Pending from "./Pending/View";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor(props: ViewProps) {
+  constructor (props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -26,11 +26,11 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     };
   }
 
-  toggleEditing() {
+  toggleEditing () {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render() {
+  render () {
     const {
       PendingQuery,
       UserQuery,
@@ -119,6 +119,8 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 type="published"
                 routeChangeAction={routeChangeAction}
                 isOwner={isOwner}
+                isLoggedIn={!!currentUser}
+                openModalAction={openModalAction}
               />,
               <Collections
                 data={CollectionQuery}

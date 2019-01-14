@@ -1,10 +1,16 @@
 module.exports = {
   client: {
-    name: 'KauriClient',
+    name: "kauri",
     service: {
-      name: 'Kauri',
-      localSchemaFile: 'schema.json',
+      localSchemaFile: "./schema.json",
+      endpoint: {
+        url: "https://api.dev.kauri.io/graphql",
+      },
     },
-    includes: ['./components/**/**/*.tsx', './components/**/**/*.ts','./queries/*.ts'],
+    includes: [
+      "./components/**/**/*.tsx",
+      "./components/**/**/*.ts",
+      "./queries/*.ts",
+    ],
   },
 };

@@ -22,6 +22,8 @@ import styled from "../../../../lib/styled-components";
 import userIdTrim from "../../../../lib/userid-trim";
 import { BodyCard } from "../../../../../kauri-components/components/Typography";
 import { INFT } from "../../../../../kauri-components/components/Kudos/NFTList";
+import AddIcon from "../../../../../kauri-components/components/Icon/AddIcon";
+import AddToCollectionConnection from "../../../connections/AddToCollection";
 
 export const ApprovedArticleDetails = styled(CreateRequestDetails)`
   align-items: inherit;
@@ -168,9 +170,9 @@ export default ({
     (editorState.markdown
       ? contentState.getBlocksAsArray().map(block => block.toJS())
       : editorState
-          .getCurrentContent()
-          .getBlocksAsArray()
-          .map(block => block.toJS()));
+        .getCurrentContent()
+        .getBlocksAsArray()
+        .map(block => block.toJS()));
 
   const outlineHeadings = blocks
     .filter(({ type }) => type.includes("header-one"))
@@ -207,6 +209,19 @@ export default ({
           text={ownerId ? "OWNER" : "AUTHOR"}
           routeChangeAction={routeChangeAction}
         />
+        {status !== "DRAFT" && userId && (
+          <TertiaryButton
+            color={"textPrimary"}
+            icon={<AddIcon />}
+            handleClick={() =>
+              openModalAction({
+                children: <AddToCollectionConnection articleId={id} version={version} />,
+              })
+            }
+          >
+            Add To Collection
+          </TertiaryButton>
+        )}
         <TertiaryButton
           color={"textPrimary"}
           icon={<UpdateArticleSvgIcon />}
@@ -214,8 +229,8 @@ export default ({
             userId
               ? routeChangeAction(`/article/${id}/v${version}/update-article`)
               : routeChangeAction(
-                  `/login?r=article/${id}/v${version}/update-article`
-                )
+                `/login?r=article/${id}/v${version}/update-article`
+              )
           }
         >
           {`Update ${status === "DRAFT" ? "draft" : "article"}`}

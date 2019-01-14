@@ -23,11 +23,11 @@ export interface getCollection_getCollection_owner {
 }
 
 export interface getCollection_getCollection_sections_resources_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_owner_CommunityDTO {
-  __typename: "CommunityDTO" | "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "CommunityDTO" | "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_owner_PublicUserDTO {
@@ -80,6 +80,7 @@ export interface getCollection_getCollection {
   id: string | null;
   name: string | null;
   description: string | null;
+  tags: (string | null)[] | null;
   background: string | null;
   dateCreated: any | null;
   owner: getCollection_getCollection_owner | null;

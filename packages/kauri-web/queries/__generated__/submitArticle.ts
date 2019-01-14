@@ -18,6 +18,7 @@ export interface submitArticleVariables {
   article_id?: string | null;
   text?: string | null;
   subject?: string | null;
+  tags?: (string | null)[] | null;
   attributes?: any | null;
   version?: number | null;
 }

@@ -50,27 +50,48 @@ export default compose(
     }
   ),
   withFormik({
-    mapPropsToValues: ({ data }) => ({
-      name: getCollectionField("name", data) || "",
-      sections: R.path(["getCollection", "sections"])(data)
-        ? R.pipe(
-            R.path(["getCollection", "sections"]),
-            R.map(section => ({
-              ...section,
-              resourcesId: R.map(({ id, version }) => ({
-                type: "ARTICLE",
-                id,
-                version,
-              }))(section.resources),
-            })),
-            R.map(section => R.dissocPath(["resources"])(section)),
-            R.map(section => R.dissocPath(["__typename"])(section))
-          )(data)
-        : [emptySection],
-      background: getCollectionField("background", data) || undefined,
-      description: getCollectionField("description", data) || undefined,
-      tags: getCollectionField("tags", data) || undefined,
-    }),
+    mapPropsToValues: ({ data, query }) => {
+      const sections =
+        // Prefill article in section 1 and create first collection
+        typeof query === "object" && typeof query.articleId === "string"
+          ? [
+            {
+              name: "",
+              description: undefined,
+              resourcesId: [
+                {
+                  type: "ARTICLE",
+                  id: query.articleId,
+                  version: query.version,
+                },
+              ],
+            },
+          ] // Updating a collection, prefill data
+          : R.path(["getCollection", "sections"])(data)
+            ? R.pipe(
+              R.path(["getCollection", "sections"]),
+              R.map(section => ({
+                ...section,
+                resourcesId: R.map(({ id, version }) => ({
+                  type: "ARTICLE",
+                  id,
+                  version,
+                }))(section.resources),
+              })),
+              R.map(section => R.dissocPath(["resources"])(section)),
+              R.map(section => R.dissocPath(["__typename"])(section))
+            )(data)
+            : [emptySection];
+      // Empty section, fresh collection
+
+      return {
+        name: getCollectionField("name", data) || "",
+        sections,
+        background: getCollectionField("background", data) || undefined,
+        description: getCollectionField("description", data) || undefined,
+        tags: getCollectionField("tags", data) || undefined,
+      };
+    },
     validationSchema: Yup.object().shape({
       name: Yup.string()
         .min(2, "Too Short!")
@@ -78,6 +99,12 @@ export default compose(
         .required("Required"),
       description: Yup.string().min(2, "Too Short!"),
       tags: Yup.array().min(1, "Minimum one tag"),
+      sections: Yup.array(
+        Yup.object().shape({
+          name: Yup.string().required("Required section name!"),
+          resourcesId: Yup.array().required("Required resource!"),
+        })
+      ),
     }),
     handleSubmit: (
       values: FormState,

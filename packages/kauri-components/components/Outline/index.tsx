@@ -5,7 +5,7 @@ import { Label } from "../Typography";
 import OutlineHeading from "./OutlineHeading";
 import styled from "../../lib/styled-components";
 import UserAvatarComponent from "../UserAvatar";
-import NFTList, { INFT } from '../Kudos/NFTList';
+import NFTList from "../Kudos/NFTList";
 
 const OutlineContainer = styled.div`
   width: 300px;
@@ -30,7 +30,6 @@ const UserContainer = styled.div`
     margin-bottom: ${props => props.theme.space[1]}px;
   }
 `;
-
 
 const RuntimeProps = t.interface({
   headings: t.array(t.string),
@@ -88,9 +87,13 @@ const Container: React.SFC<Props> = props => {
         )}
       </UserContainer>
       <Divider />
-      {nfts && nfts.length > 0 && <><Label>Article Kudos</Label>
-      <NFTList nftSize={30} nfts={nfts} />
-      <Divider /></>}
+      {nfts && nfts.length > 0 && (
+        <>
+          <Label>Article Kudos</Label>
+          <NFTList nftSize={30} nfts={nfts} />
+          <Divider />
+        </>
+      )}
     </OutlineContainer>
   );
 };

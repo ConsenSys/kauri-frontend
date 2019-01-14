@@ -9,6 +9,8 @@ import {
   PageDescription,
 } from "../../../../kauri-components/components/Typography";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
+import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
+import AddToCollectionConnection from "../../connections/AddToCollection/index";
 
 const Container = styled.section`
   display: flex;
@@ -59,17 +61,25 @@ const Article = t.interface({
 
 const RuntimeProps = t.interface({
   articles: t.array(Article),
+  currentUser: t.union([t.string, t.undefined, t.null]),
   description: t.union([t.string, t.undefined, t.null]),
   isLoggedIn: t.boolean,
+  isOwnedByCurrentUser: t.boolean,
   name: t.string,
+  openModalAction: t.any,
 });
 
 type Props = t.TypeOf<typeof RuntimeProps>;
 
 const Component: React.SFC<Props> = props => {
-  const { name, description, articles, isLoggedIn } = RuntimeProps.decode(
-    props
-  ).getOrElseL(errors => {
+  const {
+    name,
+    description,
+    articles,
+    isLoggedIn,
+    openModalAction,
+    isOwnedByCurrentUser,
+  } = RuntimeProps.decode(props).getOrElseL(errors => {
     throw new Error(failure(errors).join("\n"));
   });
   if (articles) {
@@ -112,6 +122,26 @@ const Component: React.SFC<Props> = props => {
               resourceType={"USER"}
               cardHeight={420}
               isLoggedIn={isLoggedIn}
+              hoverChildren={
+                isOwnedByCurrentUser
+                  ? null
+                  : () => (
+                      <PrimaryButton
+                        onClick={() =>
+                          openModalAction({
+                            children: (
+                              <AddToCollectionConnection
+                                articleId={article.id}
+                                version={article.version}
+                              />
+                            ),
+                          })
+                        }
+                      >
+                        Add To Collection
+                      </PrimaryButton>
+                    )
+              }
             />
           ))}
         </ArticlesSection>

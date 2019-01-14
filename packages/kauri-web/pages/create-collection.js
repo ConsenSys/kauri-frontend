@@ -6,10 +6,12 @@ import AppWithoutNavbar from "../layouts/AppWithoutNavbar";
 import CreateCollectionConnection from "../components/connections/CreateCollection";
 
 class CreateCollection extends React.Component {
-  render() {
+  render () {
     return (
       <AppWithoutNavbar url={this.props.router}>
-        <CreateCollectionConnection />
+        <CreateCollectionConnection
+          query={this.props.router && this.props.router.query}
+        />
       </AppWithoutNavbar>
     );
   }

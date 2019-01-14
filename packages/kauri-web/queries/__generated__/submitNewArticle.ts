@@ -17,5 +17,6 @@ export interface submitNewArticle {
 export interface submitNewArticleVariables {
   title?: string | null;
   content?: string | null;
+  tags?: (string | null)[] | null;
   attributes?: any | null;
 }

@@ -7,6 +7,7 @@ import SecondaryButton from "../Button/SecondaryButton";
 interface IProps {
   title: string;
   content: React.ReactElement<any>;
+  confirmButtonText?: string;
   confirmButtonAction: (payload: any) => void;
   closeModalAction: () => void;
 }
@@ -56,7 +57,7 @@ const AlertViewComponent: React.FunctionComponent<IProps> = props => (
         Cancel
       </SecondaryButton>
       <PrimaryButton onClick={handleConfirmAction(props.confirmButtonAction)}>
-        Confirm
+        {props.confirmButtonText || "Confirm"}
       </PrimaryButton>
     </Footer>
   </Container>
