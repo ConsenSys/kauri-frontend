@@ -39,6 +39,7 @@ export enum ResourceType {
   COMMUNITY = "COMMUNITY",
   CURATED_LIST = "CURATED_LIST",
   REQUEST = "REQUEST",
+  TEMPLATE = "TEMPLATE",
   USER = "USER",
 }
 
@@ -49,21 +50,22 @@ export enum ResourceTypeInput {
   COMMUNITY = "COMMUNITY",
   CURATED_LIST = "CURATED_LIST",
   REQUEST = "REQUEST",
+  TEMPLATE = "TEMPLATE",
   USER = "USER",
 }
 
 export interface ArticleFilterInput {
   dateCreatedGreaterThan?: any | null;
-  versionIn?: (number | null)[] | null;
   ownerIdEquals?: string | null;
   authorIdEquals?: string | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
+  versionIn?: (number | null)[] | null;
   dateCreatedLessThan?: any | null;
   idEquals?: string | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
   ownerEquals?: string | null;
   checkpointEquals?: string | null;
+  statusIn?: (ArticleStatusInput | null)[] | null;
 }
 
 export interface CollectionFilterInput {
@@ -92,8 +94,14 @@ export interface CommunityFilterInput {
 
 export interface ResourceIdentifierInput {
   version?: number | null;
-  id?: string | null;
   type?: ResourceTypeInput | null;
+  id?: string | null;
+}
+
+export interface SearchFilterInput {
+  type?: ResourceTypeInput | null;
+  mustNotContainTag?: (string | null)[] | null;
+  mustContainTag?: (string | null)[] | null;
 }
 
 export interface SectionDTOInput {

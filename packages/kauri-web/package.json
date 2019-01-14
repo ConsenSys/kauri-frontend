@@ -6,7 +6,7 @@
   },
   "license": "ISC",
   "scripts": {
-    "get-schema": "apollo schema:download && node scripts/convertGQLSchemaToFlowTypes.js",
+    "get-schema": "node scripts/convertGQLSchemaToFlowTypes.js",
     "generate-query-types": "npx apollo client:codegen --localSchemaFile=schema.json --target=typescript",
     "gqt": "npm run generate-query-types",
     "dev": "npm run dev:web",
