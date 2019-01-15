@@ -15,7 +15,6 @@ import { getArticleTitle } from "../../containers/Article/__generated__/getArtic
 import { getArticleTitleQuery } from "../../containers/Article/DeleteDraftArticleModule";
 import {
   addArticleToCollection,
-  addArticleToCollectionVariables,
 } from "./__generated__/addArticleToCollection";
 
 export const addArticleToCollectionMutation = gql`
