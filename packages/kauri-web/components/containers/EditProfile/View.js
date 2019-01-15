@@ -39,12 +39,13 @@ class OnboardingEditProfile extends Component {
   }
 
   redirect() {
-    if (this.props.query.r) {
-      this.props.query.r.indexOf("https://") !== -1
+    const router = this.props.router;
+    if (this.props.router.query.r) {
+      this.props.router.query.r.indexOf("https://") !== -1
         ? this.props.routeChangeAction(
-            "/" + this.props.query.r + "?redirected=true"
+            this.props.router.query.r + "?redirected=true"
           )
-        : this.props.routeChangeAction("/" + this.props.query.r);
+        : this.props.routeChangeAction(this.props.router.query.r);
     } else {
       this.props.routeChangeAction(`/public-profile/${this.props.userId}`);
     }
@@ -71,9 +72,9 @@ class OnboardingEditProfile extends Component {
       twitter ||
       title ||
       website;
-    // if (hasData) {
-    //   return this.redirect();
-    // }
+    if (hasData) {
+      return this.redirect();
+    }
   }
 
   render() {
@@ -97,13 +98,13 @@ class OnboardingEditProfile extends Component {
       twitter ||
       title ||
       website;
-    // if (hasData) {
-    //   return (
-    //     <Page>
-    //       <Loading />
-    //     </Page>
-    //   );
-    // }
+    if (hasData) {
+      return (
+        <Page>
+          <Loading />
+        </Page>
+      );
+    }
     return (
       <Page>
         <Wrapper>

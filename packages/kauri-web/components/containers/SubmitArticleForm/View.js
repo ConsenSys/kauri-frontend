@@ -6,7 +6,6 @@ import SubmitArticleFormHeader from "./SubmitArticleFormHeader";
 import SubmitArticleFormContent from "./SubmitArticleFormContent";
 import type { AttributesPayload, ApproveArticlePayload } from "./Module";
 import ScrollToTopButton from "../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton";
-
 import type {
   EditArticlePayload,
   SubmitArticlePayload,
@@ -291,8 +290,7 @@ class SubmitArticleForm extends React.Component<Props> {
 
     let articleData = this.props.data && this.props.data.getArticle;
 
-    // DIRTY HACK FOR ETH-DENVER - POPULATE TEMPLATE HERE
-    if (this.props.router.asPath.indexOf("#ethdenver") !== -1) {
+    if (this.props.templateId === "ethdenver") {
       articleData = {
         title: "ETH DENVER SUBMISSION",
         content: JSON.stringify({
