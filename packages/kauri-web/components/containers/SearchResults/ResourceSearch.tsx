@@ -74,6 +74,7 @@ const IconOverlay = styled(Icon)`
 interface IProps {
   client: ApolloClient<{}>;
   routeChangeAction: (route: string) => void;
+  setSearchResults: (results: IResult[]) => void;
 }
 
 interface IDataSource {
@@ -146,7 +147,7 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
         results: queryResult.content,
         totalElementsBreakdown: queryResult.totalElementsBreakdown,
       }))
-      .subscribe((dataSource: IDataSource) => {
+      .subscribe(dataSource => {
         if (
           Array.isArray(dataSource.results) &&
           dataSource.results.length === 0
@@ -156,10 +157,10 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
         if (this.state.type) {
           dataSource.totalElementsBreakdown = this.state.dataSource.totalElementsBreakdown; // do not reset tabs if the query did not change
         }
-        this.setState({ ...this.state, dataSource });
+
+        this.props.setSearchResults(dataSource.results);
       });
     this.setState({ ...this.state, sub });
-    // console.log(this.state);
   }
 
   componentWillUnmount() {

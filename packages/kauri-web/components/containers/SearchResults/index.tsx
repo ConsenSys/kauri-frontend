@@ -5,6 +5,7 @@ import {
   Title1,
   BodyCard,
 } from "../../../../kauri-components/components/Typography";
+import { IResult } from "../../../../kauri-components/components/Search/QuickSearch";
 
 const ArticlesHeader = styled.div`
   background-color: ${props => props.theme.colors.primaryTextColor};
@@ -18,15 +19,20 @@ const ArticlesHeader = styled.div`
   padding-bottom: ${props => props.theme.space[3]}px;
 `;
 
-// interface IProps {}
+interface IState {
+  results: IResult[];
+}
 
-class SearchResults extends React.Component {
+class SearchResults extends React.Component<{}, IState> {
+  setSearchResults = (results: IResult[]) => this.setState({ results });
+
   render() {
+    // console.log(this.state);
     return (
       <ArticlesHeader>
         <Title1 color="white">Search</Title1>
         <BodyCard>24 Results</BodyCard>
-        <ResourceSearch />
+        <ResourceSearch setSearchResults={this.setSearchResults} />
       </ArticlesHeader>
     );
   }
