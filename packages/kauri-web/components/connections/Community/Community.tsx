@@ -1,6 +1,4 @@
 import * as React from "react";
-import * as t from "io-ts";
-import { failure } from "io-ts/lib/PathReporter";
 import gql from "graphql-tag";
 import moment from "moment";
 import { Query } from "react-apollo";
@@ -93,25 +91,25 @@ const ArticlesSection = styled.section`
   }
 `;
 
-const RuntimeProps = t.interface({
-  avatar: t.string,
-  category: t.string,
-  hostName: t.string,
-  id: t.string,
-  isLoggedIn: t.boolean,
-  name: t.string,
-  website: t.string,
-});
+interface IProps {
+  avatar: null | string;
+  category: string;
+  hostName: string;
+  id: string;
+  isLoggedIn: boolean;
+  name: string;
+  website: string | null;
+}
 
-type Props = t.TypeOf<typeof RuntimeProps>;
-
-const Container: React.SFC<Props> = props => {
-  const { avatar, category, hostName, isLoggedIn, id, name, website } = RuntimeProps.decode(
-    props
-  ).getOrElseL(errors => {
-    throw new Error(failure(errors).join("\n"));
-  });
-
+const Container: React.SFC<IProps> = ({
+  avatar,
+  category,
+  hostName,
+  isLoggedIn,
+  id,
+  name,
+  website,
+}) => {
   return (
     <section>
       <CommunityHeader>
