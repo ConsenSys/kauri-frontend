@@ -13,7 +13,7 @@ class WriteArticle extends React.Component {
   render() {
     return (
       <AppWithoutNavbar url={this.props.router}>
-        <SubmitArticleForm />
+        <SubmitArticleForm templateId={this.props.router.query.template_id} />
       </AppWithoutNavbar>
     );
   }

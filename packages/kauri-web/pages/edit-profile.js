@@ -9,7 +9,7 @@ class EditProfile extends React.Component {
   render() {
     return (
       <AppWithoutNavbar url={this.props.router}>
-        <EditProfileComp query={this.props.router.query} />
+        <EditProfileComp router={this.props.router} />
       </AppWithoutNavbar>
     );
   }

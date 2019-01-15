@@ -309,7 +309,7 @@ class Navbar extends React.Component {
           >
             <TooltipItemContainer>
               <Link
-                route={userId ? "/write-article" : "/login?r=write-article"}
+                route={userId ? "/write-article" : "/login?r=/write-article"}
               >
                 <TooltipItem
                   href="/write-article"
@@ -322,7 +322,7 @@ class Navbar extends React.Component {
               <TooltipDivider />
               <Link
                 route={
-                  userId ? "/create-collection" : `/login?r=create-collection`
+                  userId ? "/create-collection" : `/login?r=/create-collection`
                 }
               >
                 <TooltipItem
