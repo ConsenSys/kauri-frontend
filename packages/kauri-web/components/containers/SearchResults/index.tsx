@@ -18,12 +18,18 @@ const ArticlesHeader = styled.div`
   padding-bottom: ${props => props.theme.space[3]}px;
 `;
 
-const Header = () => (
-  <ArticlesHeader>
-    <Title1 color="white">Search</Title1>
-    <BodyCard>24 Results</BodyCard>
-    <ResourceSearch />
-  </ArticlesHeader>
-);
+// interface IProps {}
 
-export default Header;
+class SearchResults extends React.Component {
+  render() {
+    return (
+      <ArticlesHeader>
+        <Title1 color="white">Search</Title1>
+        <BodyCard>24 Results</BodyCard>
+        <ResourceSearch />
+      </ArticlesHeader>
+    );
+  }
+}
+
+export default SearchResults;

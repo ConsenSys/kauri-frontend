@@ -7,7 +7,11 @@ import { Subject } from "rxjs/Subject";
 import { Subscription } from "rxjs/Subscription";
 import { compose, withApollo } from "react-apollo";
 import { connect } from "react-redux";
-import { globalSearchApprovedArticles } from "../../../queries/Article";
+import { searchAutocomplete } from "../../../queries/Search";
+import {
+  IResult,
+  IElementsBreakdown,
+} from "../../../../kauri-components/components/Search/QuickSearch";
 import { routeChangeAction } from "../../../lib/Module";
 
 const SearchInput = styled<InputProps>(props => (
@@ -67,60 +71,90 @@ const IconOverlay = styled(Icon)`
   font-size: 17px;
 `;
 
-const handleSearch$: Subject<string> = new Subject();
-
-interface IArticleType {
-  id: string;
-  title: string;
-}
-
-interface IDataSource extends Array<IArticleType> {}
-
-interface IState {
-  dataSource: IDataSource;
-  sub?: Subscription;
-}
-
 interface IProps {
   client: ApolloClient<{}>;
   routeChangeAction: (route: string) => void;
 }
 
+interface IDataSource {
+  results: IResult[];
+  totalElementsBreakdown: IElementsBreakdown;
+}
+
+interface IState {
+  dataSource: IDataSource;
+  sub?: Subscription;
+  open: boolean;
+  value: string;
+  type: string | null;
+}
+
+interface ISearch {
+  value: string;
+  type?: string;
+}
+
+const handleSearch$: Subject<ISearch> = new Subject();
+
+const emptyData = {
+  results: [],
+  totalElementsBreakdown: {
+    ARTICLE: 0,
+    COLLECTION: 0,
+    COMMENT: 0,
+    COMMUNITY: 0,
+    CURATED_LIST: 0,
+    REQUEST: 0,
+    USER: 0,
+  },
+};
+
 class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
   constructor(props: IProps & ISearchWrapperProps) {
     super(props);
     this.state = {
-      dataSource: [],
+      dataSource: emptyData,
+      open: false,
+      type: null,
+      value: "",
     };
   }
 
   componentDidMount() {
     const sub = handleSearch$
       .debounceTime(300)
-      .flatMap((text: string) =>
+      .flatMap(() =>
         this.props.client.query<{
-          searchArticles: { content: IArticleType[] };
+          searchAutocomplete: {
+            content: IResult[];
+            totalElementsBreakdown: IElementsBreakdown;
+          };
         }>({
           fetchPolicy: "no-cache",
-          query: globalSearchApprovedArticles,
-          variables: { filter: { nameContains: text } },
+          query: searchAutocomplete,
+          variables: {
+            filter: {
+              type: this.state.type,
+            },
+            page: 0,
+            query: this.state.value,
+            size: 10,
+          },
         })
       )
-      .map(
-        ({
-          data: {
-            searchArticles: { content },
-          },
-        }) => content
-      )
+      .map(({ data: { searchAutocomplete: queryResult } }) => ({
+        results: queryResult.content,
+        totalElementsBreakdown: queryResult.totalElementsBreakdown,
+      }))
       .subscribe((dataSource: IDataSource) => {
-        if (dataSource.length === 0) {
-          dataSource = [
-            {
-              id: "No articles found",
-              title: "No articles found",
-            },
-          ];
+        if (
+          Array.isArray(dataSource.results) &&
+          dataSource.results.length === 0
+        ) {
+          dataSource = emptyData;
+        }
+        if (this.state.type) {
+          dataSource.totalElementsBreakdown = this.state.dataSource.totalElementsBreakdown; // do not reset tabs if the query did not change
         }
         this.setState({ ...this.state, dataSource });
       });
@@ -134,9 +168,10 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
     }
   }
 
-  handleSearch = (text: string) => {
-    handleSearch$.next(text);
-  };
+  fetchResults(value: string, type?: string) {
+    this.setState({ value, type: type ? type : null });
+    handleSearch$.next({ value });
+  }
 
   render() {
     return (
@@ -146,7 +181,7 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
       >
         <SearchInput
           suffix={<Icon type="search" className="certain-category-icon" />}
-          onChange={e => this.handleSearch(e.target.value)}
+          onChange={e => this.fetchResults(e.target.value)}
         />
         <IconOverlay type="search" className="certain-category-icon" />
       </SearchWrapper>
