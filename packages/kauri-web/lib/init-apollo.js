@@ -19,8 +19,8 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
 })
 
-function create (initialState, { getToken, hostName }) {
-  const apiURL = config.getApiURL(hostName)
+function create (initialState, { getToken }) {
+  const apiURL = config.getApiURL()
 
   let httpLink = new HttpLink({
     uri: `http${global.window ? 's' : ''}://${apiURL}/graphql`,
