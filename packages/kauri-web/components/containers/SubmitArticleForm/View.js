@@ -6,7 +6,6 @@ import SubmitArticleFormHeader from "./SubmitArticleFormHeader";
 import SubmitArticleFormContent from "./SubmitArticleFormContent";
 import type { AttributesPayload, ApproveArticlePayload } from "./Module";
 import ScrollToTopButton from "../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton";
-import Loading from "../../common/Loading";
 import type {
   EditArticlePayload,
   SubmitArticlePayload,
