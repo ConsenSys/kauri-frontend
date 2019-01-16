@@ -34,7 +34,7 @@ const Container = styled.div`
 `;
 
 class EditableHeader extends Component<HeaderProps, HeaderState> {
-  constructor(props: HeaderProps) {
+  constructor (props: HeaderProps) {
     super(props);
     if (!props.OwnProfile.getMyProfile) {
       this.state = {
@@ -72,7 +72,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (
       typeof prevProps.OwnProfile.getMyProfile === "undefined" &&
       typeof this.props.OwnProfile.getMyProfile !== "undefined"
@@ -99,25 +99,25 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
     }
   }
 
-  saveUser() {
+  saveUser () {
     const payload = R.filter(R.is(String), this.state);
     this.setState({ pendingSubmit: true });
     this.props.saveUserDetailsAction(payload);
   }
 
-  uploadImage() {
+  uploadImage () {
     TriggerImageUploader(() => {}, "", (file, url: string) =>
       this.setState({ avatar: url })
     );
   }
 
-  handleChange(param: string, value: string) {
+  handleChange (param: string, value: string) {
     this.setState({
       [param]: value,
     });
   }
 
-  render() {
+  render () {
     const {
       username,
       title,
