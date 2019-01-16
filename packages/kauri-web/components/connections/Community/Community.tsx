@@ -131,7 +131,11 @@ const Container: React.SFC<IProps> = ({
           }
           if (queryProps.error) {
             // console.log(queryProps.error);
-            return <ErrorMessage message={queryProps.error.message} />;
+            return (
+              <ErrorMessage
+                data={{ error: { message: queryProps.error.message } }}
+              />
+            );
           }
           if (queryProps.data) {
             if (
