@@ -13,10 +13,7 @@ import {
 } from "../../../lib/Module";
 import { getArticleTitle } from "../../containers/Article/__generated__/getArticleTitle";
 import { getArticleTitleQuery } from "../../containers/Article/DeleteDraftArticleModule";
-import {
-  addArticleToCollection,
-  addArticleToCollectionVariables,
-} from "./__generated__/addArticleToCollection";
+import { addArticleToCollection } from "./__generated__/addArticleToCollection";
 
 export const addArticleToCollectionMutation = gql`
   mutation addArticleToCollection(

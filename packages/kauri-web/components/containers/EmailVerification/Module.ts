@@ -26,11 +26,10 @@ export const verifyEmailEpic: Epic<any, {}, IDependencies> = (
   { apolloClient }
 ) =>
   action$.ofType(VERIFY_EMAIL).switchMap(
-    ({ uuid }: IVerifyEmailAction) =>
+    () =>
       Observable.fromPromise(
         apolloClient.mutate<mockQueryType>({
           mutation: mockQuery,
-          uuid,
         })
       )
     // .mergeMap(({ data: { cancelArticle } }) =>
