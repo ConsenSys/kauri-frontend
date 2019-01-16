@@ -70,7 +70,7 @@ const Styled = styled<{ disabled: boolean }, "div">("div")`
   }
 `;
 
-interface IProps {
+export interface IProps {
   checked: boolean;
   disabled: boolean;
   onChange: (payload: any) => void;

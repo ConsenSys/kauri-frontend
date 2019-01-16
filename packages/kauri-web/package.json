@@ -134,6 +134,8 @@
     "@babel/plugin-syntax-import-meta": "7.0.0",
     "@babel/preset-flow": "7.0.0",
     "@babel/preset-typescript": "7.0.0",
+    "@babel/runtime": "7.1.2",
+    "@babel/runtime-corejs2": "7.1.2",
     "@babel/register": "7.0.0",
     "@types/next": "^7.0.4",
     "@types/ramda": "^0.25.41",
