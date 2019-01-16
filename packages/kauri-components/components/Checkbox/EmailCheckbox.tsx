@@ -63,7 +63,7 @@ const Component: React.FunctionComponent<IProps> = props => (
       unmountHTMLWhenHide={true}
     >
       <Checkbox
-        label="email"
+        label="newsletter"
         onChange={props.onChange}
         disabled={props.disabled}
         checked={props.checked}
