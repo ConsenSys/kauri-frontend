@@ -49,7 +49,9 @@ class SearchResults extends React.Component<IProps, IState> {
       <section>
         <ArticlesHeader>
           <Title1 color="white">Search</Title1>
-          <BodyCard>{`${totalResults} Results`}</BodyCard>
+          <BodyCard>
+            {this.state.loading ? "Loading results" : `${totalResults} Results`}
+          </BodyCard>
           <ResourceSearch
             query={this.props.query}
             setSearchResults={this.setSearchResults}
