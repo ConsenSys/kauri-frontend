@@ -3,6 +3,8 @@ import styled from "../../../lib/styled-components";
 import ContentSection from "../../../../kauri-components/components/Section/ContentSection";
 import SearchCategory from "../../../../kauri-components/components/SearchResults/SearchCategory";
 import { IElementsBreakdown } from "../../../../kauri-components/components/Search/QuickSearch";
+import { Title2 } from "../../../../kauri-components/components/Typography";
+import Empty from "../PublicProfile/Empty";
 
 const CategorySection = styled.section`
   display: flex;
@@ -25,6 +27,12 @@ const ResourceRow = styled.div`
   width: 933px;
   height: 190px;
   background-color: ${props => props.theme.colors.white};
+`;
+
+const CenterContent = styled.div`
+  display: flex;
+  min-width: 1280px;
+  justify-content: center;
 `;
 
 interface IProps {
@@ -56,15 +64,23 @@ class ResourceResults extends React.Component<IProps> {
                 />
               ))
           ) : (
-            <p>NO RESULTS</p>
+            <CenterContent>
+              <Empty>
+                <Title2>No Results found! :(</Title2>
+              </Empty>
+            </CenterContent>
           )}
         </CategorySection>
-        <ResourceSection>
-          <ResourceRow />
-          <ResourceRow />
-          <ResourceRow />
-          <ResourceRow />
-        </ResourceSection>
+        {Object.values(this.props.totalElementsBreakdown).filter(
+          amount => amount > 0
+        ).length ? (
+          <ResourceSection>
+            <ResourceRow />
+            <ResourceRow />
+            <ResourceRow />
+            <ResourceRow />
+          </ResourceSection>
+        ) : null}
       </ContentSection>
     );
   }
