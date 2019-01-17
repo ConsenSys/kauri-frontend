@@ -121,7 +121,7 @@ class Complete extends React.Component<
       dataSource: emptyData,
       open: false,
       type: null,
-      value: "",
+      value: this.props.query.q || "",
     };
   }
 
@@ -193,7 +193,7 @@ class Complete extends React.Component<
         className="global-search-wrapper"
       >
         <SearchInput
-          value={this.state.value || this.props.query.q}
+          value={this.state.value}
           suffix={<Icon type="search" className="certain-category-icon" />}
           onChange={e => this.fetchResults(e.target.value)}
         />
