@@ -1,8 +1,10 @@
+// @flow
 import React, { Component } from "react";
 import styled from "styled-components";
 import Input from "../../../../kauri-components/components/Input/Input";
 import UploadLogoButton from "../../../../kauri-components/components/Button/UploadLogoButton";
 import SocialWebsiteIcon from "../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.tsx";
+import EmailCheckbox from "../../../../kauri-components/components/Checkbox/EmailCheckbox";
 import TriggerImageUploader from "../../common/ImageUploader";
 import R from "ramda";
 import { regenerateEmailVerification } from "../../../queries/User";
@@ -22,7 +24,7 @@ const StyledUpload = styled(UploadLogoButton)`
 `;
 
 const Offset = styled.div`
-  margin-left: -${props => props.theme.space[3]}px;
+  margin-left: -${props => props.margin || props.theme.space[3]}px;
   display: flex;
   flex-direction: row;
   & > a {
@@ -50,6 +52,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         name: "",
         email: "",
         status: "CREATED",
+        subscriptions: {},
       };
     } else {
       const {
@@ -61,6 +64,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         name,
         email,
         status,
+        subscriptions,
       } = props.OwnProfile.getMyProfile;
       this.state = {
         pendingSubmit: false,
@@ -73,6 +77,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         name,
         email,
         status,
+        subscriptions,
       };
     }
     this.handleChange = this.handleChange.bind(this);
@@ -92,6 +97,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         name,
         email,
         status,
+        subscriptions,
       } = this.props.OwnProfile.getMyProfile;
 
       this.setState({
@@ -104,12 +110,16 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         name,
         email,
         status,
+        subscriptions,
       });
     }
   }
 
   saveUser() {
-    const payload = R.filter(R.is(String), this.state);
+    const payload = R.filter(
+      val => typeof val !== "undefined" || !!val,
+      this.state
+    );
     this.setState({ pendingSubmit: true });
     this.props.saveUserDetailsAction(payload);
   }
@@ -202,6 +212,15 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
             handleChange={this.handleChange}
             status={status}
           />
+          <Offset margin={12}>
+            <EmailCheckbox
+              disabled={!this.state.email}
+              checked={this.state.subscriptions.newsletter}
+              onChange={checked =>
+                this.handleChange("subscriptions", { newsletter: checked })
+              }
+            />
+          </Offset>
         </InputsContainers>
       </Container>
     );

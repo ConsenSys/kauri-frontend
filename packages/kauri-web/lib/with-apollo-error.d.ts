@@ -1,7 +1,6 @@
 import * as React from "react";
 
 interface IErrorMessageProps {
-  setNavcolorOverrideAction: any;
   data: { error: { message: string } };
 }
 

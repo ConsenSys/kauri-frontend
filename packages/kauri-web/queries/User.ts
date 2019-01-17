@@ -34,6 +34,7 @@ export const getOwnProfile = gql`
       avatar
       social
       status
+      subscriptions
     }
   }
 `;
@@ -47,6 +48,7 @@ export const saveUserDetails = gql`
     $avatar: String
     $email: String
     $social: Map_String_StringScalar
+    $subscriptions: Map_String_BooleanScalar
   ) {
     saveUser(
       name: $name
@@ -56,6 +58,7 @@ export const saveUserDetails = gql`
       website: $website
       social: $social
       email: $email
+      subscriptions: $subscriptions
     ) {
       hash
     }

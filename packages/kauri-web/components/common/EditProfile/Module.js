@@ -1,10 +1,10 @@
 // @flow
-import { Observable } from 'rxjs/Observable';
-import { saveUserDetails } from '../../../queries/User';
-import { showNotificationAction, routeChangeAction } from '../../../lib/Module';
-import { trackMixpanelAction } from '../../containers/Link/Module';
-import type { Dependencies } from '../../../lib/Module';
-import type { HeaderState } from './types';
+import { Observable } from "rxjs/Observable";
+import { saveUserDetails } from "../../../queries/User";
+import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
+import { trackMixpanelAction } from "../../containers/Link/Module";
+import type { Dependencies } from "../../../lib/Module";
+import type { HeaderState } from "./types";
 
 export type SaveUserDetailActionType = {
   type: string,
@@ -12,7 +12,7 @@ export type SaveUserDetailActionType = {
 };
 
 export const saveUserDetailsAction = (payload: HeaderState) => ({
-  type: 'SAVE_USER_DETAILS',
+  type: "SAVE_USER_DETAILS",
   payload,
 });
 
@@ -22,7 +22,7 @@ export const saveUserDetailsEpic = (
   { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
 ) =>
   action$
-    .ofType('SAVE_USER_DETAILS')
+    .ofType("SAVE_USER_DETAILS")
     .switchMap(
       ({
         payload: {
@@ -34,6 +34,7 @@ export const saveUserDetailsEpic = (
           name,
           twitter,
           github,
+          subscriptions,
         },
       }) =>
         Observable.fromPromise(
@@ -50,6 +51,7 @@ export const saveUserDetailsEpic = (
                 twitter,
                 github,
               },
+              subscriptions,
             },
           })
         )
@@ -63,17 +65,17 @@ export const saveUserDetailsEpic = (
             }) => apolloSubscriber(hash)
           )
           .mergeMap(({ data: { output } }) => {
-            if (typeof output.error === 'string') {
+            if (typeof output.error === "string") {
               return Observable.throw(output.error);
             } else {
-              return Observable.of({ type: 'UPDATE_USER_SUCCESS' })
+              return Observable.of({ type: "UPDATE_USER_SUCCESS" })
                 .do(() => apolloClient.resetStore())
                 .do(() =>
                   trackMixpanelAction({
-                    event: 'Offchain',
+                    event: "Offchain",
                     metaData: {
-                      resource: 'profile',
-                      resourceAction: 'update profile',
+                      resource: "profile",
+                      resourceAction: "update profile",
                       resourceID: getState().app.user.id,
                     },
                   })
@@ -83,17 +85,17 @@ export const saveUserDetailsEpic = (
           .mergeMap(() =>
             Observable.of(
               showNotificationAction({
-                notificationType: 'success',
-                message: 'Submission Successful',
-                description: 'You have successfully updated your profile',
+                notificationType: "success",
+                message: "Submission Successful",
+                description: "You have successfully updated your profile",
               })
             )
           )
           .catch(err => {
             return Observable.of(
               showNotificationAction({
-                notificationType: 'error',
-                message: 'Submission error',
+                notificationType: "error",
+                message: "Submission error",
                 description: err,
               })
             );
