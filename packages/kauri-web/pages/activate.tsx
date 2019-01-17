@@ -1,48 +1,30 @@
 import React from "react";
-import { compose } from "react-apollo";
-import { connect } from "react-redux";
+import { withApollo, compose } from "react-apollo";
 import withData from "../lib/with-data";
-import App from "../layouts/AppWithoutNavbar";
-import { routeChangeAction } from "../lib/Module";
+import AppWithoutNavbar from "../layouts/AppWithoutNavbar";
 import EmailVerification from "../components/containers/EmailVerification";
 import { withRouter } from "next/router";
-
-interface IReduxState {
-  app: { user: { id: string } };
-}
-
-const ConnectedEmailVerification = connect(
-  (state: IReduxState) => ({
-    userId: state.app && state.app.user && state.app.user.id,
-  }),
-  { routeChangeAction }
-)(EmailVerification);
 
 interface IProps {
   router: {
     query: {
-      user_id: string;
+      uuid: string;
     };
   };
 }
 
-interface IState {
-  routeChangeAction: (url: string) => void;
-  userId: string | undefined;
-}
-
-class EmailVerificationPage extends React.Component<IProps & IState> {
+class EmailVerificationPage extends React.Component<IProps, {}> {
   render() {
     return (
-      <App>
-        <ConnectedEmailVerification />
-      </App>
+      <AppWithoutNavbar>
+        <EmailVerification uuid={this.props.router.query.uuid} />
+      </AppWithoutNavbar>
     );
   }
 }
 
 export default compose(
-  // withData gives us server-side graphql queries before rendering
   withData,
+  withApollo,
   withRouter
 )(EmailVerificationPage);
