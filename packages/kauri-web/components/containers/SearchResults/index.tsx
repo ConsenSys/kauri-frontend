@@ -23,7 +23,14 @@ interface IState {
   results: IResult[];
 }
 
-class SearchResults extends React.Component<{}, IState> {
+interface IProps {
+  query: {
+    q?: string;
+    type?: "community" | "article" | "collection";
+  };
+}
+
+class SearchResults extends React.Component<IProps, IState> {
   setSearchResults = (results: IResult[]) => this.setState({ results });
 
   render() {
