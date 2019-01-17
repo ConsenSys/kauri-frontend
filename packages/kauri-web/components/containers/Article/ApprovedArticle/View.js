@@ -1,6 +1,5 @@
 // @flow
 import React from "react";
-import { Helmet } from "react-helmet";
 import slugify from "slugify";
 import rake from "rake-js";
 import R from "ramda";
@@ -14,8 +13,8 @@ import Comments from "./ApprovedArticleComments";
 import { hljs } from "../../../../lib/hljs";
 import ScrollToTopOnMount from "../../../../../kauri-components/components/ScrollToTopOnMount";
 import ScrollToTopButton from "../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton";
-
 import type { TipArticlePayload } from "../Module";
+import withSchema from "../../../../lib/with-schema";
 
 const ArticleContent = styled.section`
   background: white;
@@ -75,10 +74,6 @@ class ApprovedArticle extends React.Component<Props, State> {
       content[0] === "{" && JSON.parse(content).markdown
         ? JSON.parse(content).markdown
         : content;
-    const articleKeywords = rake(articleContent, {
-      language: "english",
-      delimiters: ["#", "##", "###", "####", "\n", "\n\n"],
-    });
     const hostName = `https://${props.hostName.replace(/api\./g, "")}`;
 
     const resourceType = R.path([
@@ -91,59 +86,8 @@ class ApprovedArticle extends React.Component<Props, State> {
 
     const isCommunityOwned = resourceType === "COMMUNITY";
 
-    const description = articleContent
-      .replace(/\n|\r/g, " ")
-      .replace(/\u00a0/g, " ")
-      .replace("#", "")
-      .substring(0, 120);
-
     return (
       <ArticleContent>
-        <Helmet>
-          <title>{title} - Kauri</title>
-          <meta name="keywords" content={articleKeywords.map(i => i)} />
-          <link
-            rel="canonical"
-            href={`${hostName}/article/${id}/${slugify(title, {
-              lower: true,
-            })}`}
-          />
-          <meta name="description" content={description} />
-          <meta property="og:title" content={title} />
-          <meta property="og:site_name" content="kauri.io" />
-          <meta
-            property="og:url"
-            content={`${hostName}/article/${id}/${slugify(title, {
-              lower: true,
-            })}`}
-          />
-          <meta property="og:description" content={`${description}...`} />
-          <meta property="og:type" content="article" />
-          <meta
-            property="og:image"
-            content={
-              (attributes && attributes.background && attributes.background) ||
-              "/static/images/logo.svg"
-            }
-          />
-          <meta name="twitter:card" content="summary" />
-          <meta
-            name="twitter:site"
-            ccontent={`https://${hostName}/article/${id}/${slugify(title, {
-              lower: true,
-            })}`}
-          />
-          <meta name="twitter:title" content={title} />
-          <meta name="twitter:description" content={`${description}...`} />
-          <meta name="twitter:creator" content="@kauri_io" />
-          <meta
-            name="twitter:image"
-            content={
-              (attributes && attributes.background && attributes.background) ||
-              "/static/images/logo.svg"
-            }
-          />
-        </Helmet>
         <ScrollToTopOnMount />
         <ScrollToTopButton />
         <ApprovedArticle.Header
@@ -265,4 +209,4 @@ class ApprovedArticle extends React.Component<Props, State> {
   }
 }
 
-export default ApprovedArticle;
+export default withSchema(ApprovedArticle);
