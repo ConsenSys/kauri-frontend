@@ -39,11 +39,14 @@ class SearchResults extends React.Component<IProps, IState> {
 
   render() {
     // console.log(this.state);
+    const totalResults = Object.values(
+      this.state.dataSource && this.state.dataSource.totalElementsBreakdown
+    ).reduce((current, next) => current + next, 0);
     return (
       <section>
         <ArticlesHeader>
           <Title1 color="white">Search</Title1>
-          <BodyCard>24 Results</BodyCard>
+          <BodyCard>{`${totalResults} Results`}</BodyCard>
           <ResourceSearch setSearchResults={this.setSearchResults} />
         </ArticlesHeader>
         <ResourceResults
