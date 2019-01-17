@@ -71,15 +71,15 @@ const IconOverlay = styled(Icon)`
   font-size: 17px;
 `;
 
+export interface IDataSource {
+  results: IResult[];
+  totalElementsBreakdown: IElementsBreakdown;
+}
+
 interface IProps {
   client: ApolloClient<{}>;
   routeChangeAction: (route: string) => void;
-  setSearchResults: (results: IResult[]) => void;
-}
-
-interface IDataSource {
-  results: IResult[];
-  totalElementsBreakdown: IElementsBreakdown;
+  setSearchResults: (dataSource: IDataSource) => void;
 }
 
 interface IState {
@@ -97,7 +97,7 @@ interface ISearch {
 
 const handleSearch$: Subject<ISearch> = new Subject();
 
-const emptyData = {
+export const emptyData = {
   results: [],
   totalElementsBreakdown: {
     ARTICLE: 0,
@@ -124,6 +124,7 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
   componentDidMount() {
     const sub = handleSearch$
       .debounceTime(300)
+      .filter((search: ISearch) => search.value !== "")
       .flatMap(() =>
         this.props.client.query<{
           searchAutocomplete: {
@@ -158,7 +159,7 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
           dataSource.totalElementsBreakdown = this.state.dataSource.totalElementsBreakdown; // do not reset tabs if the query did not change
         }
 
-        this.props.setSearchResults(dataSource.results);
+        this.props.setSearchResults(dataSource);
       });
     this.setState({ ...this.state, sub });
   }

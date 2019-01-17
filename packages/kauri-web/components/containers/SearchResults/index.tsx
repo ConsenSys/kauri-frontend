@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import ResourceSearch from "./ResourceSearch";
+import ResourceSearch, { IDataSource, emptyData } from "./ResourceSearch";
 import {
   Title1,
   BodyCard,
 } from "../../../../kauri-components/components/Typography";
-import { IResult } from "../../../../kauri-components/components/Search/QuickSearch";
 import ResourceResults from "./ResourceResults";
 
 const ArticlesHeader = styled.div`
@@ -21,7 +20,7 @@ const ArticlesHeader = styled.div`
 `;
 
 interface IState {
-  results: IResult[];
+  dataSource: IDataSource;
 }
 
 interface IProps {
@@ -32,7 +31,11 @@ interface IProps {
 }
 
 class SearchResults extends React.Component<IProps, IState> {
-  setSearchResults = (results: IResult[]) => this.setState({ results });
+  state = {
+    dataSource: emptyData,
+  };
+
+  setSearchResults = (dataSource: IDataSource) => this.setState({ dataSource });
 
   render() {
     // console.log(this.state);
@@ -43,7 +46,12 @@ class SearchResults extends React.Component<IProps, IState> {
           <BodyCard>24 Results</BodyCard>
           <ResourceSearch setSearchResults={this.setSearchResults} />
         </ArticlesHeader>
-        <ResourceResults />
+        <ResourceResults
+          totalElementsBreakdown={
+            this.state.dataSource &&
+            this.state.dataSource.totalElementsBreakdown
+          }
+        />
       </section>
     );
   }
