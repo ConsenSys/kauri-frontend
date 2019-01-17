@@ -6,6 +6,7 @@ import {
   BodyCard,
 } from "../../../../kauri-components/components/Typography";
 import { IResult } from "../../../../kauri-components/components/Search/QuickSearch";
+import ResourceResults from "./ResourceResults";
 
 const ArticlesHeader = styled.div`
   background-color: ${props => props.theme.colors.primaryTextColor};
@@ -40,6 +41,7 @@ class SearchResults extends React.Component<IProps, IState> {
         <Title1 color="white">Search</Title1>
         <BodyCard>24 Results</BodyCard>
         <ResourceSearch setSearchResults={this.setSearchResults} />
+        <ResourceResults />
       </ArticlesHeader>
     );
   }
