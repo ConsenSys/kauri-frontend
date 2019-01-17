@@ -12,6 +12,7 @@ import {
   IResult,
   IElementsBreakdown,
 } from "../../../../kauri-components/components/Search/QuickSearch";
+import { IProps as IQueryProps } from "./index";
 import { routeChangeAction } from "../../../lib/Module";
 
 const SearchInput = styled<InputProps>(props => (
@@ -79,7 +80,7 @@ export interface IDataSource {
 interface IProps {
   client: ApolloClient<{}>;
   routeChangeAction: (route: string) => void;
-  setSearchResults: (dataSource: IDataSource) => void;
+  setSearchResults: (dataSource: IDataSource, loading: boolean) => void;
 }
 
 interface IState {
@@ -110,8 +111,11 @@ export const emptyData = {
   },
 };
 
-class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
-  constructor(props: IProps & ISearchWrapperProps) {
+class Complete extends React.Component<
+  IProps & ISearchWrapperProps & IQueryProps,
+  IState
+> {
+  constructor(props: IProps & ISearchWrapperProps & IQueryProps) {
     super(props);
     this.state = {
       dataSource: emptyData,
@@ -125,6 +129,7 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
     const sub = handleSearch$
       .debounceTime(300)
       .filter((search: ISearch) => search.value !== "")
+      .do(() => this.props.setSearchResults(this.state.dataSource, true))
       .flatMap(() =>
         this.props.client.query<{
           searchAutocomplete: {
@@ -159,9 +164,15 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
           dataSource.totalElementsBreakdown = this.state.dataSource.totalElementsBreakdown; // do not reset tabs if the query did not change
         }
 
-        this.props.setSearchResults(dataSource);
+        this.props.setSearchResults(dataSource, false);
+        this.setState({ dataSource });
       });
     this.setState({ ...this.state, sub });
+
+    if (this.props.query.q) {
+      handleSearch$.next({ value: this.props.query.q });
+      this.setState({ ...this.state, value: this.props.query.q });
+    }
   }
 
   componentWillUnmount() {
@@ -182,6 +193,7 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
         className="global-search-wrapper"
       >
         <SearchInput
+          value={this.state.value || this.props.query.q}
           suffix={<Icon type="search" className="certain-category-icon" />}
           onChange={e => this.fetchResults(e.target.value)}
         />

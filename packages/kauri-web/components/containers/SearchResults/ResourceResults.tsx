@@ -5,6 +5,7 @@ import SearchCategory from "../../../../kauri-components/components/SearchResult
 import { IElementsBreakdown } from "../../../../kauri-components/components/Search/QuickSearch";
 import { Title2 } from "../../../../kauri-components/components/Typography";
 import Empty from "../PublicProfile/Empty";
+import Loading from "../../common/Loading";
 
 const CategorySection = styled.section`
   display: flex;
@@ -37,12 +38,16 @@ const CenterContent = styled.div`
 
 interface IProps {
   totalElementsBreakdown: IElementsBreakdown;
+  loading: boolean;
 }
 
 const searchCategories = ["ARTICLE", "COLLECTION", "COMMUNITY"];
 
 class ResourceResults extends React.Component<IProps> {
   render() {
+    if (this.props.loading) {
+      return <Loading />;
+    }
     return (
       <ContentSection gridAutoFlow={["", "column"]}>
         <CategorySection>

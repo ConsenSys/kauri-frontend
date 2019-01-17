@@ -21,9 +21,10 @@ const ArticlesHeader = styled.div`
 
 interface IState {
   dataSource: IDataSource;
+  loading: boolean;
 }
 
-interface IProps {
+export interface IProps {
   query: {
     q?: string;
     type?: "community" | "article" | "collection";
@@ -33,9 +34,11 @@ interface IProps {
 class SearchResults extends React.Component<IProps, IState> {
   state = {
     dataSource: emptyData,
+    loading: true,
   };
 
-  setSearchResults = (dataSource: IDataSource) => this.setState({ dataSource });
+  setSearchResults = (dataSource: IDataSource, loading: boolean) =>
+    this.setState({ dataSource, loading });
 
   render() {
     // console.log(this.state);
@@ -47,9 +50,13 @@ class SearchResults extends React.Component<IProps, IState> {
         <ArticlesHeader>
           <Title1 color="white">Search</Title1>
           <BodyCard>{`${totalResults} Results`}</BodyCard>
-          <ResourceSearch setSearchResults={this.setSearchResults} />
+          <ResourceSearch
+            query={this.props.query}
+            setSearchResults={this.setSearchResults}
+          />
         </ArticlesHeader>
         <ResourceResults
+          loading={this.state.loading}
           totalElementsBreakdown={
             this.state.dataSource &&
             this.state.dataSource.totalElementsBreakdown
