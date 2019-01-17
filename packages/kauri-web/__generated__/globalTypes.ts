@@ -54,18 +54,23 @@ export enum ResourceTypeInput {
   USER = "USER",
 }
 
+export enum UserStatus {
+  CREATED = "CREATED",
+  EMAIL_VERIFIED = "EMAIL_VERIFIED",
+}
+
 export interface ArticleFilterInput {
   dateCreatedGreaterThan?: any | null;
+  versionIn?: (number | null)[] | null;
   ownerIdEquals?: string | null;
   authorIdEquals?: string | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
-  versionIn?: (number | null)[] | null;
   dateCreatedLessThan?: any | null;
+  statusIn?: (ArticleStatusInput | null)[] | null;
   idEquals?: string | null;
   ownerEquals?: string | null;
   checkpointEquals?: string | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
 }
 
 export interface CollectionFilterInput {
@@ -99,15 +104,15 @@ export interface ResourceIdentifierInput {
 }
 
 export interface SearchFilterInput {
-  type?: ResourceTypeInput | null;
   mustNotContainTag?: (string | null)[] | null;
   mustContainTag?: (string | null)[] | null;
+  type?: ResourceTypeInput | null;
 }
 
 export interface SectionDTOInput {
+  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   name?: string | null;
   description?: string | null;
-  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   id?: string | null;
 }
 

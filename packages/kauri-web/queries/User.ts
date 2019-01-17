@@ -33,6 +33,7 @@ export const getOwnProfile = gql`
       website
       avatar
       social
+      status
       subscriptions
     }
   }
@@ -59,6 +60,22 @@ export const saveUserDetails = gql`
       email: $email
       subscriptions: $subscriptions
     ) {
+      hash
+    }
+  }
+`;
+
+export const regenerateEmailVerificationCode = gql`
+  mutation regenerateEmailVerificationCode {
+    regenerateEmailVerificationCode {
+      hash
+    }
+  }
+`;
+
+export const verifyEmail = gql`
+  mutation verifyEmail($code: String) {
+    verifyEmail(code: $code) {
       hash
     }
   }

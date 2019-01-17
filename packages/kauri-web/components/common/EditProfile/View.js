@@ -7,6 +7,8 @@ import SocialWebsiteIcon from "../../../../kauri-components/components/PublicPro
 import EmailCheckbox from "../../../../kauri-components/components/Checkbox/EmailCheckbox";
 import TriggerImageUploader from "../../common/ImageUploader";
 import R from "ramda";
+import { regenerateEmailVerification } from "../../../queries/User";
+import EmailField from "./EmailField";
 
 const InputsContainers = styled.div`
   display: flex;
@@ -49,6 +51,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         github: "",
         name: "",
         email: "",
+        status: "CREATED",
         subscriptions: {},
       };
     } else {
@@ -60,6 +63,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         social,
         name,
         email,
+        status,
         subscriptions,
       } = props.OwnProfile.getMyProfile;
       this.state = {
@@ -72,9 +76,11 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         github: social && social.github,
         name,
         email,
+        status,
         subscriptions,
       };
     }
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -90,8 +96,10 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         social,
         name,
         email,
+        status,
         subscriptions,
       } = this.props.OwnProfile.getMyProfile;
+
       this.setState({
         username,
         title,
@@ -101,6 +109,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         twitter: social && social.twitter,
         name,
         email,
+        status,
         subscriptions,
       });
     }
@@ -137,6 +146,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
       twitter,
       github,
       email,
+      status,
     } = this.state;
 
     return (
@@ -161,13 +171,6 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
             fontSize={3}
             value={title}
             placeHolder="Add job title"
-          />
-          <Input
-            onChange={e => this.handleChange("email", e.target.value)}
-            fontWeight="normal"
-            fontSize={1}
-            value={email}
-            placeHolder="Add Email"
           />
           <Input
             onChange={e => this.handleChange("username", e.target.value)}
@@ -203,6 +206,12 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
               placeHolder="Github"
             />
           </Offset>
+          <EmailField
+            resendEmailVerification={this.props.resendEmailVerification}
+            email={email}
+            handleChange={this.handleChange}
+            status={status}
+          />
           <Offset margin={12}>
             <EmailCheckbox
               disabled={!this.state.email}
