@@ -37,12 +37,14 @@ class SearchResults extends React.Component<IProps, IState> {
   render() {
     // console.log(this.state);
     return (
-      <ArticlesHeader>
-        <Title1 color="white">Search</Title1>
-        <BodyCard>24 Results</BodyCard>
-        <ResourceSearch setSearchResults={this.setSearchResults} />
+      <section>
+        <ArticlesHeader>
+          <Title1 color="white">Search</Title1>
+          <BodyCard>24 Results</BodyCard>
+          <ResourceSearch setSearchResults={this.setSearchResults} />
+        </ArticlesHeader>
         <ResourceResults />
-      </ArticlesHeader>
+      </section>
     );
   }
 }

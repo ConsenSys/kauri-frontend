@@ -3,6 +3,7 @@ declare module "stack-styled" {
     alignItems: string[];
     justifyContent: string[];
     gridAutoFlow: string[];
+    gap: number;
   }
 
   import styled from "styled-components";

@@ -2,6 +2,7 @@ import * as React from "react";
 import styled from "../../lib/styled-components";
 import Stack, { IStackStyledProps } from "stack-styled";
 import { bgColor, BgColorProps } from "styled-system";
+import theme from "../../lib/theme-config";
 
 const ContentSectionStack = styled<BgColorProps & IStackStyledProps>(Stack)`
   ${bgColor};
@@ -13,6 +14,8 @@ interface IProps {
   alignItems?: [string, string];
   bg?: string;
   justifyContent?: [string, string];
+  gridAutoFlow?: [string, string];
+  gap?: number;
 }
 
 const ContentSection: React.FunctionComponent<IProps> = ({
@@ -20,12 +23,15 @@ const ContentSection: React.FunctionComponent<IProps> = ({
   bg = "tertiaryBackgroundColor",
   children,
   justifyContent = ["", "start"],
+  gridAutoFlow = ["", "row"],
+  gap = theme.space[3],
 }) => (
   <ContentSectionStack
     bg={bg}
     alignItems={alignItems}
     justifyContent={justifyContent}
-    gridAutoFlow={["", "row"]}
+    gridAutoFlow={gridAutoFlow}
+    gap={gap}
   >
     {children}
   </ContentSectionStack>
