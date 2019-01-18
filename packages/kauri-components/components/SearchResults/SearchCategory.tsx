@@ -4,16 +4,21 @@ import { NavigationText } from "../Typography";
 
 const Container = styled<{ active: boolean }, "div">("div")`
   display: flex;
-  background: white;
-  flex-direction: row;
-  align-items: center;
   width: 291px;
   height: 60px;
+  flex-direction: row;
+  align-items: center;
+  background: white;
+  cursor: pointer;
   padding: ${props => props.theme.space[2]}px;
   box-shadow: 0 0 0 2px
-    ${props => (props.active ? props.theme.primary : "transparent")};
+    ${props => (props.active ? props.theme.primaryDark : "transparent")};
   > :last-child {
     margin-left: auto;
+  }
+  :hover {
+    box-shadow: 0 0 0 2px
+      ${props => (props.active ? props.theme.primaryDark : props.theme.primary)};
   }
 `;
 
