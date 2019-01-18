@@ -9,7 +9,7 @@ import TagList from "../Tags/TagList";
 const ResourceRow = styled.div`
   display: flex;
   width: 933px;
-  height: 190px;
+  height: 195px;
   background-color: ${props => props.theme.colors.white};
   border-radius: 4px;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.11);
@@ -77,43 +77,52 @@ interface IProps {
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
+  resourceType: "USER" | "COMMUNITY";
 }
 
 const Component: React.SFC<IProps> = props => (
   <ResourceRow>
     <Container>
-      <Content>
-        <Label>
-          {"Posted " + moment(props.date).format("DD MMM YYYY HH:mm")}
-        </Label>
-        <H1>
-          <TextTruncate line={1} truncateText="…" text={props.title} />
-        </H1>
-        {props.content.substring(0, 2).includes("{") ? (
-          <RenderDescriptionRowContent
-            content={props.content}
-            cardHeight={290}
-            imageURL={null}
-          />
-        ) : (
-          <BodyCard>
-            <TextTruncate line={2} truncateText="…" text={props.content} />
-          </BodyCard>
-        )}
-        {Array.isArray(props.tags) && props.tags.length > 0 && (
-          <TagList maxTags={3} color="textPrimary" tags={props.tags} />
-        )}
-      </Content>
+      {props.linkComponent(
+        <Content>
+          <Label>
+            {"Posted " + moment(props.date).format("DD MMM YYYY HH:mm")}
+          </Label>
+          <H1>
+            <TextTruncate line={1} truncateText="…" text={props.title} />
+          </H1>
+          {props.content.substring(0, 2).includes("{") ? (
+            <RenderDescriptionRowContent
+              content={props.content}
+              cardHeight={290}
+              imageURL={null}
+            />
+          ) : (
+            <BodyCard>
+              <TextTruncate line={2} truncateText="…" text={props.content} />
+            </BodyCard>
+          )}
+          {Array.isArray(props.tags) && props.tags.length > 0 && (
+            <TagList maxTags={3} color="textPrimary" tags={props.tags} />
+          )}
+        </Content>,
+        `/article/${props.id}/v${props.version}`
+      )}
       <Divider />
       <Footer>
-        <UserAvatar
-          imageURL={null}
-          cardType="ARTICLE"
-          fullWidth={true}
-          username={props.username}
-          userId={props.userId}
-          avatar={props.userAvatar}
-        />
+        {props.linkComponent(
+          <UserAvatar
+            imageURL={null}
+            cardType="ARTICLE"
+            fullWidth={true}
+            username={props.username}
+            userId={props.userId}
+            avatar={props.userAvatar}
+          />,
+          props.resourceType === "COMMUNITY"
+            ? `/community/${props.userId}`
+            : `/public-profile/${props.userId}`
+        )}
       </Footer>
     </Container>
   </ResourceRow>

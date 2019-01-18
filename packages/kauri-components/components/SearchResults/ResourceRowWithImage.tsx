@@ -9,14 +9,14 @@ import TagList from "../Tags/TagList";
 const ResourceRow = styled.div`
   display: flex;
   width: 933px;
-  height: 190px;
+  height: 195px;
   background-color: ${props => props.theme.colors.white};
   border-radius: 4px;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.11);
 `;
 
 const Image = styled<{ imageURL: string | null }, "div">("div")`
-  height: 190px;
+  height: 195px;
   min-width: 290px;
   background: url(${props =>
       typeof props.imageURL === "string" && props.imageURL})
