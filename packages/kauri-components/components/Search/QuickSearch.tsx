@@ -20,6 +20,7 @@ export interface IElementsBreakdown {
 }
 
 interface IProps {
+  value: string;
   results: IResult[];
   breakDown: IElementsBreakdown;
   maxResults: number;
@@ -100,21 +101,6 @@ const getRoute = (element: IResult) => {
   }
 };
 
-const getAllRoute = (type: string) => {
-  switch (type) {
-    case "ARTICLE":
-      return `/articles`;
-    case "COLLECTION":
-      return `/collections`;
-    case "COMMUNITY":
-      return `/communities`;
-    case "USER":
-      return `/users`;
-    default:
-      return "/";
-  }
-};
-
 interface IResultComp {
   key: string;
   result: IResult;
@@ -144,6 +130,7 @@ interface ISearchResults {
   maxResults: number;
   type: string;
   results: IResult[];
+  value: string;
 }
 const SearchResults = (props: ISearchResults) => (
   <ResultsComp>
@@ -155,7 +142,9 @@ const SearchResults = (props: ISearchResults) => (
       />
     ))}
     <PrimaryButton
-      onClick={() => props.routeChangeAction(getAllRoute(props.type))}
+      onClick={() =>
+        props.routeChangeAction(`/search-results?q=${props.value}`)
+      }
       text={`View all ${props.type}`}
     />
   </ResultsComp>
@@ -178,6 +167,7 @@ const Search = (props: IProps) => (
               maxResults={props.maxResults}
               type={tab}
               key={tab}
+              value={props.value}
               results={props.results.filter(
                 i => i.resourceIdentifier.type === tab
               )}

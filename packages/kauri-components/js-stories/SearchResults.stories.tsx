@@ -38,12 +38,22 @@ const linkComponent = (
 storiesOf("SearchResults", module)
   .add("SearchCategory - active", () => (
     <Container>
-      <SearchCategory active={true} category={"Articles"} amount={4} />
+      <SearchCategory
+        onClick={() => alert("clicked")}
+        active={true}
+        category={"Articles"}
+        amount={4}
+      />
     </Container>
   ))
   .add("SearchCategory - inactive", () => (
     <Container>
-      <SearchCategory active={false} category={"Collections"} amount={4} />
+      <SearchCategory
+        onClick={() => alert("clicked")}
+        active={false}
+        category={"Collections"}
+        amount={4}
+      />
     </Container>
   ))
   .add("ResourceRow with image", () => (
@@ -80,7 +90,7 @@ storiesOf("SearchResults", module)
   ))
   .add("ResourceRow without image", () => (
     <Container>
-      <ResourceRowWithoutImage
+      <ResourceRowWithImage
         date={"2019-01-14T09:49:25.350Z"}
         title={"One Line Title One Line Title One Line Title One Line Title"}
         id={"1234567890"}
@@ -104,6 +114,7 @@ storiesOf("SearchResults", module)
         linkComponent={linkComponent}
         tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
         resourceType={"USER"}
+        imageURL={null}
       />
     </Container>
   ));
