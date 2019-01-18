@@ -18,6 +18,7 @@ export interface getMyProfile_getMyProfile {
   avatar: string | null;
   social: any | null;
   status: UserStatus | null;
+  subscriptions: any | null;
 }
 
 export interface getMyProfile {
