@@ -19,6 +19,8 @@ const ArticlesHeader = styled.div`
   padding-bottom: ${props => props.theme.space[3]}px;
 `;
 
+const searchCategories = ["ARTICLE", "COLLECTION", "COMMUNITY"];
+
 interface IState {
   dataSource: IDataSource;
   loading: boolean;
@@ -53,9 +55,12 @@ class SearchResults extends React.Component<IProps, IState> {
 
   render() {
     // console.log(this.state);
-    const totalResults = Object.values(
+    const totalResults = Object.keys(
       this.state.dataSource && this.state.dataSource.totalElementsBreakdown
-    ).reduce((current, next) => current + next, 0);
+    )
+      .filter(category => searchCategories.includes(category))
+      .map(category => this.state.dataSource.totalElementsBreakdown[category])
+      .reduce((current, next) => current + next, 0);
 
     return (
       <section>

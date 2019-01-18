@@ -66,8 +66,10 @@ class ResourceResults extends React.Component<IProps> {
     return (
       <ContentSection gridAutoFlow={["", "column"]}>
         <CategorySection>
-          {Object.values(this.props.totalElementsBreakdown).filter(
-            amount => amount > 0
+          {Object.keys(this.props.totalElementsBreakdown).filter(
+            category =>
+              this.props.totalElementsBreakdown[category] > 0 &&
+              searchCategories.includes(category)
           ).length ? (
             Object.keys(this.props.totalElementsBreakdown)
               .filter(
