@@ -22,67 +22,92 @@ interface IProps {
   };
 }
 
+const getValues = (props: any) => {
+  const {
+    id,
+    title,
+    content,
+    attributes,
+    author,
+    datePublished,
+    dateCreated,
+  } = props.data.getArticle;
+
+  const hostName = `https://${props.hostName.replace(/api\./g, "")}`;
+
+  const articleContent =
+    content[0] === "{" && JSON.parse(content).markdown
+      ? JSON.parse(content).markdown
+      : content;
+
+  const description = articleContent
+    .replace(/\n|\r/g, " ")
+    .replace(/\u00a0/g, " ")
+    .replace("#", "")
+    .substring(0, 120);
+
+  const keywords = rake(articleContent, {
+    delimiters: ["#", "##", "###", "####", "\n", "\n\n"],
+    language: "english",
+  }).splice(0, 20);
+
+  const schema = {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    articleBody: articleContent,
+    author: author.name || author.username,
+    datePublished: datePublished || dateCreated,
+    description,
+    genre: "blockchain developer guide",
+    headline: title,
+    image:
+      (attributes && attributes.background) ||
+      `${hostName}/static/images/logo.svg`,
+    keywords,
+    mainEntityOfPage: {
+      "@id": "id",
+      "@type": "WebPage",
+    },
+    publisher: {
+      "@type": "Organization",
+      logo: {
+        "@type": "ImageObject",
+        url: `${hostName}/static/images/logo.svg`,
+      },
+      name: "Kauri",
+    },
+    url: `${hostName}/article/${id}`,
+  };
+
+  const values = {
+    attributes,
+    description,
+    hostName,
+    id,
+    schema,
+    schemaString: JSON.stringify(schema),
+    title,
+  };
+  console.log(values);
+  return values;
+};
+
 const withSchema = (WrappedComponent: React.ComponentClass) => {
   class ArticleWithSchema extends React.Component<IProps, {}> {
     render() {
       const {
         id,
         title,
-        content,
         attributes,
-        author,
-        datePublished,
-      } = this.props.data.getArticle;
-      const hostName = `https://${this.props.hostName.replace(/api\./g, "")}`;
-
-      const articleContent =
-        content[0] === "{" && JSON.parse(content).markdown
-          ? JSON.parse(content).markdown
-          : content;
-
-      const description = articleContent
-        .replace(/\n|\r/g, " ")
-        .replace(/\u00a0/g, " ")
-        .replace("#", "")
-        .substring(0, 120);
-
-      const articleKeywords = rake(articleContent, {
-        delimiters: ["#", "##", "###", "####", "\n", "\n\n"],
-        language: "english",
-      }).splice(0, 20);
+        description,
+        hostName,
+        schemaString,
+      } = getValues(this.props);
 
       return (
         <>
           <Helmet>
-            <script type="application/ld+json">
-              {`
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "author": {
-              "@type": "Person",
-              "name": ${author.name || author.username}
-            },
-            "datePublished": ${datePublished},
-            "description": ${description},
-            "headline": ${title},
-            "image": [
-              ${attributes && attributes.background},
-            ],
-            keywords: [${articleKeywords}],
-            "mainEntityOfPage": {
-              "@id": ${hostName}/article/${id},
-              "@type": "WebPage"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "${hostName}/static/images/logo.svg"
-              },
-              "name": "Kauri",
-            },
-          `}
-            </script>
+            <script type="application/ld+json">{schemaString}</script>
             <title>{title} - Kauri</title>
             <link
               rel="canonical"
