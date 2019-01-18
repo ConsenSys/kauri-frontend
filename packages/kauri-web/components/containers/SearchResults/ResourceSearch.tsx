@@ -7,11 +7,9 @@ import { Subject } from "rxjs/Subject";
 import { Subscription } from "rxjs/Subscription";
 import { compose, withApollo } from "react-apollo";
 import { connect } from "react-redux";
-import { searchAutocomplete } from "../../../queries/Search";
-import {
-  IResult,
-  IElementsBreakdown,
-} from "../../../../kauri-components/components/Search/QuickSearch";
+import { searchResultsAutocomplete } from "../../../queries/Search";
+import { IElementsBreakdown } from "../../../../kauri-components/components/Search/QuickSearch";
+import { searchResultsAutocomplete_searchAutocomplete_content } from "../../../queries/__generated__/searchResultsAutocomplete";
 import { IProps as IQueryProps } from "./index";
 import { routeChangeAction } from "../../../lib/Module";
 
@@ -73,7 +71,7 @@ const IconOverlay = styled(Icon)`
 `;
 
 export interface IDataSource {
-  results: IResult[];
+  results: searchResultsAutocomplete_searchAutocomplete_content[];
   totalElementsBreakdown: IElementsBreakdown;
 }
 
@@ -98,7 +96,7 @@ interface ISearch {
 
 const handleSearch$: Subject<ISearch> = new Subject();
 
-export const emptyData = {
+export const emptyData: IDataSource = {
   results: [],
   totalElementsBreakdown: {
     ARTICLE: 0,
@@ -133,12 +131,12 @@ class Complete extends React.Component<
       .flatMap(() =>
         this.props.client.query<{
           searchAutocomplete: {
-            content: IResult[];
+            content: searchResultsAutocomplete_searchAutocomplete_content[];
             totalElementsBreakdown: IElementsBreakdown;
           };
         }>({
           fetchPolicy: "no-cache",
-          query: searchAutocomplete,
+          query: searchResultsAutocomplete,
           variables: {
             filter: {
               type: this.state.type,
@@ -154,17 +152,16 @@ class Complete extends React.Component<
         totalElementsBreakdown: queryResult.totalElementsBreakdown,
       }))
       .subscribe(dataSource => {
-        if (
-          Array.isArray(dataSource.results) &&
-          dataSource.results.length === 0
-        ) {
-          dataSource = emptyData;
-        }
         if (this.state.type) {
           dataSource.totalElementsBreakdown = this.state.dataSource.totalElementsBreakdown; // do not reset tabs if the query did not change
         }
 
-        this.props.setSearchResults(dataSource, false);
+        this.props.setSearchResults(
+          Array.isArray(dataSource.results) && dataSource.results.length === 0
+            ? emptyData
+            : dataSource,
+          false
+        );
         this.setState({ dataSource });
       });
     this.setState({ ...this.state, sub });

@@ -49,6 +49,7 @@ storiesOf("SearchResults", module)
   .add("ResourceRow with image", () => (
     <Container>
       <ResourceRowWithImage
+        resourceType={"USER"}
         date={"2019-01-14T09:49:25.350Z"}
         title={"One Line Title One Line Title One Line Title One Line Title"}
         id={"1234567890"}
@@ -102,6 +103,7 @@ storiesOf("SearchResults", module)
         userAvatar={null}
         linkComponent={linkComponent}
         tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
+        resourceType={"USER"}
       />
     </Container>
   ));

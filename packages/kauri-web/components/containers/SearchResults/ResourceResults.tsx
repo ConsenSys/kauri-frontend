@@ -6,6 +6,7 @@ import { IElementsBreakdown } from "../../../../kauri-components/components/Sear
 import { Title2 } from "../../../../kauri-components/components/Typography";
 import Empty from "../PublicProfile/Empty";
 import Loading from "../../common/Loading";
+import { searchResultsAutocomplete_searchAutocomplete_content } from "../../../queries/__generated__/searchResultsAutocomplete";
 
 const CategorySection = styled.section`
   display: flex;
@@ -23,13 +24,6 @@ const ResourceSection = styled.section`
   }
 `;
 
-const ResourceRow = styled.div`
-  display: flex;
-  width: 933px;
-  height: 190px;
-  background-color: ${props => props.theme.colors.white};
-`;
-
 const CenterContent = styled.div`
   display: flex;
   min-width: 1280px;
@@ -39,6 +33,7 @@ const CenterContent = styled.div`
 interface IProps {
   totalElementsBreakdown: IElementsBreakdown;
   loading: boolean;
+  results: searchResultsAutocomplete_searchAutocomplete_content[];
 }
 
 const searchCategories = ["ARTICLE", "COLLECTION", "COMMUNITY"];
@@ -80,10 +75,25 @@ class ResourceResults extends React.Component<IProps> {
           amount => amount > 0
         ).length ? (
           <ResourceSection>
-            <ResourceRow />
-            <ResourceRow />
-            <ResourceRow />
-            <ResourceRow />
+            {Array.isArray(this.props.results) &&
+              this.props.results.map(resource => {
+                if (resource) {
+                  switch (
+                    resource.resourceIdentifier &&
+                      resource.resourceIdentifier.type
+                  ) {
+                    case "COMMUNITY":
+                      return <p>Community</p>;
+                    case "ARTICLE":
+                      return <p>ARTICLE</p>;
+                    case "COLLECTION":
+                      return <p>COLLECTION</p>;
+                    default:
+                      return null;
+                  }
+                }
+                return null;
+              })}
           </ResourceSection>
         ) : null}
       </ContentSection>

@@ -35,6 +35,8 @@ class SearchResults extends React.Component<IProps, IState> {
   state = {
     dataSource: emptyData,
     loading: true,
+    viewedSearchCategory:
+      (this.props.query && this.props.query.type) || "article",
   };
 
   setSearchResults = (dataSource: IDataSource, loading: boolean) =>
@@ -45,6 +47,7 @@ class SearchResults extends React.Component<IProps, IState> {
     const totalResults = Object.values(
       this.state.dataSource && this.state.dataSource.totalElementsBreakdown
     ).reduce((current, next) => current + next, 0);
+
     return (
       <section>
         <ArticlesHeader>
@@ -59,6 +62,7 @@ class SearchResults extends React.Component<IProps, IState> {
         </ArticlesHeader>
         <ResourceResults
           loading={this.state.loading}
+          results={this.state.dataSource && this.state.dataSource.results}
           totalElementsBreakdown={
             this.state.dataSource &&
             this.state.dataSource.totalElementsBreakdown
