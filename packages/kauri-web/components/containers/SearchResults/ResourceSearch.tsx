@@ -144,7 +144,7 @@ class Complete extends React.Component<
             },
             page: 0,
             query: this.state.value,
-            size: 10,
+            size: 50,
           },
         })
       )

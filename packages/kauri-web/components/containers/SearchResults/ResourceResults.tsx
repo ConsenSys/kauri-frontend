@@ -10,6 +10,7 @@ import Loading from "../../common/Loading";
 import {
   searchResultsAutocomplete_searchAutocomplete_content,
   searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO,
+  searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO,
 } from "../../../queries/__generated__/searchResultsAutocomplete";
 import { Link } from "../../../routes";
 
@@ -38,6 +39,11 @@ const CenterContent = styled.div`
 const isArticleResource = (
   resource: any
 ): resource is searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO =>
+  resource !== "undefined";
+
+const isCollectionResource = (
+  resource: any
+): resource is searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO =>
   resource !== "undefined";
 
 const isArticleTags = (tags: any): tags is string[] => Array.isArray(tags);
@@ -134,7 +140,42 @@ class ResourceResults extends React.Component<IProps> {
                         );
                       }
                     case "COLLECTION":
-                      return <p>COLLECTION</p>;
+                      if (isCollectionResource(resource.resource)) {
+                        const {
+                          id,
+                          name,
+                          description,
+                          dateUpdated,
+                          tags,
+                          owner,
+                          background,
+                        } = resource.resource;
+                        return (
+                          <ResourceRowWithImage
+                            id={String(id)}
+                            resourceType={"COLLECTION"}
+                            date={dateUpdated}
+                            title={String(name)}
+                            content={String(description)}
+                            userId={(owner && String(owner.id)) || ""}
+                            username={owner && owner.username}
+                            userAvatar={owner && owner.avatar}
+                            imageURL={background}
+                            tags={isArticleTags(tags) ? tags : []}
+                            linkComponent={(childrenProps, route) => {
+                              return (
+                                <Link
+                                  toSlug={route.includes("collection") && name}
+                                  useAnchorTag={true}
+                                  href={route}
+                                >
+                                  {childrenProps}
+                                </Link>
+                              );
+                            }}
+                          />
+                        );
+                      }
                     case "COMMUNITY":
                       return <p>Community</p>;
                     default:

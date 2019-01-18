@@ -77,7 +77,7 @@ const RenderDescriptionRowContent: React.FunctionComponent<
 
 interface IProps {
   id: string;
-  version: number;
+  version?: number;
   title: string;
   content: string;
   date: string;
@@ -90,7 +90,7 @@ interface IProps {
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
-  resourceType: "USER" | "COMMUNITY";
+  resourceType: "USER" | "COMMUNITY" | "COLLECTION";
 }
 
 const Component: React.SFC<IProps> = props => (
@@ -103,8 +103,13 @@ const Component: React.SFC<IProps> = props => (
     <Container>
       {props.linkComponent(
         <Content>
+          {props.resourceType === "COLLECTION" && (
+            <Label>COLLECTION IS HERE YO</Label>
+          )}
           <Label>
-            {"Posted " + moment(props.date).format("DD MMM YYYY HH:mm")}
+            {props.resourceType === "COLLECTION"
+              ? "Updated " + moment(props.date).format("DD MMM YYYY HH:mm")
+              : "Posted " + moment(props.date).format("DD MMM YYYY HH:mm")}
           </Label>
           <H1>
             <TextTruncate line={1} truncateText="…" text={props.title} />
@@ -124,7 +129,11 @@ const Component: React.SFC<IProps> = props => (
             <TagList maxTags={3} color="textPrimary" tags={props.tags} />
           )}
         </Content>,
-        `/article/${props.id}/v${props.version}`
+        props.resourceType === "COLLECTION"
+          ? `/collection/${props.id}`
+          : props.resourceType === "COMMUNITY"
+          ? `/community/${props.id}`
+          : `/article/${props.id}/v${props.version}`
       )}
       <Divider />
       <Footer>
