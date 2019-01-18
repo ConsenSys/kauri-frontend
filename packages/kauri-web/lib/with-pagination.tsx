@@ -13,7 +13,8 @@ interface IState {
 type PaginationDataQuery =
   | "searchCommunities"
   | "searchCollections"
-  | "searchArticles";
+  | "searchArticles"
+  | "searchAutocomplete";
 
 interface IProps {
   [queryName: string]: { [key in PaginationDataQuery]: { isLast: boolean } } &
