@@ -22,12 +22,13 @@ const ArticlesHeader = styled.div`
 interface IState {
   dataSource: IDataSource;
   loading: boolean;
+  viewedSearchCategory: string;
 }
 
 export interface IProps {
   query: {
     q?: string;
-    type?: "community" | "article" | "collection";
+    type?: "COMMUNITY" | "ARTICLE" | "COLLECTION";
   };
   router: any;
 }
@@ -37,11 +38,18 @@ class SearchResults extends React.Component<IProps, IState> {
     dataSource: emptyData,
     loading: true,
     viewedSearchCategory:
-      (this.props.query && this.props.query.type) || "article",
+      (this.props.query && this.props.query.type) || "ARTICLE",
   };
 
-  setSearchResults = (dataSource: IDataSource, loading: boolean) =>
-    this.setState({ dataSource, loading });
+  setSearchResults = (
+    dataSource: IDataSource,
+    loading: boolean,
+    viewedSearchCategory: string
+  ) =>
+    this.setState({ ...this.state, dataSource, loading, viewedSearchCategory });
+
+  setSearchCategory = (viewedSearchCategory: string) =>
+    this.setState({ ...this.state, viewedSearchCategory });
 
   render() {
     // console.log(this.state);
@@ -63,6 +71,8 @@ class SearchResults extends React.Component<IProps, IState> {
           />
         </ArticlesHeader>
         <ResourceResults
+          setSearchCategory={this.setSearchCategory}
+          viewedSearchCategory={this.state.viewedSearchCategory}
           loading={this.state.loading}
           results={this.state.dataSource && this.state.dataSource.results}
           totalElementsBreakdown={

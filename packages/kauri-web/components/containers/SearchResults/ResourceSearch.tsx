@@ -78,7 +78,11 @@ export interface IDataSource {
 interface IProps {
   client: ApolloClient<{}>;
   routeChangeAction: (route: string) => void;
-  setSearchResults: (dataSource: IDataSource, loading: boolean) => void;
+  setSearchResults: (
+    dataSource: IDataSource,
+    loading: boolean,
+    viewedSearchCategory: string
+  ) => void;
   router: any;
 }
 
@@ -128,7 +132,9 @@ class Complete extends React.Component<
     const sub = handleSearch$
       .debounceTime(300)
       .filter((search: ISearch) => search.value !== "")
-      .do(() => this.props.setSearchResults(this.state.dataSource, true))
+      .do(() =>
+        this.props.setSearchResults(this.state.dataSource, true, "ARTICLE")
+      )
       .flatMap(() =>
         this.props.client.query<{
           searchAutocomplete: {
@@ -144,7 +150,7 @@ class Complete extends React.Component<
             },
             page: 0,
             query: this.state.value,
-            size: 50,
+            size: 100,
           },
         })
       )
@@ -161,9 +167,17 @@ class Complete extends React.Component<
           Array.isArray(dataSource.results) && dataSource.results.length === 0
             ? emptyData
             : dataSource,
-          false
+          false,
+          Object.keys(dataSource.totalElementsBreakdown)
+            .filter(category => dataSource.totalElementsBreakdown[category] > 0)
+            .sort()[0] || "ARTICLE"
         );
-        this.setState({ ...this.state, dataSource });
+
+        this.setState({
+          ...this.state,
+          dataSource,
+        });
+
         const newRoute = `/search-results?q=${this.state.value}`;
         this.props.router.push(newRoute, newRoute, { shallow: true });
       });

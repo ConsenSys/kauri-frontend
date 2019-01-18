@@ -26,10 +26,11 @@ interface IProps {
   active: boolean;
   category: string;
   amount: number;
+  onClick: any;
 }
 
 const Component: React.SFC<IProps> = props => (
-  <Container active={props.active}>
+  <Container onClick={props.onClick} active={props.active}>
     <NavigationText color="primary">{props.category}</NavigationText>
     <NavigationText>{props.amount}</NavigationText>
   </Container>

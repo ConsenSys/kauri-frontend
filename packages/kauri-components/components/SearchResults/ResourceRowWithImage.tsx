@@ -103,9 +103,6 @@ const Component: React.SFC<IProps> = props => (
     <Container>
       {props.linkComponent(
         <Content>
-          {props.resourceType === "COLLECTION" && (
-            <Label>COLLECTION IS HERE YO</Label>
-          )}
           <Label>
             {props.resourceType === "COLLECTION"
               ? "Updated " + moment(props.date).format("DD MMM YYYY HH:mm")

@@ -54,6 +54,8 @@ interface IProps {
   totalElementsBreakdown: IElementsBreakdown;
   loading: boolean;
   results: searchResultsAutocomplete_searchAutocomplete_content[];
+  viewedSearchCategory: string;
+  setSearchCategory: (viewedSearchCategory: string) => void;
 }
 
 class ResourceResults extends React.Component<IProps> {
@@ -76,7 +78,9 @@ class ResourceResults extends React.Component<IProps> {
               .sort()
               .map(category => (
                 <SearchCategory
-                  active={true}
+                  key={category}
+                  onClick={() => this.props.setSearchCategory(category)}
+                  active={category === this.props.viewedSearchCategory}
                   category={category}
                   amount={this.props.totalElementsBreakdown[category]}
                 />
@@ -94,96 +98,107 @@ class ResourceResults extends React.Component<IProps> {
         ).length ? (
           <ResourceSection>
             {Array.isArray(this.props.results) &&
-              this.props.results.map(resource => {
-                if (resource) {
-                  switch (
+              this.props.results
+                .filter(
+                  resource =>
                     resource.resourceIdentifier &&
-                      resource.resourceIdentifier.type
-                  ) {
-                    case "ARTICLE":
-                      if (isArticleResource(resource.resource)) {
-                        const {
-                          id,
-                          version,
-                          title,
-                          content,
-                          datePublished,
-                          tags,
-                          author,
-                          attributes,
-                        } = resource.resource;
-                        return (
-                          <ResourceRowWithImage
-                            id={String(id)}
-                            resourceType={"USER"}
-                            version={Number(version)}
-                            date={datePublished}
-                            title={String(title)}
-                            content={String(content)}
-                            userId={(author && String(author.id)) || ""}
-                            username={author && author.username}
-                            userAvatar={author && author.avatar}
-                            imageURL={attributes && attributes.background}
-                            tags={isArticleTags(tags) ? tags : []}
-                            linkComponent={(childrenProps, route) => {
-                              return (
-                                <Link
-                                  toSlug={route.includes("article") && title}
-                                  useAnchorTag={true}
-                                  href={route}
-                                >
-                                  {childrenProps}
-                                </Link>
-                              );
-                            }}
-                          />
-                        );
-                      }
-                    case "COLLECTION":
-                      if (isCollectionResource(resource.resource)) {
-                        const {
-                          id,
-                          name,
-                          description,
-                          dateUpdated,
-                          tags,
-                          owner,
-                          background,
-                        } = resource.resource;
-                        return (
-                          <ResourceRowWithImage
-                            id={String(id)}
-                            resourceType={"COLLECTION"}
-                            date={dateUpdated}
-                            title={String(name)}
-                            content={String(description)}
-                            userId={(owner && String(owner.id)) || ""}
-                            username={owner && owner.username}
-                            userAvatar={owner && owner.avatar}
-                            imageURL={background}
-                            tags={isArticleTags(tags) ? tags : []}
-                            linkComponent={(childrenProps, route) => {
-                              return (
-                                <Link
-                                  toSlug={route.includes("collection") && name}
-                                  useAnchorTag={true}
-                                  href={route}
-                                >
-                                  {childrenProps}
-                                </Link>
-                              );
-                            }}
-                          />
-                        );
-                      }
-                    case "COMMUNITY":
-                      return <p>Community</p>;
-                    default:
-                      return null;
+                    resource.resourceIdentifier.type ===
+                      this.props.viewedSearchCategory
+                )
+                .map(resource => {
+                  if (resource) {
+                    switch (
+                      resource.resourceIdentifier &&
+                        resource.resourceIdentifier.type
+                    ) {
+                      case "ARTICLE":
+                        if (isArticleResource(resource.resource)) {
+                          const {
+                            id,
+                            version,
+                            title,
+                            content,
+                            datePublished,
+                            tags,
+                            author,
+                            attributes,
+                          } = resource.resource;
+                          return (
+                            <ResourceRowWithImage
+                              key={String(id)}
+                              id={String(id)}
+                              resourceType={"USER"}
+                              version={Number(version)}
+                              date={datePublished}
+                              title={String(title)}
+                              content={String(content)}
+                              userId={(author && String(author.id)) || ""}
+                              username={author && author.username}
+                              userAvatar={author && author.avatar}
+                              imageURL={attributes && attributes.background}
+                              tags={isArticleTags(tags) ? tags : []}
+                              linkComponent={(childrenProps, route) => {
+                                return (
+                                  <Link
+                                    toSlug={route.includes("article") && title}
+                                    useAnchorTag={true}
+                                    href={route}
+                                  >
+                                    {childrenProps}
+                                  </Link>
+                                );
+                              }}
+                            />
+                          );
+                        }
+                      case "COLLECTION":
+                        if (isCollectionResource(resource.resource)) {
+                          const {
+                            id,
+                            name,
+                            description,
+                            dateUpdated,
+                            tags,
+                            owner,
+                            background,
+                          } = resource.resource;
+                          return (
+                            <ResourceRowWithImage
+                              key={String(id)}
+                              id={String(id)}
+                              resourceType={"COLLECTION"}
+                              date={dateUpdated}
+                              title={String(name)}
+                              content={String(description)}
+                              userId={(owner && String(owner.id)) || ""}
+                              username={owner && owner.username}
+                              userAvatar={owner && owner.avatar}
+                              imageURL={background}
+                              tags={isArticleTags(tags) ? tags : []}
+                              linkComponent={(childrenProps, route) => {
+                                return (
+                                  <Link
+                                    toSlug={
+                                      route.includes("collection") && name
+                                    }
+                                    useAnchorTag={true}
+                                    href={route}
+                                  >
+                                    {childrenProps}
+                                  </Link>
+                                );
+                              }}
+                            />
+                          );
+                        }
+                      case "COMMUNITY":
+                        return <p>Community</p>;
+                      default:
+                        return null;
+                    }
                   }
-                }
-                return null;
-              })}
+                  return null;
+                })}
           </ResourceSection>
         ) : null}
       </ContentSection>
