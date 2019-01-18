@@ -189,28 +189,6 @@ export const searchApprovedArticles = gql`
   }
 `;
 
-export const globalSearchApprovedArticles = gql`
-  query globalSearchApprovedArticles(
-    $size: Int = 12
-    $page: Int = 0
-    $text: String
-  ) {
-    searchArticles(
-      size: $size
-      sort: "dateCreated"
-      page: $page
-      dir: DESC
-      filter: { fullText: $text, statusIn: [PUBLISHED], latestVersion: true }
-    ) {
-      content {
-        ...Article
-      }
-      isLast
-    }
-  }
-  ${Article}
-`;
-
 export const searchPersonalSubmittedArticles = gql`
   query searchPersonalSubmittedArticles($size: Int = 500, $userId: String) {
     searchArticles(
@@ -583,4 +561,57 @@ export const checkpointArticles = gql`
       hash
     }
   }
+`;
+
+// export const globalSearchApprovedArticles = gql`
+//   query globalSearchApprovedArticles(
+//     $size: Int = 12
+//     $page: Int = 0
+//     $text: String
+//   ) {
+//     searchArticles(
+//       size: $size
+//       sort: "dateCreated"
+//       page: $page
+//       dir: DESC
+//       filter: { fullText: $text, statusIn: [PUBLISHED], latestVersion: true }
+//     ) {
+//       content {
+//         ...Article
+//       }
+//       isLast
+//     }
+//   }
+//   ${Article}
+// `;
+
+export const globalSearchApprovedArticles = gql`
+  query searchAutocomplete(
+    $page: Int = 0
+    $size: Int = 12
+    $query: String
+    $filter: SearchFilterInput
+  ) {
+    searchAutocomplete(
+      page: $page
+      size: $size
+      query: $query
+      filter: $filter
+    ) {
+      totalElements
+      totalPages
+      content {
+        resourceIdentifier {
+          id
+          type
+        }
+        resource {
+          ... on ArticleDTO {
+            ...Article
+          }
+        }
+      }
+    }
+  }
+  ${Article}
 `;

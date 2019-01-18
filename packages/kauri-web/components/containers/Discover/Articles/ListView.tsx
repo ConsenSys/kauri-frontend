@@ -1,24 +1,23 @@
 import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
-import * as t from "io-ts";
-import { failure } from "io-ts/lib/PathReporter";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
-import R from "ramda";
-import {
-  globalSearchApprovedArticles_searchArticles,
-  globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO,
-  globalSearchApprovedArticles_searchArticles_content_owner_CommunityDTO,
-} from "../../../../queries/__generated__/globalSearchApprovedArticles";
 import PrimaryButton from "../../../../../kauri-components/components/Button/PrimaryButton";
 import AddToCollectionConnection from "../../../connections/AddToCollection";
+import R from "ramda";
+import {
+  searchAutocomplete_searchAutocomplete,
+  searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO,
+  searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO,
+  searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO,
+} from "../../../../queries/__generated__/searchAutocomplete";
 
 interface IProps {
   ArticlesQuery: {
     error: string;
-    searchArticles?: globalSearchApprovedArticles_searchArticles;
+    searchAutocomplete?: searchAutocomplete_searchAutocomplete;
   };
   hostName: string;
   isLoggedIn: boolean;
@@ -26,23 +25,13 @@ interface IProps {
   routeChangeAction(route: string): void;
 }
 
-const Article = t.interface({
-  attributes: t.union([t.any, t.undefined]),
-  content: t.string,
-  dateCreated: t.string,
-  id: t.string,
-  tags: t.union([t.array(t.string), t.null]),
-  title: t.string,
-  version: t.number,
-});
-
 class Articles extends Component<IProps> {
   render() {
     if (this.props.ArticlesQuery.error) {
       return null;
     } // TODO replace with an error message if exists
 
-    const { searchArticles } = this.props.ArticlesQuery;
+    const { searchAutocomplete } = this.props.ArticlesQuery;
     const { isLoggedIn, openModalAction } = this.props;
 
     return (
@@ -62,38 +51,33 @@ class Articles extends Component<IProps> {
             href={`https://${this.props.hostName}/articles`}
           />
         </Helmet>
-        {searchArticles &&
-        searchArticles.content &&
-        searchArticles.content.length > 0 ? (
+        {searchAutocomplete &&
+        searchAutocomplete.content &&
+        searchAutocomplete.content.length > 0 ? (
           <Masonry minWidth={310} columns={4}>
-            {searchArticles.content.map(undecodedArticle => {
-              const resourceType = R.path<"COMMUNITY" | "USER">([
-                "owner",
-                "resourceIdentifier",
-                "type",
-              ])(undecodedArticle);
-
-              const article = Article.decode(undecodedArticle).getOrElseL(
-                errors => {
-                  throw new Error(failure(errors).join("m"));
-                }
-              );
-
+            {searchAutocomplete.content.map(articleResult => {
+              const article =
+                articleResult &&
+                (articleResult.resource as searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO);
+              if (!article) {
+                return <></>;
+              }
+              const resourceType = article.resourceIdentifier;
               const owner =
                 R.path<
-                  globalSearchApprovedArticles_searchArticles_content_owner_CommunityDTO
+                  searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO
                 >(["owner"])(article) ||
                 R.path<
-                  globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO
+                  searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO
                 >(["owner"])(article);
 
               return (
                 <ArticleCard
-                  key={(article && article.id) || undefined}
-                  date={article && article.dateCreated}
-                  tags={article.tags || []}
-                  title={article && article.title}
-                  content={article && article.content}
+                  key={article.id || undefined}
+                  date={article.dateCreated}
+                  tags={article.tags as string[]}
+                  title={article.title || ""}
+                  content={article.content || ""}
                   username={
                     (owner &&
                     owner.resourceIdentifier &&
@@ -101,7 +85,7 @@ class Articles extends Component<IProps> {
                     owner.resourceIdentifier.type.toLowerCase() === "community"
                       ? owner && owner.name
                       : owner &&
-                        (owner as globalSearchApprovedArticles_searchArticles_content_owner_PublicUserDTO)
+                        (owner as searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO)
                           .username) || null
                   }
                   userId={
@@ -112,8 +96,8 @@ class Articles extends Component<IProps> {
                       : "Anonymous"
                   }
                   userAvatar={(owner && owner.avatar) || null}
-                  id={article && article.id}
-                  version={article && article.version}
+                  id={article.id || ""}
+                  version={article.version || 1}
                   cardHeight={420}
                   imageURL={
                     article &&
@@ -127,9 +111,7 @@ class Articles extends Component<IProps> {
                     route: string
                   ) => (
                     <Link
-                      toSlug={
-                        route.includes("article") && article && article.title
-                      }
+                      toSlug={route.includes("article") && article.title}
                       useAnchorTag={true}
                       href={route}
                     >
@@ -147,8 +129,8 @@ class Articles extends Component<IProps> {
                         openModalAction({
                           children: (
                             <AddToCollectionConnection
-                              articleId={article.id}
-                              version={article.version}
+                              articleId={article.id || ""}
+                              version={article.version || 1}
                             />
                           ),
                         })

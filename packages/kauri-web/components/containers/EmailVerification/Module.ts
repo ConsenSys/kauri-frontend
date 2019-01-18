@@ -43,7 +43,7 @@ interface IVerifyEmailOutput {
 
 export const verifyEmailEpic: Epic<any, IReduxState, IDependencies> = (
   action$,
-  store,
+  _,
   { apolloClient, apolloSubscriber }
 ) =>
   action$
@@ -72,7 +72,7 @@ export const resendEmailVerificationEpic: Epic<
   any,
   IReduxState,
   IDependencies
-> = (actions$, store, { apolloClient }) =>
+> = (actions$, _, { apolloClient }) =>
   actions$.ofType("EMAIL_VERIFICATION_RESENT").switchMap(() =>
     Observable.fromPromise(
       apolloClient

@@ -32,8 +32,13 @@ export default compose(
     name: QUERY_NAME,
     options: () => ({
       fetchPolicy: "no-cache",
-      variables: {},
+      variables: {
+        filter: {
+          mustNotContainTag: ["ethdenver-2019-submission"],
+          type: "ARTICLE",
+        },
+      },
     }),
   }),
   withLoading()
-)(withPagination(Articles, "searchArticles", QUERY_NAME));
+)(withPagination(Articles, "searchAutocomplete", QUERY_NAME));

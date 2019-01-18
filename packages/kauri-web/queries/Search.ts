@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { Article } from "./Article";
 
 export const searchAutocomplete = gql`
   query searchAutocomplete(
@@ -25,7 +26,13 @@ export const searchAutocomplete = gql`
         name
         description
         score
+        resource {
+          ... on ArticleDTO {
+            ...Article
+          }
+        }
       }
     }
   }
+  ${Article}
 `;
