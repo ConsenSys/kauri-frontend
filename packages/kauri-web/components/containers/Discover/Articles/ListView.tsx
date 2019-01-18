@@ -8,16 +8,16 @@ import PrimaryButton from "../../../../../kauri-components/components/Button/Pri
 import AddToCollectionConnection from "../../../connections/AddToCollection";
 import R from "ramda";
 import {
-  searchAutocomplete_searchAutocomplete,
-  searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO,
-  searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO,
-  searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO,
-} from "../../../../queries/__generated__/searchAutocomplete";
+  searchAutocompleteArticles_searchAutocomplete,
+  searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO,
+  searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO,
+  searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO,
+} from "../../../../queries/__generated__/searchAutocompleteArticles";
 
 interface IProps {
   ArticlesQuery: {
     error: string;
-    searchAutocomplete?: searchAutocomplete_searchAutocomplete;
+    searchAutocomplete?: searchAutocompleteArticles_searchAutocomplete;
   };
   hostName: string;
   isLoggedIn: boolean;
@@ -58,17 +58,17 @@ class Articles extends Component<IProps> {
             {searchAutocomplete.content.map(articleResult => {
               const article =
                 articleResult &&
-                (articleResult.resource as searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO);
+                (articleResult.resource as searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO);
               if (!article) {
                 return <></>;
               }
               const resourceType = article.resourceIdentifier;
               const owner =
                 R.path<
-                  searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO
+                  searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO
                 >(["owner"])(article) ||
                 R.path<
-                  searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO
+                  searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO
                 >(["owner"])(article);
 
               return (
@@ -85,7 +85,7 @@ class Articles extends Component<IProps> {
                     owner.resourceIdentifier.type.toLowerCase() === "community"
                       ? owner && owner.name
                       : owner &&
-                        (owner as searchAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO)
+                        (owner as searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO)
                           .username) || null
                   }
                   userId={

@@ -563,30 +563,8 @@ export const checkpointArticles = gql`
   }
 `;
 
-// export const globalSearchApprovedArticles = gql`
-//   query globalSearchApprovedArticles(
-//     $size: Int = 12
-//     $page: Int = 0
-//     $text: String
-//   ) {
-//     searchArticles(
-//       size: $size
-//       sort: "dateCreated"
-//       page: $page
-//       dir: DESC
-//       filter: { fullText: $text, statusIn: [PUBLISHED], latestVersion: true }
-//     ) {
-//       content {
-//         ...Article
-//       }
-//       isLast
-//     }
-//   }
-//   ${Article}
-// `;
-
 export const globalSearchApprovedArticles = gql`
-  query searchAutocomplete(
+  query searchAutocompleteArticles(
     $page: Int = 0
     $size: Int = 12
     $query: String

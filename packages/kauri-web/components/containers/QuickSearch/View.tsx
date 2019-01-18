@@ -128,6 +128,7 @@ class NavSearch extends React.Component<IProps, IState> {
   }
 
   fetchResults(value: string, type?: string) {
+    console.log(value);
     this.setState({ value, type: type ? type : null });
     handleSearch$.next({ value });
   }
