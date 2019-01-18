@@ -11,6 +11,7 @@ import {
   searchResultsAutocomplete_searchAutocomplete_content,
   searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO,
   searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO,
+  searchResultsAutocomplete_searchAutocomplete_content_resource_CommunityDTO,
 } from "../../../queries/__generated__/searchResultsAutocomplete";
 import { Link } from "../../../routes";
 
@@ -44,6 +45,11 @@ const isArticleResource = (
 const isCollectionResource = (
   resource: any
 ): resource is searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO =>
+  resource !== "undefined";
+
+const isCommunityResource = (
+  resource: any
+): resource is searchResultsAutocomplete_searchAutocomplete_content_resource_CommunityDTO =>
   resource !== "undefined";
 
 const isArticleTags = (tags: any): tags is string[] => Array.isArray(tags);
@@ -194,7 +200,38 @@ class ResourceResults extends React.Component<IProps> {
                           );
                         }
                       case "COMMUNITY":
-                        return <p>Community</p>;
+                        if (isCommunityResource(resource.resource)) {
+                          const {
+                            id,
+                            name,
+                            description,
+                            dateUpdated,
+                            // creatorId,
+                            avatar,
+                          } = resource.resource;
+                          return (
+                            <ResourceRowWithImage
+                              key={String(id)}
+                              id={String(id)}
+                              resourceType={"COMMUNITY"}
+                              date={dateUpdated}
+                              title={String(name)}
+                              content={String(description)}
+                              userId={String(id)}
+                              username={name}
+                              userAvatar={avatar}
+                              imageURL={avatar}
+                              tags={[]}
+                              linkComponent={(childrenProps, route) => {
+                                return (
+                                  <Link useAnchorTag={true} href={route}>
+                                    {childrenProps}
+                                  </Link>
+                                );
+                              }}
+                            />
+                          );
+                        }
                       default:
                         return null;
                     }
