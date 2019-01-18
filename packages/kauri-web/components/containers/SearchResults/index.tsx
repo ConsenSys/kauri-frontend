@@ -29,6 +29,7 @@ export interface IProps {
     q?: string;
     type?: "community" | "article" | "collection";
   };
+  router: any;
 }
 
 class SearchResults extends React.Component<IProps, IState> {
@@ -58,6 +59,7 @@ class SearchResults extends React.Component<IProps, IState> {
           <ResourceSearch
             query={this.props.query}
             setSearchResults={this.setSearchResults}
+            router={this.props.router}
           />
         </ArticlesHeader>
         <ResourceResults

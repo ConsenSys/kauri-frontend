@@ -40,6 +40,7 @@ const Footer = Content;
 
 const Container = styled.section`
   display: flex;
+  width: 100%;
   flex-direction: column;
   padding: ${props => props.theme.space[1]}px ${props => props.theme.space[2]}px;
 `;
@@ -66,7 +67,7 @@ const RenderDescriptionRowContent: React.FunctionComponent<
       .default;
     return React.createElement(
       DescriptionRow,
-      { record: { text: content }, type: "article card", cardHeight, imageURL },
+      { record: { text: content }, type: "resource row", cardHeight, imageURL },
       null
     );
   } else {
@@ -94,10 +95,11 @@ interface IProps {
 
 const Component: React.SFC<IProps> = props => (
   <ResourceRow>
-    {props.linkComponent(
-      <Image imageURL={props.imageURL} />,
-      `/article/${props.id}/v${props.version}`
-    )}
+    {props.imageURL &&
+      props.linkComponent(
+        <Image imageURL={props.imageURL} />,
+        `/article/${props.id}/v${props.version}`
+      )}
     <Container>
       {props.linkComponent(
         <Content>

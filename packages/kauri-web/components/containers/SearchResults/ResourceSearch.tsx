@@ -79,6 +79,7 @@ interface IProps {
   client: ApolloClient<{}>;
   routeChangeAction: (route: string) => void;
   setSearchResults: (dataSource: IDataSource, loading: boolean) => void;
+  router: any;
 }
 
 interface IState {
@@ -162,7 +163,9 @@ class Complete extends React.Component<
             : dataSource,
           false
         );
-        this.setState({ dataSource });
+        this.setState({ ...this.state, dataSource });
+        const newRoute = `/search-results?q=${this.state.value}`;
+        this.props.router.push(newRoute, newRoute, { shallow: true });
       });
     this.setState({ ...this.state, sub });
 

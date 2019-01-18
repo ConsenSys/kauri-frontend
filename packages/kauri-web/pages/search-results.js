@@ -19,7 +19,7 @@ class SearchResultsPage extends React.Component {
         <ConnectedSearchResults
           query={this.props.router && this.props.router.query}
           routeChangeAction={this.props.routeChangAction}
-          url={this.props.router}
+          router={this.props.router}
         />
       </App>
     );
