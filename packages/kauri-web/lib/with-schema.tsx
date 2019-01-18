@@ -88,7 +88,6 @@ const getValues = (props: any) => {
     schemaString: JSON.stringify(schema),
     title,
   };
-  console.log(values);
   return values;
 };
 
