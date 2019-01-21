@@ -7,12 +7,13 @@ export interface INFT {
     externalUrl: string;
     image: string;
     name: string;
-    tokenName: string;
+    tokenType: string;
 }
 
 interface IProps {
     nfts: INFT[];
     nftSize: number;
+    clickable?: boolean;
 }
 
 const NFT = styled<{ image: string, size: number }, "div">("div")`
@@ -22,10 +23,6 @@ const NFT = styled<{ image: string, size: number }, "div">("div")`
     background-size: contain;
     background-repeat: no-repeat;
     transition: all 0.3s;
-
-    &:hover {
-        transform: scale(1.5);
-    }
 `;
 
 const NFTs = styled<{}, "div">("div")`
@@ -37,6 +34,8 @@ const NFTs = styled<{}, "div">("div")`
     }
 `;
 
-const NFTList = (props: IProps) => <NFTs>{props.nfts.map(nft => <a key={nft.tokenName} href={nft.externalUrl} target="_blank"><NFT title={nft.name}  image={nft.image} size={props.nftSize} /></a>)}</NFTs>
+const NFTList = (props: IProps) => props.clickable ?
+    <NFTs>{props.nfts.map(nft => <a key={nft.tokenType} href={nft.externalUrl} target="_blank"><NFT title={nft.name}  image={nft.image} size={props.nftSize} /></a>)}</NFTs> :
+    <NFTs>{props.nfts.map(nft => <NFT key={nft.tokenType} title={nft.name}  image={nft.image} size={props.nftSize} />)}</NFTs>;
 
 export default NFTList;
