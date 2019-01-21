@@ -194,6 +194,14 @@ class Complete extends React.Component<
     }
   }
 
+  componentDidUpdate(prevProps: IProps & ISearchWrapperProps & IQueryProps) {
+    if (typeof this.props.query.q === "string") {
+      if (prevProps.query.q !== this.props.query.q) {
+        this.fetchResults(this.props.query.q);
+      }
+    }
+  }
+
   componentWillUnmount() {
     if (this.state.sub) {
       this.state.sub.unsubscribe();
