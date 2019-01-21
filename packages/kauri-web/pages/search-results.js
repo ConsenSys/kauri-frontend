@@ -13,12 +13,13 @@ const ConnectedSearchResults = connect(
 )(SearchResults);
 
 class SearchResultsPage extends React.Component {
-  render () {
+  render() {
     return (
       <App url={this.props.router}>
         <ConnectedSearchResults
+          query={this.props.router && this.props.router.query}
           routeChangeAction={this.props.routeChangAction}
-          url={this.props.router}
+          router={this.props.router}
         />
       </App>
     );

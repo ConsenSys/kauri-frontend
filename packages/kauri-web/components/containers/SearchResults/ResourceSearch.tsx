@@ -7,11 +7,10 @@ import { Subject } from "rxjs/Subject";
 import { Subscription } from "rxjs/Subscription";
 import { compose, withApollo } from "react-apollo";
 import { connect } from "react-redux";
-import { searchAutocomplete } from "../../../queries/Search";
-import {
-  IResult,
-  IElementsBreakdown,
-} from "../../../../kauri-components/components/Search/QuickSearch";
+import { searchResultsAutocomplete } from "../../../queries/Search";
+import { IElementsBreakdown } from "../../../../kauri-components/components/Search/QuickSearch";
+import { searchResultsAutocomplete_searchAutocomplete_content } from "../../../queries/__generated__/searchResultsAutocomplete";
+import { IProps as IQueryProps } from "./index";
 import { routeChangeAction } from "../../../lib/Module";
 
 const SearchInput = styled<InputProps>(props => (
@@ -71,15 +70,20 @@ const IconOverlay = styled(Icon)`
   font-size: 17px;
 `;
 
+export interface IDataSource {
+  results: searchResultsAutocomplete_searchAutocomplete_content[];
+  totalElementsBreakdown: IElementsBreakdown;
+}
+
 interface IProps {
   client: ApolloClient<{}>;
   routeChangeAction: (route: string) => void;
-  setSearchResults: (results: IResult[]) => void;
-}
-
-interface IDataSource {
-  results: IResult[];
-  totalElementsBreakdown: IElementsBreakdown;
+  setSearchResults: (
+    dataSource: IDataSource,
+    loading: boolean,
+    viewedSearchCategory: string
+  ) => void;
+  router: any;
 }
 
 interface IState {
@@ -97,7 +101,7 @@ interface ISearch {
 
 const handleSearch$: Subject<ISearch> = new Subject();
 
-const emptyData = {
+export const emptyData: IDataSource = {
   results: [],
   totalElementsBreakdown: {
     ARTICLE: 0,
@@ -110,36 +114,43 @@ const emptyData = {
   },
 };
 
-class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
-  constructor(props: IProps & ISearchWrapperProps) {
+class Complete extends React.Component<
+  IProps & ISearchWrapperProps & IQueryProps,
+  IState
+> {
+  constructor(props: IProps & ISearchWrapperProps & IQueryProps) {
     super(props);
     this.state = {
       dataSource: emptyData,
       open: false,
       type: null,
-      value: "",
+      value: this.props.query.q || "",
     };
   }
 
   componentDidMount() {
     const sub = handleSearch$
       .debounceTime(300)
+      .filter((search: ISearch) => search.value !== "")
+      .do(() =>
+        this.props.setSearchResults(this.state.dataSource, true, "ARTICLE")
+      )
       .flatMap(() =>
         this.props.client.query<{
           searchAutocomplete: {
-            content: IResult[];
+            content: searchResultsAutocomplete_searchAutocomplete_content[];
             totalElementsBreakdown: IElementsBreakdown;
           };
         }>({
           fetchPolicy: "no-cache",
-          query: searchAutocomplete,
+          query: searchResultsAutocomplete,
           variables: {
             filter: {
               type: this.state.type,
             },
             page: 0,
             query: this.state.value,
-            size: 10,
+            size: 100,
           },
         })
       )
@@ -148,19 +159,34 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
         totalElementsBreakdown: queryResult.totalElementsBreakdown,
       }))
       .subscribe(dataSource => {
-        if (
-          Array.isArray(dataSource.results) &&
-          dataSource.results.length === 0
-        ) {
-          dataSource = emptyData;
-        }
         if (this.state.type) {
           dataSource.totalElementsBreakdown = this.state.dataSource.totalElementsBreakdown; // do not reset tabs if the query did not change
         }
 
-        this.props.setSearchResults(dataSource.results);
+        this.props.setSearchResults(
+          Array.isArray(dataSource.results) && dataSource.results.length === 0
+            ? emptyData
+            : dataSource,
+          false,
+          Object.keys(dataSource.totalElementsBreakdown)
+            .filter(category => dataSource.totalElementsBreakdown[category] > 0)
+            .sort()[0] || "ARTICLE"
+        );
+
+        this.setState({
+          ...this.state,
+          dataSource,
+        });
+
+        const newRoute = `/search-results?q=${this.state.value}`;
+        this.props.router.push(newRoute, newRoute, { shallow: true });
       });
     this.setState({ ...this.state, sub });
+
+    if (this.props.query.q) {
+      handleSearch$.next({ value: this.props.query.q });
+      this.setState({ ...this.state, value: this.props.query.q });
+    }
   }
 
   componentWillUnmount() {
@@ -181,6 +207,7 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
         className="global-search-wrapper"
       >
         <SearchInput
+          value={this.state.value}
           suffix={<Icon type="search" className="certain-category-icon" />}
           onChange={e => this.fetchResults(e.target.value)}
         />

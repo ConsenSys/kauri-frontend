@@ -60,16 +60,16 @@ export enum UserStatus {
 }
 
 export interface ArticleFilterInput {
+  statusIn?: (ArticleStatusInput | null)[] | null;
   dateCreatedGreaterThan?: any | null;
-  versionIn?: (number | null)[] | null;
   ownerIdEquals?: string | null;
   authorIdEquals?: string | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
   dateCreatedLessThan?: any | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
   idEquals?: string | null;
   ownerEquals?: string | null;
+  versionIn?: (number | null)[] | null;
   checkpointEquals?: string | null;
 }
 

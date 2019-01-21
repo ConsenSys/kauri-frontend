@@ -18,7 +18,7 @@ type Props = {
   requestPage?: boolean,
   recentRequest?: boolean,
   openRequest?: boolean,
-  type?: "article card",
+  type?: "article card" | "resource row",
   cardHeight?: number,
   imageURL?: string,
 };
@@ -514,12 +514,37 @@ const articleCardCss = css`
   }
 `;
 
+const resourceRowCss = css`
+  height: 35px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  > :not(div) {
+    display: none;
+  }
+  > div {
+    font-size: 14px;
+    font-weight: normal;
+    letter-spacing: -0.1px;
+    line-height: 18px;
+    :nth-child(1n + ${props => "2"}) {
+      display: none;
+    }
+    :nth-child(${props => "2"}) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+`;
+
 const MaxThreeLines = styled.div`
   font-size: 17px;
   letter-spacing: -0.1px;
   line-height: 24px;
   ${props => !props.fullText && hideAtomicBlock};
   ${props => props.type === "article card" && articleCardCss};
+  ${props => props.type === "resource row" && resourceRowCss};
 `;
 
 export const options = {

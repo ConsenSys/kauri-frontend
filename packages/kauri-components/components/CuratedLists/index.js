@@ -112,7 +112,7 @@ const CuratedList = ({
                       articleCard.attributes &&
                       articleCard.attributes.background
                     }
-                    nfts={article.attributes && article.attributes.nfts}
+                    nfts={articleCard.attributes && articleCard.attributes.nfts}
                     linkComponent={(childrenProps, route) => {
                       if (fromAdmin) {
                         return (

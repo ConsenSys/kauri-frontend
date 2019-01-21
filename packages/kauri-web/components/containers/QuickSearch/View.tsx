@@ -145,6 +145,7 @@ class NavSearch extends React.Component<IProps, IState> {
           }
         />
         <QuickSearch
+          value={this.state.value}
           fetchByType={(type: string) =>
             this.fetchResults(this.state.value, type)
           }
