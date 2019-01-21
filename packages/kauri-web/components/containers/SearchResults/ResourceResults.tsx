@@ -69,6 +69,7 @@ class ResourceResults extends React.Component<IProps> {
     if (this.props.loading) {
       return <Loading />;
     }
+
     return (
       <ContentSection gridAutoFlow={["", "column"]}>
         <CategorySection>

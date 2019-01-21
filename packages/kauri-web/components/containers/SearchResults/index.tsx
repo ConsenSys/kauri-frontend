@@ -31,6 +31,7 @@ export interface IProps {
   query: {
     q?: string;
     type?: "COMMUNITY" | "ARTICLE" | "COLLECTION";
+    default_category?: string;
   };
   router: any;
 }
@@ -39,8 +40,7 @@ class SearchResults extends React.Component<IProps, IState> {
   state = {
     dataSource: emptyData,
     loading: true,
-    viewedSearchCategory:
-      (this.props.query && this.props.query.type) || "ARTICLE",
+    viewedSearchCategory: this.props.query.default_category || "ARTICLE",
   };
 
   setSearchResults = (
@@ -71,6 +71,7 @@ class SearchResults extends React.Component<IProps, IState> {
           </BodyCard>
           <ResourceSearch
             query={this.props.query}
+            viewedSearchCategory={this.state.viewedSearchCategory}
             setSearchResults={this.setSearchResults}
             router={this.props.router}
           />
