@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import CollectionSearch from "./CollectionSearch";
+import DiscoverSearch from "../Articles/DiscoverSearch";
 
 const CollectionsHeader = styled.div`
   background-color: ${props => props.theme.colors.primaryTextColor};
@@ -34,11 +34,13 @@ const KauriDescription = styled.div`
   }
 `;
 
-const Header = () => (
+const Header: React.FunctionComponent<{ category: string }> = ({
+  category,
+}) => (
   <CollectionsHeader>
     <KauriTitle>Discover Collections</KauriTitle>
     <KauriDescription>User and Communitiy Collections</KauriDescription>
-    <CollectionSearch />
+    <DiscoverSearch category={category} />
   </CollectionsHeader>
 );
 

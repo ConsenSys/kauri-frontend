@@ -11,7 +11,7 @@ const ContentContainer = styled.section`
 
 const ArticleDiscover = () => (
   <ContentContainer>
-    <Header />
+    <Header category={"ARTICLE"} />
     <List />
   </ContentContainer>
 );
