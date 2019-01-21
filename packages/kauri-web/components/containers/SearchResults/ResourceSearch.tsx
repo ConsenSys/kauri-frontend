@@ -84,6 +84,7 @@ interface IProps {
     viewedSearchCategory: string
   ) => void;
   router: any;
+  viewedSearchCategory: string;
 }
 
 interface IState {
@@ -132,9 +133,6 @@ class Complete extends React.Component<
     const sub = handleSearch$
       .debounceTime(300)
       .filter((search: ISearch) => search.value !== "")
-      .do(() =>
-        this.props.setSearchResults(this.state.dataSource, true, "ARTICLE")
-      )
       .flatMap(() =>
         this.props.client.query<{
           searchAutocomplete: {
@@ -168,9 +166,16 @@ class Complete extends React.Component<
             ? emptyData
             : dataSource,
           false,
-          Object.keys(dataSource.totalElementsBreakdown)
-            .filter(category => dataSource.totalElementsBreakdown[category] > 0)
-            .sort()[0] || "ARTICLE"
+          Object.keys(dataSource.totalElementsBreakdown).filter(
+            category =>
+              dataSource.totalElementsBreakdown[category] > 0 &&
+              category === this.props.viewedSearchCategory
+          )[0] ||
+            Object.keys(dataSource.totalElementsBreakdown)
+              .filter(
+                category => dataSource.totalElementsBreakdown[category] > 0
+              )
+              .sort()[0]
         );
 
         this.setState({
@@ -196,7 +201,7 @@ class Complete extends React.Component<
   }
 
   fetchResults(value: string, type?: string) {
-    this.setState({ value, type: type ? type : null });
+    this.setState({ ...this.state, value, type: type ? type : null });
     handleSearch$.next({ value });
   }
 

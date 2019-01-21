@@ -132,6 +132,9 @@ interface ISearchResults {
   results: IResult[];
   value: string;
 }
+
+const viewAllCategories = ["COLLECTION", "COMMUNITY", "ARTICLE"];
+
 const SearchResults = (props: ISearchResults) => (
   <ResultsComp>
     {props.results.slice(0, props.maxResults).map(i => (
@@ -141,12 +144,16 @@ const SearchResults = (props: ISearchResults) => (
         result={i}
       />
     ))}
-    <PrimaryButton
-      onClick={() =>
-        props.routeChangeAction(`/search-results?q=${props.value}`)
-      }
-      text={`View all ${props.type}`}
-    />
+    {viewAllCategories.includes(props.type) && (
+      <PrimaryButton
+        onClick={() =>
+          props.routeChangeAction(
+            `/search-results?q=${props.value}&default_category=${props.type}`
+          )
+        }
+        text={`View all ${props.type}`}
+      />
+    )}
   </ResultsComp>
 );
 
