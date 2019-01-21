@@ -7,7 +7,7 @@ import { Subject } from "rxjs/Subject";
 import { Subscription } from "rxjs/Subscription";
 import { compose, withApollo } from "react-apollo";
 import { connect } from "react-redux";
-import { searchResultsAutocomplete } from "../../../queries/Search";
+import { searchResultsAutocompleteTotalElementsBreakdown } from "../../../queries/Search";
 import { IElementsBreakdown } from "../../../../kauri-components/components/Search/QuickSearch";
 import { searchResultsAutocomplete_searchAutocomplete_content } from "../../../queries/__generated__/searchResultsAutocomplete";
 import { IProps as IQueryProps } from "./index";
@@ -85,6 +85,7 @@ interface IProps {
   ) => void;
   router: any;
   viewedSearchCategory: string;
+  setSearchCategory: (category: string) => void;
 }
 
 interface IState {
@@ -133,6 +134,13 @@ class Complete extends React.Component<
     const sub = handleSearch$
       .debounceTime(300)
       .filter((search: ISearch) => search.value !== "")
+      .do(() =>
+        this.props.setSearchResults(
+          emptyData,
+          true,
+          this.props.viewedSearchCategory
+        )
+      )
       .flatMap(() =>
         this.props.client.query<{
           searchAutocomplete: {
@@ -141,41 +149,37 @@ class Complete extends React.Component<
           };
         }>({
           fetchPolicy: "no-cache",
-          query: searchResultsAutocomplete,
+          query: searchResultsAutocompleteTotalElementsBreakdown,
           variables: {
-            filter: {
-              type: this.state.type,
-            },
+            filter: {},
             page: 0,
             query: this.state.value,
             size: 100,
           },
         })
       )
-      .map(({ data: { searchAutocomplete: queryResult } }) => ({
-        results: queryResult.content,
-        totalElementsBreakdown: queryResult.totalElementsBreakdown,
+      .map(({ data: { searchAutocomplete } }) => ({
+        results: searchAutocomplete.content,
+        totalElementsBreakdown: searchAutocomplete.totalElementsBreakdown,
       }))
       .subscribe(dataSource => {
-        if (this.state.type) {
-          dataSource.totalElementsBreakdown = this.state.dataSource.totalElementsBreakdown; // do not reset tabs if the query did not change
-        }
+        const newViewedSearchCategory =
+          this.props.query.default_category ||
+          Object.keys(dataSource.totalElementsBreakdown).filter(
+            category =>
+              dataSource.totalElementsBreakdown[category] > 0 &&
+              category === this.props.viewedSearchCategory
+          )[0] ||
+          Object.keys(dataSource.totalElementsBreakdown)
+            .filter(category => dataSource.totalElementsBreakdown[category] > 0)
+            .sort()[0];
 
         this.props.setSearchResults(
           Array.isArray(dataSource.results) && dataSource.results.length === 0
             ? emptyData
             : dataSource,
           false,
-          Object.keys(dataSource.totalElementsBreakdown).filter(
-            category =>
-              dataSource.totalElementsBreakdown[category] > 0 &&
-              category === this.props.viewedSearchCategory
-          )[0] ||
-            Object.keys(dataSource.totalElementsBreakdown)
-              .filter(
-                category => dataSource.totalElementsBreakdown[category] > 0
-              )
-              .sort()[0]
+          newViewedSearchCategory
         );
 
         this.setState({
@@ -195,9 +199,19 @@ class Complete extends React.Component<
   }
 
   componentDidUpdate(prevProps: IProps & ISearchWrapperProps & IQueryProps) {
-    if (typeof this.props.query.q === "string") {
-      if (prevProps.query.q !== this.props.query.q) {
-        this.fetchResults(this.props.query.q);
+    if (
+      typeof this.props.query.q === "string" &&
+      typeof this.props.query.default_category === "string"
+    ) {
+      if (
+        prevProps.query.q !== this.props.query.q ||
+        prevProps.query.default_category !== this.props.query.default_category
+      ) {
+        this.fetchResults(
+          this.props.query.q,
+          this.props.query.default_category
+        );
+        this.props.setSearchCategory(this.props.query.default_category);
       }
     }
   }
