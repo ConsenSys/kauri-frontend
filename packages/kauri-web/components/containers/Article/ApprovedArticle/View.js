@@ -69,7 +69,13 @@ class ApprovedArticle extends React.Component<Props, State> {
   render() {
     const props = this.props;
     if (!props.data.getArticle) return;
-    const { title, id, content, attributes } = props.data.getArticle;
+    const {
+      title,
+      id,
+      content,
+      attributes,
+      associatedNfts,
+    } = props.data.getArticle;
     const articleContent =
       content[0] === "{" && JSON.parse(content).markdown
         ? JSON.parse(content).markdown
@@ -127,7 +133,7 @@ class ApprovedArticle extends React.Component<Props, State> {
             props.data.getArticle.owner &&
             props.data.getArticle.owner.id
           }
-          nfts={attributes && attributes.nfts && attributes.nfts}
+          nfts={associatedNfts}
           username={
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)

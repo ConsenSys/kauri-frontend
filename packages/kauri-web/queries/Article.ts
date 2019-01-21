@@ -14,6 +14,14 @@ export const Article = gql`
     contentHash
     checkpoint
     tags
+    associatedNfts {
+      tokenType
+      contractAddress
+      name
+      description
+      image
+      externalUrl
+    }
     vote {
       totalVote
     }
@@ -258,58 +266,13 @@ export const searchPersonalArticles = gql`
       totalElements
       isLast
       content {
-        id
-        version
-        title
-        content
-        tags
-        dateCreated
-        datePublished
-        author {
-          id
-          name
-        }
-        owner {
-          ... on PublicUserDTO {
-            id
-            username
-            name
-            avatar
-          }
-          ... on CommunityDTO {
-            id
-            name
-          }
-        }
-        status
-        attributes
-        contentHash
-        checkpoint
-        vote {
-          totalVote
-        }
-        comments {
-          content {
-            posted
-            author {
-              id
-              name
-            }
-            body
-          }
-          totalPages
-          totalElements
-        }
-        resourceIdentifier {
-          type
-          id
-          version
-        }
+        ...Article
       }
       totalPages
       totalElements
     }
   }
+  ${Article}
 `;
 
 export const searchPersonalDrafts = gql`
