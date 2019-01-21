@@ -13,6 +13,7 @@ import {
   searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO,
   searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO,
 } from "../../../../queries/__generated__/searchAutocompleteArticles";
+import { INFT } from "../../../../../kauri-components/components/Kudos/NFTList";
 
 interface IProps {
   ArticlesQuery: {
@@ -23,6 +24,11 @@ interface IProps {
   isLoggedIn: boolean;
   openModalAction: (payload: { children: React.ReactElement<any> }) => void;
   routeChangeAction(route: string): void;
+}
+
+interface IExtenderArticlesWithKudos
+  extends searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO {
+  associatedNfts: INFT[];
 }
 
 class Articles extends Component<IProps> {
@@ -58,7 +64,7 @@ class Articles extends Component<IProps> {
             {searchAutocomplete.content.map(articleResult => {
               const article =
                 articleResult &&
-                (articleResult.resource as searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO);
+                (articleResult.resource as IExtenderArticlesWithKudos);
               if (!article) {
                 return <></>;
               }
@@ -104,7 +110,7 @@ class Articles extends Component<IProps> {
                     article.attributes &&
                     article.attributes.background
                   }
-                  nfts={article.attributes && article.attributes.nfts}
+                  nfts={article.associatedNfts}
                   isLoggedIn={isLoggedIn}
                   linkComponent={(
                     childrenProps: React.ReactElement<any>,

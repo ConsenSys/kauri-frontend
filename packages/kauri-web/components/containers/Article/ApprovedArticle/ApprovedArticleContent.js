@@ -170,9 +170,9 @@ export default ({
     (editorState.markdown
       ? contentState.getBlocksAsArray().map(block => block.toJS())
       : editorState
-        .getCurrentContent()
-        .getBlocksAsArray()
-        .map(block => block.toJS()));
+          .getCurrentContent()
+          .getBlocksAsArray()
+          .map(block => block.toJS()));
 
   const outlineHeadings = blocks
     .filter(({ type }) => type.includes("header-one"))
@@ -215,7 +215,9 @@ export default ({
             icon={<AddIcon />}
             handleClick={() =>
               openModalAction({
-                children: <AddToCollectionConnection articleId={id} version={version} />,
+                children: (
+                  <AddToCollectionConnection articleId={id} version={version} />
+                ),
               })
             }
           >
@@ -229,8 +231,8 @@ export default ({
             userId
               ? routeChangeAction(`/article/${id}/v${version}/update-article`)
               : routeChangeAction(
-                `/login?r=article/${id}/v${version}/update-article`
-              )
+                  `/login?r=article/${id}/v${version}/update-article`
+                )
           }
         >
           {`Update ${status === "DRAFT" ? "draft" : "article"}`}
