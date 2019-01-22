@@ -98,7 +98,7 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
               onClick={() =>
                 this.props.routeChangeAction(
                   `/search-results?q=${this.state.q}${
-                    this.props.category
+                    typeof this.props.category === "string"
                       ? `&default_category=${this.props.category}`
                       : ""
                   }`
