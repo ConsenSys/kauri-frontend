@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from "../../lib/styled-components";
 import theme from '../../../kauri-web/lib/theme-config'
+import SecondaryButton from '../Button/SecondaryButton';
 
 const Header = styled.div`
   flex: 1;
@@ -59,21 +60,14 @@ const Name = styled.h3`
   font-size: 28px;
 `
 
-const Button = styled.div`
-  padding: 10px 20px;
-  box-shadow: 0px 0px 0px 1px white;
-  font-weight: 600;
-  border-radius: 4px;
-  text-transform: uppercase;
-  font-size: 11px;
-  margin-top: 10px;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    box-shadow: 0px 0px 0px 2px #0ba986;
+const LinksContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: ${props => props.theme.space[2]}px;
+  & > * {
+    margin-right: ${props => props.theme.space[2]}px;
   }
-`
+`;
 
 const renderDescriptionRowContent = content => {
   if (process.env.STORYBOOK !== 'true') {
@@ -82,7 +76,15 @@ const renderDescriptionRowContent = content => {
   }
 }
 
-const CuratedHeader = ({ Link, header, name }) => {
+const Links = ({ links, Link}) => {
+return <LinksContainer>
+  {links.map(i => <Link useAnchorTag route={i.url}>
+    <SecondaryButton>{i.label}</SecondaryButton>
+  </Link>)}
+</LinksContainer>
+}
+
+const CuratedHeader = ({ Link, header, name, links }) => {
   const topic = theme[header.id]
   const imageURL = `/static/images/${header.id}/avatar.png`
   const type = header.__typename || header.resourceIdentifier.type
@@ -98,9 +100,7 @@ const CuratedHeader = ({ Link, header, name }) => {
             <Name>{header.id}</Name>
           </Heading>
           <Description>{topic.description}</Description>
-          <Link useAnchorTag route={`/community/${header.id}`}>
-            <Button>View Community</Button>
-          </Link>
+          <Links Link={Link} links={[{ label: 'View Community', url: `/community/${header.id}`}].concat(links)} />
         </Header>
       )
     case 'CollectionDTO':
@@ -112,9 +112,7 @@ const CuratedHeader = ({ Link, header, name }) => {
             <Name>{header.name}</Name>
           </Heading>
           <Description>{header.description}</Description>
-          <Link useAnchorTag toSlug={header.name} route={`/collection/${header.id}`}>
-            <Button>View Collection</Button>
-          </Link>
+          <Links Link={Link} links={[{ label: 'View Collection', url: `/collection/${header.id}`}].concat(links)} />
         </Header>
       )
     case 'ArticleDTO':
@@ -132,9 +130,7 @@ const CuratedHeader = ({ Link, header, name }) => {
               <p>{header.content}</p>
             )}
           </Description>
-          <Link useAnchorTag toSlug={header.name} route={`/article/${header.id}`}>
-            <Button>View Article</Button>
-          </Link>
+          <Links Link={Link} links={[{ label: 'View Article', url: `/collection/${header.id}`}].concat(links)} />
         </Header>
       )
     default:

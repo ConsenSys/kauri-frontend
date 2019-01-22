@@ -64,7 +64,7 @@ type Props = {
 const CuratedList = ({
   Link,
   routeChangeAction,
-  content: { name, resources, featured, header },
+  content: { name, resources, featured, header, links },
   fromAdmin,
   onCardClick,
 }: Props) => {
@@ -72,6 +72,7 @@ const CuratedList = ({
   const background =
     (header && header.background) ||
     (header && header.attributes && header.attributes.background);
+
   return (
     <Container background={background}>
       {!header && <Title featured={featured}>{name}</Title>}
@@ -84,6 +85,7 @@ const CuratedList = ({
               background={background}
               name={name}
               header={header}
+              links={links}
             />
           )}
           {cards.map(card => {
