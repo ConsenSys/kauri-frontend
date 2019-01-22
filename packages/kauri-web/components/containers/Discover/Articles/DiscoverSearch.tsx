@@ -79,14 +79,17 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
   handleChange = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       this.props.routeChangeAction(
-        `/search-results?q=${this.state.q}&default_category=${
-          this.props.category
+        `/search-results?q=${this.state.q}${
+          typeof this.props.category === "string"
+            ? `&default_category=${this.props.category}`
+            : ""
         }`
       );
     }
   };
 
   render() {
+    console.log(this.props);
     return (
       <SearchWrapper
         collapsible={this.props.collapsible}
