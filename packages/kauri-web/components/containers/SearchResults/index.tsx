@@ -19,7 +19,7 @@ const ArticlesHeader = styled.div`
   padding-bottom: ${props => props.theme.space[3]}px;
 `;
 
-const searchCategories = ["ARTICLE", "COLLECTION", "COMMUNITY"];
+export const searchResultCategories = ["ARTICLE", "COLLECTION"];
 
 interface IState {
   dataSource: IDataSource;
@@ -59,7 +59,7 @@ class SearchResults extends React.Component<IProps, IState> {
     const totalResults = Object.keys(
       this.state.dataSource && this.state.dataSource.totalElementsBreakdown
     )
-      .filter(category => searchCategories.includes(category))
+      .filter(category => searchResultCategories.includes(category))
       .map(category => this.state.dataSource.totalElementsBreakdown[category])
       .reduce((current, next) => current + next, 0);
 

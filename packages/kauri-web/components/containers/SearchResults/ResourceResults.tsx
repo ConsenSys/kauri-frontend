@@ -7,6 +7,7 @@ import { Title2 } from "../../../../kauri-components/components/Typography";
 import Empty from "../PublicProfile/Empty";
 import Loading from "../../common/Loading";
 import ResourceRows from "./PaginatedResourceResults";
+import { searchResultCategories } from "./index";
 
 const CategorySection = styled.section`
   display: flex;
@@ -21,8 +22,6 @@ const CenterContent = styled.div`
   min-width: 1280px;
   justify-content: center;
 `;
-
-const searchCategories = ["ARTICLE", "COLLECTION", "COMMUNITY"];
 
 interface IProps {
   totalElementsBreakdown: IElementsBreakdown;
@@ -48,12 +47,12 @@ class ResourceResults extends React.Component<IProps> {
           {Object.keys(this.props.totalElementsBreakdown).filter(
             category =>
               this.props.totalElementsBreakdown[category] > 0 &&
-              searchCategories.includes(category)
+              searchResultCategories.includes(category)
           ).length ? (
             Object.keys(this.props.totalElementsBreakdown)
               .filter(
                 category =>
-                  searchCategories.includes(category) &&
+                  searchResultCategories.includes(category) &&
                   this.props.totalElementsBreakdown[category] > 0
               )
               .sort()
