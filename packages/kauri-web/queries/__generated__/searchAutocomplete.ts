@@ -1,7 +1,10 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { SearchFilterInput, ResourceType } from "./../../__generated__/globalTypes";
+import {
+  SearchFilterInput,
+  ResourceType,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchAutocomplete

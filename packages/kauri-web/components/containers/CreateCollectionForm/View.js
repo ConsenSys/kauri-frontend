@@ -349,7 +349,7 @@ export default ({
           <CreateCollectionActionsPlaceHolder mr={3}>
             {/* <PrimaryButton>Follow Collection</PrimaryButton> */}
             {/* <TertiaryButton>Up vote</TertiaryButton> */}
-            <TertiaryButton icon={<ShareIcon />}>Share</TertiaryButton>
+            {/* <TertiaryButton icon={<ShareIcon />}>Share</TertiaryButton> */}
           </CreateCollectionActionsPlaceHolder>
         </CreateCollectionDetails>
         <Stack alignItems={["", "center"]} justifyContent={["", "end"]}>

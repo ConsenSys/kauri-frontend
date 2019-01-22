@@ -103,7 +103,7 @@ export default ComposedComponent =>
         !parsedToken
       ) {
         context.res.writeHead(302, {
-          Location: "/login?r=/write-article",
+          Location: `/login?r=${context.req.url}`,
         });
         context.res.end();
       }

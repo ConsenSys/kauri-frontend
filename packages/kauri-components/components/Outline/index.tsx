@@ -90,7 +90,7 @@ const Container: React.SFC<Props> = props => {
       {nfts && nfts.length > 0 && (
         <>
           <Label>Article Kudos</Label>
-          <NFTList nftSize={30} nfts={nfts} />
+          <NFTList nftSize={40} nfts={nfts} clickable={true} />
           <Divider />
         </>
       )}

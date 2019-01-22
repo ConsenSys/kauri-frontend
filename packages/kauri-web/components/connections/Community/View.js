@@ -7,10 +7,11 @@ type Props = {
   hostName: string,
   isLoggedIn: boolean,
   data: { getCommunity: CommunityDTO },
+  openModalAction: any => void,
 };
 
 class CommunityConnection extends React.Component<Props> {
-  render () {
+  render() {
     return this.props.data && this.props.data.getCommunity ? (
       <Community
         id={this.props.data.getCommunity.id}
@@ -20,6 +21,8 @@ class CommunityConnection extends React.Component<Props> {
         category={this.props.category}
         hostName={this.props.hostName}
         isLoggedIn={this.props.isLoggedIn}
+        data={this.props.data}
+        openModalAction={this.props.openModalAction}
       />
     ) : null;
   }

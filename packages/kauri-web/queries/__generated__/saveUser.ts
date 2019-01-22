@@ -22,4 +22,5 @@ export interface saveUserVariables {
   avatar?: string | null;
   email?: string | null;
   social?: any | null;
+  subscriptions?: any | null;
 }

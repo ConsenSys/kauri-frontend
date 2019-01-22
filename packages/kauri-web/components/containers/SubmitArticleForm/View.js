@@ -4,10 +4,11 @@ import { Form } from "antd";
 import SubmitArticleFormActions from "./SubmitArticleFormActions";
 import SubmitArticleFormHeader from "./SubmitArticleFormHeader";
 import SubmitArticleFormContent from "./SubmitArticleFormContent";
-import type { AttributesPayload, ApproveArticlePayload } from "./Module";
 import ScrollToTopButton from "../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton";
 
 import type {
+  AttributesPayload,
+  ApproveArticlePayload,
   EditArticlePayload,
   SubmitArticlePayload,
   SubmitArticleVersionPayload,
@@ -143,8 +144,6 @@ class SubmitArticleForm extends React.Component<Props> {
     e: SyntheticEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
-    const attributes = this.props.form.getFieldValue("attributes");
-
     this.props.form.validateFieldsAndScroll(
       async (
         formErr,
@@ -186,15 +185,7 @@ class SubmitArticleForm extends React.Component<Props> {
           });
         }
 
-        const {
-          id,
-          version,
-          status,
-          author,
-          owner,
-          dateCreated,
-          contentHash,
-        } = articleData;
+        const { id, version, status, author, owner } = articleData;
 
         switch (status) {
           case "PUBLISHED":
@@ -204,7 +195,10 @@ class SubmitArticleForm extends React.Component<Props> {
                 text,
                 subject,
                 tags: tags || articleData.tags,
-                attributes: attributes || articleData.attributes,
+                attributes:
+                  (attributes &&
+                    Object.assign(articleData.attributes, attributes)) ||
+                  articleData.attributes,
               });
             } else if (
               owner &&
@@ -216,7 +210,10 @@ class SubmitArticleForm extends React.Component<Props> {
                 text,
                 subject,
                 tags: tags || articleData.tags,
-                attributes: attributes || articleData.attributes,
+                attributes:
+                  (attributes &&
+                    Object.assign(articleData.attributes, attributes)) ||
+                  articleData.attributes,
                 owner,
                 selfPublish: true,
               });
@@ -230,7 +227,10 @@ class SubmitArticleForm extends React.Component<Props> {
                 text,
                 subject,
                 tags: tags || articleData.tags,
-                attributes: attributes || articleData.attributes,
+                attributes:
+                  (attributes &&
+                    Object.assign(articleData.attributes, attributes)) ||
+                  articleData.attributes,
                 owner,
               });
             } else if (
@@ -243,7 +243,10 @@ class SubmitArticleForm extends React.Component<Props> {
                 text,
                 subject,
                 tags: tags || articleData.tags,
-                attributes: attributes || articleData.attributes,
+                attributes:
+                  (attributes &&
+                    Object.assign(articleData.attributes, attributes)) ||
+                  articleData.attributes,
                 owner,
                 selfPublish: false,
               });
@@ -258,7 +261,10 @@ class SubmitArticleForm extends React.Component<Props> {
                 subject,
                 text,
                 tags: tags || articleData.tags,
-                attributes: attributes || articleData.attributes,
+                attributes:
+                  (attributes &&
+                    Object.assign(articleData.attributes, attributes)) ||
+                  articleData.attributes,
               });
             } else if (
               author &&
@@ -271,7 +277,10 @@ class SubmitArticleForm extends React.Component<Props> {
                 subject,
                 text,
                 tags: tags || articleData.tags,
-                attributes: attributes || articleData.attributes,
+                attributes:
+                  (attributes &&
+                    Object.assign(articleData.attributes, attributes)) ||
+                  articleData.attributes,
                 selfPublish: true,
               });
             } else {
@@ -291,8 +300,7 @@ class SubmitArticleForm extends React.Component<Props> {
 
     let articleData = this.props.data && this.props.data.getArticle;
 
-    // DIRTY HACK FOR ETH-DENVER - POPULATE TEMPLATE HERE
-    if (this.props.router.asPath.indexOf("#ethdenver") !== -1) {
+    if (this.props.templateId === "ethdenver") {
       articleData = {
         title: "ETH DENVER SUBMISSION",
         content: JSON.stringify({

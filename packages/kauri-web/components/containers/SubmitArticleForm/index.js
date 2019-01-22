@@ -12,7 +12,6 @@ import { routeChangeAction, showNotificationAction } from "../../../lib/Module";
 import { publishArticleAction } from "./PublishArticleModule";
 import withLoading from "../../../lib/with-loading";
 import View from "./View";
-import { withRouter } from "next/router";
 
 const mapStateToProps = (state, ownProps) => ({
   isKauriTopicOwner: Boolean(
@@ -57,4 +56,4 @@ export default compose(
     skip: ({ article_id }) => !article_id,
   }),
   withLoading()
-)(withRouter(View));
+)(View);
