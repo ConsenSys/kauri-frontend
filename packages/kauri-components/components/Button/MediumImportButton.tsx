@@ -17,16 +17,22 @@ interface IProps {
   border: boolean;
 }
 
-const MediumImportButton = (props: IProps) => (
-  <a target="_blank" href="https://import.kauri.io">
-    {props.border ? (
-      <SecondaryButton border="primary" color="textPrimary">
-        {SVG}Medium Import
-      </SecondaryButton>
-    ) : (
-      <TertiaryButton color="textPrimary">{SVG}Medium Import</TertiaryButton>
-    )}
-  </a>
-);
+const MediumImportButton = (props: IProps) => {
+  const config = require("../../../kauri-web/config").default;
+  return (
+    <a
+      target="_blank"
+      href={`https://import.${config.getApiURL().replace("api.", "")}`}
+    >
+      {props.border ? (
+        <SecondaryButton border="primary" color="textPrimary">
+          {SVG}Medium Import
+        </SecondaryButton>
+      ) : (
+        <TertiaryButton color="textPrimary">{SVG}Medium Import</TertiaryButton>
+      )}
+    </a>
+  );
+};
 
 export default MediumImportButton;

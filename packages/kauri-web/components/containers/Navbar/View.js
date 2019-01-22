@@ -1,6 +1,6 @@
 import React from "react";
 import { Menu, Icon } from "antd";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Link } from "../../../routes";
 import Web3Status from "../Web3Status";
 // import ArticleSearchbar from "../ArticleSearchbar";
@@ -8,6 +8,8 @@ import NavSearch from "../QuickSearch";
 import { H6 } from "../../../../kauri-components/components/Typography";
 import Tooltip from "../../../../kauri-components/components/Tooltip/Tooltip";
 import { withRouter } from "next/router";
+
+const config = require("../../../config").default;
 
 // const supportedNetworkIds = [4, 224895]
 // const ONE_SECOND = 1000
@@ -143,9 +145,9 @@ const Avatar = styled.div`
       : props.theme.colors["textPrimary"]};
   > * {
     color: ${props =>
-    props.variant === "white"
-      ? props.theme.colors["textPrimary"]
-      : props.theme.colors[props.color]};
+      props.variant === "white"
+        ? props.theme.colors["textPrimary"]
+        : props.theme.colors[props.color]};
     text-transform: uppercase;
     line-height: 10px;
   }
@@ -193,7 +195,7 @@ const eraseCookieFromAllPaths = name => {
 };
 
 class Logo extends React.Component {
-  render () {
+  render() {
     return (
       <LogoWrapper>
         <LogoImage
@@ -206,7 +208,7 @@ class Logo extends React.Component {
 }
 
 class Navbar extends React.Component {
-  render () {
+  render() {
     const {
       userId,
       router,
@@ -322,7 +324,7 @@ class Navbar extends React.Component {
               <TooltipDivider />
               <Link
                 route={
-                  userId ? "/create-collection" : `/login?r=/create-collection`
+                  userId ? "/create-collection" : "/login?r=/create-collection"
                 }
               >
                 <TooltipItem
@@ -337,14 +339,20 @@ class Navbar extends React.Component {
               <Link
                 route={
                   userId
-                    ? "https://import.kauri.io"
-                    : "/login?r=https://import.kauri.io"
+                    ? `https://import.${config.getApiURL().replace("api.", "")}`
+                    : `/login?r=https://import.${config
+                        .getApiURL()
+                        .replace("api.", "")}`
                 }
               >
                 <TooltipItem
-                  href="https://import.kauri.io"
+                  href={`https://import.${config
+                    .getApiURL()
+                    .replace("api.", "")}`}
                   pathname={router.pathname}
-                  link="https://import.kauri.io"
+                  link={`https://import.${config
+                    .getApiURL()
+                    .replace("api.", "")}`}
                 >
                   Import from medium
                 </TooltipItem>
@@ -369,8 +377,8 @@ class Navbar extends React.Component {
                       {user.username
                         ? user.username.charAt(0)
                         : typeof user.id === "string"
-                          ? user.id.charAt(0)
-                          : "Anonymous"}
+                        ? user.id.charAt(0)
+                        : "Anonymous"}
                     </H6>
                   )}
                 </Avatar>
