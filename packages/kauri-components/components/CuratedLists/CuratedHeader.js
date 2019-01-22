@@ -63,9 +63,9 @@ const Name = styled.h3`
 const LinksContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 20px;
+  margin-top: ${props => props.theme.space[2]}px;
   & > * {
-    margin-right: 20px;
+    margin-right: ${props => props.theme.space[2]}px;
   }
 `;
 
