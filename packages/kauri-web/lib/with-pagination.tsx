@@ -100,6 +100,7 @@ const withPagination = (
                 isLast: fetchMoreResult[key].isLast,
                 totalElements: prev[key].totalElements,
                 totalPages: prev[key].totalPages,
+                totalElementsBreakdown: prev[key].totalElementsBreakdown,
               },
             };
             return result;

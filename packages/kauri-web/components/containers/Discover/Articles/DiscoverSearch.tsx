@@ -72,7 +72,7 @@ interface IState {
 interface IProps {
   client: ApolloClient<{}>;
   routeChangeAction: (route: string) => void;
-  category: string;
+  category: string | null;
 }
 
 class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
@@ -97,8 +97,10 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
             <Icon
               onClick={() =>
                 this.props.routeChangeAction(
-                  `/search-results?q=${this.state.q}&default_category=${
+                  `/search-results?q=${this.state.q}${
                     this.props.category
+                      ? `&default_category=${this.props.category}`
+                      : ""
                   }`
                 )
               }
