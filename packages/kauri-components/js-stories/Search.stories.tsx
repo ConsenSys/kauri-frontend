@@ -9,6 +9,7 @@ storiesOf("Search", module)
   ))
   .add("Quick Search", () => (
     <QuickSearch
+      value={"some ting"}
       fetchByType={() => alert("fetch result types")}
       routeChangeAction={() => alert("routeChange")}
       maxResults={10}

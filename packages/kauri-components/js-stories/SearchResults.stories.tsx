@@ -3,7 +3,6 @@ import { storiesOf } from "@storybook/react";
 import SearchCategory from "../components/SearchResults/SearchCategory";
 import styled from "../lib/styled-components";
 import ResourceRowWithImage from "../components/SearchResults/ResourceRowWithImage";
-import ResourceRowWithoutImage from "../components/SearchResults/ResourceRowWithoutImage";
 
 const Container = styled.section`
   display: flex;

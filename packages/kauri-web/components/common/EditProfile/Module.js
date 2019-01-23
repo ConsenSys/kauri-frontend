@@ -1,6 +1,6 @@
 // @flow
 import { Observable } from "rxjs/Observable";
-import { saveUserDetails } from "../../../queries/User";
+import { saveUserDetails, getOwnProfile } from "../../../queries/User";
 import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
 import { trackMixpanelAction } from "../../containers/Link/Module";
 import type { Dependencies } from "../../../lib/Module";
@@ -9,11 +9,16 @@ import type { HeaderState } from "./types";
 export type SaveUserDetailActionType = {
   type: string,
   payload: HeaderState,
+  callback: any,
 };
 
-export const saveUserDetailsAction = (payload: HeaderState) => ({
+export const saveUserDetailsAction = (
+  payload: HeaderState,
+  callback?: any
+) => ({
   type: "SAVE_USER_DETAILS",
   payload,
+  callback,
 });
 
 export const saveUserDetailsEpic = (
@@ -35,7 +40,9 @@ export const saveUserDetailsEpic = (
           twitter,
           github,
           subscriptions,
+          redirectURL,
         },
+        callback,
       }) =>
         Observable.fromPromise(
           apolloClient.mutate({
@@ -55,6 +62,7 @@ export const saveUserDetailsEpic = (
             },
           })
         )
+          .do(() => callback && callback(true))
           .mergeMap(
             ({
               data: {
@@ -69,35 +77,73 @@ export const saveUserDetailsEpic = (
               return Observable.throw(output.error);
             } else {
               return Observable.of({ type: "UPDATE_USER_SUCCESS" })
-                .do(() => apolloClient.resetStore())
-                .do(() =>
-                  trackMixpanelAction({
-                    event: "Offchain",
-                    metaData: {
-                      resource: "profile",
-                      resourceAction: "update profile",
-                      resourceID: getState().app.user.id,
-                    },
+                .do(() => callback && callback(false))
+                .mergeMap(() =>
+                  apolloClient.query({
+                    query: getOwnProfile,
+                    variables: {},
+                    fetchPolicy: "network-only",
                   })
-                );
+                )
+                .mergeMap(() => {
+                  let newRedirectURL;
+                  if (typeof redirectURL === "string") {
+                    newRedirectURL =
+                      redirectURL.indexOf("https://") !== -1
+                        ? redirectURL + "?redirected=true"
+                        : redirectURL;
+                  } else {
+                    newRedirectURL = `/public-profile/${
+                      getState().app.user.id
+                    }`;
+                  }
+
+                  return Observable.merge(
+                    Observable.of(
+                      trackMixpanelAction({
+                        event: "Offchain",
+                        metaData: {
+                          resource: "profile",
+                          resourceAction: "update profile",
+                          resourceID: getState().app.user.id,
+                        },
+                      })
+                    ),
+                    Observable.of(routeChangeAction(newRedirectURL)),
+                    Observable.of(
+                      showNotificationAction({
+                        notificationType: "success",
+                        message: "Submission Successful",
+                        description:
+                          "You have successfully updated your profile",
+                      })
+                    )
+                  ).catch(err => {
+                    console.error(err);
+                    return Observable.of(
+                      showNotificationAction({
+                        notificationType: "error",
+                        message: "Submission error",
+                        description: "Please try again",
+                      })
+                    );
+                  });
+                });
             }
           })
-          .mergeMap(() =>
-            Observable.of(
-              showNotificationAction({
-                notificationType: "success",
-                message: "Submission Successful",
-                description: "You have successfully updated your profile",
-              })
-            )
-          )
           .catch(err => {
-            return Observable.of(
-              showNotificationAction({
+            console.error(err);
+            const notificationPayload = err.includes("already uses this email")
+              ? {
                 notificationType: "error",
                 message: "Submission error",
-                description: err,
-              })
-            );
+                description: "A user already uses this email!",
+              }
+              : {
+                notificationType: "error",
+                message: "Submission error",
+                description: "Please try again",
+              };
+            return Observable.of(showNotificationAction(notificationPayload));
           })
     );
