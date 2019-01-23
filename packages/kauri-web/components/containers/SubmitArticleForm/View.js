@@ -74,7 +74,6 @@ class SubmitArticleForm extends React.Component<Props> {
 
   componentDidMount() {
     const { userId, router, routeChangeAction } = this.props;
-    console.log(this.props);
     if (!userId) {
       routeChangeAction(`/login?r=${router.asPath}`);
     }
