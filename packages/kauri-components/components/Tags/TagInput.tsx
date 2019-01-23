@@ -16,6 +16,7 @@ interface IProps {
 
 interface IState {
     selected: ITag | null;
+    value: string;
 }
 
 const Wrapper = styled<{}, "div">("div")`
@@ -75,6 +76,7 @@ class TagInput extends React.Component<IProps, IState> {
         super(props);
         this.state = {
             selected: null,
+            value: '',
         }
         this.handleKey = this.handleKey.bind(this)
         this.handleClick = this.handleClick.bind(this)
@@ -97,9 +99,10 @@ class TagInput extends React.Component<IProps, IState> {
                 this.props.handleEnterKey(this.props.availableTags && this.props.availableTags.length > 0 ? this.props.availableTags[0].tag : e.currentTarget.value);
             }
         }
-        if (e.keyCode === 8 && e.currentTarget.value === "") {
+        if (e.keyCode === 8 && e.currentTarget.value === "" && this.state.value === "") {
             this.props.removeLastTag();
         }
+        this.setState({ value: e.currentTarget.value})
     }
 
     public render() {
