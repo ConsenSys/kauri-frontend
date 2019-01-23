@@ -14,6 +14,7 @@ import type {
   SubmitArticleVersionPayload,
 } from "./Module";
 import type { ShowNotificationPayload } from "../../../lib/Module";
+import Loading from "../../common/Loading";
 
 type Owner = {
   id: string,
@@ -70,6 +71,14 @@ class SubmitArticleForm extends React.Component<Props> {
   static Header = SubmitArticleFormHeader;
   static Actions = SubmitArticleFormActions;
   static Content = SubmitArticleFormContent;
+
+  componentDidMount() {
+    const { userId, router, routeChangeAction } = this.props;
+    console.log(this.props);
+    if (!userId) {
+      routeChangeAction(`/login?r=${router.asPath}`);
+    }
+  }
 
   getNetwork = async () =>
     new Promise((resolve, reject) => {
@@ -187,6 +196,8 @@ class SubmitArticleForm extends React.Component<Props> {
 
         const { id, version, status, author, owner } = articleData;
 
+        if (!articleData.attributs) articleData.attributes = {};
+
         switch (status) {
           case "PUBLISHED":
             if (owner && userId === owner.id && submissionType === "draft") {
@@ -196,7 +207,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 subject,
                 tags: tags || articleData.tags,
                 attributes:
-                  (attributes &&
+                  (articleData.attributes &&
                     Object.assign(articleData.attributes, attributes)) ||
                   articleData.attributes,
               });
@@ -296,7 +307,11 @@ class SubmitArticleForm extends React.Component<Props> {
   };
 
   render() {
-    const { routeChangeAction, isKauriTopicOwner, form } = this.props;
+    const { routeChangeAction, isKauriTopicOwner, form, userId } = this.props;
+
+    if (!userId) {
+      return <Loading />;
+    }
 
     let articleData = this.props.data && this.props.data.getArticle;
 

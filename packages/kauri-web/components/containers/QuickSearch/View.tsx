@@ -29,6 +29,19 @@ const NavBarAdjusted = styled.div`
   & .icon {
     top: -10px;
   }
+  z-index: 100;
+`;
+
+const Overlay = styled.div<{ open: boolean }>`
+  height: ${props => (props.open ? "100%" : 0)};
+  width: ${props => (props.open ? "100%" : 0)};
+  opacity: ${props => (props.open ? 1 : 0)};
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: opacity 0.3s;
 `;
 
 interface IProps {
@@ -47,6 +60,7 @@ interface IState {
   open: boolean;
   value: string;
   type: string | null;
+  hovered: boolean;
 }
 
 interface ISearch {
@@ -61,6 +75,7 @@ class NavSearch extends React.Component<IProps, IState> {
     super(props);
     this.state = {
       dataSource: EmptyData,
+      hovered: false,
       open: false,
       type: null,
       value: "",
@@ -120,11 +135,18 @@ class NavSearch extends React.Component<IProps, IState> {
   }
 
   expandSearch() {
-    this.setState({ open: true });
+    this.setState({ open: true, hovered: true });
   }
 
   collapseSearch() {
-    this.setState({ open: false, dataSource: EmptyData });
+    this.setState({ hovered: false });
+    setTimeout(() => {
+      if (this.state.hovered) {
+        return null;
+      } else {
+        return this.setState({ open: false, dataSource: EmptyData });
+      }
+    }, 1000);
   }
 
   fetchResults(value: string, type?: string) {
@@ -134,27 +156,30 @@ class NavSearch extends React.Component<IProps, IState> {
 
   render() {
     return (
-      <NavBarAdjusted
-        onMouseEnter={this.expandSearch}
-        onMouseLeave={this.collapseSearch}
-      >
-        <QuickSearchInput
-          open={this.state.open}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            this.fetchResults(e.target.value)
-          }
-        />
-        <QuickSearch
-          value={this.state.value}
-          fetchByType={(type: string) =>
-            this.fetchResults(this.state.value, type)
-          }
-          routeChangeAction={this.props.routeChangeAction}
-          maxResults={3}
-          breakDown={this.state.dataSource.totalElementsBreakdown}
-          results={this.state.dataSource.results}
-        />
-      </NavBarAdjusted>
+      <>
+        <NavBarAdjusted
+          onMouseEnter={this.expandSearch}
+          onMouseLeave={this.collapseSearch}
+        >
+          <QuickSearchInput
+            open={this.state.open}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              this.fetchResults(e.target.value)
+            }
+          />
+          <QuickSearch
+            value={this.state.value}
+            fetchByType={(type: string) =>
+              this.fetchResults(this.state.value, type)
+            }
+            routeChangeAction={this.props.routeChangeAction}
+            maxResults={3}
+            breakDown={this.state.dataSource.totalElementsBreakdown}
+            results={this.state.dataSource.results}
+          />
+        </NavBarAdjusted>
+        <Overlay open={this.state.open} onClick={this.collapseSearch} />
+      </>
     );
   }
 }
