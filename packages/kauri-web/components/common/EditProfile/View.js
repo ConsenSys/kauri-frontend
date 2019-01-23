@@ -115,15 +115,16 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
     }
   }
 
-  saveUser (redirectURL: string | undefined) {
+  saveUser (redirectURL: string | undefined, callback: any | undefined) {
     const payload = R.pipe(
       R.filter(val => typeof val !== "undefined" || !!val),
       R.assocPath(["redirectURL"], redirectURL)
     )(this.state);
 
-    this.props.saveUserDetailsAction(payload, pendingSubmit =>
-      this.setState({ pendingSubmit })
-    );
+    this.props.saveUserDetailsAction(payload, pendingSubmit => {
+      this.setState({ pendingSubmit });
+      callback && callback();
+    });
   }
 
   uploadImage () {

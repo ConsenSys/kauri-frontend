@@ -62,7 +62,10 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         {!isHeaderLoaded ? (
           <Loading />
         ) : isEditing ? (
-          <EditableHeader toggleEditing={() => this.toggleEditing()} />
+          <EditableHeader
+            router={this.props.router}
+            toggleEditing={() => this.toggleEditing()}
+          />
         ) : (
           <Header
             articles={ArticlesQuery.searchArticles.totalElements}
@@ -87,7 +90,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         )}
         {isHeaderLoaded && areListsLoaded ? (
           <Tabs
-            dark={true}
+            dark
             tabs={[
               {
                 name: `Articles (${

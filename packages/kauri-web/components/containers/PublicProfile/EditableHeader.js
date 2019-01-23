@@ -22,13 +22,26 @@ const ActionsContainer = styled.div`
 `;
 
 class EditableHeader extends Component<HeaderProps, HeaderState> {
+  componentDidMount () {
+    this.props.router &&
+      this.props.router.events.on("routeChangeStart", this.props.toggleEditing);
+  }
+
+  componentWillUnmount () {
+    this.props.router &&
+      this.props.router.events.off(
+        "routeChangeStart",
+        this.props.toggleEditing
+      );
+  }
+
   handleSubmit () {
     this.login
       .getWrappedInstance()
       .getWrappedInstance()
-      .saveUser();
-    this.props.toggleEditing();
+      .saveUser(undefined, this.props.toggleEditing);
   }
+
   render () {
     return (
       <HeaderContainer>
