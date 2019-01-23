@@ -84,6 +84,7 @@ class NavSearch extends React.Component<IProps, IState> {
     this.collapseSearch = this.collapseSearch.bind(this);
     this.expandSearch = this.expandSearch.bind(this);
     this.fetchResults = this.fetchResults.bind(this);
+    this.goToAdvancedSearch = this.goToAdvancedSearch.bind(this);
   }
 
   componentDidMount() {
@@ -144,7 +145,7 @@ class NavSearch extends React.Component<IProps, IState> {
       if (this.state.hovered) {
         return null;
       } else {
-        return this.setState({ open: false, dataSource: EmptyData });
+        return this.setState({ open: false, value: "", dataSource: EmptyData });
       }
     }, 1000);
   }
@@ -152,6 +153,10 @@ class NavSearch extends React.Component<IProps, IState> {
   fetchResults(value: string, type?: string) {
     this.setState({ value, type: type ? type : null });
     handleSearch$.next({ value });
+  }
+
+  goToAdvancedSearch(search: string) {
+    this.props.routeChangeAction(`/search-results?q=${search}`);
   }
 
   render() {
@@ -166,6 +171,8 @@ class NavSearch extends React.Component<IProps, IState> {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               this.fetchResults(e.target.value)
             }
+            goToSearch={this.goToAdvancedSearch}
+            value={this.state.value}
           />
           <QuickSearch
             value={this.state.value}

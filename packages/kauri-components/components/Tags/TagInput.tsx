@@ -96,7 +96,7 @@ class TagInput extends React.Component<IProps, IState> {
             this.inputRef.value = '';
             this.inputRef.editValue('')
             if (e.currentTarget.value.length > 0) {
-                this.props.handleEnterKey(this.props.availableTags && this.props.availableTags.length > 0 ? this.props.availableTags[0].tag : e.currentTarget.value);
+                this.props.handleEnterKey(e.currentTarget.value);
             }
         }
         if (e.keyCode === 8 && e.currentTarget.value === "" && this.state.value === "") {
