@@ -59,5 +59,6 @@ export interface IUser {
 export interface IReduxState {
   app: {
     user?: IUser;
+    hostName: string;
   };
 }

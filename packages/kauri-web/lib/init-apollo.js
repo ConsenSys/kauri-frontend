@@ -23,7 +23,7 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
 });
 
-function create(initialState, { getToken, hostName }) {
+export function create (initialState, { getToken, hostName }) {
   const apiURL = config.getApiURL(hostName);
 
   let httpLink = new HttpLink({
@@ -46,7 +46,10 @@ function create(initialState, { getToken, hostName }) {
   if (global.window && token) {
     const xAuthToken = global.window.encodeURI(`Bearer ${token}`);
     const wsLink = new WebSocketLink({
-      uri: `wss://${apiURL}/socket/graphql?X-Auth-Token=${xAuthToken}`,
+      uri:
+        token === "DUMMYVERIFICATIONTOKEN"
+          ? `wss://${apiURL}/socket/graphql`
+          : `wss://${apiURL}/socket/graphql?X-Auth-Token=${xAuthToken}`,
       options: {
         reconnect: true,
       },
@@ -84,7 +87,7 @@ function create(initialState, { getToken, hostName }) {
   });
 }
 
-export default function initApollo(initialState, options) {
+export default function initApollo (initialState, options) {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (!global.window) {
