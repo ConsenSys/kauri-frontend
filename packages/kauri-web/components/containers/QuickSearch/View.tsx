@@ -116,6 +116,7 @@ class NavSearch extends React.Component<IProps, IState> {
       }))
       .subscribe(
         (dataSource: IDataSource) => {
+          delete dataSource.totalElementsBreakdown.COMMUNITY;
           if (dataSource.results.length === 0) {
             dataSource = EmptyData;
           }
@@ -164,7 +165,7 @@ class NavSearch extends React.Component<IProps, IState> {
       <>
         <NavBarAdjusted
           onMouseEnter={this.expandSearch}
-          onMouseLeave={this.collapseSearch}
+          // onMouseLeave={this.collapseSearch}
         >
           <QuickSearchInput
             open={this.state.open}
