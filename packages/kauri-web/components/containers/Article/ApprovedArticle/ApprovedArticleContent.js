@@ -184,7 +184,6 @@ export default ({
 
   return (
     <SubmitArticleFormContent>
-      {console.log(relatedArticles)}
       <ApprovedArticleHelmet contentState={contentState} blocks={blocks} />
       <SubmitArticleFormContainer type="approved article">
         <DescriptionRow fullText record={{ text }} />
