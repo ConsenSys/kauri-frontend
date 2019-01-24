@@ -2,7 +2,7 @@ import { Epic } from "redux-observable";
 import { Observable } from "rxjs/Observable";
 import { IReduxState, IDependencies } from "../../../lib/Module";
 import { create } from "../../../lib/init-apollo";
-import { getEvent } from "../../../queries/Request";
+import { getEvent } from "../../../queries/Module";
 import {
   verifyEmail as verifyEmailMutation,
   regenerateEmailVerificationCode,
@@ -70,7 +70,7 @@ export const verifyEmailEpic: Epic<any, IReduxState, IDependencies> = (
                   }
                 )
                   .subscribe({
-                    query: getEvent as any,
+                    query: getEvent,
                     variables: { hash },
                   })
                   .subscribe({
