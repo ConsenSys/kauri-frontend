@@ -61,6 +61,7 @@ const Component: React.FunctionComponent<IProps> = ({
   articleId,
   version,
   addArticleToCollectionAction,
+  setNavcolorOverrideAction,
 }) => {
   const [state, setState] = React.useState<IChosen>({
     chosenCollection: null,
@@ -78,7 +79,10 @@ const Component: React.FunctionComponent<IProps> = ({
         }
         if (props.error) {
           return (
-            <ErrorMessage data={{ error: { message: props.error.message } }} />
+            <ErrorMessage
+              setNavcolorOverrideAction={setNavcolorOverrideAction}
+              data={{ error: { message: props.error.message } }}
+            />
           );
         }
 
