@@ -556,3 +556,33 @@ export const globalSearchApprovedArticles = gql`
   }
   ${Article}
 `;
+
+export const relatedArticles = gql`
+  query relatedArticles(
+    $page: Int
+    $size: Int
+    $resourceId: ResourceIdentifierInput
+    $filter: SearchFilterInput
+  ) {
+    searchMoreLikeThis(
+      page: $page
+      size: $size
+      resourceId: $resourceId
+      filter: $filter
+    ) {
+      totalElements
+      totalElementsBreakdown
+      totalPages
+      content {
+        resourceIdentifier {
+          id
+          type
+        }
+        tags
+        name
+        description
+        score
+      }
+    }
+  }
+`;

@@ -24,6 +24,8 @@ import { BodyCard } from "../../../../../kauri-components/components/Typography"
 import { INFT } from "../../../../../kauri-components/components/Kudos/NFTList";
 import AddIcon from "../../../../../kauri-components/components/Icon/AddIcon";
 import AddToCollectionConnection from "../../../connections/AddToCollection";
+import { Label } from "../../../../../kauri-components/components/Typography";
+import RelatedArticles from "../../../../../kauri-components/components/RelatedArticles";
 
 export const ApprovedArticleDetails = styled(CreateRequestDetails)`
   align-items: inherit;
@@ -127,6 +129,7 @@ export default ({
   closeModalAction,
   deleteDraftArticleAction,
   nfts,
+  relatedArticles,
 }: {
   text?: string,
   username?: ?string,
@@ -141,6 +144,7 @@ export default ({
   address?: string,
   hostName: string,
   nfts: INFT[],
+  relatedArticles: any,
   resourceType: "USER" | "COMMUNITY",
   openModalAction: ({ children: React.ReactNode }) => void,
   closeModalAction: () => void,
@@ -186,6 +190,7 @@ export default ({
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type="outline">
         <Outline
+          relatedArticles={relatedArticles}
           nfts={nfts}
           linkComponent={children => (
             <Link
@@ -278,6 +283,10 @@ export default ({
             }
           )}?utm_campaign=read`}
           title={subject}
+        />
+        <RelatedArticles
+          routeChangeAction={routeChangeAction}
+          relatedArticles={relatedArticles}
         />
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>
