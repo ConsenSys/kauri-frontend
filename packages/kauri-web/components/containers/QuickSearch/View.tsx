@@ -165,7 +165,7 @@ class NavSearch extends React.Component<IProps, IState> {
       <>
         <NavBarAdjusted
           onMouseEnter={this.expandSearch}
-          // onMouseLeave={this.collapseSearch}
+          onMouseLeave={this.collapseSearch}
         >
           <QuickSearchInput
             open={this.state.open}
