@@ -55,6 +55,10 @@ const ResultComp = styled.div`
 
   & .quickSearchDescription {
     font-size: ${props => props.theme.fontSizes[1]}px;
+    text-overflow: ellipsis;
+    max-height: 45px;
+    overflow-wrap: break-word;
+    overflow: hidden;
   }
 
   > :first-child {
