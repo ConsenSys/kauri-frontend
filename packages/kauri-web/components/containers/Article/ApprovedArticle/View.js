@@ -159,6 +159,11 @@ class ApprovedArticle extends React.Component<Props, State> {
           openModalAction={props.openModalAction}
           closeModalAction={props.closeModalAction}
           deleteDraftArticleAction={props.deleteDraftArticleAction}
+          relatedArticles={R.path([
+            "RelatedArticles",
+            "searchMoreLikeThis",
+            "content",
+          ])(props)}
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.attributes}
