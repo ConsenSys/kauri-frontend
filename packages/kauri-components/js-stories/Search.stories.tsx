@@ -5,7 +5,12 @@ import QuickSearchInput from "../components/Search/QuickSearchInput";
 
 storiesOf("Search", module)
   .add("QuickSearchInput", () => (
-    <QuickSearchInput open={true} onChange={() => alert("changed")} />
+    <QuickSearchInput
+      goToSearch={() => null}
+      value={"some ting"}
+      open={true}
+      onChange={() => alert("changed")}
+    />
   ))
   .add("Quick Search", () => (
     <QuickSearch
