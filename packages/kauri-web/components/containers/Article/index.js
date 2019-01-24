@@ -68,6 +68,9 @@ export default compose(
       variables: {
         size: 5,
         page: 0,
+        filter: {
+          type: "ARTICLE",
+        },
         resourceId: {
           id,
           type: "ARTICLE",
