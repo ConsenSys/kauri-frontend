@@ -102,7 +102,7 @@ export default compose(
       sections: Yup.array(
         Yup.object().shape({
           name: Yup.string().required("Required section name!"),
-          resourcesId: Yup.array().required("Required resource!"),
+          // resourcesId: Yup.array().required("Required resource!"), // Commented out incase we change our mind about sections requiring a resource
         })
       ),
     }),
