@@ -31,6 +31,7 @@ export default compose(
     { withRef: true }
   ),
   graphql(getOwnProfile, {
+    fetchPolicy: "network-only",
     name: "OwnProfile",
     withRef: true,
   })
