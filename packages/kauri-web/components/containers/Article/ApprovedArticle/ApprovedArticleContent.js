@@ -144,7 +144,7 @@ export default ({
   address?: string,
   hostName: string,
   nfts: INFT[],
-  relatedArticles: any,
+  relatedArticles: ArticleDTO[],
   resourceType: "USER" | "COMMUNITY",
   openModalAction: ({ children: React.ReactNode }) => void,
   closeModalAction: () => void,
