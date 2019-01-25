@@ -145,7 +145,7 @@ export const publishArticleEpic: Epic<any, {}, IDependencies> = (
               Observable.of(
                 routeChangeAction(
                   `/article/${id}/v${version}/${
-                    owner && owner.id === contributor
+                    !owner || (owner && owner.id === contributor)
                       ? "article-published"
                       : "article-proposed"
                   }`
