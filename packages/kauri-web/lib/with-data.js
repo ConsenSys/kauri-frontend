@@ -226,14 +226,15 @@ export default ComposedComponent =>
     componentDidMount () {
       window.addEventListener("load", async () => {
         if (window.ethereum) {
-          window.web3 = new Web3(window.ethereum);
-          try {
-            // Request account access if needed
-            await window.ethereum.enable();
-            // Acccounts now exposed
-          } catch (error) {
-            // User denied account access...
-          }
+          // NOTICE - Moved to sign in only.
+          // window.web3 = new Web3(window.ethereum);
+          // try {
+          //   // Request account access if needed
+          //   await window.ethereum.enable();
+          //   // Acccounts now exposed
+          // } catch (error) {
+          //   // User denied account access...
+          // }
           // Supports Metamask and Mist, and other wallets that provide 'web3'.
         } else if (typeof window.web3 !== "undefined") {
           // Use the Mist/wallet provider.
