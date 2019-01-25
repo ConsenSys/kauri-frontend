@@ -175,9 +175,9 @@ export default ({
     (editorState.markdown
       ? contentState.getBlocksAsArray().map(block => block.toJS())
       : editorState
-          .getCurrentContent()
-          .getBlocksAsArray()
-          .map(block => block.toJS()));
+        .getCurrentContent()
+        .getBlocksAsArray()
+        .map(block => block.toJS()));
 
   const outlineHeadings = blocks
     .filter(({ type }) => type.includes("header-one"))
@@ -215,16 +215,21 @@ export default ({
           text={ownerId ? "OWNER" : "AUTHOR"}
           routeChangeAction={routeChangeAction}
         />
-        {status !== "DRAFT" && userId && (
+        {status !== "DRAFT" && (
           <TertiaryButton
             color={"textPrimary"}
             icon={<AddIcon />}
             handleClick={() =>
-              openModalAction({
-                children: (
-                  <AddToCollectionConnection articleId={id} version={version} />
-                ),
-              })
+              userId
+                ? openModalAction({
+                  children: (
+                    <AddToCollectionConnection
+                      articleId={id}
+                      version={version}
+                    />
+                  ),
+                })
+                : routeChangeAction(`/login?r=/article/${id}/v${version}`)
             }
           >
             Add To Collection
@@ -237,8 +242,8 @@ export default ({
             userId
               ? routeChangeAction(`/article/${id}/v${version}/update-article`)
               : routeChangeAction(
-                  `/login?r=article/${id}/v${version}/update-article`
-                )
+                `/login?r=/article/${id}/v${version}/update-article`
+              )
           }
         >
           {`Update ${status === "DRAFT" ? "draft" : "article"}`}
