@@ -45,7 +45,7 @@ const Owner = t.interface({
 });
 
 const Article = t.interface({
-  associatedNfts: t.union([t.array(t.any), t.undefined]),
+  associatedNfts: t.union([t.array(t.any), t.null]),
   attributes: t.union([
     t.null,
     t.undefined,
@@ -114,7 +114,7 @@ const Component: React.SFC<Props> = props => {
               username={article.owner.username}
               userId={article.owner.id}
               userAvatar={article.owner.avatar}
-              nfts={article.associatedNfts}
+              nfts={article.associatedNfts || []}
               tags={article.tags as string[]}
               imageURL={
                 (article.attributes &&

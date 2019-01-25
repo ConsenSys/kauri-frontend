@@ -26,6 +26,7 @@ import AddIcon from "../../../../../kauri-components/components/Icon/AddIcon";
 import AddToCollectionConnection from "../../../connections/AddToCollection";
 import { Label } from "../../../../../kauri-components/components/Typography";
 import RelatedArticles from "../../../../../kauri-components/components/RelatedArticles";
+import { Divider } from "../../../../../kauri-components/components/Outline";
 
 export const ApprovedArticleDetails = styled(CreateRequestDetails)`
   align-items: inherit;
@@ -284,6 +285,7 @@ export default ({
           )}?utm_campaign=read`}
           title={subject}
         />
+        <Divider />
         <RelatedArticles
           routeChangeAction={routeChangeAction}
           relatedArticles={relatedArticles}
