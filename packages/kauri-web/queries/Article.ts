@@ -195,6 +195,8 @@ export const searchApprovedArticles = gql`
       }
     }
   }
+
+  ${Article}
 `;
 
 export const searchPersonalSubmittedArticles = gql`
