@@ -292,6 +292,11 @@ export default ({
         />
         <Divider />
         <RelatedArticles
+          linkComponent={(children, route) => (
+            <Link useAnchorTag href={route}>
+              {children}
+            </Link>
+          )}
           routeChangeAction={routeChangeAction}
           relatedArticles={relatedArticles}
         />
