@@ -89,7 +89,6 @@ class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
   };
 
   render() {
-    console.log(this.props);
     return (
       <SearchWrapper
         collapsible={this.props.collapsible}
