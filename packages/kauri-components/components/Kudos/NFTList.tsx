@@ -23,6 +23,8 @@ const NFT = styled<{ image: string, size: number }, "div">("div")`
     background-size: contain;
     background-repeat: no-repeat;
     transition: all 0.3s;
+    margin: ${props => props.theme.space[1]}px;
+    margin-left: 0;
 `;
 
 const NFTs = styled<{}, "div">("div")`
