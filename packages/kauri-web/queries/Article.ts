@@ -179,11 +179,16 @@ export const searchApprovedArticles = gql`
     $size: Int = 500
     $text: String
     $category: String
+    $sort: String = "dateCreated"
+    $page: Int = 0
   ) {
     searchArticles(
+      page: $page
       size: $size
       dir: DESC
+      sort: $sort
       filter: {
+        latestVersion: true
         fullText: $text
         statusIn: [PUBLISHED]
         ownerIdEquals: $category

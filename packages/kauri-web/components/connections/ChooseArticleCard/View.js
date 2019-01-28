@@ -3,7 +3,6 @@ import ArticleCard from "../../../../kauri-components/components/Card/ArticleCar
 import ChooseArticleContent from "../../../../kauri-components/components/Modal/ChooseArticleContent";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import SecondaryButton from "../../../../kauri-components/components/Button/SecondaryButton";
-import moment from "moment";
 
 export default ({
   chooseArticle,
@@ -24,7 +23,7 @@ export default ({
             id={article.id}
             version={article.version}
             content={article.content}
-            date={moment(article.datePublished).format("D MMM YYYY")}
+            date={article.datePublished}
             title={article.title}
             username={article.owner && article.owner.username}
             userAvatar={article.owner && article.owner.avatar}
@@ -33,6 +32,8 @@ export default ({
             cardHeight={420}
             isLoggedIn={!!userId}
             linkComponent={children => children}
+            nfts={article.attributes && article.attributes.nfts}
+            tags={article.tags}
             hoverChildren={({ hideDispatch }) => (
               <React.Fragment>
                 <PrimaryButton

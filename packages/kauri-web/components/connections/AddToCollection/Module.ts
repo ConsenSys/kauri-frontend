@@ -13,9 +13,7 @@ import {
 } from "../../../lib/Module";
 import { getArticleTitle } from "../../containers/Article/__generated__/getArticleTitle";
 import { getArticleTitleQuery } from "../../containers/Article/DeleteDraftArticleModule";
-import {
-  addArticleToCollection,
-} from "./__generated__/addArticleToCollection";
+import { addArticleToCollection } from "./__generated__/addArticleToCollection";
 
 export const addArticleToCollectionMutation = gql`
   mutation addArticleToCollection(
@@ -125,7 +123,13 @@ export const addArticleToCollectionEpic: Epic<
               notificationType: "success",
             })
           ),
-          Observable.of(routeChangeAction(`/public-profile/${userId}`))
+          Observable.of(
+            routeChangeAction(
+              `/collection/${
+                (actions as IAddArticleToCollectionAction).payload.id
+              }/update-collection`
+            )
+          )
         );
       })
       .do(() => apolloClient.resetStore())
