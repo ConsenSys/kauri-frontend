@@ -8,6 +8,7 @@ interface IProps {
   title: string;
   content: React.ReactElement<any>;
   confirmButtonText?: string;
+  closeButtonText?: string;
   confirmButtonAction: (payload: any) => void;
   closeModalAction: () => void;
 }
@@ -54,7 +55,7 @@ const AlertViewComponent: React.FunctionComponent<IProps> = props => (
         border={"primary"}
         onClick={handleConfirmAction(props.closeModalAction)}
       >
-        Cancel
+        {props.closeButtonText || "Cancel"}
       </SecondaryButton>
       <PrimaryButton onClick={handleConfirmAction(props.confirmButtonAction)}>
         {props.confirmButtonText || "Confirm"}

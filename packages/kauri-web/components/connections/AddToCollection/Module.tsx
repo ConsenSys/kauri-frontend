@@ -11,9 +11,23 @@ import {
   routeChangeAction,
   Actions,
 } from "../../../lib/Module";
-import { getArticleTitle } from "../../containers/Article/__generated__/getArticleTitle";
+import {
+  getArticleTitle,
+  getArticleTitleVariables,
+} from "../../containers/Article/__generated__/getArticleTitle";
 import { getArticleTitleQuery } from "../../containers/Article/DeleteDraftArticleModule";
 import { addArticleToCollection } from "./__generated__/addArticleToCollection";
+import AlertViewComponent from "../../../../kauri-components/components/Modal/AlertView";
+import {
+  closeModalAction,
+  openModalAction,
+} from "../../../../kauri-components/components/Modal/Module";
+import {
+  BodyCard,
+  H4,
+} from "../../../../kauri-components/components/Typography";
+import { getCollectionTitle } from "./__generated__/getCollectionTitle";
+import styled from "../../../../kauri-components/lib/styled-components";
 
 export const addArticleToCollectionMutation = gql`
   mutation addArticleToCollection(
@@ -29,6 +43,14 @@ export const addArticleToCollectionMutation = gql`
       position: $position
     ) {
       hash
+    }
+  }
+`;
+
+export const getCollectionTitleQuery = gql`
+  query getCollectionTitle($id: String) {
+    getCollection(id: $id) {
+      name
     }
   }
 `;
@@ -74,6 +96,16 @@ const GetArticle = t.interface({
   title: t.string,
 });
 
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  min-height: 130px;
+  align-items: center;
+  > :first-child {
+    margin-right: 3px;
+  }
+`;
+
 export const addArticleToCollectionEpic: Epic<
   Actions,
   IReduxState,
@@ -111,26 +143,58 @@ export const addArticleToCollectionEpic: Epic<
           }).title
       )
       .do(() => typeof actions.callback === "function" && actions.callback())
-      .mergeMap(title => {
-        const user = store.getState().app.user;
-        const userId = user ? user.id : "";
-
-        return Observable.merge(
-          Observable.of(
-            (showNotificationAction as any)({
-              description: `The article "${title}" has been added to your collection!`,
-              message: "Article added to collection",
-              notificationType: "success",
-            })
-          ),
-          Observable.of(
-            routeChangeAction(
-              `/collection/${
-                (actions as IAddArticleToCollectionAction).payload.id
-              }/update-collection`
+      .switchMap(title =>
+        Observable.fromPromise(
+          apolloClient.query<getCollectionTitle, getArticleTitleVariables>({
+            query: getCollectionTitleQuery,
+            variables: {
+              id: (actions as IAddArticleToCollectionAction).payload.id,
+            },
+          })
+        )
+          .mergeMap(({ data: { getCollection } }) =>
+            Observable.merge(
+              Observable.of(
+                (showNotificationAction as any)({
+                  description: `The article "${title}" has been added to your collection!`,
+                  message: "Article added to collection",
+                  notificationType: "success",
+                })
+              ),
+              Observable.of(
+                openModalAction({
+                  children: (
+                    <AlertViewComponent
+                      title="Add to Collection"
+                      content={
+                        <Row>
+                          <BodyCard>Article successfully added to</BodyCard>
+                          <H4>{` ${getCollection &&
+                            getCollection.name} Collection`}</H4>
+                        </Row>
+                      }
+                      closeModalAction={() =>
+                        store.dispatch(closeModalAction())
+                      }
+                      confirmButtonText={"View Collection"}
+                      closeButtonText={"Close"}
+                      confirmButtonAction={() => {
+                        store.dispatch(closeModalAction());
+                        store.dispatch(
+                          routeChangeAction(
+                            `/collection/${
+                              (actions as IAddArticleToCollectionAction).payload
+                                .id
+                            }/update-collection`
+                          )
+                        );
+                      }}
+                    />
+                  ),
+                })
+              )
             )
           )
-        );
-      })
-      .do(() => apolloClient.resetStore())
+          .do(() => apolloClient.resetStore())
+      )
   );

@@ -119,4 +119,6 @@ export interface searchApprovedArticlesVariables {
   size?: number | null;
   text?: string | null;
   category?: string | null;
+  sort?: string | null;
+  page?: number | null;
 }
