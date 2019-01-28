@@ -32,7 +32,6 @@ export default ({
             cardHeight={420}
             isLoggedIn={!!userId}
             linkComponent={children => children}
-            nfts={article.attributes && article.attributes.nfts}
             tags={article.tags}
             hoverChildren={({ hideDispatch }) => (
               <React.Fragment>
