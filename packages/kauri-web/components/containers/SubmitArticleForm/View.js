@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
 import { Form } from "antd";
+import Helmet from "react-helmet";
 import SubmitArticleFormActions from "./SubmitArticleFormActions";
 import SubmitArticleFormHeader from "./SubmitArticleFormHeader";
 import SubmitArticleFormContent from "./SubmitArticleFormContent";
@@ -333,6 +334,12 @@ class SubmitArticleForm extends React.Component<Props> {
 
     return (
       <Form>
+        <Helmet>
+          <link
+            rel="stylesheet"
+            href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
+          />
+        </Helmet>
         <ScrollToTopButton />
         <SubmitArticleForm.Actions
           {...this.props.form}
