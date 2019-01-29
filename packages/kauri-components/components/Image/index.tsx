@@ -17,6 +17,7 @@ interface ImgProps {
     opacity: number;
   };
   asBackground?: boolean;
+  delay?: number;
 }
 
 const Img = styled.div<ImgProps>`
@@ -27,7 +28,7 @@ const Img = styled.div<ImgProps>`
     `${props.inView ? `url(${props.image}) center center` : ``}`};
   background-size: cover;
   opacity: ${props => (props.inView ? 1 : 0)};
-  transition: opacity 1s;
+  transition: opacity ${props => props.delay || 0.4}s;
   ${props =>
     props.borderTopLeftRadius &&
     `border-top-left-radius: ${props.borderTopLeftRadius}`};

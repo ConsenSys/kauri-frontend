@@ -8,6 +8,7 @@ import theme from "../../lib/theme-config";
 import PrimaryButton from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
 import UserAvatar from "../UserAvatar";
+import Image from "../Image";
 import {
   toggleReducer,
   IToggleState,
@@ -22,8 +23,8 @@ const DEFAULT_CARD_WIDTH = 290;
 const DEFAULT_CARD_PADDING = theme.space[2];
 
 const withImageURLCss = css`
+  z-index: 1;
   padding: ${props => props.theme.space[2]}px;
-  background: rgba(30, 36, 40, 0.7);
   > *,
   a > * {
     color: white;
@@ -65,7 +66,7 @@ interface IContentStyledComponentProps {
   imageURL: string | null;
 }
 
-const Content = styled<IContentStyledComponentProps, "div">("div")`
+const Content = styled<{}, "div">("div")`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -74,9 +75,6 @@ const Content = styled<IContentStyledComponentProps, "div">("div")`
   border-top-right-radius: 4px;
   height: 100%;
   width: 100%;
-  background: url(${props =>
-      typeof props.imageURL === "string" && props.imageURL})
-    center center / cover;
   > a:nth-child(1) {
     height: 100%;
   }
@@ -484,7 +482,18 @@ const RenderContent: React.SFC<IContentProps> = ({
   date,
 }) => (
   <React.Fragment>
-    <Content imageURL={imageURL}>
+    <Content>
+      {imageURL && (
+        <Image
+          borderTopLeftRadius="4px"
+          borderTopRightRadius="4px"
+          image={imageURL}
+          asBackground={true}
+          overlay={imageURL ? { opacity: 0.7 } : undefined}
+          height="250px"
+          width="100%"
+        />
+      )}
       <RenderCardContent
         cardHeight={cardHeight}
         cardWidth={cardWidth}
