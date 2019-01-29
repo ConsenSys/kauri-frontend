@@ -8,6 +8,7 @@ import NavSearch from "../QuickSearch";
 import { H6 } from "../../../../kauri-components/components/Typography";
 import Tooltip from "../../../../kauri-components/components/Tooltip/Tooltip";
 import { withRouter } from "next/router";
+import Image from "../../../../kauri-components/components/Image";
 
 // const supportedNetworkIds = [4, 224895]
 // const ONE_SECOND = 1000
@@ -149,14 +150,6 @@ const Avatar = styled.div`
     text-transform: uppercase;
     line-height: 10px;
   }
-`;
-
-const ProfileImage = styled.div`
-  height: 100%;
-  width: 100%;
-  border-radius: 50%;
-  background: url(${props => props.avatar}) center center;
-  background-size: cover;
 `;
 
 const deleteAllCookies = callback => {
@@ -363,7 +356,12 @@ class Navbar extends React.Component {
               header={
                 <Avatar variant={"white"}>
                   {typeof user.avatar === "string" && user.avatar.length > 1 ? (
-                    <ProfileImage avatar={user.avatar} alt="Logo" />
+                    <Image
+                      image={user.avatar}
+                      height={30}
+                      width={30}
+                      borderRadius="15px"
+                    />
                   ) : (
                     <H6 color={"textPrimary"}>
                       {user.username

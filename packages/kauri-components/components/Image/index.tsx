@@ -3,8 +3,8 @@ import { InView } from "react-intersection-observer";
 
 interface ImgProps {
   image: string;
-  height?: string;
-  width: string;
+  height?: number | string;
+  width: number | string;
   borderRadius?: string;
   inView?: boolean;
   borderTopLeftRadius?: string;
@@ -20,12 +20,17 @@ interface ImgProps {
   delay?: number;
 }
 
+const getURL = (url: string, height?: number | string, width?: number | string) => {
+  const heightParam = typeof height === 'number' ? `h_${height},`: '';
+  const widthParam = typeof width === 'number' ? `w_${width},` : 'w_2560,';
+  return(`https://res.cloudinary.com/dijhhora5/image/fetch/${widthParam}${heightParam}c_mfit,f_auto/${url}`)}
+
 const Img = styled.div<ImgProps>`
-  height: ${props => props.height};
-  width: ${props => props.width};
+  height: ${props => typeof props.height === 'number' ? `${props.height}px` : props.height};
+  width: ${props => typeof props.width === 'number' ? `${props.width}px` : props.width};
   ${props => props.borderRadius && `border-radius: ${props.borderRadius}`};
   background: ${props =>
-    `${props.inView ? `url(${props.image}) center center` : ``}`};
+    `${props.inView ? `url(${getURL(props.image, props.height, props.width)}) center center` : ``}`};
   background-size: cover;
   opacity: ${props => (props.inView ? 1 : 0)};
   transition: opacity ${props => props.delay || 0.4}s;
