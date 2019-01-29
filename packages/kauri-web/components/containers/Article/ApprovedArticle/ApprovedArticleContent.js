@@ -167,7 +167,7 @@ export default ({
       ? editorState
       : EditorState.createWithContent(convertFromRaw(JSON.parse(text)));
   const contentState = editorState.markdown
-    ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
+    ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown, "outline"))
     : editorState.getCurrentContent();
 
   const blocks =

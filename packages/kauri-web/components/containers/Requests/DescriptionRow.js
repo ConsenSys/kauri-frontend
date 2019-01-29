@@ -585,10 +585,9 @@ export default compose(withErrorCatch())(
             className={`DescriptionRow-markdown ${fullText &&
               !inReviewArticleComment &&
               "DescriptionRow-markdown--fullText"}`}
-            dangerouslySetInnerHTML={{
-              __html: getHTMLFromMarkdown(JSON.parse(text).markdown),
-            }}
-          />
+          >
+            {getHTMLFromMarkdown(JSON.parse(text).markdown)}
+          </div>
         ) : fullText ? (
           redraft(
             JSON.parse(text),

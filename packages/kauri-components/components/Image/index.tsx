@@ -20,22 +20,34 @@ interface ImgProps {
   delay?: number;
 }
 
-const getURL = (url: string, height?: number | string, width?: number | string) => {
-  if (process && process.env && process.env.monolithExternalApi && process.env.monolithExternalApi.indexOf('beta.kauri.io') !== -1) {
-    const heightParam = typeof height === 'number' ? `h_${height},`: '';
-    const widthParam = typeof width === 'number' ? `w_${width},` : 'w_2560,';
-    return(`https://res.cloudinary.com/${process.env.cloudinaryId}/image/fetch/${widthParam}${heightParam}c_mfit,f_auto/${url}`)
+const getURL = (
+  url: string,
+  height?: number | string,
+  width?: number | string
+) => {
+  if (true) {
+    const heightParam = typeof height === "number" ? `h_${height},` : "";
+    const widthParam = typeof width === "number" ? `w_${width},` : "w_2560,";
+    return `https://res.cloudinary.com/${
+      process.env.cloudinaryId
+    }/image/fetch/${widthParam}${heightParam}c_mfit,f_auto/${url}`;
   } else {
     return url;
   }
-}  
+};
 
 const Img = styled.div<ImgProps>`
-  height: ${props => typeof props.height === 'number' ? `${props.height}px` : props.height};
-  width: ${props => typeof props.width === 'number' ? `${props.width}px` : props.width};
+  height: ${props =>
+    typeof props.height === "number" ? `${props.height}px` : props.height};
+  width: ${props =>
+    typeof props.width === "number" ? `${props.width}px` : props.width};
   ${props => props.borderRadius && `border-radius: ${props.borderRadius}`};
   background: ${props =>
-    `${props.inView ? `url(${getURL(props.image, props.height, props.width)}) center center` : ``}`};
+    `${
+      props.inView
+        ? `url(${getURL(props.image, props.height, props.width)}) center center`
+        : ``
+    }`};
   background-size: cover;
   opacity: ${props => (props.inView ? 1 : 0)};
   transition: opacity ${props => props.delay || 0.4}s;
@@ -74,7 +86,7 @@ const Img = styled.div<ImgProps>`
 
 const Image = (props: ImgProps) => (
   <InView>
-    {({ inView, ref }) => (
+    {({ inView, ref }: any) => (
       <Img innerRef={ref} {...props} inView={inView}>
         {props.children}
       </Img>
