@@ -70,6 +70,7 @@ export default class MyDocument extends Document {
             defer
             src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"
           />
+          <script src="https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver" />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1"

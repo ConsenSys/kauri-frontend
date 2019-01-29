@@ -2,6 +2,7 @@ import React from "react";
 import styled from "../../lib/styled-components";
 import { H5, H6 } from "../Typography";
 import userIdTrim from "../../../kauri-web/lib/userid-trim";
+import Image from "../Image";
 
 interface IContainerProps {
   fullWidth: boolean;
@@ -67,14 +68,6 @@ const Avatar = styled<IAvatarProps, "div">("div")`
   }
 `;
 
-const ProfileImage = styled<{ avatar: string | "none" }, "div">("div")`
-  height: 100%;
-  width: 100%;
-  border-radius: 50%;
-  background: url(${props => props.avatar}) center center;
-  background-size: cover;
-`;
-
 interface IProps {
   color?: string;
   avatar: string | null;
@@ -100,7 +93,12 @@ const UserAvatarComponent: React.SFC<IProps> = props => (
       avatar={props.avatar}
     >
       {typeof props.avatar === "string" && props.avatar.length > 1 ? (
-        <ProfileImage avatar={props.avatar} />
+        <Image
+          borderRadius="50%"
+          image={props.avatar}
+          height="100%"
+          width="100%"
+        />
       ) : (
         <H6
           color={
