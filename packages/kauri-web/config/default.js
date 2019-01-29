@@ -74,4 +74,5 @@ module.exports = {
     "0xC3EF09a2BdEec9De6Ab74cfA0B5491FA4Cd0b7c8",
   ],
   getApiURL,
+  cloudinaryId: "dijhhora5",
 };

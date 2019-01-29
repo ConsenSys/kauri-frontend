@@ -21,9 +21,14 @@ interface ImgProps {
 }
 
 const getURL = (url: string, height?: number | string, width?: number | string) => {
-  const heightParam = typeof height === 'number' ? `h_${height},`: '';
-  const widthParam = typeof width === 'number' ? `w_${width},` : 'w_2560,';
-  return(`https://res.cloudinary.com/dijhhora5/image/fetch/${widthParam}${heightParam}c_mfit,f_auto/${url}`)}
+  if (process && process.env && process.env.monolithExternalApi && process.env.monolithExternalApi.indexOf('beta.kauri.io') !== -1) {
+    const heightParam = typeof height === 'number' ? `h_${height},`: '';
+    const widthParam = typeof width === 'number' ? `w_${width},` : 'w_2560,';
+    return(`https://res.cloudinary.com/${process.env.cloudinaryId}/image/fetch/${widthParam}${heightParam}c_mfit,f_auto/${url}`)
+  } else {
+    return url;
+  }
+}  
 
 const Img = styled.div<ImgProps>`
   height: ${props => typeof props.height === 'number' ? `${props.height}px` : props.height};
