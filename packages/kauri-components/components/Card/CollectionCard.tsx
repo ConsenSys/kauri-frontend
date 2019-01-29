@@ -490,8 +490,8 @@ const RenderContent: React.SFC<IContentProps> = ({
           image={imageURL}
           asBackground={true}
           overlay={imageURL ? { opacity: 0.7 } : undefined}
-          height="250px"
-          width="100%"
+          height={250}
+          width={290}
         />
       )}
       <RenderCardContent

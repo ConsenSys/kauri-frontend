@@ -255,8 +255,8 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   <React.Fragment>
     {typeof imageURL === "string" && (
       <Image
-        width="100%"
-        height={cardHeight < 420 ? "116px" : "170px"}
+        width={290}
+        height={cardHeight < 420 ? 116 : 170}
         image={imageURL}
         borderTopLeftRadius="4px"
         borderTopRightRadius="4px"
