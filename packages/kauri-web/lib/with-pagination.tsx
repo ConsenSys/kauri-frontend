@@ -48,6 +48,10 @@ const withPagination = (
           "scroll",
           this.handleOnScroll
         );
+        (childRefElement as Element).addEventListener(
+          "touchend",
+          this.handleOnScroll
+        );
       }
       window.addEventListener("scroll", this.handleOnScroll);
       window.addEventListener("touchend", this.handleOnScroll);
