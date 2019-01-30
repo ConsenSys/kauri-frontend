@@ -42,11 +42,11 @@ BUILD_TAG_VERSION="${BUILD_TAG}/kauri-frontend:${TAG}"
 BUILD_TAG_LATEST="${BUILD_TAG}/kauri-frontend:latest-${TARGET_ENV}"
 docker build -t $BUILD_TAG_VERSION -f $DOCKERFILE .
 if [ $? -ne 0 ]; then
-  echo "oops"
+  exit 1
 fi
 docker build -t $BUILD_TAG_LATEST -f $DOCKERFILE .
 if [ $? -ne 0 ]; then
-  echo "oops"
+  exit 1
 fi
 
 # Push build artifacts to CDN
@@ -58,11 +58,11 @@ cd scripts
 # Push docker image to registry
 ${DOCKER_PUSH_COMMAND} $BUILD_TAG_VERSION
 if [ $? -ne 0 ]; then
-  echo "oops"
+  exit 1
 fi
 ${DOCKER_PUSH_COMMAND} $BUILD_TAG_LATEST
 if [ $? -ne 0 ]; then
-  echo "oops"
+  exit 1
 fi
 # Create app if not exists
 #kubectl apply -f frontend-service.yml || true
