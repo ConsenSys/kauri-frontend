@@ -1,5 +1,4 @@
 import gql from "graphql-tag";
-import { Article } from "./Article";
 
 // TODO - Sync with backend once CollectionDTO > owner becomes author
 export const HomePageQuery = gql`
@@ -119,5 +118,4 @@ export const HomePageQuery = gql`
       }
     }
   }
-  ${Article}
 `;

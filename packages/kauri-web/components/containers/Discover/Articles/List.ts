@@ -35,6 +35,11 @@ export default compose(
       variables: {
         filter: {
           mustNotContainTag: ["ethdenver-2019-submission"],
+          mustNotIncludeUserId: [
+            "b282635ffc0ea4d6984f6b50e9dab90de1d03ce2",
+            "5765d2d2fafb930132d72651f3f28c86371379b1",
+            "27e77e164bc02788f347213b0a3e9a9a0cdf8d7a",
+          ],
           type: "ARTICLE",
         },
       },
