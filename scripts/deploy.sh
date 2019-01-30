@@ -51,8 +51,8 @@ fi
 
 # Push build artifacts to CDN
 docker run -d --name kauri-deploy-artifacts ${BUILD_TAG_LATEST}
-docker cp kauri-deploy-artifacts:/usr/src/app/packages/kauri-web/.next /tmp/build
-gsutil cp -r /tmp/build/* gs://kauri-static-assets-for-cdn
+docker cp kauri-deploy-artifacts:/usr/src/app/packages/kauri-web/.next /tmp/_next
+gsutil cp -r /tmp/_next gs://kauri-static-assets-for-cdn
 
 cd scripts
 # Push docker image to registry
