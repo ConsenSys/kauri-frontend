@@ -49,6 +49,11 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# Push build artifacts to CDN
+docker run -d --name kauri-deploy-artifacts ${BUILD_TAG_LATEST}
+docker cp kauri-deploy-artifacts:/usr/src/app/packages/kauri-web/.next /tmp/build
+gsutil cp -r /tmp/build/* gs://kauri-static-assets-for-cdn
+
 cd scripts
 # Push docker image to registry
 ${DOCKER_PUSH_COMMAND} $BUILD_TAG_VERSION

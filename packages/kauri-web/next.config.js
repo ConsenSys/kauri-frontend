@@ -44,6 +44,8 @@ if (process.env.BUNDLE_ANALYZE) {
   ]);
 }
 const nextConfig = {
+  assetPrefix:
+    process.env.NODE_ENV === "production" ? "https://cdn.kauri.io" : "",
   webpack: (config, { isServer }) => {
     config.resolve.extensions.push(".ts", ".tsx");
     config.resolve.alias["styled-components"] = resolve(
