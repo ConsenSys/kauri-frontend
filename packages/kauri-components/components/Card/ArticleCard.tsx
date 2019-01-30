@@ -266,7 +266,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
       <Header>
         <Label>
           {(status === "DRAFT" ? "Drafted " : "Posted ") +
-            moment(date).format("DD MMM YYYY HH:mm")}
+            moment(date).fromNow()}
         </Label>
       </Header>
       <H1>

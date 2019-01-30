@@ -113,9 +113,7 @@ const CuratedList = ({
                     <ArticleCard
                       changeRoute={routeChangeAction}
                       key={articleCard.id}
-                      date={moment(articleCard.dateCreated).format(
-                        "D MMM YYYY"
-                      )}
+                      date={articleCard.dateCreated}
                       title={articleCard.title}
                       content={articleCard.content}
                       userId={articleCard.author && articleCard.author.id}
