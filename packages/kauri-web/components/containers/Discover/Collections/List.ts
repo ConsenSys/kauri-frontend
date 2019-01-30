@@ -5,12 +5,12 @@ import { connect } from "react-redux";
 import { routeChangeAction } from "../../../../lib/Module";
 import withLoading from "../../../../lib/with-loading";
 import withPagination from "../../../../lib/with-pagination";
-
+const config = require("../../../../config/default");
 
 interface IState {
   app: {
-    hostName: string,
-  }
+    hostName: string;
+  };
 }
 
 const mapStateToProps = (state: IState) => {
@@ -28,7 +28,11 @@ export default compose(
     name: QUERY_NAME,
     options: () => ({
       fetchPolicy: "no-cache",
-      variables: {},
+      variables: {
+        filter: {
+          mustNotIncludeUserId: config.testingAccounts,
+        },
+      },
     }),
   }),
   withLoading()

@@ -241,6 +241,34 @@ interface ICardContentProps {
   nfts?: INFT[];
 }
 
+interface IDate {
+  date: string;
+  hovered?: boolean;
+  status: undefined | "PUBLISHED" | "DRAFT";
+}
+class Date extends React.Component<IDate,IDate> {
+  constructor(props: IDate) {
+    super(props);
+    this.state = {
+      date: props.date,
+      hovered: false,
+      status: props.status,
+    }
+  }
+
+  public render() {
+    return (
+      <div onMouseEnter={() => this.setState({ hovered: true})} onMouseLeave={() => this.setState({ hovered: false})}>
+        <Label>
+          {this.state.hovered ?
+            (this.props.status === "DRAFT" ? "Drafted " : "Posted ") + moment(this.props.date).format('DD MMM YYYY hh:mm') :
+            (this.props.status === "DRAFT" ? "Drafted " : "Posted ") + moment(this.props.date).fromNow()}
+        </Label>
+      </div>
+    );
+  }
+}
+
 const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   title,
   content,
@@ -264,10 +292,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
     )}
     <Content imageURL={imageURL}>
       <Header>
-        <Label>
-          {(status === "DRAFT" ? "Drafted " : "Posted ") +
-            moment(date).format("DD MMM YYYY HH:mm")}
-        </Label>
+        <Date status={status} date={date} />
       </Header>
       <H1>
         <TextTruncate

@@ -6,6 +6,7 @@ import { routeChangeAction } from "../../../../lib/Module";
 import withLoading from "../../../../lib/with-loading";
 import withPagination from "../../../../lib/with-pagination";
 import { openModalAction } from "../../../../../kauri-components/components/Modal/Module";
+const config = require("../../../../config/default");
 
 interface IState {
   app: {
@@ -35,6 +36,7 @@ export default compose(
       variables: {
         filter: {
           mustNotContainTag: ["ethdenver-2019-submission"],
+          mustNotIncludeUserId: config.testingAccounts,
           type: "ARTICLE",
         },
       },

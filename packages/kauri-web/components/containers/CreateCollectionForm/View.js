@@ -21,6 +21,7 @@ import CreateCollectionOptions from "./CreateCollectionOptions";
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 import TagSelector from "../../common/TagSelector";
+import Helmet from "react-helmet";
 
 import type { FormState } from "./index";
 import type { ShowNotificationPayload } from "../../../lib/Module";
@@ -266,6 +267,12 @@ export default ({
   userAvatar,
 }: Props) => (
   <Section>
+    <Helmet>
+      <link
+        rel="stylesheet"
+        href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
+      />
+    </Helmet>
     <Form>
       <ActionsSection
         bg={
