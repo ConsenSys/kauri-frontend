@@ -15,25 +15,14 @@ import {
 import UserAvatar from "../../../../../kauri-components/components/UserAvatar";
 import theme from "../../../../lib/theme-config";
 import userIdTrim from "../../../../lib/userid-trim";
+import Image from "../../../../../kauri-components/components/Image";
 
 const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
   display: flex;
-  margin-top: -76px;
-  padding-top: 160px;
-  padding-bottom: 140px;
   position: relative;
-  padding-left: 0;
-`;
-
-const Overlay = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${props => props.theme && props.theme.colors.bgPrimary};
-  opacity: 0.8;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  margin-top: -160px;
+  padding: 0;
+  margin-top: -76px;
+  height: inherit;
 `;
 
 const InfoContainer = styled.div`
@@ -42,8 +31,8 @@ const InfoContainer = styled.div`
   min-height: 100px;
   flex-direction: column;
   align-self: center;
-  padding: 0 ${props => props.theme.padding};
-  padding-top: ${props => props.theme.space[3]}px;
+  padding: ${props => props.theme.space[4] + 40}px
+    ${props => props.theme.padding} ${props => props.theme.space[4]}px;
   z-index: 9;
   > *:not(:last-child) {
     margin-bottom: ${props => props.theme.space[1]}px;
@@ -102,18 +91,16 @@ export default ({
   userAvatar,
   username,
 }: *) => (
-  <ApproveArticleHeader
-    style={{
-      background:
-        attributes && attributes.background
-          ? `url(${attributes.background}) center center`
-          : "#1E2428",
-      backgroundSize: "cover",
-    }}
-    type="article"
-    theme={theme}
-  >
-    <Overlay />
+  <ApproveArticleHeader type="article" theme={theme}>
+    {attributes && attributes.background && (
+      <Image
+        height="100%"
+        width="100%"
+        overlay={attributes.background && { opacity: 0.5 }}
+        asBackground={true}
+        image={attributes.background}
+      />
+    )}
     <InfoContainer>
       <Label color="white">
         {`POSTED ${moment(datePublished || dateCreated).format(
