@@ -35,7 +35,7 @@ Showdown.extension("highlightjs", function() {
   return [
     {
       type: "output",
-      regex: new RegExp("<code>", "g"),
+      regex: new RegExp("<code \\b[^>]*>", "g"),
       replace: '<code class="hljs">',
     },
   ];
