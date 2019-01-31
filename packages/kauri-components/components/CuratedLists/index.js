@@ -79,13 +79,13 @@ const CuratedList = ({
 
   return (
     <Container>
-      <Image
+      {background && <Image
         image={background}
         height="100%"
         width="100%"
         overlay={background && { opacity: 0.5 }}
         asBackground={true}
-      />
+      />}
       <Content>
         {!header && <Title featured={featured}>{name}</Title>}
         {cards && (

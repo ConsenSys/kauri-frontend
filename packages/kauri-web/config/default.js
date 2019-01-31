@@ -1,3 +1,5 @@
+const cloudImageId = "asdgvdoyen";
+
 const hotJarTrackingCode = `
     (function(h,o,t,j,a,r){
         h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
@@ -74,7 +76,7 @@ module.exports = {
     "0xC3EF09a2BdEec9De6Ab74cfA0B5491FA4Cd0b7c8",
   ],
   getApiURL,
-  cloudinaryId: "dijhhora5",
+  cloudImageId,
   testingAccounts: [
     "b282635ffc0ea4d6984f6b50e9dab90de1d03ce2",
     "5765d2d2fafb930132d72651f3f28c86371379b1",
