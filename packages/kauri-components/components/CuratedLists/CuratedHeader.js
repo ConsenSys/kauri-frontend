@@ -78,7 +78,7 @@ const renderDescriptionRowContent = content => {
 
 const Links = ({ links, Link}) => {
 return <LinksContainer>
-  {links.map(i => <Link useAnchorTag route={i.url}>
+  {links.map((i, key) => <Link key={key} useAnchorTag route={i.url}>
     <SecondaryButton>{i.label}</SecondaryButton>
   </Link>)}
 </LinksContainer>

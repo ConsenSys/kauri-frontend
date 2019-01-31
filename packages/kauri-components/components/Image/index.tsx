@@ -21,13 +21,25 @@ interface ImgProps {
 }
 
 const getURL = (url: string, height?: number | string, width?: number | string) => {
-  if (process && process.env && process.env.monolithExternalApi && process.env.monolithExternalApi.indexOf('beta.kauri.io') !== -1) {
-    const heightParam = typeof height === 'number' ? `h_${height},`: '';
-    const widthParam = typeof width === 'number' ? `w_${width},` : 'w_2560,';
-    return(`https://res.cloudinary.com/${process.env.cloudinaryId}/image/fetch/${widthParam}${heightParam}c_mfit,f_auto/${url}`)
+  const heightParam = typeof height === 'number' ? height : null;
+  const widthParam = typeof width === 'number' ? width : null;
+  const getCDNURL = () => {
+    if (heightParam && ! widthParam) {
+      return `https://${process.env.cloudImageId}.cloudimg.io/crop/2560x${heightParam}/webp-lossy-90/${url}`
+    } else if (widthParam && ! heightParam) {
+      return `https://${process.env.cloudImageId}.cloudimg.io/widthParam/${widthParam}/webp-lossy-90/${url}`
+    } else if (widthParam && heightParam) {
+      return `https://${process.env.cloudImageId}.cloudimg.io/crop/${widthParam}x${heightParam}/webp-lossy-90/${url}`
+    } else {
+      return `https://${process.env.cloudImageId}.cloudimg.io/width/2560/webp-lossy-90/${url}`
+    }
+  }
+
+  if (process.env.monolithApi && process.env.monolithApi.includes('uat')) {
+    return getCDNURL()
   } else {
     return url;
-  }
+  };
 }  
 
 const Img = styled.div<ImgProps>`
