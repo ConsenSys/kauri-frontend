@@ -30,14 +30,18 @@ const ButtonWrapper = styled.div`
 `;
 
 class OnboardingEditProfile extends Component {
-  handleSubmit () {
+  handleSubmit() {
     this.login
       .getWrappedInstance()
       .getWrappedInstance()
-      .saveUser(this.props.router.query.r);
+      .saveUser(
+        this.props.router.query.redirected
+          ? `${this.props.router.query.r}?redirected=true`
+          : this.props.router.query.r
+      );
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const {
       name,
       username,
@@ -63,7 +67,8 @@ class OnboardingEditProfile extends Component {
       let newRedirectURL;
       if (typeof this.props.router.query.r === "string") {
         newRedirectURL =
-          this.props.router.query.r.indexOf("https://") !== -1
+          this.props.router.query.r.indexOf("https://") !== -1 ||
+          this.props.router.query.redirected
             ? this.props.router.query.r + "?redirected=true"
             : this.props.router.query.r;
       } else {
@@ -73,7 +78,7 @@ class OnboardingEditProfile extends Component {
     }
   }
 
-  render () {
+  render() {
     const {
       name,
       username,
