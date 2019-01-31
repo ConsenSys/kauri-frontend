@@ -405,7 +405,7 @@ export default ({
                         <Input
                           {...field}
                           type="text"
-                          placeHolder="Section Name"
+                          placeHolder="Add Section Name"
                           fontSize={5}
                           fontWeight={500}
                           color={"primaryTextColor"}
@@ -421,7 +421,7 @@ export default ({
                         <Input
                           {...field}
                           type="text"
-                          placeHolder="Section description"
+                          placeHolder="Add Section Description"
                           fontSize={2}
                           fontWeight={300}
                           color={"primaryTextColor"}
