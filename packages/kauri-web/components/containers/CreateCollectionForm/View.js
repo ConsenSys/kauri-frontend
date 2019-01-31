@@ -7,6 +7,7 @@ import Stack from "stack-styled";
 import R from "ramda";
 import ActionsSection from "../../../../kauri-components/components/Section/ActionsSection";
 import PrimaryHeaderSection from "../../../../kauri-components/components/Section/PrimaryHeaderSection";
+import CardContentSection from "../../../../kauri-components/components/Section/CardContentSection";
 import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx";
 import UserAvatar from "../../../../kauri-components/components/UserAvatar";
 import { Label } from "../../../../kauri-components/components/Typography";
@@ -38,14 +39,6 @@ const RemoveIcon = () => (
 const Section = styled.section`
   display: flex;
   flex-direction: column;
-`;
-
-const ResourcesSection = styled.section`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: ${props => props.theme.space[2]}px;
 `;
 
 const ResourceSection = styled.section`
@@ -176,7 +169,7 @@ const renderResourceSection = (
   values,
   mappingKey
 ) => (resource, resourceIndex) => (
-  <ResourceSection key={resourceIndex} mt={3} p={2}>
+  <ResourceSection key={resourceIndex} mt={3}>
     {R.path(
       ["sections", index, mappingKey, resourceIndex, "version"],
       values
@@ -438,7 +431,7 @@ export default ({
                       )}
                     />
 
-                    <ResourcesSection>
+                    <CardContentSection>
                       {section.resourcesId &&
                         Array.isArray(section.resourcesId) &&
                         section.resourcesId.map(
@@ -450,7 +443,7 @@ export default ({
                             "resourcesId"
                           )
                         )}
-                    </ResourcesSection>
+                    </CardContentSection>
 
                     <CreateCollectionOptions
                       currentSectionIndex={index}
