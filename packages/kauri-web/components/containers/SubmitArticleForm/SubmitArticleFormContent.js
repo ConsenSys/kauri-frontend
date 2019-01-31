@@ -81,7 +81,8 @@ class SubmitArticleFormText extends React.Component<Props, State> {
       rules: [
         {
           required: true,
-          message: "Please input the description of the request!",
+          message:
+            "Empty articles cannot be saved or published. Start writing :)",
           whitespace: true,
         },
       ],
