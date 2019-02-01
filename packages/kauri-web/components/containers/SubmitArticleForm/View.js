@@ -317,7 +317,6 @@ class SubmitArticleForm extends React.Component<Props> {
 
     if (this.props.templateId === "ethdenver") {
       articleData = {
-        title: "ETH DENVER SUBMISSION",
         content: JSON.stringify({
           markdown: `#Project Submission
 
@@ -328,7 +327,7 @@ class SubmitArticleForm extends React.Component<Props> {
           
           ETC:`,
         }),
-        tags: ["ETHDenver"],
+        tags: ["ETHDENVER-2019-SUBMISSION"],
       };
     }
 
