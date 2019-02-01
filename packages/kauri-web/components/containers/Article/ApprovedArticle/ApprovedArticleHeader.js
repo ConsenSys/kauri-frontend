@@ -108,7 +108,7 @@ export default ({
         )}`}
       </Label>
       <Title1 color="white">{title}</Title1>
-      {tags && <TagList color={"white"} maxTags={5} tags={tags} />}
+      {tags && <TagList color={"white"} maxTags={7} tags={tags} />}
       <MobileShareContainer>
         <ShareArticle
           color="white"

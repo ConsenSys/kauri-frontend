@@ -66,7 +66,7 @@ export default compose(
     name: "RelatedArticles",
     options: ({ id }) => ({
       variables: {
-        size: 5,
+        size: 3,
         page: 0,
         filter: {
           type: "ARTICLE",
