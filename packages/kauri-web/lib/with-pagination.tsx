@@ -41,25 +41,57 @@ const withPagination = (
     }
 
     componentDidMount() {
+      const triggerTouchStartEvent = (childRefElement?: Element) => () => {
+        if (childRefElement) {
+          childRefElement.addEventListener(
+            "touchend",
+            this.handleOnScroll,
+            false
+          );
+          childRefElement.removeEventListener(
+            "touchstart",
+            triggerTouchStartEvent()
+          );
+          return;
+        }
+        window.addEventListener("touchend", this.handleOnScroll, false);
+        window.removeEventListener("touchstart", triggerTouchStartEvent());
+        window.removeEventListener("scroll", triggerScrollEvent());
+      };
+      const triggerScrollEvent = (childRefElement?: Element) => () => {
+        if (childRefElement) {
+          childRefElement.addEventListener(
+            "scroll",
+            this.handleOnScroll,
+            false
+          );
+          childRefElement.removeEventListener("scroll", triggerScrollEvent());
+          return;
+        }
+        window.addEventListener("scroll", this.handleOnScroll, false);
+        window.removeEventListener("scroll", triggerScrollEvent());
+      };
+
       if (this.childRef) {
         const childRefElement = ReactDOM.findDOMNode(this.childRef);
         this.childRefElement = childRefElement as Element;
         (childRefElement as Element).addEventListener(
-          "scroll",
-          this.handleOnScroll
+          "touchstart",
+          triggerTouchStartEvent(childRefElement as Element)
         );
         (childRefElement as Element).addEventListener(
-          "touchend",
-          this.handleOnScroll
+          "scroll",
+          triggerScrollEvent(childRefElement as Element)
         );
+        return;
       }
-      window.addEventListener("scroll", this.handleOnScroll);
-      window.addEventListener("touchend", this.handleOnScroll);
+
+      window.addEventListener("touchstart", triggerTouchStartEvent());
+      window.addEventListener("scroll", triggerScrollEvent());
     }
 
     componentWillUnmount() {
-      window.removeEventListener("scroll", this.handleOnScroll);
-      window.removeEventListener("touchend", this.handleOnScroll);
+      window.removeEventListener("touchend", this.handleOnScroll, false);
     }
 
     handleOnScroll = () => {
