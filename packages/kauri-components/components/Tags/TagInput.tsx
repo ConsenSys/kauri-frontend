@@ -48,7 +48,11 @@ const Results = styled.div`
     box-shadow: 0px 0px 6px rgba(0,0,0,0.2);
     z-index: 1000;
     & > .selected {
-        background: ${props => props.theme.colors.divider};
+        background: ${props => props.theme.colors.primary};
+        color: ${props => props.theme.colors.white};
+        & > span {
+            color: ${props => props.theme.colors.white};
+        }
     }
 `;
 
@@ -56,6 +60,7 @@ const Result = styled.div`
     color: ${props => props.theme.colors.primary};
     font-weight: ${props => props.theme.fontWeight[2]};
     cursor: pointer;
+    font-weight: bold;
     text-transform: uppercase;
     font-size: ${props => props.theme.fontSizes[0]}px;
     padding: 5px ${props => props.theme.space[1]}px;
