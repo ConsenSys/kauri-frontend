@@ -67,6 +67,10 @@ export default class MyDocument extends Document {
           {this.helmetHeadComponents}
           <link rel="icon" href="/favicon.ico" />
           <script src="https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver" />
+          <script
+            defer
+            src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"
+          />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1"
