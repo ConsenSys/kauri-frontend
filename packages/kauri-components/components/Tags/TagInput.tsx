@@ -17,6 +17,7 @@ interface IProps {
 interface IState {
     selected: ITag | null;
     value: string;
+    selectedIndex: number;
 }
 
 const Wrapper = styled<{}, "div">("div")`
@@ -41,12 +42,14 @@ const Results = styled.div`
     display: flex;
     flex-direction: column;
     align-self: flex-start;
-    padding: ${props => props.theme.space[1]}px;
     position: absolute;
     top: ${props => props.theme.space[3]}px;
     left: 0;
     box-shadow: 0px 0px 6px rgba(0,0,0,0.2);
     z-index: 1000;
+    & > .selected {
+        background: ${props => props.theme.colors.divider};
+    }
 `;
 
 const Result = styled.div`
@@ -55,7 +58,7 @@ const Result = styled.div`
     cursor: pointer;
     text-transform: uppercase;
     font-size: ${props => props.theme.fontSizes[0]}px;
-    padding: 2px;
+    padding: 5px ${props => props.theme.space[1]}px;
 
     & > span {
         color: ${props => props.theme.colors.textPrimary};
@@ -63,8 +66,15 @@ const Result = styled.div`
     &:hover {
         text-decoration: underline;
     }
+
     &:first-child {
-        background: #f7f7f7
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    &:last-child {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
     }
 `;
 
@@ -77,6 +87,7 @@ class TagInput extends React.Component<IProps, IState> {
         this.state = {
             selected: null,
             value: '',
+            selectedIndex: 0,
         }
         this.handleKey = this.handleKey.bind(this)
         this.handleClick = this.handleClick.bind(this)
@@ -91,6 +102,7 @@ class TagInput extends React.Component<IProps, IState> {
         }
         this.setState({ value: ''})
     }
+    
 
     public handleKey (e: React.KeyboardEvent<HTMLInputElement>) {
         this.setState({ value: e.currentTarget.value})
@@ -102,6 +114,18 @@ class TagInput extends React.Component<IProps, IState> {
         }
         if (e.keyCode === 8 && e.currentTarget.value === "" && this.state.value === "") {
             this.props.removeLastTag();
+        }
+        if (e.keyCode === 40) {
+            let currentIndex = this.state.selectedIndex;
+            const availableLength = this.props.availableTags ? this.props.availableTags.length : 1;
+            const newIndex = currentIndex >= availableLength ? 0 : currentIndex += 1;
+            this.setState({ selectedIndex: newIndex});
+        }
+        if (e.keyCode === 38) {
+            let currentIndex = this.state.selectedIndex;
+            const availableLength = this.props.availableTags ? this.props.availableTags.length : 1;
+            const newIndex = currentIndex <= 0 ? availableLength : currentIndex -= 1;
+            this.setState({ selectedIndex: newIndex});
         }
     }
 
@@ -138,8 +162,8 @@ class TagInput extends React.Component<IProps, IState> {
             </TopRow>
         </div>
             {  this.state.value.length > 0 && <Results>
-                {Array.isArray(available) && available.map((i, index) => <Result onClick={this.handleClick.bind(this, i)} key={index}>{i.tag} <span>({i.count})</span></Result>)}
-                <Result onClick={this.handleClick.bind(this, { tag: this.state.value})}>New Tag: <span>{this.state.value}</span></Result>
+                {Array.isArray(available) && available.map((i, index) => <Result className={index === this.state.selectedIndex ? 'selected' : ''} onClick={this.handleClick.bind(this, i)} key={index}>{i.tag} <span>({i.count})</span></Result>)}
+                <Result className={!available || this.state.selectedIndex >= available.length ? 'selected' : ''} onClick={this.handleClick.bind(this, { tag: this.state.value})}>New Tag: <span>{this.state.value}</span></Result>
             </Results>}
         </Wrapper>
     }

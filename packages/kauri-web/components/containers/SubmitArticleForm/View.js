@@ -6,6 +6,7 @@ import SubmitArticleFormActions from "./SubmitArticleFormActions";
 import SubmitArticleFormHeader from "./SubmitArticleFormHeader";
 import SubmitArticleFormContent from "./SubmitArticleFormContent";
 import ScrollToTopButton from "../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton";
+import EthDenverTemplate from "./EthDenverTemplate";
 
 import type {
   AttributesPayload,
@@ -318,14 +319,7 @@ class SubmitArticleForm extends React.Component<Props> {
     if (this.props.templateId === "ethdenver") {
       articleData = {
         content: JSON.stringify({
-          markdown: `#Project Submission
-
-          Participants:
-          
-          
-          Project Outline:
-          
-          ETC:`,
+          markdown: EthDenverTemplate,
         }),
         tags: ["ETHDENVER-2019-SUBMISSION"],
       };
