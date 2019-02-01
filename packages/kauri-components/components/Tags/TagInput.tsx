@@ -100,17 +100,20 @@ class TagInput extends React.Component<IProps, IState> {
             this.inputRef.editValue('');
             (document.activeElement as HTMLElement).blur()
         }
-        this.setState({ value: ''})
+        this.setState({ value: '', selectedIndex: 0});
     }
     
 
     public handleKey (e: React.KeyboardEvent<HTMLInputElement>) {
         this.setState({ value: e.currentTarget.value})
         if (e.keyCode === 13) {
-            this.props.handleEnterKey(this.props.availableTags && this.props.availableTags.length > 0 ? this.props.availableTags[0].tag : e.currentTarget.value);
+            this.props.handleEnterKey(
+                this.props.availableTags && this.props.availableTags.length > 0 && this.props.availableTags[this.state.selectedIndex] ?
+                    this.props.availableTags[this.state.selectedIndex].tag :
+                    e.currentTarget.value);
             this.inputRef.value = '';
             this.inputRef.editValue('')
-            this.setState({ value: ''});
+            this.setState({ value: '', selectedIndex: 0});
         }
         if (e.keyCode === 8 && e.currentTarget.value === "" && this.state.value === "") {
             this.props.removeLastTag();
