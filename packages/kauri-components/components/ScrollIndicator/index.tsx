@@ -23,7 +23,7 @@ interface IProps {
     scrolled: number;
 }
 
-class Indicator extends React.Component<IProps, IProps> {
+class Indicator extends React.Component<{}, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
