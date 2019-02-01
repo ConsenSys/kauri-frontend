@@ -19,7 +19,7 @@ const Fill = styled<IProps, "div">("div")`
     height: 100%;
 `;
 
-interface IProps {
+interface IState {
     scrolled: number;
 }
 
