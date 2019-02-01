@@ -301,9 +301,7 @@ class Navbar extends React.Component {
             }
           >
             <TooltipItemContainer>
-              <Link
-                route={userId ? "/write-article" : "/login?r=/write-article"}
-              >
+              <Link route={"/write-article"}>
                 <TooltipItem
                   href="/write-article"
                   pathname={router.pathname}
