@@ -1,3 +1,6 @@
+require("@babel/register")({
+  extensions: [".js", ".jsx", ".ts", ".tsx"],
+});
 const withBundleAnalyzer = require("@zeit/next-bundle-analyzer");
 const webpack = require("webpack");
 const config = require("./config").default;
