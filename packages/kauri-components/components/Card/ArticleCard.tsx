@@ -261,7 +261,7 @@ class Date extends React.Component<IDate,IDate> {
       <div onMouseEnter={() => this.setState({ hovered: true})} onMouseLeave={() => this.setState({ hovered: false})}>
         <Label>
           {this.state.hovered ?
-            (this.props.status === "DRAFT" ? "Drafted " : "Posted ") + moment(this.props.date).format('DD MMM YYYY hh:mm') :
+            (this.props.status === "DRAFT" ? "Drafted " : "Posted ") + moment(this.props.date).format('DD MMM YYYY HH:mm') :
             (this.props.status === "DRAFT" ? "Drafted " : "Posted ") + moment(this.props.date).fromNow()}
         </Label>
       </div>
