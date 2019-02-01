@@ -48,7 +48,11 @@ const Results = styled.div`
     box-shadow: 0px 0px 6px rgba(0,0,0,0.2);
     z-index: 1000;
     & > .selected {
-        background: ${props => props.theme.colors.divider};
+        background: ${props => props.theme.colors.primary};
+        color: ${props => props.theme.colors.white};
+        & > span {
+            color: ${props => props.theme.colors.white};
+        }
     }
 `;
 
@@ -56,6 +60,7 @@ const Result = styled.div`
     color: ${props => props.theme.colors.primary};
     font-weight: ${props => props.theme.fontWeight[2]};
     cursor: pointer;
+    font-weight: bold;
     text-transform: uppercase;
     font-size: ${props => props.theme.fontSizes[0]}px;
     padding: 5px ${props => props.theme.space[1]}px;
@@ -100,17 +105,20 @@ class TagInput extends React.Component<IProps, IState> {
             this.inputRef.editValue('');
             (document.activeElement as HTMLElement).blur()
         }
-        this.setState({ value: ''})
+        this.setState({ value: '', selectedIndex: 0});
     }
     
 
     public handleKey (e: React.KeyboardEvent<HTMLInputElement>) {
         this.setState({ value: e.currentTarget.value})
         if (e.keyCode === 13) {
-            this.props.handleEnterKey(this.props.availableTags && this.props.availableTags.length > 0 ? this.props.availableTags[0].tag : e.currentTarget.value);
+            this.props.handleEnterKey(
+                this.props.availableTags && this.props.availableTags.length > 0 && this.props.availableTags[this.state.selectedIndex] ?
+                    this.props.availableTags[this.state.selectedIndex].tag :
+                    e.currentTarget.value);
             this.inputRef.value = '';
             this.inputRef.editValue('')
-            this.setState({ value: ''});
+            this.setState({ value: '', selectedIndex: 0});
         }
         if (e.keyCode === 8 && e.currentTarget.value === "" && this.state.value === "") {
             this.props.removeLastTag();
