@@ -96,10 +96,41 @@ const Component: React.FunctionComponent<IProps> = ({
             "content",
           ])(props.data);
 
+          const collectionsThatDoNotHaveTheChosenArticleId =
+            (collections &&
+              Array.isArray(collections) &&
+              collections.filter(collection => {
+                // Filter out collections that have the articleId already
+                if (
+                  collection.sections.find(
+                    section =>
+                      !!section.resources.find(
+                        article => article.id === articleId
+                      )
+                  )
+                ) {
+                  return null;
+                } else {
+                  return collection;
+                }
+              })) ||
+            [];
+
+          const articleAlreadyInAllCollections =
+            collectionsThatDoNotHaveTheChosenArticleId &&
+            collectionsThatDoNotHaveTheChosenArticleId.length === 0;
+
           return Array.isArray(collections) && collections.length > 0 ? (
             <AlertView
               closeModalAction={closeModalAction}
+              confirmButtonText={
+                articleAlreadyInAllCollections ? "OK" : "CONFIRM"
+              }
               confirmButtonAction={() => {
+                if (articleAlreadyInAllCollections) {
+                  closeModalAction();
+                }
+
                 if (state.chosenCollection && state.chosenSection) {
                   const chosenSectionid = state.chosenSection.id;
                   const chosenCollectionSections = state.chosenCollection.sections.find(
@@ -132,8 +163,13 @@ const Component: React.FunctionComponent<IProps> = ({
               }}
               content={
                 <AddToCollectionModalContent
+                  articleAlreadyInAllCollections={
+                    !!articleAlreadyInAllCollections
+                  }
+                  collectionsThatDoNotHaveTheChosenArticleId={
+                    collectionsThatDoNotHaveTheChosenArticleId
+                  }
                   parentState={state}
-                  collections={collections ? collections : []}
                   setCollection={({ chosenCollection }) =>
                     setState({ ...state, chosenCollection })
                   }
