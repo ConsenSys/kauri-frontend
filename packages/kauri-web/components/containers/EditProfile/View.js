@@ -30,7 +30,7 @@ const ButtonWrapper = styled.div`
 `;
 
 class OnboardingEditProfile extends Component {
-  handleSubmit() {
+  handleSubmit () {
     this.login
       .getWrappedInstance()
       .getWrappedInstance()
@@ -41,7 +41,7 @@ class OnboardingEditProfile extends Component {
       );
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const {
       name,
       username,
@@ -78,7 +78,7 @@ class OnboardingEditProfile extends Component {
     }
   }
 
-  render() {
+  render () {
     const {
       name,
       username,
@@ -111,7 +111,13 @@ class OnboardingEditProfile extends Component {
         <Wrapper>
           <EditProfile ref={comp => (this.login = comp)} />
           <ButtonWrapper>
-            <SecondaryButton onClick={() => this.redirect()}>
+            <SecondaryButton
+              onClick={() =>
+                this.props.routeChangeAction(
+                  `/public-profile/${this.props.userId}`
+                )
+              }
+            >
               Skip
             </SecondaryButton>
             <PrimaryButton onClick={() => this.handleSubmit()}>
