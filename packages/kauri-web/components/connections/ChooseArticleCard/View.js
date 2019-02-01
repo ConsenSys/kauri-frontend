@@ -13,10 +13,19 @@ export default ({
   },
   userId,
   setRef,
+  allOtherChosenArticles,
 }) =>
   content.length > 0 ? (
     <ChooseArticleContent setRef={setRef}>
       {content.map(article => {
+        // Don't show chosen articles from other sections
+        if (
+          allOtherChosenArticles.find(({ resourcesId }) =>
+            resourcesId.find(({ id, version }) => id === article.id)
+          )
+        ) {
+          return null;
+        }
         return (
           <ArticleCard
             key={article.id + article.version}
