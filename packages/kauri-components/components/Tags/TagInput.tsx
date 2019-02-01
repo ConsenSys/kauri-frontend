@@ -89,20 +89,20 @@ class TagInput extends React.Component<IProps, IState> {
             this.inputRef.editValue('');
             (document.activeElement as HTMLElement).blur()
         }
+        this.setState({ value: ''})
     }
 
     public handleKey (e: React.KeyboardEvent<HTMLInputElement>) {
+        this.setState({ value: e.currentTarget.value})
         if (e.keyCode === 13) {
+            this.props.handleEnterKey(this.props.availableTags && this.props.availableTags.length > 0 ? this.props.availableTags[0].tag : e.currentTarget.value);
             this.inputRef.value = '';
             this.inputRef.editValue('')
-            if (e.currentTarget.value.length > 0) {
-                this.props.handleEnterKey(e.currentTarget.value);
-            }
+            this.setState({ value: ''});
         }
         if (e.keyCode === 8 && e.currentTarget.value === "" && this.state.value === "") {
             this.props.removeLastTag();
         }
-        this.setState({ value: e.currentTarget.value})
     }
 
     public render() {
@@ -137,8 +137,9 @@ class TagInput extends React.Component<IProps, IState> {
                 />
             </TopRow>
         </div>
-            { Array.isArray(available) && available.length > 0 && <Results>
-                {available.map((i, index) => <Result onClick={this.handleClick.bind(this, i)} key={index}>{i.tag} <span>({i.count})</span></Result>)}
+            {  this.state.value.length > 0 && <Results>
+                {Array.isArray(available) && available.map((i, index) => <Result onClick={this.handleClick.bind(this, i)} key={index}>{i.tag} <span>({i.count})</span></Result>)}
+                <Result onClick={this.handleClick.bind(this, { tag: this.state.value})}>New Tag: <span>{this.state.value}</span></Result>
             </Results>}
         </Wrapper>
     }
