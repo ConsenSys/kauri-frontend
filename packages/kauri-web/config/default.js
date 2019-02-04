@@ -28,18 +28,18 @@ const uppyConfig = {
   },
 };
 
-const getApiURL = (hostName = process.env.MONOLITH_EXTERNAL_API) => {
-  // localhost, no env var set from Dockerfile so default to hardcoded dev api
-  if (!hostName) return process.env.monolithExternalApi;
+const getApiURL = (hostName = process.env.monolithExternalApi) => {
+  // localhost or mobile
+	if (hostName.includes('192') || hostName.includes('localhost')) {
+		return process.env.monolithExternalApi;
+	}
   let apiURL;
   const env = hostName.split(".")[1];
   // Use internal k8s dns if not browser
   if (global.window) {
-    apiURL = `api.${env}.kauri.io`;
-  } else if (!global.window && env.includes("beta")) {
-    apiURL = "monolith.uat:8081";
+    apiURL = process.env.monolithExternalApi;
   } else {
-    apiURL = `monolith.${env}:8081`;
+    apiURL = process.env.monolithApi;
   }
 
   // Local config override if exists
