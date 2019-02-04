@@ -3,11 +3,10 @@ import styled, { css } from "../../lib/styled-components";
 import R from "ramda";
 import TextTruncate from "react-text-truncate";
 import BaseCard from "./BaseCard";
-import { Label, H1, BodyCard } from "../Typography";
+import { H1, BodyCard } from "../Typography";
 import theme from "../../lib/theme-config";
 import SecondaryButton from "../Button/SecondaryButton";
 import UserAvatar from "../UserAvatar";
-import moment from "moment";
 import {
   toggleReducer,
   IToggleState,
@@ -20,6 +19,7 @@ import {
 import { TagList } from "../Tags";
 import NFTList, { INFT } from "../Kudos/NFTList";
 import Image from "../Image";
+import Date from '../HoverDateLabel';
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -239,34 +239,6 @@ interface ICardContentProps {
   status: undefined | "PUBLISHED" | "DRAFT";
   tags?: string[];
   nfts?: INFT[];
-}
-
-interface IDate {
-  date: string;
-  hovered?: boolean;
-  status: undefined | "PUBLISHED" | "DRAFT";
-}
-class Date extends React.Component<IDate,IDate> {
-  constructor(props: IDate) {
-    super(props);
-    this.state = {
-      date: props.date,
-      hovered: false,
-      status: props.status,
-    }
-  }
-
-  public render() {
-    return (
-      <div onMouseEnter={() => this.setState({ hovered: true})} onMouseLeave={() => this.setState({ hovered: false})}>
-        <Label>
-          {this.state.hovered ?
-            (this.props.status === "DRAFT" ? "Drafted " : "Posted ") + moment(this.props.date).format('DD MMM YYYY HH:mm') :
-            (this.props.status === "DRAFT" ? "Drafted " : "Posted ") + moment(this.props.date).fromNow()}
-        </Label>
-      </div>
-    );
-  }
 }
 
 const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
