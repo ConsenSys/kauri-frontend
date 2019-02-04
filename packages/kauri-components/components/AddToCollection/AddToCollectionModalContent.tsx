@@ -26,6 +26,7 @@ interface IProps {
   parentState: IParentState;
   collectionsThatDoNotHaveTheChosenArticleId: ICollection[];
   articleAlreadyInAllCollections: boolean;
+  changeToPrefilledArticleCreateCollectionRoute: () => void;
 }
 
 const Content: React.FunctionComponent<IProps> = ({
@@ -34,6 +35,7 @@ const Content: React.FunctionComponent<IProps> = ({
   parentState,
   collectionsThatDoNotHaveTheChosenArticleId,
   articleAlreadyInAllCollections,
+  changeToPrefilledArticleCreateCollectionRoute,
 }) => {
   const chosenCollection = collectionsThatDoNotHaveTheChosenArticleId.find(
     ({ id }) =>
@@ -63,6 +65,9 @@ const Content: React.FunctionComponent<IProps> = ({
             placeHolder={"Collection name"}
           >
             <CollectionsContent
+              changeToPrefilledArticleCreateCollectionRoute={
+                changeToPrefilledArticleCreateCollectionRoute
+              }
               handleClick={collection =>
                 setCollection({ chosenCollection: collection })
               }
