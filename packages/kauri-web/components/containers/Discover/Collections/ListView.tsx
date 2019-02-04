@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet";
 import CollectionCard from "../../../../../kauri-components/components/Card/CollectionCard";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
-import moment from "moment";
 import { searchCollections_searchCollections } from "../../../../queries/__generated__/searchCollections";
 
 interface IProps {
@@ -89,9 +88,7 @@ class Collections extends Component<IProps> {
                     }
                     imageURL={collection && collection.background}
                     articleCount={String(articleCount)}
-                    date={moment(collection && collection.dateUpdated).format(
-                      "D MMM YYYY"
-                    )}
+                    date={collection && collection.dateUpdated}
                     cardHeight={310}
                     cardWidth={290}
                     linkComponent={(
