@@ -77,7 +77,7 @@ export default ComposedComponent =>
 
       // TODO REVERT AFTER ETHBERLIN
       // TLDR; ethberlin.kauri.io 302 -> ethberlin collection
-      console.log(hostName);
+      // console.log(hostName);
       if (context.res && hostName && hostName.includes("ethberlin")) {
         context.res.writeHead(302, {
           Location: `https://${config
