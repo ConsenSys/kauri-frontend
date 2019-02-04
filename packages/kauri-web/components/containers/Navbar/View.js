@@ -1,6 +1,6 @@
 import React from "react";
 import { Menu, Icon } from "antd";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Link } from "../../../routes";
 import Web3Status from "../Web3Status";
 // import ArticleSearchbar from "../ArticleSearchbar";
@@ -9,6 +9,8 @@ import { H6 } from "../../../../kauri-components/components/Typography";
 import Tooltip from "../../../../kauri-components/components/Tooltip/Tooltip";
 import { withRouter } from "next/router";
 import Image from "../../../../kauri-components/components/Image";
+
+const config = require("../../../config").default;
 
 // const supportedNetworkIds = [4, 224895]
 // const ONE_SECOND = 1000
@@ -313,7 +315,7 @@ class Navbar extends React.Component {
               <TooltipDivider />
               <Link
                 route={
-                  userId ? "/create-collection" : `/login?r=/create-collection`
+                  userId ? "/create-collection" : "/login?r=/create-collection"
                 }
               >
                 <TooltipItem
@@ -328,14 +330,20 @@ class Navbar extends React.Component {
               <Link
                 route={
                   userId
-                    ? "https://import.beta.kauri.io"
-                    : `/login?r=https://import.beta.kauri.io`
+                    ? `https://import.${config.getApiURL().replace("api.", "")}`
+                    : `/login?r=https://import.${config
+                        .getApiURL()
+                        .replace("api.", "")}`
                 }
               >
                 <TooltipItem
-                  href="https://import.beta.kauri.io"
+                  href={`https://import.${config
+                    .getApiURL()
+                    .replace("api.", "")}`}
                   pathname={router.pathname}
-                  link="https://import.beta.kauri.io"
+                  link={`https://import.${config
+                    .getApiURL()
+                    .replace("api.", "")}`}
                 >
                   Import from medium
                 </TooltipItem>

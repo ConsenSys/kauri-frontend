@@ -116,7 +116,7 @@ export default ({
   type,
   metadata,
   content_hash,
-  hostName,
+  apiURL,
   status,
   articleCheckpointed,
   ownerId,
@@ -129,7 +129,7 @@ export default ({
         <IPFSContentAttribution>
           {/* (Content)[a href='ipfs content hash'] is (CC-BY-SA 4.0)[a href='actual detail of the license link'] Licensed */}
           <IPFSIcon />
-          <a href={`${hostName}:443/ipfs/${content_hash}`}>Content</a>
+          <a href={`${apiURL}/ipfs/${content_hash}`}>Content</a>
           <span> is</span>
           <a
             href={
