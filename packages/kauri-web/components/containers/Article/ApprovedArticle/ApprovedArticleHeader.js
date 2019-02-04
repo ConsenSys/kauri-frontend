@@ -104,7 +104,7 @@ export default ({
     <InfoContainer>
       <Label color="white">
         {`POSTED ${moment(datePublished || dateCreated).format(
-          "DD MMMM YYYY HH:MM"
+          "DD MMM YYYY HH:mm"
         )}`}
       </Label>
       <Title1 color="white">{title}</Title1>
