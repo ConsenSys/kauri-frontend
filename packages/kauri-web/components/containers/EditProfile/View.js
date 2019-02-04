@@ -30,28 +30,18 @@ const ButtonWrapper = styled.div`
 `;
 
 class OnboardingEditProfile extends Component {
-  handleSubmit() {
+  handleSubmit () {
     this.login
       .getWrappedInstance()
       .getWrappedInstance()
-      .saveUser();
-    this.redirect();
+      .saveUser(
+        this.props.router.query.redirected
+          ? `${this.props.router.query.r}?redirected=true`
+          : this.props.router.query.r
+      );
   }
 
-  redirect() {
-    const router = this.props.router;
-    if (this.props.router.query.r) {
-      this.props.router.query.r.indexOf("https://") !== -1
-        ? this.props.routeChangeAction(
-            this.props.router.query.r + "?redirected=true"
-          )
-        : this.props.routeChangeAction(this.props.router.query.r);
-    } else {
-      this.props.routeChangeAction(`/public-profile/${this.props.userId}`);
-    }
-  }
-
-  componentDidMount() {
+  componentDidMount () {
     const {
       name,
       username,
@@ -72,12 +62,23 @@ class OnboardingEditProfile extends Component {
       twitter ||
       title ||
       website;
+
     if (hasData) {
-      return this.redirect();
+      let newRedirectURL;
+      if (typeof this.props.router.query.r === "string") {
+        newRedirectURL =
+          this.props.router.query.r.indexOf("https://") !== -1 ||
+          this.props.router.query.redirected
+            ? this.props.router.query.r + "?redirected=true"
+            : this.props.router.query.r;
+      } else {
+        newRedirectURL = `/public-profile/${this.props.userId}`;
+      }
+      return this.props.routeChangeAction(newRedirectURL);
     }
   }
 
-  render() {
+  render () {
     const {
       name,
       username,
@@ -110,7 +111,13 @@ class OnboardingEditProfile extends Component {
         <Wrapper>
           <EditProfile ref={comp => (this.login = comp)} />
           <ButtonWrapper>
-            <SecondaryButton onClick={() => this.redirect()}>
+            <SecondaryButton
+              onClick={() =>
+                this.props.routeChangeAction(
+                  `/public-profile/${this.props.userId}`
+                )
+              }
+            >
               Skip
             </SecondaryButton>
             <PrimaryButton onClick={() => this.handleSubmit()}>

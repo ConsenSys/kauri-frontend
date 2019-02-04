@@ -19,19 +19,19 @@ const ArticlesHeader = styled.div`
   padding-bottom: ${props => props.theme.space[3]}px;
 `;
 
-const searchCategories = ["ARTICLE", "COLLECTION", "COMMUNITY"];
+export const searchResultCategories = ["ARTICLE", "COLLECTION"];
 
 interface IState {
   dataSource: IDataSource;
   loading: boolean;
-  viewedSearchCategory: string;
+  viewedSearchCategory?: string | null;
 }
 
 export interface IProps {
   query: {
-    q?: string;
+    q: string;
     type?: "COMMUNITY" | "ARTICLE" | "COLLECTION";
-    default_category?: string;
+    default_category?: string | null;
   };
   router: any;
 }
@@ -40,15 +40,16 @@ class SearchResults extends React.Component<IProps, IState> {
   state = {
     dataSource: emptyData,
     loading: true,
-    viewedSearchCategory: this.props.query.default_category || "ARTICLE",
+    viewedSearchCategory: this.props.query.default_category,
   };
 
   setSearchResults = (
     dataSource: IDataSource,
     loading: boolean,
     viewedSearchCategory: string
-  ) =>
+  ) => {
     this.setState({ ...this.state, dataSource, loading, viewedSearchCategory });
+  };
 
   setSearchCategory = (viewedSearchCategory: string) =>
     this.setState({ ...this.state, viewedSearchCategory });
@@ -58,7 +59,7 @@ class SearchResults extends React.Component<IProps, IState> {
     const totalResults = Object.keys(
       this.state.dataSource && this.state.dataSource.totalElementsBreakdown
     )
-      .filter(category => searchCategories.includes(category))
+      .filter(category => searchResultCategories.includes(category))
       .map(category => this.state.dataSource.totalElementsBreakdown[category])
       .reduce((current, next) => current + next, 0);
 
@@ -72,15 +73,16 @@ class SearchResults extends React.Component<IProps, IState> {
           <ResourceSearch
             query={this.props.query}
             viewedSearchCategory={this.state.viewedSearchCategory}
+            setSearchCategory={this.setSearchCategory}
             setSearchResults={this.setSearchResults}
             router={this.props.router}
           />
         </ArticlesHeader>
         <ResourceResults
+          query={this.props.query.q}
           setSearchCategory={this.setSearchCategory}
           viewedSearchCategory={this.state.viewedSearchCategory}
           loading={this.state.loading}
-          results={this.state.dataSource && this.state.dataSource.results}
           totalElementsBreakdown={
             this.state.dataSource &&
             this.state.dataSource.totalElementsBreakdown

@@ -7,6 +7,7 @@ import Stack from "stack-styled";
 import R from "ramda";
 import ActionsSection from "../../../../kauri-components/components/Section/ActionsSection";
 import PrimaryHeaderSection from "../../../../kauri-components/components/Section/PrimaryHeaderSection";
+import CardContentSection from "../../../../kauri-components/components/Section/CardContentSection";
 import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx";
 import UserAvatar from "../../../../kauri-components/components/UserAvatar";
 import { Label } from "../../../../kauri-components/components/Typography";
@@ -21,6 +22,7 @@ import CreateCollectionOptions from "./CreateCollectionOptions";
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 import TagSelector from "../../common/TagSelector";
+import Helmet from "react-helmet";
 
 import type { FormState } from "./index";
 import type { ShowNotificationPayload } from "../../../lib/Module";
@@ -37,14 +39,6 @@ const RemoveIcon = () => (
 const Section = styled.section`
   display: flex;
   flex-direction: column;
-`;
-
-const ResourcesSection = styled.section`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: ${props => props.theme.space[2]}px;
 `;
 
 const ResourceSection = styled.section`
@@ -175,7 +169,7 @@ const renderResourceSection = (
   values,
   mappingKey
 ) => (resource, resourceIndex) => (
-  <ResourceSection key={resourceIndex} mt={3} p={2}>
+  <ResourceSection key={resourceIndex} mt={3}>
     {R.path(
       ["sections", index, mappingKey, resourceIndex, "version"],
       values
@@ -266,6 +260,12 @@ export default ({
   userAvatar,
 }: Props) => (
   <Section>
+    <Helmet>
+      <link
+        rel="stylesheet"
+        href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
+      />
+    </Helmet>
     <Form>
       <ActionsSection
         bg={
@@ -405,7 +405,7 @@ export default ({
                         <Input
                           {...field}
                           type="text"
-                          placeHolder="Section Name"
+                          placeHolder="Add Section Name"
                           fontSize={5}
                           fontWeight={500}
                           color={"primaryTextColor"}
@@ -421,7 +421,7 @@ export default ({
                         <Input
                           {...field}
                           type="text"
-                          placeHolder="Section description"
+                          placeHolder="Add Section Description"
                           fontSize={2}
                           fontWeight={300}
                           color={"primaryTextColor"}
@@ -431,7 +431,7 @@ export default ({
                       )}
                     />
 
-                    <ResourcesSection>
+                    <CardContentSection>
                       {section.resourcesId &&
                         Array.isArray(section.resourcesId) &&
                         section.resourcesId.map(
@@ -443,7 +443,7 @@ export default ({
                             "resourcesId"
                           )
                         )}
-                    </ResourcesSection>
+                    </CardContentSection>
 
                     <CreateCollectionOptions
                       currentSectionIndex={index}
@@ -463,6 +463,10 @@ export default ({
                         openModalAction({
                           children: (
                             <ChooseArticleModal
+                              allOtherChosenArticles={values.sections.filter(
+                                (section, sectionIndex) =>
+                                  index !== sectionIndex
+                              )}
                               chosenArticles={R.path([
                                 "sections",
                                 index,

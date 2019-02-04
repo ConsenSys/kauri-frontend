@@ -175,7 +175,7 @@ export const showConfirmationModal = (
 
 export const routeChange = (payload: RouteChangePayload): any => {
   if (
-    window.location.search.indexOf("redirected=true") !== -1 &&
+    window.location.href.indexOf("redirected=true") !== -1 &&
     payload === "back"
   ) {
     return Router.pushRoute("/");

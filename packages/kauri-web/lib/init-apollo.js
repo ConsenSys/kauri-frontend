@@ -45,7 +45,10 @@ function create (initialState, { getToken }) {
   if (global.window && token) {
     const xAuthToken = global.window.encodeURI(`Bearer ${token}`);
     const wsLink = new WebSocketLink({
-      uri: `wss://${apiURL}/socket/graphql?X-Auth-Token=${xAuthToken}`,
+      uri:
+        token === "DUMMYVERIFICATIONTOKEN"
+          ? `wss://${apiURL}/socket/graphql`
+          : `wss://${apiURL}/socket/graphql?X-Auth-Token=${xAuthToken}`,
       options: {
         reconnect: true,
       },
@@ -83,7 +86,7 @@ function create (initialState, { getToken }) {
   });
 }
 
-export default function initApollo(initialState, options) {
+export default function initApollo (initialState, options) {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (!global.window) {

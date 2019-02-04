@@ -51,7 +51,7 @@ const dispatchEpic = (epic, action, state = {}, dependencies = {}) => {
   return promised;
 };
 
-export function parseCookies(ctx = {}, options = {}) {
+export function parseCookies (ctx = {}, options = {}) {
   let cookieToParse =
     ctx.req && ctx.req.headers.cookie && ctx.req.headers.cookie;
   if (global.window) cookieToParse = window.document.cookie;
@@ -69,7 +69,7 @@ export default ComposedComponent =>
       stateRedux: PropTypes.object.isRequired,
     };
 
-    static async getInitialProps(context) {
+    static async getInitialProps (context) {
       const url = { query: context.query, pathname: context.pathname };
       const hostName =
         (context.req && context.req.headers.host) ||
@@ -218,7 +218,7 @@ export default ComposedComponent =>
       };
     }
 
-    constructor(props) {
+    constructor (props) {
       super(props);
       this.apollo = initApollo(this.props.stateApollo.apollo.data, {
         getToken: () => parseCookies()["TOKEN"],
@@ -227,17 +227,18 @@ export default ComposedComponent =>
       this.redux = initRedux(this.apollo, this.props.stateRedux);
     }
 
-    componentDidMount() {
+    componentDidMount () {
       window.addEventListener("load", async () => {
         if (window.ethereum) {
-          window.web3 = new Web3(window.ethereum);
-          try {
-            // Request account access if needed
-            await window.ethereum.enable();
-            // Acccounts now exposed
-          } catch (error) {
-            // User denied account access...
-          }
+          // NOTICE - Moved to sign in only.
+          // window.web3 = new Web3(window.ethereum);
+          // try {
+          //   // Request account access if needed
+          //   await window.ethereum.enable();
+          //   // Acccounts now exposed
+          // } catch (error) {
+          //   // User denied account access...
+          // }
           // Supports Metamask and Mist, and other wallets that provide 'web3'.
         } else if (typeof window.web3 !== "undefined") {
           // Use the Mist/wallet provider.
@@ -273,14 +274,14 @@ export default ComposedComponent =>
       this.redux.dispatch(fetchEthUsdPriceAction());
     }
 
-    componentWillUnmount() {
+    componentWillUnmount () {
       if (global.window && this.apollo && this.apollo.close) {
         console.log("Unsubscribing WebSocket");
         this.apollo.close();
       }
     }
 
-    render() {
+    render () {
       return (
         <Provider store={this.redux}>
           <ApolloProvider client={this.apollo}>

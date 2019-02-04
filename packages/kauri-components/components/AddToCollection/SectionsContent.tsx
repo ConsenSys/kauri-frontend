@@ -61,14 +61,14 @@ const SectionsContent: React.FunctionComponent<IProps> = props => {
       {Array.isArray(props.sections) &&
         props.sections.map((section, index) =>
           index !== props.sections.length - 1 ? (
-            <React.Fragment>
+            <React.Fragment key={section.id}>
               <Label onClick={() => props.handleClick(section)}>
                 {section.name}
               </Label>
               <Divider />
             </React.Fragment>
           ) : (
-            <Label onClick={() => props.handleClick(section)}>
+            <Label key={section.id} onClick={() => props.handleClick(section)}>
               {section.name}
             </Label>
           )

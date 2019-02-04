@@ -179,11 +179,16 @@ export const searchApprovedArticles = gql`
     $size: Int = 500
     $text: String
     $category: String
+    $sort: String = "dateCreated"
+    $page: Int = 0
   ) {
     searchArticles(
+      page: $page
       size: $size
       dir: DESC
+      sort: $sort
       filter: {
+        latestVersion: true
         fullText: $text
         statusIn: [PUBLISHED]
         ownerIdEquals: $category
@@ -195,6 +200,8 @@ export const searchApprovedArticles = gql`
       }
     }
   }
+
+  ${Article}
 `;
 
 export const searchPersonalSubmittedArticles = gql`
@@ -555,4 +562,34 @@ export const globalSearchApprovedArticles = gql`
     }
   }
   ${Article}
+`;
+
+export const relatedArticles = gql`
+  query relatedArticles(
+    $page: Int
+    $size: Int
+    $resourceId: ResourceIdentifierInput
+    $filter: SearchFilterInput
+  ) {
+    searchMoreLikeThis(
+      page: $page
+      size: $size
+      resourceId: $resourceId
+      filter: $filter
+    ) {
+      totalElements
+      totalElementsBreakdown
+      totalPages
+      content {
+        resourceIdentifier {
+          id
+          type
+        }
+        tags
+        name
+        description
+        score
+      }
+    }
+  }
 `;

@@ -22,6 +22,19 @@ storiesOf("AddToCollection ModalAlert - Full Collection", module)
               confirmButtonAction={handleConfirmAction(() => alert("confirm"))}
               content={
                 <AddToCollectionModalContent
+                  changeToPrefilledArticleCreateCollectionRoute={() => {
+                    alert("change");
+                  }}
+                  articleAlreadyInAllCollections={false}
+                  collectionsThatDoNotHaveTheChosenArticleId={[
+                    {
+                      id: "1234567890",
+                      name: "Collection 1",
+                      sections: [
+                        { name: "Section 1", id: "1234567890", resources: [] },
+                      ],
+                    },
+                  ]}
                   setCollection={() => alert("chose collection")}
                   setSection={() => alert("chose section")}
                   parentState={{
@@ -34,15 +47,6 @@ storiesOf("AddToCollection ModalAlert - Full Collection", module)
                     },
                     chosenSection: null,
                   }}
-                  collections={[
-                    {
-                      id: "1234567890",
-                      name: "Collection 1",
-                      sections: [
-                        { name: "Section 1", id: "1234567890", resources: [] },
-                      ],
-                    },
-                  ]}
                 />
               }
               title={"Add to collection"}

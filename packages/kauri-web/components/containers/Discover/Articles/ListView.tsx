@@ -34,6 +34,7 @@ interface IExtenderArticlesWithKudos
 class Articles extends Component<IProps> {
   render() {
     if (this.props.ArticlesQuery.error) {
+      alert(this.props.ArticlesQuery.error);
       return null;
     } // TODO replace with an error message if exists
 

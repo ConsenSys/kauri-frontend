@@ -1,6 +1,4 @@
-//@flow
-
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export const createRequest = gql`
   mutation(
@@ -22,10 +20,13 @@ export const createRequest = gql`
       hash
     }
   }
-`
+`;
 
 export const globalSearchOpenRequests = gql`
-  query globalSearchOpenRequests($size: Int = 500, $filter: RequestFilterInput) {
+  query globalSearchOpenRequests(
+    $size: Int = 500
+    $filter: RequestFilterInput
+  ) {
     searchRequests(size: $size, dir: DESC, filter: $filter) {
       content {
         user_id
@@ -48,14 +49,22 @@ export const globalSearchOpenRequests = gql`
       totalElements
     }
   }
-`
+`;
 
 export const searchOpenRequests = gql`
-  query searchOpenRequests($size: Int = 500, $userId: String, $category: String) {
+  query searchOpenRequests(
+    $size: Int = 500
+    $userId: String
+    $category: String
+  ) {
     searchRequests(
       size: $size
       dir: DESC
-      filter: { user_id_eq: $userId, category_in: [$category], status_in: [OPENED] }
+      filter: {
+        user_id_eq: $userId
+        category_in: [$category]
+        status_in: [OPENED]
+      }
     ) {
       content {
         user_id
@@ -79,7 +88,7 @@ export const searchOpenRequests = gql`
       totalElements
     }
   }
-`
+`;
 
 export const searchCompletedRequests = gql`
   query searchCompletedRequests($size: Int = 500, $filter: RequestFilterInput) {
@@ -105,7 +114,7 @@ export const searchCompletedRequests = gql`
       totalElements
     }
   }
-`
+`;
 
 export const getOriginalRequest = gql`
   query getRequest($request_id: String) {
@@ -117,7 +126,7 @@ export const getOriginalRequest = gql`
       dead_line
     }
   }
-`
+`;
 
 export const searchRequests = gql`
   query searchRequests($size: Int = 500, $filter: RequestFilterInput) {
@@ -144,13 +153,13 @@ export const searchRequests = gql`
       }
     }
   }
-`
+`;
 
 export const getEvent = gql`
   subscription getEvent($hash: String) {
     getEvent(hash: $hash)
   }
-`
+`;
 
 export const getRequest = gql`
   query getRequest($request_id: String, $size: Int = 500) {
@@ -181,7 +190,11 @@ export const getRequest = gql`
       }
     }
 
-    searchArticles(size: $size, dir: DESC, filter: { request_id_eq: $request_id }) {
+    searchArticles(
+      size: $size
+      dir: DESC
+      filter: { request_id_eq: $request_id }
+    ) {
       content {
         article_id
         article_version
@@ -192,7 +205,7 @@ export const getRequest = gql`
       }
     }
   }
-`
+`;
 
 export const getRequestForAnalytics = gql`
   query getRequest($request_id: String) {
@@ -215,7 +228,7 @@ export const getRequestForAnalytics = gql`
       }
     }
   }
-`
+`;
 
 export const updateRequest = gql`
   mutation updateRequest($request_id: String, $subject: String, $text: String) {
@@ -223,7 +236,7 @@ export const updateRequest = gql`
       hash
     }
   }
-`
+`;
 
 export const flagRequest = gql`
   mutation flagRequest($request_id: String) {
@@ -231,7 +244,7 @@ export const flagRequest = gql`
       hash
     }
   }
-`
+`;
 
 export const addRequestComment = gql`
   mutation addRequestComment($request_id: String, $comment: String) {
@@ -239,7 +252,7 @@ export const addRequestComment = gql`
       hash
     }
   }
-`
+`;
 
 export const searchOpenRequestsWithSubmissions = gql`
   query searchOpenRequestsWithSubmissions(
@@ -263,7 +276,12 @@ export const searchOpenRequestsWithSubmissions = gql`
       }
     }
 
-    searchArticles(size: $size, dir: DESC, filter: $articleFilter, sort: "date_created") {
+    searchArticles(
+      size: $size
+      dir: DESC
+      filter: $articleFilter
+      sort: "date_created"
+    ) {
       totalElements
       content {
         article_id
@@ -289,13 +307,21 @@ export const searchOpenRequestsWithSubmissions = gql`
       }
     }
   }
-`
+`;
 export const searchExpiredRequests = gql`
-  query searchExpiredRequests($size: Int = 500, $userId: String, $currentDate: Date) {
+  query searchExpiredRequests(
+    $size: Int = 500
+    $userId: String
+    $currentDate: Date
+  ) {
     searchRequests(
       size: $size
       dir: DESC
-      filter: { user_id_eq: $userId, dead_line_lt: $currentDate, status_in: [EXPIRED] }
+      filter: {
+        user_id_eq: $userId
+        dead_line_lt: $currentDate
+        status_in: [EXPIRED]
+      }
       sort: "dead_line"
     ) {
       content {
@@ -319,7 +345,7 @@ export const searchExpiredRequests = gql`
       totalElements
     }
   }
-`
+`;
 
 export const searchPersonalFlaggedRequests = gql`
   query searchPersonalFlaggedRequests($size: Int = 500, $userId: String) {
@@ -350,7 +376,7 @@ export const searchPersonalFlaggedRequests = gql`
       totalElements
     }
   }
-`
+`;
 
 export const storeRequestOwnershipSignature = gql`
   mutation storeRequestOwnershipSignature($id: String, $signature: String) {
@@ -358,4 +384,4 @@ export const storeRequestOwnershipSignature = gql`
       hash
     }
   }
-`
+`;

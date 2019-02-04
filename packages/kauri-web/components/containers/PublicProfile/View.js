@@ -12,7 +12,7 @@ import Awaiting from "./Awaiting/View";
 import Pending from "./Pending/View";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor (props: ViewProps) {
+  constructor(props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -26,11 +26,11 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     };
   }
 
-  toggleEditing () {
+  toggleEditing() {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render () {
+  render() {
     const {
       PendingQuery,
       UserQuery,
@@ -62,7 +62,10 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         {!isHeaderLoaded ? (
           <Loading />
         ) : isEditing ? (
-          <EditableHeader toggleEditing={() => this.toggleEditing()} />
+          <EditableHeader
+            router={this.props.router}
+            toggleEditing={() => this.toggleEditing()}
+          />
         ) : (
           <Header
             articles={ArticlesQuery.searchArticles.totalElements}
@@ -87,7 +90,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         )}
         {isHeaderLoaded && areListsLoaded ? (
           <Tabs
-            dark={true}
+            dark
             tabs={[
               {
                 name: `Articles (${
@@ -103,12 +106,12 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 name: `Drafts (${DraftsQuery.searchArticles.totalElements})`,
               },
               isOwner && {
-                name: `Awaiting Owner Approval (${
+                name: `Approval needed (${
                   ApprovalsQuery.searchArticles.totalElements
                 })`,
               },
               isOwner && {
-                name: `Pending My Approval(${
+                name: `Submitted updates (${
                   PendingQuery.searchArticles.totalElements
                 })`,
               },

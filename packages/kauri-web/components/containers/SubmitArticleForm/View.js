@@ -1,10 +1,12 @@
 // @flow
 import React from "react";
 import { Form } from "antd";
+import Helmet from "react-helmet";
 import SubmitArticleFormActions from "./SubmitArticleFormActions";
 import SubmitArticleFormHeader from "./SubmitArticleFormHeader";
 import SubmitArticleFormContent from "./SubmitArticleFormContent";
 import ScrollToTopButton from "../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton";
+import EthDenverTemplate from "./EthDenverTemplate";
 
 import type {
   AttributesPayload,
@@ -14,6 +16,7 @@ import type {
   SubmitArticleVersionPayload,
 } from "./Module";
 import type { ShowNotificationPayload } from "../../../lib/Module";
+import Loading from "../../common/Loading";
 
 type Owner = {
   id: string,
@@ -70,6 +73,13 @@ class SubmitArticleForm extends React.Component<Props> {
   static Header = SubmitArticleFormHeader;
   static Actions = SubmitArticleFormActions;
   static Content = SubmitArticleFormContent;
+
+  componentDidMount() {
+    const { userId, router, routeChangeAction } = this.props;
+    if (!userId) {
+      routeChangeAction(`/login?r=${router.asPath}&redirected=true`);
+    }
+  }
 
   getNetwork = async () =>
     new Promise((resolve, reject) => {
@@ -187,6 +197,8 @@ class SubmitArticleForm extends React.Component<Props> {
 
         const { id, version, status, author, owner } = articleData;
 
+        if (!articleData.attributs) articleData.attributes = {};
+
         switch (status) {
           case "PUBLISHED":
             if (owner && userId === owner.id && submissionType === "draft") {
@@ -196,7 +208,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 subject,
                 tags: tags || articleData.tags,
                 attributes:
-                  (attributes &&
+                  (articleData.attributes &&
                     Object.assign(articleData.attributes, attributes)) ||
                   articleData.attributes,
               });
@@ -296,29 +308,31 @@ class SubmitArticleForm extends React.Component<Props> {
   };
 
   render() {
-    const { routeChangeAction, isKauriTopicOwner, form } = this.props;
+    const { routeChangeAction, isKauriTopicOwner, form, userId } = this.props;
+
+    if (!userId) {
+      return <Loading />;
+    }
 
     let articleData = this.props.data && this.props.data.getArticle;
 
     if (this.props.templateId === "ethdenver") {
       articleData = {
-        title: "ETH DENVER SUBMISSION",
         content: JSON.stringify({
-          markdown: `#Project Submission
-
-          Participants:
-          
-          
-          Project Outline:
-          
-          ETC:`,
+          markdown: EthDenverTemplate,
         }),
-        tags: ["ETHDenver"],
+        tags: ["ETHDENVER-2019-SUBMISSION"],
       };
     }
 
     return (
       <Form>
+        <Helmet>
+          <link
+            rel="stylesheet"
+            href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
+          />
+        </Helmet>
         <ScrollToTopButton />
         <SubmitArticleForm.Actions
           {...this.props.form}

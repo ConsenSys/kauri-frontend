@@ -61,6 +61,7 @@ const Component: React.FunctionComponent<IProps> = ({
   articleId,
   version,
   addArticleToCollectionAction,
+  setNavcolorOverrideAction,
 }) => {
   const [state, setState] = React.useState<IChosen>({
     chosenCollection: null,
@@ -78,7 +79,10 @@ const Component: React.FunctionComponent<IProps> = ({
         }
         if (props.error) {
           return (
-            <ErrorMessage data={{ error: { message: props.error.message } }} />
+            <ErrorMessage
+              setNavcolorOverrideAction={setNavcolorOverrideAction}
+              data={{ error: { message: props.error.message } }}
+            />
           );
         }
 
@@ -92,10 +96,46 @@ const Component: React.FunctionComponent<IProps> = ({
             "content",
           ])(props.data);
 
+          const collectionsThatDoNotHaveTheChosenArticleId =
+            (collections &&
+              Array.isArray(collections) &&
+              collections.filter(collection => {
+                // Filter out collections that have the articleId already
+                if (
+                  collection.sections.find(
+                    section =>
+                      !!section.resources.find(
+                        article => article.id === articleId
+                      )
+                  )
+                ) {
+                  return null;
+                } else {
+                  return collection;
+                }
+              })) ||
+            [];
+
+          const articleAlreadyInAllCollections =
+            collectionsThatDoNotHaveTheChosenArticleId &&
+            collectionsThatDoNotHaveTheChosenArticleId.length === 0;
+
           return Array.isArray(collections) && collections.length > 0 ? (
             <AlertView
               closeModalAction={closeModalAction}
+              confirmButtonText={
+                articleAlreadyInAllCollections
+                  ? "CREATE NEW COLLECTION"
+                  : "CONFIRM"
+              }
               confirmButtonAction={() => {
+                if (articleAlreadyInAllCollections) {
+                  closeModalAction();
+                  routeChangeAction(
+                    `/create-collection?articleId=${articleId}&version=${version}`
+                  );
+                }
+
                 if (state.chosenCollection && state.chosenSection) {
                   const chosenSectionid = state.chosenSection.id;
                   const chosenCollectionSections = state.chosenCollection.sections.find(
@@ -128,8 +168,19 @@ const Component: React.FunctionComponent<IProps> = ({
               }}
               content={
                 <AddToCollectionModalContent
+                  changeToPrefilledArticleCreateCollectionRoute={() => {
+                    closeModalAction();
+                    routeChangeAction(
+                      `/create-collection?articleId=${articleId}&version=${version}`
+                    );
+                  }}
+                  articleAlreadyInAllCollections={
+                    !!articleAlreadyInAllCollections
+                  }
+                  collectionsThatDoNotHaveTheChosenArticleId={
+                    collectionsThatDoNotHaveTheChosenArticleId
+                  }
                   parentState={state}
-                  collections={collections ? collections : []}
                   setCollection={({ chosenCollection }) =>
                     setState({ ...state, chosenCollection })
                   }
@@ -142,15 +193,15 @@ const Component: React.FunctionComponent<IProps> = ({
             />
           ) : (
             <AlertView
-              title={"Create collection"}
+              title={"Create new collection"}
               closeModalAction={closeModalAction}
               confirmButtonAction={() => {
+                closeModalAction();
                 routeChangeAction(
                   `/create-collection?articleId=${articleId}&version=${version}`
                 );
-                closeModalAction();
               }}
-              confirmButtonText={"Create Collection"}
+              confirmButtonText={"Create new collection"}
               content={
                 <section>
                   <Label>You don't have any collections.</Label>

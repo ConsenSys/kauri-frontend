@@ -39,7 +39,7 @@ storiesOf("CollectionCard", module)
       imageURL={null}
       date={"5 DAYS AGO"}
       name={
-        "Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title HEY"
+        "TwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleHEY"
       }
       id={"1234567890"}
       description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.

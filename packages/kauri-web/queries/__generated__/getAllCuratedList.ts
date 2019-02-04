@@ -7,6 +7,13 @@ import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
 // GraphQL query operation: getAllCuratedList
 // ====================================================
 
+export interface getAllCuratedList_getAllCuratedList_links {
+  __typename: "Link";
+  label: string | null;
+  url: string | null;
+  type: string | null;
+}
+
 export interface getAllCuratedList_getAllCuratedList_owner {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -168,6 +175,7 @@ export interface getAllCuratedList_getAllCuratedList {
   description: string | null;
   featured: boolean | null;
   dateCreated: any | null;
+  links: (getAllCuratedList_getAllCuratedList_links | null)[] | null;
   owner: getAllCuratedList_getAllCuratedList_owner | null;
   header: getAllCuratedList_getAllCuratedList_header | null;
   resources: (getAllCuratedList_getAllCuratedList_resources | null)[] | null;

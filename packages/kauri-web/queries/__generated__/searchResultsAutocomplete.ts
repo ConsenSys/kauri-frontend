@@ -1,11 +1,7 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import {
-  SearchFilterInput,
-  ResourceType,
-  ArticleStatus,
-} from "./../../__generated__/globalTypes";
+import { SearchFilterInput, ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchResultsAutocomplete
@@ -18,14 +14,7 @@ export interface searchResultsAutocomplete_searchAutocomplete_content_resourceId
 }
 
 export interface searchResultsAutocomplete_searchAutocomplete_content_resource_PublicUserDTO {
-  __typename:
-    | "PublicUserDTO"
-    | "CommentDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CuratedListDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_vote {
@@ -98,11 +87,7 @@ export interface searchResultsAutocomplete_searchAutocomplete_content_resource_C
   social: any | null;
 }
 
-export type searchResultsAutocomplete_searchAutocomplete_content_resource =
-  | searchResultsAutocomplete_searchAutocomplete_content_resource_PublicUserDTO
-  | searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO
-  | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO
-  | searchResultsAutocomplete_searchAutocomplete_content_resource_CommunityDTO;
+export type searchResultsAutocomplete_searchAutocomplete_content_resource = searchResultsAutocomplete_searchAutocomplete_content_resource_PublicUserDTO | searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO | searchResultsAutocomplete_searchAutocomplete_content_resource_CommunityDTO;
 
 export interface searchResultsAutocomplete_searchAutocomplete_content {
   __typename: "SearchResultDTO";
@@ -115,9 +100,7 @@ export interface searchResultsAutocomplete_searchAutocomplete {
   totalElements: any | null;
   totalPages: number | null;
   totalElementsBreakdown: any | null;
-  content:
-    | (searchResultsAutocomplete_searchAutocomplete_content | null)[]
-    | null;
+  content: (searchResultsAutocomplete_searchAutocomplete_content | null)[] | null;
 }
 
 export interface searchResultsAutocomplete {

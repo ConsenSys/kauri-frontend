@@ -5,21 +5,27 @@ import ArticleCard from "../components/Card/ArticleCard";
 import PrimaryButton from "../components/Button/PrimaryButton";
 import styled from "../lib/styled-components";
 
-const nfts = [{
-  contractAddress: "0xalis239qkljeu293hd",
-  description: "Out with the old and in with the new! Kudos to knowledge sharers, crossing the void from web2 to web3.  ",
-  externalUrl: "https://link-to-kudos",
-  image: "https://s.gitcoin.co/static/v2/images/kudos/kauri_2.b22f35d8111e.svg",
-  name: "Web3 Advocate",
-  tokenName: "kauri-web3-advocate",
-}, {
-  contractAddress: "0x384ahse9872eheqiuwye91",
-  description: "Cheers to you, one of the first Kauri contributors!",
-  externalUrl: "https://link-to-kudos",
-  image: "https://s.gitcoin.co/static/v2/images/kudos/kauri_1.d335211161dc.svg",
-  name: "Kauri Pioneer",
-  tokenName: "kauri-pioneer",
-}];
+const nfts = [
+  {
+    contractAddress: "0xalis239qkljeu293hd",
+    description:
+      "Out with the old and in with the new! Kudos to knowledge sharers, crossing the void from web2 to web3.  ",
+    externalUrl: "https://link-to-kudos",
+    image:
+      "https://s.gitcoin.co/static/v2/images/kudos/kauri_2.b22f35d8111e.svg",
+    name: "Web3 Advocate",
+    tokenType: "kauri-web3-advocate",
+  },
+  {
+    contractAddress: "0x384ahse9872eheqiuwye91",
+    description: "Cheers to you, one of the first Kauri contributors!",
+    externalUrl: "https://link-to-kudos",
+    image:
+      "https://s.gitcoin.co/static/v2/images/kudos/kauri_1.d335211161dc.svg",
+    name: "Kauri Pioneer",
+    tokenType: "kauri-pioneer",
+  },
+];
 
 const Link = styled.a`
   text-decoration: none;
@@ -65,7 +71,7 @@ storiesOf("ArticleCard", module)
       imageURL={null}
       date={moment(1538734619928).format("D MMM YYYY")}
       title={
-        "Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title"
+        "TwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitle"
       }
       id={"1234567890"}
       version={1}
@@ -87,7 +93,7 @@ storiesOf("ArticleCard", module)
       linkComponent={linkComponent}
       resourceType={"USER"}
       isLoggedIn={false}
-      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
       nfts={nfts}
     />
   ))
@@ -121,7 +127,7 @@ storiesOf("ArticleCard", module)
       linkComponent={linkComponent}
       resourceType={"USER"}
       isLoggedIn={false}
-      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
       nfts={nfts}
     />
   ))
@@ -154,7 +160,7 @@ storiesOf("ArticleCard", module)
       linkComponent={linkComponent}
       resourceType={"USER"}
       isLoggedIn={false}
-      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
       nfts={nfts}
     />
   ))
@@ -187,7 +193,7 @@ storiesOf("ArticleCard", module)
         "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       }
       isLoggedIn={false}
-      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
       nfts={nfts}
     />
   ))
@@ -227,7 +233,7 @@ storiesOf("ArticleCard", module)
         </PrimaryButton>
       )}
       isLoggedIn={true}
-      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
       nfts={nfts}
     />
   ))
@@ -270,7 +276,7 @@ storiesOf("ArticleCard", module)
           </PrimaryButton>
         )}
         isLoggedIn={true}
-        tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+        tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
         nfts={nfts}
       />
     )
@@ -326,7 +332,7 @@ storiesOf("ArticleCard", module)
       resourceType="COMMUNITY"
       cardWidth={610}
       isLoggedIn={false}
-      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
       nfts={nfts}
     />
   ))
@@ -383,7 +389,7 @@ storiesOf("ArticleCard", module)
         "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       }
       isLoggedIn={false}
-      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
       nfts={nfts}
     />
   ))
@@ -415,7 +421,7 @@ storiesOf("ArticleCard", module)
       resourceType={"USER"}
       status={"DRAFT"}
       isLoggedIn={false}
-      tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+      tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
       nfts={nfts}
     />
   ))
@@ -456,7 +462,7 @@ storiesOf("ArticleCard", module)
             Delete Draft
           </PrimaryButton>
         )}
-        tags={['testing','web3','truffle', 'infura', 'zeppelinOS']}
+        tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
         nfts={nfts}
       />
     )

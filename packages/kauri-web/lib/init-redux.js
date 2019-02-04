@@ -1,24 +1,26 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import { createEpicMiddleware } from 'redux-observable'
-import fetch from 'isomorphic-unfetch'
-import Web3 from 'web3'
-import web3PersonalSign, { personalSign } from './web3-personal-sign'
-import getGasPrice from './web3-get-gas-price'
-import { rootReducer, rootEpic } from './root'
-import apolloSubscriber from './apollo-subscriber'
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { createEpicMiddleware } from "redux-observable";
+import fetch from "isomorphic-unfetch";
+import Web3 from "web3";
+import web3PersonalSign, { personalSign } from "./web3-personal-sign";
+import getGasPrice from "./web3-get-gas-price";
+import { rootReducer, rootEpic } from "./root";
+import apolloSubscriber, {
+  apolloChildHashesSubscriber,
+} from "./apollo-subscriber";
 
-let reduxStore = null
+let reduxStore = null;
 
 // Get the Redux DevTools extension and fallback to a no-op function
-let devtools = f => f
+let devtools = f => f;
 if (global.window && window.__REDUX_DEVTOOLS_EXTENSION__) {
-  devtools = window.__REDUX_DEVTOOLS_EXTENSION__()
+  devtools = window.__REDUX_DEVTOOLS_EXTENSION__();
 }
 
 function create (apollo, initialState = {}, context = {}) {
-  let Driver
+  let Driver;
   if (global.window) {
-    Driver = require('driver.js')
+    Driver = require("driver.js");
   }
   const dependencies = {
     web3: (global.window && window.web3) || new Web3(),
@@ -26,15 +28,16 @@ function create (apollo, initialState = {}, context = {}) {
     apolloClient: apollo,
     fetch,
     apolloSubscriber,
+    apolloChildHashesSubscriber,
     web3PersonalSign,
     personalSign,
     getGasPrice,
     driverJS: global.window ? new Driver({ showButtons: true }) : {},
-  }
+  };
 
   const combinedReducers = combineReducers({
     ...rootReducer,
-  })
+  });
 
   return createStore(
     combinedReducers,
@@ -43,31 +46,35 @@ function create (apollo, initialState = {}, context = {}) {
       applyMiddleware(createEpicMiddleware(rootEpic, { dependencies })), // Add additional middleware here
       devtools
     )
-  )
+  );
 }
 
 const mergeLocalStorageState = initialState => {
   try {
-    const serializedState = window.localStorage.getItem('redux')
+    const serializedState = window.localStorage.getItem("redux");
     if (serializedState === null) {
-      return initialState
+      return initialState;
     }
-    return Object.assign(initialState, JSON.parse(serializedState))
+    return Object.assign(initialState, JSON.parse(serializedState));
   } catch (err) {
-    return initialState
+    return initialState;
   }
-}
+};
 
 export default function initRedux (apollo, initialState, nextContext) {
   // Make sure to create a new store for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (!global.window) {
-    return create(apollo, initialState, nextContext)
+    return create(apollo, initialState, nextContext);
   }
 
   // Reuse store on the client-side
   if (!reduxStore) {
-    reduxStore = create(apollo, mergeLocalStorageState(initialState), nextContext)
+    reduxStore = create(
+      apollo,
+      mergeLocalStorageState(initialState),
+      nextContext
+    );
   }
-  return reduxStore
+  return reduxStore;
 }

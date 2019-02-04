@@ -24,6 +24,9 @@ import { BodyCard } from "../../../../../kauri-components/components/Typography"
 import { INFT } from "../../../../../kauri-components/components/Kudos/NFTList";
 import AddIcon from "../../../../../kauri-components/components/Icon/AddIcon";
 import AddToCollectionConnection from "../../../connections/AddToCollection";
+import { Label } from "../../../../../kauri-components/components/Typography";
+import RelatedArticles from "../../../../../kauri-components/components/RelatedArticles";
+import { Divider } from "../../../../../kauri-components/components/Outline";
 
 export const ApprovedArticleDetails = styled(CreateRequestDetails)`
   align-items: inherit;
@@ -127,6 +130,7 @@ export default ({
   closeModalAction,
   deleteDraftArticleAction,
   nfts,
+  relatedArticles,
 }: {
   text?: string,
   username?: ?string,
@@ -141,6 +145,7 @@ export default ({
   address?: string,
   hostName: string,
   nfts: INFT[],
+  relatedArticles: ArticleDTO[],
   resourceType: "USER" | "COMMUNITY",
   openModalAction: ({ children: React.ReactNode }) => void,
   closeModalAction: () => void,
@@ -170,9 +175,9 @@ export default ({
     (editorState.markdown
       ? contentState.getBlocksAsArray().map(block => block.toJS())
       : editorState
-          .getCurrentContent()
-          .getBlocksAsArray()
-          .map(block => block.toJS()));
+        .getCurrentContent()
+        .getBlocksAsArray()
+        .map(block => block.toJS()));
 
   const outlineHeadings = blocks
     .filter(({ type }) => type.includes("header-one"))
@@ -186,6 +191,7 @@ export default ({
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type="outline">
         <Outline
+          relatedArticles={relatedArticles}
           nfts={nfts}
           linkComponent={children => (
             <Link
@@ -209,16 +215,21 @@ export default ({
           text={ownerId ? "OWNER" : "AUTHOR"}
           routeChangeAction={routeChangeAction}
         />
-        {status !== "DRAFT" && userId && (
+        {status !== "DRAFT" && (
           <TertiaryButton
             color={"textPrimary"}
             icon={<AddIcon />}
             handleClick={() =>
-              openModalAction({
-                children: (
-                  <AddToCollectionConnection articleId={id} version={version} />
-                ),
-              })
+              userId
+                ? openModalAction({
+                  children: (
+                    <AddToCollectionConnection
+                      articleId={id}
+                      version={version}
+                    />
+                  ),
+                })
+                : routeChangeAction(`/login?r=/article/${id}/v${version}`)
             }
           >
             Add To Collection
@@ -231,8 +242,8 @@ export default ({
             userId
               ? routeChangeAction(`/article/${id}/v${version}/update-article`)
               : routeChangeAction(
-                  `/login?r=article/${id}/v${version}/update-article`
-                )
+                `/login?r=/article/${id}/v${version}/update-article`
+              )
           }
         >
           {`Update ${status === "DRAFT" ? "draft" : "article"}`}
@@ -278,6 +289,16 @@ export default ({
             }
           )}?utm_campaign=read`}
           title={subject}
+        />
+        <Divider />
+        <RelatedArticles
+          linkComponent={(children, route) => (
+            <Link useAnchorTag href={route}>
+              {children}
+            </Link>
+          )}
+          routeChangeAction={routeChangeAction}
+          relatedArticles={relatedArticles}
         />
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>

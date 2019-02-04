@@ -15,6 +15,7 @@ import ScrollToTopOnMount from "../../../../../kauri-components/components/Scrol
 import ScrollToTopButton from "../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton";
 import type { TipArticlePayload } from "../Module";
 import withSchema from "../../../../lib/with-schema";
+import ScrollIndicator from "../../../../../kauri-components/components/ScrollIndicator";
 
 const ArticleContent = styled.section`
   background: white;
@@ -94,6 +95,7 @@ class ApprovedArticle extends React.Component<Props, State> {
 
     return (
       <ArticleContent>
+        <ScrollIndicator />
         <ScrollToTopOnMount />
         <ScrollToTopButton />
         <ApprovedArticle.Header
@@ -159,6 +161,11 @@ class ApprovedArticle extends React.Component<Props, State> {
           openModalAction={props.openModalAction}
           closeModalAction={props.closeModalAction}
           deleteDraftArticleAction={props.deleteDraftArticleAction}
+          relatedArticles={R.path([
+            "RelatedArticles",
+            "searchMoreLikeThis",
+            "content",
+          ])(props)}
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.attributes}

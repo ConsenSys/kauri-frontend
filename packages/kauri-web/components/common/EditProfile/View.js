@@ -38,7 +38,7 @@ const Container = styled.div`
 `;
 
 class EditableHeader extends Component<HeaderProps, HeaderState> {
-  constructor(props: HeaderProps) {
+  constructor (props: HeaderProps) {
     super(props);
     if (!props.OwnProfile.getMyProfile) {
       this.state = {
@@ -83,7 +83,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (
       typeof prevProps.OwnProfile.getMyProfile === "undefined" &&
       typeof this.props.OwnProfile.getMyProfile !== "undefined"
@@ -115,28 +115,31 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
     }
   }
 
-  saveUser() {
-    const payload = R.filter(
-      val => typeof val !== "undefined" || !!val,
-      this.state
-    );
-    this.setState({ pendingSubmit: true });
-    this.props.saveUserDetailsAction(payload);
+  saveUser (redirectURL: string | undefined, callback: any | undefined) {
+    const payload = R.pipe(
+      R.filter(val => typeof val !== "undefined" || !!val),
+      R.assocPath(["redirectURL"], redirectURL)
+    )(this.state);
+
+    this.props.saveUserDetailsAction(payload, pendingSubmit => {
+      this.setState({ pendingSubmit });
+      callback && callback();
+    });
   }
 
-  uploadImage() {
+  uploadImage () {
     TriggerImageUploader(() => {}, "", (file, url: string) =>
       this.setState({ avatar: url })
     );
   }
 
-  handleChange(param: string, value: string) {
+  handleChange (param: string, value: string) {
     this.setState({
       [param]: value,
     });
   }
 
-  render() {
+  render () {
     const {
       username,
       title,

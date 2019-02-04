@@ -30,6 +30,26 @@ export const searchAutocomplete = gql`
   }
 `;
 
+export const searchResultsAutocompleteTotalElementsBreakdown = gql`
+  query searchAutocomplete(
+    $page: Int
+    $size: Int
+    $query: String
+    $filter: SearchFilterInput
+  ) {
+    searchAutocomplete(
+      page: $page
+      size: $size
+      query: $query
+      filter: $filter
+    ) {
+      totalElements
+      totalPages
+      totalElementsBreakdown
+    }
+  }
+`;
+
 export const searchResultsAutocomplete = gql`
   query searchResultsAutocomplete(
     $page: Int

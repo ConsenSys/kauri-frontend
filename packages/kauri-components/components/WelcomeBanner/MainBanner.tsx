@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '../../lib/styled-components';
 import PrimaryButton from '../Button/PrimaryButton';
 import SecondaryButton from '../Button/SecondaryButton';
-import { Title1, BodyCard, H1 } from '../Typography';
+import { Title1, H1 } from '../Typography';
 
 const BannerContainer = styled<{}, "div">("div")`
     background: ${props => props.theme.colors.secondaryColor};
@@ -29,6 +29,7 @@ const Info = styled.div`
 const Box = styled<{}, "div">("div")`
     margin: ${props => props.theme.space[1]}px;
     max-width: 290px;
+    font-size: ${props => props.theme.fontSizes[3]}px;
 `;
 
 const Buttons =  styled<{}, "div">("div")`
@@ -42,6 +43,7 @@ const Buttons =  styled<{}, "div">("div")`
 const IMG = styled.img`
     height: 50px;
     width: 50px;
+    margin-bottom: ${props => props.theme.space[2]}px;
 `;
 
 const Dev = () => <IMG src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAAA5ZDbSAAAABmJLR0QA/wD/AP+gvaeTAAAF4ElEQVR4nO2dzY8VRRTFT80MmfEjGv4DSQyMA8JgYqIrn18L/woWkrg2foGrYUlM1KULEhZsXIAmRiQBwuhKPqJxoXtXuhLFgZk3IHNcvEaek+6+9bqquvvVnN+2u++5Xaf7Vnd11XuAEEIIIYQQQgghhBBCCCGEEEKIHHGTHkDyWQBHAbwK4CkAj0XOSfyfOwB+BXAZwCnn3M+THOxtMMl5AJ8AeAvAzCQiIhpbAD4D8LZz7q7PAV4GF+ZeAPBy89xERK4AeMPHZN878VPI3D7xCoCPfXY07+Ciz/0JKst94z6AQ865X+p28jHtqOd+ol1mAbxp7eRj3GvhuYhEvG7t4FOi1wA8HiUdEZs159wTdTv4GMx4+YjYOOdqPVTfmjkyOHNkcObI4MyRwZkjgzNHBmeODM4cGZw5MjhzZHDmyODMkcGZI4MzRwZnzlxoAOt7pAgj9Hu87uDMkcGZI4MzRwZnjgzOHBmcOTveYJK7us4hJTvSYJIHSJ4nuQ5gneQVkoe7zqsTaNB1fpNCconkzZJTWSN5qOv8tpO8/TM0+POa0znfdX7bCW3/4KUrKYcqSc4C2HLORbmQSC4A+BPAQsUu684575+kIDkDgLHyq9AIav9e9sEcldELANYBDEleIrkcIfQLqDYXGK259clvmeQlABsANkh+TXIxQn7t03aJJrmP5F8lUndIHgyMvWKczqpHjINFLtu5SXJfSH4VekHt36s7mOQcgDMAnizZ/CiAk4ESLxnbv/OIcbLIZTu7AZwpzmF6CL2CJtQ6bshtBMReILlhxB94xBkaMY43zbFCL237Jxd4qLPfo/H+JtnooY7kwIi9wdFDWF0MR/K2EWdIcn+zVijVDGr/XpRojsraaQDzxq4XA55YB8b2q865Yd0OhfZFI848gNOcllIdegV5alil+cGdsRSgsWrEX/GMs0S70pCRSrUl0nsBks/Q7htJ8liAxryHxmCCeL4X5IGmOY9p1RIaP6kAyTmS1z0a6wcGfBSg3f8OST4yYd7XPPL+MSTvQqsW6/iu++D3ATxv7LMJ4Ihz7l6AzsDY/r1zzvsJ3Tn3D4AjAGr7bACHAbzrG7cTQq+gmrjJS/OY1qqhsdIwbvJSbQVvGjepAFsqzYVW1P635DySlmorcJOYyQVIfujRKLEeUqL2vyXxF+lXiRo9VVtBm+adTID+pfmD4OQRZ/zZQ+OYx/k0umCtoKG5RxVgi6V5THPV0FqJoDHLRKXaChiae2yDW3t/LPSS9b8lWr6leqKHRiuYdXzbr0ltzwB5EfXffzcBXIuk5TtG3q9ZMKFX0LZYyUpZhV7y/rfQSdb1WAGt41u9g51z9+E/QPBOBMkY3399eA/tDNjEJ/QKqojZxgBBK/0vEw/YWEFD80850JF6gCDp++/YeSR9K7ACW8d3Mhbd0ljuwNg+0fhzBW2Npacj9AoyYicr1Uz8/suWxtKt4CGxkwswUalm4v6X7Y6l1xISuxUBJhjLZfrx5zbH0msJjT+VU3aY8P2XmrLTSMO35J3zjLdqxFkJyPVLjzyvM9KkO0uo/wIPdXymza7RmDbLSPOfK2LPsHxVwziaNltG8R98J4zddnlMm7XWHw0BXJ0ktwc457Zg/7bYCev/BNukNwYXfATgRs32bz1iDIzt5vxng7ocbmB0DtNDaIlooLeX5Qu0b9NjgTbTv/8us3x1wx8k94bErtBL2/7JBco1FzlaknmP5CZHy0e9fmKBo+UtdQwi5PccyctFbneLXKOvLCy0gtq/1wvAC/25YmjTd/9bAKr+sHEIYHdgiW6cW0ON/BaAj9OgAb+q2fZNLHOBRrn1jy5KdAgk95D8vSTV30g+3XV+k5K8/afNYOC/B7UvSN7i6NcCzpLc03VeTQht/973wTud0PbvfR8swpDBmSODM0cGZ44MzhwZnDkyOHOCZx30dbBDjNAdnDkyOHNkcObI4MyRwZkjgzNHBgshhBBCCCGEEEIIIYQQQgghhBBTyL9pKKzYurNjpAAAAABJRU5ErkJggg==" />
@@ -59,23 +61,17 @@ const DesktopBanner = (props: IProps) => <BannerContainer>
                     <Box>
                         <Dev />
                         <H1 color="white">Developers</H1>
-                        <BodyCard>Keep up with top projects, libraries, and tools
-            Find tutorials from your favorite devs
-            Learn best practices</BodyCard>
+                        <div>Keep up to date with top projects, libraries, and tools with tutorials from your favorite Web 3.0 projects and developers</div>
                     </Box>
                     <Box>
                         <Writer />
                         <H1 color="white">Writers</H1>
-                        <BodyCard>Publish your own articles
-            Guarantee open access IPFS
-            Ensure attribution forever</BodyCard>
+                        <div>Publish your technical content across a distributed environment of IPFS nodes, collaborate with others in the community, and receive feedback from your readers.</div>
                     </Box>
                     <Box>
                         <Communities />
-                        <H1 color="white">Communities</H1>
-                        <BodyCard>Keep up with top projects, libraries, and tools
-            Find tutorials from your favorite devs
-            Learn best practices</BodyCard>
+                        <H1 color="white">Projects</H1>
+                        <div>Onboard new developers, work with top technical writers to curate fresh content, and build a community around your project</div>
                     </Box>
                 </Info>
                 <Buttons>

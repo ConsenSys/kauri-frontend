@@ -98,7 +98,11 @@ const Component: React.SFC<IProps> = props => (
     {props.imageURL &&
       props.linkComponent(
         <Image imageURL={props.imageURL} />,
-        `/article/${props.id}/v${props.version}`
+        props.resourceType === "COLLECTION"
+          ? `/collection/${props.id}`
+          : props.resourceType === "COMMUNITY"
+          ? `/community/${props.id}`
+          : `/article/${props.id}/v${props.version}`
       )}
     <Container>
       {props.linkComponent(

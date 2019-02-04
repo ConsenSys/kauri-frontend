@@ -16,7 +16,7 @@ const List = styled.ul`
   padding-left: ${props => props.theme.space[2]}px;
 `;
 
-const Divider = styled.div`
+export const Divider = styled.div`
   height: 2px;
   width: 100%;
   background-color: ${props => props.theme.colors.divider};
@@ -91,7 +91,6 @@ const Container: React.SFC<Props> = props => {
         <>
           <Label>Article Kudos</Label>
           <NFTList nftSize={40} nfts={nfts} clickable={true} />
-          <Divider />
         </>
       )}
     </OutlineContainer>

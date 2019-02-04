@@ -53,26 +53,35 @@ interface IState {
 interface IProps {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     open: boolean;
+    value: string;
+    goToSearch: (search: string) => void;
 }
 
 class QuickSearchInput extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
-        this.state = {
-            text: '',
-        }
-        this.handleChange = this.handleChange.bind(this);
     }
-
     public handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         this.props.onChange(e)
-        this.setState({ text: e.target.value})
+    }
+
+    public handleKeyUp (e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.keyCode === 13) {
+            this.props.goToSearch(e.currentTarget.value);
+        }
+    }
+
+    public focus() {
+        const input = document.getElementById('quick-search-input');
+        if (input) {
+            input.focus();
+        }
     }
 
     public render () {
         return(
             <Container open={this.props.open}>
-                <Input open={this.props.open} value={this.state.text} onChange={this.handleChange} />
+                <Input id="quick-search-input" onMouseEnter={() => this.focus()} onKeyUp={e => this.handleKeyUp(e)} open={this.props.open} value={this.props.value} onChange={e => this.handleChange(e)} />
                 <SVG />
             </Container>
         );

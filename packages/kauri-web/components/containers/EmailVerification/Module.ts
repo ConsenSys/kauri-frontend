@@ -1,7 +1,8 @@
 import { Epic } from "redux-observable";
 import { Observable } from "rxjs/Observable";
 import { IReduxState, IDependencies } from "../../../lib/Module";
-
+import { create } from "../../../lib/init-apollo";
+import { getEvent } from "../../../queries/Module";
 import {
   verifyEmail as verifyEmailMutation,
   regenerateEmailVerificationCode,
@@ -43,8 +44,8 @@ interface IVerifyEmailOutput {
 
 export const verifyEmailEpic: Epic<any, IReduxState, IDependencies> = (
   action$,
-  _,
-  { apolloClient, apolloSubscriber }
+  { getState },
+  { apolloClient }
 ) =>
   action$
     .ofType(VERIFY_EMAIL)
@@ -58,11 +59,62 @@ export const verifyEmailEpic: Epic<any, IReduxState, IDependencies> = (
         })
       )
         .mergeMap(({ data: { verifyEmail: { hash } } }) =>
-          apolloSubscriber<IVerifyEmailOutput>(hash)
+          Observable.fromPromise(
+            new Promise<{ data: { output: IVerifyEmailOutput } }>(
+              (resolve, reject) => {
+                create(
+                  {},
+                  {
+                    getToken: () => "DUMMYVERIFICATIONTOKEN",
+                    hostName: getState().app.hostName,
+                  }
+                )
+                  .subscribe({
+                    query: getEvent,
+                    variables: { hash },
+                  })
+                  .subscribe({
+                    error: (err: Error) => reject(err),
+                    next: (data: {
+                      data: {
+                        output: IVerifyEmailOutput;
+                      };
+                    }) => resolve(data),
+                  });
+              }
+            )
+          )
         )
         .mergeMap(({ data: { output } }) =>
           output && output.childHashes
-            ? Observable.of(emailVerifiedAction())
+            ? Observable.forkJoin(
+                output.childHashes.map(
+                  hash =>
+                    new Promise((resolve, reject) =>
+                      create(
+                        {},
+                        {
+                          getToken: () => "DUMMYVERIFICATIONTOKEN",
+                          hostName: getState().app.hostName,
+                        }
+                      )
+                        .subscribe({
+                          query: getEvent,
+                          variables: { hash },
+                        })
+                        .subscribe({
+                          error: (err: Error) => reject(err),
+                          next: (data: {
+                            data: {
+                              output: { hash: string };
+                            };
+                          }) => resolve(data),
+                        })
+                    )
+                )
+              )
+                .map(() => emailVerifiedAction())
+                .do(() => apolloClient.resetStore())
             : Observable.of(emailVerificationFail())
         )
         .do(callback)
@@ -75,10 +127,8 @@ export const resendEmailVerificationEpic: Epic<
 > = (actions$, _, { apolloClient }) =>
   actions$.ofType("EMAIL_VERIFICATION_RESENT").switchMap(() =>
     Observable.fromPromise(
-      apolloClient
-        .mutate<any>({
-          mutation: regenerateEmailVerificationCode,
-        })
-        .then(() => Observable.of(resendEmailVerificationAction))
-    )
+      apolloClient.mutate<any>({
+        mutation: regenerateEmailVerificationCode,
+      })
+    ).mergeMap(() => Observable.of(resendEmailVerificationAction))
   );
