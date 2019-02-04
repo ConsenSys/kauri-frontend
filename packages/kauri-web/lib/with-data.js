@@ -77,10 +77,15 @@ export default ComposedComponent =>
 
       // TODO REVERT AFTER ETHBERLIN
       // TLDR; ethberlin.kauri.io 302 -> ethberlin collection
+      // console.log(hostName);
       if (context.res && hostName && hostName.includes("ethberlin")) {
         context.res.writeHead(302, {
-          Location:
-            "https://beta.kauri.io/collection/5b8d373fe727370001c942de/ethberlin",
+          Location: `https://${config
+            .getApiURL()
+            .replace(
+              "api.",
+              ""
+            )}/collection/5b8d373fe727370001c942de/ethberlin`,
         });
         context.res.end();
       }
@@ -114,7 +119,6 @@ export default ComposedComponent =>
         {},
         {
           getToken: () => parsedToken,
-          hostName,
         }
       );
       const redux = initRedux(apollo, stateRedux, context);

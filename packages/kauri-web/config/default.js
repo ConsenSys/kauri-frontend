@@ -30,20 +30,18 @@ const uppyConfig = {
   },
 };
 
-const getApiURL = (hostName = global.window && global.window.location.host) => {
-  if (!hostName) return process.env.monolithExternalApi;
+const getApiURL = (hostName = process.env.monolithExternalApi) => {
+  // localhost or mobile
+	if (hostName.includes('192') || hostName.includes('localhost')) {
+		return process.env.monolithExternalApi;
+	}
   let apiURL;
-  if (hostName.includes("localhost")) {
-    apiURL = "api.dev.kauri.io";
-  } else if (hostName.includes("beta")) {
-    apiURL = global.window
-      ? "api.beta.kauri.io"
-      : (apiURL = "monolith.uat:8081");
+  const env = hostName.split(".")[1];
+  // Use internal k8s dns if not browser
+  if (global.window) {
+    apiURL = process.env.monolithExternalApi;
   } else {
-    const env = hostName.split(".")[0];
-    apiURL = global.window
-      ? `api.${env}.kauri.io`
-      : (apiURL = `monolith.${env}:8081`);
+    apiURL = process.env.monolithApi;
   }
 
   // Local config override if exists
