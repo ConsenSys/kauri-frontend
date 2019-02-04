@@ -4,6 +4,7 @@ import ApprovedArticle from "./ApprovedArticle/View";
 import InReviewArticle from "./InReviewArticle/View";
 import R from "ramda";
 import Loading from "../../common/Loading";
+import Helmet from "react-helmet";
 
 import type { AddCommentPayload } from "../AddCommentForm/Module";
 
