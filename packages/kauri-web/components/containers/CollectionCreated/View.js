@@ -1,18 +1,21 @@
 // @flow
-import React from 'react'
-import styled from 'styled-components'
-import moment from 'moment'
-import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard'
-import { Link } from '../../../routes'
-import { Helmet } from 'react-helmet'
-import PrimaryButton from '../../../../kauri-components/components/Button/PrimaryButton'
-import { Title2, BodyCard } from '../../../../kauri-components/components/Typography'
+import React from "react";
+import styled from "styled-components";
+import moment from "moment";
+import CollectionCard from "../../../../kauri-components/components/Card/CollectionCard";
+import { Link } from "../../../routes";
+import { Helmet } from "react-helmet";
+import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
+import {
+  Title2,
+  BodyCard,
+} from "../../../../kauri-components/components/Typography";
 
 type Props = {
   data: { getCollection: CollectionDTO },
   routeChangeAction: string => void,
-  type: 'created' | 'updated',
-}
+  type: "created" | "updated",
+};
 
 const Container = styled.section`
   display: flex;
@@ -20,7 +23,7 @@ const Container = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: ${props => props.theme.colors['textPrimary']};
+  background: ${props => props.theme.colors["textPrimary"]};
   > :first-child {
     margin-bottom: ${props => props.theme.space[1]}px;
     color: white;
@@ -32,25 +35,33 @@ const Container = styled.section`
   > :nth-child(3) {
     margin-bottom: ${props => props.theme.space[3]}px;
   }
-`
+`;
 
 class CollectionCreated extends React.Component<Props> {
-  render () {
+  render() {
     const {
       data: {
-        getCollection: { id, description, dateUpdated, owner, background, name, sections },
+        getCollection: {
+          id,
+          description,
+          dateUpdated,
+          owner,
+          background,
+          name,
+          sections,
+        },
       },
       routeChangeAction,
       type,
-    } = this.props
-    const copy = type === 'updated' ? 'updated' : 'live'
+    } = this.props;
+    const copy = type === "updated" ? "updated" : "live";
 
     const articleCount =
       sections &&
       sections.reduce((current, next) => {
-        current += next.resources && next.resources.length
-        return current
-      }, 0)
+        current += next.resources && next.resources.length;
+        return current;
+      }, 0);
 
     return (
       <Container>
@@ -62,7 +73,7 @@ class CollectionCreated extends React.Component<Props> {
         <CollectionCard
           id={id}
           description={description}
-          date={moment(dateUpdated).format('D MMM YYYY')}
+          date={dateUpdated}
           name={name}
           username={owner && owner.name}
           userId={owner && owner.id}
@@ -70,15 +81,24 @@ class CollectionCreated extends React.Component<Props> {
           imageURL={background}
           articleCount={articleCount}
           linkComponent={(childrenProps, route) => (
-            <Link toSlug={route.includes('collection') && name} useAnchorTag fullWidth={false} href={route}>
+            <Link
+              toSlug={route.includes("collection") && name}
+              useAnchorTag
+              fullWidth={false}
+              href={route}
+            >
               {childrenProps}
             </Link>
           )}
         />
-        <PrimaryButton onClick={() => routeChangeAction(`/collection/${String(id)}`)}>View Collection</PrimaryButton>
+        <PrimaryButton
+          onClick={() => routeChangeAction(`/collection/${String(id)}`)}
+        >
+          View Collection
+        </PrimaryButton>
       </Container>
-    )
+    );
   }
 }
 
-export default CollectionCreated
+export default CollectionCreated;
