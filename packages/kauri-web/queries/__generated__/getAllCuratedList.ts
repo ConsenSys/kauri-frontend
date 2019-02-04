@@ -7,6 +7,13 @@ import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
 // GraphQL query operation: getAllCuratedList
 // ====================================================
 
+export interface getAllCuratedList_getAllCuratedList_links {
+  __typename: "Link";
+  label: string | null;
+  url: string | null;
+  type: string | null;
+}
+
 export interface getAllCuratedList_getAllCuratedList_owner {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -16,7 +23,7 @@ export interface getAllCuratedList_getAllCuratedList_owner {
 }
 
 export interface getAllCuratedList_getAllCuratedList_header_CommentDTO {
-  __typename: "CommentDTO" | "CommunityMemberDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface getAllCuratedList_getAllCuratedList_header_ArticleDTO_author {
@@ -70,7 +77,7 @@ export interface getAllCuratedList_getAllCuratedList_header_PublicUserDTO {
 export type getAllCuratedList_getAllCuratedList_header = getAllCuratedList_getAllCuratedList_header_CommentDTO | getAllCuratedList_getAllCuratedList_header_ArticleDTO | getAllCuratedList_getAllCuratedList_header_CollectionDTO | getAllCuratedList_getAllCuratedList_header_CommunityDTO | getAllCuratedList_getAllCuratedList_header_PublicUserDTO;
 
 export interface getAllCuratedList_getAllCuratedList_resources_PublicUserDTO {
-  __typename: "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO_resourceIdentifier {
@@ -168,6 +175,7 @@ export interface getAllCuratedList_getAllCuratedList {
   description: string | null;
   featured: boolean | null;
   dateCreated: any | null;
+  links: (getAllCuratedList_getAllCuratedList_links | null)[] | null;
   owner: getAllCuratedList_getAllCuratedList_owner | null;
   header: getAllCuratedList_getAllCuratedList_header | null;
   resources: (getAllCuratedList_getAllCuratedList_resources | null)[] | null;

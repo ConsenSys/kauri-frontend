@@ -1,7 +1,8 @@
 import * as React from "react";
 
 interface IErrorMessageProps {
-  message: string;
+  data: { error: { message: string } };
+  setNavcolorOverrideAction: any;
 }
 
 export class ErrorMessage extends React.Component<IErrorMessageProps> {}

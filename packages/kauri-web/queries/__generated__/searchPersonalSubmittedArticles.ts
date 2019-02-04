@@ -21,7 +21,7 @@ export interface searchPersonalSubmittedArticles_searchArticles_content_author {
 }
 
 export interface searchPersonalSubmittedArticles_searchArticles_content_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface searchPersonalSubmittedArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
@@ -97,6 +97,7 @@ export interface searchPersonalSubmittedArticles_searchArticles_content {
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
+  tags: (string | null)[] | null;
   vote: searchPersonalSubmittedArticles_searchArticles_content_vote | null;
   author: searchPersonalSubmittedArticles_searchArticles_content_author | null;
   owner: searchPersonalSubmittedArticles_searchArticles_content_owner | null;

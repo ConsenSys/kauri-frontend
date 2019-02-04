@@ -9,6 +9,8 @@ export type ArticlesProps = {
   },
   routeChangeAction: () => void,
   isOwner: boolean,
+  isLoggedIn?: boolean,
+  openModalAction?: ({ children: any }) => void,
 };
 
 export type CollectionsProps = {

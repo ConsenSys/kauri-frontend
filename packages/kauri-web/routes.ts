@@ -73,8 +73,5 @@ routes
     "update-collection"
   )
   .add("email-verification", "/activate/:uuid", "activate")
-  .add(
-    "collection-with-slug",
-    "/collection/:collection_id/:slug",
-    "collection"
-  );
+  .add("collection-with-slug", "/collection/:collection_id/:slug", "collection")
+  .add("write-article", "/write-article/:template_id", "write-article");

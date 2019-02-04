@@ -13,7 +13,7 @@ const ConnectedPublicProfile = connect(
 )(PublicProfile);
 
 class PublicProfilePage extends React.Component {
-  render() {
+  render () {
     return (
       <App url={this.props.router}>
         <ConnectedPublicProfile
@@ -23,6 +23,7 @@ class PublicProfilePage extends React.Component {
             this.props.router.query["user_id"]
           }
           routeChangeAction={this.props.routeChangAction}
+          router={this.props.router}
         />
       </App>
     );

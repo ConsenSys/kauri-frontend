@@ -85,7 +85,7 @@ const getURL = (string, type) => {
   switch (type) {
     case "website":
       const url = anchorme(string, { list: true })[0];
-      return `${url.protocol}${url.encoded}`;
+      return `${url && `${url.protocol}${url.encoded}`}`;
     case "twitter":
       return `https://www.twitter.com/${split[split.length - 1]}`;
     case "github":

@@ -1,12 +1,12 @@
 // @flow
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export const User = gql`
   fragment User on PublicUserDTO {
-     id 
-     name
+    id
+    name
   }
-`
+`;
 
 export const getUserDetails = gql`
   query getUser($userId: String) {
@@ -33,31 +33,50 @@ export const getOwnProfile = gql`
       website
       avatar
       social
+      status
+      subscriptions
     }
   }
 `;
 
-
 export const saveUserDetails = gql`
   mutation saveUser(
-    $username: String,
-    $name: String,
-    $title: String,
-    $website: String,
-    $avatar: String,
-    $email: String,
+    $username: String
+    $name: String
+    $title: String
+    $website: String
+    $avatar: String
+    $email: String
     $social: Map_String_StringScalar
+    $subscriptions: Map_String_BooleanScalar
+  ) {
+    saveUser(
+      name: $name
+      username: $username
+      avatar: $avatar
+      title: $title
+      website: $website
+      social: $social
+      email: $email
+      subscriptions: $subscriptions
     ) {
-      saveUser (
-        name:$name,
-        username:$username,
-        avatar: $avatar,
-        title: $title,
-        website: $website,
-        social: $social
-        email: $email
-      ) {
-        hash
-      }
+      hash
     }
+  }
+`;
+
+export const regenerateEmailVerificationCode = gql`
+  mutation regenerateEmailVerificationCode {
+    regenerateEmailVerificationCode {
+      hash
+    }
+  }
+`;
+
+export const verifyEmail = gql`
+  mutation verifyEmail($code: String) {
+    verifyEmail(code: $code) {
+      hash
+    }
+  }
 `;

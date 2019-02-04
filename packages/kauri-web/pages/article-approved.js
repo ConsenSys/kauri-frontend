@@ -4,7 +4,6 @@ import withData from "../lib/with-data";
 import App from "../layouts/App";
 import ArticleApproved from "../components/containers/ArticleApproved";
 import { withRouter } from "next/router";
-
 class ArticleApprovedPage extends React.Component {
   render() {
     return (

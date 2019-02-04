@@ -1,75 +1,15 @@
 import * as React from "react";
-import * as t from "io-ts";
-import { failure } from "io-ts/lib/PathReporter";
-import gql from "graphql-tag";
-import moment from "moment";
-import { Query } from "react-apollo";
-import Loading from "../../common/Loading";
-import { ErrorMessage } from "../../../lib/with-apollo-error";
 import { Link } from "../../../routes";
 import styled from "../../../lib/styled-components";
 import CommunityProfile from "../../../../kauri-components/components/Community/CommunityProfile";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
+import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import Empty from "../../containers/PublicProfile/Empty";
 import {
-  searchCommunityArticles,
-  searchCommunityArticlesVariables,
-} from "./__generated__/searchCommunityArticles";
-
-const query = gql`
-  query searchCommunityArticles($category: String) {
-    searchArticles(
-      filter: {
-        statusIn: [PUBLISHED]
-        latestVersion: true
-        ownerEquals: $category
-      }
-    ) {
-      content {
-        id
-        version
-        title
-        content
-        dateCreated
-        datePublished
-        author {
-          id
-          name
-          avatar
-          username
-        }
-        status
-        attributes
-        contentHash
-        checkpoint
-        vote {
-          totalVote
-        }
-        comments {
-          content {
-            posted
-            author {
-              id
-              name
-              avatar
-              username
-            }
-            body
-          }
-          totalPages
-          totalElements
-        }
-        resourceIdentifier {
-          type
-          id
-          version
-        }
-      }
-      totalPages
-      totalElements
-    }
-  }
-`;
+  getCommunity,
+  getCommunity_getCommunity_approved_ArticleDTO,
+} from "../../../queries/__generated__/getCommunity";
+import AddToCollectionConnection from "../AddToCollection";
 
 const CommunityHeader = styled.section`
   display: flex;
@@ -93,25 +33,44 @@ const ArticlesSection = styled.section`
   }
 `;
 
-const RuntimeProps = t.interface({
-  avatar: t.string,
-  category: t.string,
-  hostName: t.string,
-  id: t.string,
-  isLoggedIn: t.boolean,
-  name: t.string,
-  website: t.string,
-});
+interface IProps {
+  avatar: null | string;
+  category: string;
+  hostName: string;
+  id: string;
+  isLoggedIn: boolean;
+  name: string;
+  website: string | null;
+  data: getCommunity;
+  openModalAction: (payload: { children: React.ReactElement<any> }) => void;
+}
 
-type Props = t.TypeOf<typeof RuntimeProps>;
+function isCommunityArticle(
+  arg: any
+): arg is getCommunity_getCommunity_approved_ArticleDTO {
+  return arg.version !== undefined;
+}
 
-const Container: React.SFC<Props> = props => {
-  const { avatar, category, hostName, isLoggedIn, id, name, website } = RuntimeProps.decode(
-    props
-  ).getOrElseL(errors => {
-    throw new Error(failure(errors).join("\n"));
-  });
+const Container: React.SFC<IProps> = ({
+  avatar,
+  hostName,
+  isLoggedIn,
+  id,
+  name,
+  website,
+  data,
+  openModalAction,
+}) => {
+  const linkComponent = (
+    childrenProps: React.ReactElement<any>,
+    route: string
+  ) => (
+    <Link useAnchorTag={true} href={route}>
+      {childrenProps}
+    </Link>
+  );
 
+  console.log(data.getCommunity);
   return (
     <section>
       <CommunityHeader>
@@ -123,68 +82,52 @@ const Container: React.SFC<Props> = props => {
           hostName={hostName}
         />
       </CommunityHeader>
-      <Query<searchCommunityArticles, searchCommunityArticlesVariables>
-        query={query}
-        variables={{ category }}
-      >
-        {queryProps => {
-          if (queryProps.loading) {
-            return <Loading />;
-          }
-          if (queryProps.error) {
-            // console.log(queryProps.error);
-            return <ErrorMessage message={queryProps.error.message} />;
-          }
-          if (queryProps.data) {
-            if (
-              queryProps.data.searchArticles &&
-              queryProps.data.searchArticles.content
-            ) {
-              const linkComponent = (
-                childrenProps: React.ReactElement<any>,
-                route: string
-              ) => (
-                <Link useAnchorTag={true} href={route}>
-                  {childrenProps}
-                </Link>
-              );
+      <ArticlesSection>
+        {data.getCommunity &&
+        Array.isArray(data.getCommunity.approved) &&
+        data.getCommunity.approved.length ? (
+          data.getCommunity.approved.map(article => {
+            if (article && isCommunityArticle(article)) {
               return (
-                <ArticlesSection>
-                  {queryProps.data.searchArticles.content.map(
-                    article =>
-                      article && (
-                        <ArticleCard
-                          key={String(article.id)}
-                          id={String(article.id)}
-                          version={Number(article.version)}
-                          cardHeight={420}
-                          imageURL={
-                            article.attributes && article.attributes.background
-                          }
-                          linkComponent={linkComponent}
-                          title={String(article.title)}
-                          content={String(article.content)}
-                          date={`${moment(article.datePublished).fromNow()}`}
-                          username={name}
-                          userAvatar={avatar}
-                          userId={id}
-                          isLoggedIn={isLoggedIn}
-                          resourceType="COMMUNITY"
-                        />
-                      )
+                <ArticleCard
+                  key={String(article.id)}
+                  id={String(article.id)}
+                  version={Number(article.version)}
+                  cardHeight={420}
+                  imageURL={article.attributes && article.attributes.background}
+                  linkComponent={linkComponent}
+                  title={String(article.title)}
+                  content={String(article.content)}
+                  date={article.datePublished}
+                  username={name}
+                  userAvatar={avatar}
+                  userId={id}
+                  isLoggedIn={isLoggedIn}
+                  resourceType="COMMUNITY"
+                  hoverChildren={() => (
+                    <PrimaryButton
+                      onClick={() =>
+                        openModalAction({
+                          children: (
+                            <AddToCollectionConnection
+                              articleId={String(article.id)}
+                              version={Number(article.version)}
+                            />
+                          ),
+                        })
+                      }
+                    >
+                      Add To Collection
+                    </PrimaryButton>
                   )}
-                </ArticlesSection>
-              );
-            } else {
-              return (
-                <ArticlesSection>
-                  <Empty />
-                </ArticlesSection>
+                />
               );
             }
-          }
-        }}
-      </Query>
+          })
+        ) : (
+          <Empty />
+        )}
+      </ArticlesSection>
     </section>
   );
 };

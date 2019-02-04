@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
-import moment from "moment";
 import { Link } from "../../../routes";
 import styled from "../../../lib/styled-components";
 import Empty from "../PublicProfile/Empty";
@@ -10,6 +9,8 @@ import {
   PageDescription,
 } from "../../../../kauri-components/components/Typography";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
+import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
+import AddToCollectionConnection from "../../connections/AddToCollection/index";
 
 const Container = styled.section`
   display: flex;
@@ -44,6 +45,7 @@ const Owner = t.interface({
 });
 
 const Article = t.interface({
+  associatedNfts: t.union([t.array(t.any), t.null]),
   attributes: t.union([
     t.null,
     t.undefined,
@@ -54,23 +56,32 @@ const Article = t.interface({
   id: t.string,
   imageURL: t.union([t.null, t.string, t.undefined]),
   owner: Owner,
+  tags: t.union([t.array(t.string), t.null]),
   title: t.string,
   version: t.number,
 });
 
 const RuntimeProps = t.interface({
   articles: t.array(Article),
+  currentUser: t.union([t.string, t.undefined, t.null]),
   description: t.union([t.string, t.undefined, t.null]),
   isLoggedIn: t.boolean,
+  isOwnedByCurrentUser: t.boolean,
   name: t.string,
+  openModalAction: t.any,
 });
 
 type Props = t.TypeOf<typeof RuntimeProps>;
 
 const Component: React.SFC<Props> = props => {
-  const { name, description, articles, isLoggedIn } = RuntimeProps.decode(
-    props
-  ).getOrElseL(errors => {
+  const {
+    name,
+    description,
+    articles,
+    isLoggedIn,
+    openModalAction,
+    isOwnedByCurrentUser,
+  } = RuntimeProps.decode(props).getOrElseL(errors => {
     throw new Error(failure(errors).join("\n"));
   });
   if (articles) {
@@ -98,11 +109,13 @@ const Component: React.SFC<Props> = props => {
               id={article.id}
               version={article.version}
               content={article.content}
-              date={moment(article.datePublished).format("D MMM YYYY")}
+              date={article.datePublished}
               title={article.title}
               username={article.owner.username}
               userId={article.owner.id}
               userAvatar={article.owner.avatar}
+              nfts={article.associatedNfts || []}
+              tags={article.tags as string[]}
               imageURL={
                 (article.attributes &&
                   typeof article.attributes.background === "string" &&
@@ -113,6 +126,26 @@ const Component: React.SFC<Props> = props => {
               resourceType={"USER"}
               cardHeight={420}
               isLoggedIn={isLoggedIn}
+              hoverChildren={
+                isOwnedByCurrentUser
+                  ? null
+                  : () => (
+                      <PrimaryButton
+                        onClick={() =>
+                          openModalAction({
+                            children: (
+                              <AddToCollectionConnection
+                                articleId={article.id}
+                                version={article.version}
+                              />
+                            ),
+                          })
+                        }
+                      >
+                        Add To Collection
+                      </PrimaryButton>
+                    )
+              }
             />
           ))}
         </ArticlesSection>

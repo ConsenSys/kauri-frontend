@@ -17,6 +17,7 @@ const TabContainer = styled.div`
 `;
 
 interface ITabsProps {
+  dark?: boolean;
   padContent: boolean;
   centerTabs?: boolean;
   bg: string;
@@ -24,11 +25,11 @@ interface ITabsProps {
 const Tabs = styled<ITabsProps, "div">("div")`
   height: 50px;
   width: 100%;
-  color: white;
+  color: ${props => props.dark ? 'white': props.theme.colors.primaryTextColor};
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: ${props => props.theme && props.theme.bg[props.bg]};
+  background-color: ${props => props.dark ? props.theme && props.theme.bg[props.bg] : 'transparent'};
   ${props => props.padContent && "padding: 0px calc((100vw - 1280px) / 2)"};
   ${props => props.centerTabs && "justify-content: center"};
 `;
@@ -52,13 +53,19 @@ const Tab = styled<ITabProps, "div">("div")`
   font-size: ${props => props.theme.fontSizes[1]}px;
 `;
 
+interface ITab {
+  name: string;
+  callback?: (args?: any) => void;
+}
+
 interface IProps {
-  tabs: string[];
-  panels: Element[];
+  tabs: ITab[];
+  panels: Element[] | JSX.Element[];
   padContent?: boolean;
   centerTabs?: boolean;
   bg?: string;
   minWidth?: string;
+  dark?: boolean;
 }
 
 interface IState {
@@ -71,10 +78,19 @@ class TabsComponent extends React.Component<IProps, IState> {
     this.state = {
       selectedTabIndex: 0,
     };
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   public changeTab(index: number) {
     this.setState({ selectedTabIndex: index });
+  }
+
+  public handleClick(index: number, tab: ITab) {
+    this.changeTab(index);
+    if (tab.callback) {
+      tab.callback();
+    }
   }
 
   public render() {
@@ -86,19 +102,17 @@ class TabsComponent extends React.Component<IProps, IState> {
       centerTabs,
     } = this.props;
 
-    const handleClick = (index: number) => () => this.changeTab(index);
-
     return (
       <TabContainer minWidth={minWidth}>
-        <Tabs bg={bg} padContent={padContent} centerTabs={centerTabs}>
+        <Tabs dark={props.dark} bg={bg} padContent={padContent} centerTabs={centerTabs}>
           {this.props.tabs.map((tab, index) => (
             <Tab
               key={index}
               minWidth={minWidth}
               selected={index === this.state.selectedTabIndex}
-              onClick={handleClick(index)}
+              onClick={() => this.handleClick(index, tab)}
             >
-              {tab}
+              {tab.name}
             </Tab>
           ))}
         </Tabs>

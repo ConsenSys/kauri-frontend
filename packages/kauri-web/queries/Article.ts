@@ -14,6 +14,14 @@ export const Article = gql`
     contentHash
     checkpoint
     tags
+    associatedNfts {
+      tokenType
+      contractAddress
+      name
+      description
+      image
+      externalUrl
+    }
     vote {
       totalVote
     }
@@ -171,11 +179,16 @@ export const searchApprovedArticles = gql`
     $size: Int = 500
     $text: String
     $category: String
+    $sort: String = "dateCreated"
+    $page: Int = 0
   ) {
     searchArticles(
+      page: $page
       size: $size
       dir: DESC
+      sort: $sort
       filter: {
+        latestVersion: true
         fullText: $text
         statusIn: [PUBLISHED]
         ownerIdEquals: $category
@@ -187,27 +200,7 @@ export const searchApprovedArticles = gql`
       }
     }
   }
-`;
 
-export const globalSearchApprovedArticles = gql`
-  query globalSearchApprovedArticles(
-    $size: Int = 12
-    $page: Int = 0
-    $text: String
-  ) {
-    searchArticles(
-      size: $size
-      sort: "dateCreated"
-      page: $page
-      dir: DESC
-      filter: { fullText: $text, statusIn: [PUBLISHED], latestVersion: true }
-    ) {
-      content {
-        ...Article
-      }
-      isLast
-    }
-  }
   ${Article}
 `;
 
@@ -280,58 +273,13 @@ export const searchPersonalArticles = gql`
       totalElements
       isLast
       content {
-        id
-        version
-        title
-        content
-        tags
-        dateCreated
-        datePublished
-        author {
-          id
-          name
-        }
-        owner {
-          ... on PublicUserDTO {
-            id
-            username
-            name
-            avatar
-          }
-          ... on CommunityDTO {
-            id
-            name
-          }
-        }
-        status
-        attributes
-        contentHash
-        checkpoint
-        vote {
-          totalVote
-        }
-        comments {
-          content {
-            posted
-            author {
-              id
-              name
-            }
-            body
-          }
-          totalPages
-          totalElements
-        }
-        resourceIdentifier {
-          type
-          id
-          version
-        }
+        ...Article
       }
       totalPages
       totalElements
     }
   }
+  ${Article}
 `;
 
 export const searchPersonalDrafts = gql`
@@ -581,6 +529,67 @@ export const checkpointArticles = gql`
   mutation checkpointArticles {
     checkpointArticles {
       hash
+    }
+  }
+`;
+
+export const globalSearchApprovedArticles = gql`
+  query searchAutocompleteArticles(
+    $page: Int = 0
+    $size: Int = 12
+    $query: String
+    $filter: SearchFilterInput
+  ) {
+    searchAutocomplete(
+      page: $page
+      size: $size
+      query: $query
+      filter: $filter
+    ) {
+      totalElements
+      totalPages
+      content {
+        resourceIdentifier {
+          id
+          type
+        }
+        resource {
+          ... on ArticleDTO {
+            ...Article
+          }
+        }
+      }
+    }
+  }
+  ${Article}
+`;
+
+export const relatedArticles = gql`
+  query relatedArticles(
+    $page: Int
+    $size: Int
+    $resourceId: ResourceIdentifierInput
+    $filter: SearchFilterInput
+  ) {
+    searchMoreLikeThis(
+      page: $page
+      size: $size
+      resourceId: $resourceId
+      filter: $filter
+    ) {
+      totalElements
+      totalElementsBreakdown
+      totalPages
+      content {
+        resourceIdentifier {
+          id
+          type
+        }
+        tags
+        name
+        description
+        score
+      }
     }
   }
 `;

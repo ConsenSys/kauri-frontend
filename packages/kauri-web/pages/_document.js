@@ -66,10 +66,7 @@ export default class MyDocument extends Document {
           {this.helmetJsx}
           {this.helmetHeadComponents}
           <link rel="icon" href="/favicon.ico" />
-          <link
-            rel="stylesheet"
-            href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
-          />
+          <script src="https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver" />
           <script
             defer
             src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"

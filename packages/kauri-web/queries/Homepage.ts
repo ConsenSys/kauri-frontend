@@ -9,6 +9,11 @@ export const HomePageQuery = gql`
       description
       featured
       dateCreated
+      links {
+        label
+        url
+        type
+      }
       owner {
         id
         name

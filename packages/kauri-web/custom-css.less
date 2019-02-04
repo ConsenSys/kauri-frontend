@@ -1,6 +1,10 @@
 body,
 html {
   -webkit-font-smoothing: antialiased;
+  font-display: auto;
+  @media (max-width: 500px) {
+    overflow: scroll;
+  }
 }
 
 body.overflow-hidden {
@@ -108,4 +112,8 @@ table th {
 
 .DescriptionRow-markdown p {
   overflow-wrap: break-word;
+}
+
+.certain-category-icon {
+  cursor: pointer;
 }

@@ -21,6 +21,12 @@ import TertiaryButton from "../../../../../kauri-components/components/Button/Te
 import styled from "../../../../lib/styled-components";
 import userIdTrim from "../../../../lib/userid-trim";
 import { BodyCard } from "../../../../../kauri-components/components/Typography";
+import { INFT } from "../../../../../kauri-components/components/Kudos/NFTList";
+import AddIcon from "../../../../../kauri-components/components/Icon/AddIcon";
+import AddToCollectionConnection from "../../../connections/AddToCollection";
+import { Label } from "../../../../../kauri-components/components/Typography";
+import RelatedArticles from "../../../../../kauri-components/components/RelatedArticles";
+import { Divider } from "../../../../../kauri-components/components/Outline";
 
 export const ApprovedArticleDetails = styled(CreateRequestDetails)`
   align-items: inherit;
@@ -123,6 +129,8 @@ export default ({
   openModalAction,
   closeModalAction,
   deleteDraftArticleAction,
+  nfts,
+  relatedArticles,
 }: {
   text?: string,
   username?: ?string,
@@ -136,6 +144,8 @@ export default ({
   subject?: string,
   address?: string,
   hostName: string,
+  nfts: INFT[],
+  relatedArticles: ArticleDTO[],
   resourceType: "USER" | "COMMUNITY",
   openModalAction: ({ children: React.ReactNode }) => void,
   closeModalAction: () => void,
@@ -181,6 +191,8 @@ export default ({
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type="outline">
         <Outline
+          relatedArticles={relatedArticles}
+          nfts={nfts}
           linkComponent={children => (
             <Link
               useAnchorTag
@@ -203,6 +215,26 @@ export default ({
           text={ownerId ? "OWNER" : "AUTHOR"}
           routeChangeAction={routeChangeAction}
         />
+        {status !== "DRAFT" && (
+          <TertiaryButton
+            color={"textPrimary"}
+            icon={<AddIcon />}
+            handleClick={() =>
+              userId
+                ? openModalAction({
+                  children: (
+                    <AddToCollectionConnection
+                      articleId={id}
+                      version={version}
+                    />
+                  ),
+                })
+                : routeChangeAction(`/login?r=/article/${id}/v${version}`)
+            }
+          >
+            Add To Collection
+          </TertiaryButton>
+        )}
         <TertiaryButton
           color={"textPrimary"}
           icon={<UpdateArticleSvgIcon />}
@@ -210,7 +242,7 @@ export default ({
             userId
               ? routeChangeAction(`/article/${id}/v${version}/update-article`)
               : routeChangeAction(
-                `/login?r=article/${id}/v${version}/update-article`
+                `/login?r=/article/${id}/v${version}/update-article`
               )
           }
         >
@@ -257,6 +289,16 @@ export default ({
             }
           )}?utm_campaign=read`}
           title={subject}
+        />
+        <Divider />
+        <RelatedArticles
+          linkComponent={(children, route) => (
+            <Link useAnchorTag href={route}>
+              {children}
+            </Link>
+          )}
+          routeChangeAction={routeChangeAction}
+          relatedArticles={relatedArticles}
         />
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>

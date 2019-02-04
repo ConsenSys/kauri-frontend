@@ -32,7 +32,7 @@ type State = {
 };
 
 class SubmitArticleFormText extends React.Component<Props, State> {
-  constructor (props) {
+  constructor(props) {
     super(props);
     if (props.text) {
       const rawData = ContentState.createFromText(
@@ -44,13 +44,16 @@ class SubmitArticleFormText extends React.Component<Props, State> {
         editorState: { draftEditorState: newEditorState },
       };
     } else {
+      const rawData = ContentState.createFromText("");
+      const newEditorState = EditorState.createWithContent(rawData);
+
       this.state = {
-        editorState: null,
+        editorState: { draftEditorState: newEditorState },
       };
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (this.props.text) {
       const rawData = ContentState.createFromText(
         JSON.parse(this.props.text).markdown
@@ -73,12 +76,13 @@ class SubmitArticleFormText extends React.Component<Props, State> {
     );
   };
 
-  render () {
+  render() {
     return this.props.getFieldDecorator("text", {
       rules: [
         {
           required: true,
-          message: "Please input the description of the request!",
+          message:
+            "Empty articles cannot be saved or published. Start writing 😘",
           whitespace: true,
         },
       ],
@@ -124,7 +128,7 @@ export default class extends React.Component<
     focused: false,
   };
 
-  render () {
+  render() {
     const {
       getFieldDecorator,
       setFieldsValue,

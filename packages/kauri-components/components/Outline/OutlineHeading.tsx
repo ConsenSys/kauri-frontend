@@ -2,6 +2,7 @@ import * as React from "react";
 import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 import { H4, ListBulletPoint } from "../Typography";
+import TextTruncate from 'react-text-truncate';
 
 const handleClick = (heading: string) => (
   event: React.MouseEvent<HTMLElement>
@@ -32,7 +33,11 @@ const Container: React.SFC<Props> = props => {
   return (
     <ListBulletPoint>
       <H4 hoverColor={"hoverTextColor"} onClick={handleClick(heading)}>
-        {heading}
+        <TextTruncate
+            line={2}
+            truncateText="…"
+            text={heading}
+        />
       </H4>
     </ListBulletPoint>
   );

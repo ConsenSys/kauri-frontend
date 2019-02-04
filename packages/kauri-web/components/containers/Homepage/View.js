@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import CuratedList from "../../../../kauri-components/components/CuratedLists";
-import ArticleSearchbar from "../ArticleSearchbar";
+import DiscoverSearch from "../Discover/Articles/DiscoverSearch";
 import { Helmet } from "react-helmet";
 import { Link } from "../../../routes";
 
@@ -56,7 +56,7 @@ const KauriDescription = styled.div`
 class Homepage extends Component<Props> {
   static ContentContainer = ContentContainer;
 
-  render () {
+  render() {
     if (!this.props.data || !this.props.data.getAllCuratedList) {
       return null;
     } // TODO replace with an error message if exists
@@ -69,19 +69,19 @@ class Homepage extends Component<Props> {
       <ContentContainer>
         <Helmet>
           <title>Kauri - {pageTitle}</title>
-          <meta name='description' content={pageTitle} />
+          <meta name="description" content={pageTitle} />
           <meta
-            name='keywords'
-            content='ethereum, blockchain, learn to code, developer documentation'
+            name="keywords"
+            content="ethereum, blockchain, learn to code, developer documentation"
           />
-          <link rel='canonical' href={`https://${this.props.hostName}`} />
+          <link rel="canonical" href={`https://${this.props.hostName}`} />
         </Helmet>
         <HomePageHeader>
           <KauriTitle>{pageTitle}</KauriTitle>
           <KauriDescription>
             Articles, Tutorials, Documentation and Best Practices
           </KauriDescription>
-          <ArticleSearchbar />
+          <DiscoverSearch category={null} />
         </HomePageHeader>
         {getAllCuratedList.map(curatedList => (
           <CuratedList

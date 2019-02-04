@@ -1,19 +1,18 @@
 // @flow
 import React, { Fragment } from "react";
 import styled from "styled-components";
-import moment from "moment";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
 import Empty from "../Empty";
 import { Link } from "../../../../routes";
 import ContentContainer from "../PublicProfileContentContainer";
 import CheckpointArticles from "../../CheckpointArticles";
 import withPagination from "../../../../lib/with-pagination";
-
 import {
   PrimaryButton,
   MediumImportButton,
 } from "../../../../../kauri-components/components/Button";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
+import AddToCollectionConnection from "../../../connections/AddToCollection/index";
 
 import type { ArticlesProps } from "../types";
 
@@ -29,7 +28,9 @@ const Articles = ({
   data,
   type,
   routeChangeAction,
+  isLoggedIn,
   isOwner,
+  openModalAction,
 }: ArticlesProps) => {
   const articles = data.searchArticles && data.searchArticles.content;
   return articles.length > 0 ? (
@@ -43,7 +44,7 @@ const Articles = ({
             <ArticleCard
               key={`${article.id}-${article.version}`}
               changeRoute={routeChangeAction}
-              date={moment(article.dateCreated).format("D MMM YYYY")}
+              date={article.dateCreated}
               title={article.title}
               content={article.content}
               tags={article.tags}
@@ -62,10 +63,28 @@ const Articles = ({
                   ? article.owner.avatar
                   : article.author.avatar
               }
+              isLoggedIn={isLoggedIn}
+              hoverChildren={({ hideDispatch }) => (
+                <PrimaryButton
+                  onClick={() =>
+                    openModalAction({
+                      children: (
+                        <AddToCollectionConnection
+                          articleId={article.id}
+                          version={article.version}
+                        />
+                      ),
+                    })
+                  }
+                >
+                  Add To Collection
+                </PrimaryButton>
+              )}
               id={article.id}
               version={article.version}
               cardHeight={420}
               imageURL={article.attributes && article.attributes.background}
+              nfts={article.associatedNfts}
               linkComponent={(childrenProps, route) => (
                 <Link
                   toSlug={route.includes("article") && article.title}
@@ -79,13 +98,13 @@ const Articles = ({
           ))}
         </Masonry>
       </ContentContainer>
-      <Centered>{isOwner && <MediumImportButton border={true} />}</Centered>
+      <Centered>{isOwner && <MediumImportButton border />}</Centered>
     </Fragment>
   ) : (
     <Empty>
       <Centered>
-        {isOwner && <MediumImportButton border={true} />}
-        <PrimaryButton onClick={() => routeChangeAction(`/write-article`)}>
+        {isOwner && <MediumImportButton border />}
+        <PrimaryButton onClick={() => routeChangeAction("/write-article")}>
           WRITE ARTICLE
         </PrimaryButton>
       </Centered>

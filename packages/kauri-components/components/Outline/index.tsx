@@ -5,6 +5,7 @@ import { Label } from "../Typography";
 import OutlineHeading from "./OutlineHeading";
 import styled from "../../lib/styled-components";
 import UserAvatarComponent from "../UserAvatar";
+import NFTList from "../Kudos/NFTList";
 
 const OutlineContainer = styled.div`
   width: 300px;
@@ -15,7 +16,7 @@ const List = styled.ul`
   padding-left: ${props => props.theme.space[2]}px;
 `;
 
-const Divider = styled.div`
+export const Divider = styled.div`
   height: 2px;
   width: 100%;
   background-color: ${props => props.theme.colors.divider};
@@ -33,6 +34,7 @@ const UserContainer = styled.div`
 const RuntimeProps = t.interface({
   headings: t.array(t.string),
   linkComponent: t.union([t.undefined, t.any]),
+  nfts: t.any,
   text: t.string,
   userAvatar: t.union([t.null, t.string]),
   userId: t.string,
@@ -49,6 +51,7 @@ const Container: React.SFC<Props> = props => {
     userId,
     userAvatar,
     username,
+    nfts,
   } = RuntimeProps.decode(props).getOrElseL(errors => {
     throw new Error(failure(errors).join("\n"));
   });
@@ -84,6 +87,12 @@ const Container: React.SFC<Props> = props => {
         )}
       </UserContainer>
       <Divider />
+      {nfts && nfts.length > 0 && (
+        <>
+          <Label>Article Kudos</Label>
+          <NFTList nftSize={40} nfts={nfts} clickable={true} />
+        </>
+      )}
     </OutlineContainer>
   );
 };

@@ -79,7 +79,7 @@ class TagSelector extends React.Component<IProps, IState> {
     public render () {
         return (
             <Container>
-                <Heading>Tags Min 1 Max 5</Heading>
+                <Heading>Tags Min 1 Max {this.props.maxTags}</Heading>
                 {Array.isArray(this.state.currentSelectedTags) && this.state.currentSelectedTags.map(i => <Tag key={i} color="white" removeTag={this.removeTag} tag={i}/>)}
                 {this.state.currentSelectedTags.length < this.props.maxTags &&
                     <TagInput

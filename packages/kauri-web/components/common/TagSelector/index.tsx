@@ -106,7 +106,7 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
               fetchMatches={this.fetchMatches}
               onChange={this.updateTags}
               availableTags={this.state.availableTags}
-              maxTags={5}
+              maxTags={7}
             />
           )
         ) : (
@@ -115,7 +115,7 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
             fetchMatches={this.fetchMatches}
             onChange={this.updateTags}
             availableTags={this.state.availableTags}
-            maxTags={5}
+            maxTags={7}
           />
         )}
       </>

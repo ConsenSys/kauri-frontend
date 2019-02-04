@@ -2,7 +2,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-import moment from "moment";
 import { PossibleActionBadge } from "../../common/ActionBadge";
 import { Container } from "../RequestCreated/View";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
@@ -40,7 +39,7 @@ const PossibleActions = styled.div`
 `;
 
 class ArticleProposed extends React.Component<Props> {
-  render () {
+  render() {
     const { data, routeChangeAction, userId } = this.props;
     const article = this.props.data.getArticle;
 
@@ -53,9 +52,7 @@ class ArticleProposed extends React.Component<Props> {
           key={article.id}
           id={article.id}
           version={article.version}
-          date={moment(article.datePublished || article.dateCreated).format(
-            "D MMM YYYY"
-          )}
+          date={article.datePublished || article.dateCreated}
           title={article.title}
           content={article.content}
           userId={article.author && article.author.id}
@@ -87,16 +84,16 @@ class ArticleProposed extends React.Component<Props> {
         </ProfileVisibilityStatement>
         <PossibleActions>
           <PossibleActionBadge
-            action='Approved'
-            description='Article will be added to the knowledge base after they approve it'
+            action="Approved"
+            description="Article will be added to the knowledge base after they approve it"
           />
           <PossibleActionBadge
-            action='Changes'
-            description='Article requires changes'
+            action="Changes"
+            description="Article requires changes"
           />
           <PossibleActionBadge
-            action='Rejected'
-            description='Article is not suitable for the knowledgebase'
+            action="Rejected"
+            description="Article is not suitable for the knowledgebase"
           />
         </PossibleActions>
         <PrimaryButton
