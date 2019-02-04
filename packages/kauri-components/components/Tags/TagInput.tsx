@@ -171,7 +171,7 @@ class TagInput extends React.Component<IProps, IState> {
         </div>
             {  this.state.value.length > 0 && <Results>
                 {Array.isArray(available) && available.map((i, index) => <Result className={index === this.state.selectedIndex ? 'selected' : ''} onClick={this.handleClick.bind(this, i)} key={index}>{i.tag} <span>({i.count})</span></Result>)}
-                <Result className={!available || this.state.selectedIndex >= available.length ? 'selected' : ''} onClick={this.handleClick.bind(this, { tag: this.state.value})}>New Tag: <span>{this.state.value}</span></Result>
+                {!available || available.filter( i => i.tag === this.state.value).length === 0 && <Result className={!available || this.state.selectedIndex >= available.length ? 'selected' : ''} onClick={this.handleClick.bind(this, { tag: this.state.value})}>New Tag: <span>{this.state.value}</span></Result>}
             </Results>}
         </Wrapper>
     }
