@@ -74,6 +74,7 @@ const CollectionsContent: React.FunctionComponent<IProps> = props => {
             </Label>
           )
         )}
+      <Divider />
       <Label
         key={"create new collection"}
         onClick={() => props.changeToPrefilledArticleCreateCollectionRoute()}
