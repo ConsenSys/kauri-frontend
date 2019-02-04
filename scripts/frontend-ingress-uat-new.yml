@@ -6,17 +6,15 @@ metadata:
     nginx.org/websocket-services: "frontend"
     kubernetes.io/tls-acme: "true"
     nginx.ingress.kubernetes.io/proxy-body-size:  "10m"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      return 301 https://kauri.io$request_uri;
-  name: frontend-ingress
+  name: frontend-ingress-new
   namespace: uat
 spec:
   tls:
   - hosts:
-    - beta.kauri.io
-    secretName: uat-frontend-tls-redirect
+    - kauri.io
+    secretName: uat-frontend-tls-new
   rules:
-    - host: beta.kauri.io
+    - host: kauri.io
       http:
         paths:
           - backend:
