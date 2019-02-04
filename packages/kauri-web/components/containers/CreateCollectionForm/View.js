@@ -463,6 +463,10 @@ export default ({
                         openModalAction({
                           children: (
                             <ChooseArticleModal
+                              allOtherChosenArticles={values.sections.filter(
+                                (section, sectionIndex) =>
+                                  index !== sectionIndex
+                              )}
                               chosenArticles={R.path([
                                 "sections",
                                 index,

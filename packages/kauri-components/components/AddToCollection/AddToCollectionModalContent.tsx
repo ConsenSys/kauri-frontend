@@ -4,6 +4,7 @@ import theme from "../../lib/theme-config";
 import Select from "../../components/Select";
 import CollectionsContent, { ICollection } from "./CollectionsContent";
 import SectionsContent, { ISection } from "./SectionsContent";
+import { Label } from "../Typography";
 
 export const AddToCollectionSection = styled.section`
   display: flex;
@@ -20,43 +21,55 @@ interface IParentState {
 }
 
 interface IProps {
-  collections: ICollection[];
   setCollection: (payload: { chosenCollection: ICollection }) => void;
   setSection: (payload: { chosenSection: ISection }) => void;
   parentState: IParentState;
+  collectionsThatDoNotHaveTheChosenArticleId: ICollection[];
+  articleAlreadyInAllCollections: boolean;
 }
 
 const Content: React.FunctionComponent<IProps> = ({
-  collections,
   setCollection,
   setSection,
   parentState,
+  collectionsThatDoNotHaveTheChosenArticleId,
+  articleAlreadyInAllCollections,
 }) => {
-  const chosenCollection = collections.find(({ id }) =>
-    parentState.chosenCollection
-      ? id === parentState.chosenCollection.id
-      : false
+  const chosenCollection = collectionsThatDoNotHaveTheChosenArticleId.find(
+    ({ id }) =>
+      parentState.chosenCollection
+        ? id === parentState.chosenCollection.id
+        : false
   );
+
+  if (articleAlreadyInAllCollections) {
+    return (
+      <AddToCollectionSection>
+        <Label>{"Article is already in all your collections!"}</Label>
+      </AddToCollectionSection>
+    );
+  }
 
   return (
     <AddToCollectionSection>
-      {Array.isArray(collections) && collections.length > 0 && (
-        <Select
-          value={
-            parentState.chosenCollection
-              ? parentState.chosenCollection.name
-              : null
-          }
-          placeHolder={"Collection name"}
-        >
-          <CollectionsContent
-            handleClick={collection =>
-              setCollection({ chosenCollection: collection })
+      {Array.isArray(collectionsThatDoNotHaveTheChosenArticleId) &&
+        collectionsThatDoNotHaveTheChosenArticleId.length > 0 && (
+          <Select
+            value={
+              parentState.chosenCollection
+                ? parentState.chosenCollection.name
+                : null
             }
-            collections={collections}
-          />
-        </Select>
-      )}
+            placeHolder={"Collection name"}
+          >
+            <CollectionsContent
+              handleClick={collection =>
+                setCollection({ chosenCollection: collection })
+              }
+              collections={collectionsThatDoNotHaveTheChosenArticleId}
+            />
+          </Select>
+        )}
       {chosenCollection && chosenCollection.sections.length > 0 && (
         <Select
           value={

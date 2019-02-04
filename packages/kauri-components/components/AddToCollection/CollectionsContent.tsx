@@ -58,14 +58,17 @@ const CollectionsContent: React.FunctionComponent<IProps> = props => {
       {Array.isArray(props.collections) &&
         props.collections.map((collection, index) =>
           index !== props.collections.length - 1 ? (
-            <React.Fragment>
+            <React.Fragment key={collection.id}>
               <Label onClick={() => props.handleClick(collection)}>
                 {collection.name}
               </Label>
               <Divider />
             </React.Fragment>
           ) : (
-            <Label onClick={() => props.handleClick(collection)}>
+            <Label
+              key={collection.id}
+              onClick={() => props.handleClick(collection)}
+            >
               {collection.name}
             </Label>
           )

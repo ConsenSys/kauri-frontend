@@ -20,34 +20,52 @@ interface ImgProps {
   delay?: number;
 }
 
-const getURL = (url: string, height?: number | string, width?: number | string) => {
-  const heightParam = typeof height === 'number' ? height : null;
-  const widthParam = typeof width === 'number' ? width : null;
+const getURL = (
+  url: string,
+  height?: number | string,
+  width?: number | string
+) => {
+  const heightParam = typeof height === "number" ? height : null;
+  const widthParam = typeof width === "number" ? width : null;
   const getCDNURL = () => {
-    if (heightParam && ! widthParam) {
-      return `https://${process.env.cloudImageId}.cloudimg.io/crop/2560x${heightParam}/webp-lossy-90/${url}`
-    } else if (widthParam && ! heightParam) {
-      return `https://${process.env.cloudImageId}.cloudimg.io/widthParam/${widthParam}/webp-lossy-90/${url}`
+    if (heightParam && !widthParam) {
+      return `https://${
+        process.env.cloudImageId
+      }.cloudimg.io/crop/2560x${heightParam}/webp-lossy-90/${url}`;
+    } else if (widthParam && !heightParam) {
+      return `https://${
+        process.env.cloudImageId
+      }.cloudimg.io/widthParam/${widthParam}/webp-lossy-90/${url}`;
     } else if (widthParam && heightParam) {
-      return `https://${process.env.cloudImageId}.cloudimg.io/crop/${widthParam}x${heightParam}/webp-lossy-90/${url}`
+      return `https://${
+        process.env.cloudImageId
+      }.cloudimg.io/crop/${widthParam}x${heightParam}/webp-lossy-90/${url}`;
     } else {
-      return `https://${process.env.cloudImageId}.cloudimg.io/width/2560/webp-lossy-90/${url}`
+      return `https://${
+        process.env.cloudImageId
+      }.cloudimg.io/width/2560/webp-lossy-90/${url}`;
     }
-  }
+  };
 
-  if (process.env.monolithApi && process.env.monolithApi.includes('uat')) {
-    return getCDNURL()
+  if (process.env.monolithApi && process.env.monolithApi.includes("uat")) {
+    return getCDNURL();
   } else {
     return url;
-  };
-}  
+  }
+};
 
 const Img = styled.div<ImgProps>`
-  height: ${props => typeof props.height === 'number' ? `${props.height}px` : props.height};
-  width: ${props => typeof props.width === 'number' ? `${props.width}px` : props.width};
+  height: ${props =>
+    typeof props.height === "number" ? `${props.height}px` : props.height};
+  width: ${props =>
+    typeof props.width === "number" ? `${props.width}px` : props.width};
   ${props => props.borderRadius && `border-radius: ${props.borderRadius}`};
   background: ${props =>
-    `${props.inView ? `url(${getURL(props.image, props.height, props.width)}) center center` : ``}`};
+    `${
+      props.inView
+        ? `url(${getURL(props.image, props.height, props.width)}) center center`
+        : ``
+    }`};
   background-size: cover;
   opacity: ${props => (props.inView ? 1 : 0)};
   transition: opacity ${props => props.delay || 0.4}s;
@@ -85,7 +103,7 @@ const Img = styled.div<ImgProps>`
 `;
 
 const Image = (props: ImgProps) => (
-  <InView>
+  <InView rootMargin={"200px 0px"} triggerOnce={true}>
     {({ inView, ref }) => (
       <Img innerRef={ref} {...props} inView={inView}>
         {props.children}
