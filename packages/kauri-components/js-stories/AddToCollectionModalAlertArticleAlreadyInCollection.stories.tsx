@@ -22,6 +22,9 @@ storiesOf("AddToCollection ModalAlert - Full Collection", module)
               confirmButtonAction={handleConfirmAction(() => alert("confirm"))}
               content={
                 <AddToCollectionModalContent
+                  changeToPrefilledArticleCreateCollectionRoute={() => {
+                    alert("change");
+                  }}
                   articleAlreadyInAllCollections={true}
                   collectionsThatDoNotHaveTheChosenArticleId={[]}
                   setCollection={() => alert("chose collection")}

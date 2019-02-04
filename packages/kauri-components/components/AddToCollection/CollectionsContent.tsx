@@ -50,6 +50,7 @@ export interface ICollection {
 interface IProps {
   collections: ICollection[];
   handleClick: (payload: ICollection) => void;
+  changeToPrefilledArticleCreateCollectionRoute: () => void;
 }
 
 const CollectionsContent: React.FunctionComponent<IProps> = props => {
@@ -73,6 +74,12 @@ const CollectionsContent: React.FunctionComponent<IProps> = props => {
             </Label>
           )
         )}
+      <Label
+        key={"create new collection"}
+        onClick={() => props.changeToPrefilledArticleCreateCollectionRoute()}
+      >
+        {"Create new collection"}
+      </Label>
     </TooltipContainer>
   );
 };

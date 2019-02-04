@@ -124,11 +124,16 @@ const Component: React.FunctionComponent<IProps> = ({
             <AlertView
               closeModalAction={closeModalAction}
               confirmButtonText={
-                articleAlreadyInAllCollections ? "OK" : "CONFIRM"
+                articleAlreadyInAllCollections
+                  ? "CREATE NEW COLLECTION"
+                  : "CONFIRM"
               }
               confirmButtonAction={() => {
                 if (articleAlreadyInAllCollections) {
                   closeModalAction();
+                  routeChangeAction(
+                    `/create-collection?articleId=${articleId}&version=${version}`
+                  );
                 }
 
                 if (state.chosenCollection && state.chosenSection) {
@@ -163,6 +168,12 @@ const Component: React.FunctionComponent<IProps> = ({
               }}
               content={
                 <AddToCollectionModalContent
+                  changeToPrefilledArticleCreateCollectionRoute={() => {
+                    closeModalAction();
+                    routeChangeAction(
+                      `/create-collection?articleId=${articleId}&version=${version}`
+                    );
+                  }}
                   articleAlreadyInAllCollections={
                     !!articleAlreadyInAllCollections
                   }
@@ -182,15 +193,15 @@ const Component: React.FunctionComponent<IProps> = ({
             />
           ) : (
             <AlertView
-              title={"Create collection"}
+              title={"Create new collection"}
               closeModalAction={closeModalAction}
               confirmButtonAction={() => {
+                closeModalAction();
                 routeChangeAction(
                   `/create-collection?articleId=${articleId}&version=${version}`
                 );
-                closeModalAction();
               }}
-              confirmButtonText={"Create Collection"}
+              confirmButtonText={"Create new collection"}
               content={
                 <section>
                   <Label>You don't have any collections.</Label>
