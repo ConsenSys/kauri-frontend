@@ -17,7 +17,7 @@ import {
   hideDispatch,
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
-import moment from 'moment';
+import Date from '../HoverDateLabel';
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -269,7 +269,7 @@ const RenderActualContent: React.SFC<IActualContentProps> = ({
       />,
       `/public-profile/${userId}`
     )}
-    <Label>{"Updated " + moment(date).format('DD MMM YYYY HH:mm')}</Label>
+    <Date status="PUBLISHED" date={date} />
   </React.Fragment>
 );
 
