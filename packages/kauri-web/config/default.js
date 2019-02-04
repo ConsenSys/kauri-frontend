@@ -32,16 +32,20 @@ const uppyConfig = {
 
 const getApiURL = (hostName = process.env.monolithExternalApi) => {
   // localhost or mobile
-	if (hostName.includes('192') || hostName.includes('localhost')) {
-		return process.env.monolithExternalApi;
-	}
+  // console.log(hostName);
+  if (hostName.includes("192") || hostName.includes("localhost")) {
+    return process.env.monolithExternalApi;
+  }
   let apiURL;
-  const env = hostName.split(".")[1];
   // Use internal k8s dns if not browser
   if (global.window) {
     apiURL = process.env.monolithExternalApi;
   } else {
     apiURL = process.env.monolithApi;
+  }
+  // No idea why
+  if (!apiURL) {
+    apiURL = process.env.monolithExternalApi;
   }
 
   // Local config override if exists

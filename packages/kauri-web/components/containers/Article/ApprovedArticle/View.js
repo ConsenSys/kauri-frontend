@@ -195,11 +195,7 @@ class ApprovedArticle extends React.Component<Props, State> {
             props.data.getArticle &&
             props.data.getArticle.contentHash
           }
-          apiURL={`https://${
-            props.hostName.includes("api.")
-              ? props.hostName
-              : `api.${props.hostName}`
-          }`}
+          apiURL={`https://${process.env.monolithExternalApi}`}
         />
         <ApprovedArticle.Comments
           id={props.data.getArticle && props.data.getArticle.id}

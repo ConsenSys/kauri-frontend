@@ -75,6 +75,8 @@ export default ComposedComponent =>
         (context.req && context.req.headers.host) ||
         process.env.monolithExternalApi;
 
+      // console.log(hostName)
+
       // TODO REVERT AFTER ETHBERLIN
       // TLDR; ethberlin.kauri.io 302 -> ethberlin collection
       // console.log(hostName);
