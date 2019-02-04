@@ -17,7 +17,7 @@ import {
   hideDispatch,
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
-import Date from '../HoverDateLabel';
+import Date from "../HoverDateLabel";
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -60,6 +60,9 @@ const Mask = styled.div`
   > *:nth-child(2) {
     margin-top: auto;
   }
+  > * {
+    word-break: break-all;
+  }
   ${withImageURLCss};
 `;
 
@@ -81,6 +84,9 @@ const Content = styled<{}, "div">("div")`
   }
   > *:nth-child(2) {
     margin-top: auto;
+  }
+  > * {
+    word-break: break-all;
   }
 `;
 
