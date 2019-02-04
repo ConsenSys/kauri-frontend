@@ -66,7 +66,7 @@ class ArticleApproved extends React.Component<IProps> {
       [
         R.equals("drafted"),
         R.always(
-          "has been saved as a draft. You can view all drafts on your profile page."
+          "has been saved as a draft. You can view all drafts on your profile page. All drafts are unlisted, rather than private. This means you can send the link to someone and they can view it, but your article will not be discoverable or searchable until it is published."
         ),
       ],
       [R.equals("published"), R.always("is now live")],
