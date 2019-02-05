@@ -156,7 +156,7 @@ const colors: IColors = {
   white: "#FFFFFF",
 };
 
-const fontSizes: FontSizes = [11, 13, 14, 16, 18, 20, 22, 28];
+const fontSizes: FontSizes = [11, 13, 14, 16, 18, 20, 22, 28, 32];
 
 const fontWeight: FontWeight = [300, "normal", 500, 700];
 

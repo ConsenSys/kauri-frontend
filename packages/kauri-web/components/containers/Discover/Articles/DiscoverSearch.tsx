@@ -26,6 +26,7 @@ const SearchInput = styled<InputProps>(props => (
   }
   .ant-input {
     border: 1px solid #ebebeb;
+    height: 40px;
     :hover {
       border: 2px solid #209b86 !important;
     }
