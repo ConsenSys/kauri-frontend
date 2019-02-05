@@ -97,7 +97,7 @@ export default ({
         height="100%"
         width="100%"
         overlay={attributes.background && { opacity: 0.5 }}
-        asBackground={true}
+        asBackground
         image={attributes.background}
       />
     )}
@@ -128,7 +128,7 @@ export default ({
             imageURL={
               attributes && attributes.background && attributes.background
             }
-            username={username || "0x" + ownerId}
+            username={username}
             userId={
               (ownerId && userIdTrim(ownerId)) ||
               (authorId && userIdTrim(authorId))
