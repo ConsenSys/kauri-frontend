@@ -1,5 +1,4 @@
 import styled from "../../lib/styled-components";
-import { InView } from "react-intersection-observer";
 
 interface ImgProps {
   image: string;
@@ -102,13 +101,5 @@ const Img = styled.div<ImgProps>`
     }`}
 `;
 
-const Image = (props: ImgProps) => (
-  <InView rootMargin={"200px 0px"} triggerOnce={true}>
-    {({ inView, ref }) => (
-      <Img {...props} innerRef={ref} inView={inView}>
-        {props.children}
-      </Img>
-    )}
-  </InView>
-);
+const Image = (props: ImgProps) => <Img {...props}>{props.children}</Img>;
 export default Image;

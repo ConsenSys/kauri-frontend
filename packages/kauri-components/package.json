@@ -32,7 +32,6 @@
     "react": "16.8.0-alpha.0",
     "react-dom": "16.8.0-alpha.0",
     "react-hot-loader": "^4.5.1",
-    "react-intersection-observer": "^6.4.2",
     "react-redux": "^5.0.7",
     "react-share": "^2.2.0",
     "react-text-truncate": "^0.13.1",
