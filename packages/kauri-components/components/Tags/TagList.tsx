@@ -14,7 +14,7 @@ interface IProps {
     maxTags: number;
 }
 
-const StyledTag = styled(TagName)`
+export const StyledTag = styled(TagName)`
     &:not(:first-child):before {
         content: '•';
         color: ${props => props.theme.colors.primary};
