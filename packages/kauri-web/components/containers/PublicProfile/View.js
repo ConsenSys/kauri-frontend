@@ -15,7 +15,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
   constructor(props: ViewProps) {
     super(props);
     this.state = {
-      isEditing: false,
+      isEditing: true,
       avatar: "",
       username: "",
       name: "",

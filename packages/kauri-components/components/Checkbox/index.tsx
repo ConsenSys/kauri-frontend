@@ -27,13 +27,17 @@ const Styled = styled<{ disabled: boolean }, "div">("div")`
       border-radius: 4px;
     }
     &:after {
-      content: "✓";
+      opacity: 0.2;
+      content: '';
       position: absolute;
-      top: -4px;
-      left: 1px;
-      font-size: 16px;
-      color: white;
-      transition: all 0.2s;
+      width: 11px;
+      height: 7px;
+      background: transparent;
+      top: 3px;
+      left: 3px;
+      border: 2px solid white;
+      border-top: none;
+      border-right: none;
     }
   }
   > input:not(:checked) + label {
@@ -58,7 +62,7 @@ const Styled = styled<{ disabled: boolean }, "div">("div")`
   > input:checked + label {
     &:after {
       opacity: 1;
-      transform: scale(1);
+      transform: scale(1) rotate(-45deg);
     }
   }
   > input:checked:focus + label,
