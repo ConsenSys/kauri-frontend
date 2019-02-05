@@ -17,9 +17,9 @@ const CommunitiesHeader = styled.div`
 const KauriTitle = styled.h1`
   color: white;
   font-weight: 300;
-  font-size: ${props => props.theme.fontSizes[5]}px;
-  margin-top: ${props => props.theme.space[4]}px;
-  margin-bottom: ${props => props.theme.space[3]}px;
+  font-size: ${props => props.theme.fontSizes[8]}px;
+  margin-top: 45px;
+  margin-bottom: 12px;
 
   @media (max-width: 500px) {
     width: 300px;

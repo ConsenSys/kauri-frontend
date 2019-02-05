@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from "react";
 import styled from "styled-components";
 import Input from "../../../../kauri-components/components/Input/Input";
@@ -38,7 +37,7 @@ const Container = styled.div`
 `;
 
 class EditableHeader extends Component<HeaderProps, HeaderState> {
-  constructor (props: HeaderProps) {
+  constructor(props: HeaderProps) {
     super(props);
     if (!props.OwnProfile.getMyProfile) {
       this.state = {
@@ -83,7 +82,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (
       typeof prevProps.OwnProfile.getMyProfile === "undefined" &&
       typeof this.props.OwnProfile.getMyProfile !== "undefined"
@@ -115,7 +114,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
     }
   }
 
-  saveUser (redirectURL: string | undefined, callback: any | undefined) {
+  saveUser(redirectURL: string | undefined, callback: any | undefined) {
     const payload = R.pipe(
       R.filter(val => typeof val !== "undefined" || !!val),
       R.assocPath(["redirectURL"], redirectURL)
@@ -127,19 +126,19 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
     });
   }
 
-  uploadImage () {
+  uploadImage() {
     TriggerImageUploader(() => {}, "", (file, url: string) =>
       this.setState({ avatar: url })
     );
   }
 
-  handleChange (param: string, value: string) {
+  handleChange(param: string, value: string) {
     this.setState({
       [param]: value,
     });
   }
 
-  render () {
+  render() {
     const {
       username,
       title,
