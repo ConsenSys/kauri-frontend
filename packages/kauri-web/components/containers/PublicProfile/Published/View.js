@@ -20,9 +20,6 @@ import type { ArticlesProps } from "../types";
 const Centered = styled.div`
   display: flex;
   justify-content: center;
-  & > * {
-    margin: ${props => props.theme.space[1]}px;
-  }
 `;
 
 const Articles = ({
