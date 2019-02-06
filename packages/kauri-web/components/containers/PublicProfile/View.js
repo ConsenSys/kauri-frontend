@@ -12,7 +12,7 @@ import Awaiting from "./Awaiting/View";
 import Pending from "./Pending/View";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor(props: ViewProps) {
+  constructor (props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -26,11 +26,11 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     };
   }
 
-  toggleEditing() {
+  toggleEditing () {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render() {
+  render () {
     const {
       PendingQuery,
       UserQuery,
@@ -43,6 +43,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       deleteDraftArticleAction,
       closeModalAction,
       openModalAction,
+      isLoggedIn,
     } = this.props;
 
     const isHeaderLoaded =
@@ -126,6 +127,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 openModalAction={openModalAction}
               />,
               <Collections
+                isLoggedIn={!!currentUser}
                 data={CollectionQuery}
                 routeChangeAction={routeChangeAction}
               />,
@@ -142,11 +144,13 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 />
               ),
               <Awaiting
+                isLoggedIn={!!currentUser}
                 data={ApprovalsQuery}
                 type="pending"
                 routeChangeAction={routeChangeAction}
               />,
               <Pending
+                isLoggedIn={!!currentUser}
                 data={PendingQuery}
                 type="toBeApproved"
                 routeChangeAction={routeChangeAction}

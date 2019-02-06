@@ -7,8 +7,6 @@ import { Link } from "../../../../routes";
 import ContentContainer from "../PublicProfileContentContainer";
 import withPagination from "../../../../lib/with-pagination";
 import PublicProfileEmptyState from "../components/PublicProfileEmptyState";
-import PrimaryButtonComponent from "../components/Button/PrimaryButton";
-
 import { PrimaryButton } from "../../../../../kauri-components/components/Button";
 import AlertView from "../../../../../kauri-components/components/Modal/AlertView";
 import { BodyCard } from "../../../../../kauri-components/components/Typography";

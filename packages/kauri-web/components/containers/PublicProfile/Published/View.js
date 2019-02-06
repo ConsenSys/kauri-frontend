@@ -38,96 +38,83 @@ const Articles = ({
       )}
       <ContentContainer>
         <Masonry columns={4} minWidth={310}>
-          {articles && articles.length ? (
-            articles.map(article => (
-              <ArticleCard
-                key={`${article.id}-${article.version}`}
-                changeRoute={routeChangeAction}
-                date={article.dateCreated}
-                title={article.title}
-                content={article.content}
-                tags={article.tags}
-                userId={
-                  type !== "toBeApproved" && article.owner
-                    ? article.owner.id
-                    : article.author.id
-                }
-                username={
-                  type !== "toBeApproved" && article.owner
-                    ? article.owner.username
-                    : article.author.username
-                }
-                userAvatar={
-                  type !== "toBeApproved" && article.owner
-                    ? article.owner.avatar
-                    : article.author.avatar
-                }
-                isLoggedIn={isLoggedIn}
-                hoverChildren={({ hideDispatch }) => (
-                  <PrimaryButton
-                    onClick={() =>
-                      openModalAction({
-                        children: (
-                          <AddToCollectionConnection
-                            articleId={article.id}
-                            version={article.version}
-                          />
-                        ),
-                      })
-                    }
-                  >
-                    Add To Collection
-                  </PrimaryButton>
-                )}
-                id={article.id}
-                version={article.version}
-                cardHeight={420}
-                imageURL={article.attributes && article.attributes.background}
-                nfts={article.associatedNfts}
-                linkComponent={(childrenProps, route) => (
-                  <Link
-                    toSlug={route.includes("article") && article.title}
-                    useAnchorTag
-                    href={route}
-                  >
-                    {childrenProps}
-                  </Link>
-                )}
-              />
-            ))
-          ) : (
-            <Centered>
-              <PublicProfileEmptyState
-                iconSrc={"/static/images/icons/no-published-articles.svg"}
-                description={
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
-                }
-                title="No Articles Published"
-                secondaryButton={isOwner ? <MediumImportButton border /> : null}
-                primaryButton={
-                  isOwner ? (
-                    <PrimaryButton
-                      onClick={() => routeChangeAction("/write-article")}
-                    >
-                      Create Article
-                    </PrimaryButton>
-                  ) : null
-                }
-              />
-            </Centered>
-          )}
+          {articles.map(article => (
+            <ArticleCard
+              key={`${article.id}-${article.version}`}
+              changeRoute={routeChangeAction}
+              date={article.dateCreated}
+              title={article.title}
+              content={article.content}
+              tags={article.tags}
+              userId={
+                type !== "toBeApproved" && article.owner
+                  ? article.owner.id
+                  : article.author.id
+              }
+              username={
+                type !== "toBeApproved" && article.owner
+                  ? article.owner.username
+                  : article.author.username
+              }
+              userAvatar={
+                type !== "toBeApproved" && article.owner
+                  ? article.owner.avatar
+                  : article.author.avatar
+              }
+              isLoggedIn={isLoggedIn}
+              hoverChildren={({ hideDispatch }) => (
+                <PrimaryButton
+                  onClick={() =>
+                    openModalAction({
+                      children: (
+                        <AddToCollectionConnection
+                          articleId={article.id}
+                          version={article.version}
+                        />
+                      ),
+                    })
+                  }
+                >
+                  Add To Collection
+                </PrimaryButton>
+              )}
+              id={article.id}
+              version={article.version}
+              cardHeight={420}
+              imageURL={article.attributes && article.attributes.background}
+              nfts={article.associatedNfts}
+              linkComponent={(childrenProps, route) => (
+                <Link
+                  toSlug={route.includes("article") && article.title}
+                  useAnchorTag
+                  href={route}
+                >
+                  {childrenProps}
+                </Link>
+              )}
+            />
+          ))}
         </Masonry>
       </ContentContainer>
     </Fragment>
   ) : (
-    <Empty>
-      <Centered>
-        {isOwner && <MediumImportButton border />}
-        <PrimaryButton onClick={() => routeChangeAction("/write-article")}>
-          WRITE ARTICLE
-        </PrimaryButton>
-      </Centered>
-    </Empty>
+    <Centered>
+      <PublicProfileEmptyState
+        iconSrc={"/static/images/icons/no-published-articles.svg"}
+        description={
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
+        }
+        title="No Articles Published"
+        secondaryButton={isOwner ? <MediumImportButton border /> : null}
+        primaryButton={
+          isOwner ? (
+            <PrimaryButton onClick={() => routeChangeAction("/write-article")}>
+              Create Article
+            </PrimaryButton>
+          ) : null
+        }
+      />
+    </Centered>
   );
 };
 

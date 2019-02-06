@@ -1,15 +1,19 @@
 // @flow
 import React from "react";
-import moment from "moment";
 import CollectionCard from "../../../../kauri-components/components/Card/CollectionCard";
-import Empty from "./Empty";
 import { Link } from "../../../routes";
 import styled from "styled-components";
 import ContentContainer from "./PublicProfileContentContainer";
-import { PrimaryButton } from "../../../../kauri-components/components/Button";
+import PublicProfileEmptyState from "../components/PublicProfileEmptyState";
+import { PrimaryButton } from "../../../../../kauri-components/components/Button";
 import withPagination from "../../../lib/with-pagination";
 
 import type { CollectionsProps } from "./types";
+
+const Centered = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 export const CollectionsContainer = styled.div`
   display: flex;
@@ -25,7 +29,11 @@ export const CollectionsContainer = styled.div`
   }
 `;
 
-const Collections = ({ data, routeChangeAction }: CollectionsProps) =>
+const Collections = ({
+  data,
+  routeChangeAction,
+  isLoggedIn,
+}: CollectionsProps) =>
   data.searchCollections && data.searchCollections.content.length > 0 ? (
     <ContentContainer>
       <CollectionsContainer>
@@ -65,11 +73,28 @@ const Collections = ({ data, routeChangeAction }: CollectionsProps) =>
       </CollectionsContainer>
     </ContentContainer>
   ) : (
-    <Empty>
-      <PrimaryButton onClick={() => routeChangeAction("/create-collection")}>
-        CREATE COLLECTION
-      </PrimaryButton>
-    </Empty>
+    <Centered>
+      <PublicProfileEmptyState
+        iconSrc={"/static/images/icons/no-collections-created.svg"}
+        description={
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
+        }
+        title="No Collections Created"
+        primaryButton={
+          <PrimaryButton
+            onClick={() =>
+              routeChangeAction(
+                isLoggedIn
+                  ? "/create-collection"
+                  : "/login?r=/create-collection"
+              )
+            }
+          >
+            Create Collection
+          </PrimaryButton>
+        }
+      />{" "}
+    </Centered>
   );
 
 export default withPagination(Collections, "searchCollections");
