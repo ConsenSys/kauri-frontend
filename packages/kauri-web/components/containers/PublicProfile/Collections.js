@@ -76,22 +76,17 @@ const Collections = ({
     <Centered>
       <PublicProfileEmptyState
         iconSrc={"/static/images/icons/no-collections-created.svg"}
-        description={
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
-        }
+        description={`Collections are ways to group and organize articles on Kauri.
+           Common collections are tutorial series, articles about a single product, multiple projects, or even just a user's favourite articles.`}
         title="No Collections Created"
         primaryButton={
-          <PrimaryButton
-            onClick={() =>
-              routeChangeAction(
-                isLoggedIn
-                  ? "/create-collection"
-                  : "/login?r=/create-collection"
-              )
-            }
-          >
-            Create Collection
-          </PrimaryButton>
+          isLoggedIn ? (
+            <PrimaryButton
+              onClick={() => routeChangeAction("/create-collection")}
+            >
+              Create Collection
+            </PrimaryButton>
+          ) : null
         }
       />{" "}
     </Centered>

@@ -116,7 +116,7 @@ const Articles = ({
         <PublicProfileEmptyState
           iconSrc={"/static/images/icons/no-saved-drafts.svg"}
           description={
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
+            "All of your draft articles will appear here. Create one now!"
           }
           title="No Saved Drafts"
           primaryButton={

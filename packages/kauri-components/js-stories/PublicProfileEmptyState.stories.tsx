@@ -72,4 +72,27 @@ storiesOf("PublicProfile Empty States", module)
       learnMoreLinkComponent={childrenProps => childrenProps}
       title="No Articles Published"
     />
+  ))
+  .add("No Submitted Updates", () => (
+    <PublicProfileEmptyState
+      iconSrc={"/static/images/icons/no-submitted-updates.svg"}
+      description={
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
+      }
+      learnMoreLinkComponent={childrenProps => childrenProps}
+      title="No Submitted Updates"
+      primaryButton={
+        <PrimaryButtonComponent>Create Collection</PrimaryButtonComponent>
+      }
+    />
+  ))
+  .add("No Articles For Approval", () => (
+    <PublicProfileEmptyState
+      iconSrc={"/static/images/icons/no-articles-for-approval.svg"}
+      description={
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
+      }
+      learnMoreLinkComponent={childrenProps => childrenProps}
+      title="No Articles For Approval"
+    />
   ));

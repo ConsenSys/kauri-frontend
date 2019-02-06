@@ -102,7 +102,12 @@ const Articles = ({
       <PublicProfileEmptyState
         iconSrc={"/static/images/icons/no-published-articles.svg"}
         description={
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
+          isLoggedIn
+            ? `Any articles you've published on Kauri will appear here. 
+              Get started by creating a new draft below, or importing one you've written on Medium!
+              Your draft articles will be shown in the next tab until you publish them.
+          `
+            : "The user hasn't published any articles yet. Once they do, they will appear here!"
         }
         title="No Articles Published"
         secondaryButton={isOwner ? <MediumImportButton border /> : null}

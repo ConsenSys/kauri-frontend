@@ -7,17 +7,24 @@ import { Link } from "../../../../routes";
 import ContentContainer from "../PublicProfileContentContainer";
 import CheckpointArticles from "../../CheckpointArticles";
 import withPagination from "../../../../lib/with-pagination";
+import PublicProfileEmptyState from "../components/PublicProfileEmptyState";
 
 import { PrimaryButton } from "../../../../../kauri-components/components/Button";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 
 import type { ArticlesProps } from "../types";
 
+const Centered = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const Articles = ({
   data,
   type,
   routeChangeAction,
   isOwner,
+  isLoggedIn,
 }: ArticlesProps) => {
   const articles = data.searchArticles && data.searchArticles.content;
   return articles.length > 0 ? (
@@ -70,11 +77,15 @@ const Articles = ({
       </ContentContainer>
     </Fragment>
   ) : (
-    <Empty>
-      <PrimaryButton onClick={() => routeChangeAction(`/write-article`)}>
-        WRITE ARTICLE
-      </PrimaryButton>
-    </Empty>
+    <Centered>
+      <PublicProfileEmptyState
+        iconSrc={"/static/images/icons/no-submitted-updates.svg"}
+        description={`If you think of an improvement to another user's article, you can suggest edits by clicking "Update Article".
+          They'll then be asked to approve or reject (giving a reason) your edits.
+          Your pending submitted edits will appear here.`}
+        title="No Submitted Updates"
+      />{" "}
+    </Centered>
   );
 };
 

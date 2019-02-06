@@ -8,9 +8,16 @@ import ContentContainer from "../PublicProfileContentContainer";
 import CheckpointArticles from "../../CheckpointArticles";
 import withPagination from "../../../../lib/with-pagination";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
+import PublicProfileEmptyState from "../components/PublicProfileEmptyState";
 
 import { PrimaryButton } from "../../../../../kauri-components/components/Button";
+
 import type { ArticlesProps } from "../types";
+
+const Centered = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const Articles = ({
   data,
@@ -69,11 +76,18 @@ const Articles = ({
       </ContentContainer>
     </Fragment>
   ) : (
-    <Empty>
-      <PrimaryButton onClick={() => routeChangeAction(`/write-article`)}>
-        WRITE ARTICLE
-      </PrimaryButton>
-    </Empty>
+    <Centered>
+      (
+      <Centered>
+        <PublicProfileEmptyState
+          iconSrc={"/static/images/icons/no-articles-for-approval.svg"}
+          description={`If another user on Kauri suggests edits to one of your published articles, you'll be asked to approve or reject them.
+            These pending edits will appear here until you do so.`}
+          title="No Articles For Approval"
+        />
+      </Centered>
+      )
+    </Centered>
   );
 };
 
