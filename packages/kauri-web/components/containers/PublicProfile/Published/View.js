@@ -20,6 +20,7 @@ import type { ArticlesProps } from "../types";
 const Centered = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: ${props => props.theme.paddingTop};
 `;
 
 const DescriptionContainer = styled.div`

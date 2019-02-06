@@ -16,6 +16,7 @@ import type { ArticlesProps } from "../types";
 const Centered = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: ${props => props.theme.space[1]}px;
 `;
 
 const Articles = ({
@@ -110,22 +111,18 @@ const Articles = ({
     </Fragment>
   ) : (
     <Centered>
-      (
-      <Centered>
-        <PublicProfileEmptyState
-          iconSrc={"/static/images/icons/no-saved-drafts.svg"}
-          description={
-            "All of your draft articles will appear here. Create one now!"
-          }
-          title="No Saved Drafts"
-          primaryButton={
-            <PrimaryButton onClick={() => routeChangeAction("/write-article")}>
-              Create Article
-            </PrimaryButton>
-          }
-        />
-      </Centered>
-      )
+      <PublicProfileEmptyState
+        iconSrc={"/static/images/icons/no-saved-drafts.svg"}
+        description={
+          "All of your draft articles will appear here. Create one now!"
+        }
+        title="No Saved Drafts"
+        primaryButton={
+          <PrimaryButton onClick={() => routeChangeAction("/write-article")}>
+            Create Article
+          </PrimaryButton>
+        }
+      />
     </Centered>
   );
 };
