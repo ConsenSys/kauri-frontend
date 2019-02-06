@@ -16,7 +16,7 @@ import type { ArticlesProps } from "../types";
 const Centered = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: ${props => props.theme.space[1]}px;
+  margin-top: ${props => props.theme.paddingTop};
 `;
 
 const Articles = ({
