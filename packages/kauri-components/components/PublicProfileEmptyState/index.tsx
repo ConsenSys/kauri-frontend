@@ -13,7 +13,7 @@ const Container = styled<{ moveIconLeftBecauseCSS?: boolean }, "div">("div")`
     margin-bottom: ${props => props.theme.space[2]}px;
     ${props =>
       typeof props.moveIconLeftBecauseCSS !== "undefined" &&
-      "margin-left: 15px;"}
+      "margin-left: 27px;"}
   }
   > :nth-child(2) {
     margin-bottom: ${props => props.theme.space[1]}px;
@@ -29,8 +29,8 @@ const Container = styled<{ moveIconLeftBecauseCSS?: boolean }, "div">("div")`
 const Buttons = styled.div`
   display: flex;
   flex-direction: row;
-  > :first-child {
-    margin-right: ${props => props.theme.space[2]}px;
+  > :nth-child(2) {
+    margin-left: ${props => props.theme.space[2]}px;
   }
 `;
 
