@@ -112,6 +112,7 @@ const Articles = ({
   ) : (
     <Centered>
       <PublicProfileEmptyState
+        moveIconLeftBecauseCSS
         iconSrc={"/static/images/icons/no-saved-drafts.svg"}
         description={
           "All of your draft articles will appear here. Create one now!"

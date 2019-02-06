@@ -84,6 +84,7 @@ const Articles = ({
   ) : (
     <Centered>
       <PublicProfileEmptyState
+        moveIconLeftBecauseCSS
         iconSrc={"/static/images/icons/no-submitted-updates.svg"}
         description={
           <DescriptionContainer>

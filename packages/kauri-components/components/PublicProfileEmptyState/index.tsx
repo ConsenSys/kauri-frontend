@@ -1,7 +1,7 @@
 import styled from "../../lib/styled-components";
 import { Title2, BodyCard, Label } from "../../components/Typography";
 
-const Container = styled.div`
+const Container = styled<{ moveIconLeftBecauseCSS?: boolean }, "div">("div")`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,6 +11,9 @@ const Container = styled.div`
   text-align: center;
   > :first-child {
     margin-bottom: ${props => props.theme.space[2]}px;
+    ${props =>
+      typeof props.moveIconLeftBecauseCSS !== "undefined" &&
+      "margin-left: 15px;"}
   }
   > :nth-child(2) {
     margin-bottom: ${props => props.theme.space[1]}px;
@@ -33,7 +36,7 @@ const Buttons = styled.div`
 
 const Icon = styled.img`
   height: 72px;
-  width: 58px;
+  width: 83px;
 `;
 
 const Link = styled(Label)``;
@@ -47,6 +50,7 @@ interface IProps {
   iconSrc: string;
   primaryButton?: React.ReactElement<any>;
   secondaryButton?: React.ReactElement<any>;
+  moveIconLeftBecauseCSS?: boolean;
 }
 
 export const PublicProfileEmptyState: React.FunctionComponent<IProps> = ({
@@ -56,8 +60,9 @@ export const PublicProfileEmptyState: React.FunctionComponent<IProps> = ({
   iconSrc,
   secondaryButton,
   primaryButton,
+  moveIconLeftBecauseCSS,
 }) => (
-  <Container>
+  <Container moveIconLeftBecauseCSS={moveIconLeftBecauseCSS}>
     <Icon src={iconSrc} />
     <Title2>{title}</Title2>
     {typeof description === "string" ? (

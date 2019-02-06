@@ -47,6 +47,7 @@ storiesOf("PublicProfile Empty States", module)
   ))
   .add("No Saved Drafts", () => (
     <PublicProfileEmptyState
+      moveIconLeftBecauseCSS={true}
       iconSrc={"/static/images/icons/no-saved-drafts.svg"}
       description={
         "All of your draft articles will appear here. Create one now!"
@@ -91,6 +92,7 @@ storiesOf("PublicProfile Empty States", module)
   ))
   .add("No Submitted Updates", () => (
     <PublicProfileEmptyState
+      moveIconLeftBecauseCSS={true}
       iconSrc={"/static/images/icons/no-submitted-updates.svg"}
       description={
         <DescriptionContainer>
