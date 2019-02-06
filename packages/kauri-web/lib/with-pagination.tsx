@@ -1,10 +1,7 @@
-/* tslint:disable */
-
 import * as React from "react";
 import ReactDOM from "react-dom";
 import Loading from "../components/common/Loading";
 import { DataValue } from "react-apollo";
-import styled from "../../kauri-components/lib/styled-components";
 
 interface IState {
   showLoading: boolean;
@@ -146,8 +143,8 @@ const withPagination = (
                 ],
                 isLast: fetchMoreResult[key].isLast,
                 totalElements: prev[key].totalElements,
-                totalPages: prev[key].totalPages,
                 totalElementsBreakdown: prev[key].totalElementsBreakdown,
+                totalPages: prev[key].totalPages,
               },
             };
             return result;
