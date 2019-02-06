@@ -1,15 +1,26 @@
 // @flow
 import React from "react";
-import moment from "moment";
 import CollectionCard from "../../../../kauri-components/components/Card/CollectionCard";
-import Empty from "./Empty";
 import { Link } from "../../../routes";
 import styled from "styled-components";
 import ContentContainer from "./PublicProfileContentContainer";
+import PublicProfileEmptyState from "../../../../kauri-components/components/PublicProfileEmptyState";
 import { PrimaryButton } from "../../../../kauri-components/components/Button";
+import { BodyCard } from "../../../../kauri-components/components/Typography";
 import withPagination from "../../../lib/with-pagination";
 
 import type { CollectionsProps } from "./types";
+
+const Centered = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: ${props => props.theme.paddingTop};
+`;
+
+const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 export const CollectionsContainer = styled.div`
   display: flex;
@@ -25,7 +36,11 @@ export const CollectionsContainer = styled.div`
   }
 `;
 
-const Collections = ({ data, routeChangeAction }: CollectionsProps) =>
+const Collections = ({
+  data,
+  routeChangeAction,
+  isLoggedIn,
+}: CollectionsProps) =>
   data.searchCollections && data.searchCollections.content.length > 0 ? (
     <ContentContainer>
       <CollectionsContainer>
@@ -65,11 +80,33 @@ const Collections = ({ data, routeChangeAction }: CollectionsProps) =>
       </CollectionsContainer>
     </ContentContainer>
   ) : (
-    <Empty>
-      <PrimaryButton onClick={() => routeChangeAction("/create-collection")}>
-        CREATE COLLECTION
-      </PrimaryButton>
-    </Empty>
+    <Centered>
+      <PublicProfileEmptyState
+        iconSrc={"/static/images/icons/no-collections-created.svg"}
+        description={
+          <DescriptionContainer>
+            <BodyCard>
+              Collections are ways to group and organize articles on Kauri.
+            </BodyCard>
+            <BodyCard>
+              Common collections are tutorial series, articles about a single
+              product, multiple projects, or even just a user's favourite
+              articles
+            </BodyCard>
+          </DescriptionContainer>
+        }
+        title="No Collections Created"
+        primaryButton={
+          isLoggedIn ? (
+            <PrimaryButton
+              onClick={() => routeChangeAction("/create-collection")}
+            >
+              Create Collection
+            </PrimaryButton>
+          ) : null
+        }
+      />{" "}
+    </Centered>
   );
 
 export default withPagination(Collections, "searchCollections");
