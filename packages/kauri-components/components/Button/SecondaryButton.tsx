@@ -25,9 +25,10 @@ const SecondaryButton = styled<
   "button"
 >("button")`
   ${BaseButtonCss};
-  border: 1px solid ${props => props.theme.colors[props.border]};
+  box-shadow: 0px 0px 0px 1px ${props => props.theme.colors[props.border]};
   :hover {
-    border: 2px solid ${props => props.theme.colors[props.borderHover]};
+    box-shadow: 0px 0px 0px 2px
+      ${props => props.theme.colors[props.borderHover]};
   }
 `;
 
