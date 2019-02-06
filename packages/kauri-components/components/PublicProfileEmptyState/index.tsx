@@ -7,7 +7,7 @@ const Container = styled.div`
   align-items: center;
   align-self: center;
   margin: 0 auto;
-  max-width: 300px;
+  max-width: 450px;
   text-align: center;
   > :first-child {
     margin-bottom: ${props => props.theme.space[2]}px;
@@ -40,7 +40,7 @@ const Link = styled(Label)``;
 
 interface IProps {
   title: string;
-  description: string;
+  description: string | React.ReactElement<any>;
   learnMoreLinkComponent?: (
     childrenProps: React.ReactElement<any>
   ) => React.ReactElement<any>;
@@ -60,7 +60,11 @@ export const PublicProfileEmptyState: React.FunctionComponent<IProps> = ({
   <Container>
     <Icon src={iconSrc} />
     <Title2>{title}</Title2>
-    {description && <BodyCard>{description}</BodyCard>}
+    {typeof description === "string" ? (
+      <BodyCard>{description}</BodyCard>
+    ) : (
+      description
+    )}
     {learnMoreLinkComponent &&
       learnMoreLinkComponent(<Link color={"primary"}>Learn more</Link>)}
     <Buttons>

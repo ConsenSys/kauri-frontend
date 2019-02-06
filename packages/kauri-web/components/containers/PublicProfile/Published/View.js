@@ -2,7 +2,6 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
-import Empty from "../Empty";
 import { Link } from "../../../../routes";
 import ContentContainer from "../PublicProfileContentContainer";
 import CheckpointArticles from "../../CheckpointArticles";
@@ -13,6 +12,7 @@ import {
 } from "../../../../../kauri-components/components/Button";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 import PublicProfileEmptyState from "../../../../../kauri-components/components/PublicProfileEmptyState";
+import { BodyCard } from "../../../../../kauri-components/components/Typography";
 import AddToCollectionConnection from "../../../connections/AddToCollection/index";
 
 import type { ArticlesProps } from "../types";
@@ -20,6 +20,11 @@ import type { ArticlesProps } from "../types";
 const Centered = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Articles = ({
@@ -102,12 +107,23 @@ const Articles = ({
       <PublicProfileEmptyState
         iconSrc={"/static/images/icons/no-published-articles.svg"}
         description={
-          isLoggedIn
-            ? `Any articles you've published on Kauri will appear here. 
-              Get started by creating a new draft below, or importing one you've written on Medium!
-              Your draft articles will be shown in the next tab until you publish them.
-          `
-            : "The user hasn't published any articles yet. Once they do, they will appear here!"
+          isLoggedIn ? (
+            <DescriptionContainer>
+              <BodyCard>
+                Any articles you've published on Kauri will appear here.
+              </BodyCard>
+              <BodyCard>
+                Get started by creating a new draft below, or importing one
+                you've written on Medium!
+              </BodyCard>
+              <BodyCard>
+                Your draft articles will be shown in the next tab until you
+                publish them.
+              </BodyCard>
+            </DescriptionContainer>
+          ) : (
+            "The user hasn't published any articles yet. Once they do, they will appear here!"
+          )
         }
         title="No Articles Published"
         secondaryButton={isOwner ? <MediumImportButton border /> : null}

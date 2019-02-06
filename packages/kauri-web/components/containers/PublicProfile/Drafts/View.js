@@ -2,11 +2,10 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
-import Empty from "../Empty";
 import { Link } from "../../../../routes";
 import ContentContainer from "../PublicProfileContentContainer";
 import withPagination from "../../../../lib/with-pagination";
-import PublicProfileEmptyState from "../components/PublicProfileEmptyState";
+import PublicProfileEmptyState from "../../../../../kauri-components/components/PublicProfileEmptyState";
 import { PrimaryButton } from "../../../../../kauri-components/components/Button";
 import AlertView from "../../../../../kauri-components/components/Modal/AlertView";
 import { BodyCard } from "../../../../../kauri-components/components/Typography";

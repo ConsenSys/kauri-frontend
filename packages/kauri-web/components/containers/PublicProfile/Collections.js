@@ -4,8 +4,9 @@ import CollectionCard from "../../../../kauri-components/components/Card/Collect
 import { Link } from "../../../routes";
 import styled from "styled-components";
 import ContentContainer from "./PublicProfileContentContainer";
-import PublicProfileEmptyState from "../components/PublicProfileEmptyState";
-import { PrimaryButton } from "../../../../../kauri-components/components/Button";
+import PublicProfileEmptyState from "../../../../kauri-components/components/PublicProfileEmptyState";
+import { PrimaryButton } from "../../../../kauri-components/components/Button";
+import { BodyCard } from "../../../../kauri-components/components/Typography";
 import withPagination from "../../../lib/with-pagination";
 
 import type { CollectionsProps } from "./types";
@@ -13,6 +14,11 @@ import type { CollectionsProps } from "./types";
 const Centered = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const CollectionsContainer = styled.div`
@@ -76,8 +82,18 @@ const Collections = ({
     <Centered>
       <PublicProfileEmptyState
         iconSrc={"/static/images/icons/no-collections-created.svg"}
-        description={`Collections are ways to group and organize articles on Kauri.
-           Common collections are tutorial series, articles about a single product, multiple projects, or even just a user's favourite articles.`}
+        description={
+          <DescriptionContainer>
+            <BodyCard>
+              Collections are ways to group and organize articles on Kauri.
+            </BodyCard>
+            <BodyCard>
+              Common collections are tutorial series, articles about a single
+              product, multiple projects, or even just a user's favourite
+              articles
+            </BodyCard>
+          </DescriptionContainer>
+        }
         title="No Collections Created"
         primaryButton={
           isLoggedIn ? (

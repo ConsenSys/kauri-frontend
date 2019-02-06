@@ -4,6 +4,7 @@ import styled from "../lib/styled-components";
 import PrimaryButtonComponent from "../components/Button/PrimaryButton";
 import MediumImportButton from "../components/Button/MediumImportButton";
 import PublicProfileEmptyState from "../components/PublicProfileEmptyState";
+import { BodyCard } from "../components/Typography";
 
 const DecoratorContainer = styled.div`
   display: flex;
@@ -11,15 +12,31 @@ const DecoratorContainer = styled.div`
   margin: 0 auto;
 `;
 
+const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 storiesOf("PublicProfile Empty States", module)
   .addDecorator(story => <DecoratorContainer>{story()}</DecoratorContainer>)
   .add("No Articles Published", () => (
     <PublicProfileEmptyState
       iconSrc={"/static/images/icons/no-published-articles.svg"}
-      description={`Any articles you've published on Kauri will appear here. 
-          Get started by creating a new draft below, or importing one you've written on Medium!
-          Your draft articles will be shown in the next tab until you publish them.
-      `}
+      description={
+        <DescriptionContainer>
+          <BodyCard>
+            Any articles you've published on Kauri will appear here.
+          </BodyCard>
+          <BodyCard>
+            Get started by creating a new draft below, or importing one you've
+            written on Medium!
+          </BodyCard>
+          <BodyCard>
+            Your draft articles will be shown in the next tab until you publish
+            them.
+          </BodyCard>
+        </DescriptionContainer>
+      }
       learnMoreLinkComponent={childrenProps => childrenProps}
       title="No Articles Published"
       secondaryButton={<MediumImportButton border={true} />}
@@ -75,9 +92,17 @@ storiesOf("PublicProfile Empty States", module)
   .add("No Submitted Updates", () => (
     <PublicProfileEmptyState
       iconSrc={"/static/images/icons/no-submitted-updates.svg"}
-      description={`If you think of an improvement to another user's article, you can suggest edits by clicking "Update Article".
-          They'll then be asked to approve or reject (giving a reason) your edits.
-          Your pending submitted edits will appear here.`}
+      description={
+        <DescriptionContainer>
+          <BodyCard>
+            If another user on Kauri suggests edits to one of your published
+            articles, you'll be asked to approve or reject them.
+          </BodyCard>
+          <BodyCard>
+            These pending edits will appear here until you do so.
+          </BodyCard>
+        </DescriptionContainer>
+      }
       learnMoreLinkComponent={childrenProps => childrenProps}
       title="No Submitted Updates"
       primaryButton={
@@ -88,8 +113,19 @@ storiesOf("PublicProfile Empty States", module)
   .add("No Articles For Approval", () => (
     <PublicProfileEmptyState
       iconSrc={"/static/images/icons/no-articles-for-approval.svg"}
-      description={`If another user on Kauri suggests edits to one of your published articles, you'll be asked to approve or reject them.
-        These pending edits will appear here until you do so.`}
+      description={
+        <DescriptionContainer>
+          <BodyCard>
+            If you think of an improvement to another user's article, you can
+            suggest edits by clicking "Update Article".
+          </BodyCard>
+          <BodyCard>
+            They'll then be asked to approve or reject (giving a reason) your
+            edits.
+          </BodyCard>
+          <BodyCard>Your pending submitted edits will appear here.</BodyCard>
+        </DescriptionContainer>
+      }
       learnMoreLinkComponent={childrenProps => childrenProps}
       title="No Articles For Approval"
     />
