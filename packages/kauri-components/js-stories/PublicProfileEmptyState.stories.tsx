@@ -16,9 +16,10 @@ storiesOf("PublicProfile Empty States", module)
   .add("No Articles Published", () => (
     <PublicProfileEmptyState
       iconSrc={"/static/images/icons/no-published-articles.svg"}
-      description={
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
-      }
+      description={`Any articles you've published on Kauri will appear here. 
+          Get started by creating a new draft below, or importing one you've written on Medium!
+          Your draft articles will be shown in the next tab until you publish them.
+      `}
       learnMoreLinkComponent={childrenProps => childrenProps}
       title="No Articles Published"
       secondaryButton={<MediumImportButton border={true} />}
@@ -31,7 +32,7 @@ storiesOf("PublicProfile Empty States", module)
     <PublicProfileEmptyState
       iconSrc={"/static/images/icons/no-saved-drafts.svg"}
       description={
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
+        "All of your draft articles will appear here. Create one now!"
       }
       learnMoreLinkComponent={childrenProps => childrenProps}
       title="No Saved Drafts"
@@ -43,9 +44,8 @@ storiesOf("PublicProfile Empty States", module)
   .add("No Collections Created", () => (
     <PublicProfileEmptyState
       iconSrc={"/static/images/icons/no-collections-created.svg"}
-      description={
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
-      }
+      description={`Collections are ways to group and organize articles on Kauri.
+           Common collections are tutorial series, articles about a single product, multiple projects, or even just a user's favourite articles.`}
       learnMoreLinkComponent={childrenProps => childrenProps}
       title="No Collections Created"
       primaryButton={
@@ -56,9 +56,8 @@ storiesOf("PublicProfile Empty States", module)
   .add("No Collections Created - Others", () => (
     <PublicProfileEmptyState
       iconSrc={"/static/images/icons/no-collections-created.svg"}
-      description={
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
-      }
+      description={`Collections are ways to group and organize articles on Kauri.
+           Common collections are tutorial series, articles about a single product, multiple projects, or even just a user's favourite articles.`}
       learnMoreLinkComponent={childrenProps => childrenProps}
       title="No Collections Created"
     />
@@ -67,7 +66,7 @@ storiesOf("PublicProfile Empty States", module)
     <PublicProfileEmptyState
       iconSrc={"/static/images/icons/no-published-articles.svg"}
       description={
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
+        "The user hasn't published any articles yet. Once they do, they will appear here!"
       }
       learnMoreLinkComponent={childrenProps => childrenProps}
       title="No Articles Published"
@@ -76,9 +75,9 @@ storiesOf("PublicProfile Empty States", module)
   .add("No Submitted Updates", () => (
     <PublicProfileEmptyState
       iconSrc={"/static/images/icons/no-submitted-updates.svg"}
-      description={
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
-      }
+      description={`If you think of an improvement to another user's article, you can suggest edits by clicking "Update Article".
+          They'll then be asked to approve or reject (giving a reason) your edits.
+          Your pending submitted edits will appear here.`}
       learnMoreLinkComponent={childrenProps => childrenProps}
       title="No Submitted Updates"
       primaryButton={
@@ -89,9 +88,8 @@ storiesOf("PublicProfile Empty States", module)
   .add("No Articles For Approval", () => (
     <PublicProfileEmptyState
       iconSrc={"/static/images/icons/no-articles-for-approval.svg"}
-      description={
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis gravida."
-      }
+      description={`If another user on Kauri suggests edits to one of your published articles, you'll be asked to approve or reject them.
+        These pending edits will appear here until you do so.`}
       learnMoreLinkComponent={childrenProps => childrenProps}
       title="No Articles For Approval"
     />
