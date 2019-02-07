@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { Article } from "./Article";
 
 export const Collection = gql`
   fragment Collection on CollectionDTO {
@@ -52,8 +53,8 @@ export const globalCollectionDetails = gql`
         name
         description
         resources {
-          ... on CollectionDTO {
-            ...Collection
+          ... on ArticleDTO {
+            ...Article
           }
         }
       }
@@ -63,7 +64,7 @@ export const globalCollectionDetails = gql`
       }
     }
   }
-  ${Collection}
+  ${Article}
 `;
 
 export const getCollection = globalCollectionDetails;
@@ -114,6 +115,7 @@ export const composeCollection = gql`
     }
   }
 `;
+
 export const getLatestCollections = gql`
   query searchAutocompleteCollections(
     $page: Int = 0

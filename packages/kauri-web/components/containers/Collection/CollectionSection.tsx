@@ -1,6 +1,4 @@
 import * as React from "react";
-import * as t from "io-ts";
-import { failure } from "io-ts/lib/PathReporter";
 import { Link } from "../../../routes";
 import styled from "../../../lib/styled-components";
 import Empty from "../PublicProfile/Empty";
@@ -38,42 +36,36 @@ const StyledDescription = styled(PageDescription)`
   margin-bottom: ${props => props.theme.space[3]}px;
 `;
 
-const Owner = t.interface({
-  avatar: t.union([t.null, t.string]),
-  id: t.string,
-  username: t.union([t.null, t.string]),
-});
+interface IOwner {
+  avatar: string | null;
+  id: string;
+  username: string | null;
+}
 
-const Article = t.interface({
-  associatedNfts: t.union([t.array(t.any), t.null]),
-  attributes: t.union([
-    t.null,
-    t.undefined,
-    t.interface({ background: t.union([t.string, t.null, t.undefined]) }),
-  ]),
-  content: t.string,
-  datePublished: t.string,
-  id: t.string,
-  imageURL: t.union([t.null, t.string, t.undefined]),
-  owner: Owner,
-  tags: t.union([t.array(t.string), t.null]),
-  title: t.string,
-  version: t.number,
-});
+interface IArticle {
+  associatedNfts: any[] | null;
+  attributes: { background: string | null } | null;
+  content: string;
+  datePublished: string;
+  id: string;
+  imageURL: string | null;
+  owner: IOwner;
+  tags: string[] | null;
+  title: string;
+  version: number;
+}
 
-const RuntimeProps = t.interface({
-  articles: t.array(Article),
-  currentUser: t.union([t.string, t.undefined, t.null]),
-  description: t.union([t.string, t.undefined, t.null]),
-  isLoggedIn: t.boolean,
-  isOwnedByCurrentUser: t.boolean,
-  name: t.string,
-  openModalAction: t.any,
-});
+interface IProps {
+  articles: IArticle[];
+  currentUser: string | null;
+  description: string | null;
+  isLoggedIn: boolean;
+  isOwnedByCurrentUser: boolean;
+  name: string;
+  openModalAction: any;
+}
 
-type Props = t.TypeOf<typeof RuntimeProps>;
-
-const Component: React.SFC<Props> = props => {
+const Component: React.SFC<IProps> = props => {
   const {
     name,
     description,
@@ -81,11 +73,9 @@ const Component: React.SFC<Props> = props => {
     isLoggedIn,
     openModalAction,
     isOwnedByCurrentUser,
-  } = RuntimeProps.decode(props).getOrElseL(errors => {
-    throw new Error(failure(errors).join("\n"));
-  });
+  } = props;
   if (articles) {
-    const linkComponent = (article: t.TypeOf<typeof Article>) => (
+    const linkComponent = (article: IArticle) => (
       childrenProps: React.ReactElement<any>,
       route: string
     ) => (
@@ -111,9 +101,9 @@ const Component: React.SFC<Props> = props => {
               content={article.content}
               date={article.datePublished}
               title={article.title}
-              username={article.owner.username}
-              userId={article.owner.id}
-              userAvatar={article.owner.avatar}
+              username={article.owner && article.owner.username}
+              userId={article.owner && article.owner.id}
+              userAvatar={article.owner && article.owner.avatar}
               nfts={article.associatedNfts || []}
               tags={article.tags as string[]}
               imageURL={
