@@ -60,9 +60,16 @@ class SubmitArticleFormText extends React.Component<Props, State> {
       );
       const newEditorState = EditorState.createWithContent(rawData);
 
-      this.state = {
+      this.setState({
         editorState: { draftEditorState: newEditorState },
-      };
+      });
+    } else {
+      const rawData = ContentState.createFromText("");
+      const newEditorState = EditorState.createWithContent(rawData);
+
+      this.setState({
+        editorState: { draftEditorState: newEditorState },
+      });
     }
   }
 
