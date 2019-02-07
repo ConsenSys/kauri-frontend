@@ -21,6 +21,12 @@ import TertiaryButton from "../../../../../kauri-components/components/Button/Te
 import styled from "../../../../lib/styled-components";
 import userIdTrim from "../../../../lib/userid-trim";
 import { BodyCard } from "../../../../../kauri-components/components/Typography";
+import { INFT } from "../../../../../kauri-components/components/Kudos/NFTList";
+import AddIcon from "../../../../../kauri-components/components/Icon/AddIcon";
+import AddToCollectionConnection from "../../../connections/AddToCollection";
+import { Label } from "../../../../../kauri-components/components/Typography";
+import RelatedArticles from "../../../../../kauri-components/components/RelatedArticles";
+import { Divider } from "../../../../../kauri-components/components/Outline";
 
 export const ApprovedArticleDetails = styled(CreateRequestDetails)`
   align-items: inherit;
@@ -33,6 +39,12 @@ export const ApprovedArticleDetails = styled(CreateRequestDetails)`
 
   @media (max-width: 500px) {
     display: none;
+  }
+`;
+
+const ActionsContainer = styled.div`
+  & > button {
+    margin: ${props => props.theme.space[2]}px 0;
   }
 `;
 
@@ -123,6 +135,8 @@ export default ({
   openModalAction,
   closeModalAction,
   deleteDraftArticleAction,
+  nfts,
+  relatedArticles,
 }: {
   text?: string,
   username?: ?string,
@@ -136,6 +150,8 @@ export default ({
   subject?: string,
   address?: string,
   hostName: string,
+  nfts: INFT[],
+  relatedArticles: ArticleDTO[],
   resourceType: "USER" | "COMMUNITY",
   openModalAction: ({ children: React.ReactNode }) => void,
   closeModalAction: () => void,
@@ -165,9 +181,9 @@ export default ({
     (editorState.markdown
       ? contentState.getBlocksAsArray().map(block => block.toJS())
       : editorState
-        .getCurrentContent()
-        .getBlocksAsArray()
-        .map(block => block.toJS()));
+          .getCurrentContent()
+          .getBlocksAsArray()
+          .map(block => block.toJS()));
 
   const outlineHeadings = blocks
     .filter(({ type }) => type.includes("header-one"))
@@ -181,6 +197,7 @@ export default ({
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type="outline">
         <Outline
+          nfts={nfts}
           linkComponent={children => (
             <Link
               useAnchorTag
@@ -203,61 +220,93 @@ export default ({
           text={ownerId ? "OWNER" : "AUTHOR"}
           routeChangeAction={routeChangeAction}
         />
-        <TertiaryButton
-          color={"textPrimary"}
-          icon={<UpdateArticleSvgIcon />}
-          handleClick={() =>
-            userId
-              ? routeChangeAction(`/article/${id}/v${version}/update-article`)
-              : routeChangeAction(
-                `/login?r=article/${id}/v${version}/update-article`
-              )
-          }
-        >
-          {`Update ${status === "DRAFT" ? "draft" : "article"}`}
-        </TertiaryButton>
-        {status === "DRAFT" && userId === authorId && (
+        <ActionsContainer>
+          {status !== "DRAFT" && (
+            <TertiaryButton
+              color={"textPrimary"}
+              icon={<AddIcon />}
+              handleClick={() =>
+                userId
+                  ? openModalAction({
+                      children: (
+                        <AddToCollectionConnection
+                          articleId={id}
+                          version={version}
+                        />
+                      ),
+                    })
+                  : routeChangeAction(`/login?r=/article/${id}/v${version}`)
+              }
+            >
+              Add To Collection
+            </TertiaryButton>
+          )}
           <TertiaryButton
             color={"textPrimary"}
-            icon={<DeleteDraftArticleSvgIcon />}
+            icon={<UpdateArticleSvgIcon />}
             handleClick={() =>
-              openModalAction({
-                children: (
-                  <AlertView
-                    closeModalAction={() => closeModalAction()}
-                    confirmButtonAction={() =>
-                      deleteDraftArticleAction(
-                        { id, version },
-                        closeModalAction
-                      )
-                    }
-                    content={
-                      <div>
-                        <BodyCard>
-                          You won't be able to retrieve the draft article after
-                          deleting.
-                        </BodyCard>
-                      </div>
-                    }
-                    title={"Are you sure?"}
-                  />
-                ),
-              })
+              userId
+                ? routeChangeAction(`/article/${id}/v${version}/update-article`)
+                : routeChangeAction(
+                    `/login?r=/article/${id}/v${version}/update-article`
+                  )
             }
           >
-            Delete Draft Article
+            {`Update ${status === "DRAFT" ? "draft" : "article"}`}
           </TertiaryButton>
-        )}
-        <ShareArticle
-          color="textPrimary"
-          url={`${hostName.replace(/api\./g, "")}/article/${id}/${slugify(
-            subject,
-            {
-              lower: true,
-            }
-          )}?utm_campaign=read`}
-          title={subject}
-        />
+          {status === "DRAFT" && userId === authorId && (
+            <TertiaryButton
+              color={"textPrimary"}
+              icon={<DeleteDraftArticleSvgIcon />}
+              handleClick={() =>
+                openModalAction({
+                  children: (
+                    <AlertView
+                      closeModalAction={() => closeModalAction()}
+                      confirmButtonAction={() =>
+                        deleteDraftArticleAction(
+                          { id, version },
+                          closeModalAction
+                        )
+                      }
+                      content={
+                        <div>
+                          <BodyCard>
+                            You won't be able to retrieve the draft article
+                            after deleting.
+                          </BodyCard>
+                        </div>
+                      }
+                      title={"Are you sure?"}
+                    />
+                  ),
+                })
+              }
+            >
+              Delete Draft Article
+            </TertiaryButton>
+          )}
+          <ShareArticle
+            color="textPrimary"
+            url={`${hostName.replace(/api\./g, "")}/article/${id}/${slugify(
+              subject,
+              {
+                lower: true,
+              }
+            )}?utm_campaign=read`}
+            title={subject}
+          />
+          <Divider />
+          <RelatedArticles
+            linkComponent={(children, route, key) => (
+              <Link key={key} useAnchorTag href={route}>
+                {children}
+              </Link>
+            )}
+            routeChangeAction={routeChangeAction}
+            relatedArticles={relatedArticles}
+          />
+        </ActionsContainer>
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>
   );

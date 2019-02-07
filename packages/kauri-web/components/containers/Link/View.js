@@ -35,6 +35,15 @@ const A = styled.a`
 
 class Link extends React.Component<LinkProps> {
   handleClick = (e, url) => {
+    if (
+      e.metaKey ||
+      e.ctrlKey ||
+      e.shiftKey ||
+      (e.nativeEvent && e.nativeEvent.which === 2)
+    ) {
+      // ignore click for new tab / new window behavior
+      return;
+    }
     e.preventDefault();
     e.stopPropagation();
     // TODO: Uncomment again later
@@ -44,7 +53,7 @@ class Link extends React.Component<LinkProps> {
       : this.props.routeChangeAction(url);
   };
 
-  render() {
+  render () {
     let url =
       this.props.as || this.props.href || this.props.children.props.href;
     const slug = this.props.toSlug

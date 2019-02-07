@@ -9,9 +9,12 @@ export type ArticlesProps = {
   },
   routeChangeAction: () => void,
   isOwner: boolean,
+  isLoggedIn?: boolean,
+  openModalAction?: ({ children: any }) => void,
 };
 
 export type CollectionsProps = {
+  isLoggedIn?: boolean,
   data: {
     searchCollections: {
       content: Array<CollectionDTO>,

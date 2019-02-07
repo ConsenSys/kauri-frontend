@@ -21,7 +21,6 @@
   "rules": {
     "no-submodule-imports": false,
     "ordered-imports": false,
-    "no-console": false,
     "jsx-no-lambda": false
   },
   "rulesDirectory": []

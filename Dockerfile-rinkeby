@@ -2,8 +2,8 @@ FROM gcr.io/kauri-197812/kauri-contract-abis:latest-uat
 
 # env settings
 ENV GETH_BLOCKCHAIN=rinkeby.infura.io
-ENV MONOLITH_EXTERNAL_API=api.beta.kauri.io
-ENV MONOLITH_API=monolith.uat:8080
+ENV MONOLITH_EXTERNAL_API=api.kauri.io
+ENV MONOLITH_API=monolith.uat:8081
 EXPOSE 3000
 
 # setup workspace

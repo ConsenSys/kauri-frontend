@@ -3,7 +3,7 @@ import styled from "styled-components";
 import EditProfile from "../../common/EditProfile";
 import {
   PrimaryButton,
-  TertiaryButton,
+  SecondaryButton,
 } from "../../../../kauri-components/components/Button";
 import Loading from "../../common/Loading";
 
@@ -18,39 +18,30 @@ const Page = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: ${props => props.theme.space[3]}px;
-  width: 300px;
   justify-content: space-between;
+  width: 100%;
 `;
 
 class OnboardingEditProfile extends Component {
-  handleSubmit() {
+  handleSubmit () {
     this.login
       .getWrappedInstance()
       .getWrappedInstance()
-      .saveUser();
-    this.redirect();
+      .saveUser(
+        this.props.router.query.redirected
+          ? `${this.props.router.query.r}?redirected=true`
+          : this.props.router.query.r
+      );
   }
 
-  redirect() {
-    if (this.props.query.r) {
-      this.props.query.r.indexOf("https://") !== -1
-        ? this.props.routeChangeAction(
-            "/" + this.props.query.r + "?redirected=true"
-          )
-        : this.props.routeChangeAction("/" + this.props.query.r);
-    } else {
-      this.props.routeChangeAction(`/public-profile/${this.props.userId}`);
-    }
-  }
-
-  componentDidMount() {
+  componentDidMount () {
     const {
       name,
       username,
@@ -71,12 +62,23 @@ class OnboardingEditProfile extends Component {
       twitter ||
       title ||
       website;
+
     if (hasData) {
-      return this.redirect();
+      let newRedirectURL;
+      if (typeof this.props.router.query.r === "string") {
+        newRedirectURL =
+          this.props.router.query.r.indexOf("https://") !== -1 ||
+          this.props.router.query.redirected
+            ? this.props.router.query.r + "?redirected=true"
+            : this.props.router.query.r;
+      } else {
+        newRedirectURL = `/public-profile/${this.props.userId}`;
+      }
+      return this.props.routeChangeAction(newRedirectURL);
     }
   }
 
-  render() {
+  render () {
     const {
       name,
       username,
@@ -108,13 +110,21 @@ class OnboardingEditProfile extends Component {
       <Page>
         <Wrapper>
           <EditProfile ref={comp => (this.login = comp)} />
+          <ButtonWrapper>
+            <SecondaryButton
+              onClick={() =>
+                this.props.routeChangeAction(
+                  `/public-profile/${this.props.userId}`
+                )
+              }
+            >
+              Skip
+            </SecondaryButton>
+            <PrimaryButton onClick={() => this.handleSubmit()}>
+              Next
+            </PrimaryButton>
+          </ButtonWrapper>
         </Wrapper>
-        <ButtonWrapper>
-          <TertiaryButton onClick={() => this.redirect()}>Skip</TertiaryButton>
-          <PrimaryButton onClick={() => this.handleSubmit()}>
-            Next
-          </PrimaryButton>
-        </ButtonWrapper>
       </Page>
     );
   }

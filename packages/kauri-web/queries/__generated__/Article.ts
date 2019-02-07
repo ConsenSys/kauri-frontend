@@ -21,7 +21,7 @@ export interface Article_author {
 }
 
 export interface Article_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface Article_owner_PublicUserDTO_resourceIdentifier {
@@ -97,6 +97,7 @@ export interface Article {
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
+  tags: (string | null)[] | null;
   vote: Article_vote | null;
   author: Article_author | null;
   owner: Article_owner | null;

@@ -29,6 +29,7 @@ import "@rej156/react-mde/lib/styles/css/react-mde-all.css";
 import "../static/css/redraft-image.css";
 import "draft-js-inline-toolbar-plugin/lib/plugin.css";
 import "../ant-theme-vars.less";
+import WelcomeBanner from "../components/containers/WelcomeBanner";
 
 const config = require("../config").default;
 
@@ -50,7 +51,7 @@ const dispatchEpic = (epic, action, state = {}, dependencies = {}) => {
   return promised;
 };
 
-export function parseCookies(ctx = {}, options = {}) {
+export function parseCookies (ctx = {}, options = {}) {
   let cookieToParse =
     ctx.req && ctx.req.headers.cookie && ctx.req.headers.cookie;
   if (global.window) cookieToParse = window.document.cookie;
@@ -68,18 +69,25 @@ export default ComposedComponent =>
       stateRedux: PropTypes.object.isRequired,
     };
 
-    static async getInitialProps(context) {
+    static async getInitialProps (context) {
       const url = { query: context.query, pathname: context.pathname };
       const hostName =
         (context.req && context.req.headers.host) ||
         process.env.monolithExternalApi;
 
+      // console.log(hostName)
+
       // TODO REVERT AFTER ETHBERLIN
       // TLDR; ethberlin.kauri.io 302 -> ethberlin collection
+      // console.log(hostName);
       if (context.res && hostName && hostName.includes("ethberlin")) {
         context.res.writeHead(302, {
-          Location:
-            "https://beta.kauri.io/collection/5b8d373fe727370001c942de/ethberlin",
+          Location: `https://${config
+            .getApiURL()
+            .replace(
+              "api.",
+              ""
+            )}/collection/5b8d373fe727370001c942de/ethberlin`,
         });
         context.res.end();
       }
@@ -102,7 +110,7 @@ export default ComposedComponent =>
         !parsedToken
       ) {
         context.res.writeHead(302, {
-          Location: "/login?r=/write-article",
+          Location: `/login?r=${context.req.url}`,
         });
         context.res.end();
       }
@@ -113,7 +121,6 @@ export default ComposedComponent =>
         {},
         {
           getToken: () => parsedToken,
-          hostName,
         }
       );
       const redux = initRedux(apollo, stateRedux, context);
@@ -172,7 +179,10 @@ export default ComposedComponent =>
             <ApolloProvider client={apollo}>
               <LocaleProvider locale={enUS}>
                 <ThemeProvider theme={themeConfig}>
-                  <ComposedComponent url={url} {...composedInitialProps} />
+                  <>
+                    <WelcomeBanner />
+                    <ComposedComponent url={url} {...composedInitialProps} />
+                  </>
                 </ThemeProvider>
               </LocaleProvider>
             </ApolloProvider>
@@ -210,7 +220,7 @@ export default ComposedComponent =>
       };
     }
 
-    constructor(props) {
+    constructor (props) {
       super(props);
       this.apollo = initApollo(this.props.stateApollo.apollo.data, {
         getToken: () => parseCookies()["TOKEN"],
@@ -219,17 +229,18 @@ export default ComposedComponent =>
       this.redux = initRedux(this.apollo, this.props.stateRedux);
     }
 
-    componentDidMount() {
+    componentDidMount () {
       window.addEventListener("load", async () => {
         if (window.ethereum) {
-          window.web3 = new Web3(window.ethereum);
-          try {
-            // Request account access if needed
-            await window.ethereum.enable();
-            // Acccounts now exposed
-          } catch (error) {
-            // User denied account access...
-          }
+          // NOTICE - Moved to sign in only.
+          // window.web3 = new Web3(window.ethereum);
+          // try {
+          //   // Request account access if needed
+          //   await window.ethereum.enable();
+          //   // Acccounts now exposed
+          // } catch (error) {
+          //   // User denied account access...
+          // }
           // Supports Metamask and Mist, and other wallets that provide 'web3'.
         } else if (typeof window.web3 !== "undefined") {
           // Use the Mist/wallet provider.
@@ -265,23 +276,26 @@ export default ComposedComponent =>
       this.redux.dispatch(fetchEthUsdPriceAction());
     }
 
-    componentWillUnmount() {
+    componentWillUnmount () {
       if (global.window && this.apollo && this.apollo.close) {
         console.log("Unsubscribing WebSocket");
         this.apollo.close();
       }
     }
 
-    render() {
+    render () {
       return (
         <Provider store={this.redux}>
           <ApolloProvider client={this.apollo}>
             <LocaleProvider locale={enUS}>
               <ThemeProvider theme={themeConfig}>
-                <ComposedComponent
-                  {...this.props}
-                  web3={global.window ? global.window.web3 : global.window}
-                />
+                <>
+                  <WelcomeBanner />
+                  <ComposedComponent
+                    {...this.props}
+                    web3={global.window ? global.window.web3 : global.window}
+                  />
+                </>
               </ThemeProvider>
             </LocaleProvider>
           </ApolloProvider>

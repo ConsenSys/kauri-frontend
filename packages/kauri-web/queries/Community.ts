@@ -72,8 +72,12 @@ export const getCommunity = gql`
 `;
 
 export const getAllCommunities = gql`
-  query searchCommunities($size: Int = 12, $page: Int = 0) {
-    searchCommunities(size: $size, page: $page) {
+  query searchCommunities(
+    $size: Int = 12
+    $page: Int = 0
+    $filter: SearchFilterInput
+  ) {
+    searchCommunities(size: $size, page: $page, filter: $filter) {
       content {
         id
         dateCreated

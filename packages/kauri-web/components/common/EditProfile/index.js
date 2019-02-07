@@ -1,27 +1,38 @@
 // @flow
-import EditProfile from './View.js'
-import { compose, graphql } from 'react-apollo'
-import { searchPersonalArticles, searchPersonalDrafts, searchPending, searchAwaitingApproval } from '../../../queries/Article';
-import { getUserDetails, getOwnProfile } from '../../../queries/User';
-import { getCollectionsForUser } from '../../../queries/Collection';
-import { connect } from 'react-redux';
-import { saveUserDetailsAction } from './Module'
+import EditProfile from "./View.js";
+import { compose, graphql } from "react-apollo";
+import {
+  searchPersonalArticles,
+  searchPersonalDrafts,
+  searchPending,
+  searchAwaitingApproval,
+} from "../../../queries/Article";
+import { getUserDetails, getOwnProfile } from "../../../queries/User";
+import { getCollectionsForUser } from "../../../queries/Collection";
+import { connect } from "react-redux";
+import { saveUserDetailsAction } from "./Module";
+import { resendEmailVerificationAction } from "../../containers/EmailVerification/Module";
 
 const mapStateToProps = (state, ownProps) => {
-  return { hostName: state.app && state.app.hostName, currentUser: state.app.userId && state.app.userId.substring(2) }
-}
+  return {
+    hostName: state.app && state.app.hostName,
+    currentUser: state.app.userId && state.app.userId.substring(2),
+  };
+};
 
 export default compose(
   connect(
     mapStateToProps,
     {
       saveUserDetailsAction,
+      resendEmailVerificationAction,
     },
     null,
-    {withRef: true}
+    { withRef: true }
   ),
   graphql(getOwnProfile, {
-    name: 'OwnProfile',
+    fetchPolicy: "network-only",
+    name: "OwnProfile",
     withRef: true,
-  }),
-)(EditProfile)
+  })
+)(EditProfile);

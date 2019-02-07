@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { routeChangeAction } from "../../../../lib/Module";
 import withLoading from "../../../../lib/with-loading";
 import withPagination from "../../../../lib/with-pagination";
+import { openModalAction } from "../../../../../kauri-components/components/Modal/Module";
+const config = require("../../../../config/default");
 
 interface IState {
   app: {
@@ -25,14 +27,20 @@ const QUERY_NAME = "ArticlesQuery";
 export default compose(
   connect(
     mapStateToProps,
-    { routeChangeAction }
+    { routeChangeAction, openModalAction }
   ),
   graphql(globalSearchApprovedArticles, {
     name: QUERY_NAME,
     options: () => ({
       fetchPolicy: "no-cache",
-      variables: {},
+      variables: {
+        filter: {
+          mustNotContainTag: ["ethdenver-2019-submission"],
+          mustNotIncludeUserId: config.testingAccounts,
+          type: "ARTICLE",
+        },
+      },
     }),
   }),
   withLoading()
-)(withPagination(Articles, "searchArticles", QUERY_NAME));
+)(withPagination(Articles, "searchAutocomplete", QUERY_NAME));

@@ -7,7 +7,7 @@ import {
 } from "./Module";
 import { deleteDraftArticleAction } from "./DeleteDraftArticleModule";
 import { publishArticleAction } from "../SubmitArticleForm/PublishArticleModule";
-import { getArticle } from "../../../queries/Article";
+import { getArticle, relatedArticles } from "../../../queries/Article";
 import {
   toggleModalAction,
   routeChangeAction,
@@ -50,6 +50,7 @@ export default compose(
     }
   ),
   graphql(getArticle, {
+    name: "data",
     options: ({ id, version }) => ({
       variables: {
         id,
@@ -58,6 +59,22 @@ export default compose(
           version && version.length <= 2 && isNaN(version) === false
             ? parseInt(version)
             : null,
+      },
+    }),
+  }),
+  graphql(relatedArticles, {
+    name: "RelatedArticles",
+    options: ({ id }) => ({
+      variables: {
+        size: 3,
+        page: 0,
+        filter: {
+          type: "ARTICLE",
+        },
+        resourceId: {
+          id,
+          type: "ARTICLE",
+        },
       },
     }),
   }),

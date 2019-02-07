@@ -39,7 +39,7 @@ const ActionsContainer = styled.div`
 const CloseIcon = () => (
   <img
     style={{ rotate: "45deg" }}
-    src='https://png.icons8.com/material-two-tone/50/000000/delete-sign.png'
+    src="https://png.icons8.com/material-two-tone/50/000000/delete-sign.png"
   />
 );
 
@@ -48,7 +48,7 @@ const Actions = ({ handleClose, handleConfirm, chosenArticles }) => (
     <TertiaryButton
       icon={<CloseIcon />}
       onClick={() => handleClose()}
-      color='textPrimary'
+      color="textPrimary"
     >
       Close
     </TertiaryButton>
@@ -76,6 +76,8 @@ const ContentContainer = styled.section`
 type Props = {
   closeModalAction: () => void,
   confirmModal: (Array<{ id: string, version: string }>) => void,
+  chosenArticles: Array<{ id: string, version: string }>,
+  allOtherChosenArticles: Array<{ id: string, version: string }>,
 };
 
 type State = {
@@ -127,6 +129,7 @@ export default class ChooseArticleModal extends React.Component<Props, State> {
           title={<Title chosenArticles={this.state.chosenArticles} />}
         />
         <ChooseArticleCard
+          allOtherChosenArticles={this.props.allOtherChosenArticles}
           chosenArticles={this.state.chosenArticles}
           chooseArticle={this.chooseArticle}
         />

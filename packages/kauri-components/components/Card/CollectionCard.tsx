@@ -8,6 +8,7 @@ import theme from "../../lib/theme-config";
 import PrimaryButton from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
 import UserAvatar from "../UserAvatar";
+import Image from "../Image";
 import {
   toggleReducer,
   IToggleState,
@@ -16,14 +17,15 @@ import {
   hideDispatch,
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
+import Date from "../HoverDateLabel";
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
 const DEFAULT_CARD_PADDING = theme.space[2];
 
 const withImageURLCss = css`
+  z-index: 1;
   padding: ${props => props.theme.space[2]}px;
-  background: rgba(30, 36, 40, 0.7);
   > *,
   a > * {
     color: white;
@@ -58,6 +60,9 @@ const Mask = styled.div`
   > *:nth-child(2) {
     margin-top: auto;
   }
+  > * {
+    word-break: break-all;
+  }
   ${withImageURLCss};
 `;
 
@@ -65,7 +70,7 @@ interface IContentStyledComponentProps {
   imageURL: string | null;
 }
 
-const Content = styled<IContentStyledComponentProps, "div">("div")`
+const Content = styled<{}, "div">("div")`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -74,14 +79,14 @@ const Content = styled<IContentStyledComponentProps, "div">("div")`
   border-top-right-radius: 4px;
   height: 100%;
   width: 100%;
-  background: url(${props =>
-      typeof props.imageURL === "string" && props.imageURL})
-    center center / cover;
   > a:nth-child(1) {
     height: 100%;
   }
   > *:nth-child(2) {
     margin-top: auto;
+  }
+  > * {
+    word-break: break-all;
   }
 `;
 
@@ -270,7 +275,7 @@ const RenderActualContent: React.SFC<IActualContentProps> = ({
       />,
       `/public-profile/${userId}`
     )}
-    <Label>{"Updated " + date}</Label>
+    <Date status="PUBLISHED" date={date} />
   </React.Fragment>
 );
 
@@ -484,7 +489,18 @@ const RenderContent: React.SFC<IContentProps> = ({
   date,
 }) => (
   <React.Fragment>
-    <Content imageURL={imageURL}>
+    <Content>
+      {imageURL && (
+        <Image
+          borderTopLeftRadius="4px"
+          borderTopRightRadius="4px"
+          image={imageURL}
+          asBackground={true}
+          overlay={imageURL ? { opacity: 0.7 } : undefined}
+          height={250}
+          width={290}
+        />
+      )}
       <RenderCardContent
         cardHeight={cardHeight}
         cardWidth={cardWidth}

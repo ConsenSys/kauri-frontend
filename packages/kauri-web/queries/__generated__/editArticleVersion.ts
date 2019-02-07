@@ -19,5 +19,6 @@ export interface editArticleVersionVariables {
   version?: number | null;
   text?: string | null;
   subject?: string | null;
+  tags?: (string | null)[] | null;
   attributes?: any | null;
 }

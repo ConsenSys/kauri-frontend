@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { Article } from "./Article";
 
 export const Collection = gql`
   fragment Collection on CollectionDTO {
@@ -53,26 +54,7 @@ export const globalCollectionDetails = gql`
         description
         resources {
           ... on ArticleDTO {
-            authorId
-            id
-            version
-            title
-            content
-            dateCreated
-            datePublished
-            owner {
-              ... on PublicUserDTO {
-                id
-                username
-                name
-                avatar
-              }
-            }
-            status
-            attributes
-            vote {
-              totalVote
-            }
+            ...Article
           }
         }
       }
@@ -82,6 +64,7 @@ export const globalCollectionDetails = gql`
       }
     }
   }
+  ${Article}
 `;
 
 export const getCollection = globalCollectionDetails;
@@ -133,12 +116,17 @@ export const composeCollection = gql`
   }
 `;
 export const getLatestCollections = gql`
-  query searchCollections($size: Int = 12, $page: Int = 0) {
+  query searchCollections(
+    $size: Int = 12
+    $page: Int = 0
+    $filter: SearchFilterInput
+  ) {
     searchCollections(
       size: $size
       page: $page
       sort: "dateUpdated"
       dir: DESC
+      filter: $filter
     ) {
       content {
         ...Collection

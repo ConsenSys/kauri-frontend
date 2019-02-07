@@ -43,6 +43,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       deleteDraftArticleAction,
       closeModalAction,
       openModalAction,
+      isLoggedIn,
     } = this.props;
 
     const isHeaderLoaded =
@@ -62,7 +63,10 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         {!isHeaderLoaded ? (
           <Loading />
         ) : isEditing ? (
-          <EditableHeader toggleEditing={() => this.toggleEditing()} />
+          <EditableHeader
+            router={this.props.router}
+            toggleEditing={() => this.toggleEditing()}
+          />
         ) : (
           <Header
             articles={ArticlesQuery.searchArticles.totalElements}
@@ -87,32 +91,50 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         )}
         {isHeaderLoaded && areListsLoaded ? (
           <Tabs
+            dark
             tabs={[
-              `Articles (${ArticlesQuery.searchArticles.totalElements})`,
-              isOwner && `Drafts (${DraftsQuery.searchArticles.totalElements})`,
-              `Collections (${
-                CollectionQuery.searchCollections.totalElements
-              })`,
-              isOwner &&
-                `Awaiting Owner Approval (${
+              {
+                name: `Articles (${
+                  ArticlesQuery.searchArticles.totalElements
+                })`,
+              },
+              {
+                name: `Collections (${
+                  CollectionQuery.searchCollections.totalElements
+                })`,
+              },
+              isOwner && {
+                name: `Drafts (${DraftsQuery.searchArticles.totalElements})`,
+              },
+              isOwner && {
+                name: `Approval needed (${
                   ApprovalsQuery.searchArticles.totalElements
                 })`,
-              isOwner &&
-                `Pending My Approval(${
+              },
+              isOwner && {
+                name: `Submitted updates (${
                   PendingQuery.searchArticles.totalElements
                 })`,
+              },
             ]}
             panels={[
               <Published
                 data={ArticlesQuery}
-                type='published'
+                type="published"
                 routeChangeAction={routeChangeAction}
                 isOwner={isOwner}
+                isLoggedIn={!!currentUser}
+                openModalAction={openModalAction}
+              />,
+              <Collections
+                isLoggedIn={!!currentUser}
+                data={CollectionQuery}
+                routeChangeAction={routeChangeAction}
               />,
               isOwner && (
                 <Drafts
                   data={DraftsQuery}
-                  type='draft'
+                  type="draft"
                   routeChangeAction={routeChangeAction}
                   deleteDraftArticleAction={deleteDraftArticleAction}
                   isOwner={UserQuery.getUser.id === currentUser}
@@ -121,18 +143,16 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                   openModalAction={openModalAction}
                 />
               ),
-              <Collections
-                data={CollectionQuery}
-                routeChangeAction={routeChangeAction}
-              />,
               <Awaiting
+                isLoggedIn={!!currentUser}
                 data={ApprovalsQuery}
-                type='pending'
+                type="pending"
                 routeChangeAction={routeChangeAction}
               />,
               <Pending
+                isLoggedIn={!!currentUser}
                 data={PendingQuery}
-                type='toBeApproved'
+                type="toBeApproved"
                 routeChangeAction={routeChangeAction}
               />,
             ]}

@@ -21,7 +21,7 @@ export interface searchApprovedArticles_searchArticles_content_author {
 }
 
 export interface searchApprovedArticles_searchArticles_content_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface searchApprovedArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
@@ -97,6 +97,7 @@ export interface searchApprovedArticles_searchArticles_content {
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
+  tags: (string | null)[] | null;
   vote: searchApprovedArticles_searchArticles_content_vote | null;
   author: searchApprovedArticles_searchArticles_content_author | null;
   owner: searchApprovedArticles_searchArticles_content_owner | null;
@@ -118,4 +119,6 @@ export interface searchApprovedArticlesVariables {
   size?: number | null;
   text?: string | null;
   category?: string | null;
+  sort?: string | null;
+  page?: number | null;
 }

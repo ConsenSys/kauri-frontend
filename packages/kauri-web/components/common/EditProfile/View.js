@@ -1,11 +1,13 @@
-// @flow
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import Input from '../../../../kauri-components/components/Input/Input';
-import UploadLogoButton from '../../../../kauri-components/components/Button/UploadLogoButton';
-import SocialWebsiteIcon from '../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.tsx';
-import TriggerImageUploader from '../../common/ImageUploader';
-import R from 'ramda';
+import React, { Component } from "react";
+import styled from "styled-components";
+import Input from "../../../../kauri-components/components/Input/Input";
+import UploadLogoButton from "../../../../kauri-components/components/Button/UploadLogoButton";
+import SocialWebsiteIcon from "../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.tsx";
+import EmailCheckbox from "../../../../kauri-components/components/Checkbox/EmailCheckbox";
+import TriggerImageUploader from "../../common/ImageUploader";
+import R from "ramda";
+import { regenerateEmailVerification } from "../../../queries/User";
+import EmailField from "./EmailField";
 
 const InputsContainers = styled.div`
   display: flex;
@@ -13,10 +15,7 @@ const InputsContainers = styled.div`
   flex-direction: column;
   margin-left: ${props => props.theme.space[2]}px;
   justify-content: space-between;
-`;
-
-const StyledInput = styled(Input)`
-  margin-bottom: ${props => props.theme.space[1]}px;
+  height: 230px;
 `;
 
 const StyledUpload = styled(UploadLogoButton)`
@@ -24,12 +23,17 @@ const StyledUpload = styled(UploadLogoButton)`
 `;
 
 const Offset = styled.div`
-  margin-left: -${props => props.theme.space[3]}px;
+  margin-left: -${props => props.margin || props.theme.space[3]}px;
   display: flex;
   flex-direction: row;
   & > a {
     margin-right: ${props => props.theme.space[1]}px;
   }
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 class EditableHeader extends Component<HeaderProps, HeaderState> {
@@ -38,14 +42,16 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
     if (!props.OwnProfile.getMyProfile) {
       this.state = {
         pendingSubmit: false,
-        username: '',
-        title: '',
-        avatar: '',
-        website: '',
-        twitter: '',
-        github: '',
-        name: '',
-        email: '',
+        username: "",
+        title: "",
+        avatar: "",
+        website: "",
+        twitter: "",
+        github: "",
+        name: "",
+        email: "",
+        status: "CREATED",
+        subscriptions: {},
       };
     } else {
       const {
@@ -56,6 +62,8 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         social,
         name,
         email,
+        status,
+        subscriptions,
       } = props.OwnProfile.getMyProfile;
       this.state = {
         pendingSubmit: false,
@@ -67,14 +75,17 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         github: social && social.github,
         name,
         email,
+        status,
+        subscriptions,
       };
     }
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     if (
-      typeof prevProps.OwnProfile.getMyProfile === 'undefined' &&
-      typeof this.props.OwnProfile.getMyProfile !== 'undefined'
+      typeof prevProps.OwnProfile.getMyProfile === "undefined" &&
+      typeof this.props.OwnProfile.getMyProfile !== "undefined"
     ) {
       const {
         username,
@@ -84,7 +95,10 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         social,
         name,
         email,
+        status,
+        subscriptions,
       } = this.props.OwnProfile.getMyProfile;
+
       this.setState({
         username,
         title,
@@ -94,18 +108,26 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
         twitter: social && social.twitter,
         name,
         email,
+        status,
+        subscriptions,
       });
     }
   }
 
-  saveUser() {
-    const payload = R.filter(R.is(String), this.state);
-    this.setState({ pendingSubmit: true });
-    this.props.saveUserDetailsAction(payload);
+  saveUser(redirectURL: string | undefined, callback: any | undefined) {
+    const payload = R.pipe(
+      R.filter(val => typeof val !== "undefined" || !!val),
+      R.assocPath(["redirectURL"], redirectURL)
+    )(this.state);
+
+    this.props.saveUserDetailsAction(payload, pendingSubmit => {
+      this.setState({ pendingSubmit });
+      callback && callback();
+    });
   }
 
   uploadImage() {
-    TriggerImageUploader(() => {}, '', (file, url: string) =>
+    TriggerImageUploader(() => {}, "", (file, url: string) =>
       this.setState({ avatar: url })
     );
   }
@@ -126,10 +148,11 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
       twitter,
       github,
       email,
+      status,
     } = this.state;
 
     return (
-      <React.Fragment>
+      <Container>
         <StyledUpload
           bg={avatar}
           handleClick={() => this.uploadImage()}
@@ -137,36 +160,29 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
           color="white"
         />
         <InputsContainers>
-          <StyledInput
-            onChange={e => this.handleChange('name', e.target.value)}
+          <Input
+            onChange={e => this.handleChange("name", e.target.value)}
             fontWeight="normal"
             fontSize={6}
             value={name}
             placeHolder="Add your full name"
           />
-          <StyledInput
-            onChange={e => this.handleChange('title', e.target.value)}
+          <Input
+            onChange={e => this.handleChange("title", e.target.value)}
             fontWeight="normal"
             fontSize={3}
             value={title}
             placeHolder="Add job title"
           />
-          <StyledInput
-            onChange={e => this.handleChange('email', e.target.value)}
-            fontWeight="normal"
-            fontSize={1}
-            value={email}
-            placeHolder="Add Email"
-          />
-          <StyledInput
-            onChange={e => this.handleChange('username', e.target.value)}
+          <Input
+            onChange={e => this.handleChange("username", e.target.value)}
             fontWeight="normal"
             fontSize={1}
             value={username}
             placeHolder="Add username"
           />
-          <StyledInput
-            onChange={e => this.handleChange('website', e.target.value)}
+          <Input
+            onChange={e => this.handleChange("website", e.target.value)}
             fontWeight="normal"
             fontSize={1}
             value={website}
@@ -174,8 +190,8 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
           />
           <Offset>
             <SocialWebsiteIcon brand="twitter" />
-            <StyledInput
-              onChange={e => this.handleChange('twitter', e.target.value)}
+            <Input
+              onChange={e => this.handleChange("twitter", e.target.value)}
               fontWeight="normal"
               fontSize={1}
               value={twitter}
@@ -184,16 +200,31 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
           </Offset>
           <Offset>
             <SocialWebsiteIcon brand="github" />
-            <StyledInput
-              onChange={e => this.handleChange('github', e.target.value)}
+            <Input
+              onChange={e => this.handleChange("github", e.target.value)}
               fontWeight="normal"
               fontSize={1}
               value={github}
               placeHolder="Github"
             />
           </Offset>
+          <EmailField
+            resendEmailVerification={this.props.resendEmailVerification}
+            email={email}
+            handleChange={this.handleChange}
+            status={status}
+          />
+          <Offset margin={12}>
+            <EmailCheckbox
+              disabled={!this.state.email}
+              checked={this.state.subscriptions.newsletter}
+              onChange={checked =>
+                this.handleChange("subscriptions", { newsletter: checked })
+              }
+            />
+          </Offset>
         </InputsContainers>
-      </React.Fragment>
+      </Container>
     );
   }
 }

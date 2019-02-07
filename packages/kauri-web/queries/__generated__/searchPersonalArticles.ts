@@ -7,14 +7,27 @@ import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
 // GraphQL query operation: searchPersonalArticles
 // ====================================================
 
+export interface searchPersonalArticles_searchArticles_content_vote {
+  __typename: "VoteStatDTO";
+  totalVote: any | null;
+}
+
 export interface searchPersonalArticles_searchArticles_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
   name: string | null;
+  username: string | null;
+  avatar: string | null;
 }
 
 export interface searchPersonalArticles_searchArticles_content_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+}
+
+export interface searchPersonalArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
 }
 
 export interface searchPersonalArticles_searchArticles_content_owner_PublicUserDTO {
@@ -23,31 +36,37 @@ export interface searchPersonalArticles_searchArticles_content_owner_PublicUserD
   username: string | null;
   name: string | null;
   avatar: string | null;
+  resourceIdentifier: searchPersonalArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier | null;
+}
+
+export interface searchPersonalArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
 }
 
 export interface searchPersonalArticles_searchArticles_content_owner_CommunityDTO {
   __typename: "CommunityDTO";
   id: string | null;
   name: string | null;
+  avatar: string | null;
+  resourceIdentifier: searchPersonalArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier | null;
 }
 
 export type searchPersonalArticles_searchArticles_content_owner = searchPersonalArticles_searchArticles_content_owner_ArticleDTO | searchPersonalArticles_searchArticles_content_owner_PublicUserDTO | searchPersonalArticles_searchArticles_content_owner_CommunityDTO;
-
-export interface searchPersonalArticles_searchArticles_content_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
-}
 
 export interface searchPersonalArticles_searchArticles_content_comments_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
   name: string | null;
+  username: string | null;
+  avatar: string | null;
 }
 
 export interface searchPersonalArticles_searchArticles_content_comments_content {
   __typename: "CommentDTO";
-  posted: any | null;
   author: searchPersonalArticles_searchArticles_content_comments_content_author | null;
+  posted: any | null;
   body: string | null;
 }
 
@@ -60,8 +79,8 @@ export interface searchPersonalArticles_searchArticles_content_comments {
 
 export interface searchPersonalArticles_searchArticles_content_resourceIdentifier {
   __typename: "ResourceIdentifier";
-  type: ResourceType | null;
   id: string | null;
+  type: ResourceType | null;
   version: number | null;
 }
 
@@ -71,15 +90,17 @@ export interface searchPersonalArticles_searchArticles_content {
   version: number | null;
   title: string | null;
   content: string | null;
+  authorId: string | null;
   dateCreated: any | null;
   datePublished: any | null;
-  author: searchPersonalArticles_searchArticles_content_author | null;
-  owner: searchPersonalArticles_searchArticles_content_owner | null;
   status: ArticleStatus | null;
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
+  tags: (string | null)[] | null;
   vote: searchPersonalArticles_searchArticles_content_vote | null;
+  author: searchPersonalArticles_searchArticles_content_author | null;
+  owner: searchPersonalArticles_searchArticles_content_owner | null;
   comments: searchPersonalArticles_searchArticles_content_comments | null;
   resourceIdentifier: searchPersonalArticles_searchArticles_content_resourceIdentifier | null;
 }

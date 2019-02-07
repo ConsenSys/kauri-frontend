@@ -3,7 +3,7 @@ import styled, { css } from "../../lib/styled-components";
 import R from "ramda";
 import TextTruncate from "react-text-truncate";
 import BaseCard from "./BaseCard";
-import { Label, H1, BodyCard } from "../Typography";
+import { H1, BodyCard } from "../Typography";
 import theme from "../../lib/theme-config";
 import SecondaryButton from "../Button/SecondaryButton";
 import UserAvatar from "../UserAvatar";
@@ -17,6 +17,9 @@ import {
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
 import { TagList } from "../Tags";
+import NFTList, { INFT } from "../Kudos/NFTList";
+import Image from "../Image";
+import Date from "../HoverDateLabel";
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -24,17 +27,6 @@ const DEFAULT_CARD_PADDING = theme.space[2];
 
 const withImageURLPaddingCss = css`
   padding: ${props => props.theme.space[2]}px;
-`;
-
-const Image = styled<{ imageURL: string | null; cardHeight: number }, "div">(
-  "div"
-)`
-  height: ${props => (props.cardHeight < 420 ? "116px" : "170px")};
-  background: url(${props =>
-      typeof props.imageURL === "string" && props.imageURL})
-    center center / cover;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
 `;
 
 const Container = styled<{ imageURL: string | null }, "div">("div")`
@@ -57,6 +49,9 @@ const Content = styled<{ imageURL: string | null }, "div">("div")`
   }
   > :nth-child(2) {
     margin-bottom: ${props => props.theme.space[1]}px;
+  }
+  > h1 {
+    word-break: break-all;
   }
   ${props => typeof props.imageURL === "string" && withImageURLPaddingCss};
 `;
@@ -246,6 +241,7 @@ interface ICardContentProps {
   date: string;
   status: undefined | "PUBLISHED" | "DRAFT";
   tags?: string[];
+  nfts?: INFT[];
 }
 
 const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
@@ -257,14 +253,21 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   date,
   status,
   tags,
+  nfts,
 }) => (
   <React.Fragment>
     {typeof imageURL === "string" && (
-      <Image cardHeight={cardHeight} imageURL={imageURL} />
+      <Image
+        width={290}
+        height={cardHeight < 420 ? 116 : 170}
+        image={imageURL}
+        borderTopLeftRadius="4px"
+        borderTopRightRadius="4px"
+      />
     )}
     <Content imageURL={imageURL}>
       <Header>
-        <Label>{(status === "DRAFT" ? "Drafted " : "Posted ") + date}</Label>
+        <Date status={status} date={date} />
       </Header>
       <H1>
         <TextTruncate
@@ -292,7 +295,10 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
         </BodyCard>
       )}
       {Array.isArray(tags) && tags.length > 0 && (
-        <TagList maxTags={3} color="textPrimary" tags={tags} />
+        <TagList maxTags={3} color="textPrimary" tags={tags} maxChars={40} />
+      )}
+      {Array.isArray(nfts) && nfts.length > 0 && (
+        <NFTList nftSize={20} nfts={nfts} />
       )}
     </Content>
   </React.Fragment>
@@ -378,18 +384,21 @@ interface IProps {
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
-  hoverChildren?: (
-    payload: {
-      hideDispatch: () => void;
-      showDispatch: () => void;
-      toggleDispatch: () => void;
-    }
-  ) => React.ReactElement<any>;
+  hoverChildren?:
+    | null
+    | ((
+        payload: {
+          hideDispatch: () => void;
+          showDispatch: () => void;
+          toggleDispatch: () => void;
+        }
+      ) => React.ReactElement<any>);
   isChosenArticle?: boolean;
   resourceType: "USER" | "COMMUNITY";
   status?: "PUBLISHED" | "DRAFT";
   isLoggedIn: boolean;
   tags?: string[];
+  nfts?: INFT[];
   triggerHoverChildrenOnFullCardClick?: boolean;
 }
 
@@ -412,6 +421,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   isLoggedIn,
   hoverChildren,
   tags,
+  nfts,
   triggerHoverChildrenOnFullCardClick = false,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
@@ -462,6 +472,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             date={date}
             status={status}
             tags={tags}
+            nfts={nfts}
           />,
           `/article/${id}/v${version}`
         )}

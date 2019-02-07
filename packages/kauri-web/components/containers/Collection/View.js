@@ -14,6 +14,7 @@ type Props = {
   data: {
     getCollection?: CollectionDTO,
   },
+  openModalAction: any,
   routeChangeAction: string => void,
   hostName: string,
   userId?: string,
@@ -50,7 +51,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     trianglify: "",
   };
 
-  componentDidMount() {
+  componentDidMount () {
     const trianglify = require("trianglify");
     const trianglifyBg = trianglify({
       width: 1920,
@@ -68,7 +69,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     this.setState({ trianglifyBg: trianglifyBgString });
   }
 
-  render() {
+  render () {
     if (!this.props.data || !this.props.data.getCollection) return null;
 
     const {
@@ -81,7 +82,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       tags,
       sections,
     } = this.props.data.getCollection;
-    const { userId, routeChangeAction, hostName } = this.props;
+    const { userId, routeChangeAction, hostName, openModalAction } = this.props;
     const extractedKeywords = description
       ? rake(description, { language: "english" })
       : [];
@@ -182,8 +183,11 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
                   key={section.name}
                   name={section.name}
                   isLoggedIn={!!this.props.userId}
+                  currentUser={this.props.userId}
                   description={section.description || ""}
                   articles={section.resources}
+                  openModalAction={openModalAction}
+                  isOwnedByCurrentUser={this.props.userId === owner.id}
                 />
               );
             })}

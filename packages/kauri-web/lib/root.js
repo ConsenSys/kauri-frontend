@@ -3,7 +3,7 @@ import app, {
   showNotificationEpic,
   showConfirmationModalEpic,
   routeChangeEpic,
-  ethUsdPriceEpic,
+  // ethUsdPriceEpic,
   userDetailsEpic,
   hideIntroBannerEpic,
 } from "./Module";
@@ -52,6 +52,11 @@ import { saveUserDetailsEpic } from "../components/common/EditProfile/Module";
 import modal from "../../kauri-components/components/Modal/Module";
 import { checkpointArticlesEpic } from "../components/containers/CheckpointArticles/Module";
 import { deleteDraftArticleEpic } from "../components/containers/Article/DeleteDraftArticleModule";
+import { addArticleToCollectionEpic } from "../components/connections/AddToCollection/Module";
+import {
+  verifyEmailEpic,
+  resendEmailVerificationEpic,
+} from "../components/containers/EmailVerification/Module";
 
 export const rootReducer = {
   app,
@@ -99,6 +104,9 @@ const epics = [
   publishArticleEpic,
   // Typescript epics
   deleteDraftArticleEpic,
+  addArticleToCollectionEpic,
+  verifyEmailEpic,
+  resendEmailVerificationEpic,
 ];
 
 export const rootEpic = combineEpics(...epics);

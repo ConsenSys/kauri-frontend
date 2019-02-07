@@ -76,7 +76,7 @@ export default ({
         icon={<BackIcon />}
         onClick={() => routeChangeAction("back")}
       >
-        <span>Cancel Update</span>
+        <span>Go Back</span>
       </TertiaryButton>
       <Stack
         alignItems={["", "center"]}

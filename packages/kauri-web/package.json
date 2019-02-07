@@ -1,13 +1,13 @@
 {
   "name": "kauri-web",
-  "version": "1.6.3",
+  "version": "1.7.1",
   "author": {
     "name": "Eric Juta"
   },
   "license": "ISC",
   "scripts": {
-    "get-schema": "yarn send-introspection-query https://api.dev.kauri.io/graphql && node scripts/convertGQLSchemaToFlowTypes.js",
-    "generate-query-types": "npx apollo client:codegen --target=typescript",
+    "get-schema": "node scripts/convertGQLSchemaToFlowTypes.js",
+    "generate-query-types": "npx apollo client:codegen --localSchemaFile=schema.json --target=typescript",
     "gqt": "npm run generate-query-types",
     "dev": "npm run dev:web",
     "dev:web": "NODE_ENV=development babel-node --extensions '.ts, .tsx, .js, .jsx' index.js",
@@ -74,17 +74,18 @@
     "mezr": "^0.6.2",
     "mixpanel-browser": "^2.21.0",
     "moment": "2.20.1",
-    "next": "^7.0.2-canary.26",
+    "next": "^8.0.0-canary.18",
     "next-routes": "^1.4.2",
     "rake-js": "^0.1.1",
     "ramda": "^0.25.0",
-    "react": "16.7.0-alpha.2",
+    "react": "16.8.0-alpha.0",
     "react-apollo": "^2.2.4",
-    "react-dom": "16.7.0-alpha.2",
+    "react-dom": "16.8.0-alpha.0",
     "react-fast-highlight": "^2.2.0",
     "react-ga": "^2.5.6",
     "react-helmet": "^5.2.0",
     "react-hot-loader": "^4.5.1",
+    "react-intersection-observer": "^6.4.2",
     "react-redux": "^5.0.6",
     "react-share": "^2.2.0",
     "react-text-truncate": "^0.13.1",
@@ -114,8 +115,8 @@
     "yup": "^0.26.6"
   },
   "devDependencies": {
-    "@babel/core": "latest",
-    "@babel/node": "latest",
+    "@babel/core": "7.1.2",
+    "@babel/node": "7.0.0",
     "@babel/plugin-proposal-class-properties": "7.1.0",
     "@babel/plugin-proposal-decorators": "7.0.0",
     "@babel/plugin-proposal-do-expressions": "7.0.0",
@@ -132,9 +133,11 @@
     "@babel/plugin-proposal-throw-expressions": "7.0.0",
     "@babel/plugin-syntax-dynamic-import": "7.0.0",
     "@babel/plugin-syntax-import-meta": "7.0.0",
-    "@babel/preset-flow": "latest",
-    "@babel/preset-typescript": "latest",
+    "@babel/preset-flow": "7.0.0",
+    "@babel/preset-typescript": "7.0.0",
     "@babel/register": "7.0.0",
+    "@babel/runtime": "7.1.2",
+    "@babel/runtime-corejs2": "7.1.2",
     "@types/next": "^7.0.4",
     "@types/ramda": "^0.25.41",
     "@types/react": "^16.7.7",
@@ -205,8 +208,8 @@
   },
   "resolutions": {
     "babel-plugin-react-require": "3.0.0",
-    "react": "16.7.0-alpha.2",
-    "react-dom": "16.7.0-alpha.2"
+    "react": "16.8.0-alpha.0",
+    "react-dom": "16.8.0-alpha.0"
   },
   "optionalDependencies": {
     "fsevents": "^1.2.4"

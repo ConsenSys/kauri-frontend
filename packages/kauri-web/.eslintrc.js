@@ -17,6 +17,7 @@ module.exports = {
     quotes: ["error", "double"],
     "jsx-quotes": ["error", "prefer-double"],
     camelcase: 0,
+    "standard/no-callback-literal": 0,
   },
   env: {
     "jest/globals": true,

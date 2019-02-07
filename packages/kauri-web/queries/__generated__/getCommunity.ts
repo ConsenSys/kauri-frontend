@@ -20,7 +20,7 @@ export interface getCommunity_getCommunity_approvedId {
 }
 
 export interface getCommunity_getCommunity_pending_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface getCommunity_getCommunity_pending_ArticleDTO_author {
@@ -57,7 +57,7 @@ export interface getCommunity_getCommunity_pending_CollectionDTO {
 export type getCommunity_getCommunity_pending = getCommunity_getCommunity_pending_CommunityDTO | getCommunity_getCommunity_pending_ArticleDTO | getCommunity_getCommunity_pending_CollectionDTO;
 
 export interface getCommunity_getCommunity_approved_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface getCommunity_getCommunity_approved_ArticleDTO_author {

@@ -1,35 +1,40 @@
 // @flow
 import React, { Fragment } from "react";
 import styled from "styled-components";
-import moment from "moment";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
-import Empty from "../Empty";
 import { Link } from "../../../../routes";
 import ContentContainer from "../PublicProfileContentContainer";
 import CheckpointArticles from "../../CheckpointArticles";
 import withPagination from "../../../../lib/with-pagination";
-
 import {
   PrimaryButton,
   MediumImportButton,
 } from "../../../../../kauri-components/components/Button";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
+import PublicProfileEmptyState from "../../../../../kauri-components/components/PublicProfileEmptyState";
+import { BodyCard } from "../../../../../kauri-components/components/Typography";
+import AddToCollectionConnection from "../../../connections/AddToCollection/index";
 
 import type { ArticlesProps } from "../types";
 
 const Centered = styled.div`
   display: flex;
   justify-content: center;
-  & > * {
-    margin: ${props => props.theme.space[1]}px;
-  }
+  margin-top: ${props => props.theme.paddingTop};
+`;
+
+const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Articles = ({
   data,
   type,
   routeChangeAction,
+  isLoggedIn,
   isOwner,
+  openModalAction,
 }: ArticlesProps) => {
   const articles = data.searchArticles && data.searchArticles.content;
   return articles.length > 0 ? (
@@ -43,7 +48,7 @@ const Articles = ({
             <ArticleCard
               key={`${article.id}-${article.version}`}
               changeRoute={routeChangeAction}
-              date={moment(article.dateCreated).format("D MMM YYYY")}
+              date={article.dateCreated}
               title={article.title}
               content={article.content}
               tags={article.tags}
@@ -62,10 +67,28 @@ const Articles = ({
                   ? article.owner.avatar
                   : article.author.avatar
               }
+              isLoggedIn={isLoggedIn}
+              hoverChildren={({ hideDispatch }) => (
+                <PrimaryButton
+                  onClick={() =>
+                    openModalAction({
+                      children: (
+                        <AddToCollectionConnection
+                          articleId={article.id}
+                          version={article.version}
+                        />
+                      ),
+                    })
+                  }
+                >
+                  Add To Collection
+                </PrimaryButton>
+              )}
               id={article.id}
               version={article.version}
               cardHeight={420}
               imageURL={article.attributes && article.attributes.background}
+              nfts={article.associatedNfts}
               linkComponent={(childrenProps, route) => (
                 <Link
                   toSlug={route.includes("article") && article.title}
@@ -79,17 +102,41 @@ const Articles = ({
           ))}
         </Masonry>
       </ContentContainer>
-      <Centered>{isOwner && <MediumImportButton border={true} />}</Centered>
     </Fragment>
   ) : (
-    <Empty>
-      <Centered>
-        {isOwner && <MediumImportButton border={true} />}
-        <PrimaryButton onClick={() => routeChangeAction(`/write-article`)}>
-          WRITE ARTICLE
-        </PrimaryButton>
-      </Centered>
-    </Empty>
+    <Centered>
+      <PublicProfileEmptyState
+        iconSrc={"/static/images/icons/no-published-articles.svg"}
+        description={
+          isLoggedIn ? (
+            <DescriptionContainer>
+              <BodyCard>
+                Any articles you've published on Kauri will appear here.
+              </BodyCard>
+              <BodyCard>
+                Get started by creating a new draft below, or importing one
+                you've written on Medium!
+              </BodyCard>
+              <BodyCard>
+                Your draft articles will be shown in the next tab until you
+                publish them.
+              </BodyCard>
+            </DescriptionContainer>
+          ) : (
+            "The user hasn't published any articles yet. Once they do, they will appear here!"
+          )
+        }
+        title="No Articles Published"
+        secondaryButton={isOwner ? <MediumImportButton border /> : null}
+        primaryButton={
+          isOwner ? (
+            <PrimaryButton onClick={() => routeChangeAction("/write-article")}>
+              Create Article
+            </PrimaryButton>
+          ) : null
+        }
+      />
+    </Centered>
   );
 };
 

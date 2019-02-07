@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import CollectionSearch from "./CollectionSearch";
+import DiscoverSearch from "../Articles/DiscoverSearch";
 
 const CollectionsHeader = styled.div`
   background-color: ${props => props.theme.colors.primaryTextColor};
@@ -17,9 +17,9 @@ const CollectionsHeader = styled.div`
 const KauriTitle = styled.h1`
   color: white;
   font-weight: 300;
-  font-size: ${props => props.theme.fontSizes[5]}px;
-  margin-top: ${props => props.theme.space[4]}px;
-  margin-bottom: ${props => props.theme.space[3]}px;
+  font-size: ${props => props.theme.fontSizes[8]}px;
+  margin-top: 45px;
+  margin-bottom: 12px;
 
   @media (max-width: 500px) {
     width: 300px;
@@ -34,11 +34,13 @@ const KauriDescription = styled.div`
   }
 `;
 
-const Header = () => (
+const Header: React.FunctionComponent<{ category: string }> = ({
+  category,
+}) => (
   <CollectionsHeader>
     <KauriTitle>Discover Collections</KauriTitle>
     <KauriDescription>User and Communitiy Collections</KauriDescription>
-    <CollectionSearch />
+    <DiscoverSearch category={category} />
   </CollectionsHeader>
 );
 

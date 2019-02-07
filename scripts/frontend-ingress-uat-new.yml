@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.org/websocket-services: "frontend"
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size:  "10m"
+  name: frontend-ingress-new
+  namespace: uat
+spec:
+  tls:
+  - hosts:
+    - kauri.io
+    secretName: uat-frontend-tls-new
+  rules:
+    - host: kauri.io
+      http:
+        paths:
+          - backend:
+              serviceName: frontend
+              servicePort: 80
+            path: /

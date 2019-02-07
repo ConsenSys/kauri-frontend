@@ -1,5 +1,3 @@
-/* tslint:disable */
-
 import * as React from "react";
 import ReactDOM from "react-dom";
 import Loading from "../components/common/Loading";
@@ -13,7 +11,8 @@ interface IState {
 type PaginationDataQuery =
   | "searchCommunities"
   | "searchCollections"
-  | "searchArticles";
+  | "searchArticles"
+  | "searchAutocomplete";
 
 interface IProps {
   [queryName: string]: { [key in PaginationDataQuery]: { isLast: boolean } } &
@@ -40,40 +39,86 @@ const withPagination = (
     }
 
     componentDidMount() {
+      const triggerTouchStartEvent = (childRefElement?: Element) => () => {
+        if (childRefElement) {
+          childRefElement.addEventListener(
+            "touchend",
+            this.handleOnScroll,
+            false
+          );
+          childRefElement.removeEventListener(
+            "touchstart",
+            triggerTouchStartEvent()
+          );
+          return;
+        }
+        window.addEventListener("touchend", this.handleOnScroll, false);
+        window.removeEventListener("touchstart", triggerTouchStartEvent());
+        window.removeEventListener("scroll", triggerScrollEvent());
+      };
+      const triggerScrollEvent = (childRefElement?: Element) => () => {
+        if (childRefElement) {
+          childRefElement.addEventListener(
+            "scroll",
+            this.handleOnScroll,
+            false
+          );
+          childRefElement.removeEventListener("scroll", triggerScrollEvent());
+          return;
+        }
+        window.addEventListener("scroll", this.handleOnScroll, false);
+        window.removeEventListener("scroll", triggerScrollEvent());
+      };
+
       if (this.childRef) {
         const childRefElement = ReactDOM.findDOMNode(this.childRef);
         this.childRefElement = childRefElement as Element;
         (childRefElement as Element).addEventListener(
-          "scroll",
-          this.handleOnScroll
+          "touchstart",
+          triggerTouchStartEvent(childRefElement as Element)
         );
+        (childRefElement as Element).addEventListener(
+          "scroll",
+          triggerScrollEvent(childRefElement as Element)
+        );
+        return;
       }
-      window.addEventListener("scroll", this.handleOnScroll);
-      window.addEventListener("touchend", this.handleOnScroll);
+
+      window.addEventListener("touchstart", triggerTouchStartEvent());
+      window.addEventListener("scroll", triggerScrollEvent());
     }
 
     componentWillUnmount() {
-      window.removeEventListener("scroll", this.handleOnScroll);
-      window.removeEventListener("touchend", this.handleOnScroll);
+      window.removeEventListener("touchend", this.handleOnScroll, false);
     }
 
     handleOnScroll = () => {
       const scrollTop =
         (this.childRefElement && this.childRefElement.scrollTop) ||
-        (document.documentElement && document.documentElement.scrollTop) ||
-        document.body.scrollTop;
+        (document.scrollingElement && document.scrollingElement.scrollTop) ||
+        window.scrollY ||
+        window.pageYOffset ||
+        document.body.scrollTop +
+          ((document.documentElement && document.documentElement.scrollTop) ||
+            0);
       const scrollHeight =
         (this.childRefElement && this.childRefElement.scrollHeight) ||
+        (document.scrollingElement && document.scrollingElement.scrollHeight) ||
         (document.documentElement && document.documentElement.scrollHeight) ||
         document.body.scrollHeight;
       const clientHeight =
         (this.childRefElement && this.childRefElement.clientHeight) ||
+        (document.scrollingElement && document.scrollingElement.clientHeight) ||
+        document.body.getBoundingClientRect().height ||
         (document &&
           document.documentElement &&
           document.documentElement.clientHeight) ||
         window.innerHeight;
       const scrolledToBottom =
-        Math.ceil(scrollTop + clientHeight + 50) >= scrollHeight;
+        Math.ceil(scrollTop + clientHeight + 150) >= scrollHeight;
+
+      // alert(`${scrollTop}, ${scrollHeight}, ${clientHeight}`);
+
       if (
         scrolledToBottom &&
         this.props[queryName] &&
@@ -98,6 +143,7 @@ const withPagination = (
                 ],
                 isLast: fetchMoreResult[key].isLast,
                 totalElements: prev[key].totalElements,
+                totalElementsBreakdown: prev[key].totalElementsBreakdown,
                 totalPages: prev[key].totalPages,
               },
             };
