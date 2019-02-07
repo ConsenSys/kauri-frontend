@@ -23,7 +23,7 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
 });
 
-function create (initialState, { getToken }) {
+export function create (initialState, { getToken }) {
   const apiURL = config.getApiURL();
   let httpLink = new HttpLink({
     uri: `http${global.window ? "s" : ""}://${apiURL}/graphql`,
