@@ -48,7 +48,7 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
         }>({
           fetchPolicy: "no-cache",
           query: searchTags,
-          variables: { query: text, page: 0, size: 10 },
+          variables: { query: text, page: 0, size: 20 },
         })
       )
       .map(
