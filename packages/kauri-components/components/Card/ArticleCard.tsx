@@ -51,7 +51,7 @@ const Content = styled<{ imageURL: string | null }, "div">("div")`
     margin-bottom: ${props => props.theme.space[1]}px;
   }
   > h1 {
-    word-break: break-all;
+    word-break: break-word;
   }
   ${props => typeof props.imageURL === "string" && withImageURLPaddingCss};
 `;

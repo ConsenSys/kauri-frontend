@@ -61,7 +61,7 @@ const Mask = styled.div`
     margin-top: auto;
   }
   > * {
-    word-break: break-all;
+    word-break: break-word;
   }
   ${withImageURLCss};
 `;
@@ -86,7 +86,7 @@ const Content = styled<{}, "div">("div")`
     margin-top: auto;
   }
   > * {
-    word-break: break-all;
+    word-break: break-word;
   }
 `;
 

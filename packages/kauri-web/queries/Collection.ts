@@ -1,5 +1,4 @@
 import gql from "graphql-tag";
-import { Article } from "./Article";
 
 export const Collection = gql`
   fragment Collection on CollectionDTO {
@@ -53,8 +52,8 @@ export const globalCollectionDetails = gql`
         name
         description
         resources {
-          ... on ArticleDTO {
-            ...Article
+          ... on CollectionDTO {
+            ...Collection
           }
         }
       }
@@ -64,7 +63,7 @@ export const globalCollectionDetails = gql`
       }
     }
   }
-  ${Article}
+  ${Collection}
 `;
 
 export const getCollection = globalCollectionDetails;
@@ -116,25 +115,33 @@ export const composeCollection = gql`
   }
 `;
 export const getLatestCollections = gql`
-  query searchCollections(
-    $size: Int = 12
+  query searchAutocompleteCollections(
     $page: Int = 0
+    $size: Int = 12
+    $query: String
     $filter: SearchFilterInput
   ) {
-    searchCollections(
-      size: $size
+    searchAutocomplete(
       page: $page
-      sort: "dateUpdated"
-      dir: DESC
+      size: $size
+      query: $query
       filter: $filter
     ) {
+      totalElements
+      totalPages
       content {
-        ...Collection
+        resourceIdentifier {
+          id
+          type
+        }
+        resource {
+          ... on CollectionDTO {
+            ...Collection
+          }
+        }
       }
-      isLast
     }
   }
-
   ${Collection}
 `;
 

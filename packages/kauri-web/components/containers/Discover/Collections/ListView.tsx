@@ -1,16 +1,18 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-// @ts-ignore
 import CollectionCard from "../../../../../kauri-components/components/Card/CollectionCard";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
-import { searchCollections_searchCollections } from "../../../../queries/__generated__/searchCollections";
+import {
+  searchAutocompleteCollections_searchAutocomplete,
+  searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO,
+} from "../../../../queries/__generated__/searchAutocompleteCollections";
 
 interface IProps {
   CollectionQuery: {
     error: string;
-    searchCollections?: searchCollections_searchCollections;
+    searchAutocomplete?: searchAutocompleteCollections_searchAutocomplete;
   };
   hostName: string;
   routeChangeAction(route: string): void;
@@ -35,7 +37,7 @@ class Collections extends Component<IProps> {
       return null;
     } // TODO replace with an error message if exists
 
-    const { searchCollections } = this.props.CollectionQuery;
+    const { searchAutocomplete } = this.props.CollectionQuery;
 
     return (
       <Fragment>
@@ -54,15 +56,18 @@ class Collections extends Component<IProps> {
             href={`https://${this.props.hostName}/collections`}
           />
         </Helmet>
-        {searchCollections ? (
+        {searchAutocomplete ? (
           <CollectionsContainer>
-            {searchCollections &&
-              searchCollections.content &&
-              searchCollections.content.map(collection => {
-                const articleCount =
+            {searchAutocomplete &&
+              searchAutocomplete.content &&
+              searchAutocomplete.content.map(collection => {
+                const collectionResource =
                   collection &&
-                  collection.sections &&
-                  collection.sections.reduce((current, next) => {
+                  (collection.resource as searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO);
+                const articleCount =
+                  collectionResource &&
+                  collectionResource.sections &&
+                  collectionResource.sections.reduce((current, next) => {
                     const sectionCount =
                       (next && next.resourcesId && next.resourcesId.length) ||
                       0;
@@ -71,24 +76,33 @@ class Collections extends Component<IProps> {
                   }, 0);
                 return (
                   <CollectionCard
-                    key={String(collection && collection.id)}
-                    id={String(collection && collection.id)}
-                    name={(collection && collection.name) || ""}
-                    description={(collection && collection.description) || ""}
+                    key={String(collectionResource && collectionResource.id)}
+                    id={String(collectionResource && collectionResource.id)}
+                    name={(collectionResource && collectionResource.name) || ""}
+                    description={
+                      (collectionResource && collectionResource.description) ||
+                      ""
+                    }
                     username={
-                      collection &&
-                      collection.owner &&
-                      collection.owner.username
+                      collectionResource &&
+                      collectionResource.owner &&
+                      collectionResource.owner.username
                     }
                     userId={String(
-                      collection && collection.owner && collection.owner.id
+                      collectionResource &&
+                        collectionResource.owner &&
+                        collectionResource.owner.id
                     )}
                     userAvatar={
-                      collection && collection.owner && collection.owner.avatar
+                      collectionResource &&
+                      collectionResource.owner &&
+                      collectionResource.owner.avatar
                     }
-                    imageURL={collection && collection.background}
+                    imageURL={
+                      collectionResource && collectionResource.background
+                    }
                     articleCount={String(articleCount)}
-                    date={collection && collection.dateUpdated}
+                    date={collectionResource && collectionResource.dateUpdated}
                     cardHeight={310}
                     cardWidth={290}
                     linkComponent={(
@@ -98,8 +112,8 @@ class Collections extends Component<IProps> {
                       <Link
                         toSlug={
                           route.includes("collection") &&
-                          collection &&
-                          collection.name
+                          collectionResource &&
+                          collectionResource.name
                         }
                         useAnchorTag={true}
                         href={route}

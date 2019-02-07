@@ -48,7 +48,7 @@ const Articles = ({
             <ArticleCard
               key={`${article.id}-${article.version}`}
               changeRoute={routeChangeAction}
-              date={article.dateCreated}
+              date={article.datePublished}
               title={article.title}
               content={article.content}
               tags={article.tags}

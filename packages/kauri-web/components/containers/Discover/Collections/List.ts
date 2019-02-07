@@ -31,6 +31,7 @@ export default compose(
       variables: {
         filter: {
           mustNotIncludeUserId: config.testingAccounts,
+          type: "COLLECTION",
         },
       },
     }),
