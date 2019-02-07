@@ -1,5 +1,4 @@
 import gql from "graphql-tag";
-import { Article } from "./Article";
 
 export const Collection = gql`
   fragment Collection on CollectionDTO {
@@ -53,8 +52,8 @@ export const globalCollectionDetails = gql`
         name
         description
         resources {
-          ... on ArticleDTO {
-            ...Article
+          ... on CollectionDTO {
+            ...Collection
           }
         }
       }
@@ -64,7 +63,7 @@ export const globalCollectionDetails = gql`
       }
     }
   }
-  ${Article}
+  ${Collection}
 `;
 
 export const getCollection = globalCollectionDetails;
