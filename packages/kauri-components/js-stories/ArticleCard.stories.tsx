@@ -71,7 +71,7 @@ storiesOf("ArticleCard", module)
       imageURL={null}
       date={moment(1538734619928).format("D MMM YYYY")}
       title={
-        "Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title Two Line Title"
+        "TwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitleTwoLineTitle"
       }
       id={"1234567890"}
       version={1}

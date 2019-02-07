@@ -23,9 +23,8 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
 });
 
-export function create (initialState, { getToken, hostName }) {
-  const apiURL = config.getApiURL(hostName);
-
+function create(initialState, { getToken }) {
+  const apiURL = config.getApiURL();
   let httpLink = new HttpLink({
     uri: `http${global.window ? "s" : ""}://${apiURL}/graphql`,
   });
@@ -87,7 +86,7 @@ export function create (initialState, { getToken, hostName }) {
   });
 }
 
-export default function initApollo (initialState, options) {
+export default function initApollo(initialState, options) {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (!global.window) {

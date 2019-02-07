@@ -43,6 +43,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       deleteDraftArticleAction,
       closeModalAction,
       openModalAction,
+      isLoggedIn,
     } = this.props;
 
     const isHeaderLoaded =
@@ -126,6 +127,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 openModalAction={openModalAction}
               />,
               <Collections
+                isLoggedIn={!!currentUser}
                 data={CollectionQuery}
                 routeChangeAction={routeChangeAction}
               />,
@@ -142,11 +144,13 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 />
               ),
               <Awaiting
+                isLoggedIn={!!currentUser}
                 data={ApprovalsQuery}
                 type="pending"
                 routeChangeAction={routeChangeAction}
               />,
               <Pending
+                isLoggedIn={!!currentUser}
                 data={PendingQuery}
                 type="toBeApproved"
                 routeChangeAction={routeChangeAction}

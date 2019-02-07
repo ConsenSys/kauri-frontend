@@ -19,7 +19,7 @@ import {
 import { TagList } from "../Tags";
 import NFTList, { INFT } from "../Kudos/NFTList";
 import Image from "../Image";
-import Date from '../HoverDateLabel';
+import Date from "../HoverDateLabel";
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -49,6 +49,9 @@ const Content = styled<{ imageURL: string | null }, "div">("div")`
   }
   > :nth-child(2) {
     margin-bottom: ${props => props.theme.space[1]}px;
+  }
+  > h1 {
+    word-break: break-word;
   }
   ${props => typeof props.imageURL === "string" && withImageURLPaddingCss};
 `;
@@ -292,7 +295,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
         </BodyCard>
       )}
       {Array.isArray(tags) && tags.length > 0 && (
-        <TagList maxTags={3} color="textPrimary" tags={tags} />
+        <TagList maxTags={3} color="textPrimary" tags={tags} maxChars={40} />
       )}
       {Array.isArray(nfts) && nfts.length > 0 && (
         <NFTList nftSize={20} nfts={nfts} />

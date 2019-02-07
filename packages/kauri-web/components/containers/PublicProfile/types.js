@@ -14,6 +14,7 @@ export type ArticlesProps = {
 };
 
 export type CollectionsProps = {
+  isLoggedIn?: boolean,
   data: {
     searchCollections: {
       content: Array<CollectionDTO>,

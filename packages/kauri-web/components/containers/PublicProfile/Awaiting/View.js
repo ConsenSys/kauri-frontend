@@ -2,15 +2,26 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
-import Empty from "../Empty";
 import { Link } from "../../../../routes";
 import ContentContainer from "../PublicProfileContentContainer";
 import CheckpointArticles from "../../CheckpointArticles";
 import withPagination from "../../../../lib/with-pagination";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
+import PublicProfileEmptyState from "../../../../../kauri-components/components/PublicProfileEmptyState";
+import { BodyCard } from "../../../../../kauri-components/components/Typography";
 
-import { PrimaryButton } from "../../../../../kauri-components/components/Button";
 import type { ArticlesProps } from "../types";
+
+const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Centered = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: ${props => props.theme.paddingTop};
+`;
 
 const Articles = ({
   data,
@@ -69,11 +80,23 @@ const Articles = ({
       </ContentContainer>
     </Fragment>
   ) : (
-    <Empty>
-      <PrimaryButton onClick={() => routeChangeAction(`/write-article`)}>
-        WRITE ARTICLE
-      </PrimaryButton>
-    </Empty>
+    <Centered>
+      <PublicProfileEmptyState
+        iconSrc={"/static/images/icons/no-articles-for-approval.svg"}
+        description={
+          <DescriptionContainer>
+            <BodyCard>
+              If another user on Kauri suggests edits to one of your published
+              articles, you'll be asked to approve or reject them.
+            </BodyCard>
+            <BodyCard>
+              These pending edits will appear here until you do so.
+            </BodyCard>
+          </DescriptionContainer>
+        }
+        title="No Articles For Approval"
+      />
+    </Centered>
   );
 };
 

@@ -31,9 +31,10 @@ export default compose(
       variables: {
         filter: {
           mustNotIncludeUserId: config.testingAccounts,
+          type: "COLLECTION",
         },
       },
     }),
   }),
   withLoading()
-)(withPagination(Collections, "searchCollections", QUERY_NAME));
+)(withPagination(Collections, "searchAutocomplete", QUERY_NAME));

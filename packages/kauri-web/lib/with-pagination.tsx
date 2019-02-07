@@ -1,5 +1,3 @@
-/* tslint:disable */
-
 import * as React from "react";
 import ReactDOM from "react-dom";
 import Loading from "../components/common/Loading";
@@ -97,20 +95,30 @@ const withPagination = (
     handleOnScroll = () => {
       const scrollTop =
         (this.childRefElement && this.childRefElement.scrollTop) ||
-        (document.documentElement && document.documentElement.scrollTop) ||
-        document.body.scrollTop;
+        (document.scrollingElement && document.scrollingElement.scrollTop) ||
+        window.scrollY ||
+        window.pageYOffset ||
+        document.body.scrollTop +
+          ((document.documentElement && document.documentElement.scrollTop) ||
+            0);
       const scrollHeight =
         (this.childRefElement && this.childRefElement.scrollHeight) ||
+        (document.scrollingElement && document.scrollingElement.scrollHeight) ||
         (document.documentElement && document.documentElement.scrollHeight) ||
         document.body.scrollHeight;
       const clientHeight =
         (this.childRefElement && this.childRefElement.clientHeight) ||
+        (document.scrollingElement && document.scrollingElement.clientHeight) ||
+        document.body.getBoundingClientRect().height ||
         (document &&
           document.documentElement &&
           document.documentElement.clientHeight) ||
         window.innerHeight;
       const scrolledToBottom =
-        Math.ceil(scrollTop + clientHeight + 50) >= scrollHeight;
+        Math.ceil(scrollTop + clientHeight + 150) >= scrollHeight;
+
+      // alert(`${scrollTop}, ${scrollHeight}, ${clientHeight}`);
+
       if (
         scrolledToBottom &&
         this.props[queryName] &&
@@ -135,8 +143,8 @@ const withPagination = (
                 ],
                 isLast: fetchMoreResult[key].isLast,
                 totalElements: prev[key].totalElements,
-                totalPages: prev[key].totalPages,
                 totalElementsBreakdown: prev[key].totalElementsBreakdown,
+                totalPages: prev[key].totalPages,
               },
             };
             return result;

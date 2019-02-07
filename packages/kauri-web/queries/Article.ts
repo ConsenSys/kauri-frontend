@@ -386,7 +386,7 @@ export const searchPending = gql`
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { ownerIdEquals: $userId, statusIn: [PENDING] }
+      filter: { authorIdEquals: $userId, statusIn: [PENDING] }
     ) {
       totalElements
       isLast
@@ -451,7 +451,7 @@ export const searchAwaitingApproval = gql`
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { authorIdEquals: $userId, statusIn: [PENDING] }
+      filter: { ownerIdEquals: $userId, statusIn: [PENDING] }
     ) {
       totalElements
       isLast

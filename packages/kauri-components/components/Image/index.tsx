@@ -105,7 +105,7 @@ const Img = styled.div<ImgProps>`
 const Image = (props: ImgProps) => (
   <InView rootMargin={"200px 0px"} triggerOnce={true}>
     {({ inView, ref }) => (
-      <Img innerRef={ref} {...props} inView={inView}>
+      <Img {...props} innerRef={ref} inView={inView}>
         {props.children}
       </Img>
     )}

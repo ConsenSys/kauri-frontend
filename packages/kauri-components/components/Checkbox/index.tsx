@@ -27,10 +27,10 @@ const Styled = styled<{ disabled: boolean }, "div">("div")`
       border-radius: 4px;
     }
     &:after {
-      content: "✓";
+      content: url("/static/images/checked.svg");
       position: absolute;
       top: -4px;
-      left: 1px;
+      left: 4px;
       font-size: 16px;
       color: white;
       transition: all 0.2s;

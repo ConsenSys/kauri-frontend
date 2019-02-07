@@ -197,7 +197,7 @@ class SubmitArticleForm extends React.Component<Props> {
 
         const { id, version, status, author, owner } = articleData;
 
-        if (!articleData.attributs) articleData.attributes = {};
+        if (!articleData.attributes) articleData.attributes = {};
 
         switch (status) {
           case "PUBLISHED":

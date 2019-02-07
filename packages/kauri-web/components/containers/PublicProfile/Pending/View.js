@@ -2,22 +2,34 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
-import Empty from "../Empty";
 import { Link } from "../../../../routes";
 import ContentContainer from "../PublicProfileContentContainer";
 import CheckpointArticles from "../../CheckpointArticles";
 import withPagination from "../../../../lib/with-pagination";
+import PublicProfileEmptyState from "../../../../../kauri-components/components/PublicProfileEmptyState";
+import { BodyCard } from "../../../../../kauri-components/components/Typography";
 
-import { PrimaryButton } from "../../../../../kauri-components/components/Button";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 
 import type { ArticlesProps } from "../types";
+
+const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Centered = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: ${props => props.theme.paddingTop};
+`;
 
 const Articles = ({
   data,
   type,
   routeChangeAction,
   isOwner,
+  isLoggedIn,
 }: ArticlesProps) => {
   const articles = data.searchArticles && data.searchArticles.content;
   return articles.length > 0 ? (
@@ -58,11 +70,26 @@ const Articles = ({
       </ContentContainer>
     </Fragment>
   ) : (
-    <Empty>
-      <PrimaryButton onClick={() => routeChangeAction(`/write-article`)}>
-        WRITE ARTICLE
-      </PrimaryButton>
-    </Empty>
+    <Centered>
+      <PublicProfileEmptyState
+        moveIconLeftBecauseCSS
+        iconSrc={"/static/images/icons/no-submitted-updates.svg"}
+        description={
+          <DescriptionContainer>
+            <BodyCard>
+              If you think of an improvement to another user's article, you can
+              suggest edits by clicking "Update Article".
+            </BodyCard>
+            <BodyCard>
+              They'll then be asked to approve or reject (giving a reason) your
+              edits.
+            </BodyCard>
+            <BodyCard>Your pending submitted edits will appear here.</BodyCard>
+          </DescriptionContainer>
+        }
+        title="No Submitted Updates"
+      />{" "}
+    </Centered>
   );
 };
 
