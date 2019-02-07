@@ -37,4 +37,4 @@ export default compose(
     }),
   }),
   withLoading()
-)(withPagination(Collections, "searchCollections", QUERY_NAME));
+)(withPagination(Collections, "searchAutocomplete", QUERY_NAME));
