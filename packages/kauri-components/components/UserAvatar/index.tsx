@@ -45,15 +45,16 @@ interface IAvatarProps {
   color: string;
   height?: number;
   width?: number;
+  borderRadius?: '4px';
 }
 
 const Avatar = styled<IAvatarProps, "div">("div")`
   display: flex;
-  height: ${props => props.height ? props.height : '30px'};
-  width: ${props => props.width ? props.width : '30px'};
+  height: ${props => props.height ? `${props.height}px` : '30px'};
+  width: ${props => props.width ? `${props.width}px` : '30px'};
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
+  border-radius: ${props => props.borderRadius ? props.borderRadius : '4px'};
   background: ${props =>
     props.avatar
       ? "none"
@@ -101,7 +102,7 @@ const UserAvatarComponent: React.SFC<IProps> = props => (
     >
       {typeof props.avatar === "string" && props.avatar.length > 1 ? (
         <Image
-          borderRadius={props.borderRadius ? props.borderRadius : '50%'}
+          borderRadius={props.borderRadius ? props.borderRadius : '4px'}
           image={props.avatar}
           height={props.height ? props.height : 30}
           width={props.width ? props.width : 30}
