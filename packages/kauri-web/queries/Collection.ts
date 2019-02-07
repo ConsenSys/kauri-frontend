@@ -114,6 +114,7 @@ export const composeCollection = gql`
     }
   }
 `;
+
 export const getLatestCollections = gql`
   query searchAutocompleteCollections(
     $page: Int = 0

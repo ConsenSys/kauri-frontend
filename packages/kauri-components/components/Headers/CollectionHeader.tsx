@@ -1,7 +1,5 @@
 import * as React from "react";
-import * as t from "io-ts";
 import moment from "moment";
-import { failure } from "io-ts/lib/PathReporter";
 import styled from "../../lib/styled-components";
 import {
   Title1,
@@ -56,25 +54,23 @@ const changeRoute = (
   id: string
 ) => () => routeChangeAction(`/collection/${id}/update-collection`);
 
-const RuntimeProps = t.interface({
-  description: t.string,
-  id: t.string,
-  imageURL: t.union([t.string, t.null]),
-  linkComponent: t.any,
-  name: t.string,
-  ownerId: t.string,
-  routeChangeAction: t.any,
-  tags: t.union([t.array(t.string), t.null]),
-  updated: t.string,
-  url: t.string,
-  userAvatar: t.union([t.string, t.null]),
-  userId: t.string,
-  username: t.union([t.string, t.null]),
-});
+interface IProps {
+  description: string;
+  id: string;
+  imageURL: string | null;
+  linkComponent: any;
+  name: string;
+  ownerId: string;
+  routeChangeAction: any;
+  tags: string[];
+  updated: string;
+  url: string;
+  userAvatar: string | null;
+  userId: string;
+  username: string | null;
+}
 
-type Props = t.TypeOf<typeof RuntimeProps>;
-
-const Container: React.SFC<Props> = props => {
+const Container: React.SFC<IProps> = props => {
   const {
     description,
     id,
@@ -89,9 +85,7 @@ const Container: React.SFC<Props> = props => {
     routeChangeAction,
     imageURL,
     tags,
-  } = RuntimeProps.decode(props).getOrElseL(errors => {
-    throw new Error(failure(errors).join("\n"));
-  });
+  } = props;
   return (
     <CollectionHeaderSection>
       <LeftSide>
