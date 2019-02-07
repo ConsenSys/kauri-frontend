@@ -43,12 +43,14 @@ interface IAvatarProps {
   variant: "white" | undefined;
   avatar: string | "none" | null;
   color: string;
+  height?: number;
+  width?: number;
 }
 
 const Avatar = styled<IAvatarProps, "div">("div")`
   display: flex;
-  height: 30px;
-  width: 30px;
+  height: ${props => props.height ? props.height : '30px'};
+  width: ${props => props.width ? props.width : '30px'};
   justify-content: center;
   align-items: center;
   border-radius: 50%;
@@ -77,6 +79,9 @@ interface IProps {
   fullWidth?: boolean;
   variant?: "white";
   cardType?: "COLLECTION" | "ARTICLE";
+  height?: number;
+  width?: number;
+  borderRadius?: string;
 }
 
 const UserAvatarComponent: React.SFC<IProps> = props => (
@@ -91,13 +96,15 @@ const UserAvatarComponent: React.SFC<IProps> = props => (
       variant={props.variant}
       color={typeof props.color === "string" ? props.color : "white"}
       avatar={props.avatar}
+      height={props.height ? props.height : 30}
+      width={props.width ? props.width : 30}
     >
       {typeof props.avatar === "string" && props.avatar.length > 1 ? (
         <Image
-          borderRadius="50%"
+          borderRadius={props.borderRadius ? props.borderRadius : '50%'}
           image={props.avatar}
-          height="100%"
-          width="100%"
+          height={props.height ? props.height : 30}
+          width={props.width ? props.width : 30}
         />
       ) : (
         <H6
