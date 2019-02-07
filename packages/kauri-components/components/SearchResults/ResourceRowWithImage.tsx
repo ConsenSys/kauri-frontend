@@ -5,6 +5,7 @@ import styled from "../../lib/styled-components";
 import UserAvatar from "../UserAvatar";
 import { Label, H1, BodyCard } from "../Typography";
 import TagList from "../Tags/TagList";
+import Image from '../../../kauri-components/components/Image';
 
 const ResourceRow = styled.div`
   display: flex;
@@ -13,16 +14,6 @@ const ResourceRow = styled.div`
   background-color: ${props => props.theme.colors.white};
   border-radius: 4px;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.11);
-`;
-
-const Image = styled<{ imageURL: string | null }, "div">("div")`
-  height: 195px;
-  min-width: 290px;
-  background: url(${props =>
-      typeof props.imageURL === "string" && props.imageURL})
-    center center / cover;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
 `;
 
 const Content = styled.div`
@@ -97,7 +88,7 @@ const Component: React.SFC<IProps> = props => (
   <ResourceRow>
     {props.imageURL &&
       props.linkComponent(
-        <Image imageURL={props.imageURL} />,
+        <Image width={290} height={195} image={props.imageURL} />,
         props.resourceType === "COLLECTION"
           ? `/collection/${props.id}`
           : props.resourceType === "COMMUNITY"
