@@ -23,6 +23,11 @@ module.exports = (config, configType) => {
   // console.log(JSON.stringify(config.module.rules[0]));
   config.resolve.extensions.push(".ts", ".tsx");
   config.plugins.push(new webpack.EnvironmentPlugin(["STORYBOOK"]));
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      "process.env.monolithExternalApi": JSON.stringify("api.dev.kauri.io"),
+    })
+  );
   config.module.rules.push({
     exclude: /node_modules/,
     test: /\.(ts|tsx)$/,

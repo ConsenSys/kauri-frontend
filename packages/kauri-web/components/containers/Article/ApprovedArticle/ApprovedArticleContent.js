@@ -42,6 +42,12 @@ export const ApprovedArticleDetails = styled(CreateRequestDetails)`
   }
 `;
 
+const ActionsContainer = styled.div`
+  & > button {
+    margin: ${props => props.theme.space[2]}px 0;
+  }
+`;
+
 const UpdateArticleSvgIcon = () => (
   <svg
     aria-hidden="true"
@@ -175,9 +181,9 @@ export default ({
     (editorState.markdown
       ? contentState.getBlocksAsArray().map(block => block.toJS())
       : editorState
-        .getCurrentContent()
-        .getBlocksAsArray()
-        .map(block => block.toJS()));
+          .getCurrentContent()
+          .getBlocksAsArray()
+          .map(block => block.toJS()));
 
   const outlineHeadings = blocks
     .filter(({ type }) => type.includes("header-one"))
@@ -191,7 +197,6 @@ export default ({
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type="outline">
         <Outline
-          relatedArticles={relatedArticles}
           nfts={nfts}
           linkComponent={children => (
             <Link
@@ -215,91 +220,93 @@ export default ({
           text={ownerId ? "OWNER" : "AUTHOR"}
           routeChangeAction={routeChangeAction}
         />
-        {status !== "DRAFT" && (
+        <ActionsContainer>
+          {status !== "DRAFT" && (
+            <TertiaryButton
+              color={"textPrimary"}
+              icon={<AddIcon />}
+              handleClick={() =>
+                userId
+                  ? openModalAction({
+                      children: (
+                        <AddToCollectionConnection
+                          articleId={id}
+                          version={version}
+                        />
+                      ),
+                    })
+                  : routeChangeAction(`/login?r=/article/${id}/v${version}`)
+              }
+            >
+              Add To Collection
+            </TertiaryButton>
+          )}
           <TertiaryButton
             color={"textPrimary"}
-            icon={<AddIcon />}
+            icon={<UpdateArticleSvgIcon />}
             handleClick={() =>
               userId
-                ? openModalAction({
+                ? routeChangeAction(`/article/${id}/v${version}/update-article`)
+                : routeChangeAction(
+                    `/login?r=/article/${id}/v${version}/update-article`
+                  )
+            }
+          >
+            {`Update ${status === "DRAFT" ? "draft" : "article"}`}
+          </TertiaryButton>
+          {status === "DRAFT" && userId === authorId && (
+            <TertiaryButton
+              color={"textPrimary"}
+              icon={<DeleteDraftArticleSvgIcon />}
+              handleClick={() =>
+                openModalAction({
                   children: (
-                    <AddToCollectionConnection
-                      articleId={id}
-                      version={version}
+                    <AlertView
+                      closeModalAction={() => closeModalAction()}
+                      confirmButtonAction={() =>
+                        deleteDraftArticleAction(
+                          { id, version },
+                          closeModalAction
+                        )
+                      }
+                      content={
+                        <div>
+                          <BodyCard>
+                            You won't be able to retrieve the draft article
+                            after deleting.
+                          </BodyCard>
+                        </div>
+                      }
+                      title={"Are you sure?"}
                     />
                   ),
                 })
-                : routeChangeAction(`/login?r=/article/${id}/v${version}`)
-            }
-          >
-            Add To Collection
-          </TertiaryButton>
-        )}
-        <TertiaryButton
-          color={"textPrimary"}
-          icon={<UpdateArticleSvgIcon />}
-          handleClick={() =>
-            userId
-              ? routeChangeAction(`/article/${id}/v${version}/update-article`)
-              : routeChangeAction(
-                `/login?r=/article/${id}/v${version}/update-article`
-              )
-          }
-        >
-          {`Update ${status === "DRAFT" ? "draft" : "article"}`}
-        </TertiaryButton>
-        {status === "DRAFT" && userId === authorId && (
-          <TertiaryButton
-            color={"textPrimary"}
-            icon={<DeleteDraftArticleSvgIcon />}
-            handleClick={() =>
-              openModalAction({
-                children: (
-                  <AlertView
-                    closeModalAction={() => closeModalAction()}
-                    confirmButtonAction={() =>
-                      deleteDraftArticleAction(
-                        { id, version },
-                        closeModalAction
-                      )
-                    }
-                    content={
-                      <div>
-                        <BodyCard>
-                          You won't be able to retrieve the draft article after
-                          deleting.
-                        </BodyCard>
-                      </div>
-                    }
-                    title={"Are you sure?"}
-                  />
-                ),
-              })
-            }
-          >
-            Delete Draft Article
-          </TertiaryButton>
-        )}
-        <ShareArticle
-          color="textPrimary"
-          url={`${hostName.replace(/api\./g, "")}/article/${id}/${slugify(
-            subject,
-            {
-              lower: true,
-            }
-          )}?utm_campaign=read`}
-          title={subject}
-        />
-        <Divider />
-        <RelatedArticles
-          linkComponent={(children, route) => (
-            <Link useAnchorTag href={route}>
-              {children}
-            </Link>
+              }
+            >
+              Delete Draft Article
+            </TertiaryButton>
           )}
-          routeChangeAction={routeChangeAction}
-          relatedArticles={relatedArticles}
-        />
+          <ShareArticle
+            color="textPrimary"
+            url={`${hostName.replace(/api\./g, "")}/article/${id}/${slugify(
+              subject,
+              {
+                lower: true,
+              }
+            )}?utm_campaign=read`}
+            title={subject}
+          />
+          <Divider />
+          <RelatedArticles
+            linkComponent={(children, route, key) => (
+              <Link key={key} useAnchorTag href={route}>
+                {children}
+              </Link>
+            )}
+            routeChangeAction={routeChangeAction}
+            relatedArticles={relatedArticles}
+          />
+        </ActionsContainer>
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>
   );

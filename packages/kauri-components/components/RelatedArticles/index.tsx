@@ -13,7 +13,8 @@ interface IProps {
   routeChangeAction: (route: string) => void;
   linkComponent: (
     children: React.ReactElement<any>,
-    route: string
+    route: string,
+    key: number,
   ) => React.ReactElement<any>;
 }
 
@@ -22,7 +23,7 @@ const RelatedArticlesContainer = styled.div`
   flex-direction: column;
 `;
 
-const Article = styled.a`
+const Article = styled.div`
   cursor: pointer;
   margin-top: ${props => props.theme.space[1]}px;
   margin-bottom ${props => props.theme.space[3]}px;
@@ -38,13 +39,14 @@ const Related = (props: IProps) =>
       <Label>Related Articles</Label>
       {props.relatedArticles.map((i, key) =>
         props.linkComponent(
-          <Article key={key}>
+          <Article>
             <H3>{i.name}</H3>
             {i.tags && i.tags.length > 0 && (
               <TagList maxTags={3} color="textPrimary" tags={i.tags} />
             )}
           </Article>,
-          `/article/${i.resourceIdentifier.id}`
+          `/article/${i.resourceIdentifier.id}`,
+          key
         )
       )}
     </RelatedArticlesContainer>
