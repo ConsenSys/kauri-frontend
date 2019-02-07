@@ -81,7 +81,7 @@ class Articles extends Component<IProps> {
               return (
                 <ArticleCard
                   key={article.id || undefined}
-                  date={article.dateCreated}
+                  date={article.datePublished}
                   tags={article.tags as string[]}
                   title={article.title || ""}
                   content={article.content || ""}
