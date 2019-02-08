@@ -586,7 +586,21 @@ export default compose(withErrorCatch())(
               !inReviewArticleComment &&
               "DescriptionRow-markdown--fullText"}`}
             dangerouslySetInnerHTML={{
-              __html: getHTMLFromMarkdown(JSON.parse(text).markdown),
+              __html: getHTMLFromMarkdown(
+                JSON.parse(text)
+                  .markdown.replace(
+                    "https://api.beta.kauri.io:443/ipfs/",
+                    `https://${
+                      process.env.cloudImageId
+                    }.cloudimg.io/cdn/webp-lossy-90/https://api.beta.kauri.io:443/ipfs/`
+                  )
+                  .replace(
+                    "https://api.kauri.io:443/ipfs/",
+                    `https://${
+                      process.env.cloudImageId
+                    }.cloudimg.io/cdn/webp-lossy-90/https://api.beta.kauri.io:443/ipfs/`
+                  )
+              ),
             }}
           />
         ) : fullText ? (
