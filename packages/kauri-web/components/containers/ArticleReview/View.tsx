@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "../../../lib/styled-components";
-import ContentDiff from "./Diffs/ContentDiff";
 import HeaderDiff from "./Diffs/Header";
 // import Actions from "./Diffs/Actions";
 const JsDiff = require("diff");
@@ -26,17 +25,13 @@ class ArticleReviewView extends React.Component<IProps, {}> {
       tags: this.props.ProposedUpdate.getArticle.tags,
       title: this.props.ProposedUpdate.getArticle.title,
     };
-
-    const contentDiff = JsDiff.diffLines(current.content, proposed.content, {
-      newlineIsToken: true,
-    });
     const titleDiff = JsDiff.diffChars(current.title, proposed.title);
     const tagsDiff = JsDiff.diffArrays(current.tags, proposed.tags);
     return (
       <Container>
         <HeaderDiff titleDiff={titleDiff} tagsDiff={tagsDiff} />
         {/* <Actions /> */}
-        <ContentDiff contentDiff={contentDiff} />
+        {/* <ContentDiff contentDiff={contentDiff} /> */}
       </Container>
     );
   }
