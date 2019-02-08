@@ -13,13 +13,12 @@ const Icon = styled.img`
   margin-right: ${props => props.theme.space[1]}px;
 `;
 
-const Container = styled.div`
+const Container = styled<{ oldEmail: string }, "div">("div")`
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: -${props => props.theme.space[3]}px;
-
+  ${props => props.oldEmail && `margin-left: -${props.theme.space[3]}px;`}
   > .tooltip-body {
     margin-top: 5px;
   }
@@ -44,8 +43,12 @@ const TooltipContainer = styled.section`
   }
   box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
   border-radius: 4px;
-  margin-bottom: 0;
+  margin-bottom: -10px;
   margin-left: -7px;
+
+  & > .resend {
+    color: ${theme.colors.primary};
+  }
 `;
 
 const TooltipArrow = styled.div`
@@ -63,6 +66,7 @@ const TooltipArrow = styled.div`
 interface IProps {
   handleChange: (type: string, value: string) => void;
   email: string;
+  oldEmail: string;
   status: string;
   resendEmailVerification: () => void;
 }
@@ -74,14 +78,17 @@ class EmailField extends React.Component<IProps, {}> {
 
   render() {
     return (
-      <Container>
-        {this.props.email && this.props.status === "CREATED" && (
+      <Container oldEmail={this.props.oldEmail}>
+        {this.props.oldEmail && this.props.status === "CREATED" && (
           <Tooltip
             html={
               <TooltipContainer>
                 <TooltipArrow />
                 <Label>Email Verification</Label>
-                <Label onClick={() => this.resendVerificationEmail()}>
+                <Label
+                  className="resend"
+                  onClick={() => this.resendVerificationEmail()}
+                >
                   Resend
                 </Label>
               </TooltipContainer>
@@ -89,11 +96,12 @@ class EmailField extends React.Component<IProps, {}> {
             position="top"
             trigger="mouseenter"
             unmountHTMLWhenHide={true}
+            interactive={true}
           >
             <Icon src="/static/images/icons8-info.png" />
           </Tooltip>
         )}
-        {this.props.email && this.props.status === "EMAIL_VERIFIED" && (
+        {this.props.oldEmail && this.props.status === "EMAIL_VERIFIED" && (
           <Tooltip
             html={
               <TooltipContainer>

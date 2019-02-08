@@ -65,6 +65,20 @@ const Links = styled.div`
   }
 `;
 
+const Avatar = styled.div`
+  background: #0ba986;
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  font-size: ${props => props.theme && props.theme.fontSizes[5]}px;
+  font-weight: 700;
+  margin-right: ${props => props.theme.space[2]}px;
+`;
+
 const getURL = (string, type) => {
   const split = string.split("/");
   switch (type) {
@@ -101,9 +115,13 @@ const ProfileHeader = ({
         href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
       />
     </Helmet>
-    <UserAvatar borderRadius="4px" height={100} width={100} avatar={avatar}>
-      {avatar ? "" : (name || id).substring(0, 1).toUpperCase()}
-    </UserAvatar>
+    {avatar ? (
+      <UserAvatar borderRadius="4px" height={100} width={100} avatar={avatar}>
+        {avatar ? "" : (name || id).substring(0, 1).toUpperCase()}
+      </UserAvatar>
+    ) : (
+      <Avatar>{(name || id).substring(0, 1).toUpperCase()}</Avatar>
+    )}
     <DetailsContainer>
       {username || name ? (
         <Fragment>
