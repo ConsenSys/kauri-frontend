@@ -21,11 +21,25 @@ export interface Collection_sections_resourcesId {
   type: ResourceType | null;
 }
 
+export interface Collection_sections_resources_CommunityDTO {
+  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+}
+
+export interface Collection_sections_resources_ArticleDTO {
+  __typename: "ArticleDTO";
+  id: string | null;
+  version: number | null;
+}
+
+export type Collection_sections_resources = Collection_sections_resources_CommunityDTO | Collection_sections_resources_ArticleDTO;
+
 export interface Collection_sections {
   __typename: "SectionDTO";
+  id: string | null;
   name: string | null;
   description: string | null;
   resourcesId: (Collection_sections_resourcesId | null)[] | null;
+  resources: (Collection_sections_resources | null)[] | null;
 }
 
 export interface Collection_resourceIdentifier {

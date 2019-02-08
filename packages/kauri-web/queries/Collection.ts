@@ -16,11 +16,18 @@ export const Collection = gql`
       avatar
     }
     sections {
+      id
       name
       description
       resourcesId {
         id
         type
+      }
+      resources {
+        ... on ArticleDTO {
+          id
+          version
+        }
       }
     }
     resourceIdentifier {
@@ -159,7 +166,7 @@ export const searchCollections = gql`
 `;
 
 export const getCollectionsForUser = gql`
-  query searchCollections(
+  query getCollectionsForUser(
     $filter: CollectionFilterInput
     $size: Int = 8
     $page: Int = 0

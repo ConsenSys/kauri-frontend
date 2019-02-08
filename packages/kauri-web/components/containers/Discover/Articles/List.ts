@@ -32,7 +32,7 @@ export default compose(
   graphql(globalSearchApprovedArticles, {
     name: QUERY_NAME,
     options: () => ({
-      fetchPolicy: "no-cache",
+      fetchPolicy: "network-only",
       variables: {
         filter: {
           mustNotContainTag: ["ethdenver-2019-submission"],

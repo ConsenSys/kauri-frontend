@@ -21,11 +21,25 @@ export interface searchCollections_searchCollections_content_sections_resourcesI
   type: ResourceType | null;
 }
 
+export interface searchCollections_searchCollections_content_sections_resources_CommunityDTO {
+  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+}
+
+export interface searchCollections_searchCollections_content_sections_resources_ArticleDTO {
+  __typename: "ArticleDTO";
+  id: string | null;
+  version: number | null;
+}
+
+export type searchCollections_searchCollections_content_sections_resources = searchCollections_searchCollections_content_sections_resources_CommunityDTO | searchCollections_searchCollections_content_sections_resources_ArticleDTO;
+
 export interface searchCollections_searchCollections_content_sections {
   __typename: "SectionDTO";
+  id: string | null;
   name: string | null;
   description: string | null;
   resourcesId: (searchCollections_searchCollections_content_sections_resourcesId | null)[] | null;
+  resources: (searchCollections_searchCollections_content_sections_resources | null)[] | null;
 }
 
 export interface searchCollections_searchCollections_content_resourceIdentifier {
@@ -49,9 +63,7 @@ export interface searchCollections_searchCollections_content {
 
 export interface searchCollections_searchCollections {
   __typename: "ResponsePage_CollectionDTO";
-  totalElements: any | null;
   content: (searchCollections_searchCollections_content | null)[] | null;
-  isLast: boolean | null;
 }
 
 export interface searchCollections {
@@ -60,6 +72,4 @@ export interface searchCollections {
 
 export interface searchCollectionsVariables {
   filter?: CollectionFilterInput | null;
-  size?: number | null;
-  page?: number | null;
 }
