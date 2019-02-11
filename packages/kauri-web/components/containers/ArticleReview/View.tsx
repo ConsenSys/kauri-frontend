@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "../../../lib/styled-components";
-import Header from "./Diffs/Header";
+import Header from "./Header";
 import Diffs from "../../../../kauri-components/components/DiffViewer";
 import { Label } from "../../../../kauri-components/components/Typography";
 import ScrollIndicator from "../../../../kauri-components/components/ScrollIndicator";
@@ -23,9 +23,16 @@ const Details = styled.div`
 `;
 
 interface IProps {
+  id: string;
+  version: string;
   CurrentArticle: any;
   ProposedUpdate: any;
   routeChangeAction: (route: string) => void;
+  openModalAction: (children: any) => void;
+  closeModalAction: () => void;
+  rejectArticleAction: (
+    { cause, id, version }: { cause: string; id: string; version: number }
+  ) => void;
 }
 
 class ArticleReviewView extends React.Component<IProps, {}> {
@@ -58,6 +65,11 @@ class ArticleReviewView extends React.Component<IProps, {}> {
           tags={proposed.tags}
           attributes={proposed.attributes}
           title={proposed.title}
+          openModalAction={this.props.openModalAction}
+          closeModalAction={this.props.closeModalAction}
+          rejectArticleAction={this.props.rejectArticleAction}
+          id={this.props.id}
+          version={this.props.version}
         />
         <Content>
           <Diffs current={current.content} proposed={proposed.content} />

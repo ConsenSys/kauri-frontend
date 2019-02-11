@@ -1,15 +1,16 @@
-import styled from "../../../../lib/styled-components";
+import styled from "../../../lib/styled-components";
 import {
   Title1,
   Label,
-} from "../../../../../kauri-components/components/Typography";
-import Image from "../../../../../kauri-components/components/Image";
-import TagList from "../../../../../kauri-components/components/Tags/TagList";
-import PrimaryButton from "../../../../../kauri-components/components/Button/PrimaryButton";
-import SecondaryButton from "../../../../../kauri-components/components/Button/SecondaryButton";
+} from "../../../../kauri-components/components/Typography";
+import Image from "../../../../kauri-components/components/Image";
+import TagList from "../../../../kauri-components/components/Tags/TagList";
+import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
+import SecondaryButton from "../../../../kauri-components/components/Button/SecondaryButton";
 import moment from "moment";
-import theme from "../../../../../kauri-components/lib/theme-config";
-import GreenArrow from "../../../common/GreenArrow";
+import theme from "../../../../kauri-components/lib/theme-config";
+import GreenArrow from "../../common/GreenArrow";
+import RejectArticleModal from "./RejectArticleModal";
 
 const Container = styled<{ bgUpdated: boolean }, "div">("div")`
   background: ${props => props.theme.bgPrimary};
@@ -84,6 +85,13 @@ interface IProps {
   date: string;
   tags: string[];
   bgUpdated: boolean;
+  openModalAction: (children: any) => void;
+  closeModalAction: () => void;
+  rejectArticleAction: (
+    { cause, id, version }: { cause: string; id: string; version: number }
+  ) => void;
+  version: string;
+  id: string;
 }
 const Header = (props: IProps) => (
   <Container bgUpdated={props.bgUpdated}>
@@ -108,7 +116,25 @@ const Header = (props: IProps) => (
           ) : null}
         </BGNotice>
         <Buttons>
-          <SecondaryButton text="Reject Changes" />
+          <SecondaryButton
+            onClick={() =>
+              props.openModalAction({
+                children: (
+                  <RejectArticleModal
+                    closeModalAction={() => props.closeModalAction()}
+                    confirmModal={cause =>
+                      props.rejectArticleAction({
+                        cause,
+                        id: props.id,
+                        version: parseInt(props.version, 10),
+                      })
+                    }
+                  />
+                ),
+              })
+            }
+            text="Reject Changes"
+          />
           <PrimaryButton text="Approve Changes" />
         </Buttons>
       </Actions>

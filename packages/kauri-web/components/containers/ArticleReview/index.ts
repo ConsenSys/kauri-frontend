@@ -8,8 +8,26 @@ import {
 } from "../../../lib/Module";
 import withLoading from "../../../lib/with-loading";
 import View from "./View";
+import {
+  closeModalAction,
+  openModalAction,
+} from "../../../../kauri-components/components/Modal/Module";
 
-const mapStateToProps = () => ({});
+interface IState {
+  app: {
+    hostName: string;
+    user: { id: string };
+  };
+}
+
+const mapStateToProps = (
+  state: IState,
+  props: { id: string; version: string }
+) => ({
+  id: props.id,
+  userId: state.app.user.id,
+  version: props.version,
+});
 
 interface IArticleVersion {
   id: string;
@@ -21,6 +39,8 @@ export default compose(
     mapStateToProps,
     {
       approveArticleAction,
+      closeModalAction,
+      openModalAction,
       rejectArticleAction,
       routeChangeAction,
       setNavcolorOverrideAction,
@@ -32,10 +52,6 @@ export default compose(
       variables: {
         id,
         version: parseInt(version, 10),
-        // test:
-        //   version && version.length <= 2 && isNaN(version) === false
-        //     ? parseInt(version)
-        //     : null,
       },
     }),
   }),
