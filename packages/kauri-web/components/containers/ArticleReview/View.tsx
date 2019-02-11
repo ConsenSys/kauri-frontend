@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "../../../lib/styled-components";
 import HeaderDiff from "./Diffs/Header";
-// import Actions from "./Diffs/Actions";
-const JsDiff = require("diff");
+import Diffs from '../../../../kauri-components/components/DiffViewer';
 
 const Container = styled.div``;
 
@@ -25,13 +24,10 @@ class ArticleReviewView extends React.Component<IProps, {}> {
       tags: this.props.ProposedUpdate.getArticle.tags,
       title: this.props.ProposedUpdate.getArticle.title,
     };
-    const titleDiff = JsDiff.diffChars(current.title, proposed.title);
-    const tagsDiff = JsDiff.diffArrays(current.tags, proposed.tags);
     return (
       <Container>
-        <HeaderDiff titleDiff={titleDiff} tagsDiff={tagsDiff} />
-        {/* <Actions /> */}
-        {/* <ContentDiff contentDiff={contentDiff} /> */}
+        {/* <HeaderDiff titleDiff={titleDiff} tagsDiff={tagsDiff} /> */}
+        <Diffs current={current.content} proposed={proposed.content} />
       </Container>
     );
   }

@@ -1,7 +1,5 @@
 import styled from "../../lib/styled-components";
-import Line from './Line';
-// tslint:disable-next-line
-const JsDiff = require('diff');
+import ReactDiffViewer from "react-diff-viewer";
 
 interface IProps {
   current: string;
@@ -11,19 +9,41 @@ interface IProps {
 const Content = styled.div`
   padding: ${props => props.theme.space[3]}px;
   font-size: ${props => props.theme.fontSizes[3]}px;
+  width: 100%;
+  background: white;
 `;
 
-const Diffs = ({ current, proposed}: IProps) => {
-  const contentDiff = JsDiff.diffLines(current, proposed);
+const styleObj = {
+  diffAdded: {
+    padding: 4,
+  }, // style object
+  diffContainer: {
+    fontFamily: "Roboto",
+  }, // style object
+  diffRemoved: {
+    padding: 4,
+  }, // style object
+  lineNumber: {
+    display: "none",
+  }, // style object
+  marker: {
+    display: "none",
+  }, // style object
+  wordAdded: { fontWeight: 700, color: "#006d27 !important" }, // style object
+  wordRemoved: { fontWeight: 700, color: "#960016 !important" }, // style object
+};
+
+const Diffs = ({ current, proposed }: IProps) => {
   return (
     <Content>
-      {contentDiff.map((i: any, key: number) => {
-        const compareValue = i.removed ? contentDiff[key+ 1].value : i.added ? contentDiff[ key - 1].value : null;
-        return(
-          <Line compareValue={compareValue} key={key} {...i} />
-        )}
-      )}
+      <ReactDiffViewer
+        oldValue={current}
+        newValue={proposed}
+        splitView={false}
+        styles={styleObj}
+      />
     </Content>
-)};
+  );
+};
 
 export default Diffs;
