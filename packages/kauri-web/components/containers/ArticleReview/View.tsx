@@ -3,6 +3,7 @@ import styled from "../../../lib/styled-components";
 import Header from "./Diffs/Header";
 import Diffs from "../../../../kauri-components/components/DiffViewer";
 import { Label } from "../../../../kauri-components/components/Typography";
+import ScrollIndicator from "../../../../kauri-components/components/ScrollIndicator";
 
 const Container = styled.div`
   background: white;
@@ -47,6 +48,7 @@ class ArticleReviewView extends React.Component<IProps, {}> {
 
     return (
       <Container>
+        <ScrollIndicator />
         <Header
           routeChangeAction={this.props.routeChangeAction}
           bgUpdated={
