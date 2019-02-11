@@ -26,7 +26,9 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 export function create (initialState, { getToken }) {
   const apiURL = config.getApiURL();
   let httpLink = new HttpLink({
-    uri: `https://${apiURL}/graphql`,
+    uri: `http${
+      process.env.NODE_ENV === "development" ? "s" : global.window ? "s" : ""
+    }://${apiURL}/graphql`,
   });
   const token = getToken();
   const authMiddlewareLink = new ApolloLink((operation, next) => {
