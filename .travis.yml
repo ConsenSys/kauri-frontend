@@ -117,7 +117,12 @@ jobs:
         - git add .
         - git commit -m "Travis build $TRAVIS_BUILD_NUMBER updating version after tag"
         - git push origin development
+        - cd ../..
+        - git checkout master
+        - git merge -s ours dev2
         - git checkout dev2
+        - git merge master
+        - cd packages/kauri-web
         - npm version $NEW_DEV_VERSION --no-git-tag-version
         - git add .
         - git commit -m "Travis build $TRAVIS_BUILD_NUMBER updating version after tag"
