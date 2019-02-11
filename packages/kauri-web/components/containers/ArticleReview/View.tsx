@@ -37,11 +37,7 @@ class ArticleReviewView extends React.Component<IProps, {}> {
       title: this.props.CurrentArticle.getArticle.title,
     };
     const proposed = {
-      // attributes: this.props.CurrentArticle.getArticle.attributes,
-      attributes: {
-        background:
-          "https://images.unsplash.com/photo-1549752448-38f4d94420f5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
-      },
+      attributes: this.props.CurrentArticle.getArticle.attributes,
       content: JSON.parse(this.props.ProposedUpdate.getArticle.content)
         .markdown,
       date: this.props.ProposedUpdate.getArticle.dateCreated,
