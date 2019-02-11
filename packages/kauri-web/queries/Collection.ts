@@ -16,11 +16,18 @@ export const Collection = gql`
       avatar
     }
     sections {
+      id
       name
       description
       resourcesId {
         id
         type
+      }
+      resources {
+        ... on ArticleDTO {
+          id
+          version
+        }
       }
     }
     resourceIdentifier {
@@ -115,26 +122,35 @@ export const composeCollection = gql`
     }
   }
 `;
+
 export const getLatestCollections = gql`
-  query searchCollections(
-    $size: Int = 12
+  query searchAutocompleteCollections(
     $page: Int = 0
+    $size: Int = 12
+    $query: String
     $filter: SearchFilterInput
   ) {
-    searchCollections(
-      size: $size
+    searchAutocomplete(
       page: $page
-      sort: "dateUpdated"
-      dir: DESC
+      size: $size
+      query: $query
       filter: $filter
     ) {
+      totalElements
+      totalPages
       content {
-        ...Collection
+        resourceIdentifier {
+          id
+          type
+        }
+        resource {
+          ... on CollectionDTO {
+            ...Collection
+          }
+        }
       }
-      isLast
     }
   }
-
   ${Collection}
 `;
 
@@ -150,7 +166,7 @@ export const searchCollections = gql`
 `;
 
 export const getCollectionsForUser = gql`
-  query searchCollections(
+  query getCollectionsForUser(
     $filter: CollectionFilterInput
     $size: Int = 8
     $page: Int = 0

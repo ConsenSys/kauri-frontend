@@ -162,6 +162,7 @@ interface ITypographyProps {
   textAlign?: string;
   color?: string;
   onClick?: any;
+  className?: string;
 }
 
 let typography = {};

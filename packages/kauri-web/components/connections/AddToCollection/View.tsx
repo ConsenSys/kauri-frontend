@@ -1,12 +1,7 @@
 import * as React from "react";
 import AlertView from "../../../../kauri-components/components/Modal/AlertView";
 import AddToCollectionModalContent from "../../../../kauri-components/components/AddToCollection/AddToCollectionModalContent";
-import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import {
-  getUserCollections,
-  getUserCollectionsVariables,
-} from "./__generated__/getUserCollections";
 import R from "ramda";
 import { ICollection } from "../../../../kauri-components/components/AddToCollection/CollectionsContent";
 import { ISection } from "../../../../kauri-components/components/AddToCollection/SectionsContent";
@@ -14,27 +9,11 @@ import Loading from "../../common/Loading";
 import { ErrorMessage } from "../../../lib/with-apollo-error";
 import { Label } from "../../../../kauri-components/components/Typography";
 import { IAddArticleToCollectionPayload } from "./Module";
-
-const query = gql`
-  query getUserCollections($userId: String) {
-    searchCollections(filter: { ownerIdEquals: $userId }) {
-      content {
-        id
-        name
-        sections {
-          id
-          name
-          resources {
-            ... on ArticleDTO {
-              id
-              version
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+import { getCollectionsForUser as query } from "../../../queries/Collection";
+import {
+  getCollectionsForUser,
+  getCollectionsForUserVariables,
+} from "../../../queries/__generated__/getCollectionsForUser";
 
 interface IChosen {
   chosenCollection: ICollection | null;
@@ -69,9 +48,10 @@ const Component: React.FunctionComponent<IProps> = ({
   });
 
   return (
-    <Query<getUserCollections, getUserCollectionsVariables>
+    <Query<getCollectionsForUser, getCollectionsForUserVariables>
       query={query}
-      variables={{ userId }}
+      variables={{ filter: { ownerIdEquals: userId } }}
+      fetchPolicy={"network-only"}
     >
       {props => {
         if (props.loading) {

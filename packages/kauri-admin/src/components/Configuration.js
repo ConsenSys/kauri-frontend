@@ -16,7 +16,7 @@ class Configuration {
     },
     UAT: {
       name: 'UAT',
-      host: 'api.beta.kauri.io',
+      host: 'api.kauri.io',
       port: 443,
       network_id: 4
     }

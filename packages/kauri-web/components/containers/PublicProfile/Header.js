@@ -1,11 +1,11 @@
-// @flow
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import anchorme from "anchorme";
 import { PrimaryButton } from "../../../../kauri-components/components/Button";
 import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx";
 import SocialWebsiteIcon from "../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.tsx";
-
+import UserAvatar from "../../../../kauri-components/components/UserAvatar";
+import { Helmet } from "react-helmet";
 import type { HeaderProps } from "./types";
 
 const PublicProfileHeader = styled.div`
@@ -18,21 +18,6 @@ const PublicProfileHeader = styled.div`
     flex-direction: column;
     align-items: center;
   }
-`;
-
-const Avatar = styled.div`
-  background: ${props =>
-    props.avatar ? `url(${props.avatar}) center center` : "#0ba986"};
-  background-size: cover;
-  width: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50px;
-  font-size: ${props => props.theme && props.theme.fontSizes[5]}px;
-  font-weight: 700;
-  margin-right: ${props => props.theme.space[2]}px;
 `;
 
 const RightSide = styled.div`
@@ -80,6 +65,20 @@ const Links = styled.div`
   }
 `;
 
+const Avatar = styled.div`
+  background: #0ba986;
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  font-size: ${props => props.theme && props.theme.fontSizes[5]}px;
+  font-weight: 700;
+  margin-right: ${props => props.theme.space[2]}px;
+`;
+
 const getURL = (string, type) => {
   const split = string.split("/");
   switch (type) {
@@ -110,9 +109,19 @@ const ProfileHeader = ({
   toggleEditing,
 }: HeaderProps) => (
   <PublicProfileHeader>
-    <Avatar avatar={avatar}>
-      {avatar ? "" : (name || id).substring(0, 1).toUpperCase()}
-    </Avatar>
+    <Helmet>
+      <link
+        rel="stylesheet"
+        href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
+      />
+    </Helmet>
+    {avatar ? (
+      <UserAvatar borderRadius="4px" height={100} width={100} avatar={avatar}>
+        {avatar ? "" : (name || id).substring(0, 1).toUpperCase()}
+      </UserAvatar>
+    ) : (
+      <Avatar>{(name || id).substring(0, 1).toUpperCase()}</Avatar>
+    )}
     <DetailsContainer>
       {username || name ? (
         <Fragment>

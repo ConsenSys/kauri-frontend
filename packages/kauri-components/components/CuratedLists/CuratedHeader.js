@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 import styled from "../../lib/styled-components";
-import theme from '../../../kauri-web/lib/theme-config'
-import SecondaryButton from '../Button/SecondaryButton';
+import theme from "../../../kauri-web/lib/theme-config";
+import SecondaryButton from "../Button/SecondaryButton";
 
 const Header = styled.div`
   flex: 1;
@@ -18,7 +18,7 @@ const Header = styled.div`
     width: 300px;
     margin: auto;
   }
-`
+`;
 
 const Description = styled.div`
   @media (max-width: 500px) {
@@ -27,7 +27,7 @@ const Description = styled.div`
     width: 300px;
     margin: auto;
   }
-`
+`;
 
 const ListTitle = styled.h2`
   font-weight: 700;
@@ -36,13 +36,13 @@ const ListTitle = styled.h2`
   margin-top: 0px;
   color: white;
   margin-top: 20px;
-`
+`;
 
 const Heading = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`
+`;
 
 const CommunityLogo = styled.img`
   background: white;
@@ -51,14 +51,14 @@ const CommunityLogo = styled.img`
   width: 70px;
   padding: 10px;
   margin: 10px 20px 20px 0;
-`
+`;
 
 const Name = styled.h3`
   color: white;
   text-transform: capitalize;
   font-weight: 400;
   font-size: 28px;
-`
+`;
 
 const LinksContainer = styled.div`
   display: flex;
@@ -70,28 +70,41 @@ const LinksContainer = styled.div`
 `;
 
 const renderDescriptionRowContent = content => {
-  if (process.env.STORYBOOK !== 'true') {
-    const DescriptionRow = require('../../../kauri-web/components/common/DescriptionRow').default
-    return React.createElement(DescriptionRow, { record: { text: content } }, null)
+  if (process.env.STORYBOOK !== "true") {
+    const DescriptionRow = require("../../../kauri-web/components/common/DescriptionRow")
+      .default;
+    return React.createElement(
+      DescriptionRow,
+      { record: { text: content } },
+      null
+    );
   }
-}
+};
 
-const Links = ({ links, Link}) => {
-return <LinksContainer>
-  {links.map((i, key) => <Link key={key} useAnchorTag route={i.url}>
-    <SecondaryButton>{i.label}</SecondaryButton>
-  </Link>)}
-</LinksContainer>
-}
+const Links = ({ links, Link }) => {
+  // console.log(links);
+  return (
+    <LinksContainer>
+      {links.map(
+        (i, key) =>
+          i && (
+            <Link key={key} useAnchorTag route={i.url}>
+              <SecondaryButton>{i.label}</SecondaryButton>
+            </Link>
+          )
+      )}
+    </LinksContainer>
+  );
+};
 
 const CuratedHeader = ({ Link, header, name, links }) => {
-  const topic = theme[header.id]
-  const imageURL = `/static/images/${header.id}/avatar.png`
-  const type = header.__typename || header.resourceIdentifier.type
+  const topic = theme[header.id];
+  const imageURL = `/static/images/${header.id}/avatar.png`;
+  const type = header.__typename || header.resourceIdentifier.type;
 
   switch (type) {
-    case 'CommunityDTO':
-    case 'COMMUNITY':
+    case "CommunityDTO":
+    case "COMMUNITY":
       return (
         <Header background={header.background}>
           <ListTitle>{name}</ListTitle>
@@ -100,11 +113,16 @@ const CuratedHeader = ({ Link, header, name, links }) => {
             <Name>{header.id}</Name>
           </Heading>
           <Description>{topic.description}</Description>
-          <Links Link={Link} links={[{ label: 'View Community', url: `/community/${header.id}`}].concat(links)} />
+          <Links
+            Link={Link}
+            links={[
+              { label: "View Community", url: `/community/${header.id}` },
+            ].concat(links)}
+          />
         </Header>
-      )
-    case 'CollectionDTO':
-    case 'COLLECTION':
+      );
+    case "CollectionDTO":
+    case "COLLECTION":
       return (
         <Header background={header.background}>
           <ListTitle>{name}</ListTitle>
@@ -112,11 +130,16 @@ const CuratedHeader = ({ Link, header, name, links }) => {
             <Name>{header.name}</Name>
           </Heading>
           <Description>{header.description}</Description>
-          <Links Link={Link} links={[{ label: 'View Collection', url: `/collection/${header.id}`}].concat(links)} />
+          <Links
+            Link={Link}
+            links={[
+              { label: "View Collection", url: `/collection/${header.id}` },
+            ].concat(links)}
+          />
         </Header>
-      )
-    case 'ArticleDTO':
-    case 'ARTICLE':
+      );
+    case "ArticleDTO":
+    case "ARTICLE":
       return (
         <Header background={header.background}>
           <ListTitle>{name}</ListTitle>
@@ -124,18 +147,23 @@ const CuratedHeader = ({ Link, header, name, links }) => {
             <Name>{header.title}</Name>
           </Heading>
           <Description>
-            {typeof header.content === 'string' && header.content[0] === '{' ? (
+            {typeof header.content === "string" && header.content[0] === "{" ? (
               renderDescriptionRowContent(header.content)
             ) : (
               <p>{header.content}</p>
             )}
           </Description>
-          <Links Link={Link} links={[{ label: 'View Article', url: `/collection/${header.id}`}].concat(links)} />
+          <Links
+            Link={Link}
+            links={[
+              { label: "View Article", url: `/collection/${header.id}` },
+            ].concat(links)}
+          />
         </Header>
-      )
+      );
     default:
-      return null
+      return null;
   }
-}
+};
 
-export default CuratedHeader
+export default CuratedHeader;

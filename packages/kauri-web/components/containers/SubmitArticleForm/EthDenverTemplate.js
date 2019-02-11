@@ -1,4 +1,6 @@
 const Template = `
+Important: You MUST add a tag (at the top, under Title) for each bounty you'd like to submit to. Your project will not be considered for any bounties unless they are tagged. Click "ADD TAG", type  "bounty" and select the desired bounty from the list. You may submit for up to 5 bounties. These instructions can be deleted.
+
 # Project Name
 
 
@@ -26,6 +28,10 @@ Important: You MUST add a tag (at the top, under Title) for each bounty you'd li
 
 
 # A link to all your source code on a public repo (i.e. Github)
+
+
+
+
 `;
 
 export default Template;
