@@ -23,6 +23,7 @@ const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
   padding: 0;
   margin-top: -76px;
   height: inherit;
+  max-height: 290px;
 `;
 
 const InfoContainer = styled.div`
