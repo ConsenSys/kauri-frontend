@@ -19,6 +19,7 @@ const Details = styled.div`
   flex-direction: column;
   max-width: 290px;
   padding-top: ${props => props.theme.space[3]}px;
+  margin-left: ${props => props.theme.space[3]}px;
 `;
 
 interface IProps {

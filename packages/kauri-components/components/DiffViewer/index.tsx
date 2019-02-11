@@ -7,7 +7,6 @@ interface IProps {
 }
 
 const Content = styled.div`
-  padding: ${props => props.theme.space[3]}px;
   font-size: ${props => props.theme.fontSizes[3]}px;
   width: 100%;
   background: white;
