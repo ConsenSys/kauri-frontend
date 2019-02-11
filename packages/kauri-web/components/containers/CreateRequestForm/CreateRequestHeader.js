@@ -1,16 +1,20 @@
-// @flow
+// TODO we should probably investigat where this file is used and rewrite / clean it up
 
-import React from 'react'
-import styled, { css } from 'styled-components'
-import { Select } from 'antd'
-import theme, { categories } from '../../../lib/theme-config'
-import { ActionBadge, Badge } from '../../common/ActionBadge'
-import { PositiveRequestActionBadge } from '../../common/ActionButton'
-import GreenArrow from '../../common/GreenArrow'
-import { ChosenCategory, InputWrapper, UnderlineSpan } from '../SubmitArticleForm/SubmitArticleFormHeader'
+import React from "react";
+import styled, { css } from "styled-components";
+import { Select } from "antd";
+import theme, { categories } from "../../../lib/theme-config";
+import { ActionBadge, Badge } from "../../common/ActionBadge";
+import { PositiveRequestActionBadge } from "../../common/ActionButton";
+import GreenArrow from "../../common/GreenArrow";
+import {
+  ChosenCategory,
+  InputWrapper,
+  UnderlineSpan,
+} from "../SubmitArticleForm/SubmitArticleFormHeader";
 
-const config = require('../../../config')
-const Option = Select.Option
+const config = require("../../../config");
+const Option = Select.Option;
 
 const CreateRequestActions = styled.div`
   display: flex;
@@ -19,18 +23,18 @@ const CreateRequestActions = styled.div`
   width: 100%;
   background-color: ${props => props.theme.primaryTextColor};
   padding: 36px ${props => props.theme.padding};
-`
+`;
 
 const PullRight = styled.div`
   margin-left: auto;
   display: flex;
   align-self: center;
-`
-const CreateRequestHeader = styled.section``
+`;
+const CreateRequestHeader = styled.section``;
 
 const articleHeaderCss = css`
   height: 196px;
-`
+`;
 
 export const CreateRequestSecondaryHeader = styled.div`
   position: relative;
@@ -39,66 +43,78 @@ export const CreateRequestSecondaryHeader = styled.div`
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
   background-color: ${props => props.theme.primaryTextColor};
   ${props => props.bg};
-  ${props => props.type === 'article' && articleHeaderCss};
+  ${props => props.type === "article" && articleHeaderCss};
   @media (max-width: 500px) {
     padding: ${props => props.theme.paddingTop} 10px;
   }
-`
+`;
 
 const Logo = styled.img`
-  max-height: ${props => props.avatarHeight || '37.71'}px;
+  max-height: ${props => props.avatarHeight || "37.71"}px;
   max-width: 55px;
-`
+`;
 
 export const errorBorderCss = css`
   border: 2px solid ${props => props.theme.errorRedColor};
-`
+`;
 
 const articleMaskCss = css`
   height: 96px;
   width: 96px;
-`
+`;
 
 export const Mask = styled.div`
   display: flex;
   align-self: center;
   align-items: center;
   justify-content: center;
-  height: ${props => props.height || '76'}px;
-  width: ${props => props.width || '76'}px;
+  height: ${props => props.height || "76"}px;
+  width: ${props => props.width || "76"}px;
   border-radius: 4px;
   background-color: #ffffff;
-  ${props => props.type === 'article' && articleMaskCss};
-`
+  ${props => props.type === "article" && articleMaskCss};
+`;
 
-export const CreateRequestLogo = ({ chosenCategory, height, width, avatarWidth, avatarHeight, type }) => (
-  <Mask chosenCategory={chosenCategory} height={height} width={width} type={type}>
+export const CreateRequestLogo = ({
+  chosenCategory,
+  height,
+  width,
+  avatarWidth,
+  avatarHeight,
+  type,
+}: IProps) => (
+  <Mask
+    chosenCategory={chosenCategory}
+    height={height}
+    width={width}
+    type={type}
+  >
     {chosenCategory ? (
       <Logo
-        avatarHeight={type === 'article' ? 46 : avatarHeight}
-        avatarWidth={type === 'article' ? 46 : avatarWidth}
+        avatarHeight={type === "article" ? 46 : avatarHeight}
+        avatarWidth={type === "article" ? 46 : avatarWidth}
         src={`/static/images/${chosenCategory}/avatar.png`}
       />
     ) : (
       <Logo
-        avatarHeight={type === 'article' ? 46 : avatarHeight}
-        avatarWidth={type === 'article' ? 46 : avatarWidth}
+        avatarHeight={type === "article" ? 46 : avatarHeight}
+        avatarWidth={type === "article" ? 46 : avatarWidth}
         src={`/static/images/help-logo.svg`}
       />
     )}
   </Mask>
-)
+);
 
 export const TopicActionsContainer = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
   position: relative;
-`
+`;
 
 const handleKeyPress = e => {
-  if (e.key === 'Enter') e.preventDefault()
-}
+  if (e.key === "Enter") e.preventDefault();
+};
 
 const ChooseTopicSelect = styled(Select)`
   background-color: transparent;
@@ -120,34 +136,42 @@ const ChooseTopicSelect = styled(Select)`
     font-size: 12px;
   }
   ${props => props.hasErrors && errorBorderCss};
-`
+`;
 
 const renderCategoryOptions = type => {
-  const categoryOptions = categories
-  if (type !== 'request' && !categoryOptions.find(category => category === 'personal')) {
-    categoryOptions.unshift('personal')
+  const categoryOptions = categories;
+  if (
+    type !== "request" &&
+    !categoryOptions.find(category => category === "personal")
+  ) {
+    categoryOptions.unshift("personal");
   }
-  return categoryOptions.map(
-    category =>
-      category === 'personal' ? (
-        <Option key={category} value={null}>
-          {category.charAt(0).toUpperCase() + category.slice(1)}
-        </Option>
-      ) : (
-        <Option key={category} value={category.toLowerCase()}>
-          {category.charAt(0).toUpperCase() + category.slice(1)}
-        </Option>
-      )
-  )
-}
+  return categoryOptions.map(category =>
+    category === "personal" ? (
+      <Option key={category} value={null}>
+        {category.charAt(0).toUpperCase() + category.slice(1)}
+      </Option>
+    ) : (
+      <Option key={category} value={category.toLowerCase()}>
+        {category.charAt(0).toUpperCase() + category.slice(1)}
+      </Option>
+    )
+  );
+};
 
-export const ChooseTopic = ({ getFieldDecorator, getFieldError, chosenCategory, isKauriTopicOwner, type }) =>
-  getFieldDecorator('category', {
+export const ChooseTopic = ({
+  getFieldDecorator,
+  getFieldError,
+  chosenCategory,
+  isKauriTopicOwner,
+  type,
+}) =>
+  getFieldDecorator("category", {
     rules: [
       {
         whitespace: true,
-        required: type === 'request' && true,
-        message: 'Please input the community of the request!',
+        required: type === "request" && true,
+        message: "Please input the community of the request!",
       },
     ],
     defaultValue: chosenCategory && chosenCategory.toLowerCase(),
@@ -157,25 +181,29 @@ export const ChooseTopic = ({ getFieldDecorator, getFieldError, chosenCategory, 
       <ChosenCategory>{chosenCategory}</ChosenCategory>
     ) : (
       <ChooseTopicSelect
-        hasErrors={getFieldError('category')}
+        hasErrors={getFieldError("category")}
         style={{ width: 126 }}
         showSearch
-        placeholder={'Choose Topic'}
+        placeholder={"Choose Topic"}
       >
         {renderCategoryOptions(type)}
       </ChooseTopicSelect>
     )
-  )
+  );
 
-const ChosenSubCategory = ChosenCategory
-const ChooseSubCategorySelect = ChooseTopicSelect
+const ChosenSubCategory = ChosenCategory;
+const ChooseSubCategorySelect = ChooseTopicSelect;
 
-export const SelectSubCategory = ({ getFieldDecorator, getFieldError, chosenSubCategory }) =>
-  getFieldDecorator('sub_category', {
+export const SelectSubCategory = ({
+  getFieldDecorator,
+  getFieldError,
+  chosenSubCategory,
+}) =>
+  getFieldDecorator("sub_category", {
     rules: [
       {
         required: true,
-        message: 'Please input the category of the request!',
+        message: "Please input the category of the request!",
         whitespace: true,
       },
     ],
@@ -186,10 +214,10 @@ export const SelectSubCategory = ({ getFieldDecorator, getFieldError, chosenSubC
       <ChosenSubCategory>{chosenSubCategory}</ChosenSubCategory>
     ) : (
       <ChooseSubCategorySelect
-        hasErrors={getFieldError('sub_category')}
+        hasErrors={getFieldError("sub_category")}
         style={{ width: 150 }}
         showSearch
-        placeholder='SELECT CATEGORY'
+        placeholder="SELECT CATEGORY"
       >
         {config.default.subCategories.map(subCategory => (
           <Option key={subCategory} value={subCategory.toLowerCase()}>
@@ -198,7 +226,7 @@ export const SelectSubCategory = ({ getFieldDecorator, getFieldError, chosenSubC
         ))}
       </ChooseSubCategorySelect>
     )
-  )
+  );
 
 export const RequestSubject = styled.input`
   display: inline-block;
@@ -231,11 +259,11 @@ export const RequestSubject = styled.input`
     text-indent: -999px;
   }
   ${({ hasErrors }) => hasErrors && errorBorderCss};
-`
+`;
 
 export const ChooseTopicAndSubcategoryContainer = styled.div`
   display: flex;
-`
+`;
 
 const CreateRequestDetails = styled.div`
   display: flex;
@@ -246,7 +274,7 @@ const CreateRequestDetails = styled.div`
       color: #fff;
     }
   }
-`
+`;
 
 const Badges = styled.div`
   display: flex;
@@ -254,7 +282,7 @@ const Badges = styled.div`
   > div {
     margin-left: 15px;
   }
-`
+`;
 
 const CreateRequestTopicActions = ({
   getFieldDecorator,
@@ -264,10 +292,10 @@ const CreateRequestTopicActions = ({
   chosenCategory,
   chosenSubCategory,
 }) => (
-  <TopicActionsContainer type='createRequest'>
+  <TopicActionsContainer type="createRequest">
     <ChooseTopicAndSubcategoryContainer>
       <ChooseTopic
-        type='request'
+        type="request"
         getFieldError={getFieldError}
         chosenCategory={chosenCategory}
         getFieldDecorator={getFieldDecorator}
@@ -280,11 +308,11 @@ const CreateRequestTopicActions = ({
     </ChooseTopicAndSubcategoryContainer>
     <CreateRequestDetails>
       <InputWrapper>
-        {getFieldDecorator('subject', {
+        {getFieldDecorator("subject", {
           rules: [
             {
               required: true,
-              message: 'Please input the subject of the request!',
+              message: "Please input the subject of the request!",
               whitespace: true,
               max: 60,
             },
@@ -295,15 +323,18 @@ const CreateRequestTopicActions = ({
           <RequestSubject
             onKeyPress={handleKeyPress}
             maxlength={60}
-            placeholder='Add Request Title'
-            hasErrors={getFieldError('subject') && getFieldError('subject').length > 0}
+            placeholder="Add Request Title"
+            hasErrors={
+              getFieldError("subject") && getFieldError("subject").length > 0
+            }
             style={{
               width: 850,
             }}
           />
         )}
-        <UnderlineSpan type='request'>
-          {typeof getFieldValue('subject') === 'string' && getFieldValue('subject').replace(/ /g, '\u00a0')}
+        <UnderlineSpan type="request">
+          {typeof getFieldValue("subject") === "string" &&
+            getFieldValue("subject").replace(/ /g, "\u00a0")}
         </UnderlineSpan>
       </InputWrapper>
       {!subject && (
@@ -324,39 +355,54 @@ const CreateRequestTopicActions = ({
       )}
     </CreateRequestDetails>
   </TopicActionsContainer>
-)
+);
 
-export default ({ getFieldDecorator, getFieldError, getFieldValue, routeChangeAction, handleSubmit, data }) => (
+export default ({
+  getFieldDecorator,
+  getFieldError,
+  getFieldValue,
+  routeChangeAction,
+  handleSubmit,
+  data,
+}) => (
   <CreateRequestHeader>
     <CreateRequestActions>
-      <ActionBadge onClick={() => routeChangeAction('back')}>
-        <GreenArrow direction={'left'} />
+      <ActionBadge onClick={() => routeChangeAction("back")}>
+        <GreenArrow direction={"left"} />
         <span>Cancel Request</span>
       </ActionBadge>
       <PullRight>
-        <PositiveRequestActionBadge type='primary' action={handleSubmit}>
-          <span>{data && data.getRequest && data.getRequest.text ? 'Update Request' : 'Submit Request'}</span>
+        <PositiveRequestActionBadge type="primary" action={handleSubmit}>
+          <span>
+            {data && data.getRequest && data.getRequest.text
+              ? "Update Request"
+              : "Submit Request"}
+          </span>
         </PositiveRequestActionBadge>
       </PullRight>
     </CreateRequestActions>
     <CreateRequestSecondaryHeader
       chosenCategory={
-        (getFieldValue && getFieldValue('category')) || (data && data.getRequest && data.getRequest.category)
+        (getFieldValue && getFieldValue("category")) ||
+        (data && data.getRequest && data.getRequest.category)
       }
     >
       <CreateRequestLogo
         chosenCategory={
-          (getFieldValue && getFieldValue('category')) || (data && data.getRequest && data.getRequest.category)
+          (getFieldValue && getFieldValue("category")) ||
+          (data && data.getRequest && data.getRequest.category)
         }
       />
       <CreateRequestTopicActions
         subject={data && data.getRequest && data.getRequest.subject}
         chosenCategory={data && data.getRequest && data.getRequest.category}
-        chosenSubCategory={data && data.getRequest && data.getRequest.sub_category}
+        chosenSubCategory={
+          data && data.getRequest && data.getRequest.sub_category
+        }
         getFieldDecorator={getFieldDecorator}
         getFieldValue={getFieldValue}
         getFieldError={getFieldError}
       />
     </CreateRequestSecondaryHeader>
   </CreateRequestHeader>
-)
+);
