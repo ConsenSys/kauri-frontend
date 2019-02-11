@@ -1,6 +1,10 @@
 import { Epic } from "redux-observable";
 import { Observable } from "rxjs/Observable";
-import { IReduxState, IDependencies } from "../../../lib/Module";
+import {
+  IReduxState,
+  IDependencies,
+  showNotificationAction,
+} from "../../../lib/Module";
 import { create } from "../../../lib/init-apollo";
 import { getEvent } from "../../../queries/Module";
 import {
@@ -35,7 +39,7 @@ export const emailVerificationFail = () => ({
 });
 
 export const resendEmailVerificationAction = () => ({
-  type: "EMAIL_VERIFICATION_RESENT",
+  type: "SEND_EMAIL_VERIFICATION",
 });
 
 interface IVerifyEmailOutput {
@@ -125,10 +129,18 @@ export const resendEmailVerificationEpic: Epic<
   IReduxState,
   IDependencies
 > = (actions$, _, { apolloClient }) =>
-  actions$.ofType("EMAIL_VERIFICATION_RESENT").switchMap(() =>
+  actions$.ofType("SEND_EMAIL_VERIFICATION").flatMap(() =>
     Observable.fromPromise(
       apolloClient.mutate<any>({
         mutation: regenerateEmailVerificationCode,
       })
-    ).mergeMap(() => Observable.of(resendEmailVerificationAction))
+    ).mergeMap(() =>
+      Observable.of(
+        showNotificationAction({
+          description: "Verification email sent!",
+          message: "Email sent",
+          notificationType: "success",
+        })
+      )
+    )
   );

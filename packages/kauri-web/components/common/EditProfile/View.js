@@ -151,6 +151,11 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
       status,
     } = this.state;
 
+    const oldEmail = R.path(
+      ["OwnProfile", "getMyProfile", "email"],
+      this.props
+    );
+
     return (
       <Container>
         <StyledUpload
@@ -209,8 +214,9 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
             />
           </Offset>
           <EmailField
-            resendEmailVerification={this.props.resendEmailVerification}
+            resendEmailVerification={this.props.resendEmailVerificationAction}
             email={email}
+            oldEmail={oldEmail}
             handleChange={this.handleChange}
             status={status}
           />
