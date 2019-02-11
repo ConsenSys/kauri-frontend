@@ -11,14 +11,13 @@ const Container = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: row;
-  padding: ${props => props.theme.space[2]}px ${props => props.theme.padding};
+  padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
 `;
 
 const Details = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 290px;
-  padding-top: ${props => props.theme.space[3]}px;
   margin-left: ${props => props.theme.space[3]}px;
 `;
 
