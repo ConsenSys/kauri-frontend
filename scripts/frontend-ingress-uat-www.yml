@@ -9,15 +9,15 @@ metadata:
     ingress.kubernetes.io/proxy-body-size: 10m
     nginx.ingress.kubernetes.io/configuration-snippet: |
       return 301 https://kauri.io$request_uri;
-  name: frontend-ingress
+  name: frontend-ingress-www
   namespace: uat
 spec:
   tls:
   - hosts:
-    - beta.kauri.io
-    secretName: uat-frontend-tls
+    - www.kauri.io
+    secretName: www-uat-frontend-new
   rules:
-    - host: beta.kauri.io
+    - host: www.kauri.io
       http:
         paths:
           - backend:
