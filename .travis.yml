@@ -118,6 +118,7 @@ jobs:
         - git commit -m "Travis build $TRAVIS_BUILD_NUMBER updating version after tag"
         - git push origin development
         - cd ../..
+        - git checkout dev2
         - git checkout master
         - git merge -s ours dev2
         - git checkout dev2
