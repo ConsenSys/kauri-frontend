@@ -70,6 +70,9 @@ const BGNotice = styled.span`
 
 const GoBack = styled.div`
   cursor: pointer;
+  & > span {
+    margin-left: ${props => props.theme.space[1]}px;
+  }
 `;
 
 interface IProps {
