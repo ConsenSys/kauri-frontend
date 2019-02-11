@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "../../../lib/styled-components";
-import HeaderDiff from "./Diffs/Header";
-import Diffs from '../../../../kauri-components/components/DiffViewer';
+// import HeaderDiff from "./Diffs/Header";
+import Diffs from "../../../../kauri-components/components/DiffViewer";
 
 const Container = styled.div``;
 

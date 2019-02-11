@@ -1,7 +1,10 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { CollectionFilterInput, ResourceType } from "./../../__generated__/globalTypes";
+import {
+  CollectionFilterInput,
+  ResourceType,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchCollections
@@ -21,11 +24,40 @@ export interface searchCollections_searchCollections_content_sections_resourcesI
   type: ResourceType | null;
 }
 
+export interface searchCollections_searchCollections_content_sections_resources_CommunityDTO {
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
+}
+
+export interface searchCollections_searchCollections_content_sections_resources_ArticleDTO {
+  __typename: "ArticleDTO";
+  id: string | null;
+  version: number | null;
+}
+
+export type searchCollections_searchCollections_content_sections_resources =
+  | searchCollections_searchCollections_content_sections_resources_CommunityDTO
+  | searchCollections_searchCollections_content_sections_resources_ArticleDTO;
+
 export interface searchCollections_searchCollections_content_sections {
   __typename: "SectionDTO";
+  id: string | null;
   name: string | null;
   description: string | null;
-  resourcesId: (searchCollections_searchCollections_content_sections_resourcesId | null)[] | null;
+  resourcesId:
+    | (searchCollections_searchCollections_content_sections_resourcesId | null)[]
+    | null;
+  resources:
+    | (searchCollections_searchCollections_content_sections_resources | null)[]
+    | null;
 }
 
 export interface searchCollections_searchCollections_content_resourceIdentifier {
@@ -43,15 +75,15 @@ export interface searchCollections_searchCollections_content {
   background: string | null;
   dateUpdated: any | null;
   owner: searchCollections_searchCollections_content_owner | null;
-  sections: (searchCollections_searchCollections_content_sections | null)[] | null;
+  sections:
+    | (searchCollections_searchCollections_content_sections | null)[]
+    | null;
   resourceIdentifier: searchCollections_searchCollections_content_resourceIdentifier | null;
 }
 
 export interface searchCollections_searchCollections {
   __typename: "ResponsePage_CollectionDTO";
-  totalElements: any | null;
   content: (searchCollections_searchCollections_content | null)[] | null;
-  isLast: boolean | null;
 }
 
 export interface searchCollections {
@@ -60,6 +92,4 @@ export interface searchCollections {
 
 export interface searchCollectionsVariables {
   filter?: CollectionFilterInput | null;
-  size?: number | null;
-  page?: number | null;
 }

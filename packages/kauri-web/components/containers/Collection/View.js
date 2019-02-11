@@ -51,7 +51,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     trianglify: "",
   };
 
-  componentDidMount () {
+  componentDidMount() {
     const trianglify = require("trianglify");
     const trianglifyBg = trianglify({
       width: 1920,
@@ -69,7 +69,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     this.setState({ trianglifyBg: trianglifyBgString });
   }
 
-  render () {
+  render() {
     if (!this.props.data || !this.props.data.getCollection) return null;
 
     const {
@@ -102,7 +102,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     ])(this.props);
 
     return (
-      <div>
+      <>
         <Helmet>
           <title>{name} - Kauri</title>
           <meta
@@ -192,7 +192,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
               );
             })}
         </ContentContainer>
-      </div>
+      </>
     );
   }
 }

@@ -577,8 +577,6 @@ export default compose(withErrorCatch())(
       key={text}
       openRequest={openRequest}
     >
-      {/* {console.log(EditorState.createWithContent(convertFromRaw(JSON.parse(text))))} */}
-      {/* {console.log(type)} */}
       {typeof text === "string" && text.charAt(0) === "{" ? (
         fullText && JSON.parse(text).markdown ? (
           <div
@@ -586,7 +584,24 @@ export default compose(withErrorCatch())(
               !inReviewArticleComment &&
               "DescriptionRow-markdown--fullText"}`}
             dangerouslySetInnerHTML={{
-              __html: getHTMLFromMarkdown(JSON.parse(text).markdown),
+              __html: getHTMLFromMarkdown(
+                process.env.monolithApi &&
+                  process.env.monolithApi.includes("uat")
+                  ? JSON.parse(text)
+                      .markdown.replace(
+                        "https://api.beta.kauri.io:443/ipfs/",
+                        `https://${
+                          process.env.cloudImageId
+                        }.cloudimg.io/cdn/webp-lossy-90/https://api.beta.kauri.io:443/ipfs/`
+                      )
+                      .replace(
+                        "https://api.kauri.io:443/ipfs/",
+                        `https://${
+                          process.env.cloudImageId
+                        }.cloudimg.io/cdn/webp-lossy-90/https://api.beta.kauri.io:443/ipfs/`
+                      )
+                  : JSON.parse(text).markdown
+              ),
             }}
           />
         ) : fullText ? (

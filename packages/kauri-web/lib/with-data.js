@@ -216,6 +216,7 @@ export default ComposedComponent =>
         stateApollo,
         stateRedux,
         hostName,
+        parsedToken,
         ...composedInitialProps,
       };
     }
@@ -223,7 +224,7 @@ export default ComposedComponent =>
     constructor(props) {
       super(props);
       this.apollo = initApollo(this.props.stateApollo.apollo.data, {
-        getToken: () => parseCookies()["TOKEN"],
+        getToken: () => props.parsedToken || parseCookies()["TOKEN"],
         hostName: props.hostName,
       });
       this.redux = initRedux(this.apollo, this.props.stateRedux);

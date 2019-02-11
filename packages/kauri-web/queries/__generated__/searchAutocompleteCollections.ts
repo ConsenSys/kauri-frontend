@@ -43,12 +43,39 @@ export interface searchAutocompleteCollections_searchAutocomplete_content_resour
   type: ResourceType | null;
 }
 
+export interface searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_sections_resources_CommunityDTO {
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
+}
+
+export interface searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_sections_resources_ArticleDTO {
+  __typename: "ArticleDTO";
+  id: string | null;
+  version: number | null;
+}
+
+export type searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_sections_resources =
+  | searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_sections_resources_CommunityDTO
+  | searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_sections_resources_ArticleDTO;
+
 export interface searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_sections {
   __typename: "SectionDTO";
+  id: string | null;
   name: string | null;
   description: string | null;
   resourcesId:
     | (searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_sections_resourcesId | null)[]
+    | null;
+  resources:
+    | (searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_sections_resources | null)[]
     | null;
 }
 
