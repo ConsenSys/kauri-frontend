@@ -13,16 +13,25 @@ const Content = styled.div`
   background: white;
 `;
 
+const Line = styled.span`
+  font-family: 'Roboto'
+`;
+
 const styleObj = {
   diffAdded: {
+    maxWidth: '95vh',
     padding: 4,
-  }, // style object
-  diffContainer: {
-    fontFamily: "Roboto",
   }, // style object
   diffRemoved: {
+    maxWidth: '95vh',
     padding: 4,
   }, // style object
+  gutter: {
+    display: 'none'
+  },
+  line: {
+    fontFamily: "Roboto",
+  },
   lineNumber: {
     display: "none",
   }, // style object
@@ -33,14 +42,20 @@ const styleObj = {
   wordRemoved: { fontWeight: 700, color: "#960016 !important" }, // style object
 };
 
+const renderLine = (str: string) => {
+  return <Line>{str}</Line>;
+}
+
+
 const Diffs = ({ current, proposed }: IProps) => {
   return (
-    <Content>
+    <Content className="DiffViewer">
       <ReactDiffViewer
         oldValue={current}
         newValue={proposed}
         splitView={false}
         styles={styleObj}
+        renderContent={renderLine}
       />
     </Content>
   );
