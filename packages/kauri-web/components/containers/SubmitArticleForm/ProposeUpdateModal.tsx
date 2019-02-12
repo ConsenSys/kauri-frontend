@@ -56,8 +56,8 @@ const Actions = ({
     </TertiaryButton>
     <PrimaryButton
       onClick={() => {
-        handleConfirm();
         handleClose();
+        handleConfirm();
       }}
     >
       Confirm
@@ -78,7 +78,7 @@ const ContentContainer = styled.section`
 
 interface IProps {
   closeModalAction: () => void;
-  confirmModal: (cause: string) => void;
+  confirmModal: (updateComment: string) => void;
 }
 
 interface IState {
@@ -95,7 +95,6 @@ class ProposeArticleModal extends React.Component<IProps, IState> {
 
   render() {
     const { closeModalAction, confirmModal } = this.props;
-
     return (
       <ContentContainer>
         <ModalHeader
