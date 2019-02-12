@@ -380,6 +380,7 @@ interface IProps {
   imageURL: string | null;
   cardHeight: number;
   cardWidth?: number;
+  destination?: string;
   linkComponent: (
     childrenProps: React.ReactElement<any>,
     route: string
@@ -422,6 +423,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   hoverChildren,
   tags,
   nfts,
+  destination,
   triggerHoverChildrenOnFullCardClick = false,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
@@ -474,7 +476,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             tags={tags}
             nfts={nfts}
           />,
-          `/article/${id}/v${version}`
+          destination === 'review' ? `/article-review/${id}/v${version}` : `/article/${id}/v${version}`
         )}
         <Divider imageURL={imageURL} />
         <Footer imageURL={imageURL}>

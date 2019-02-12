@@ -4,6 +4,7 @@ import Header from "./Header";
 import Diffs from "../../../../kauri-components/components/DiffViewer";
 import { Label } from "../../../../kauri-components/components/Typography";
 import ScrollIndicator from "../../../../kauri-components/components/ScrollIndicator";
+import Loading from "../../common/Loading";
 
 const Container = styled.div`
   background: white;
@@ -53,30 +54,33 @@ interface IProps {
 
 class ArticleReviewView extends React.Component<IProps, {}> {
   render() {
+    const { CurrentArticle, ProposedUpdate } = this.props;
+    if (!CurrentArticle.getArticle || !ProposedUpdate.getArticle) {
+      return <Loading />;
+    }
+
     const current = {
-      attributes: this.props.CurrentArticle.getArticle.attributes,
-      author: this.props.CurrentArticle.getArticle.author,
-      content: JSON.parse(this.props.CurrentArticle.getArticle.content)
-        .markdown,
-      contentHash: this.props.CurrentArticle.getArticle.contentHash,
-      dateCreated: this.props.CurrentArticle.getArticle.dateCreated,
-      owner: this.props.CurrentArticle.getArticle.owner.id,
-      tags: this.props.CurrentArticle.getArticle.tags,
-      title: this.props.CurrentArticle.getArticle.title,
-      version: this.props.CurrentArticle.getArticle.version,
+      attributes: CurrentArticle.getArticle.attributes,
+      author: CurrentArticle.getArticle.author,
+      content: JSON.parse(CurrentArticle.getArticle.content).markdown,
+      contentHash: CurrentArticle.getArticle.contentHash,
+      dateCreated: CurrentArticle.getArticle.dateCreated,
+      owner: CurrentArticle.getArticle.owner.id,
+      tags: CurrentArticle.getArticle.tags,
+      title: CurrentArticle.getArticle.title,
+      version: CurrentArticle.getArticle.version,
     };
     const proposed = {
-      attributes: this.props.ProposedUpdate.getArticle.attributes,
-      author: this.props.ProposedUpdate.getArticle.author,
-      content: JSON.parse(this.props.ProposedUpdate.getArticle.content)
-        .markdown,
-      contentHash: this.props.ProposedUpdate.getArticle.contentHash,
-      dateCreated: this.props.ProposedUpdate.getArticle.dateCreated,
-      status: this.props.ProposedUpdate.getArticle.status,
-      tags: this.props.ProposedUpdate.getArticle.tags,
-      title: this.props.ProposedUpdate.getArticle.title,
-      updateComment: this.props.ProposedUpdate.getArticle.updateComment,
-      version: this.props.ProposedUpdate.getArticle.version,
+      attributes: ProposedUpdate.getArticle.attributes,
+      author: ProposedUpdate.getArticle.author,
+      content: JSON.parse(ProposedUpdate.getArticle.content).markdown,
+      contentHash: ProposedUpdate.getArticle.contentHash,
+      dateCreated: ProposedUpdate.getArticle.dateCreated,
+      status: ProposedUpdate.getArticle.status,
+      tags: ProposedUpdate.getArticle.tags,
+      title: ProposedUpdate.getArticle.title,
+      updateComment: ProposedUpdate.getArticle.updateComment,
+      version: ProposedUpdate.getArticle.version,
     };
 
     return (
