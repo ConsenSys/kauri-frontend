@@ -9,6 +9,7 @@ import CollectionHeader from "../../../../kauri-components/components/Headers/Co
 import CollectionSection from "./CollectionSection";
 import ScrollToTopOnMount from "../../../../kauri-components/components/ScrollToTopOnMount";
 import { Link } from "../../../routes";
+import Image from "../../../../kauri-components/components/Image";
 
 type Props = {
   data: {
@@ -37,13 +38,19 @@ const ContentContainer = styled.div`
 `;
 
 const HeaderContainer = styled(ContentContainer)`
-  background: url(${props => props.background}) center center;
+  background: ${props => props.theme.colors.bgPrimary};
   background-size: cover;
-  margin-top: -76px;
-  padding-top: 106px;
-  padding-bottom: 50px;
   flex-wrap: wrap;
   position: relative;
+  height: inherit;
+  padding: 0;
+  margin-top: -76px;
+  @media (max-width: 700px) {
+    max-height: 90vh;
+  }
+  @media (min-width: 700px) {
+    max-height: 300px;
+  }
 `;
 
 class CollectionPage extends Component<Props, { trianglify: string }> {
@@ -144,8 +151,14 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
           <meta name="twitter:image" content={bg} />
         </Helmet>
         <ScrollToTopOnMount />
-        <HeaderContainer background={bg}>
-          <Overlay />
+        <HeaderContainer>
+          <Image
+            height="100%"
+            width="100%"
+            overlay={{ opacity: 0.5 }}
+            asBackground
+            image={bg}
+          />
           <CollectionHeader
             imageURL={typeof bg === "string" ? bg : null}
             id={id}

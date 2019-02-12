@@ -592,13 +592,13 @@ export default compose(withErrorCatch())(
                         "https://api.beta.kauri.io:443/ipfs/",
                         `https://${
                           process.env.cloudImageId
-                        }.cloudimg.io/cdn/webp-lossy-90/https://api.beta.kauri.io:443/ipfs/`
+                        }.cloudimg.io/cdn/n/twebp/https://api.beta.kauri.io:443/ipfs/`
                       )
                       .replace(
                         "https://api.kauri.io:443/ipfs/",
                         `https://${
                           process.env.cloudImageId
-                        }.cloudimg.io/cdn/webp-lossy-90/https://api.beta.kauri.io:443/ipfs/`
+                        }.cloudimg.io/cdn/n/twebp/https://api.beta.kauri.io:443/ipfs/`
                       )
                   : JSON.parse(text).markdown
               ),
