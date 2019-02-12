@@ -14,9 +14,6 @@ export const Tag = gql`
     contentHash
     checkpoint
     tags
-    vote {
-      totalVote
-    }
     author {
       id
       name

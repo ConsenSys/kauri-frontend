@@ -22,9 +22,6 @@ export const Article = gql`
       image
       externalUrl
     }
-    vote {
-      totalVote
-    }
     author {
       id
       name
@@ -137,9 +134,6 @@ export const getArticleForAnalytics = gql`
       attributes
       contentHash
       checkpoint
-      vote {
-        totalVote
-      }
       author {
         id
         name
@@ -325,9 +319,6 @@ export const searchPersonalDrafts = gql`
         attributes
         contentHash
         checkpoint
-        vote {
-          totalVote
-        }
         comments {
           content {
             posted
@@ -420,9 +411,6 @@ export const searchPending = gql`
         attributes
         contentHash
         checkpoint
-        vote {
-          totalVote
-        }
         comments {
           content {
             posted
@@ -485,9 +473,6 @@ export const searchAwaitingApproval = gql`
         attributes
         contentHash
         checkpoint
-        vote {
-          totalVote
-        }
         comments {
           content {
             posted

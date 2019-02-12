@@ -37,9 +37,6 @@ export const HomePageQuery = gql`
 
           status
           attributes
-          vote {
-            totalVote
-          }
         }
         ... on CollectionDTO {
           id
@@ -78,9 +75,6 @@ export const HomePageQuery = gql`
 
           status
           attributes
-          vote {
-            totalVote
-          }
         }
         ... on CollectionDTO {
           id
