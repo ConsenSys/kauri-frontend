@@ -25,6 +25,8 @@ const Title = ({ text }: { text: string }) => (
 
 const ActionsContainer = styled.div`
   display: flex;
+  align-self: flex-end;
+
   > :first-child {
     margin-right: ${props => props.theme.space[3]}px;
   }
@@ -68,6 +70,7 @@ const Actions = ({
 const ContentContainer = styled.section`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   height: 400px;
   width: 600px;
   > :first-child {
@@ -104,12 +107,6 @@ class RejectArticleModal extends React.Component<IProps, IState> {
     return (
       <ContentContainer>
         <ModalHeader
-          actions={
-            <Actions
-              handleConfirm={() => confirmModal(this.state.rejectionCause)}
-              handleClose={() => closeModalAction()}
-            />
-          }
           title={
             <Title text="Let the contributor know why the article is been rejected. So they can improve the content and submit a corrected version." />
           }
@@ -120,6 +117,10 @@ class RejectArticleModal extends React.Component<IProps, IState> {
           color="textPrimary"
           placeHolder="Add feedback for the contributor"
           fontSize={4}
+        />
+        <Actions
+          handleConfirm={() => confirmModal(this.state.rejectionCause)}
+          handleClose={() => closeModalAction()}
         />
       </ContentContainer>
     );

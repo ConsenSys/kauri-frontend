@@ -203,42 +203,41 @@ const Header = (props: IProps) => (
             <Label color="white">The background has been updated</Label>
           ) : null}
         </BGNotice>
-        {props.owner === props.currentUser &&
-          props.proposedVersion > props.currentVersion && (
-            <Buttons>
-              <SecondaryButton
-                onClick={() =>
-                  props.openModalAction({
-                    children: (
-                      <RejectArticleModal
-                        closeModalAction={() => props.closeModalAction()}
-                        confirmModal={cause =>
-                          props.rejectArticleAction({
-                            cause,
-                            id: props.id,
-                            version: parseInt(props.proposedVersion, 10),
-                          })
-                        }
-                      />
-                    ),
-                  })
-                }
-                text="Reject Changes"
-              />
-              <PrimaryButton
-                onClick={() =>
-                  props.approveArticleAction({
-                    author: props.author.id,
-                    contentHash: props.contentHash,
-                    dateCreated: props.date,
-                    id: props.id,
-                    version: parseInt(props.proposedVersion, 10),
-                  })
-                }
-                text="Approve Changes"
-              />
-            </Buttons>
-          )}
+        {props.owner === props.currentUser && props.status === "PENDING" && (
+          <Buttons>
+            <SecondaryButton
+              onClick={() =>
+                props.openModalAction({
+                  children: (
+                    <RejectArticleModal
+                      closeModalAction={() => props.closeModalAction()}
+                      confirmModal={cause =>
+                        props.rejectArticleAction({
+                          cause,
+                          id: props.id,
+                          version: parseInt(props.proposedVersion, 10),
+                        })
+                      }
+                    />
+                  ),
+                })
+              }
+              text="Reject Changes"
+            />
+            <PrimaryButton
+              onClick={() =>
+                props.approveArticleAction({
+                  author: props.author.id,
+                  contentHash: props.contentHash,
+                  dateCreated: props.date,
+                  id: props.id,
+                  version: parseInt(props.proposedVersion, 10),
+                })
+              }
+              text="Approve Changes"
+            />
+          </Buttons>
+        )}
       </Actions>
       <Left>
         <Label color="white">
