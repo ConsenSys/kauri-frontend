@@ -42,9 +42,11 @@ const CloseIcon = () => (
 const Actions = ({
   handleClose,
   handleConfirm,
+  chosenArticles,
 }: {
   handleClose: any;
   handleConfirm: any;
+  chosenArticles?: IArticleIDVersion[];
 }) => (
   <ActionsContainer>
     <TertiaryButton
@@ -56,7 +58,7 @@ const Actions = ({
     </TertiaryButton>
     <PrimaryButton
       onClick={() => {
-        handleConfirm();
+        handleConfirm(chosenArticles);
         handleClose();
       }}
     >
