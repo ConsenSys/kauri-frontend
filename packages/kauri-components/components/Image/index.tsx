@@ -31,19 +31,19 @@ const getURL = (
     if (heightParam && !widthParam) {
       return `https://${
         process.env.cloudImageId
-      }.cloudimg.io/crop/2560x${heightParam}/webp-lossy-90/${url}`;
+      }.cloudimg.io/crop/2560x${heightParam}/twebp/${url}`;
     } else if (widthParam && !heightParam) {
       return `https://${
         process.env.cloudImageId
-      }.cloudimg.io/widthParam/${widthParam}/webp-lossy-90/${url}`;
+      }.cloudimg.io/widthParam/${widthParam}/twebp/${url}`;
     } else if (widthParam && heightParam) {
       return `https://${
         process.env.cloudImageId
-      }.cloudimg.io/crop/${widthParam}x${heightParam}/webp-lossy-90/${url}`;
+      }.cloudimg.io/crop/${widthParam}x${heightParam}/twebp/${url}`;
     } else {
       return `https://${
         process.env.cloudImageId
-      }.cloudimg.io/width/2560/webp-lossy-90/${url}`;
+      }.cloudimg.io/width/2560/twebp/${url}`;
     }
   };
 

@@ -23,7 +23,12 @@ const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
   padding: 0;
   margin-top: -76px;
   height: inherit;
-  max-height: 290px;
+  @media (max-width: 700px) {
+    max-height: 90vh;
+  }
+  @media (min-width: 700px) {
+    max-height: 300px;
+  }
 `;
 
 const InfoContainer = styled.div`
