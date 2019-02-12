@@ -39,6 +39,14 @@ const Container = styled.section`
   }
 `;
 
+const DescriptionContainer = styled.div`
+  max-width: 500px;
+  text-align: center;
+  > * {
+    word-break: break-word;
+  }
+`;
+
 const ArticleApprovedActionButtons = styled.div`
   display: flex;
   > :first-child:not(:only-child) {
@@ -66,7 +74,11 @@ class ArticleApproved extends React.Component<IProps> {
       [
         R.equals("drafted"),
         R.always(
-          "has been saved as a draft. You can view all drafts on your profile page. All drafts are unlisted, rather than private. This means you can send the link to someone and they can view it, but your article will not be discoverable or searchable until it is published."
+          `has been saved as a draft.
+           You can view all drafts on your profile page.
+           All drafts are unlisted, rather than private.
+           This means you can send the link to someone and they can view it, but your article will not be discoverable or searchable until it is published.
+          `
         ),
       ],
       [R.equals("published"), R.always("is now live")],
@@ -89,7 +101,9 @@ class ArticleApproved extends React.Component<IProps> {
             <title>{`Kauri - Article ${capitalize(type)}`}</title>
           </Helmet>
           <Title1 color="white">{capitalize(type)}</Title1>
-          <BodyCard color="white">{`The article ${subjectCopy}`}</BodyCard>
+          <DescriptionContainer>
+            <BodyCard color="white">{`The article ${subjectCopy}`}</BodyCard>
+          </DescriptionContainer>
           <ArticleCard
             key={String(article.id)}
             resourceType={"USER"}
