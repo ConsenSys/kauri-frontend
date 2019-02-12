@@ -75,6 +75,7 @@ class ArticleReviewView extends React.Component<IProps, {}> {
       status: this.props.ProposedUpdate.getArticle.status,
       tags: this.props.ProposedUpdate.getArticle.tags,
       title: this.props.ProposedUpdate.getArticle.title,
+      updateComment: this.props.ProposedUpdate.getArticle.updateComment,
       version: this.props.ProposedUpdate.getArticle.version,
     };
 
@@ -109,14 +110,9 @@ class ArticleReviewView extends React.Component<IProps, {}> {
           <Details>
             <Label>Update comment</Label>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-              imperdiet venenatis pretium. Pellentesque at consequat arcu. Nulla
-              nec diam quis orci dapibus accumsan in a nisi. Curabitur sed
-              tempor tortor. Nunc fermentum massa sed odio volutpat volutpat.
-              Vivamus pulvinar ante sit amet augue tincidunt pretium. Praesent
-              lobortis mollis posuere. Nulla vestibulum tortor sed arcu
-              pellentesque maximus. Nulla non bibendum nulla. Maecenas mollis
-              purus at eros tristique euismod et in sapien.
+              {proposed.updateComment
+                ? proposed.updateComment
+                : "No update comment provided by the contributor"}
             </p>
           </Details>
         </Content>
