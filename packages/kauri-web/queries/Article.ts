@@ -24,6 +24,7 @@ export const Article = gql`
     }
     voteResult {
       sum
+      count
     }
     author {
       id

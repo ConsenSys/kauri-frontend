@@ -15,6 +15,7 @@ type Props = {
   isLoggedIn: boolean,
   positiveVoteAction: () => void,
   negativeVoteAction: () => void,
+  voteResult: { sum: number },
 };
 
 const ArticleFooter = styled.section`
@@ -113,6 +114,15 @@ const Divider = styled.div`
   }
 `;
 
+const VotingContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+`;
+
+const VotingCaption = styled.div`
+  display: flex;
+`;
+
 export default ({
   username,
   date_updated,
@@ -127,6 +137,7 @@ export default ({
   isLoggedIn,
   positiveVoteAction,
   negativeVoteAction,
+  voteResult,
 }: Props) => (
   <ArticleFooter>
     <Divider />
@@ -155,16 +166,19 @@ export default ({
         )}
       </Right>
     </Details>
-    {isLoggedIn && (
-      <Fragment>
-        <Divider />
-        <Details>
+    <Divider />
+    <Details>
+      <VotingContainer>
+        <VotingCaption>
+          {voteResult.sum} person(s) found this offensive.
+        </VotingCaption>
+        {isLoggedIn && (
           <VoteArticle
             positiveVoteAction={positiveVoteAction}
             negativeVoteAction={negativeVoteAction}
           />
-        </Details>
-      </Fragment>
-    )}
+        )}
+      </VotingContainer>
+    </Details>
   </ArticleFooter>
 );
