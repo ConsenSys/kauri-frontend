@@ -26,9 +26,9 @@ export interface getCollection_getCollection_sections_resources_CommunityDTO {
   __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
-export interface getCollection_getCollection_sections_resources_ArticleDTO_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
+export interface getCollection_getCollection_sections_resources_ArticleDTO_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_author {
@@ -117,7 +117,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO {
   contentHash: string | null;
   checkpoint: string | null;
   tags: (string | null)[] | null;
-  vote: getCollection_getCollection_sections_resources_ArticleDTO_vote | null;
+  voteResult: getCollection_getCollection_sections_resources_ArticleDTO_voteResult | null;
   author: getCollection_getCollection_sections_resources_ArticleDTO_author | null;
   owner: getCollection_getCollection_sections_resources_ArticleDTO_owner | null;
   comments: getCollection_getCollection_sections_resources_ArticleDTO_comments | null;

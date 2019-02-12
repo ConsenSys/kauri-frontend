@@ -17,9 +17,9 @@ export interface searchResultsAutocomplete_searchAutocomplete_content_resource_P
   __typename: "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
 }
 
-export interface searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
+export interface searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
 }
 
 export interface searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_author {
@@ -44,7 +44,7 @@ export interface searchResultsAutocomplete_searchAutocomplete_content_resource_A
   contentHash: string | null;
   checkpoint: string | null;
   tags: (string | null)[] | null;
-  vote: searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_vote | null;
+  voteResult: searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_voteResult | null;
   author: searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_author | null;
 }
 

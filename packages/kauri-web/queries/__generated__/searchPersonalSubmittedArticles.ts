@@ -7,9 +7,9 @@ import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
 // GraphQL query operation: searchPersonalSubmittedArticles
 // ====================================================
 
-export interface searchPersonalSubmittedArticles_searchArticles_content_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
+export interface searchPersonalSubmittedArticles_searchArticles_content_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
 }
 
 export interface searchPersonalSubmittedArticles_searchArticles_content_author {
@@ -98,7 +98,7 @@ export interface searchPersonalSubmittedArticles_searchArticles_content {
   contentHash: string | null;
   checkpoint: string | null;
   tags: (string | null)[] | null;
-  vote: searchPersonalSubmittedArticles_searchArticles_content_vote | null;
+  voteResult: searchPersonalSubmittedArticles_searchArticles_content_voteResult | null;
   author: searchPersonalSubmittedArticles_searchArticles_content_author | null;
   owner: searchPersonalSubmittedArticles_searchArticles_content_owner | null;
   comments: searchPersonalSubmittedArticles_searchArticles_content_comments | null;

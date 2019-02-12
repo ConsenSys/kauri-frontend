@@ -37,8 +37,8 @@ export const HomePageQuery = gql`
 
           status
           attributes
-          vote {
-            totalVote
+          voteResult {
+            sum
           }
         }
         ... on CollectionDTO {
@@ -78,8 +78,8 @@ export const HomePageQuery = gql`
 
           status
           attributes
-          vote {
-            totalVote
+          voteResult {
+            sum
           }
         }
         ... on CollectionDTO {

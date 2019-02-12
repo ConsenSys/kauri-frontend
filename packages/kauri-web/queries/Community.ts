@@ -35,8 +35,8 @@ export const getCommunity = gql`
           }
           status
           attributes
-          vote {
-            totalVote
+          voteResult {
+            sum
           }
         }
         ... on CollectionDTO {
@@ -58,8 +58,8 @@ export const getCommunity = gql`
           }
           status
           attributes
-          vote {
-            totalVote
+          voteResult {
+            sum
           }
         }
         ... on CollectionDTO {

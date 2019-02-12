@@ -22,8 +22,8 @@ export const Article = gql`
       image
       externalUrl
     }
-    vote {
-      totalVote
+    voteResult {
+      sum
     }
     author {
       id
@@ -136,8 +136,8 @@ export const getArticleForAnalytics = gql`
       attributes
       contentHash
       checkpoint
-      vote {
-        totalVote
+      voteResult {
+        sum
       }
       author {
         id
@@ -324,8 +324,8 @@ export const searchPersonalDrafts = gql`
         attributes
         contentHash
         checkpoint
-        vote {
-          totalVote
+        voteResult {
+          sum
         }
         comments {
           content {
@@ -419,8 +419,8 @@ export const searchPending = gql`
         attributes
         contentHash
         checkpoint
-        vote {
-          totalVote
+        voteResult {
+          sum
         }
         comments {
           content {
@@ -484,8 +484,8 @@ export const searchAwaitingApproval = gql`
         attributes
         contentHash
         checkpoint
-        vote {
-          totalVote
+        voteResult {
+          sum
         }
         comments {
           content {
@@ -590,6 +590,14 @@ export const relatedArticles = gql`
         description
         score
       }
+    }
+  }
+`;
+
+export const vote = gql`
+  mutation vote($resourceId: ResourceIdentifierInput, $value: Float) {
+    vote(resourceId: $resourceId, value: $value) {
+      hash
     }
   }
 `;
