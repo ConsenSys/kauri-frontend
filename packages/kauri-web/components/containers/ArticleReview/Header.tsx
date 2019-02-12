@@ -4,7 +4,6 @@ import {
   Label,
 } from "../../../../kauri-components/components/Typography";
 import Image from "../../../../kauri-components/components/Image";
-import TagList from "../../../../kauri-components/components/Tags/TagList";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import SecondaryButton from "../../../../kauri-components/components/Button/SecondaryButton";
 import moment from "moment";
@@ -76,6 +75,29 @@ const GoBack = styled.div`
   }
 `;
 
+const TagContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const TagWrap = styled<{ type?: string }, "span">("span")`
+  display: flex;
+  align-items: center;
+
+  & > span {
+    ${props => props.type === "added" && `background: ${theme.colors.primary}`};
+    ${props => props.type === "removed" && `background: #ce636f`};
+    border-radius: 4px;
+    padding: 2px 4px;
+  }
+  &:not(:last-child):after {
+    content: "•";
+    color: white;
+    margin: ${theme.space[1] / 2}px;
+    font-weight: ${theme.fontWeight[3]};
+  }
+`;
+
 interface IProps {
   routeChangeAction: (route: string) => void;
   title: string;
@@ -83,16 +105,78 @@ interface IProps {
     background: string;
   };
   date: string;
-  tags: string[];
+  oldTags: string[];
+  newTags: string[];
   bgUpdated: boolean;
   openModalAction: (children: any) => void;
   closeModalAction: () => void;
   rejectArticleAction: (
     { cause, id, version }: { cause: string; id: string; version: number }
   ) => void;
+  approveArticleAction: (
+    {
+      id,
+      version,
+      contentHash,
+      author,
+      dateCreated,
+    }: {
+      id: string;
+      version: number;
+      contentHash: string;
+      author: string;
+      dateCreated: string;
+    }
+  ) => void;
   version: string;
   id: string;
+  author: {
+    id: string;
+  };
+  contentHash: string;
+  owner: string;
+  currentUser: string;
 }
+
+const formatTags = (oldTags: string[], newTags: string[]) => {
+  const allTags = oldTags.concat(newTags);
+  return allTags.map(i => {
+    if (oldTags.indexOf(i) !== -1 && newTags.indexOf(i) !== -1) {
+      return {
+        tag: i,
+        type: "unchanged",
+      };
+    } else if (oldTags.indexOf(i) !== -1 && newTags.indexOf(i) === -1) {
+      return {
+        tag: i,
+        type: "removed",
+      };
+    } else if (oldTags.indexOf(i) === -1 && newTags.indexOf(i) !== -1) {
+      return {
+        tag: i,
+        type: "added",
+      };
+    }
+  });
+};
+
+const DiffTagList = (props: { oldTags: string[]; newTags: string[] }) => {
+  const tags = formatTags(props.oldTags, props.newTags);
+  if (tags.length > 0) {
+    return (
+      <TagContainer>
+        {tags.map((i, key) => (
+          <TagWrap type={i && i.type} key={key}>
+            <Label color="white">{i && i.tag}</Label>
+          </TagWrap>
+        ))}
+      </TagContainer>
+    );
+  } else {
+    return null;
+  }
+};
+
 const Header = (props: IProps) => (
   <Container bgUpdated={props.bgUpdated}>
     {props.attributes && props.attributes.background && (
@@ -115,35 +199,48 @@ const Header = (props: IProps) => (
             <Label color="white">The background has been updated</Label>
           ) : null}
         </BGNotice>
-        <Buttons>
-          <SecondaryButton
-            onClick={() =>
-              props.openModalAction({
-                children: (
-                  <RejectArticleModal
-                    closeModalAction={() => props.closeModalAction()}
-                    confirmModal={cause =>
-                      props.rejectArticleAction({
-                        cause,
-                        id: props.id,
-                        version: parseInt(props.version, 10),
-                      })
-                    }
-                  />
-                ),
-              })
-            }
-            text="Reject Changes"
-          />
-          <PrimaryButton text="Approve Changes" />
-        </Buttons>
+        {props.owner === props.currentUser && (
+          <Buttons>
+            <SecondaryButton
+              onClick={() =>
+                props.openModalAction({
+                  children: (
+                    <RejectArticleModal
+                      closeModalAction={() => props.closeModalAction()}
+                      confirmModal={cause =>
+                        props.rejectArticleAction({
+                          cause,
+                          id: props.id,
+                          version: parseInt(props.version, 10),
+                        })
+                      }
+                    />
+                  ),
+                })
+              }
+              text="Reject Changes"
+            />
+            <PrimaryButton
+              onClick={() =>
+                props.approveArticleAction({
+                  author: props.author.id,
+                  contentHash: props.contentHash,
+                  dateCreated: props.date,
+                  id: props.id,
+                  version: parseInt(props.version, 10),
+                })
+              }
+              text="Approve Changes"
+            />
+          </Buttons>
+        )}
       </Actions>
       <Left>
         <Label color="white">
           SUBMITTED - {moment(props.date).format("DD MMM YYYY HH:mm")}
         </Label>
         <Title1 color="white">{props.title}</Title1>
-        <TagList maxTags={7} color="white" tags={props.tags} />
+        <DiffTagList oldTags={props.oldTags} newTags={props.newTags} />
       </Left>
       <Right>
         <Label color="white">Status - Pending approval</Label>
