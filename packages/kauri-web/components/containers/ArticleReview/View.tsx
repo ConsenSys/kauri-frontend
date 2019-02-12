@@ -63,6 +63,7 @@ class ArticleReviewView extends React.Component<IProps, {}> {
       owner: this.props.CurrentArticle.getArticle.owner.id,
       tags: this.props.CurrentArticle.getArticle.tags,
       title: this.props.CurrentArticle.getArticle.title,
+      version: this.props.CurrentArticle.getArticle.version,
     };
     const proposed = {
       attributes: this.props.ProposedUpdate.getArticle.attributes,
@@ -71,8 +72,10 @@ class ArticleReviewView extends React.Component<IProps, {}> {
         .markdown,
       contentHash: this.props.ProposedUpdate.getArticle.contentHash,
       dateCreated: this.props.ProposedUpdate.getArticle.dateCreated,
+      status: this.props.ProposedUpdate.getArticle.status,
       tags: this.props.ProposedUpdate.getArticle.tags,
       title: this.props.ProposedUpdate.getArticle.title,
+      version: this.props.ProposedUpdate.getArticle.version,
     };
 
     return (
@@ -93,11 +96,13 @@ class ArticleReviewView extends React.Component<IProps, {}> {
           rejectArticleAction={this.props.rejectArticleAction}
           approveArticleAction={this.props.approveArticleAction}
           id={this.props.id}
-          version={this.props.version}
+          currentVersion={current.version}
+          proposedVersion={proposed.version}
           contentHash={proposed.contentHash}
           author={proposed.author}
           owner={current.owner}
           currentUser={this.props.userId}
+          status={proposed.status}
         />
         <Content>
           <Diffs current={current.content} proposed={proposed.content} />
