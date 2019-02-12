@@ -7,7 +7,8 @@ import {
   IDependencies,
 } from "../../../lib/Module";
 import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
-
+import { getEvent } from "../../../queries/Module";
+import { create } from "../../../lib/init-apollo";
 import { approveArticle, rejectArticle } from "../../../queries/Article";
 
 interface IApproveArticlePayload {
@@ -37,12 +38,13 @@ interface IReduxState {
     user: {
       id: string;
     };
+    hostName: string;
   };
 }
 
 export const approveArticleEpic: Epic<any, IReduxState, IDependencies> = (
   action$,
-  _,
+  { getState },
   { apolloClient, personalSign }
 ) =>
   action$
@@ -69,6 +71,27 @@ export const approveArticleEpic: Epic<any, IReduxState, IDependencies> = (
                 version,
               },
             })
+          )
+          .mergeMap(({ data: { approveArticle: { hash } } }) =>
+            Observable.fromPromise(
+              new Promise<{ data: any }>((resolve, reject) => {
+                create(
+                  {},
+                  {
+                    getToken: () => "DUMMYVERIFICATIONTOKEN",
+                    hostName: getState().app.hostName,
+                  }
+                )
+                  .subscribe({
+                    query: getEvent,
+                    variables: { hash },
+                  })
+                  .subscribe({
+                    error: (err: Error) => reject(err),
+                    next: (data: any) => resolve(data),
+                  });
+              })
+            )
           )
           .do(() => apolloClient.resetStore())
           .mergeMap(() =>
