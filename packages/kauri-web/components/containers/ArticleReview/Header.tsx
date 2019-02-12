@@ -139,7 +139,9 @@ interface IProps {
 }
 
 const formatTags = (oldTags: string[], newTags: string[]) => {
-  const allTags = oldTags.concat(newTags);
+  const allTags = oldTags
+    .concat(newTags)
+    .filter((elem, pos, arr) => arr.indexOf(elem) === pos);
   return allTags.map(i => {
     if (oldTags.indexOf(i) !== -1 && newTags.indexOf(i) !== -1) {
       return {
