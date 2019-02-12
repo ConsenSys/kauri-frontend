@@ -13,6 +13,10 @@ import { publishArticleAction } from "./PublishArticleModule";
 import withLoading from "../../../lib/with-loading";
 import View from "./View";
 import { withRouter } from "next/router";
+import {
+  closeModalAction,
+  openModalAction,
+} from "../../../../kauri-components/components/Modal/Module";
 
 const mapStateToProps = (state, ownProps) => ({
   isKauriTopicOwner: Boolean(
@@ -37,6 +41,8 @@ export default compose(
       showNotificationAction,
       draftArticleAction,
       publishArticleAction,
+      closeModalAction,
+      openModalAction,
     }
   ),
   graphql(getRequest, {

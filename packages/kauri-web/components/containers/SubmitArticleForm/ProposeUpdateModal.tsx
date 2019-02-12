@@ -18,7 +18,7 @@ const TitleContainer = styled.div`
 `;
 const Title = ({ text }: { text: string }) => (
   <TitleContainer>
-    <NavigationText>Reject Article</NavigationText>
+    <NavigationText>Submit Update</NavigationText>
     <BodyCard>{text}</BodyCard>
   </TitleContainer>
 );
@@ -42,11 +42,9 @@ const CloseIcon = () => (
 const Actions = ({
   handleClose,
   handleConfirm,
-  chosenArticles,
 }: {
   handleClose: any;
   handleConfirm: any;
-  chosenArticles?: IArticleIDVersion[];
 }) => (
   <ActionsContainer>
     <TertiaryButton
@@ -58,7 +56,7 @@ const Actions = ({
     </TertiaryButton>
     <PrimaryButton
       onClick={() => {
-        handleConfirm(chosenArticles);
+        handleConfirm();
         handleClose();
       }}
     >
@@ -78,26 +76,20 @@ const ContentContainer = styled.section`
   }
 `;
 
-interface IArticleIDVersion {
-  id: string;
-  version: string;
-}
-
 interface IProps {
   closeModalAction: () => void;
   confirmModal: (cause: string) => void;
 }
 
 interface IState {
-  rejectionCause: string;
-  chosenArticles?: IArticleIDVersion;
+  updateComment: string;
 }
 
-class RejectArticleModal extends React.Component<IProps, IState> {
+class ProposeArticleModal extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      rejectionCause: "",
+      updateComment: "",
     };
   }
 
@@ -108,18 +100,18 @@ class RejectArticleModal extends React.Component<IProps, IState> {
       <ContentContainer>
         <ModalHeader
           title={
-            <Title text="Let the contributor know why the article is been rejected. So they can improve the content and submit a corrected version." />
+            <Title text="Please enter a note to the author explaining your changes. At a minimum, describe what you've changed. Adding detail will greatly increase the likelihood the author will accept and publish your proposed update!" />
           }
         />
         <Input
-          onChange={e => this.setState({ rejectionCause: e.target.value })}
-          value={this.state.rejectionCause}
+          onChange={e => this.setState({ updateComment: e.target.value })}
+          value={this.state.updateComment}
           color="textPrimary"
-          placeHolder="Add feedback for the contributor"
+          placeHolder="Please describe your changes"
           fontSize={4}
         />
         <Actions
-          handleConfirm={() => confirmModal(this.state.rejectionCause)}
+          handleConfirm={() => confirmModal(this.state.updateComment)}
           handleClose={() => closeModalAction()}
         />
       </ContentContainer>
@@ -127,4 +119,4 @@ class RejectArticleModal extends React.Component<IProps, IState> {
   }
 }
 
-export default RejectArticleModal;
+export default ProposeArticleModal;

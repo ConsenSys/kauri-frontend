@@ -344,6 +344,8 @@ class SubmitArticleForm extends React.Component<Props> {
           userId={this.props.userId}
           author={articleData && articleData.author && articleData.author.id}
           owner={articleData && articleData.owner && articleData.owner.id}
+          openModalAction={this.props.openModalAction}
+          openModalAction={this.props.openModalAction}
         />
         <SubmitArticleForm.Header
           {...this.props.form}

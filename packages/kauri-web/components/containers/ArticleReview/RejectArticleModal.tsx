@@ -76,11 +76,6 @@ const ContentContainer = styled.section`
   }
 `;
 
-interface IArticleIDVersion {
-  id: string;
-  version: string;
-}
-
 interface IProps {
   closeModalAction: () => void;
   confirmModal: (cause: string) => void;
@@ -88,7 +83,6 @@ interface IProps {
 
 interface IState {
   rejectionCause: string;
-  chosenArticles?: IArticleIDVersion;
 }
 
 class RejectArticleModal extends React.Component<IProps, IState> {
