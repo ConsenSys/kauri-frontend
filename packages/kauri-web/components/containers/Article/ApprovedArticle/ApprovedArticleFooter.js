@@ -1,9 +1,9 @@
 // @flow
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import DatePosted from "../../../common/DatePosted";
+import VoteArticle from "../../../../../kauri-components/components/VoteArticle";
 import CheckpointArticles from "../../CheckpointArticles";
-const config = require("../../../../config").default;
 
 type Props = {
   username?: ?string,
@@ -12,6 +12,9 @@ type Props = {
   metadata?: ?ArticleMetadataDTO,
   content_hash?: ?string,
   hostName: string,
+  isLoggedIn: boolean,
+  positiveVoteAction: () => void,
+  negativeVoteAction: () => void,
 };
 
 const ArticleFooter = styled.section`
@@ -121,6 +124,9 @@ export default ({
   articleCheckpointed,
   ownerId,
   userId,
+  isLoggedIn,
+  positiveVoteAction,
+  negativeVoteAction,
 }: Props) => (
   <ArticleFooter>
     <Divider />
@@ -149,5 +155,16 @@ export default ({
         )}
       </Right>
     </Details>
+    {isLoggedIn && (
+      <Fragment>
+        <Divider />
+        <Details>
+          <VoteArticle
+            positiveVoteAction={positiveVoteAction}
+            negativeVoteAction={negativeVoteAction}
+          />
+        </Details>
+      </Fragment>
+    )}
   </ArticleFooter>
 );

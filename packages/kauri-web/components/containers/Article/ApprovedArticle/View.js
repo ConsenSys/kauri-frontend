@@ -168,6 +168,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           ])(props)}
         />
         <ApprovedArticle.Footer
+          isLoggedIn={!!props.personalUsername}
           metadata={props.data.getArticle && props.data.getArticle.attributes}
           articleCheckpointed={R.path(["data", "getArticle", "checkpoint"])(
             props
