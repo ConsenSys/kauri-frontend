@@ -30,6 +30,11 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
     | "UserDTO";
 }
 
+export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
+}
+
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -129,6 +134,7 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
   contentHash: string | null;
   checkpoint: string | null;
   tags: (string | null)[] | null;
+  voteResult: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_voteResult | null;
   author: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_author | null;
   owner: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner | null;
   comments: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_comments | null;

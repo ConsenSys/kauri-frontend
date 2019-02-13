@@ -16,9 +16,10 @@ const CollectionHeaderSection = styled.section`
   width: 100%;
   flex-direction: row;
   z-index: 1;
+  padding: ${props => props.theme.space[4] + 40}px
+    ${props => props.theme.padding} ${props => props.theme.space[4]}px;
   @media (max-width: 500px) {
     flex-direction: column;
-    padding: ${props => props.theme.space[1]}px;
   }
 `;
 
@@ -32,6 +33,9 @@ const LeftSide = styled.div`
   }
   > :last-child {
     margin-top: ${props => props.theme.space[2]}px;
+  }
+  @media (max-width: 500px) {
+    padding: ${props => props.theme.space[1]}px;
   }
 `;
 

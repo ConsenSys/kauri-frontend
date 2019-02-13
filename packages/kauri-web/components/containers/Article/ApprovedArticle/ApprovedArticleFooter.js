@@ -1,9 +1,9 @@
 // @flow
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import DatePosted from "../../../common/DatePosted";
+import VoteArticle from "../../../../../kauri-components/components/VoteArticle";
 import CheckpointArticles from "../../CheckpointArticles";
-const config = require("../../../../config").default;
 
 type Props = {
   username?: ?string,
@@ -12,6 +12,10 @@ type Props = {
   metadata?: ?ArticleMetadataDTO,
   content_hash?: ?string,
   hostName: string,
+  isLoggedIn: boolean,
+  positiveVoteAction: () => void,
+  negativeVoteAction: () => void,
+  voteResult: { sum: number },
 };
 
 const ArticleFooter = styled.section`
@@ -110,6 +114,15 @@ const Divider = styled.div`
   }
 `;
 
+const VotingContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+`;
+
+const VotingCaption = styled.div`
+  display: flex;
+`;
+
 export default ({
   username,
   date_updated,
@@ -121,6 +134,10 @@ export default ({
   articleCheckpointed,
   ownerId,
   userId,
+  isLoggedIn,
+  positiveVoteAction,
+  negativeVoteAction,
+  voteResult,
 }: Props) => (
   <ArticleFooter>
     <Divider />
@@ -148,6 +165,20 @@ export default ({
           />
         )}
       </Right>
+    </Details>
+    <Divider />
+    <Details>
+      <VotingContainer>
+        <VotingCaption>
+          {voteResult.sum} person(s) found this offensive.
+        </VotingCaption>
+        {isLoggedIn && (
+          <VoteArticle
+            positiveVoteAction={positiveVoteAction}
+            negativeVoteAction={negativeVoteAction}
+          />
+        )}
+      </VotingContainer>
     </Details>
   </ArticleFooter>
 );

@@ -35,6 +35,9 @@ export const getCommunity = gql`
           }
           status
           attributes
+          voteResult {
+            sum
+          }
         }
         ... on CollectionDTO {
           id
@@ -55,6 +58,9 @@ export const getCommunity = gql`
           }
           status
           attributes
+          voteResult {
+            sum
+          }
         }
         ... on CollectionDTO {
           id

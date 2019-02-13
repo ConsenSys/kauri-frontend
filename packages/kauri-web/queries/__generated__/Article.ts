@@ -7,6 +7,11 @@ import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
 // GraphQL fragment: Article
 // ====================================================
 
+export interface Article_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
+}
+
 export interface Article_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -104,6 +109,7 @@ export interface Article {
   contentHash: string | null;
   checkpoint: string | null;
   tags: (string | null)[] | null;
+  voteResult: Article_voteResult | null;
   author: Article_author | null;
   owner: Article_owner | null;
   comments: Article_comments | null;

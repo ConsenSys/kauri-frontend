@@ -45,6 +45,11 @@ export type searchArticles_searchArticles_content_owner =
   | searchArticles_searchArticles_content_owner_PublicUserDTO
   | searchArticles_searchArticles_content_owner_CommunityDTO;
 
+export interface searchArticles_searchArticles_content_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
+}
+
 export interface searchArticles_searchArticles_content_comments_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -89,6 +94,7 @@ export interface searchArticles_searchArticles_content {
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
+  voteResult: searchArticles_searchArticles_content_voteResult | null;
   comments: searchArticles_searchArticles_content_comments | null;
   resourceIdentifier: searchArticles_searchArticles_content_resourceIdentifier | null;
 }

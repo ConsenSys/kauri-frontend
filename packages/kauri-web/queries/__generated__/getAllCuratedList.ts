@@ -40,6 +40,11 @@ export interface getAllCuratedList_getAllCuratedList_header_ArticleDTO_author {
   avatar: string | null;
 }
 
+export interface getAllCuratedList_getAllCuratedList_header_ArticleDTO_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
+}
+
 export interface getAllCuratedList_getAllCuratedList_header_ArticleDTO {
   __typename: "ArticleDTO";
   id: string | null;
@@ -51,6 +56,7 @@ export interface getAllCuratedList_getAllCuratedList_header_ArticleDTO {
   author: getAllCuratedList_getAllCuratedList_header_ArticleDTO_author | null;
   status: ArticleStatus | null;
   attributes: any | null;
+  voteResult: getAllCuratedList_getAllCuratedList_header_ArticleDTO_voteResult | null;
 }
 
 export interface getAllCuratedList_getAllCuratedList_header_CollectionDTO {
@@ -106,6 +112,11 @@ export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO_author
   avatar: string | null;
 }
 
+export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
+}
+
 export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO {
   __typename: "ArticleDTO";
   resourceIdentifier: getAllCuratedList_getAllCuratedList_resources_ArticleDTO_resourceIdentifier | null;
@@ -118,6 +129,7 @@ export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO {
   author: getAllCuratedList_getAllCuratedList_resources_ArticleDTO_author | null;
   status: ArticleStatus | null;
   attributes: any | null;
+  voteResult: getAllCuratedList_getAllCuratedList_resources_ArticleDTO_voteResult | null;
 }
 
 export interface getAllCuratedList_getAllCuratedList_resources_CollectionDTO_resourceIdentifier {

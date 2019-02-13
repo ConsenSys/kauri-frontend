@@ -168,6 +168,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           ])(props)}
         />
         <ApprovedArticle.Footer
+          isLoggedIn={!!props.personalUsername}
           metadata={props.data.getArticle && props.data.getArticle.attributes}
           articleCheckpointed={R.path(["data", "getArticle", "checkpoint"])(
             props
@@ -196,6 +197,25 @@ class ApprovedArticle extends React.Component<Props, State> {
             props.data.getArticle.contentHash
           }
           apiURL={`https://${process.env.monolithExternalApi}`}
+          positiveVoteAction={() =>
+            props.voteAction({
+              resourceId: {
+                type: "ARTICLE",
+                id: props.data.getArticle && props.data.getArticle.id,
+              },
+              value: 1,
+            })
+          }
+          negativeVoteAction={() =>
+            props.voteAction({
+              resourceId: {
+                type: "ARTICLE",
+                id: props.data.getArticle && props.data.getArticle.id,
+              },
+              value: -1,
+            })
+          }
+          voteResult={props.data.getArticle && props.data.getArticle.voteResult}
         />
         <ApprovedArticle.Comments
           id={props.data.getArticle && props.data.getArticle.id}

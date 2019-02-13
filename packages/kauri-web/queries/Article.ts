@@ -22,6 +22,10 @@ export const Article = gql`
       image
       externalUrl
     }
+    voteResult {
+      sum
+      count
+    }
     author {
       id
       name
@@ -134,6 +138,9 @@ export const getArticleForAnalytics = gql`
       attributes
       contentHash
       checkpoint
+      voteResult {
+        sum
+      }
       author {
         id
         name
@@ -319,6 +326,9 @@ export const searchPersonalDrafts = gql`
         attributes
         contentHash
         checkpoint
+        voteResult {
+          sum
+        }
         comments {
           content {
             posted
@@ -411,6 +421,9 @@ export const searchPending = gql`
         attributes
         contentHash
         checkpoint
+        voteResult {
+          sum
+        }
         comments {
           content {
             posted
@@ -473,6 +486,9 @@ export const searchAwaitingApproval = gql`
         attributes
         contentHash
         checkpoint
+        voteResult {
+          sum
+        }
         comments {
           content {
             posted
@@ -576,6 +592,14 @@ export const relatedArticles = gql`
         description
         score
       }
+    }
+  }
+`;
+
+export const vote = gql`
+  mutation vote($resourceId: ResourceIdentifierInput, $value: Float) {
+    vote(resourceId: $resourceId, value: $value) {
+      hash
     }
   }
 `;

@@ -42,6 +42,11 @@ export interface getCommunity_getCommunity_pending_ArticleDTO_author {
   name: string | null;
 }
 
+export interface getCommunity_getCommunity_pending_ArticleDTO_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
+}
+
 export interface getCommunity_getCommunity_pending_ArticleDTO {
   __typename: "ArticleDTO";
   id: string | null;
@@ -53,6 +58,7 @@ export interface getCommunity_getCommunity_pending_ArticleDTO {
   author: getCommunity_getCommunity_pending_ArticleDTO_author | null;
   status: ArticleStatus | null;
   attributes: any | null;
+  voteResult: getCommunity_getCommunity_pending_ArticleDTO_voteResult | null;
 }
 
 export interface getCommunity_getCommunity_pending_CollectionDTO {
@@ -84,6 +90,11 @@ export interface getCommunity_getCommunity_approved_ArticleDTO_author {
   name: string | null;
 }
 
+export interface getCommunity_getCommunity_approved_ArticleDTO_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
+}
+
 export interface getCommunity_getCommunity_approved_ArticleDTO {
   __typename: "ArticleDTO";
   id: string | null;
@@ -95,6 +106,7 @@ export interface getCommunity_getCommunity_approved_ArticleDTO {
   author: getCommunity_getCommunity_approved_ArticleDTO_author | null;
   status: ArticleStatus | null;
   attributes: any | null;
+  voteResult: getCommunity_getCommunity_approved_ArticleDTO_voteResult | null;
 }
 
 export interface getCommunity_getCommunity_approved_CollectionDTO {

@@ -11,6 +11,11 @@ import {
 // GraphQL query operation: searchPendingArticles
 // ====================================================
 
+export interface searchPendingArticles_searchArticles_content_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
+}
+
 export interface searchPendingArticles_searchArticles_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -110,6 +115,7 @@ export interface searchPendingArticles_searchArticles_content {
   contentHash: string | null;
   checkpoint: string | null;
   tags: (string | null)[] | null;
+  voteResult: searchPendingArticles_searchArticles_content_voteResult | null;
   author: searchPendingArticles_searchArticles_content_author | null;
   owner: searchPendingArticles_searchArticles_content_owner | null;
   comments: searchPendingArticles_searchArticles_content_comments | null;

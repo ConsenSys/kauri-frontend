@@ -7,6 +7,11 @@ import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
 // GraphQL query operation: searchPersonalArticles
 // ====================================================
 
+export interface searchPersonalArticles_searchArticles_content_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
+}
+
 export interface searchPersonalArticles_searchArticles_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -106,6 +111,7 @@ export interface searchPersonalArticles_searchArticles_content {
   contentHash: string | null;
   checkpoint: string | null;
   tags: (string | null)[] | null;
+  voteResult: searchPersonalArticles_searchArticles_content_voteResult | null;
   author: searchPersonalArticles_searchArticles_content_author | null;
   owner: searchPersonalArticles_searchArticles_content_owner | null;
   comments: searchPersonalArticles_searchArticles_content_comments | null;

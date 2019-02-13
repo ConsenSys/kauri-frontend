@@ -35,6 +35,11 @@ export interface getCollection_getCollection_sections_resources_CommunityDTO {
     | "UserDTO";
 }
 
+export interface getCollection_getCollection_sections_resources_ArticleDTO_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
+}
+
 export interface getCollection_getCollection_sections_resources_ArticleDTO_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -134,6 +139,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO {
   contentHash: string | null;
   checkpoint: string | null;
   tags: (string | null)[] | null;
+  voteResult: getCollection_getCollection_sections_resources_ArticleDTO_voteResult | null;
   author: getCollection_getCollection_sections_resources_ArticleDTO_author | null;
   owner: getCollection_getCollection_sections_resources_ArticleDTO_owner | null;
   comments: getCollection_getCollection_sections_resources_ArticleDTO_comments | null;

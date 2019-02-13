@@ -85,6 +85,9 @@ export const searchResultsAutocomplete = gql`
             contentHash
             checkpoint
             tags
+            voteResult {
+              sum
+            }
             author {
               id
               name

@@ -1,5 +1,5 @@
 export const getAllCuratedList = (payload, maxResult, filter) => ({
-    query: `
+  query: `
     query getAllCuratedList {
         getAllCuratedList {
           id
@@ -34,92 +34,107 @@ export const getAllCuratedList = (payload, maxResult, filter) => ({
           }
           resources {
             ... on ArticleDTO {
+              resourceIdentifier {
+                type
+                id
+              }
               id
-              attributes
               version
+              title
+              content
+              dateCreated
+              datePublished
               author {
                 id
                 name
+                username
+                avatar
               }
-              dateCreated
-              datePublished
-              title
-              content
-              resourceIdentifier {
-                id
-                type
-                version
+    
+              status
+              attributes
+              vote {
+                totalVote
               }
             }
             ... on CollectionDTO {
               id
               name
               description
-              dateCreated
               background
+              dateUpdated
+              resourceIdentifier {
+                type
+                id
+              }
               owner {
                 id
+                username
                 name
-              }
-              resourceIdentifier {
-                id
-                type
-                version
+                avatar
               }
               sections {
                 name
                 description
-                resources {
-                  ...on ArticleDTO {
-                    id
-                  }
-                }
                 resourcesId {
                   id
                   type
                 }
               }
             }
+            ... on CommunityDTO {
+              id
+              name
+              resourceIdentifier {
+                type
+                id
+              }
+            }
           }
         }
       }
 `,
-    variables: {},
-    operationName: "getAllCuratedList"
+  variables: {},
+  operationName: "getAllCuratedList",
 });
 
 export const createCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation createCuratedList($name: String, $description: String, $featured: Boolean, $resources: [ResourceIdentifierInput]) { createCuratedList (name: $name, description: $description, featured: $featured, resources: $resources) {hash}    }",
-    variables: payload,
-    operationName: "createCuratedList"
+  query:
+    "mutation createCuratedList($name: String, $description: String, $featured: Boolean, $resources: [ResourceIdentifierInput]) { createCuratedList (name: $name, description: $description, featured: $featured, resources: $resources) {hash}    }",
+  variables: payload,
+  operationName: "createCuratedList",
 });
 
 export const editCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation createCuratedList($id: String, $name: String, $description: String, $featured: Boolean, $resources: [ResourceIdentifierInput]) { createCuratedList (id: $id, name: $name, description: $description, featured: $featured, resources: $resources) {hash}    }",
-    variables: payload,
-    operationName: "createCuratedList"
+  query:
+    "mutation createCuratedList($id: String, $name: String, $description: String, $featured: Boolean, $resources: [ResourceIdentifierInput]) { createCuratedList (id: $id, name: $name, description: $description, featured: $featured, resources: $resources) {hash}    }",
+  variables: payload,
+  operationName: "createCuratedList",
 });
 
 export const removeCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation removeCuratedList($id: String) { removeCuratedList (id: $id) {hash} }",
-    variables: payload,
-    operationName: "removeCuratedList"
+  query: "mutation removeCuratedList($id: String) { removeCuratedList (id: $id) {hash} }",
+  variables: payload,
+  operationName: "removeCuratedList",
 });
 
 export const addResourceToCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation addResourceToCuratedList($id: String,  $resource: ResourceIdentifierInput) { addResourceToCuratedList (id: $id, resource: $resource) {hash}    }",
-    variables: payload,
-    operationName: "addResourceToCuratedList"
+  query:
+    "mutation addResourceToCuratedList($id: String,  $resource: ResourceIdentifierInput) { addResourceToCuratedList (id: $id, resource: $resource) {hash}    }",
+  variables: payload,
+  operationName: "addResourceToCuratedList",
 });
 
 export const removeResourceFromCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation removeResourceFromCuratedList($id: String, $resource: ResourceIdentifierInput) { removeResourceFromCuratedList (id: $id, resource: $resource) {hash} }",
-    variables: payload,
-    operationName: "removeResourceFromCuratedList"
+  query:
+    "mutation removeResourceFromCuratedList($id: String, $resource: ResourceIdentifierInput) { removeResourceFromCuratedList (id: $id, resource: $resource) {hash} }",
+  variables: payload,
+  operationName: "removeResourceFromCuratedList",
 });
 
 export const addHeaderToCuratedList = (payload, maxResult, filter) => ({
-    query: "mutation addHeaderToCuratedList($id: String, $header: ResourceIdentifierInput) { addHeaderToCuratedList (id: $id, header: $header) {hash}    }",
-    variables: payload,
-    operationName: "addHeaderToCuratedList"
+  query:
+    "mutation addHeaderToCuratedList($id: String, $header: ResourceIdentifierInput) { addHeaderToCuratedList (id: $id, header: $header) {hash}    }",
+  variables: payload,
+  operationName: "addHeaderToCuratedList",
 });
