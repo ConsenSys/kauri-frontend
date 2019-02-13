@@ -72,7 +72,7 @@ export default ComposedComponent =>
     static async getInitialProps (context) {
       const url = { query: context.query, pathname: context.pathname };
       const hostName =
-        // (context.req && context.req.headers.host) ||
+        (context.req && context.req.headers.host) ||
         process.env.monolithExternalApi;
 
       // console.log(hostName)
@@ -101,7 +101,7 @@ export default ComposedComponent =>
       let stateRedux = {};
 
       const parsedToken = parseCookies(context)["TOKEN"];
-      console.log(parsedToken);
+      // console.log(parsedToken);
 
       // Redirect on write-article if user is logged out
       if (
