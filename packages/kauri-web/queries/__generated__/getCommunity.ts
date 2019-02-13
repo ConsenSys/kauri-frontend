@@ -1,7 +1,12 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { CommunityStatus, CommunityPermission, ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
+import {
+  CommunityStatus,
+  CommunityPermission,
+  ResourceType,
+  ArticleStatus,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCommunity
@@ -20,18 +25,21 @@ export interface getCommunity_getCommunity_approvedId {
 }
 
 export interface getCommunity_getCommunity_pending_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface getCommunity_getCommunity_pending_ArticleDTO_author {
   __typename: "PublicUserDTO";
   id: string | null;
   name: string | null;
-}
-
-export interface getCommunity_getCommunity_pending_ArticleDTO_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
 }
 
 export interface getCommunity_getCommunity_pending_ArticleDTO {
@@ -45,7 +53,6 @@ export interface getCommunity_getCommunity_pending_ArticleDTO {
   author: getCommunity_getCommunity_pending_ArticleDTO_author | null;
   status: ArticleStatus | null;
   attributes: any | null;
-  vote: getCommunity_getCommunity_pending_ArticleDTO_vote | null;
 }
 
 export interface getCommunity_getCommunity_pending_CollectionDTO {
@@ -54,21 +61,27 @@ export interface getCommunity_getCommunity_pending_CollectionDTO {
   name: string | null;
 }
 
-export type getCommunity_getCommunity_pending = getCommunity_getCommunity_pending_CommunityDTO | getCommunity_getCommunity_pending_ArticleDTO | getCommunity_getCommunity_pending_CollectionDTO;
+export type getCommunity_getCommunity_pending =
+  | getCommunity_getCommunity_pending_CommunityDTO
+  | getCommunity_getCommunity_pending_ArticleDTO
+  | getCommunity_getCommunity_pending_CollectionDTO;
 
 export interface getCommunity_getCommunity_approved_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface getCommunity_getCommunity_approved_ArticleDTO_author {
   __typename: "PublicUserDTO";
   id: string | null;
   name: string | null;
-}
-
-export interface getCommunity_getCommunity_approved_ArticleDTO_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
 }
 
 export interface getCommunity_getCommunity_approved_ArticleDTO {
@@ -82,7 +95,6 @@ export interface getCommunity_getCommunity_approved_ArticleDTO {
   author: getCommunity_getCommunity_approved_ArticleDTO_author | null;
   status: ArticleStatus | null;
   attributes: any | null;
-  vote: getCommunity_getCommunity_approved_ArticleDTO_vote | null;
 }
 
 export interface getCommunity_getCommunity_approved_CollectionDTO {
@@ -91,7 +103,10 @@ export interface getCommunity_getCommunity_approved_CollectionDTO {
   name: string | null;
 }
 
-export type getCommunity_getCommunity_approved = getCommunity_getCommunity_approved_CommunityDTO | getCommunity_getCommunity_approved_ArticleDTO | getCommunity_getCommunity_approved_CollectionDTO;
+export type getCommunity_getCommunity_approved =
+  | getCommunity_getCommunity_approved_CommunityDTO
+  | getCommunity_getCommunity_approved_ArticleDTO
+  | getCommunity_getCommunity_approved_CollectionDTO;
 
 export interface getCommunity_getCommunity {
   __typename: "CommunityDTO";

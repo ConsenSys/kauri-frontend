@@ -38,6 +38,7 @@ export type SubmitArticleVersionPayload = {
   attributes?: AttributesPayload,
   owner?: ?AbstractResourceDTO,
   selfPublish?: boolean,
+  updateComment?: string,
 };
 
 export type DraftArticleActionPayload = {
@@ -234,7 +235,16 @@ export const submitArticleVersionEpic = (
     .ofType(SUBMIT_ARTICLE_VERSION)
     .switchMap(
       ({
-        payload: { text, subject, tags, id, attributes, owner, selfPublish },
+        payload: {
+          text,
+          subject,
+          tags,
+          id,
+          attributes,
+          owner,
+          selfPublish,
+          updateComment,
+        },
       }) =>
         Observable.fromPromise(
           apolloClient.mutate({
@@ -285,6 +295,7 @@ export const submitArticleVersionEpic = (
                       dateCreated,
                       contributor: authorId,
                       owner,
+                      updateComment,
                     })
                   )
                 : Observable.of(

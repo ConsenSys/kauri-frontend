@@ -7,11 +7,6 @@ import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
 // GraphQL query operation: searchApprovedArticles
 // ====================================================
 
-export interface searchApprovedArticles_searchArticles_content_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
-}
-
 export interface searchApprovedArticles_searchArticles_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -21,7 +16,15 @@ export interface searchApprovedArticles_searchArticles_content_author {
 }
 
 export interface searchApprovedArticles_searchArticles_content_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface searchApprovedArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
@@ -53,7 +56,10 @@ export interface searchApprovedArticles_searchArticles_content_owner_CommunityDT
   resourceIdentifier: searchApprovedArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type searchApprovedArticles_searchArticles_content_owner = searchApprovedArticles_searchArticles_content_owner_ArticleDTO | searchApprovedArticles_searchArticles_content_owner_PublicUserDTO | searchApprovedArticles_searchArticles_content_owner_CommunityDTO;
+export type searchApprovedArticles_searchArticles_content_owner =
+  | searchApprovedArticles_searchArticles_content_owner_ArticleDTO
+  | searchApprovedArticles_searchArticles_content_owner_PublicUserDTO
+  | searchApprovedArticles_searchArticles_content_owner_CommunityDTO;
 
 export interface searchApprovedArticles_searchArticles_content_comments_content_author {
   __typename: "PublicUserDTO";
@@ -72,7 +78,9 @@ export interface searchApprovedArticles_searchArticles_content_comments_content 
 
 export interface searchApprovedArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
-  content: (searchApprovedArticles_searchArticles_content_comments_content | null)[] | null;
+  content:
+    | (searchApprovedArticles_searchArticles_content_comments_content | null)[]
+    | null;
   totalPages: number | null;
   totalElements: any | null;
 }
@@ -98,7 +106,6 @@ export interface searchApprovedArticles_searchArticles_content {
   contentHash: string | null;
   checkpoint: string | null;
   tags: (string | null)[] | null;
-  vote: searchApprovedArticles_searchArticles_content_vote | null;
   author: searchApprovedArticles_searchArticles_content_author | null;
   owner: searchApprovedArticles_searchArticles_content_owner | null;
   comments: searchApprovedArticles_searchArticles_content_comments | null;

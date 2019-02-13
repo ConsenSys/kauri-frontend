@@ -8,6 +8,7 @@ import ActionsSection from "../../../../kauri-components/components/Section/Acti
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import SecondaryButton from "../../../../kauri-components/components/Button/SecondaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
+import ProposeUpdateModal from "./ProposeUpdateModal";
 
 const UploadIcon = () => (
   <img src="https://png.icons8.com/color/50/000000/upload.png" />
@@ -48,12 +49,17 @@ type Props = {
   handleSubmit: any => void,
   userId?: string,
   authorId?: string,
+  openModalAction: (children: any) => void,
+  closeModalAction: () => void,
 };
 
 const setupImageUploader = (setFieldsValue, getFieldDecorator) => {
   getFieldDecorator("attributes");
   TriggerImageUploader(setFieldsValue, "attributes");
 };
+
+const isOwner = (status, owner, userId) =>
+  !status || !owner || owner === userId;
 
 export default ({
   routeChangeAction,
@@ -64,6 +70,8 @@ export default ({
   status,
   setFieldsValue,
   getFieldDecorator,
+  closeModalAction,
+  openModalAction,
 }: Props) => (
   <SubmitArticleFormActions>
     <ActionsSection
@@ -96,11 +104,26 @@ export default ({
         <SecondaryButton onClick={handleSubmit("draft")}>
           Save draft
         </SecondaryButton>
-        <PrimaryButton onClick={handleSubmit("submit/update")}>
-          {!status || !owner || owner === userId
-            ? "Publish Article"
-            : "Propose Update"}
-        </PrimaryButton>
+        {isOwner(status, owner, userId) ? (
+          <PrimaryButton onClick={handleSubmit("submit/update")}>
+            Publish Article
+          </PrimaryButton>
+        ) : (
+          <PrimaryButton
+            onClick={() =>
+              openModalAction({
+                children: (
+                  <ProposeUpdateModal
+                    closeModalAction={() => closeModalAction()}
+                    confirmModal={handleSubmit}
+                  />
+                ),
+              })
+            }
+          >
+            Propose Update
+          </PrimaryButton>
+        )}
       </ContainerRow>
     </ActionsSection>
   </SubmitArticleFormActions>

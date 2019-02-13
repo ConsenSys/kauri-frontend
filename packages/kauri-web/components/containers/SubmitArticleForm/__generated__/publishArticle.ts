@@ -21,4 +21,5 @@ export interface publishArticleVariables {
   version?: number | null;
   owner?: ResourceIdentifierInput | null;
   signature?: string | null;
+  updateComment?: string | null;
 }

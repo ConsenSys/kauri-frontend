@@ -35,11 +35,6 @@ export interface getCollection_getCollection_sections_resources_CommunityDTO {
     | "UserDTO";
 }
 
-export interface getCollection_getCollection_sections_resources_ArticleDTO_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
-}
-
 export interface getCollection_getCollection_sections_resources_ArticleDTO_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -139,7 +134,6 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO {
   contentHash: string | null;
   checkpoint: string | null;
   tags: (string | null)[] | null;
-  vote: getCollection_getCollection_sections_resources_ArticleDTO_vote | null;
   author: getCollection_getCollection_sections_resources_ArticleDTO_author | null;
   owner: getCollection_getCollection_sections_resources_ArticleDTO_owner | null;
   comments: getCollection_getCollection_sections_resources_ArticleDTO_comments | null;

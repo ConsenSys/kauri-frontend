@@ -56,6 +56,7 @@ const Actions = ({
     </TertiaryButton>
     <PrimaryButton
       onClick={() => {
+        console.log(handleConfirm);
         handleClose();
         handleConfirm();
       }}
@@ -78,7 +79,7 @@ const ContentContainer = styled.section`
 
 interface IProps {
   closeModalAction: () => void;
-  confirmModal: (updateComment: string) => void;
+  confirmModal: (submissionType: string, updateComment: string) => void;
 }
 
 interface IState {
@@ -110,7 +111,10 @@ class ProposeArticleModal extends React.Component<IProps, IState> {
           fontSize={4}
         />
         <Actions
-          handleConfirm={() => confirmModal(this.state.updateComment)}
+          handleConfirm={confirmModal(
+            "submit/update",
+            this.state.updateComment
+          )}
           handleClose={() => closeModalAction()}
         />
       </ContentContainer>

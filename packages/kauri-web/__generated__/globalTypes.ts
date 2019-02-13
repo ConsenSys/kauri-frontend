@@ -61,7 +61,6 @@ export enum UserStatus {
 }
 
 export interface ArticleFilterInput {
-  versionIn?: (number | null)[] | null;
   dateCreatedGreaterThan?: any | null;
   containsTag?: string | null;
   ownerIdEquals?: string | null;
@@ -73,6 +72,7 @@ export interface ArticleFilterInput {
   statusIn?: (ArticleStatusInput | null)[] | null;
   ownerEquals?: string | null;
   checkpointEquals?: string | null;
+  versionIn?: (number | null)[] | null;
 }
 
 export interface CollectionFilterInput {
@@ -106,16 +106,18 @@ export interface ResourceIdentifierInput {
 }
 
 export interface SearchFilterInput {
+  mustIncludeUserId?: (string | null)[] | null;
   mustNotContainTag?: (string | null)[] | null;
   mustContainTag?: (string | null)[] | null;
+  mustNotIncludeUserId?: (string | null)[] | null;
   type?: ResourceTypeInput | null;
 }
 
 export interface SectionDTOInput {
+  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   name?: string | null;
   description?: string | null;
   id?: string | null;
-  resourcesId?: (ResourceIdentifierInput | null)[] | null;
 }
 
 //==============================================================

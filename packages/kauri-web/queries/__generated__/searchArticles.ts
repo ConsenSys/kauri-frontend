@@ -15,7 +15,15 @@ export interface searchArticles_searchArticles_content_author {
 }
 
 export interface searchArticles_searchArticles_content_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface searchArticles_searchArticles_content_owner_PublicUserDTO {
@@ -32,12 +40,10 @@ export interface searchArticles_searchArticles_content_owner_CommunityDTO {
   name: string | null;
 }
 
-export type searchArticles_searchArticles_content_owner = searchArticles_searchArticles_content_owner_ArticleDTO | searchArticles_searchArticles_content_owner_PublicUserDTO | searchArticles_searchArticles_content_owner_CommunityDTO;
-
-export interface searchArticles_searchArticles_content_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
-}
+export type searchArticles_searchArticles_content_owner =
+  | searchArticles_searchArticles_content_owner_ArticleDTO
+  | searchArticles_searchArticles_content_owner_PublicUserDTO
+  | searchArticles_searchArticles_content_owner_CommunityDTO;
 
 export interface searchArticles_searchArticles_content_comments_content_author {
   __typename: "PublicUserDTO";
@@ -54,7 +60,9 @@ export interface searchArticles_searchArticles_content_comments_content {
 
 export interface searchArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
-  content: (searchArticles_searchArticles_content_comments_content | null)[] | null;
+  content:
+    | (searchArticles_searchArticles_content_comments_content | null)[]
+    | null;
   totalPages: number | null;
   totalElements: any | null;
 }
@@ -81,7 +89,6 @@ export interface searchArticles_searchArticles_content {
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
-  vote: searchArticles_searchArticles_content_vote | null;
   comments: searchArticles_searchArticles_content_comments | null;
   resourceIdentifier: searchArticles_searchArticles_content_resourceIdentifier | null;
 }
