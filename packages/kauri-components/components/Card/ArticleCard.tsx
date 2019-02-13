@@ -380,7 +380,7 @@ interface IProps {
   imageURL: string | null;
   cardHeight: number;
   cardWidth?: number;
-  destination?: string;
+  destination?: 'review';
   linkComponent: (
     childrenProps: React.ReactElement<any>,
     route: string
