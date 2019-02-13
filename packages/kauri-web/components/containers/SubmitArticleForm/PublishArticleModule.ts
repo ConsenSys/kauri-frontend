@@ -15,12 +15,14 @@ const publishArticleMutation = gql`
     $version: Int
     $owner: ResourceIdentifierInput
     $signature: String
+    $updateComment: String
   ) {
     publishArticle(
       id: $id
       version: $version
       owner: $owner
       signature: $signature
+      updateComment: $updateComment
     ) {
       hash
     }
@@ -56,6 +58,7 @@ interface IPublishArticlePayload {
   dateCreated: string;
   contributor: string;
   owner: IOwnerPayload | null;
+  updateComment?: string;
 }
 
 interface IPublishArticleAction extends IAction {
@@ -90,8 +93,17 @@ export const publishArticleEpic: Epic<any, {}, IDependencies> = (
     .ofType(PUBLISH_ARTICLE)
     .switchMap(
       ({
-        payload: { id, version, contentHash, contributor, dateCreated, owner },
+        payload: {
+          id,
+          version,
+          contentHash,
+          contributor,
+          dateCreated,
+          owner,
+          updateComment,
+        },
       }: IPublishArticleAction) => {
+        console.log(updateComment);
         const signatureToSign = generatePublishArticleHash(
           id,
           version,
@@ -107,7 +119,13 @@ export const publishArticleEpic: Epic<any, {}, IDependencies> = (
             Observable.fromPromise<ApolloQueryResult<publishArticle>>(
               apolloClient.mutate<publishArticle>({
                 mutation: publishArticleMutation,
-                variables: { id, version, signature, owner: articleOwner },
+                variables: {
+                  id,
+                  owner: articleOwner,
+                  signature,
+                  updateComment,
+                  version,
+                },
               })
             )
           )

@@ -30,6 +30,7 @@
     "ramda": "^0.25.0",
     "random-words": "^1.1.0",
     "react": "16.8.0-alpha.0",
+    "react-diff-viewer": "^1.0.4",
     "react-dom": "16.8.0-alpha.0",
     "react-hot-loader": "^4.5.1",
     "react-intersection-observer": "^6.4.2",

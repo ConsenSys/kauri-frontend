@@ -1,5 +1,6 @@
 import { ApolloClient } from "apollo-client";
 import { IAddArticleToCollectionAction } from "../components/connections/AddToCollection/Module";
+import IVoteAction from "../components/containers/Article/ApprovedArticle/VoteModule";
 
 type NotificationType = "success" | "info" | "warning" | "error";
 
@@ -51,6 +52,7 @@ export interface IAction {
 }
 
 export type Actions =
+  | IVoteAction
   | IRouteChangeAction
   | IShowNotificationAction
   | IAddArticleToCollectionAction;

@@ -150,10 +150,11 @@ class SubmitArticleForm extends React.Component<Props> {
     });
   };
 
-  handleSubmit = (submissionType: string) => (
+  handleSubmit = (submissionType: string, updateComment: string) => (
     e: SyntheticEvent<HTMLButtonElement>
   ) => {
-    e.preventDefault();
+    console.log("*** SUBMITTING ***", updateComment);
+    if (e) e.preventDefault();
     this.props.form.validateFieldsAndScroll(
       async (
         formErr,
@@ -201,6 +202,7 @@ class SubmitArticleForm extends React.Component<Props> {
 
         switch (status) {
           case "PUBLISHED":
+            // OWNER'S DRAFT
             if (owner && userId === owner.id && submissionType === "draft") {
               return submitArticleVersionAction({
                 id,
@@ -212,6 +214,7 @@ class SubmitArticleForm extends React.Component<Props> {
                     Object.assign(articleData.attributes, attributes)) ||
                   articleData.attributes,
               });
+              // OWNER'S UPDATE
             } else if (
               owner &&
               userId === owner.id &&
@@ -229,6 +232,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 owner,
                 selfPublish: true,
               });
+              // CONTRIBUTORS' DRAFT
             } else if (
               owner &&
               userId !== owner.id &&
@@ -245,6 +249,7 @@ class SubmitArticleForm extends React.Component<Props> {
                   articleData.attributes,
                 owner,
               });
+              // CONTRIBUTORS' UPDATE
             } else if (
               owner &&
               userId !== owner.id &&
@@ -261,6 +266,7 @@ class SubmitArticleForm extends React.Component<Props> {
                   articleData.attributes,
                 owner,
                 selfPublish: false,
+                updateComment,
               });
             } else {
               return this.showGenericError();
@@ -344,6 +350,8 @@ class SubmitArticleForm extends React.Component<Props> {
           userId={this.props.userId}
           author={articleData && articleData.author && articleData.author.id}
           owner={articleData && articleData.owner && articleData.owner.id}
+          openModalAction={this.props.openModalAction}
+          closeModalAction={this.props.closeModalAction}
         />
         <SubmitArticleForm.Header
           {...this.props.form}

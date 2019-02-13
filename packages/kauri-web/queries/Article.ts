@@ -72,6 +72,7 @@ export const Article = gql`
       type
       version
     }
+    updateComment
   }
 `;
 

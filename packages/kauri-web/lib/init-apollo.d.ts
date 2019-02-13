@@ -5,7 +5,7 @@ interface IOptions {
   hostName: string;
 }
 
-export function create(initialState: any, options: IOptions): ApolloClient<{}>;
+export function create(initialState: any, options?: IOptions): ApolloClient<{}>;
 
 export default function initApollo(
   initialState: any,

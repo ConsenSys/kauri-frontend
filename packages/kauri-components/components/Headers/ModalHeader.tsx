@@ -12,7 +12,7 @@ const Container = styled.div`
 
 interface IProps {
   title: React.ReactElement<any>;
-  actions: React.ReactElement<any>;
+  actions?: React.ReactElement<any>;
 }
 
 const ModalHeaderComponent: React.SFC<IProps> = ({ title, actions }) => (

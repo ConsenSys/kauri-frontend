@@ -65,12 +65,9 @@ const Articles = ({
               cardHeight={420}
               imageURL={article.attributes && article.attributes.background}
               nfts={article.associatedNfts}
+              destination={"review"}
               linkComponent={(childrenProps, route) => (
-                <Link
-                  toSlug={route.includes("article") && article.title}
-                  useAnchorTag
-                  href={route}
-                >
+                <Link useAnchorTag href={route}>
                   {childrenProps}
                 </Link>
               )}

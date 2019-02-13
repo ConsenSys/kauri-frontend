@@ -11,7 +11,7 @@ import { vote, voteVariables } from "../../../../queries/__generated__/vote";
 
 // import { // } from '../../../../queries/Article';
 
-interface IVoteAction {
+export interface IVoteAction {
   type: string;
   payload: voteVariables;
   callback?: any;

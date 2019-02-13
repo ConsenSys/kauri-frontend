@@ -18,7 +18,7 @@ if (isProduction) {
 }
 
 export default class MyDocument extends Document {
-  static async getInitialProps ({ renderPage }) {
+  static async getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet();
     const page = renderPage(App => props => <App {...props} />);
     const styleTags = sheet.getStyleElement();
@@ -30,17 +30,17 @@ export default class MyDocument extends Document {
   }
 
   // should render on <html>
-  get helmetHtmlAttrComponents () {
+  get helmetHtmlAttrComponents() {
     return this.props.helmet.htmlAttributes.toComponent();
   }
 
   // should render on <body>
-  get helmetBodyAttrComponents () {
+  get helmetBodyAttrComponents() {
     return this.props.helmet.bodyAttributes.toComponent();
   }
 
   // should render on <head>
-  get helmetHeadComponents () {
+  get helmetHeadComponents() {
     return Object.keys(this.props.helmet)
       .filter(
         el =>
@@ -49,7 +49,7 @@ export default class MyDocument extends Document {
       .map(el => this.props.helmet[el].toComponent());
   }
 
-  get helmetJsx () {
+  get helmetJsx() {
     return (
       <Helmet
         htmlAttributes={{ lang: "en" }}
@@ -59,7 +59,7 @@ export default class MyDocument extends Document {
     );
   }
 
-  render () {
+  render() {
     return (
       <html {...this.helmetHtmlAttrComponents}>
         <Head>

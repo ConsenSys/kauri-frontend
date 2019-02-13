@@ -23,7 +23,7 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
 });
 
-export function create (initialState, { getToken }) {
+export function create(initialState, { getToken }) {
   const apiURL = config.getApiURL();
   let httpLink = new HttpLink({
     uri: `http${
@@ -88,7 +88,7 @@ export function create (initialState, { getToken }) {
   });
 }
 
-export default function initApollo (initialState, options) {
+export default function initApollo(initialState, options) {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (!global.window) {

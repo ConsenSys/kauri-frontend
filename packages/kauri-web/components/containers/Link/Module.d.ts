@@ -51,7 +51,7 @@ export const trackAnalyticsAction = (
 
 export const trackMixpanelAction = (
   payload: TrackMixpanelPayload,
-  callback: any
+  callback?: any
 ): TrackMixpanelAction => ({
   payload,
   type: TRACK_MIXPANEL,

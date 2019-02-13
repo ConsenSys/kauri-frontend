@@ -21,11 +21,11 @@ import createRequests, {
 import register, {
   registerEpic,
 } from "../components/containers/LoginForm/Module";
+import { tipArticleEpic } from "../components/containers/Article/Module";
 import {
-  tipArticleEpic,
   rejectArticleEpic,
   approveArticleEpic,
-} from "../components/containers/Article/Module";
+} from "../components/containers/ArticleReview/Module";
 import { publishArticleEpic } from "../components/containers/SubmitArticleForm/PublishArticleModule";
 import {
   submitArticleEpic,

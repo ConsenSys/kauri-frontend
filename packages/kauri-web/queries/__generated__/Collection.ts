@@ -22,7 +22,16 @@ export interface Collection_sections_resourcesId {
 }
 
 export interface Collection_sections_resources_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface Collection_sections_resources_ArticleDTO {
@@ -31,7 +40,9 @@ export interface Collection_sections_resources_ArticleDTO {
   version: number | null;
 }
 
-export type Collection_sections_resources = Collection_sections_resources_CommunityDTO | Collection_sections_resources_ArticleDTO;
+export type Collection_sections_resources =
+  | Collection_sections_resources_CommunityDTO
+  | Collection_sections_resources_ArticleDTO;
 
 export interface Collection_sections {
   __typename: "SectionDTO";
