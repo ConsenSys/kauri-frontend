@@ -326,6 +326,7 @@ export const userDetailsEpic = (
         variables: {},
       })
     )
+    .do(console.log)
     .map(({ data: { getMyProfile } }) => getMyProfile)
     .map(user => setUserDetailsAction(user));
 
@@ -429,23 +430,23 @@ const handlers = {
     typeof action.onCancel === "function" &&
     typeof action.footer === "object"
       ? {
-          ...state,
-          modalOpen: !state.modalOpen,
-          modalTitle: action.modalTitle,
-          modalChildren: action.modalChildren,
-          onOk: action.onOk,
-          onCancel: action.onCancel,
-          footer: action.footer,
-        }
+        ...state,
+        modalOpen: !state.modalOpen,
+        modalTitle: action.modalTitle,
+        modalChildren: action.modalChildren,
+        onOk: action.onOk,
+        onCancel: action.onCancel,
+        footer: action.footer,
+      }
       : {
-          ...state,
-          modalOpen: false,
-          modalTitle: null,
-          modalChildren: null,
-          onOk: () => {},
-          onCancel: () => {},
-          footer: null,
-        },
+        ...state,
+        modalOpen: false,
+        modalTitle: null,
+        modalChildren: null,
+        onOk: () => {},
+        onCancel: () => {},
+        footer: null,
+      },
 };
 
 export default createReducer(initialState, handlers);

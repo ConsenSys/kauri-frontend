@@ -82,6 +82,7 @@
     "react": "16.8.0-alpha.0",
     "react-apollo": "^2.2.4",
     "react-diff-viewer": "^1.0.4",
+    "react-beautiful-dnd": "^10.0.4",
     "react-dom": "16.8.0-alpha.0",
     "react-fast-highlight": "^2.2.0",
     "react-ga": "^2.5.6",

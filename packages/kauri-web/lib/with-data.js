@@ -51,7 +51,7 @@ const dispatchEpic = (epic, action, state = {}, dependencies = {}) => {
   return promised;
 };
 
-export function parseCookies(ctx = {}, options = {}) {
+export function parseCookies (ctx = {}, options = {}) {
   let cookieToParse =
     ctx.req && ctx.req.headers.cookie && ctx.req.headers.cookie;
   if (global.window) cookieToParse = window.document.cookie;
@@ -69,7 +69,7 @@ export default ComposedComponent =>
       stateRedux: PropTypes.object.isRequired,
     };
 
-    static async getInitialProps(context) {
+    static async getInitialProps (context) {
       const url = { query: context.query, pathname: context.pathname };
       const hostName =
         (context.req && context.req.headers.host) ||
@@ -101,6 +101,7 @@ export default ComposedComponent =>
       let stateRedux = {};
 
       const parsedToken = parseCookies(context)["TOKEN"];
+      // console.log(parsedToken);
 
       // Redirect on write-article if user is logged out
       if (
@@ -221,16 +222,16 @@ export default ComposedComponent =>
       };
     }
 
-    constructor(props) {
+    constructor (props) {
       super(props);
       this.apollo = initApollo(this.props.stateApollo.apollo.data, {
-        getToken: () => props.parsedToken || parseCookies()["TOKEN"],
+        getToken: () => props.parsedToken,
         hostName: props.hostName,
       });
       this.redux = initRedux(this.apollo, this.props.stateRedux);
     }
 
-    componentDidMount() {
+    componentDidMount () {
       window.addEventListener("load", async () => {
         if (window.ethereum) {
           // NOTICE - Moved to sign in only.
@@ -277,14 +278,14 @@ export default ComposedComponent =>
       this.redux.dispatch(fetchEthUsdPriceAction());
     }
 
-    componentWillUnmount() {
+    componentWillUnmount () {
       if (global.window && this.apollo && this.apollo.close) {
         console.log("Unsubscribing WebSocket");
         this.apollo.close();
       }
     }
 
-    render() {
+    render () {
       return (
         <Provider store={this.redux}>
           <ApolloProvider client={this.apollo}>
