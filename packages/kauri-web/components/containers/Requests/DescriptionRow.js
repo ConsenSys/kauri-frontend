@@ -26,14 +26,14 @@ type Props = {
 const styles = {
   code: {
     backgroundColor: "rgba(0, 0, 0, 0.05)",
-    fontFamily: '"Roboto"',
+    fontFamily: "\"Roboto\"",
     fontSize: 16,
     lineHeight: 23,
     padding: 2,
   },
   codeBlock: {
     backgroundColor: "rgba(0, 0, 0, 0.05)",
-    fontFamily: '"Roboto"',
+    fontFamily: "\"Roboto\"",
     fontSize: 16,
     lineHeight: 23,
     padding: 20,
@@ -138,7 +138,7 @@ class WithHover extends React.Component<*, { isHovered: boolean }> {
   handleEnter = () => this.setState({ isHovered: true });
   handleLeave = () => this.setState({ isHovered: false });
 
-  render() {
+  render () {
     return React.cloneElement(this.props.children, {
       ...this.state,
       ...this.props,
@@ -250,7 +250,7 @@ export const Image = ({
 );
 
 class YoutubeVideo extends React.Component<*> {
-  render() {
+  render () {
     const opts = {
       height: "390",
       width: "640",
@@ -388,10 +388,10 @@ export const blocks = (
     <ul>
       {fullText
         ? children.map((child, i) => (
-            <ListItem inReviewArticle={inReviewArticle} key={keys[i]}>
-              {pruneInlineStyles(child)}
-            </ListItem>
-          ))
+          <ListItem inReviewArticle={inReviewArticle} key={keys[i]}>
+            {pruneInlineStyles(child)}
+          </ListItem>
+        ))
         : addBreaklines(children, keys, fullText, recentRequest, type)}
     </ul>
   ),
@@ -399,10 +399,10 @@ export const blocks = (
     <ol>
       {fullText
         ? children.map((child, i) => (
-            <ListItem inReviewArticle={inReviewArticle} key={keys[i]}>
-              {pruneInlineStyles(child)}
-            </ListItem>
-          ))
+          <ListItem inReviewArticle={inReviewArticle} key={keys[i]}>
+            {pruneInlineStyles(child)}
+          </ListItem>
+        ))
         : addBreaklines(children, keys, fullText, recentRequest, type)}
     </ol>
   ),
@@ -419,49 +419,49 @@ export const blocks = (
   "header-two": (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
-          <div
-            id={
-              children && children.length > 0
-                ? children[0].length > 1 && child[1][1]
-                  ? child[1][1].props.children[1]
-                    ? child[1][1].props.children[1].props.children[0]
-                        .replace(/ /g, "")
-                        .toLowerCase()
-                    : child[1][1].props.children[0]
-                        .replace(/ /g, "")
-                        .toLowerCase()
-                  : child[1][0] && child[1][0].replace(/ /g, "").toLowerCase()
-                : null
-            }
-            key={keys[i]}
-          >
-            <HeaderTwo>{child}</HeaderTwo>
-          </div>
-        ))
+        <div
+          id={
+            children && children.length > 0
+              ? children[0].length > 1 && child[1][1]
+                ? child[1][1].props.children[1]
+                  ? child[1][1].props.children[1].props.children[0]
+                    .replace(/ /g, "")
+                    .toLowerCase()
+                  : child[1][1].props.children[0]
+                    .replace(/ /g, "")
+                    .toLowerCase()
+                : child[1][0] && child[1][0].replace(/ /g, "").toLowerCase()
+              : null
+          }
+          key={keys[i]}
+        >
+          <HeaderTwo>{child}</HeaderTwo>
+        </div>
+      ))
       : null,
   "header-three": (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
-          <HeaderThree key={keys[i]}>{child}</HeaderThree>
-        ))
+        <HeaderThree key={keys[i]}>{child}</HeaderThree>
+      ))
       : null,
   "header-four": (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
-          <HeaderThree key={keys[i]}>{child}</HeaderThree>
-        ))
+        <HeaderThree key={keys[i]}>{child}</HeaderThree>
+      ))
       : null,
   "header-five": (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
-          <HeaderThree key={keys[i]}>{child}</HeaderThree>
-        ))
+        <HeaderThree key={keys[i]}>{child}</HeaderThree>
+      ))
       : null,
   "header-six": (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
-          <HeaderThree key={keys[i]}>{child}</HeaderThree>
-        ))
+        <HeaderThree key={keys[i]}>{child}</HeaderThree>
+      ))
       : null,
 });
 
@@ -495,6 +495,8 @@ const articleCardCss = css`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: pre-wrap;
+  max-height: ${props =>
+    typeof props.imageURL === "string" && props.imageURL.length > 1 && "57px"};
   > :not(div) {
     display: none;
   }
@@ -576,6 +578,7 @@ export default compose(withErrorCatch())(
       fullText={fullText}
       key={text}
       openRequest={openRequest}
+      imageURL={imageURL}
     >
       {typeof text === "string" && text.charAt(0) === "{" ? (
         fullText && JSON.parse(text).markdown ? (
@@ -588,18 +591,18 @@ export default compose(withErrorCatch())(
                 process.env.monolithApi &&
                   process.env.monolithApi.includes("uat")
                   ? JSON.parse(text)
-                      .markdown.replace(
-                        "https://api.beta.kauri.io:443/ipfs/",
-                        `https://${
-                          process.env.cloudImageId
-                        }.cloudimg.io/cdn/n/twebp/https://api.beta.kauri.io:443/ipfs/`
-                      )
-                      .replace(
-                        "https://api.kauri.io:443/ipfs/",
-                        `https://${
-                          process.env.cloudImageId
-                        }.cloudimg.io/cdn/n/twebp/https://api.beta.kauri.io:443/ipfs/`
-                      )
+                    .markdown.replace(
+                      "https://api.beta.kauri.io:443/ipfs/",
+                      `https://${
+                        process.env.cloudImageId
+                      }.cloudimg.io/cdn/n/twebp/https://api.beta.kauri.io:443/ipfs/`
+                    )
+                    .replace(
+                      "https://api.kauri.io:443/ipfs/",
+                      `https://${
+                        process.env.cloudImageId
+                      }.cloudimg.io/cdn/n/twebp/https://api.beta.kauri.io:443/ipfs/`
+                    )
                   : JSON.parse(text).markdown
               ),
             }}
@@ -628,10 +631,10 @@ export default compose(withErrorCatch())(
       ) : inReviewArticleComment &&
         typeof text === "string" &&
         text.length > 5 ? (
-        text
-      ) : (
-        <span>Something went wrong.</span>
-      )}
+          text
+        ) : (
+          <span>Something went wrong.</span>
+        )}
     </MaxThreeLines>
   )
 );
