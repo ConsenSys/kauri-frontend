@@ -1,13 +1,44 @@
-import { ArrayHelpers } from "formik";
+import { ArrayHelpers, FormikActions } from "formik";
 import R from "ramda";
 
+interface IDnDDragEndResult {
+  destination: {
+    droppableId: string;
+    index: number;
+  };
+  source: {
+    droppableId: string;
+    index: number;
+  };
+}
+
+interface IResourceIdentifier {
+  id: string;
+  type: "ARTICLE";
+  version: number;
+}
+
+interface ISectionDTO {
+  description: string;
+  name: string;
+  resources: [any];
+  resourcesId: [IResourceIdentifier];
+}
+
+interface IFormValues {
+  name: string;
+  background?: string;
+  description: string;
+  sections: [ISectionDTO];
+}
+
 export default (
-  arrayHelpers: ArrayHelpers,
+  arrayHelpers: ArrayHelpers & { form: FormikActions<IFormValues> },
   sectionIndex: number,
   values: any
-) => (result: any) => {
-  console.log(result);
-  const { destination, source, draggableId, droppableId } = result;
+) => (result: IDnDDragEndResult) => {
+  // console.log(result);
+  const { destination, source } = result;
   if (!destination) {
     return;
   }
@@ -17,21 +48,22 @@ export default (
   ) {
     return;
   }
-  const sourceResource = R.path([
+  const sourceResource = R.path<IResourceIdentifier>([
     "sections",
     sectionIndex,
     "resourcesId",
     source.index,
   ])(values);
-  const destinationResource = R.path([
+
+  const destinationResource = R.path<IResourceIdentifier>([
     "sections",
     sectionIndex,
     "resourcesId",
     destination.index,
   ])(values);
   // console.log(arrayHelpers.form);
-  console.log(`sections[${sectionIndex}].resourcesId[${destination.index}]`);
-  console.log(sourceResource);
+  // console.log(`sections[${sectionIndex}].resourcesId[${destination.index}]`);
+  // console.log(sourceResource);
   arrayHelpers.form.setFieldValue(
     `sections[${sectionIndex}].resourcesId[${destination.index}]`,
     sourceResource
