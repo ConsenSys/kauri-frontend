@@ -11,12 +11,21 @@ const routes = (module.exports = nextRoutes({
 
 routes
   .add("submit-article", "/request/:request_id/submit-article")
-  .add("view-article", "/article/:article_id")
+  .add(
+    "view-article-last-version",
+    "/article/:article_id",
+    "view-article-version"
+  )
   .add("view-article-version", "/article/:article_id/v:article_version")
   .add(
     "view-article-latest-version-with-slug",
     "/article/:article_id/:slug",
-    "view-article"
+    "view-article-version"
+  )
+  .add(
+    "view-article-version-with-slug",
+    "/article/:article_id/v:article_version/:slug",
+    "view-article-version"
   )
   .add(
     "update-article",
@@ -62,11 +71,6 @@ routes
   .add("collection-updated", "/collection/:id/collection-updated")
   .add("collection", "/collection/:collection_id")
   .add("community", "/community/:category")
-  .add(
-    "view-article-version-with-slug",
-    "/article/:article_id/v:article_version/:slug",
-    "view-article-version"
-  )
   .add(
     "update-collection",
     "/collection/:id/update-collection",

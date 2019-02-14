@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import slugify from "slugify";
-import rake from "rake-js";
 import R from "ramda";
 import CollectionHeader from "../../../../kauri-components/components/Headers/CollectionHeader";
 import CollectionSection from "./CollectionSection";
@@ -90,9 +89,6 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       sections,
     } = this.props.data.getCollection;
     const { userId, routeChangeAction, hostName, openModalAction } = this.props;
-    const extractedKeywords = description
-      ? rake(description, { language: "english" })
-      : [];
     const bg = (background && background) || this.state.trianglifyBg;
     const url = `https://${hostName.replace(/api\./g, "")}/collection/${
       this.props.id
@@ -116,10 +112,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             name="description"
             content={`${description && description.slice(0, 151)}...`}
           />
-          <meta
-            name="keywords"
-            content={extractedKeywords.map(keyword => keyword)}
-          />
+          <meta name="keywords" content={tags.map(keyword => keyword)} />
           <link rel="canonical" href={url} />
           <meta property="og:title" content={name} />
           <meta property="og:site_name" content="kauri.io" />
