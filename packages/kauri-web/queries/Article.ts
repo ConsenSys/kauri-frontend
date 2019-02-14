@@ -57,6 +57,25 @@ export const Article = gql`
         }
       }
     }
+    comments {
+      content {
+        author {
+          id
+          name
+          username
+          avatar
+        }
+        posted
+        body
+      }
+      totalPages
+      totalElements
+    }
+    resourceIdentifier {
+      id
+      type
+      version
+    }
     updateComment
   }
 `;

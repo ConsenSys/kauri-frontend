@@ -20,6 +20,7 @@ export interface searchApprovedArticles_searchArticles_content_resourceIdentifie
   __typename: "ResourceIdentifier";
   id: string | null;
   type: ResourceType | null;
+  version: number | null;
 }
 
 export interface searchApprovedArticles_searchArticles_content_voteResult {
@@ -82,6 +83,30 @@ export type searchApprovedArticles_searchArticles_content_owner =
   | searchApprovedArticles_searchArticles_content_owner_PublicUserDTO
   | searchApprovedArticles_searchArticles_content_owner_CommunityDTO;
 
+export interface searchApprovedArticles_searchArticles_content_comments_content_author {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
+export interface searchApprovedArticles_searchArticles_content_comments_content {
+  __typename: "CommentDTO";
+  author: searchApprovedArticles_searchArticles_content_comments_content_author | null;
+  posted: any | null;
+  body: string | null;
+}
+
+export interface searchApprovedArticles_searchArticles_content_comments {
+  __typename: "ResponsePage_CommentDTO";
+  content:
+    | (searchApprovedArticles_searchArticles_content_comments_content | null)[]
+    | null;
+  totalPages: number | null;
+  totalElements: any | null;
+}
+
 export interface searchApprovedArticles_searchArticles_content {
   __typename: "ArticleDTO";
   associatedNfts:
@@ -104,6 +129,7 @@ export interface searchApprovedArticles_searchArticles_content {
   voteResult: searchApprovedArticles_searchArticles_content_voteResult | null;
   author: searchApprovedArticles_searchArticles_content_author | null;
   owner: searchApprovedArticles_searchArticles_content_owner | null;
+  comments: searchApprovedArticles_searchArticles_content_comments | null;
   updateComment: string | null;
 }
 
