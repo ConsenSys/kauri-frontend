@@ -10,7 +10,6 @@ const routes = (module.exports = nextRoutes({
 }));
 
 routes
-  .add("submit-article", "/request/:request_id/submit-article")
   .add(
     "view-article-last-version",
     "/article/:article_id",
@@ -31,9 +30,6 @@ routes
     "update-article",
     "/article/:article_id/v:article_version/update-article"
   )
-  // .add('request', '/request/:request_id')
-  // .add('update-request', '/request/:request_id/update-request')
-  // .add('request-created', '/request/:request_id/request-created')
   .add(
     "article-drafted",
     "/article/:article_id/v:article_version/article-drafted"

@@ -1,5 +1,5 @@
 import * as React from "react";
-import ReactDOM from "react-dom";
+import { findDOMNode } from "react-dom";
 import Loading from "../components/common/Loading";
 import { DataValue } from "react-apollo";
 
@@ -71,7 +71,7 @@ const withPagination = (
       };
 
       if (this.childRef) {
-        const childRefElement = ReactDOM.findDOMNode(this.childRef);
+        const childRefElement = findDOMNode(this.childRef);
         this.childRefElement = childRefElement as Element;
         (childRefElement as Element).addEventListener(
           "touchstart",
