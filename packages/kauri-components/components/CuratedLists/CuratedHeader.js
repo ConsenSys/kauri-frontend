@@ -128,7 +128,6 @@ const CuratedHeader = ({ Link, header, name, links }) => {
       );
     case "ArticleDTO":
     case "ARTICLE":
-            console.log('Description', header.description)
       return (
         <Header background={header.background}>
           <ListTitle>{name}</ListTitle>

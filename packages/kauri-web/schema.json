@@ -1213,6 +1213,45 @@
             "deprecationReason": null
           },
           {
+            "name": "getUser",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "PublicUserDTO",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "getAllCuratedList",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CuratedListDTO",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "searchTags",
             "description": null,
             "args": [
@@ -1250,45 +1289,6 @@
             "type": {
               "kind": "OBJECT",
               "name": "Page_TagResultDTO",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "getAllCuratedList",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "CuratedListDTO",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "getUser",
-            "description": null,
-            "args": [
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "PublicUserDTO",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1535,6 +1535,39 @@
             "deprecationReason": null
           },
           {
+            "name": "addResourceToCuratedList",
+            "description": null,
+            "args": [
+              {
+                "name": "resource",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ResourceIdentifierInput",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MutationResponse",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "searchAutocomplete",
             "description": null,
             "args": [
@@ -1582,39 +1615,6 @@
             "type": {
               "kind": "OBJECT",
               "name": "ResponseBreakdownPage_SearchResultDTO",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "addResourceToCuratedList",
-            "description": null,
-            "args": [
-              {
-                "name": "resource",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ResourceIdentifierInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MutationResponse",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3118,20 +3118,6 @@
             "defaultValue": null
           },
           {
-            "name": "statusIn",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "ENUM",
-                "name": "ArticleStatusInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
             "name": "authorIdEquals",
             "description": null,
             "type": {
@@ -3168,6 +3154,20 @@
               "kind": "SCALAR",
               "name": "Date",
               "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "statusIn",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "ArticleStatusInput",
+                "ofType": null
+              }
             },
             "defaultValue": null
           },
@@ -3231,6 +3231,16 @@
         "possibleTypes": null
       },
       {
+        "kind": "SCALAR",
+        "name": "Boolean",
+        "description": "The `Boolean` scalar type represents `true` or `false`.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "ENUM",
         "name": "ArticleStatusInput",
         "description": null,
@@ -3269,16 +3279,6 @@
             "deprecationReason": null
           }
         ],
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Boolean",
-        "description": "The `Boolean` scalar type represents `true` or `false`.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
         "possibleTypes": null
       },
       {
@@ -5093,21 +5093,21 @@
             "defaultValue": null
           },
           {
-            "name": "type",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "ResourceTypeInput",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
             "name": "id",
             "description": null,
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "type",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "ResourceTypeInput",
               "ofType": null
             },
             "defaultValue": null
@@ -5234,6 +5234,20 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "resourcesId",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "ResourceIdentifierInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
             "name": "name",
             "description": null,
             "type": {
@@ -5250,20 +5264,6 @@
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "resourcesId",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "ResourceIdentifierInput",
-                "ofType": null
-              }
             },
             "defaultValue": null
           },
@@ -6656,7 +6656,7 @@
             "defaultValue": null
           },
           {
-            "name": "mustNotIncludeUserId",
+            "name": "mustIncludeUserId",
             "description": null,
             "type": {
               "kind": "LIST",
@@ -6694,7 +6694,7 @@
             "defaultValue": null
           },
           {
-            "name": "mustIncludeUserId",
+            "name": "mustNotIncludeUserId",
             "description": null,
             "type": {
               "kind": "LIST",
@@ -7631,7 +7631,7 @@
             "deprecationReason": null
           },
           {
-            "name": "addResourceToCuratedList",
+            "name": "removeResource",
             "description": null,
             "args": [
               {
@@ -7664,7 +7664,7 @@
             "deprecationReason": null
           },
           {
-            "name": "removeResource",
+            "name": "addResourceToCuratedList",
             "description": null,
             "args": [
               {
@@ -8665,18 +8665,6 @@
             "deprecationReason": null
           },
           {
-            "name": "checkpointArticles",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MutationResponse",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "createCommunity",
             "description": null,
             "args": [
@@ -8808,6 +8796,18 @@
                 "defaultValue": null
               }
             ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MutationResponse",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "checkpointArticles",
+            "description": null,
+            "args": [],
             "type": {
               "kind": "OBJECT",
               "name": "MutationResponse",
