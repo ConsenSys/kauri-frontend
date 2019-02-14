@@ -92,8 +92,8 @@ class ArticleReviewView extends React.Component<IProps, {}> {
             current.attributes.background !== proposed.attributes.background
           }
           date={proposed.dateCreated}
-          oldTags={current.tags}
-          newTags={proposed.tags}
+          oldTags={current.tags || []}
+          newTags={proposed.tags || []}
           attributes={proposed.attributes}
           title={proposed.title}
           openModalAction={this.props.openModalAction}
