@@ -106,12 +106,13 @@ class ArticleApproved extends React.Component<IProps> {
           </DescriptionContainer>
           <ArticleCard
             key={String(article.id)}
+            nfts={article.associatedNfts}
             resourceType={"USER"}
             id={String(article.id)}
             version={Number(article.version)}
             date={article.datePublished || article.dateCreated}
             title={String(article.title)}
-            content={String(article.content)}
+            description={String(article.description)}
             username={
               (article.owner &&
                 (article.owner as Article_owner_PublicUserDTO).username) ||

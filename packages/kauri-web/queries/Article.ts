@@ -2,6 +2,18 @@ import gql from "graphql-tag";
 
 export const Article = gql`
   fragment Article on ArticleDTO {
+    associatedNfts {
+      tokenType
+      contractAddress
+      name
+      image
+      externalUrl
+    }
+    resourceIdentifier {
+      id
+      type
+    }
+    description
     id
     version
     title
@@ -14,14 +26,6 @@ export const Article = gql`
     contentHash
     checkpoint
     tags
-    associatedNfts {
-      tokenType
-      contractAddress
-      name
-      description
-      image
-      externalUrl
-    }
     voteResult {
       sum
       count
@@ -52,25 +56,6 @@ export const Article = gql`
           type
         }
       }
-    }
-    comments {
-      content {
-        author {
-          id
-          name
-          username
-          avatar
-        }
-        posted
-        body
-      }
-      totalPages
-      totalElements
-    }
-    resourceIdentifier {
-      id
-      type
-      version
     }
     updateComment
   }

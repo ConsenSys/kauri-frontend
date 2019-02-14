@@ -68,11 +68,11 @@ export interface ArticleFilterInput {
   latestVersion?: boolean | null;
   fullText?: string | null;
   dateCreatedLessThan?: any | null;
+  versionIn?: (number | null)[] | null;
   idEquals?: string | null;
   statusIn?: (ArticleStatusInput | null)[] | null;
   ownerEquals?: string | null;
   checkpointEquals?: string | null;
-  versionIn?: (number | null)[] | null;
 }
 
 export interface CollectionFilterInput {
@@ -106,11 +106,11 @@ export interface ResourceIdentifierInput {
 }
 
 export interface SearchFilterInput {
-  mustIncludeUserId?: (string | null)[] | null;
+  type?: ResourceTypeInput | null;
   mustNotContainTag?: (string | null)[] | null;
+  mustIncludeUserId?: (string | null)[] | null;
   mustContainTag?: (string | null)[] | null;
   mustNotIncludeUserId?: (string | null)[] | null;
-  type?: ResourceTypeInput | null;
 }
 
 export interface SectionDTOInput {

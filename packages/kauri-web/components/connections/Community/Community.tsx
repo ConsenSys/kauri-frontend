@@ -97,13 +97,14 @@ const Container: React.SFC<IProps> = ({
                   imageURL={article.attributes && article.attributes.background}
                   linkComponent={linkComponent}
                   title={String(article.title)}
-                  content={String(article.content)}
+                  description={String(article.description)}
                   date={article.datePublished}
                   username={name}
                   userAvatar={avatar}
                   userId={id}
                   isLoggedIn={isLoggedIn}
                   resourceType="COMMUNITY"
+                  nfts={article.associatedNfts}
                   hoverChildren={() => (
                     <PrimaryButton
                       onClick={() =>

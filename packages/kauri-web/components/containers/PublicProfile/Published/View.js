@@ -50,7 +50,7 @@ const Articles = ({
               changeRoute={routeChangeAction}
               date={article.datePublished}
               title={article.title}
-              content={article.content}
+              descriptions={article.descriptions}
               tags={article.tags}
               userId={
                 type !== "toBeApproved" && article.owner

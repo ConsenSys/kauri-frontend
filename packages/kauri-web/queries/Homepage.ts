@@ -26,6 +26,7 @@ export const HomePageQuery = gql`
           version
           title
           content
+          description
           dateCreated
           datePublished
           author {
@@ -67,6 +68,7 @@ export const HomePageQuery = gql`
           version
           title
           content
+          description
           dateCreated
           datePublished
           author {

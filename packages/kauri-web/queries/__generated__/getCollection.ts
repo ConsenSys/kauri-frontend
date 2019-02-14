@@ -35,9 +35,25 @@ export interface getCollection_getCollection_sections_resources_CommunityDTO {
     | "UserDTO";
 }
 
+export interface getCollection_getCollection_sections_resources_ArticleDTO_associatedNfts {
+  __typename: "NftTokenDTO";
+  tokenType: string | null;
+  contractAddress: string | null;
+  name: string | null;
+  image: string | null;
+  externalUrl: string | null;
+}
+
+export interface getCollection_getCollection_sections_resources_ArticleDTO_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
+}
+
 export interface getCollection_getCollection_sections_resources_ArticleDTO_voteResult {
   __typename: "VoteResultDTO";
   sum: number | null;
+  count: any | null;
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_author {
@@ -94,39 +110,13 @@ export type getCollection_getCollection_sections_resources_ArticleDTO_owner =
   | getCollection_getCollection_sections_resources_ArticleDTO_owner_PublicUserDTO
   | getCollection_getCollection_sections_resources_ArticleDTO_owner_CommunityDTO;
 
-export interface getCollection_getCollection_sections_resources_ArticleDTO_comments_content_author {
-  __typename: "PublicUserDTO";
-  id: string | null;
-  name: string | null;
-  username: string | null;
-  avatar: string | null;
-}
-
-export interface getCollection_getCollection_sections_resources_ArticleDTO_comments_content {
-  __typename: "CommentDTO";
-  author: getCollection_getCollection_sections_resources_ArticleDTO_comments_content_author | null;
-  posted: any | null;
-  body: string | null;
-}
-
-export interface getCollection_getCollection_sections_resources_ArticleDTO_comments {
-  __typename: "ResponsePage_CommentDTO";
-  content:
-    | (getCollection_getCollection_sections_resources_ArticleDTO_comments_content | null)[]
-    | null;
-  totalPages: number | null;
-  totalElements: any | null;
-}
-
-export interface getCollection_getCollection_sections_resources_ArticleDTO_resourceIdentifier {
-  __typename: "ResourceIdentifier";
-  id: string | null;
-  type: ResourceType | null;
-  version: number | null;
-}
-
 export interface getCollection_getCollection_sections_resources_ArticleDTO {
   __typename: "ArticleDTO";
+  associatedNfts:
+    | (getCollection_getCollection_sections_resources_ArticleDTO_associatedNfts | null)[]
+    | null;
+  resourceIdentifier: getCollection_getCollection_sections_resources_ArticleDTO_resourceIdentifier | null;
+  description: string | null;
   id: string | null;
   version: number | null;
   title: string | null;
@@ -142,8 +132,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO {
   voteResult: getCollection_getCollection_sections_resources_ArticleDTO_voteResult | null;
   author: getCollection_getCollection_sections_resources_ArticleDTO_author | null;
   owner: getCollection_getCollection_sections_resources_ArticleDTO_owner | null;
-  comments: getCollection_getCollection_sections_resources_ArticleDTO_comments | null;
-  resourceIdentifier: getCollection_getCollection_sections_resources_ArticleDTO_resourceIdentifier | null;
+  updateComment: string | null;
 }
 
 export type getCollection_getCollection_sections_resources =

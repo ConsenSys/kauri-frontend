@@ -54,7 +54,7 @@ class ArticleProposed extends React.Component<Props> {
           version={article.version}
           date={article.datePublished || article.dateCreated}
           title={article.title}
-          content={article.content}
+          description={article.description}
           userId={article.author && article.author.id}
           username={article.author && article.author.username}
           userAvatar={article.author && article.author.avatar}

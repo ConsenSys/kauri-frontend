@@ -51,6 +51,7 @@ export interface getAllCuratedList_getAllCuratedList_header_ArticleDTO {
   version: number | null;
   title: string | null;
   content: string | null;
+  description: string | null;
   dateCreated: any | null;
   datePublished: any | null;
   author: getAllCuratedList_getAllCuratedList_header_ArticleDTO_author | null;
@@ -124,6 +125,7 @@ export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO {
   version: number | null;
   title: string | null;
   content: string | null;
+  description: string | null;
   dateCreated: any | null;
   datePublished: any | null;
   author: getAllCuratedList_getAllCuratedList_resources_ArticleDTO_author | null;

@@ -29,6 +29,13 @@ export const getCommunity = gql`
           content
           dateCreated
           datePublished
+          associatedNfts {
+            tokenType
+            contractAddress
+            name
+            image
+            externalUrl
+          }
           author {
             id
             name
@@ -50,8 +57,16 @@ export const getCommunity = gql`
           version
           title
           content
+          description
           dateCreated
           datePublished
+          associatedNfts {
+            tokenType
+            contractAddress
+            name
+            image
+            externalUrl
+          }
           author {
             id
             name

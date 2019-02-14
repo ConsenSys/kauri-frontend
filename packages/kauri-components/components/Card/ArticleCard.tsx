@@ -17,9 +17,10 @@ import {
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
 import { TagList } from "../Tags";
-import NFTList, { INFT } from "../Kudos/NFTList";
+import NFTList from "../Kudos/NFTList";
 import Image from "../Image";
 import Date from "../HoverDateLabel";
+import { Article_associatedNfts } from '../../../kauri-web/queries/__generated__/Article'
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -191,28 +192,6 @@ const calculateCardWidth = R.cond([
   ],
 ]);
 
-interface IRenderDescriptionRowContentProps {
-  content: string;
-  cardHeight: number;
-  imageURL: string | null;
-}
-
-const RenderDescriptionRowContent: React.FunctionComponent<
-  IRenderDescriptionRowContentProps
-> = ({ content, cardHeight, imageURL }) => {
-  if (process.env.STORYBOOK !== "true") {
-    const DescriptionRow = require("../../../kauri-web/components/common/DescriptionRow.js")
-      .default;
-    return React.createElement(
-      DescriptionRow,
-      { record: { text: content }, type: "article card", cardHeight, imageURL },
-      null
-    );
-  } else {
-    return null;
-  }
-};
-
 const Header = styled.div`
   display: flex;
   > :first-child {
@@ -234,19 +213,19 @@ const MoreOptions = styled<{ hasImageURL: boolean }, "div">("div")`
 
 interface ICardContentProps {
   title: string;
-  content: string;
+  description: string | null;
   cardHeight: number;
   cardWidth: number;
   imageURL: string | null;
   date: string;
   status: undefined | "PUBLISHED" | "DRAFT";
   tags?: string[];
-  nfts?: INFT[];
+  nfts: Array<Article_associatedNfts | null> | null;
 }
 
 const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   title,
-  content,
+  description,
   cardHeight,
   cardWidth,
   imageURL,
@@ -276,24 +255,13 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
           text={title}
         />
       </H1>
-      {cardHeight <= DEFAULT_CARD_HEIGHT &&
-      typeof imageURL === "string" ? null : content
-          .substring(0, 2)
-          .includes("{") ? (
-        <RenderDescriptionRowContent
-          content={content}
-          cardHeight={cardHeight}
-          imageURL={imageURL}
-        />
-      ) : (
         <BodyCard>
           <TextTruncate
             line={contentLineHeight({ cardHeight, cardWidth, imageURL })}
             truncateText="…"
-            text={content}
+            text={description || ''}
           />
         </BodyCard>
-      )}
       {Array.isArray(tags) && tags.length > 0 && (
         <TagList maxTags={3} color="textPrimary" tags={tags} maxChars={40} />
       )}
@@ -371,7 +339,7 @@ const Hover: React.FunctionComponent<IHoverProps> = ({
 interface IProps {
   id: string;
   version: number;
-  content: string;
+  description: string | null;
   date: string;
   title: string;
   username: string | null;
@@ -399,14 +367,13 @@ interface IProps {
   status?: "PUBLISHED" | "DRAFT";
   isLoggedIn: boolean;
   tags?: string[];
-  nfts?: INFT[];
+  nfts: Array<Article_associatedNfts | null> | null;
   triggerHoverChildrenOnFullCardClick?: boolean;
 }
 
 const ArticleCard: React.FunctionComponent<IProps> = ({
   id,
   version,
-  content,
   date,
   title,
   username,
@@ -424,6 +391,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   tags,
   nfts,
   destination,
+  description,
   triggerHoverChildrenOnFullCardClick = false,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
@@ -467,7 +435,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
         {linkComponent(
           <RenderCardContent
             title={title}
-            content={content}
+            description={description}
             cardHeight={cardHeight}
             cardWidth={cardWidth}
             imageURL={imageURL}

@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import styled from "styled-components";
 import moment from "moment";
@@ -115,7 +114,7 @@ const CuratedList = ({
                       key={articleCard.id}
                       date={articleCard.dateCreated}
                       title={articleCard.title}
-                      content={articleCard.content}
+                      description={articleCard.description}
                       userId={articleCard.author && articleCard.author.id}
                       username={
                         articleCard.author && articleCard.author.username
