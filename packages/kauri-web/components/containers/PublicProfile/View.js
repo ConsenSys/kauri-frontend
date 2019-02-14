@@ -12,7 +12,7 @@ import Awaiting from "./Awaiting/View";
 import Pending from "./Pending/View";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor(props: ViewProps) {
+  constructor (props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -26,11 +26,11 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     };
   }
 
-  toggleEditing() {
+  toggleEditing () {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render() {
+  render () {
     const {
       PendingQuery,
       UserQuery,
@@ -44,6 +44,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       closeModalAction,
       openModalAction,
       isLoggedIn,
+      hostName,
     } = this.props;
 
     const isHeaderLoaded =
@@ -87,6 +88,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
               (UserQuery.getUser.social && UserQuery.getUser.social.github)
             }
             toggleEditing={() => this.toggleEditing()}
+            hostName={hostName}
           />
         )}
         {isHeaderLoaded && areListsLoaded ? (
