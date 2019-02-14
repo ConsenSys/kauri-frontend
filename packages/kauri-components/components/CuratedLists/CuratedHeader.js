@@ -69,18 +69,6 @@ const LinksContainer = styled.div`
   }
 `;
 
-const renderDescriptionRowContent = content => {
-  if (process.env.STORYBOOK !== "true") {
-    const DescriptionRow = require("../../../kauri-web/components/common/DescriptionRow")
-      .default;
-    return React.createElement(
-      DescriptionRow,
-      { record: { text: content } },
-      null
-    );
-  }
-};
-
 const Links = ({ links, Link }) => {
   // console.log(links);
   return (
@@ -140,6 +128,7 @@ const CuratedHeader = ({ Link, header, name, links }) => {
       );
     case "ArticleDTO":
     case "ARTICLE":
+            console.log('Description', header.description)
       return (
         <Header background={header.background}>
           <ListTitle>{name}</ListTitle>
@@ -147,16 +136,12 @@ const CuratedHeader = ({ Link, header, name, links }) => {
             <Name>{header.title}</Name>
           </Heading>
           <Description>
-            {typeof header.content === "string" && header.content[0] === "{" ? (
-              renderDescriptionRowContent(header.content)
-            ) : (
-              <p>{header.content}</p>
-            )}
+            <p>{header.description}</p>
           </Description>
           <Links
             Link={Link}
             links={[
-              { label: "View Article", url: `/collection/${header.id}` },
+              { label: "View Article", url: `/article/${header.id}` },
             ].concat(links)}
           />
         </Header>
