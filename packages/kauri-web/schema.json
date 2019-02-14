@@ -757,6 +757,39 @@
             "deprecationReason": null
           },
           {
+            "name": "curateResource",
+            "description": null,
+            "args": [
+              {
+                "name": "resource",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ResourceIdentifierInput",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MutationResponse",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "submitArticle",
             "description": null,
             "args": [
@@ -831,39 +864,6 @@
                     "name": "String",
                     "ofType": null
                   }
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MutationResponse",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "curateResource",
-            "description": null,
-            "args": [
-              {
-                "name": "resource",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ResourceIdentifierInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -1063,6 +1063,69 @@
             "deprecationReason": null
           },
           {
+            "name": "searchCommunities",
+            "description": null,
+            "args": [
+              {
+                "name": "filter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CommunityFilterInput",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "size",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": "20"
+              },
+              {
+                "name": "sort",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "page",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": "0"
+              },
+              {
+                "name": "dir",
+                "description": null,
+                "type": {
+                  "kind": "ENUM",
+                  "name": "DirectionInput",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ResponsePage_CommunityDTO",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "editArticleVersion",
             "description": null,
             "args": [
@@ -1150,69 +1213,6 @@
             "deprecationReason": null
           },
           {
-            "name": "searchCommunities",
-            "description": null,
-            "args": [
-              {
-                "name": "filter",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CommunityFilterInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "size",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": "20"
-              },
-              {
-                "name": "sort",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "page",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": "0"
-              },
-              {
-                "name": "dir",
-                "description": null,
-                "type": {
-                  "kind": "ENUM",
-                  "name": "DirectionInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ResponsePage_CommunityDTO",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "searchTags",
             "description": null,
             "args": [
@@ -1256,6 +1256,22 @@
             "deprecationReason": null
           },
           {
+            "name": "getAllCuratedList",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CuratedListDTO",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "getUser",
             "description": null,
             "args": [
@@ -1274,22 +1290,6 @@
               "kind": "OBJECT",
               "name": "PublicUserDTO",
               "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "getAllCuratedList",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "CuratedListDTO",
-                "ofType": null
-              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -3118,14 +3118,14 @@
             "defaultValue": null
           },
           {
-            "name": "versionIn",
+            "name": "statusIn",
             "description": null,
             "type": {
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
+                "kind": "ENUM",
+                "name": "ArticleStatusInput",
                 "ofType": null
               }
             },
@@ -3138,20 +3138,6 @@
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "statusIn",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "ENUM",
-                "name": "ArticleStatusInput",
-                "ofType": null
-              }
             },
             "defaultValue": null
           },
@@ -3192,6 +3178,20 @@
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "versionIn",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
             },
             "defaultValue": null
           },
@@ -5093,21 +5093,21 @@
             "defaultValue": null
           },
           {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
             "name": "type",
             "description": null,
             "type": {
               "kind": "ENUM",
               "name": "ResourceTypeInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "defaultValue": null
@@ -6642,7 +6642,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "mustNotIncludeUserId",
+            "name": "mustNotContainTag",
             "description": null,
             "type": {
               "kind": "LIST",
@@ -6656,7 +6656,7 @@
             "defaultValue": null
           },
           {
-            "name": "mustNotContainTag",
+            "name": "mustNotIncludeUserId",
             "description": null,
             "type": {
               "kind": "LIST",
@@ -6684,6 +6684,16 @@
             "defaultValue": null
           },
           {
+            "name": "type",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "ResourceTypeInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "mustIncludeUserId",
             "description": null,
             "type": {
@@ -6694,16 +6704,6 @@
                 "name": "String",
                 "ofType": null
               }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "type",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "ResourceTypeInput",
-              "ofType": null
             },
             "defaultValue": null
           }
@@ -7697,6 +7697,43 @@
             "deprecationReason": null
           },
           {
+            "name": "composeCollection",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "sections",
+                "description": null,
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "SectionDTOInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MutationResponse",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "addTemplate",
             "description": null,
             "args": [
@@ -7731,43 +7768,6 @@
                   "kind": "SCALAR",
                   "name": "String",
                   "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MutationResponse",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "composeCollection",
-            "description": null,
-            "args": [
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "sections",
-                "description": null,
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "SectionDTOInput",
-                    "ofType": null
-                  }
                 },
                 "defaultValue": null
               }
@@ -8545,6 +8545,39 @@
             "deprecationReason": null
           },
           {
+            "name": "curateResource",
+            "description": null,
+            "args": [
+              {
+                "name": "resource",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ResourceIdentifierInput",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MutationResponse",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "submitArticle",
             "description": null,
             "args": [
@@ -8632,73 +8665,9 @@
             "deprecationReason": null
           },
           {
-            "name": "curateResource",
+            "name": "checkpointArticles",
             "description": null,
-            "args": [
-              {
-                "name": "resource",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ResourceIdentifierInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MutationResponse",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "rejectArticle",
-            "description": null,
-            "args": [
-              {
-                "name": "cause",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "version",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
+            "args": [],
             "type": {
               "kind": "OBJECT",
               "name": "MutationResponse",
@@ -8805,9 +8774,40 @@
             "deprecationReason": null
           },
           {
-            "name": "checkpointArticles",
+            "name": "rejectArticle",
             "description": null,
-            "args": [],
+            "args": [
+              {
+                "name": "cause",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "version",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
             "type": {
               "kind": "OBJECT",
               "name": "MutationResponse",
