@@ -76,7 +76,6 @@ export class SharedEditor extends React.Component<*> {
         tasklists: true,
         extensions: ["highlightjs"],
       });
-      // console.log(this.props.editorState);
       const mdeState = await DraftUtil.getMdeStateFromDraftState(
         (this.props.editorState && this.props.editorState.draftEditorState) ||
           EditorState.createWithContent(
