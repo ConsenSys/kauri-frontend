@@ -78,7 +78,6 @@ class Article extends React.Component<ArticleProps> {
 
   publishArticle = () => {
     if (typeof this.props.data.getArticle === "object") {
-      console.log(this.props.data.getArticle);
       if (
         typeof this.props.data.getArticle.id === "string" &&
         typeof this.props.data.getArticle.version === "number" &&
