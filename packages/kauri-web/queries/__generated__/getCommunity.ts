@@ -36,6 +36,15 @@ export interface getCommunity_getCommunity_pending_CommunityDTO {
     | "UserDTO";
 }
 
+export interface getCommunity_getCommunity_pending_ArticleDTO_associatedNfts {
+  __typename: "NftTokenDTO";
+  tokenType: string | null;
+  contractAddress: string | null;
+  name: string | null;
+  image: string | null;
+  externalUrl: string | null;
+}
+
 export interface getCommunity_getCommunity_pending_ArticleDTO_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -55,6 +64,9 @@ export interface getCommunity_getCommunity_pending_ArticleDTO {
   content: string | null;
   dateCreated: any | null;
   datePublished: any | null;
+  associatedNfts:
+    | (getCommunity_getCommunity_pending_ArticleDTO_associatedNfts | null)[]
+    | null;
   author: getCommunity_getCommunity_pending_ArticleDTO_author | null;
   status: ArticleStatus | null;
   attributes: any | null;
@@ -84,6 +96,15 @@ export interface getCommunity_getCommunity_approved_CommunityDTO {
     | "UserDTO";
 }
 
+export interface getCommunity_getCommunity_approved_ArticleDTO_associatedNfts {
+  __typename: "NftTokenDTO";
+  tokenType: string | null;
+  contractAddress: string | null;
+  name: string | null;
+  image: string | null;
+  externalUrl: string | null;
+}
+
 export interface getCommunity_getCommunity_approved_ArticleDTO_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -101,8 +122,12 @@ export interface getCommunity_getCommunity_approved_ArticleDTO {
   version: number | null;
   title: string | null;
   content: string | null;
+  description: string | null;
   dateCreated: any | null;
   datePublished: any | null;
+  associatedNfts:
+    | (getCommunity_getCommunity_approved_ArticleDTO_associatedNfts | null)[]
+    | null;
   author: getCommunity_getCommunity_approved_ArticleDTO_author | null;
   status: ArticleStatus | null;
   attributes: any | null;

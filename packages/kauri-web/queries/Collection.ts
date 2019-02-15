@@ -123,6 +123,34 @@ export const composeCollection = gql`
   }
 `;
 
+const CollectionWithoutArticles = `
+    id
+    name
+    description
+    tags
+    background
+    dateUpdated
+    owner {
+      id
+      name
+      username
+      avatar
+    }
+    sections {
+      id
+      name
+      description
+      resourcesId {
+        id
+        type
+      }
+    }
+    resourceIdentifier {
+      type
+      id
+    }
+`;
+
 export const getLatestCollections = gql`
   query searchAutocompleteCollections(
     $page: Int = 0
@@ -145,13 +173,12 @@ export const getLatestCollections = gql`
         }
         resource {
           ... on CollectionDTO {
-            ...Collection
+           ${CollectionWithoutArticles}
           }
         }
       }
     }
   }
-  ${Collection}
 `;
 
 export const searchCollections = gql`

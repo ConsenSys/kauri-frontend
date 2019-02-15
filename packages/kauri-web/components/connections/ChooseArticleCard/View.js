@@ -31,7 +31,7 @@ export default ({
             key={article.id + article.version}
             id={article.id}
             version={article.version}
-            content={article.content}
+            description={article.description}
             date={article.datePublished}
             title={article.title}
             username={article.owner && article.owner.username}

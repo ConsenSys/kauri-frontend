@@ -1,15 +1,32 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
+import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL fragment: Article
 // ====================================================
 
+export interface Article_associatedNfts {
+  __typename: "NftTokenDTO";
+  tokenType: string | null;
+  contractAddress: string | null;
+  name: string | null;
+  image: string | null;
+  externalUrl: string | null;
+}
+
+export interface Article_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
+  version: number | null;
+}
+
 export interface Article_voteResult {
   __typename: "VoteResultDTO";
   sum: number | null;
+  count: any | null;
 }
 
 export interface Article_author {
@@ -88,15 +105,11 @@ export interface Article_comments {
   totalElements: any | null;
 }
 
-export interface Article_resourceIdentifier {
-  __typename: "ResourceIdentifier";
-  id: string | null;
-  type: ResourceType | null;
-  version: number | null;
-}
-
 export interface Article {
   __typename: "ArticleDTO";
+  associatedNfts: (Article_associatedNfts | null)[] | null;
+  resourceIdentifier: Article_resourceIdentifier | null;
+  description: string | null;
   id: string | null;
   version: number | null;
   title: string | null;
@@ -113,5 +126,5 @@ export interface Article {
   author: Article_author | null;
   owner: Article_owner | null;
   comments: Article_comments | null;
-  resourceIdentifier: Article_resourceIdentifier | null;
+  updateComment: string | null;
 }

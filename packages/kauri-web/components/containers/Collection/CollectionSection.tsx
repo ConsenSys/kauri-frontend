@@ -9,6 +9,11 @@ import {
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import AddToCollectionConnection from "../../connections/AddToCollection/index";
+import {
+  Article,
+  Article_owner_PublicUserDTO,
+  Article_owner_CommunityDTO,
+} from "../../../queries/__generated__/Article";
 
 const Container = styled.section`
   display: flex;
@@ -36,27 +41,8 @@ const StyledDescription = styled(PageDescription)`
   margin-bottom: ${props => props.theme.space[3]}px;
 `;
 
-interface IOwner {
-  avatar: string | null;
-  id: string;
-  username: string | null;
-}
-
-interface IArticle {
-  associatedNfts: any[] | null;
-  attributes: { background: string | null } | null;
-  content: string;
-  datePublished: string;
-  id: string;
-  imageURL: string | null;
-  owner: IOwner;
-  tags: string[] | null;
-  title: string;
-  version: number;
-}
-
 interface IProps {
-  articles: IArticle[];
+  articles: Article[];
   currentUser: string | null;
   description: string | null;
   isLoggedIn: boolean;
@@ -75,7 +61,7 @@ const Component: React.SFC<IProps> = props => {
     isOwnedByCurrentUser,
   } = props;
   if (articles) {
-    const linkComponent = (article: IArticle) => (
+    const linkComponent = (article: Article) => (
       childrenProps: React.ReactElement<any>,
       route: string
     ) => (
@@ -93,51 +79,70 @@ const Component: React.SFC<IProps> = props => {
         <StyledTitle>{name}</StyledTitle>
         <StyledDescription>{description}</StyledDescription>
         <ArticlesSection>
-          {articles.map(article => (
-            <ArticleCard
-              key={article.id}
-              id={article.id}
-              version={article.version}
-              content={article.content}
-              date={article.datePublished}
-              title={article.title}
-              username={article.owner && article.owner.username}
-              userId={article.owner && article.owner.id}
-              userAvatar={article.owner && article.owner.avatar}
-              nfts={article.associatedNfts || []}
-              tags={article.tags as string[]}
-              imageURL={
-                (article.attributes &&
-                  typeof article.attributes.background === "string" &&
-                  article.attributes.background) ||
-                null
-              }
-              linkComponent={linkComponent(article)}
-              resourceType={"USER"}
-              cardHeight={420}
-              isLoggedIn={isLoggedIn}
-              hoverChildren={
-                isOwnedByCurrentUser
-                  ? null
-                  : () => (
-                      <PrimaryButton
-                        onClick={() =>
-                          openModalAction({
-                            children: (
-                              <AddToCollectionConnection
-                                articleId={article.id}
-                                version={article.version}
-                              />
-                            ),
-                          })
-                        }
-                      >
-                        Add To Collection
-                      </PrimaryButton>
-                    )
-              }
-            />
-          ))}
+          {articles.map((article: Article) => {
+            const owner = article.owner as
+              | Article_owner_PublicUserDTO
+              | Article_owner_CommunityDTO;
+            return (
+              <ArticleCard
+                key={String(article.id)}
+                id={String(article.id)}
+                version={Number(article.version)}
+                description={article.description}
+                date={article.datePublished}
+                title={String(article.title)}
+                username={
+                  (owner &&
+                  owner.resourceIdentifier &&
+                  owner.resourceIdentifier.type &&
+                  owner.resourceIdentifier.type.toLowerCase() === "community"
+                    ? owner && owner.name
+                    : owner &&
+                      (owner as Article_owner_PublicUserDTO).username) || null
+                }
+                userId={
+                  owner
+                    ? typeof owner.id === "string"
+                      ? owner.id
+                      : "Anoymous"
+                    : "Anonymous"
+                }
+                userAvatar={(owner && owner.avatar) || null}
+                nfts={article.associatedNfts}
+                tags={article.tags as string[]}
+                imageURL={
+                  (article.attributes &&
+                    typeof article.attributes.background === "string" &&
+                    article.attributes.background) ||
+                  null
+                }
+                linkComponent={linkComponent(article)}
+                resourceType={"USER"}
+                cardHeight={420}
+                isLoggedIn={isLoggedIn}
+                hoverChildren={
+                  isOwnedByCurrentUser
+                    ? null
+                    : () => (
+                        <PrimaryButton
+                          onClick={() =>
+                            openModalAction({
+                              children: (
+                                <AddToCollectionConnection
+                                  articleId={String(article.id)}
+                                  version={Number(article.version)}
+                                />
+                              ),
+                            })
+                          }
+                        >
+                          Add To Collection
+                        </PrimaryButton>
+                      )
+                }
+              />
+            );
+          })}
         </ArticlesSection>
       </Container>
     );

@@ -8,7 +8,7 @@
   "scripts": {
     "get-schema": "node scripts/convertGQLSchemaToFlowTypes.js",
     "generate-query-types": "npx apollo client:codegen --localSchemaFile=schema.json --target=typescript",
-    "gqt": "npm run generate-query-types",
+    "gqt": "npx apollo service:download --config=apollo.config.js && npx apollo client:codegen --target=typescript --config=apollo.config.js --mergeInFieldsFromFragmentSpreads",
     "dev": "npm run dev:web",
     "dev:web": "NODE_ENV=development babel-node --extensions '.ts, .tsx, .js, .jsx' index.js",
     "dev:mock": "NODE_ENV=development ENABLE_MOCK_SERVER=true babel-node --extensions '.ts, .tsx, .js, .jsx' index.js",
@@ -77,12 +77,11 @@
     "moment": "2.20.1",
     "next": "^8.0.0-canary.24",
     "next-routes": "^1.4.2",
-    "rake-js": "^0.1.1",
     "ramda": "^0.25.0",
     "react": "16.8.0-alpha.0",
     "react-apollo": "^2.2.4",
-    "react-diff-viewer": "^1.0.4",
     "react-beautiful-dnd": "^10.0.4",
+    "react-diff-viewer": "^1.0.4",
     "react-dom": "16.8.0-alpha.0",
     "react-fast-highlight": "^2.2.0",
     "react-ga": "^2.5.6",
@@ -236,7 +235,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn check-types"
+      "pre-commit": "yarn gqt && lint-staged && yarn check-types"
     }
   },
   "private": true,

@@ -1,7 +1,6 @@
 // @flow
 import React from "react";
 import slugify from "slugify";
-import rake from "rake-js";
 import R from "ramda";
 import styled from "styled-components";
 import Actions from "./ApprovedArticleActions";

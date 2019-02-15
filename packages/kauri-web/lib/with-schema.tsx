@@ -1,7 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import slugify from "slugify";
-import rake from "rake-js";
 
 interface IProps {
   hostName: string;
@@ -31,6 +30,7 @@ const getValues = (props: any) => {
     author,
     datePublished,
     dateCreated,
+    tags,
   } = props.data.getArticle;
 
   const hostName = `https://${props.hostName.replace(/api\./g, "")}`;
@@ -46,11 +46,6 @@ const getValues = (props: any) => {
     .replace("#", "")
     .substring(0, 120);
 
-  const keywords = rake(articleContent, {
-    delimiters: ["#", "##", "###", "####", "\n", "\n\n"],
-    language: "english",
-  }).splice(0, 20);
-
   const schema = {
     "@context": "http://schema.org",
     "@type": "Article",
@@ -63,7 +58,7 @@ const getValues = (props: any) => {
     image:
       (attributes && attributes.background) ||
       `${hostName}/static/images/logo.svg`,
-    keywords,
+    keywords: tags,
     mainEntityOfPage: {
       "@id": "id",
       "@type": "WebPage",

@@ -3,17 +3,34 @@
 
 import {
   ArticleFilterInput,
-  ArticleStatus,
   ResourceType,
+  ArticleStatus,
 } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchPendingArticles
 // ====================================================
 
+export interface searchPendingArticles_searchArticles_content_associatedNfts {
+  __typename: "NftTokenDTO";
+  tokenType: string | null;
+  contractAddress: string | null;
+  name: string | null;
+  image: string | null;
+  externalUrl: string | null;
+}
+
+export interface searchPendingArticles_searchArticles_content_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
+  version: number | null;
+}
+
 export interface searchPendingArticles_searchArticles_content_voteResult {
   __typename: "VoteResultDTO";
   sum: number | null;
+  count: any | null;
 }
 
 export interface searchPendingArticles_searchArticles_content_author {
@@ -94,15 +111,13 @@ export interface searchPendingArticles_searchArticles_content_comments {
   totalElements: any | null;
 }
 
-export interface searchPendingArticles_searchArticles_content_resourceIdentifier {
-  __typename: "ResourceIdentifier";
-  id: string | null;
-  type: ResourceType | null;
-  version: number | null;
-}
-
 export interface searchPendingArticles_searchArticles_content {
   __typename: "ArticleDTO";
+  associatedNfts:
+    | (searchPendingArticles_searchArticles_content_associatedNfts | null)[]
+    | null;
+  resourceIdentifier: searchPendingArticles_searchArticles_content_resourceIdentifier | null;
+  description: string | null;
   id: string | null;
   version: number | null;
   title: string | null;
@@ -119,7 +134,7 @@ export interface searchPendingArticles_searchArticles_content {
   author: searchPendingArticles_searchArticles_content_author | null;
   owner: searchPendingArticles_searchArticles_content_owner | null;
   comments: searchPendingArticles_searchArticles_content_comments | null;
-  resourceIdentifier: searchPendingArticles_searchArticles_content_resourceIdentifier | null;
+  updateComment: string | null;
 }
 
 export interface searchPendingArticles_searchArticles {

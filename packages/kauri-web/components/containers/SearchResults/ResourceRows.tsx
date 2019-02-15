@@ -82,7 +82,7 @@ class ResourceRows extends React.Component<
                         id,
                         version,
                         title,
-                        content,
+                        description,
                         datePublished,
                         tags,
                         author,
@@ -96,7 +96,7 @@ class ResourceRows extends React.Component<
                           version={Number(version)}
                           date={datePublished}
                           title={String(title)}
-                          content={String(content)}
+                          description={description}
                           userId={(author && String(author.id)) || ""}
                           username={author && author.username}
                           userAvatar={author && author.avatar}
@@ -134,7 +134,7 @@ class ResourceRows extends React.Component<
                           resourceType={"COLLECTION"}
                           date={dateUpdated}
                           title={String(name)}
-                          content={String(description)}
+                          description={String(description)}
                           userId={(owner && String(owner.id)) || ""}
                           username={owner && owner.username}
                           userAvatar={owner && owner.avatar}
@@ -171,7 +171,7 @@ class ResourceRows extends React.Component<
                           resourceType={"COMMUNITY"}
                           date={dateUpdated}
                           title={String(name)}
-                          content={String(description)}
+                          description={String(description)}
                           userId={String(id)}
                           username={name}
                           userAvatar={avatar}

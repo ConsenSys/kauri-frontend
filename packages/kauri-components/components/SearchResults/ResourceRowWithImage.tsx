@@ -44,33 +44,11 @@ const Divider = styled.div`
   height: 2px;
 `;
 
-interface IRenderDescriptionRowContentProps {
-  content: string;
-  cardHeight: number;
-  imageURL: string | null;
-}
-
-const RenderDescriptionRowContent: React.FunctionComponent<
-  IRenderDescriptionRowContentProps
-> = ({ content, cardHeight, imageURL }) => {
-  if (process.env.STORYBOOK !== "true") {
-    const DescriptionRow = require("../../../kauri-web/components/common/DescriptionRow.js")
-      .default;
-    return React.createElement(
-      DescriptionRow,
-      { record: { text: content }, type: "resource row", cardHeight, imageURL },
-      null
-    );
-  } else {
-    return null;
-  }
-};
-
 interface IProps {
   id: string;
   version?: number;
   title: string;
-  content: string;
+  description: string | null;
   date: string;
   imageURL: string | null;
   tags: string[] | null;
@@ -106,17 +84,9 @@ const Component: React.SFC<IProps> = props => (
           <H1>
             <TextTruncate line={1} truncateText="…" text={props.title} />
           </H1>
-          {props.content.substring(0, 2).includes("{") ? (
-            <RenderDescriptionRowContent
-              content={props.content}
-              cardHeight={290}
-              imageURL={props.imageURL}
-            />
-          ) : (
-            <BodyCard>
-              <TextTruncate line={2} truncateText="…" text={props.content} />
-            </BodyCard>
-          )}
+            {props.description && <BodyCard>
+              <TextTruncate line={2} truncateText="…" text={props.description} />
+            </BodyCard>}
           {Array.isArray(props.tags) && props.tags.length > 0 && (
             <TagList maxTags={3} color="textPrimary" tags={props.tags} />
           )}

@@ -76,7 +76,7 @@ export const searchResultsAutocomplete = gql`
             id
             version
             title
-            content
+            description
             authorId
             dateCreated
             datePublished

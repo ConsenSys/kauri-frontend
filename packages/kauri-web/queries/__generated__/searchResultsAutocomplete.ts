@@ -46,7 +46,7 @@ export interface searchResultsAutocomplete_searchAutocomplete_content_resource_A
   id: string | null;
   version: number | null;
   title: string | null;
-  content: string | null;
+  description: string | null;
   authorId: string | null;
   dateCreated: any | null;
   datePublished: any | null;

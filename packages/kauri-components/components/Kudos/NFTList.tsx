@@ -1,22 +1,14 @@
 import styled from '../../lib/styled-components';
+import { Article_associatedNfts } from '../../../kauri-web/queries/__generated__/Article'
 
-
-export interface INFT {
-    contractAddress: string;
-    description: string;
-    externalUrl: string;
-    image: string;
-    name: string;
-    tokenType: string;
-}
 
 interface IProps {
-    nfts: INFT[];
+    nfts: Array<Article_associatedNfts | null> | null;
     nftSize: number;
     clickable?: boolean;
 }
 
-const NFT = styled<{ image: string, size: number }, "div">("div")`
+const NFT = styled<{ image: string | null, size: number }, "div">("div")`
     height: ${props => props.size}px;
     width: ${props => props.size}px;
     background: url(${props => props.image}) center center;
@@ -37,7 +29,7 @@ const NFTs = styled<{}, "div">("div")`
 `;
 
 const NFTList = (props: IProps) => props.clickable ?
-    <NFTs>{props.nfts.map(nft => <a key={nft.tokenType} href={nft.externalUrl} target="_blank"><NFT title={nft.name}  image={nft.image} size={props.nftSize} /></a>)}</NFTs> :
-    <NFTs>{props.nfts.map(nft => <NFT key={nft.tokenType} title={nft.name}  image={nft.image} size={props.nftSize} />)}</NFTs>;
+    <NFTs>{props.nfts && props.nfts.map((nft, index) => nft ? <a key={index} href={nft.externalUrl || undefined} target="_blank"><NFT title={nft.name || undefined}  image={nft.image} size={props.nftSize} /></a> : null)}</NFTs> :
+    <NFTs>{props.nfts && props.nfts.map((nft, index) => nft ? <NFT key={index} title={nft.name || undefined}  image={nft.image } size={props.nftSize} /> : null)}</NFTs>;
 
 export default NFTList;

@@ -35,9 +35,26 @@ export interface getCollection_getCollection_sections_resources_CommunityDTO {
     | "UserDTO";
 }
 
+export interface getCollection_getCollection_sections_resources_ArticleDTO_associatedNfts {
+  __typename: "NftTokenDTO";
+  tokenType: string | null;
+  contractAddress: string | null;
+  name: string | null;
+  image: string | null;
+  externalUrl: string | null;
+}
+
+export interface getCollection_getCollection_sections_resources_ArticleDTO_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
+  version: number | null;
+}
+
 export interface getCollection_getCollection_sections_resources_ArticleDTO_voteResult {
   __typename: "VoteResultDTO";
   sum: number | null;
+  count: any | null;
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_author {
@@ -118,15 +135,13 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_comme
   totalElements: any | null;
 }
 
-export interface getCollection_getCollection_sections_resources_ArticleDTO_resourceIdentifier {
-  __typename: "ResourceIdentifier";
-  id: string | null;
-  type: ResourceType | null;
-  version: number | null;
-}
-
 export interface getCollection_getCollection_sections_resources_ArticleDTO {
   __typename: "ArticleDTO";
+  associatedNfts:
+    | (getCollection_getCollection_sections_resources_ArticleDTO_associatedNfts | null)[]
+    | null;
+  resourceIdentifier: getCollection_getCollection_sections_resources_ArticleDTO_resourceIdentifier | null;
+  description: string | null;
   id: string | null;
   version: number | null;
   title: string | null;
@@ -143,7 +158,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO {
   author: getCollection_getCollection_sections_resources_ArticleDTO_author | null;
   owner: getCollection_getCollection_sections_resources_ArticleDTO_owner | null;
   comments: getCollection_getCollection_sections_resources_ArticleDTO_comments | null;
-  resourceIdentifier: getCollection_getCollection_sections_resources_ArticleDTO_resourceIdentifier | null;
+  updateComment: string | null;
 }
 
 export type getCollection_getCollection_sections_resources =
