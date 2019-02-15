@@ -111,7 +111,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     return (
       <>
         <Helmet>
-          <title>Kauri - {name}</title>
+          <title>{name} - Kauri</title>
           <meta
             name="description"
             content={`${description && description.slice(0, 151)}...`}
