@@ -43,6 +43,7 @@ export type ViewProps = {
   ) => void,
   closeModalAction: () => void,
   openModalAction: (payload: any) => void,
+  hostName: string,
   ArticlesQuery: {
     searchArticles: {
       content: Array<ArticleDTO>,
@@ -97,6 +98,7 @@ export type HeaderState = {
 
 export type HeaderProps = {
   username: string,
+  hostName: string,
   title: string,
   avatar: string,
   website: string,

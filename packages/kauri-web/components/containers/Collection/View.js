@@ -58,7 +58,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     trianglify: "",
   };
 
-  componentDidMount() {
+  componentDidMount () {
     const trianglify = require("trianglify");
     const trianglifyBg = trianglify({
       width: 1920,
@@ -76,7 +76,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     this.setState({ trianglifyBg: trianglifyBgString });
   }
 
-  render() {
+  render () {
     if (!this.props.data || !this.props.data.getCollection) return null;
 
     const {
@@ -138,7 +138,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
           <meta name="twitter:card" content="summary" />
           <meta
             name="twitter:site"
-            ccontent={`https://${hostName}/article/${id}/${slugify(name, {
+            content={`https://${hostName}/article/${id}/${slugify(name, {
               lower: true,
             })}`}
           />
