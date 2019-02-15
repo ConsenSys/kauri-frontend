@@ -303,7 +303,7 @@ export const searchPersonalDrafts = gql`
         id
         version
         title
-        content
+        description
         tags
         dateCreated
         datePublished
@@ -400,7 +400,7 @@ export const searchPending = gql`
         id
         version
         title
-        content
+        description
         tags
         dateCreated
         datePublished
@@ -465,7 +465,7 @@ export const searchAwaitingApproval = gql`
         id
         version
         title
-        content
+        description
         tags
         dateCreated
         datePublished
