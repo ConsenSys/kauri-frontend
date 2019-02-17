@@ -25,6 +25,11 @@ const analytics = {
     mixpanel.init(tokens.mixpanel);
     ga.initialize(tokens.ga);
   },
+
+  setWeb3Status(status) {
+    console.log("WEB3 Status:", status);
+    ga.set({ "Web3 Enabled": status });
+  },
 };
 
 export default analytics;

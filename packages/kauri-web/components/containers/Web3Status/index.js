@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled, { css } from "styled-components";
 import cookie from "cookie";
 import userIdTrim from "../../../lib/userid-trim";
+import analytics from "../../../lib/pageAnalytics";
 
 const networkNames = {
   1: "Main",
@@ -328,8 +329,11 @@ class Web3Status extends Component {
       : networkId;
 
     if (!web3) {
+      analytics.setWeb3Status(false);
       return <Web3Unavailable />;
     }
+
+    analytics.setWeb3Status(true);
 
     if (networkId && supportedNetworkIds.indexOf(networkId) < 0) {
       return <UnsupportedNetwork currentNetworkName={currentNetworkName} />;
