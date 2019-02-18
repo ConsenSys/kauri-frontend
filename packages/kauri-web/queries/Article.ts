@@ -18,6 +18,7 @@ export const Article = gql`
     version
     title
     content
+    description
     authorId
     dateCreated
     datePublished
