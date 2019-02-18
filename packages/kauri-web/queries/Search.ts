@@ -88,11 +88,18 @@ export const searchResultsAutocomplete = gql`
             voteResult {
               sum
             }
-            author {
-              id
-              name
-              username
-              avatar
+            owner {
+              ... on PublicUserDTO {
+                id
+                name
+                username
+                avatar
+              }
+              ... on CommunityDTO {
+                id
+                name
+                avatar
+              }
             }
           }
 

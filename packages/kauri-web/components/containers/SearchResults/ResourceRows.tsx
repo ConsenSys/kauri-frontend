@@ -87,9 +87,13 @@ class ResourceRows extends React.Component<
                         description,
                         datePublished,
                         tags,
-                        author,
+                        owner,
                         attributes,
                       } = resource.resource;
+
+                      const typedOwner = owner as
+                        | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO
+                        | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO;
                       return (
                         <ResourceRowWithImage
                           key={String(id)}
@@ -99,9 +103,13 @@ class ResourceRows extends React.Component<
                           date={datePublished}
                           title={String(title)}
                           description={description}
-                          userId={(author && String(author.id)) || ""}
-                          username={author && author.username}
-                          userAvatar={author && author.avatar}
+                          userId={(typedOwner && String(typedOwner.id)) || ""}
+                          username={
+                            typedOwner.__typename === "PublicUserDTO"
+                              ? typedOwner.username
+                              : typedOwner.name
+                          }
+                          userAvatar={typedOwner && typedOwner.avatar}
                           imageURL={attributes && attributes.background}
                           tags={isArticleTags(tags) ? tags : []}
                           linkComponent={(childrenProps, route) => {
