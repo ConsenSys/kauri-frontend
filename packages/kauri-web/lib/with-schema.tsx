@@ -30,24 +30,13 @@ const getValues = (props: IProps) => {
 
   const hostName = `https://${props.hostName.replace(/api\./g, "")}`;
 
-  const articleContent =
-    content && content[0] === "{" && JSON.parse(content).markdown
-      ? JSON.parse(content).markdown
-      : content;
-
-  const description = articleContent
-    .replace(/\n|\r/g, " ")
-    .replace(/\u00a0/g, " ")
-    .replace("#", "")
-    .substring(0, 120);
-
   const schema = {
     "@context": "http://schema.org",
     "@type": "Article",
     articleBody: description,
     author: author && (author.name || author.username),
     datePublished: datePublished || dateCreated,
-    description: description.substring(0, 260),
+    description: description && description.substring(0, 260),
     genre: "blockchain developer guide",
     headline: title,
     image:
@@ -99,7 +88,7 @@ const withSchema = (WrappedComponent: React.ComponentClass) => {
           <Helmet>
             <script type="application/ld+json">{schemaString}</script>
             <title>{title} - Kauri</title>
-            <meta name="description" content={description} />
+            <meta name="description" content={String(description)} />
             <link
               rel="canonical"
               href={
