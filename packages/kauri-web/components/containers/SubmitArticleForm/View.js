@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { Form } from "antd";
+import Form from "antd/lib/form";
 import Helmet from "react-helmet";
 import SubmitArticleFormActions from "./SubmitArticleFormActions";
 import SubmitArticleFormHeader from "./SubmitArticleFormHeader";

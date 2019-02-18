@@ -9,7 +9,7 @@ import {
   CreateRequestContainer as SubmitArticleFormContainer,
   CreateRequestDetails,
 } from "../../CreateRequestForm/CreateRequestContent";
-import DescriptionRow from "../../Requests/DescriptionRow";
+import DescriptionRow from "../../../common/DescriptionRow";
 import {
   contentStateFromHTML,
   getHTMLFromMarkdown,

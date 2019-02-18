@@ -4,12 +4,12 @@ import React from "react";
 import redraft from "redraft";
 import styled, { css } from "styled-components";
 import YouTube from "react-youtube";
-import Highlight from "../../../lib/hljs";
+import Highlight from "../../lib/hljs";
 import { compose } from "recompose";
-import withErrorCatch from "../../../lib/with-error-catch";
+import withErrorCatch from "../../lib/with-error-catch";
 import TextTruncate from "react-text-truncate";
-import { getHTMLFromMarkdown } from "../../../lib/markdown-converter-helper";
-import stripHTML from "../../../lib/html-to-plain-text";
+import { getHTMLFromMarkdown } from "../../lib/markdown-converter-helper";
+import stripHTML from "../../lib/html-to-plain-text";
 
 type Props = {
   record: { text: string },
