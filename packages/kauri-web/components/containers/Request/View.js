@@ -10,7 +10,6 @@ import SubmitQuestion from "./SubmitQuestion";
 import theme from "../../../lib/theme-config";
 import DescriptionRow from "../Requests/DescriptionRow";
 import { Mask } from "../CreateRequestForm/CreateRequestHeader";
-import RequestBanner from "../Article/ApprovedArticle/ApprovedArticleBanner";
 import DatePosted from "../../common/DatePosted";
 import { Badge, ActionIcon } from "../../common/ActionBadge";
 import { PositiveRequestActionBadge } from "../../common/ActionButton";
@@ -354,14 +353,6 @@ class Request extends Component<Props, State> {
             <VoteActions /> */}
           </BountyActions>
         </HeaderStrip>
-        <RequestBanner
-          type="request"
-          showBanner={this.state.showBanner}
-          ethUsdPrice={ethUsdPrice}
-          addToBountyAction={addToBountyAction}
-          toggleBanner={this.toggleBanner}
-          request_id={getRequest.request_id}
-        />
         <RequestHeader theme={theme} category={getRequest.category}>
           <RequestLogo category={getRequest.category} />
           <RequestHeaderContainer>
