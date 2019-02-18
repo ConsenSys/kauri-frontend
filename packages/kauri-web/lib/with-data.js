@@ -29,6 +29,7 @@ import "@rej156/react-mde/lib/styles/css/react-mde-all.css";
 import "../static/css/redraft-image.css";
 import "draft-js-inline-toolbar-plugin/lib/plugin.css";
 import "../ant-theme-vars.less";
+import analytics from "./pageAnalytics";
 import WelcomeBanner from "../components/containers/WelcomeBanner";
 
 const config = require("../config").default;
@@ -51,7 +52,7 @@ const dispatchEpic = (epic, action, state = {}, dependencies = {}) => {
   return promised;
 };
 
-export function parseCookies (ctx = {}, options = {}) {
+export function parseCookies(ctx = {}, options = {}) {
   let cookieToParse =
     ctx.req && ctx.req.headers.cookie && ctx.req.headers.cookie;
   if (global.window) cookieToParse = window.document.cookie;
@@ -69,7 +70,7 @@ export default ComposedComponent =>
       stateRedux: PropTypes.object.isRequired,
     };
 
-    static async getInitialProps (context) {
+    static async getInitialProps(context) {
       const url = { query: context.query, pathname: context.pathname };
       const hostName =
         (context.req && context.req.headers.host) ||
@@ -222,7 +223,7 @@ export default ComposedComponent =>
       };
     }
 
-    constructor (props) {
+    constructor(props) {
       super(props);
       this.apollo = initApollo(this.props.stateApollo.apollo.data, {
         getToken: () => props.parsedToken,
@@ -231,7 +232,7 @@ export default ComposedComponent =>
       this.redux = initRedux(this.apollo, this.props.stateRedux);
     }
 
-    componentDidMount () {
+    componentDidMount() {
       window.addEventListener("load", async () => {
         if (window.ethereum) {
           // NOTICE - Moved to sign in only.
@@ -244,10 +245,15 @@ export default ComposedComponent =>
           //   // User denied account access...
           // }
           // Supports Metamask and Mist, and other wallets that provide 'web3'.
+          analytics.setWeb3Status(true); // Track web3 status
         } else if (typeof window.web3 !== "undefined") {
           // Use the Mist/wallet provider.
           window.web3 = new Web3(window.web3.currentProvider);
+
+          // track web3 status
+          analytics.setWeb3Status(true);
         } else {
+          analytics.setWeb3Status(false);
           // No web3 detected. Show an error to the user or use Infura: https://infura.io/
           // window.web3 = new Web3(new Web3.providers.HttpProvider(`http://${process.env.gethBlockchain}`))
         }
@@ -278,14 +284,14 @@ export default ComposedComponent =>
       this.redux.dispatch(fetchEthUsdPriceAction());
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
       if (global.window && this.apollo && this.apollo.close) {
         console.log("Unsubscribing WebSocket");
         this.apollo.close();
       }
     }
 
-    render () {
+    render() {
       return (
         <Provider store={this.redux}>
           <ApolloProvider client={this.apollo}>

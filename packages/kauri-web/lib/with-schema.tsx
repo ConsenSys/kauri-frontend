@@ -19,7 +19,7 @@ const getValues = (props: IProps) => {
   const {
     id,
     title,
-    content,
+    description,
     attributes,
     author,
     datePublished,
@@ -44,15 +44,15 @@ const getValues = (props: IProps) => {
   const schema = {
     "@context": "http://schema.org",
     "@type": "Article",
-    articleBody: articleContent,
+    articleBody: description,
     author: author && (author.name || author.username),
     datePublished: datePublished || dateCreated,
-    description,
+    description: description.substring(0, 260),
     genre: "blockchain developer guide",
     headline: title,
     image:
       (attributes && attributes.background) ||
-      `${hostName}/static/images/logo.svg`,
+      `${hostName}/static/images/logo.png`,
     keywords: tags,
     mainEntityOfPage: {
       "@id": "id",
@@ -62,7 +62,7 @@ const getValues = (props: IProps) => {
       "@type": "Organization",
       logo: {
         "@type": "ImageObject",
-        url: `${hostName}/static/images/logo.svg`,
+        url: `${hostName}/static/images/logo.png`,
       },
       name: "Kauri",
     },
