@@ -27,8 +27,7 @@ const analytics = {
   },
 
   setWeb3Status(status) {
-    console.log("WEB3 Status:", status);
-    ga.set({ "Web3 Enabled": status });
+    ga.set({ dimension1: status.toString() });
   },
 };
 
