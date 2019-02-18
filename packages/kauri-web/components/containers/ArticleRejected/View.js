@@ -3,23 +3,29 @@ import React from "react";
 import styled from "styled-components";
 import { ActionButtons, ActionButton } from "../../common/ActionButton";
 import { ArticleApprovedConfirmationLogoBadge } from "../../common/ActionBadge";
-import {
-  Container as RequestCreatedContainer,
-  ConfirmationSubject as RequestConfirmationSubject,
-} from "../RequestCreated/View";
+import { menuHeaderHeight } from "../Navbar/View";
 
 type Props = {
   data?: { getArticle?: ArticleDTO },
   routeChangeAction: string => void,
 };
 
-const ConfirmationSubject = styled(RequestConfirmationSubject)`
+const ConfirmationSubject = styled.h2`
+  color: #ffffff;
+  font-weight: normal;
   font-size: 16px;
   margin-bottom: 50px;
 `;
 
-const Container = styled(RequestCreatedContainer)`
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - ${menuHeaderHeight}px);
+  background-color: ${props => props.theme.primaryTextColor};
   > :first-child {
+    margin-bottom: 30px;
     margin-bottom: 7px;
   }
 `;

@@ -40,10 +40,7 @@ routes
     "article-approved",
     "/article/:article_id/v:article_version/article-approved"
   )
-  .add(
-    "article-rejected",
-    "/article/:article_id/v:article_version/article-rejected"
-  )
+  .add("article-rejected", "/article/:id/v:version/article-rejected")
   .add(
     "article-published",
     "/article/:article_id/v:article_version/article-published"
