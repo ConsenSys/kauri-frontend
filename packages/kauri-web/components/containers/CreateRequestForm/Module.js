@@ -1,87 +1,124 @@
 // @flow
 
-import { Observable } from 'rxjs/Observable'
+import { Observable } from "rxjs/Observable";
 import {
   createRequest,
   searchRequests,
   updateRequest,
   storeRequestOwnershipSignature,
   getRequest,
-} from '../../../queries/Request'
-import createReducer from '../../../lib/createReducer'
-import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
-import { trackMixpanelAction } from '../Link/Module'
+} from "../../../queries/Request";
+import createReducer from "../../../lib/createReducer";
+import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
+import { trackMixpanelAction } from "../Link/Module";
 
-import type { Dependencies } from '../../../lib/Module'
+import type { Dependencies } from "../../../lib/Module";
 
-type State = {}
+type State = {};
 
 export type CreateRequestPayload = {
   bounty: number,
   subject: string,
   text: string,
   category: string,
-  sub_category: 'general' | 'tutorial' | 'walkthrough',
+  sub_category: "general" | "tutorial" | "walkthrough",
   dead_line: any,
-}
+};
 
-type CreateRequestAction = { type: string, payload: CreateRequestPayload, callback: any }
+type CreateRequestAction = {
+  type: string,
+  payload: CreateRequestPayload,
+  callback: any,
+};
 
-type Action = CreateRequestAction
+type Action = CreateRequestAction;
 
-const initialState: State = {}
+const initialState: State = {};
 
-const CREATE_REQUEST: string = 'CREATE_REQUEST'
+const CREATE_REQUEST: string = "CREATE_REQUEST";
 
-export const createRequestAction = (payload: CreateRequestPayload, callback: any): CreateRequestAction => ({
+export const createRequestAction = (
+  payload: CreateRequestPayload,
+  callback: any
+): CreateRequestAction => ({
   type: CREATE_REQUEST,
   payload,
   callback,
-})
+});
 
 export const createRequestEpic = (
   action$: Observable<CreateRequestAction>,
   { getState, dispatch }: any,
-  { apolloClient, smartContracts, web3, apolloSubscriber, web3PersonalSign, getGasPrice }: Dependencies
+  {
+    apolloClient,
+    smartContracts,
+    web3,
+    apolloSubscriber,
+    web3PersonalSign,
+    getGasPrice,
+  }: Dependencies
 ) =>
   action$
     .ofType(CREATE_REQUEST)
     .switchMap(
-      ({ payload: { bounty, subject, text, category, dead_line, sub_category }, callback }: CreateRequestAction) => {
-        dead_line = dead_line.utc().valueOf()
-        console.log(dead_line)
-        const weiBounty = web3.toWei(bounty, 'ether')
+      ({
+        payload: { bounty, subject, text, category, dead_line, sub_category },
+        callback,
+      }: CreateRequestAction) => {
+        dead_line = dead_line.utc().valueOf();
+        console.log(dead_line);
+        const weiBounty = web3.toWei(bounty, "ether");
 
-        if (window.web3.eth.accounts[0] !== getState().app && getState().app.userId) {
-          return Observable.throw('Wrong metamask account').catch(err => {
-            console.log(err)
+        if (
+          window.web3.eth.accounts[0] !== getState().app &&
+          getState().app.userId
+        ) {
+          return Observable.throw("Wrong metamask account").catch(err => {
+            console.log(err);
             return Observable.of(
               showNotificationAction({
-                notificationType: 'error',
-                message: 'Wrong metamask account',
-                description: 'Please switch to the correct account!',
+                notificationType: "error",
+                message: "Wrong metamask account",
+                description: "Please switch to the correct account!",
               })
-            )
-          })
+            );
+          });
         }
 
         return Observable.fromPromise(
           apolloClient.mutate({
             mutation: createRequest,
-            variables: { bounty, subject, text, category, dead_line, sub_category },
+            variables: {
+              bounty,
+              subject,
+              text,
+              category,
+              dead_line,
+              sub_category,
+            },
           })
         )
-          .flatMap(({ data: { createRequest: { hash } } }: { data: { createRequest: { hash: string } } }) =>
-            apolloSubscriber(hash)
+          .flatMap(
+            ({
+              data: {
+                createRequest: { hash },
+              },
+            }: {
+              data: { createRequest: { hash: string } },
+            }) => apolloSubscriber(hash)
           )
           .do(h => console.log(h))
           .switchMap(({ data: { output: { id, content_hash } } }) =>
-            web3PersonalSign(id, id + web3.eth.accounts[0] + content_hash, storeRequestOwnershipSignature)
+            web3PersonalSign(
+              id,
+              id + web3.eth.accounts[0] + content_hash,
+              storeRequestOwnershipSignature
+            )
               .flatMap(() => getGasPrice())
               .flatMap(gasPrice =>
                 smartContracts().KauriCore.addRequest.sendTransaction(
                   id,
-                  web3.sha3(content_hash).toString('hex'),
+                  web3.sha3(content_hash).toString("hex"),
                   category,
                   Math.floor(dead_line / 1000),
                   weiBounty,
@@ -95,29 +132,32 @@ export const createRequestEpic = (
               )
               .do(() => callback && callback())
               .do((transactionHash: string) => {
-                dispatch(routeChangeAction(`/request/${id}/request-created`))
+                dispatch(routeChangeAction(`/request/${id}/request-created`));
                 dispatch(
                   showNotificationAction({
-                    notificationType: 'info',
-                    message: 'Waiting for it to be mined',
-                    description: 'You will get another notification when the block is mined!',
+                    notificationType: "info",
+                    message: "Waiting for it to be mined",
+                    description:
+                      "You will get another notification when the block is mined!",
                   })
-                )
+                );
                 dispatch(
                   trackMixpanelAction({
-                    event: 'Onchain',
+                    event: "Onchain",
                     metaData: {
-                      resource: 'request',
+                      resource: "request",
                       resourceID: id,
-                      resourceAction: 'add request transaction submitted',
+                      resourceAction: "add request transaction submitted",
                       additionalBounty: bounty,
                       transactionHash,
                     },
                   })
-                )
+                );
               })
               .flatMap((transactionHash: string) =>
-                Observable.fromPromise(apolloSubscriber(transactionHash, 'RequestCreated'))
+                Observable.fromPromise(
+                  apolloSubscriber(transactionHash, "RequestCreated")
+                )
               )
               .do(h => console.log(h))
               .flatMap(() => apolloClient.resetStore())
@@ -126,10 +166,10 @@ export const createRequestEpic = (
                   query: searchRequests,
                   variables: {
                     filter: {
-                      status_in: ['OPENED'],
+                      status_in: ["OPENED"],
                     },
                   },
-                  fetchPolicy: 'network-only',
+                  fetchPolicy: "network-only",
                 })
               )
               .flatMap(() =>
@@ -138,76 +178,91 @@ export const createRequestEpic = (
                   variables: {
                     request_id: id,
                   },
-                  fetchPolicy: 'network-only',
+                  fetchPolicy: "network-only",
                 })
               )
               .mapTo(
                 showNotificationAction({
-                  notificationType: 'success',
-                  message: 'Request has been mined!',
-                  description: '1 block has been confirmed!',
+                  notificationType: "success",
+                  message: "Request has been mined!",
+                  description: "1 block has been confirmed!",
                 })
               )
               .catch(err => {
-                if (err.message && err.message.includes('invalid address')) {
+                if (err.message && err.message.includes("locked")) {
                   return Observable.of(
                     showNotificationAction({
-                      notificationType: 'error',
-                      message: 'Your wallet is locked!',
-                      description: 'Please unlock your wallet!',
+                      notificationType: "error",
+                      message: "Your wallet is locked!",
+                      description: "Please unlock your wallet!",
                     })
-                  )
-                } else if (err.message && err.message.includes("'KauriCore' of undefined")) {
+                  );
+                } else if (
+                  err.message &&
+                  err.message.includes("'KauriCore' of undefined")
+                ) {
                   return Observable.of(
                     showNotificationAction({
-                      notificationType: 'error',
-                      message: 'Wrong network',
-                      description: 'Please switch to the correct network!',
+                      notificationType: "error",
+                      message: "Wrong network",
+                      description: "Please switch to the correct network!",
                     })
-                  )
-                } else if (err.message && err.message.includes('Wrong metamask account')) {
+                  );
+                } else if (
+                  err.message &&
+                  err.message.includes("Wrong metamask account")
+                ) {
                   return Observable.of(
                     showNotificationAction({
-                      notificationType: 'error',
-                      message: 'Wrong metamask account',
-                      description: 'Please switch to the correct account!',
+                      notificationType: "error",
+                      message: "Wrong metamask account",
+                      description: "Please switch to the correct account!",
                     })
-                  )
+                  );
                 }
-                console.error(err)
+                console.error(err);
                 return Observable.of(
                   showNotificationAction({
-                    notificationType: 'error',
-                    message: 'Submission error',
-                    description: 'Please try again!',
+                    notificationType: "error",
+                    message: "Submission error",
+                    description: "Please try again!",
                   })
-                )
+                );
               })
-          )
+          );
       }
-    )
+    );
 
 const handlers = {
   [CREATE_REQUEST]: (state: State, action: Action) => ({
     ...state,
     hello: action.payload,
   }),
-}
+};
 
-export default createReducer(initialState, handlers)
+export default createReducer(initialState, handlers);
 
 // flatMap
 
-export type UpdateRequestPayload = { request_id: string, subject: string, text: string }
+export type UpdateRequestPayload = {
+  request_id: string,
+  subject: string,
+  text: string,
+};
 
-export type UpdateRequestAction = { type: 'UPDATE_REQUEST', payload: UpdateRequestPayload }
+export type UpdateRequestAction = {
+  type: "UPDATE_REQUEST",
+  payload: UpdateRequestPayload,
+};
 
-const UPDATE_REQUEST = 'UPDATE_REQUEST'
+const UPDATE_REQUEST = "UPDATE_REQUEST";
 
-export const updateRequestAction = (payload: UpdateRequestPayload): UpdateRequestAction => ({
+export const updateRequestAction = (
+  payload: UpdateRequestPayload
+): UpdateRequestAction => ({
   type: UPDATE_REQUEST,
   payload,
-})
+});
 
 export const updateRequestEpic = (
   action$: Observable<UpdateRequestAction>,
@@ -229,27 +284,33 @@ export const updateRequestEpic = (
           variables: { request_id, subject, text },
         })
       )
-        .flatMap(({ data: { editRequest: { hash } } }: { data: { editRequest: { hash: string } } }) =>
-          apolloSubscriber(hash)
+        .flatMap(
+          ({
+            data: {
+              editRequest: { hash },
+            },
+          }: {
+            data: { editRequest: { hash: string } },
+          }) => apolloSubscriber(hash)
         )
         .do(h => console.log(h))
         .do(() => apolloClient.resetStore())
         .flatMapTo(
           Observable.of(
             trackMixpanelAction({
-              event: 'Offchain',
+              event: "Offchain",
               metaData: {
-                resource: 'request',
+                resource: "request",
                 resourceID: request_id,
-                resourceAction: 'update request',
+                resourceAction: "update request",
               },
             }),
             showNotificationAction({
-              notificationType: 'success',
-              message: 'Request updated',
-              description: 'The subject and/or description have been updated.',
+              notificationType: "success",
+              message: "Request updated",
+              description: "The subject and/or description have been updated.",
             }),
             routeChangeAction(`/request/${request_id}`)
           )
         )
-    )
+    );
