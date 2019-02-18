@@ -66,11 +66,11 @@ export interface ArticleFilterInput {
   containsTag?: string | null;
   ownerIdEquals?: string | null;
   authorIdEquals?: string | null;
+  statusIn?: (ArticleStatusInput | null)[] | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
   dateCreatedLessThan?: any | null;
   idEquals?: string | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
   ownerEquals?: string | null;
   checkpointEquals?: string | null;
 }
