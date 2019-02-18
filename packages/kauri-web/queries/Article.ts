@@ -189,10 +189,12 @@ export const searchApprovedArticles = gql`
         ownerIdEquals: $category
       }
     ) {
-      totalElements
       content {
         ...Article
       }
+      isLast
+      totalElements
+      totalPages
     }
   }
 
