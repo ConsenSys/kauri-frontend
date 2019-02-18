@@ -151,7 +151,7 @@ export const registerEpic = (
             })
             .catch(err => {
               console.error(err);
-              if (err && err.message.includes("Metamask locked!")) {
+              if (err && err.message.includes("locked")) {
                 return Observable.of(
                   showNotificationAction({
                     notificationType: "error",
