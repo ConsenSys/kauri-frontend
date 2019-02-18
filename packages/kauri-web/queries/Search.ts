@@ -91,17 +91,8 @@ export const searchResultsAutocomplete = gql`
               sum
             }
             owner {
-              ... on PublicUserDTO {
-                id
-                name
-                username
-                avatar
-              }
-              ... on CommunityDTO {
-                id
-                name
-                avatar
-              }
+              ...UserOwner
+              ...CommunityOwner
             }
           }
 

@@ -115,12 +115,12 @@ const CuratedList = ({
                       date={articleCard.dateCreated}
                       title={articleCard.title}
                       description={articleCard.description}
-                      userId={articleCard.author && articleCard.author.id}
+                      userId={articleCard.owner && articleCard.owner.id}
                       username={
-                        articleCard.author && articleCard.author.username
+                        articleCard.owner && articleCard.owner.username
                       }
                       userAvatar={
-                        articleCard.author && articleCard.author.avatar
+                        articleCard.owner && articleCard.owner.avatar
                       }
                       id={articleCard.id}
                       version={articleCard.version}

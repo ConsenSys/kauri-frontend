@@ -62,6 +62,7 @@ export enum UserStatus {
 
 export interface ArticleFilterInput {
   dateCreatedGreaterThan?: any | null;
+  versionIn?: (number | null)[] | null;
   containsTag?: string | null;
   ownerIdEquals?: string | null;
   authorIdEquals?: string | null;
@@ -69,9 +70,8 @@ export interface ArticleFilterInput {
   fullText?: string | null;
   dateCreatedLessThan?: any | null;
   idEquals?: string | null;
-  ownerEquals?: string | null;
   statusIn?: (ArticleStatusInput | null)[] | null;
-  versionIn?: (number | null)[] | null;
+  ownerEquals?: string | null;
   checkpointEquals?: string | null;
 }
 
@@ -100,15 +100,15 @@ export interface CommunityFilterInput {
 }
 
 export interface ResourceIdentifierInput {
-  type?: ResourceTypeInput | null;
   version?: number | null;
+  type?: ResourceTypeInput | null;
   id?: string | null;
 }
 
 export interface SearchFilterInput {
-  type?: ResourceTypeInput | null;
-  mustIncludeUserId?: (string | null)[] | null;
   mustNotContainTag?: (string | null)[] | null;
+  mustIncludeUserId?: (string | null)[] | null;
+  type?: ResourceTypeInput | null;
   mustContainTag?: (string | null)[] | null;
   mustNotIncludeUserId?: (string | null)[] | null;
 }
@@ -116,8 +116,8 @@ export interface SearchFilterInput {
 export interface SectionDTOInput {
   name?: string | null;
   description?: string | null;
-  id?: string | null;
   resourcesId?: (ResourceIdentifierInput | null)[] | null;
+  id?: string | null;
 }
 
 //==============================================================
