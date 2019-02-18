@@ -13,6 +13,9 @@ interface ITabContainerProps {
 }
 
 const TabContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
   min-width: ${(props: ITabContainerProps) => props.minWidth};
 `;
 
@@ -25,11 +28,13 @@ interface ITabsProps {
 const Tabs = styled<ITabsProps, "div">("div")`
   height: 50px;
   width: 100%;
-  color: ${props => props.dark ? 'white': props.theme.colors.primaryTextColor};
+  color: ${props =>
+    props.dark ? "white" : props.theme.colors.primaryTextColor};
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: ${props => props.dark ? props.theme && props.theme.bg[props.bg] : 'transparent'};
+  background-color: ${props =>
+    props.dark ? props.theme && props.theme.bg[props.bg] : "transparent"};
   ${props => props.padContent && "padding: 0px calc((100vw - 1280px) / 2)"};
   ${props => props.centerTabs && "justify-content: center"};
 `;
@@ -104,7 +109,12 @@ class TabsComponent extends React.Component<IProps, IState> {
 
     return (
       <TabContainer minWidth={minWidth}>
-        <Tabs dark={props.dark} bg={bg} padContent={padContent} centerTabs={centerTabs}>
+        <Tabs
+          dark={props.dark}
+          bg={bg}
+          padContent={padContent}
+          centerTabs={centerTabs}
+        >
           {this.props.tabs.map((tab, index) => (
             <Tab
               key={index}
