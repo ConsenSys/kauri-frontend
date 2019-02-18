@@ -64,6 +64,8 @@ export interface ArticleFilterInput {
   dateCreatedGreaterThan?: any | null;
   containsTag?: string | null;
   ownerIdEquals?: string | null;
+  versionIn?: (number | null)[] | null;
+  statusIn?: (ArticleStatusInput | null)[] | null;
   authorIdEquals?: string | null;
   statusIn?: (ArticleStatusInput | null)[] | null;
   latestVersion?: boolean | null;

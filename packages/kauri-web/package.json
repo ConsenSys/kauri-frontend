@@ -224,6 +224,7 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
+      "yarn gqt",
       "yarn format",
       "yarn lint",
       "git add"
@@ -235,7 +236,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn gqt && lint-staged && yarn check-types"
+      "pre-commit": "lint-staged && yarn check-types"
     }
   },
   "private": true,

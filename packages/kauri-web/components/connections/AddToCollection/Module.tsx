@@ -196,5 +196,25 @@ export const addArticleToCollectionEpic: Epic<
             )
           )
           .do(() => apolloClient.resetStore())
+          .catch(err => {
+            console.error(err);
+            return Observable.of(
+              showNotificationAction({
+                description: "Please try again",
+                message: "Submission error",
+                notificationType: "error",
+              })
+            );
+          })
       )
+      .catch(err => {
+        console.error(err);
+        return Observable.of(
+          showNotificationAction({
+            description: "Please try again",
+            message: "Submission error",
+            notificationType: "error",
+          })
+        );
+      })
   );

@@ -8,15 +8,7 @@ import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
 // ====================================================
 
 export interface getCollection_getCollection_owner_ArticleDTO {
-  __typename:
-    | "ArticleDTO"
-    | "CommentDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CuratedListDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface getCollection_getCollection_owner_PublicUserDTO_resourceIdentifier {
@@ -48,22 +40,10 @@ export interface getCollection_getCollection_owner_CommunityDTO {
   resourceIdentifier: getCollection_getCollection_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type getCollection_getCollection_owner =
-  | getCollection_getCollection_owner_ArticleDTO
-  | getCollection_getCollection_owner_PublicUserDTO
-  | getCollection_getCollection_owner_CommunityDTO;
+export type getCollection_getCollection_owner = getCollection_getCollection_owner_ArticleDTO | getCollection_getCollection_owner_PublicUserDTO | getCollection_getCollection_owner_CommunityDTO;
 
 export interface getCollection_getCollection_sections_resources_CommunityDTO {
-  __typename:
-    | "CommunityDTO"
-    | "PublicUserDTO"
-    | "CommentDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CuratedListDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_associatedNfts {
@@ -97,15 +77,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_autho
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_owner_ArticleDTO {
-  __typename:
-    | "ArticleDTO"
-    | "CommentDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CuratedListDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -137,10 +109,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_owner
   resourceIdentifier: getCollection_getCollection_sections_resources_ArticleDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type getCollection_getCollection_sections_resources_ArticleDTO_owner =
-  | getCollection_getCollection_sections_resources_ArticleDTO_owner_ArticleDTO
-  | getCollection_getCollection_sections_resources_ArticleDTO_owner_PublicUserDTO
-  | getCollection_getCollection_sections_resources_ArticleDTO_owner_CommunityDTO;
+export type getCollection_getCollection_sections_resources_ArticleDTO_owner = getCollection_getCollection_sections_resources_ArticleDTO_owner_ArticleDTO | getCollection_getCollection_sections_resources_ArticleDTO_owner_PublicUserDTO | getCollection_getCollection_sections_resources_ArticleDTO_owner_CommunityDTO;
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_comments_content_author {
   __typename: "PublicUserDTO";
@@ -159,18 +128,14 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_comme
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_comments {
   __typename: "ResponsePage_CommentDTO";
-  content:
-    | (getCollection_getCollection_sections_resources_ArticleDTO_comments_content | null)[]
-    | null;
+  content: (getCollection_getCollection_sections_resources_ArticleDTO_comments_content | null)[] | null;
   totalPages: number | null;
   totalElements: any | null;
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO {
   __typename: "ArticleDTO";
-  associatedNfts:
-    | (getCollection_getCollection_sections_resources_ArticleDTO_associatedNfts | null)[]
-    | null;
+  associatedNfts: (getCollection_getCollection_sections_resources_ArticleDTO_associatedNfts | null)[] | null;
   resourceIdentifier: getCollection_getCollection_sections_resources_ArticleDTO_resourceIdentifier | null;
   description: string | null;
   id: string | null;
@@ -192,9 +157,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO {
   updateComment: string | null;
 }
 
-export type getCollection_getCollection_sections_resources =
-  | getCollection_getCollection_sections_resources_CommunityDTO
-  | getCollection_getCollection_sections_resources_ArticleDTO;
+export type getCollection_getCollection_sections_resources = getCollection_getCollection_sections_resources_CommunityDTO | getCollection_getCollection_sections_resources_ArticleDTO;
 
 export interface getCollection_getCollection_sections {
   __typename: "SectionDTO";

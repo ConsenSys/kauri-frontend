@@ -92,7 +92,7 @@ export const checkpointArticlesEpic = (
               })
             )
             .catch(err => {
-              if (err.message && err.message.includes('invalid address')) {
+              if (err.message && err.message.includes('locked')) {
                 return Observable.of(
                   showNotificationAction({
                     notificationType: 'error',

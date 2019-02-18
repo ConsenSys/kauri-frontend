@@ -8,6 +8,19 @@ export const User = gql`
   }
 `;
 
+export const UserOwner = gql`
+  fragment UserOwner on PublicUserDTO {
+    id
+    name
+    username
+    avatar
+    resourceIdentifier {
+      id
+      type
+    }
+  }
+`;
+
 export const getUserDetails = gql`
   query getUser($userId: String) {
     getUser(id: $userId) {

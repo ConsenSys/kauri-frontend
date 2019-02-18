@@ -78,7 +78,9 @@ const Content: React.FunctionComponent<IProps> = ({
       {chosenCollection && chosenCollection.sections.length > 0 && (
         <Select
           value={
-            parentState.chosenSection ? parentState.chosenSection.name : null
+            parentState.chosenSection && parentState.chosenSection.name
+              ? parentState.chosenSection.name
+              : "Untitled section"
           }
           placeHolder={"Section name"}
         >
