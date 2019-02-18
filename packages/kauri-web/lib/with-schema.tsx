@@ -99,12 +99,6 @@ const withSchema = (WrappedComponent: React.ComponentClass) => {
           <Helmet>
             <script type="application/ld+json">{schemaString}</script>
             <title>{title} - Kauri</title>
-            <link
-              rel="canonical"
-              href={`${hostName}/article/${id}/${slugify(String(title), {
-                lower: true,
-              })}`}
-            />
             <meta name="description" content={description} />
             <link
               rel="canonical"
