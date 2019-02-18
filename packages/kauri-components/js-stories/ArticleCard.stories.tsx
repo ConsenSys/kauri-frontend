@@ -5,11 +5,12 @@ import ArticleCard from "../components/Card/ArticleCard";
 import PrimaryButton from "../components/Button/PrimaryButton";
 import styled from "../lib/styled-components";
 
+const typeName: "NftTokenDTO" = "NftTokenDTO";
+
 const nfts = [
   {
+    __typename: typeName,
     contractAddress: "0xalis239qkljeu293hd",
-    description:
-      "Out with the old and in with the new! Kudos to knowledge sharers, crossing the void from web2 to web3.  ",
     externalUrl: "https://link-to-kudos",
     image:
       "https://s.gitcoin.co/static/v2/images/kudos/kauri_2.b22f35d8111e.svg",
@@ -17,8 +18,8 @@ const nfts = [
     tokenType: "kauri-web3-advocate",
   },
   {
+    __typename: typeName,
     contractAddress: "0x384ahse9872eheqiuwye91",
-    description: "Cheers to you, one of the first Kauri contributors!",
     externalUrl: "https://link-to-kudos",
     image:
       "https://s.gitcoin.co/static/v2/images/kudos/kauri_1.d335211161dc.svg",
@@ -75,7 +76,7 @@ storiesOf("ArticleCard", module)
       }
       id={"1234567890"}
       version={1}
-      content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -106,7 +107,7 @@ storiesOf("ArticleCard", module)
       }
       id={"1234567890"}
       version={1}
-      content={`
+      description={`
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Praesent sed cursus purus.
         In facilisis nulla sed efficitur posuere.
@@ -137,7 +138,7 @@ storiesOf("ArticleCard", module)
       title={"Two Line Title Two Line Title Two Line Title Two Line Title"}
       id={"1234567890"}
       version={1}
-      content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -170,7 +171,7 @@ storiesOf("ArticleCard", module)
       title={"Two Line Title Two Line Title Two Line Title Two Line Title"}
       id={"1234567890"}
       version={1}
-      content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -203,7 +204,7 @@ storiesOf("ArticleCard", module)
       title={"Two Line Title Two Line Title Two Line Title Two Line Title"}
       id={"1234567890"}
       version={1}
-      content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -245,7 +246,7 @@ storiesOf("ArticleCard", module)
         title={"Two Line Title Two Line Title Two Line Title Two Line Title"}
         id={"1234567890"}
         version={1}
-        content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -290,7 +291,7 @@ storiesOf("ArticleCard", module)
       }
       id={"1234567890"}
       version={1}
-      content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -344,7 +345,7 @@ storiesOf("ArticleCard", module)
       }
       id={"1234567890"}
       version={1}
-      content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -402,7 +403,7 @@ storiesOf("ArticleCard", module)
       }
       id={"1234567890"}
       version={1}
-      content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.
@@ -437,7 +438,7 @@ storiesOf("ArticleCard", module)
         }
         id={"1234567890"}
         version={1}
-        content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
        Praesent sed cursus purus.
       In facilisis nulla sed efficitur posuere.
       Maecenas vestibulum elementum interdum.

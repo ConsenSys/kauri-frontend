@@ -63,7 +63,7 @@ storiesOf("SearchResults", module)
         title={"One Line Title One Line Title One Line Title One Line Title"}
         id={"1234567890"}
         version={1}
-        content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
              Praesent sed cursus purus.
             In facilisis nulla sed efficitur posuere.
             Maecenas vestibulum elementum interdum.
@@ -94,7 +94,7 @@ storiesOf("SearchResults", module)
         title={"One Line Title One Line Title One Line Title One Line Title"}
         id={"1234567890"}
         version={1}
-        content={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit.
            Praesent sed cursus purus.
           In facilisis nulla sed efficitur posuere.
           Maecenas vestibulum elementum interdum.

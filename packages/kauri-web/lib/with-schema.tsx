@@ -1,27 +1,21 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import slugify from "slugify";
+import { Article } from "../queries/__generated__/Article";
 
 interface IProps {
   hostName: string;
   data: {
-    getArticle: {
-      attributes: {
-        background: string;
-      };
-      author: {
-        name: string;
-        username: string;
-      };
-      content: string;
-      datePublished: string;
-      id: string;
-      title: string;
-    };
+    getArticle: Article;
   };
 }
 
-const getValues = (props: any) => {
+const getCanonicalURL = (hostName: string, id: string, title: string) =>
+  `${hostName}/article/${id}/${slugify(String(title), {
+    lower: true,
+  })}`;
+
+const getValues = (props: IProps) => {
   const {
     id,
     title,
@@ -31,12 +25,13 @@ const getValues = (props: any) => {
     datePublished,
     dateCreated,
     tags,
+    version,
   } = props.data.getArticle;
 
   const hostName = `https://${props.hostName.replace(/api\./g, "")}`;
 
   const articleContent =
-    content[0] === "{" && JSON.parse(content).markdown
+    content && content[0] === "{" && JSON.parse(content).markdown
       ? JSON.parse(content).markdown
       : content;
 
@@ -50,7 +45,7 @@ const getValues = (props: any) => {
     "@context": "http://schema.org",
     "@type": "Article",
     articleBody: articleContent,
-    author: author.name || author.username,
+    author: author && (author.name || author.username),
     datePublished: datePublished || dateCreated,
     description,
     genre: "blockchain developer guide",
@@ -82,6 +77,7 @@ const getValues = (props: any) => {
     schema,
     schemaString: JSON.stringify(schema),
     title,
+    version,
   };
   return values;
 };
@@ -105,16 +101,24 @@ const withSchema = (WrappedComponent: React.ComponentClass) => {
             <title>{title} - Kauri</title>
             <link
               rel="canonical"
-              href={`${hostName}/article/${id}/${slugify(title, {
+              href={`${hostName}/article/${id}/${slugify(String(title), {
                 lower: true,
               })}`}
             />
             <meta name="description" content={description} />
-            <meta property="og:title" content={title} />
+            <link
+              rel="canonical"
+              href={
+                attributes.origin_url
+                  ? attributes.origin_url
+                  : getCanonicalURL(hostName, String(id), String(title))
+              }
+            />
+            <meta property="og:title" content={String(title)} />
             <meta property="og:site_name" content="kauri.io" />
             <meta
               property="og:url"
-              content={`${hostName}/article/${id}/${slugify(title, {
+              content={`${hostName}/article/${id}/${slugify(String(title), {
                 lower: true,
               })}`}
             />
@@ -132,11 +136,14 @@ const withSchema = (WrappedComponent: React.ComponentClass) => {
             <meta name="twitter:card" content="summary" />
             <meta
               name="twitter:site"
-              content={`https://${hostName}/article/${id}/${slugify(title, {
-                lower: true,
-              })}`}
+              content={`https://${hostName}/article/${id}/${slugify(
+                String(title),
+                {
+                  lower: true,
+                }
+              )}`}
             />
-            <meta name="twitter:title" content={title} />
+            <meta name="twitter:title" content={String(title)} />
             <meta name="twitter:description" content={`${description}...`} />
             <meta name="twitter:creator" content="@kauri_io" />
             <meta
