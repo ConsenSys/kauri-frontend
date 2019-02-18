@@ -69,7 +69,7 @@ const SectionsContent: React.FunctionComponent<IProps> = props => {
             </React.Fragment>
           ) : (
             <Label key={section.id} onClick={() => props.handleClick(section)}>
-              {section.name}
+              {section.name || "Untitled section"}
             </Label>
           )
         )}

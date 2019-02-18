@@ -101,7 +101,7 @@ export default compose(
       tags: Yup.array().min(1, "Minimum one tag"),
       sections: Yup.array(
         Yup.object().shape({
-          name: Yup.string().required("Missing section name!"),
+          // name: Yup.string().required("Missing section name!"),
           resourcesId: Yup.array().required("Missing a resource!"),
         })
       ),
