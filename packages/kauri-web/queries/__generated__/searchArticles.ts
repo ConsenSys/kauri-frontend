@@ -84,7 +84,7 @@ export interface searchArticles_searchArticles_content {
   id: string | null;
   version: number | null;
   title: string | null;
-  content: string | null;
+  description: string | null;
   tags: (string | null)[] | null;
   dateCreated: any | null;
   datePublished: any | null;

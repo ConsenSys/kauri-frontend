@@ -64,13 +64,13 @@ export interface ArticleFilterInput {
   dateCreatedGreaterThan?: any | null;
   containsTag?: string | null;
   ownerIdEquals?: string | null;
+  statusIn?: (ArticleStatusInput | null)[] | null;
   authorIdEquals?: string | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
   dateCreatedLessThan?: any | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
-  idEquals?: string | null;
   versionIn?: (number | null)[] | null;
+  idEquals?: string | null;
   ownerEquals?: string | null;
   checkpointEquals?: string | null;
 }
@@ -109,14 +109,14 @@ export interface SearchFilterInput {
   mustNotContainTag?: (string | null)[] | null;
   mustIncludeUserId?: (string | null)[] | null;
   mustContainTag?: (string | null)[] | null;
-  type?: ResourceTypeInput | null;
   mustNotIncludeUserId?: (string | null)[] | null;
+  type?: ResourceTypeInput | null;
 }
 
 export interface SectionDTOInput {
-  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   name?: string | null;
   description?: string | null;
+  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   id?: string | null;
 }
 

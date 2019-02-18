@@ -25,7 +25,7 @@ const getValues = (props: any) => {
   const {
     id,
     title,
-    content,
+    description,
     attributes,
     author,
     datePublished,
@@ -35,29 +35,18 @@ const getValues = (props: any) => {
 
   const hostName = `https://${props.hostName.replace(/api\./g, "")}`;
 
-  const articleContent =
-    content[0] === "{" && JSON.parse(content).markdown
-      ? JSON.parse(content).markdown
-      : content;
-
-  const description = articleContent
-    .replace(/\n|\r/g, " ")
-    .replace(/\u00a0/g, " ")
-    .replace("#", "")
-    .substring(0, 120);
-
   const schema = {
     "@context": "http://schema.org",
     "@type": "Article",
-    articleBody: articleContent,
+    articleBody: description,
     author: author.name || author.username,
     datePublished: datePublished || dateCreated,
-    description,
+    description: description.substring(0, 260),
     genre: "blockchain developer guide",
     headline: title,
     image:
       (attributes && attributes.background) ||
-      `${hostName}/static/images/logo.svg`,
+      `${hostName}/static/images/logo.png`,
     keywords: tags,
     mainEntityOfPage: {
       "@id": "id",
@@ -67,7 +56,7 @@ const getValues = (props: any) => {
       "@type": "Organization",
       logo: {
         "@type": "ImageObject",
-        url: `${hostName}/static/images/logo.svg`,
+        url: `${hostName}/static/images/logo.png`,
       },
       name: "Kauri",
     },
