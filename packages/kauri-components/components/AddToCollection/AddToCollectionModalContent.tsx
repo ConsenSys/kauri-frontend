@@ -22,7 +22,7 @@ interface IParentState {
 
 interface IProps {
   setCollection: (payload: { chosenCollection: ICollection }) => void;
-  setSection: (payload: { chosenSection: ISection }) => void;
+  setSection: (payload: { chosenSection: ISection | null }) => void;
   parentState: IParentState;
   collectionsThatDoNotHaveTheChosenArticleId: ICollection[];
   articleAlreadyInAllCollections: boolean;
@@ -58,9 +58,7 @@ const Content: React.FunctionComponent<IProps> = ({
         collectionsThatDoNotHaveTheChosenArticleId.length > 0 && (
           <Select
             value={
-              parentState.chosenCollection
-                ? parentState.chosenCollection.name
-                : null
+              parentState.chosenCollection && parentState.chosenCollection.name
             }
             placeHolder={"Collection name"}
           >
@@ -68,9 +66,9 @@ const Content: React.FunctionComponent<IProps> = ({
               changeToPrefilledArticleCreateCollectionRoute={
                 changeToPrefilledArticleCreateCollectionRoute
               }
-              handleClick={collection =>
-                setCollection({ chosenCollection: collection })
-              }
+              handleClick={collection => {
+                setCollection({ chosenCollection: collection });
+              }}
               collections={collectionsThatDoNotHaveTheChosenArticleId}
             />
           </Select>
@@ -78,9 +76,11 @@ const Content: React.FunctionComponent<IProps> = ({
       {chosenCollection && chosenCollection.sections.length > 0 && (
         <Select
           value={
-            parentState.chosenSection && parentState.chosenSection.name
-              ? parentState.chosenSection.name
-              : "Untitled section"
+            parentState.chosenSection
+              ? parentState.chosenSection.name !== ""
+                ? parentState.chosenSection.name
+                : "Untitled section"
+              : null
           }
           placeHolder={"Section name"}
         >
