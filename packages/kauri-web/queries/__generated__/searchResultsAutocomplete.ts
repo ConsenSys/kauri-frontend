@@ -22,13 +22,26 @@ export interface searchResultsAutocomplete_searchAutocomplete_content_resource_A
   sum: number | null;
 }
 
-export interface searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_author {
+export interface searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_ArticleDTO {
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+}
+
+export interface searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO {
   __typename: "PublicUserDTO";
   id: string | null;
   name: string | null;
   username: string | null;
   avatar: string | null;
 }
+
+export interface searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO {
+  __typename: "CommunityDTO";
+  id: string | null;
+  name: string | null;
+  avatar: string | null;
+}
+
+export type searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner = searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_ArticleDTO | searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO | searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO;
 
 export interface searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO {
   __typename: "ArticleDTO";
@@ -45,7 +58,7 @@ export interface searchResultsAutocomplete_searchAutocomplete_content_resource_A
   checkpoint: string | null;
   tags: (string | null)[] | null;
   voteResult: searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_voteResult | null;
-  author: searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_author | null;
+  owner: searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_owner | null;
 }
 
 export interface searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_ArticleDTO {

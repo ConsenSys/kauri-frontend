@@ -64,14 +64,14 @@ export interface ArticleFilterInput {
   dateCreatedGreaterThan?: any | null;
   containsTag?: string | null;
   ownerIdEquals?: string | null;
-  versionIn?: (number | null)[] | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
   authorIdEquals?: string | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
   dateCreatedLessThan?: any | null;
   idEquals?: string | null;
   ownerEquals?: string | null;
+  statusIn?: (ArticleStatusInput | null)[] | null;
+  versionIn?: (number | null)[] | null;
   checkpointEquals?: string | null;
 }
 
@@ -100,24 +100,24 @@ export interface CommunityFilterInput {
 }
 
 export interface ResourceIdentifierInput {
-  version?: number | null;
   type?: ResourceTypeInput | null;
+  version?: number | null;
   id?: string | null;
 }
 
 export interface SearchFilterInput {
-  mustNotContainTag?: (string | null)[] | null;
-  mustIncludeUserId?: (string | null)[] | null;
-  mustContainTag?: (string | null)[] | null;
   type?: ResourceTypeInput | null;
+  mustIncludeUserId?: (string | null)[] | null;
+  mustNotContainTag?: (string | null)[] | null;
+  mustContainTag?: (string | null)[] | null;
   mustNotIncludeUserId?: (string | null)[] | null;
 }
 
 export interface SectionDTOInput {
   name?: string | null;
-  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   description?: string | null;
   id?: string | null;
+  resourcesId?: (ResourceIdentifierInput | null)[] | null;
 }
 
 //==============================================================
