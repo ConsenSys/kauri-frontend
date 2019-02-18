@@ -38,15 +38,7 @@ export interface Article_author {
 }
 
 export interface Article_owner_ArticleDTO {
-  __typename:
-    | "ArticleDTO"
-    | "CommentDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CuratedListDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface Article_owner_PublicUserDTO_resourceIdentifier {
@@ -78,10 +70,7 @@ export interface Article_owner_CommunityDTO {
   resourceIdentifier: Article_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type Article_owner =
-  | Article_owner_ArticleDTO
-  | Article_owner_PublicUserDTO
-  | Article_owner_CommunityDTO;
+export type Article_owner = Article_owner_ArticleDTO | Article_owner_PublicUserDTO | Article_owner_CommunityDTO;
 
 export interface Article_comments_content_author {
   __typename: "PublicUserDTO";

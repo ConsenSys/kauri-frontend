@@ -1,4 +1,6 @@
 import gql from "graphql-tag";
+import { UserOwner } from "./User";
+import { CommunityOwner } from "./Community";
 
 export const searchAutocomplete = gql`
   query searchAutocomplete(
@@ -104,17 +106,8 @@ export const searchResultsAutocomplete = gql`
             background
             dateUpdated
             owner {
-              ... on PublicUserDTO {
-                id
-                name
-                username
-                avatar
-              }
-              ... on CommunityDTO {
-                id
-                name
-                avatar
-              }
+              ...UserOwner
+              ...CommunityOwner
             }
             resourceIdentifier {
               type
@@ -136,4 +129,7 @@ export const searchResultsAutocomplete = gql`
       }
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;

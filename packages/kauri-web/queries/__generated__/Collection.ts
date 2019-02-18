@@ -8,15 +8,7 @@ import { ResourceType } from "./../../__generated__/globalTypes";
 // ====================================================
 
 export interface Collection_owner_ArticleDTO {
-  __typename:
-    | "ArticleDTO"
-    | "CommentDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CuratedListDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface Collection_owner_PublicUserDTO_resourceIdentifier {
@@ -48,10 +40,7 @@ export interface Collection_owner_CommunityDTO {
   resourceIdentifier: Collection_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type Collection_owner =
-  | Collection_owner_ArticleDTO
-  | Collection_owner_PublicUserDTO
-  | Collection_owner_CommunityDTO;
+export type Collection_owner = Collection_owner_ArticleDTO | Collection_owner_PublicUserDTO | Collection_owner_CommunityDTO;
 
 export interface Collection_sections_resourcesId {
   __typename: "ResourceIdentifier";
@@ -60,16 +49,7 @@ export interface Collection_sections_resourcesId {
 }
 
 export interface Collection_sections_resources_CommunityDTO {
-  __typename:
-    | "CommunityDTO"
-    | "PublicUserDTO"
-    | "CommentDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CuratedListDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface Collection_sections_resources_ArticleDTO {
@@ -78,9 +58,7 @@ export interface Collection_sections_resources_ArticleDTO {
   version: number | null;
 }
 
-export type Collection_sections_resources =
-  | Collection_sections_resources_CommunityDTO
-  | Collection_sections_resources_ArticleDTO;
+export type Collection_sections_resources = Collection_sections_resources_CommunityDTO | Collection_sections_resources_ArticleDTO;
 
 export interface Collection_sections {
   __typename: "SectionDTO";

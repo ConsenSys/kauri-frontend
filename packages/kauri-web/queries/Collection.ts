@@ -1,5 +1,7 @@
 import gql from "graphql-tag";
 import { Article } from "./Article";
+import { UserOwner } from "./User";
+import { CommunityOwner } from "./Community";
 
 export const Collection = gql`
   fragment Collection on CollectionDTO {
@@ -10,25 +12,8 @@ export const Collection = gql`
     background
     dateUpdated
     owner {
-      ... on PublicUserDTO {
-        id
-        name
-        username
-        avatar
-        resourceIdentifier {
-          id
-          type
-        }
-      }
-      ... on CommunityDTO {
-        id
-        name
-        avatar
-        resourceIdentifier {
-          id
-          type
-        }
-      }
+      ...UserOwner
+      ...CommunityOwner
     }
     sections {
       id
@@ -50,6 +35,9 @@ export const Collection = gql`
       id
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const globalCollectionDetails = gql`
@@ -62,25 +50,8 @@ export const globalCollectionDetails = gql`
       background
       dateCreated
       owner {
-        ... on PublicUserDTO {
-          id
-          name
-          username
-          avatar
-          resourceIdentifier {
-            id
-            type
-          }
-        }
-        ... on CommunityDTO {
-          id
-          name
-          avatar
-          resourceIdentifier {
-            id
-            type
-          }
-        }
+        ...UserOwner
+        ...CommunityOwner
       }
       sections {
         name
@@ -97,7 +68,10 @@ export const globalCollectionDetails = gql`
       }
     }
   }
+
   ${Article}
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const getCollection = globalCollectionDetails;
@@ -178,25 +152,8 @@ export const getLatestCollections = gql`
             background
             dateUpdated
             owner {
-              ... on PublicUserDTO {
-                id
-                name
-                username
-                avatar
-                resourceIdentifier {
-                  id
-                  type
-                }
-              }
-              ... on CommunityDTO {
-                id
-                name
-                avatar
-                resourceIdentifier {
-                  id
-                  type
-                }
-              }
+              ...UserOwner
+              ...CommunityOwner
             }
             sections {
               id
@@ -216,6 +173,9 @@ export const getLatestCollections = gql`
       }
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const searchCollections = gql`
