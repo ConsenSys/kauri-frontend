@@ -64,14 +64,13 @@ export interface ArticleFilterInput {
   dateCreatedGreaterThan?: any | null;
   containsTag?: string | null;
   ownerIdEquals?: string | null;
+  versionIn?: (number | null)[] | null;
   statusIn?: (ArticleStatusInput | null)[] | null;
   authorIdEquals?: string | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
   dateCreatedLessThan?: any | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
   idEquals?: string | null;
-  versionIn?: (number | null)[] | null;
   ownerEquals?: string | null;
   checkpointEquals?: string | null;
 }
@@ -102,8 +101,8 @@ export interface CommunityFilterInput {
 
 export interface ResourceIdentifierInput {
   version?: number | null;
-  id?: string | null;
   type?: ResourceTypeInput | null;
+  id?: string | null;
 }
 
 export interface SearchFilterInput {
@@ -116,8 +115,8 @@ export interface SearchFilterInput {
 
 export interface SectionDTOInput {
   name?: string | null;
-  description?: string | null;
   resourcesId?: (ResourceIdentifierInput | null)[] | null;
+  description?: string | null;
   id?: string | null;
 }
 

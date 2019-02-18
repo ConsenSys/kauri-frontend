@@ -1,4 +1,6 @@
 import gql from "graphql-tag";
+import { UserOwner } from "./User";
+import { CommunityOwner } from "./Community";
 
 // TODO - Sync with backend once CollectionDTO > owner becomes author
 export const HomePageQuery = gql`
@@ -77,6 +79,10 @@ export const HomePageQuery = gql`
             username
             avatar
           }
+          owner {
+            ...UserOwner
+            ...CommunityOwner
+          }
 
           status
           attributes
@@ -95,10 +101,8 @@ export const HomePageQuery = gql`
             id
           }
           owner {
-            id
-            username
-            name
-            avatar
+            ...UserOwner
+            ...CommunityOwner
           }
           sections {
             name
@@ -120,4 +124,7 @@ export const HomePageQuery = gql`
       }
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;

@@ -7,6 +7,8 @@ import {
   searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO,
   searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO,
   searchResultsAutocomplete_searchAutocomplete_content_resource_CommunityDTO,
+  searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO,
+  searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO,
 } from "../../../queries/__generated__/searchResultsAutocomplete";
 import { Link } from "../../../routes";
 
@@ -127,6 +129,10 @@ class ResourceRows extends React.Component<
                         owner,
                         background,
                       } = resource.resource;
+
+                      const typedOwner = owner as
+                        | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO
+                        | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO;
                       return (
                         <ResourceRowWithImage
                           key={String(id)}
@@ -135,9 +141,13 @@ class ResourceRows extends React.Component<
                           date={dateUpdated}
                           title={String(name)}
                           description={String(description)}
-                          userId={(owner && String(owner.id)) || ""}
-                          username={owner && owner.username}
-                          userAvatar={owner && owner.avatar}
+                          userId={(typedOwner && String(typedOwner.id)) || ""}
+                          username={
+                            typedOwner.__typename === "PublicUserDTO"
+                              ? typedOwner.username
+                              : typedOwner.name
+                          }
+                          userAvatar={typedOwner && typedOwner.avatar}
                           imageURL={background}
                           tags={isArticleTags(tags) ? tags : []}
                           linkComponent={(childrenProps, route) => {

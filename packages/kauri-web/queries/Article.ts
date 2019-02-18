@@ -1,4 +1,6 @@
 import gql from "graphql-tag";
+import { UserOwner } from "./User";
+import { CommunityOwner } from "./Community";
 
 export const Article = gql`
   fragment Article on ArticleDTO {
@@ -38,25 +40,8 @@ export const Article = gql`
       avatar
     }
     owner {
-      ... on PublicUserDTO {
-        id
-        username
-        name
-        avatar
-        resourceIdentifier {
-          id
-          type
-        }
-      }
-      ... on CommunityDTO {
-        id
-        name
-        avatar
-        resourceIdentifier {
-          id
-          type
-        }
-      }
+      ...UserOwner
+      ...CommunityOwner
     }
     comments {
       content {
@@ -79,6 +64,9 @@ export const Article = gql`
     }
     updateComment
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const submitArticle = gql`
@@ -315,17 +303,8 @@ export const searchPersonalDrafts = gql`
           avatar
         }
         owner {
-          ... on PublicUserDTO {
-            id
-            username
-            name
-            avatar
-          }
-          ... on CommunityDTO {
-            id
-            name
-            avatar
-          }
+          ...UserOwner
+          ...CommunityOwner
         }
         status
         attributes
@@ -356,6 +335,9 @@ export const searchPersonalDrafts = gql`
       }
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const submitArticleVersion = gql`
@@ -411,16 +393,8 @@ export const searchPending = gql`
           username
         }
         owner {
-          ... on PublicUserDTO {
-            id
-            username
-            name
-            avatar
-          }
-          ... on CommunityDTO {
-            id
-            name
-          }
+          ...UserOwner
+          ...CommunityOwner
         }
         status
         attributes
@@ -449,6 +423,9 @@ export const searchPending = gql`
       }
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const searchAwaitingApproval = gql`
@@ -476,16 +453,8 @@ export const searchAwaitingApproval = gql`
           username
         }
         owner {
-          ... on PublicUserDTO {
-            id
-            username
-            name
-            avatar
-          }
-          ... on CommunityDTO {
-            id
-            name
-          }
+          ...UserOwner
+          ...CommunityOwner
         }
         status
         attributes
@@ -514,6 +483,9 @@ export const searchAwaitingApproval = gql`
       }
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const approveArticle = gql`

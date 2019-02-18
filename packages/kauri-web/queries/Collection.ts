@@ -1,5 +1,7 @@
 import gql from "graphql-tag";
 import { Article } from "./Article";
+import { UserOwner } from "./User";
+import { CommunityOwner } from "./Community";
 
 export const Collection = gql`
   fragment Collection on CollectionDTO {
@@ -10,10 +12,8 @@ export const Collection = gql`
     background
     dateUpdated
     owner {
-      id
-      name
-      username
-      avatar
+      ...UserOwner
+      ...CommunityOwner
     }
     sections {
       id
@@ -35,6 +35,9 @@ export const Collection = gql`
       id
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const globalCollectionDetails = gql`
@@ -47,14 +50,8 @@ export const globalCollectionDetails = gql`
       background
       dateCreated
       owner {
-        id
-        name
-        username
-        avatar
-        resourceIdentifier {
-          id
-          type
-        }
+        ...UserOwner
+        ...CommunityOwner
       }
       sections {
         name
@@ -71,7 +68,10 @@ export const globalCollectionDetails = gql`
       }
     }
   }
+
   ${Article}
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const getCollection = globalCollectionDetails;
@@ -123,34 +123,6 @@ export const composeCollection = gql`
   }
 `;
 
-const CollectionWithoutArticles = `
-    id
-    name
-    description
-    tags
-    background
-    dateUpdated
-    owner {
-      id
-      name
-      username
-      avatar
-    }
-    sections {
-      id
-      name
-      description
-      resourcesId {
-        id
-        type
-      }
-    }
-    resourceIdentifier {
-      type
-      id
-    }
-`;
-
 export const getLatestCollections = gql`
   query searchAutocompleteCollections(
     $page: Int = 0
@@ -173,12 +145,37 @@ export const getLatestCollections = gql`
         }
         resource {
           ... on CollectionDTO {
-           ${CollectionWithoutArticles}
+            id
+            name
+            description
+            tags
+            background
+            dateUpdated
+            owner {
+              ...UserOwner
+              ...CommunityOwner
+            }
+            sections {
+              id
+              name
+              description
+              resourcesId {
+                id
+                type
+              }
+            }
+            resourceIdentifier {
+              type
+              id
+            }
           }
         }
       }
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const searchCollections = gql`

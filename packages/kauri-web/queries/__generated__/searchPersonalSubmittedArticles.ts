@@ -38,15 +38,7 @@ export interface searchPersonalSubmittedArticles_searchArticles_content_author {
 }
 
 export interface searchPersonalSubmittedArticles_searchArticles_content_owner_ArticleDTO {
-  __typename:
-    | "ArticleDTO"
-    | "CommentDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CuratedListDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface searchPersonalSubmittedArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
@@ -58,8 +50,8 @@ export interface searchPersonalSubmittedArticles_searchArticles_content_owner_Pu
 export interface searchPersonalSubmittedArticles_searchArticles_content_owner_PublicUserDTO {
   __typename: "PublicUserDTO";
   id: string | null;
-  username: string | null;
   name: string | null;
+  username: string | null;
   avatar: string | null;
   resourceIdentifier: searchPersonalSubmittedArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier | null;
 }
@@ -78,10 +70,7 @@ export interface searchPersonalSubmittedArticles_searchArticles_content_owner_Co
   resourceIdentifier: searchPersonalSubmittedArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type searchPersonalSubmittedArticles_searchArticles_content_owner =
-  | searchPersonalSubmittedArticles_searchArticles_content_owner_ArticleDTO
-  | searchPersonalSubmittedArticles_searchArticles_content_owner_PublicUserDTO
-  | searchPersonalSubmittedArticles_searchArticles_content_owner_CommunityDTO;
+export type searchPersonalSubmittedArticles_searchArticles_content_owner = searchPersonalSubmittedArticles_searchArticles_content_owner_ArticleDTO | searchPersonalSubmittedArticles_searchArticles_content_owner_PublicUserDTO | searchPersonalSubmittedArticles_searchArticles_content_owner_CommunityDTO;
 
 export interface searchPersonalSubmittedArticles_searchArticles_content_comments_content_author {
   __typename: "PublicUserDTO";
@@ -100,18 +89,14 @@ export interface searchPersonalSubmittedArticles_searchArticles_content_comments
 
 export interface searchPersonalSubmittedArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
-  content:
-    | (searchPersonalSubmittedArticles_searchArticles_content_comments_content | null)[]
-    | null;
+  content: (searchPersonalSubmittedArticles_searchArticles_content_comments_content | null)[] | null;
   totalPages: number | null;
   totalElements: any | null;
 }
 
 export interface searchPersonalSubmittedArticles_searchArticles_content {
   __typename: "ArticleDTO";
-  associatedNfts:
-    | (searchPersonalSubmittedArticles_searchArticles_content_associatedNfts | null)[]
-    | null;
+  associatedNfts: (searchPersonalSubmittedArticles_searchArticles_content_associatedNfts | null)[] | null;
   resourceIdentifier: searchPersonalSubmittedArticles_searchArticles_content_resourceIdentifier | null;
   description: string | null;
   id: string | null;
@@ -135,9 +120,7 @@ export interface searchPersonalSubmittedArticles_searchArticles_content {
 
 export interface searchPersonalSubmittedArticles_searchArticles {
   __typename: "ResponsePage_ArticleDTO";
-  content:
-    | (searchPersonalSubmittedArticles_searchArticles_content | null)[]
-    | null;
+  content: (searchPersonalSubmittedArticles_searchArticles_content | null)[] | null;
 }
 
 export interface searchPersonalSubmittedArticles {
