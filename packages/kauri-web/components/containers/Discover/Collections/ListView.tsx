@@ -7,6 +7,8 @@ import Loading from "../../../common/Loading";
 import {
   searchAutocompleteCollections_searchAutocomplete,
   searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO,
+  searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO,
+  searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO,
 } from "../../../../queries/__generated__/searchAutocompleteCollections";
 
 interface IProps {
@@ -74,6 +76,12 @@ class Collections extends Component<IProps> {
                     current += sectionCount;
                     return current;
                   }, 0);
+
+                const typedOwner =
+                  collectionResource &&
+                  (collectionResource.owner as
+                    | searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO
+                    | searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO);
                 return (
                   <CollectionCard
                     key={String(collectionResource && collectionResource.id)}
@@ -84,20 +92,12 @@ class Collections extends Component<IProps> {
                       ""
                     }
                     username={
-                      collectionResource &&
-                      collectionResource.owner &&
-                      collectionResource.owner.username
+                      typedOwner && typedOwner.__typename === "PublicUserDTO"
+                        ? typedOwner.username
+                        : typedOwner && typedOwner.name
                     }
-                    userId={String(
-                      collectionResource &&
-                        collectionResource.owner &&
-                        collectionResource.owner.id
-                    )}
-                    userAvatar={
-                      collectionResource &&
-                      collectionResource.owner &&
-                      collectionResource.owner.avatar
-                    }
+                    userId={String(typedOwner && typedOwner.id)}
+                    userAvatar={typedOwner && typedOwner.avatar}
                     imageURL={
                       collectionResource && collectionResource.background
                     }

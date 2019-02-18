@@ -59,13 +59,37 @@ export interface searchResultsAutocomplete_searchAutocomplete_content_resource_A
   author: searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO_author | null;
 }
 
-export interface searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner {
+export interface searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_ArticleDTO {
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
+}
+
+export interface searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO {
   __typename: "PublicUserDTO";
   id: string | null;
   name: string | null;
   username: string | null;
   avatar: string | null;
 }
+
+export interface searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO {
+  __typename: "CommunityDTO";
+  id: string | null;
+  name: string | null;
+  avatar: string | null;
+}
+
+export type searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner =
+  | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_ArticleDTO
+  | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO
+  | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO;
 
 export interface searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";

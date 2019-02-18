@@ -10,10 +10,25 @@ export const Collection = gql`
     background
     dateUpdated
     owner {
-      id
-      name
-      username
-      avatar
+      ... on PublicUserDTO {
+        id
+        name
+        username
+        avatar
+        resourceIdentifier {
+          id
+          type
+        }
+      }
+      ... on CommunityDTO {
+        id
+        name
+        avatar
+        resourceIdentifier {
+          id
+          type
+        }
+      }
     }
     sections {
       id
@@ -47,13 +62,24 @@ export const globalCollectionDetails = gql`
       background
       dateCreated
       owner {
-        id
-        name
-        username
-        avatar
-        resourceIdentifier {
+        ... on PublicUserDTO {
           id
-          type
+          name
+          username
+          avatar
+          resourceIdentifier {
+            id
+            type
+          }
+        }
+        ... on CommunityDTO {
+          id
+          name
+          avatar
+          resourceIdentifier {
+            id
+            type
+          }
         }
       }
       sections {
@@ -123,34 +149,6 @@ export const composeCollection = gql`
   }
 `;
 
-const CollectionWithoutArticles = `
-    id
-    name
-    description
-    tags
-    background
-    dateUpdated
-    owner {
-      id
-      name
-      username
-      avatar
-    }
-    sections {
-      id
-      name
-      description
-      resourcesId {
-        id
-        type
-      }
-    }
-    resourceIdentifier {
-      type
-      id
-    }
-`;
-
 export const getLatestCollections = gql`
   query searchAutocompleteCollections(
     $page: Int = 0
@@ -173,7 +171,46 @@ export const getLatestCollections = gql`
         }
         resource {
           ... on CollectionDTO {
-           ${CollectionWithoutArticles}
+            id
+            name
+            description
+            tags
+            background
+            dateUpdated
+            owner {
+              ... on PublicUserDTO {
+                id
+                name
+                username
+                avatar
+                resourceIdentifier {
+                  id
+                  type
+                }
+              }
+              ... on CommunityDTO {
+                id
+                name
+                avatar
+                resourceIdentifier {
+                  id
+                  type
+                }
+              }
+            }
+            sections {
+              id
+              name
+              description
+              resourcesId {
+                id
+                type
+              }
+            }
+            resourceIdentifier {
+              type
+              id
+            }
           }
         }
       }

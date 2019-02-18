@@ -62,8 +62,8 @@ export interface searchPendingArticles_searchArticles_content_owner_PublicUserDT
 export interface searchPendingArticles_searchArticles_content_owner_PublicUserDTO {
   __typename: "PublicUserDTO";
   id: string | null;
-  username: string | null;
   name: string | null;
+  username: string | null;
   avatar: string | null;
   resourceIdentifier: searchPendingArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier | null;
 }

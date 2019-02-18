@@ -81,8 +81,8 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO {
   __typename: "PublicUserDTO";
   id: string | null;
-  username: string | null;
   name: string | null;
+  username: string | null;
   avatar: string | null;
   resourceIdentifier: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO_resourceIdentifier | null;
 }

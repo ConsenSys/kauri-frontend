@@ -58,8 +58,8 @@ export interface Article_owner_PublicUserDTO_resourceIdentifier {
 export interface Article_owner_PublicUserDTO {
   __typename: "PublicUserDTO";
   id: string | null;
-  username: string | null;
   name: string | null;
+  username: string | null;
   avatar: string | null;
   resourceIdentifier: Article_owner_PublicUserDTO_resourceIdentifier | null;
 }

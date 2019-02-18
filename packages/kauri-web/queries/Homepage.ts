@@ -77,6 +77,27 @@ export const HomePageQuery = gql`
             username
             avatar
           }
+          owner {
+            ... on PublicUserDTO {
+              id
+              name
+              username
+              avatar
+              resourceIdentifier {
+                id
+                type
+              }
+            }
+            ... on CommunityDTO {
+              id
+              name
+              avatar
+              resourceIdentifier {
+                id
+                type
+              }
+            }
+          }
 
           status
           attributes
@@ -95,10 +116,25 @@ export const HomePageQuery = gql`
             id
           }
           owner {
-            id
-            username
-            name
-            avatar
+            ... on PublicUserDTO {
+              id
+              name
+              username
+              avatar
+              resourceIdentifier {
+                id
+                type
+              }
+            }
+            ... on CommunityDTO {
+              id
+              name
+              avatar
+              resourceIdentifier {
+                id
+                type
+              }
+            }
           }
           sections {
             name

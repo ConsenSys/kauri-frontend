@@ -58,8 +58,8 @@ export interface searchPersonalSubmittedArticles_searchArticles_content_owner_Pu
 export interface searchPersonalSubmittedArticles_searchArticles_content_owner_PublicUserDTO {
   __typename: "PublicUserDTO";
   id: string | null;
-  username: string | null;
   name: string | null;
+  username: string | null;
   avatar: string | null;
   resourceIdentifier: searchPersonalSubmittedArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier | null;
 }

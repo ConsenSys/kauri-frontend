@@ -104,10 +104,17 @@ export const searchResultsAutocomplete = gql`
             background
             dateUpdated
             owner {
-              id
-              name
-              username
-              avatar
+              ... on PublicUserDTO {
+                id
+                name
+                username
+                avatar
+              }
+              ... on CommunityDTO {
+                id
+                name
+                avatar
+              }
             }
             resourceIdentifier {
               type

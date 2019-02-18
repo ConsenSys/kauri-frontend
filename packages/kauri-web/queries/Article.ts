@@ -40,8 +40,8 @@ export const Article = gql`
     owner {
       ... on PublicUserDTO {
         id
-        username
         name
+        username
         avatar
         resourceIdentifier {
           id
@@ -317,14 +317,22 @@ export const searchPersonalDrafts = gql`
         owner {
           ... on PublicUserDTO {
             id
-            username
             name
+            username
             avatar
+            resourceIdentifier {
+              id
+              type
+            }
           }
           ... on CommunityDTO {
             id
             name
             avatar
+            resourceIdentifier {
+              id
+              type
+            }
           }
         }
         status
@@ -413,13 +421,22 @@ export const searchPending = gql`
         owner {
           ... on PublicUserDTO {
             id
-            username
             name
+            username
             avatar
+            resourceIdentifier {
+              id
+              type
+            }
           }
           ... on CommunityDTO {
             id
             name
+            avatar
+            resourceIdentifier {
+              id
+              type
+            }
           }
         }
         status
