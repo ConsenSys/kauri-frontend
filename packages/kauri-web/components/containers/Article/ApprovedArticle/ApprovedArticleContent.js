@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import React, { Fragment } from "react";
 import { Helmet } from "react-helmet";
 import { EditorState, convertFromRaw } from "draft-js";
 import { Link } from "../../../../routes";
@@ -24,8 +24,8 @@ import { BodyCard } from "../../../../../kauri-components/components/Typography"
 import { INFT } from "../../../../../kauri-components/components/Kudos/NFTList";
 import AddIcon from "../../../../../kauri-components/components/Icon/AddIcon";
 import AddToCollectionConnection from "../../../connections/AddToCollection";
-import { Label } from "../../../../../kauri-components/components/Typography";
 import RelatedArticles from "../../../../../kauri-components/components/RelatedArticles";
+import ArticleContributors from "../../../../../kauri-components/components/ArticleContributors";
 import { Divider } from "../../../../../kauri-components/components/Outline";
 
 export const ApprovedArticleDetails = styled(CreateRequestDetails)`
@@ -43,10 +43,12 @@ export const ApprovedArticleDetails = styled(CreateRequestDetails)`
 `;
 
 const ActionsContainer = styled.div`
-  & > button {
-    margin: ${props => props.theme.space[2]}px 0;
+  & > button:not(:last-child) {
+    margin-bottom: ${props => props.theme.space[2]}px;
   }
 `;
+
+const ContributorsContainer = styled.div``;
 
 const UpdateArticleSvgIcon = () => (
   <svg
@@ -137,6 +139,7 @@ export default ({
   deleteDraftArticleAction,
   nfts,
   relatedArticles,
+  contributors,
 }: {
   text?: string,
   username?: ?string,
@@ -153,6 +156,15 @@ export default ({
   nfts: INFT[],
   relatedArticles: ArticleDTO[],
   resourceType: "USER" | "COMMUNITY",
+  contributors: [
+    {
+      __typename: "PublicUserDTO",
+      id: string | null,
+      name: string | null,
+      username: string | null,
+      avatar: string | null,
+    },
+  ],
   openModalAction: ({ children: React.ReactNode }) => void,
   closeModalAction: () => void,
   deleteDraftArticleAction: ({ id: string, version: number }) => void,
@@ -181,9 +193,9 @@ export default ({
     (editorState.markdown
       ? contentState.getBlocksAsArray().map(block => block.toJS())
       : editorState
-          .getCurrentContent()
-          .getBlocksAsArray()
-          .map(block => block.toJS()));
+        .getCurrentContent()
+        .getBlocksAsArray()
+        .map(block => block.toJS()));
 
   const outlineHeadings = blocks
     .filter(({ type }) => type.includes("header-one"))
@@ -220,6 +232,23 @@ export default ({
           text={ownerId ? "OWNER" : "AUTHOR"}
           routeChangeAction={routeChangeAction}
         />
+
+        {Array.isArray(contributors) && contributors.length && (
+          <ContributorsContainer>
+            <ArticleContributors
+              linkComponent={(children, route) => (
+                <Link useAnchorTag href={route}>
+                  {children}
+                </Link>
+              )}
+              contributors={contributors.filter(
+                contributor => contributor.id !== ownerId
+              )}
+            />
+            <Divider />
+          </ContributorsContainer>
+        )}
+
         <ActionsContainer>
           {status !== "DRAFT" && (
             <TertiaryButton
@@ -228,13 +257,13 @@ export default ({
               handleClick={() =>
                 userId
                   ? openModalAction({
-                      children: (
-                        <AddToCollectionConnection
-                          articleId={id}
-                          version={version}
-                        />
-                      ),
-                    })
+                    children: (
+                      <AddToCollectionConnection
+                        articleId={id}
+                        version={version}
+                      />
+                    ),
+                  })
                   : routeChangeAction(`/login?r=/article/${id}/v${version}`)
               }
             >
@@ -248,8 +277,8 @@ export default ({
               userId
                 ? routeChangeAction(`/article/${id}/v${version}/update-article`)
                 : routeChangeAction(
-                    `/login?r=/article/${id}/v${version}/update-article`
-                  )
+                  `/login?r=/article/${id}/v${version}/update-article`
+                )
             }
           >
             {`Update ${status === "DRAFT" ? "draft" : "article"}`}
@@ -296,7 +325,9 @@ export default ({
             )}?utm_campaign=read`}
             title={subject}
           />
+
           <Divider />
+
           <RelatedArticles
             linkComponent={(children, route, key) => (
               <Link key={key} useAnchorTag href={route}>

@@ -49,13 +49,13 @@ class ApprovedArticle extends React.Component<Props, State> {
     showBanner: false,
   };
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
   }
 
-  componentDidMount() {
+  componentDidMount () {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
@@ -66,7 +66,7 @@ class ApprovedArticle extends React.Component<Props, State> {
       ? this.setState({ showBanner: status })
       : this.setState({ showBanner: !this.state.showBanner });
 
-  render() {
+  render () {
     const props = this.props;
     if (!props.data.getArticle) return;
     const {
@@ -108,8 +108,8 @@ class ApprovedArticle extends React.Component<Props, State> {
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)
               : R.path(["data", "getArticle", "owner"])(props)
-              ? R.path(["data", "getArticle", "owner", "username"])(props)
-              : R.path(["data", "getArticle", "author", "username"])(props)
+                ? R.path(["data", "getArticle", "owner", "username"])(props)
+                : R.path(["data", "getArticle", "author", "username"])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -139,8 +139,8 @@ class ApprovedArticle extends React.Component<Props, State> {
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)
               : R.path(["data", "getArticle", "owner"])(props)
-              ? R.path(["data", "getArticle", "owner", "username"])(props)
-              : R.path(["data", "getArticle", "author", "username"])(props)
+                ? R.path(["data", "getArticle", "owner", "username"])(props)
+                : R.path(["data", "getArticle", "author", "username"])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -165,6 +165,9 @@ class ApprovedArticle extends React.Component<Props, State> {
             "searchMoreLikeThis",
             "content",
           ])(props)}
+          contributors={
+            props.data.getArticle && props.data.getArticle.contributors
+          }
         />
         <ApprovedArticle.Footer
           isLoggedIn={!!props.personalUsername}
