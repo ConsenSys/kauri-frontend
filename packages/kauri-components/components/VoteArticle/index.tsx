@@ -38,6 +38,7 @@ const VotingCTAContainer = styled.div`
 interface IProps {
   positiveVoteAction: () => void;
   negativeVoteAction: () => void;
+  loginFirstToVote: () => void;
   isLoggedIn: boolean;
   voteResult: Article_voteResult;
 }
@@ -45,13 +46,14 @@ interface IProps {
 const Component: React.FunctionComponent<IProps> = props => (
   <Container>
     <VotingCaption>
-      {props.voteResult.count &&
-        `${props.voteResult.sum} out of ${
-          props.voteResult.count
-        } readers found this article helpful.`}
+      {props.voteResult.count > 0
+        ? `${props.voteResult.sum} out of ${
+            props.voteResult.count
+          } readers found this article helpful.`
+        : "No one has voted yet. Please vote to help others in the community!"}
     </VotingCaption>
-    {props.isLoggedIn &&
-      (!props.voteResult.hasVoted ? (
+    {props.isLoggedIn ? (
+      props.voteResult.hasVoted ? (
         <VotingCaption>
           Thanks for your vote, the community really benefits!
         </VotingCaption>
@@ -72,7 +74,14 @@ const Component: React.FunctionComponent<IProps> = props => (
             </SecondaryButtonComponent>
           </VotingButtons>
         </VotingCTAContainer>
-      ))}
+      )
+    ) : (
+      <VotingCTAContainer>
+        <PrimaryButtonComponent onClick={() => props.loginFirstToVote()}>
+          Login to vote
+        </PrimaryButtonComponent>
+      </VotingCTAContainer>
+    )}
   </Container>
 );
 

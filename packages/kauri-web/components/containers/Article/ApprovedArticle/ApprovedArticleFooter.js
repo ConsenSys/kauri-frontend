@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from "react";
+import React from "react";
 import styled from "styled-components";
 import DatePosted from "../../../common/DatePosted";
 import VoteArticle from "../../../../../kauri-components/components/VoteArticle";
@@ -16,6 +16,7 @@ type Props = {
   positiveVoteAction: () => void,
   negativeVoteAction: () => void,
   voteResult: { sum: number },
+  loginFirstToVote: () => void,
 };
 
 const ArticleFooter = styled.section`
@@ -129,6 +130,7 @@ export default ({
   positiveVoteAction,
   negativeVoteAction,
   voteResult,
+  loginFirstToVote,
 }: Props) => (
   <ArticleFooter>
     <Divider />
@@ -164,6 +166,7 @@ export default ({
         isLoggedIn={isLoggedIn}
         positiveVoteAction={positiveVoteAction}
         negativeVoteAction={negativeVoteAction}
+        loginFirstToVote={loginFirstToVote}
       />
     </Details>
   </ArticleFooter>

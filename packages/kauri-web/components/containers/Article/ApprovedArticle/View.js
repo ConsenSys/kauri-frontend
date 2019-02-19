@@ -1,6 +1,5 @@
 // @flow
 import React from "react";
-import slugify from "slugify";
 import R from "ramda";
 import styled from "styled-components";
 import Actions from "./ApprovedArticleActions";
@@ -49,13 +48,13 @@ class ApprovedArticle extends React.Component<Props, State> {
     showBanner: false,
   };
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
   }
 
-  componentDidMount() {
+  componentDidMount () {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
@@ -66,20 +65,10 @@ class ApprovedArticle extends React.Component<Props, State> {
       ? this.setState({ showBanner: status })
       : this.setState({ showBanner: !this.state.showBanner });
 
-  render() {
+  render () {
     const props = this.props;
     if (!props.data.getArticle) return;
-    const {
-      title,
-      id,
-      content,
-      attributes,
-      associatedNfts,
-    } = props.data.getArticle;
-    const articleContent =
-      content[0] === "{" && JSON.parse(content).markdown
-        ? JSON.parse(content).markdown
-        : content;
+    const { associatedNfts } = props.data.getArticle;
     const hostName = `https://${props.hostName.replace(/api\./g, "")}`;
 
     const resourceType = R.path([
@@ -108,8 +97,8 @@ class ApprovedArticle extends React.Component<Props, State> {
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)
               : R.path(["data", "getArticle", "owner"])(props)
-              ? R.path(["data", "getArticle", "owner", "username"])(props)
-              : R.path(["data", "getArticle", "author", "username"])(props)
+                ? R.path(["data", "getArticle", "owner", "username"])(props)
+                : R.path(["data", "getArticle", "author", "username"])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -139,8 +128,8 @@ class ApprovedArticle extends React.Component<Props, State> {
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)
               : R.path(["data", "getArticle", "owner"])(props)
-              ? R.path(["data", "getArticle", "owner", "username"])(props)
-              : R.path(["data", "getArticle", "author", "username"])(props)
+                ? R.path(["data", "getArticle", "owner", "username"])(props)
+                : R.path(["data", "getArticle", "author", "username"])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -196,6 +185,13 @@ class ApprovedArticle extends React.Component<Props, State> {
             props.data.getArticle.contentHash
           }
           apiURL={`https://${process.env.monolithExternalApi}`}
+          loginFirstToVote={() =>
+            props.routeChangeAction(
+              `/login?r=/article/${props.data.getArticle &&
+                props.data.getArticle.id}/v${props.data.getArticle &&
+                props.data.getArticle.version}`
+            )
+          }
           positiveVoteAction={() =>
             props.voteAction({
               resourceId: {
