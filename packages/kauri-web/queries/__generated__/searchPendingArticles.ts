@@ -27,6 +27,7 @@ export interface searchPendingArticles_searchArticles_content_voteResult {
   __typename: "VoteResultDTO";
   sum: number | null;
   count: any | null;
+  hasVoted: boolean | null;
 }
 
 export interface searchPendingArticles_searchArticles_content_author {
