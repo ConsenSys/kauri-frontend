@@ -118,7 +118,10 @@ const ProfileHeader = ({
         href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
       />
       <meta name="description" content={`${title}`} />
-      <meta name="keywords" content={title.split(" ")} />
+      <meta
+        name="keywords"
+        content={typeof title === "string" && title.split(" ")}
+      />
       <meta
         property="og:title"
         content={`Kauri - ${name || (username && `@${username}`) || id}`}
