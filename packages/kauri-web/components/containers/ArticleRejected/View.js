@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import styled from "styled-components";
-import { ActionButtons, ActionButton } from "../../common/ActionButton";
+import SecondaryButton from "../../../../kauri-components/components/Button/SecondaryButton";
 import { ArticleApprovedConfirmationLogoBadge } from "../../common/ActionBadge";
 import { menuHeaderHeight } from "../Navbar/View";
 
@@ -30,12 +30,6 @@ const Container = styled.section`
   }
 `;
 
-const ArticleApprovedActionButtons = styled(ActionButtons)`
-  > :first-child {
-    margin-right: 0px;
-  }
-`;
-
 class ArticleRejected extends React.Component<Props> {
   render() {
     const { data, routeChangeAction, userId } = this.props;
@@ -49,15 +43,11 @@ class ArticleRejected extends React.Component<Props> {
           {(data && data.getArticle && data.getArticle.subject) ||
             "The author has been notified by email with your note."}
         </ConfirmationSubject>
-        <ArticleApprovedActionButtons>
-          <ActionButton
-            action={() => routeChangeAction(`/public-profile/${userId}`)}
-            height={40}
-            width={183}
-            label={"Back to my articles"}
-            type="alt"
-          />
-        </ArticleApprovedActionButtons>
+        <SecondaryButton
+          onClick={() => routeChangeAction(`/public-profile/${userId}`)}
+        >
+          Back to my articles
+        </SecondaryButton>
       </Container>
     );
   }
