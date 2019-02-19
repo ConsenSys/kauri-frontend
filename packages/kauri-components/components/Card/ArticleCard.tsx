@@ -20,7 +20,7 @@ import { TagList } from "../Tags";
 import NFTList from "../Kudos/NFTList";
 import Image from "../Image";
 import Date from "../HoverDateLabel";
-import { Article_associatedNfts } from '../../../kauri-web/queries/__generated__/Article'
+import { Article_associatedNfts } from "../../../kauri-web/queries/__generated__/Article";
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -237,7 +237,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   <React.Fragment>
     {typeof imageURL === "string" && (
       <Image
-        width={290}
+        width={cardWidth}
         height={cardHeight < 420 ? 116 : 170}
         image={imageURL}
         borderTopLeftRadius="4px"
@@ -255,13 +255,15 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
           text={title}
         />
       </H1>
+      {cardHeight > DEFAULT_CARD_HEIGHT && (
         <BodyCard>
           <TextTruncate
             line={contentLineHeight({ cardHeight, cardWidth, imageURL })}
             truncateText="…"
-            text={description || ''}
+            text={description || ""}
           />
         </BodyCard>
+      )}
       {Array.isArray(tags) && tags.length > 0 && (
         <TagList maxTags={3} color="textPrimary" tags={tags} maxChars={40} />
       )}
@@ -348,7 +350,7 @@ interface IProps {
   imageURL: string | null;
   cardHeight: number;
   cardWidth?: number;
-  destination?: 'review';
+  destination?: "review";
   linkComponent: (
     childrenProps: React.ReactElement<any>,
     route: string
@@ -444,7 +446,9 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             tags={tags}
             nfts={nfts}
           />,
-          destination === 'review' ? `/article-review/${id}/v${version}` : `/article/${id}/v${version}`
+          destination === "review"
+            ? `/article-review/${id}/v${version}`
+            : `/article/${id}/v${version}`
         )}
         <Divider imageURL={imageURL} />
         <Footer imageURL={imageURL}>
