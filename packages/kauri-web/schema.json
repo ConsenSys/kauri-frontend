@@ -116,6 +116,7 @@
             "deprecationReason": null
           },
           {
+<<<<<<< HEAD
             "name": "removeCollectionSection",
             "description": null,
             "args": [
@@ -149,6 +150,8 @@
             "deprecationReason": null
           },
           {
+=======
+>>>>>>> Add more states and copy to the voting component
             "name": "searchUsers",
             "description": null,
             "args": [
@@ -206,6 +209,39 @@
             "type": {
               "kind": "OBJECT",
               "name": "ResponsePage_PublicUserDTO",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "removeCollectionSection",
+            "description": null,
+            "args": [
+              {
+                "name": "sectionId",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MutationResponse",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1235,7 +1271,40 @@
                   "ofType": null
                 },
                 "defaultValue": null
+<<<<<<< HEAD
               },
+=======
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ResponsePage_CommunityDTO",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "getAllCuratedList",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CuratedListDTO",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "getUser",
+            "description": null,
+            "args": [
+>>>>>>> Add more states and copy to the voting component
               {
                 "name": "id",
                 "description": "",
@@ -1574,7 +1643,11 @@
             "args": [
               {
                 "name": "resource",
+<<<<<<< HEAD
                 "description": "",
+=======
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -1584,7 +1657,11 @@
               },
               {
                 "name": "id",
+<<<<<<< HEAD
                 "description": "",
+=======
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1607,7 +1684,11 @@
             "args": [
               {
                 "name": "filter",
+<<<<<<< HEAD
                 "description": "",
+=======
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "SearchFilterInput",
@@ -1617,7 +1698,11 @@
               },
               {
                 "name": "size",
+<<<<<<< HEAD
                 "description": "",
+=======
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1627,7 +1712,11 @@
               },
               {
                 "name": "query",
+<<<<<<< HEAD
                 "description": "",
+=======
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1637,7 +1726,11 @@
               },
               {
                 "name": "page",
+<<<<<<< HEAD
                 "description": "",
+=======
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -3182,6 +3275,20 @@
             "defaultValue": null
           },
           {
+            "name": "versionIn",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
             "name": "dateCreatedLessThan",
             "description": null,
             "type": {
@@ -3202,14 +3309,23 @@
             "defaultValue": null
           },
           {
+<<<<<<< HEAD
             "name": "versionIn",
+=======
+            "name": "statusIn",
+>>>>>>> Add more states and copy to the voting component
             "description": null,
             "type": {
               "kind": "LIST",
               "name": null,
               "ofType": {
+<<<<<<< HEAD
                 "kind": "SCALAR",
                 "name": "Int",
+=======
+                "kind": "ENUM",
+                "name": "ArticleStatusInput",
+>>>>>>> Add more states and copy to the voting component
                 "ofType": null
               }
             },
@@ -6690,6 +6806,7 @@
         "fields": null,
         "inputFields": [
           {
+<<<<<<< HEAD
             "name": "type",
             "description": null,
             "type": {
@@ -6701,6 +6818,9 @@
           },
           {
             "name": "mustIncludeUserId",
+=======
+            "name": "mustNotIncludeUserId",
+>>>>>>> Add more states and copy to the voting component
             "description": null,
             "type": {
               "kind": "LIST",
@@ -6714,6 +6834,19 @@
             "defaultValue": null
           },
           {
+<<<<<<< HEAD
+=======
+            "name": "type",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "ResourceTypeInput",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+>>>>>>> Add more states and copy to the voting component
             "name": "mustNotContainTag",
             "description": null,
             "type": {
@@ -6742,7 +6875,11 @@
             "defaultValue": null
           },
           {
+<<<<<<< HEAD
             "name": "mustNotIncludeUserId",
+=======
+            "name": "mustIncludeUserId",
+>>>>>>> Add more states and copy to the voting component
             "description": null,
             "type": {
               "kind": "LIST",
@@ -7750,7 +7887,11 @@
             "args": [
               {
                 "name": "criteria",
+<<<<<<< HEAD
                 "description": "",
+=======
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -7764,7 +7905,11 @@
               },
               {
                 "name": "name",
+<<<<<<< HEAD
                 "description": "",
+=======
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -7774,7 +7919,11 @@
               },
               {
                 "name": "content",
+<<<<<<< HEAD
                 "description": "",
+=======
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -7797,7 +7946,11 @@
             "args": [
               {
                 "name": "id",
+<<<<<<< HEAD
                 "description": "",
+=======
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -7807,7 +7960,11 @@
               },
               {
                 "name": "sections",
+<<<<<<< HEAD
                 "description": "",
+=======
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -7878,8 +8035,13 @@
             "description": null,
             "args": [
               {
+<<<<<<< HEAD
                 "name": "parent",
                 "description": "",
+=======
+                "name": "resourceId",
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -7888,8 +8050,13 @@
                 "defaultValue": null
               },
               {
+<<<<<<< HEAD
                 "name": "body",
                 "description": "",
+=======
+                "name": "value",
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "Float",
@@ -7911,8 +8078,13 @@
             "description": null,
             "args": [
               {
+<<<<<<< HEAD
                 "name": "resourceId",
                 "description": "",
+=======
+                "name": "parent",
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -7921,8 +8093,13 @@
                 "defaultValue": null
               },
               {
+<<<<<<< HEAD
                 "name": "value",
                 "description": "",
+=======
+                "name": "body",
+                "description": null,
+>>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",

@@ -27,6 +27,7 @@ export interface Article_voteResult {
   __typename: "VoteResultDTO";
   sum: number | null;
   count: any | null;
+  hasVoted: boolean | null;
 }
 
 export interface Article_author {

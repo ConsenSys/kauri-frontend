@@ -7,6 +7,13 @@ import { Article_voteResult } from "../../../kauri-web/queries/__generated__/Art
 const Container = styled.section`
   display: flex;
   flex-direction: column;
+  > *:not(:last-child) {
+    margin-bottom: ${props => props.theme.space[1]}px;
+  }
+`;
+
+const VotingCTA = styled.div`
+  display: flex;
 `;
 
 const VotingCaption = styled.div`
@@ -16,7 +23,15 @@ const VotingCaption = styled.div`
 const VotingButtons = styled.div`
   display: flex;
   > button:last-child {
-    margin-left: ${props => props.theme.space[2]}px;
+    margin-left: ${props => props.theme.space[1]}px;
+  }
+`;
+
+const VotingCTAContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  > :first-child {
+    margin-bottom: ${props => props.theme.space[1]}px;
   }
 `;
 
@@ -30,23 +45,34 @@ interface IProps {
 const Component: React.FunctionComponent<IProps> = props => (
   <Container>
     <VotingCaption>
-      {props.voteResult.sum} person(s) found this offensive.
+      {props.voteResult.count &&
+        `${props.voteResult.sum} out of ${
+          props.voteResult.count
+        } readers found this article helpful.`}
     </VotingCaption>
-    {props.isLoggedIn && (
-      <VotingButtons>
-        <PrimaryButtonComponent onClick={() => props.positiveVoteAction()}>
-          Positive
-        </PrimaryButtonComponent>
-        <SecondaryButtonComponent
-          color="textPrimary"
-          border={"primary"}
-          borderHover={"hoverTextColor"}
-          onClick={() => props.negativeVoteAction()}
-        >
-          Negative
-        </SecondaryButtonComponent>
-      </VotingButtons>
-    )}
+    {props.isLoggedIn &&
+      (!props.voteResult.hasVoted ? (
+        <VotingCaption>
+          Thanks for your vote, the community really benefits!
+        </VotingCaption>
+      ) : (
+        <VotingCTAContainer>
+          <VotingCTA>{"Was this article helpful?"}</VotingCTA>
+          <VotingButtons>
+            <PrimaryButtonComponent onClick={() => props.positiveVoteAction()}>
+              Yes!
+            </PrimaryButtonComponent>
+            <SecondaryButtonComponent
+              color="textPrimary"
+              border={"primary"}
+              borderHover={"hoverTextColor"}
+              onClick={() => props.negativeVoteAction()}
+            >
+              It needs improvement
+            </SecondaryButtonComponent>
+          </VotingButtons>
+        </VotingCTAContainer>
+      ))}
   </Container>
 );
 
