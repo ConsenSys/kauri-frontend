@@ -1,4 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+const articleHeaderCss = css`
+  height: 196px;
+`;
 
 export const CreateRequestSecondaryHeader = styled.div`
   position: relative;

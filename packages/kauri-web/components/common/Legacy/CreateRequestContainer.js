@@ -1,4 +1,14 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+const inReviewArticleContainerCss = css`
+  display: flex;
+  padding-top: 2.5em;
+  flex-direction: column;
+`;
+
+const approvedArticleContainerCss = css`
+  padding-top: 2.5em;
+`;
 
 export const CreateRequestContainer = styled.div`
   width: 74%;

@@ -1,4 +1,26 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+const outlineHeaderCss = css`
+  position: sticky;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  overflow-y: -moz-hidden-unscrollable;
+  overflow-x: -moz-hidden-unscrollable;
+  top: 30px;
+  max-height: 90vh;
+  > :nth-child(3) {
+    overflow: auto;
+    max-height: 100vh;
+  }
+  ${props => props.isSubmitting && isSubmittingOutlineHeaderCss};
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+`;
 
 export const CreateRequestDetails = styled.section`
   display: flex;
