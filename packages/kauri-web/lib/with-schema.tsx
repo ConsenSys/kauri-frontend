@@ -92,7 +92,7 @@ const withSchema = (WrappedComponent: React.ComponentClass) => {
             <link
               rel="canonical"
               href={
-                attributes.origin_url
+                typeof attributes === 'object' && attributes.origin_url
                   ? attributes.origin_url
                   : getCanonicalURL(hostName, String(id), String(title))
               }
