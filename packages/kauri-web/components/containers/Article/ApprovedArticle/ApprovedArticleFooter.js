@@ -114,15 +114,6 @@ const Divider = styled.div`
   }
 `;
 
-const VotingContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-`;
-
-const VotingCaption = styled.div`
-  display: flex;
-`;
-
 export default ({
   username,
   date_updated,
@@ -168,17 +159,12 @@ export default ({
     </Details>
     <Divider />
     <Details>
-      <VotingContainer>
-        <VotingCaption>
-          {voteResult.sum} person(s) found this offensive.
-        </VotingCaption>
-        {isLoggedIn && (
-          <VoteArticle
-            positiveVoteAction={positiveVoteAction}
-            negativeVoteAction={negativeVoteAction}
-          />
-        )}
-      </VotingContainer>
+      <VoteArticle
+        voteResult={voteResult}
+        isLoggedIn={isLoggedIn}
+        positiveVoteAction={positiveVoteAction}
+        negativeVoteAction={negativeVoteAction}
+      />
     </Details>
   </ArticleFooter>
 );
