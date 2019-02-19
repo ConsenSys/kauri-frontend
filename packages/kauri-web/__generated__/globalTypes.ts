@@ -62,11 +62,9 @@ export enum UserStatus {
 
 export interface ArticleFilterInput {
   dateCreatedGreaterThan?: any | null;
-  versionIn?: (number | null)[] | null;
   containsTag?: string | null;
   ownerIdEquals?: string | null;
   authorIdEquals?: string | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
   versionIn?: (number | null)[] | null;
@@ -111,21 +109,14 @@ export interface SearchFilterInput {
   mustNotIncludeUserId?: (string | null)[] | null;
   type?: ResourceTypeInput | null;
   mustNotContainTag?: (string | null)[] | null;
-<<<<<<< HEAD
-  mustIncludeUserId?: (string | null)[] | null;
-  type?: ResourceTypeInput | null;
-  mustContainTag?: (string | null)[] | null;
-  mustNotIncludeUserId?: (string | null)[] | null;
-=======
   mustContainTag?: (string | null)[] | null;
   mustIncludeUserId?: (string | null)[] | null;
->>>>>>> Add more states and copy to the voting component
 }
 
 export interface SectionDTOInput {
   name?: string | null;
-  description?: string | null;
   resourcesId?: (ResourceIdentifierInput | null)[] | null;
+  description?: string | null;
   id?: string | null;
 }
 

@@ -116,7 +116,6 @@
             "deprecationReason": null
           },
           {
-<<<<<<< HEAD
             "name": "removeCollectionSection",
             "description": null,
             "args": [
@@ -150,8 +149,6 @@
             "deprecationReason": null
           },
           {
-=======
->>>>>>> Add more states and copy to the voting component
             "name": "searchUsers",
             "description": null,
             "args": [
@@ -209,39 +206,6 @@
             "type": {
               "kind": "OBJECT",
               "name": "ResponsePage_PublicUserDTO",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "removeCollectionSection",
-            "description": null,
-            "args": [
-              {
-                "name": "sectionId",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MutationResponse",
               "ofType": null
             },
             "isDeprecated": false,
@@ -793,39 +757,6 @@
             "deprecationReason": null
           },
           {
-            "name": "curateResource",
-            "description": null,
-            "args": [
-              {
-                "name": "resource",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ResourceIdentifierInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MutationResponse",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "submitArticle",
             "description": null,
             "args": [
@@ -1132,7 +1063,7 @@
             "deprecationReason": null
           },
           {
-            "name": "searchCommunities",
+            "name": "editArticleVersion",
             "description": null,
             "args": [
               {
@@ -1149,8 +1080,8 @@
                 "name": "attributes",
                 "description": "",
                 "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CommunityFilterInput",
+                  "kind": "SCALAR",
+                  "name": "Map_String_StringScalar",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -1160,10 +1091,10 @@
                 "description": "",
                 "type": {
                   "kind": "SCALAR",
-                  "name": "Int",
+                  "name": "String",
                   "ofType": null
                 },
-                "defaultValue": "20"
+                "defaultValue": null
               },
               {
                 "name": "title",
@@ -1183,132 +1114,12 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": "0"
+                "defaultValue": null
               },
               {
                 "name": "content",
                 "description": "",
                 "type": {
-                  "kind": "ENUM",
-                  "name": "DirectionInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "tags",
-                "description": "",
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ResponsePage_CommunityDTO",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "editArticleVersion",
-            "description": null,
-            "args": [
-              {
-                "name": "filter",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "size",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Map_String_StringScalar",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "sort",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "page",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "dir",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null
-<<<<<<< HEAD
-              },
-=======
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ResponsePage_CommunityDTO",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "getAllCuratedList",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "CuratedListDTO",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "getUser",
-            "description": null,
-            "args": [
->>>>>>> Add more states and copy to the voting component
-              {
-                "name": "id",
-                "description": "",
-                "type": {
                   "kind": "SCALAR",
                   "name": "String",
                   "ofType": null
@@ -1317,7 +1128,7 @@
               },
               {
                 "name": "tags",
-                "description": null,
+                "description": "",
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -1339,17 +1150,64 @@
             "deprecationReason": null
           },
           {
-            "name": "getAllCuratedList",
+            "name": "searchCommunities",
             "description": null,
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "CuratedListDTO",
-                "ofType": null
+            "args": [
+              {
+                "name": "filter",
+                "description": "",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CommunityFilterInput",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "size",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": "20"
+              },
+              {
+                "name": "sort",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "page",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": "0"
+              },
+              {
+                "name": "dir",
+                "description": "",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "DirectionInput",
+                  "ofType": null
+                },
+                "defaultValue": null
               }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ResponsePage_CommunityDTO",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1393,6 +1251,45 @@
               "kind": "OBJECT",
               "name": "Page_TagResultDTO",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "getUser",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "PublicUserDTO",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "getAllCuratedList",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CuratedListDTO",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1638,57 +1535,12 @@
             "deprecationReason": null
           },
           {
-            "name": "addResourceToCuratedList",
-            "description": null,
-            "args": [
-              {
-                "name": "resource",
-<<<<<<< HEAD
-                "description": "",
-=======
-                "description": null,
->>>>>>> Add more states and copy to the voting component
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ResourceIdentifierInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "id",
-<<<<<<< HEAD
-                "description": "",
-=======
-                "description": null,
->>>>>>> Add more states and copy to the voting component
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MutationResponse",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "searchAutocomplete",
             "description": null,
             "args": [
               {
                 "name": "filter",
-<<<<<<< HEAD
                 "description": "",
-=======
-                "description": null,
->>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "SearchFilterInput",
@@ -1698,11 +1550,7 @@
               },
               {
                 "name": "size",
-<<<<<<< HEAD
                 "description": "",
-=======
-                "description": null,
->>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1712,11 +1560,7 @@
               },
               {
                 "name": "query",
-<<<<<<< HEAD
                 "description": "",
-=======
-                "description": null,
->>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -1726,11 +1570,7 @@
               },
               {
                 "name": "page",
-<<<<<<< HEAD
                 "description": "",
-=======
-                "description": null,
->>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1742,6 +1582,39 @@
             "type": {
               "kind": "OBJECT",
               "name": "ResponseBreakdownPage_SearchResultDTO",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "addResourceToCuratedList",
+            "description": null,
+            "args": [
+              {
+                "name": "resource",
+                "description": "",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ResourceIdentifierInput",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "id",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MutationResponse",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2331,39 +2204,6 @@
             "deprecationReason": null
           },
           {
-            "name": "getArticleProof",
-            "description": null,
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "version",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ArticleProof",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "searchMoreLikeThis",
             "description": null,
             "args": [
@@ -2411,6 +2251,39 @@
             "type": {
               "kind": "OBJECT",
               "name": "ResponseBreakdownPage_SearchResultDTO",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "getArticleProof",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "version",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ArticleProof",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3215,6 +3088,20 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "statusIn",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "ArticleStatusInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
             "name": "dateCreatedGreaterThan",
             "description": null,
             "type": {
@@ -3275,20 +3162,6 @@
             "defaultValue": null
           },
           {
-            "name": "versionIn",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
             "name": "dateCreatedLessThan",
             "description": null,
             "type": {
@@ -3309,23 +3182,14 @@
             "defaultValue": null
           },
           {
-<<<<<<< HEAD
             "name": "versionIn",
-=======
-            "name": "statusIn",
->>>>>>> Add more states and copy to the voting component
             "description": null,
             "type": {
               "kind": "LIST",
               "name": null,
               "ofType": {
-<<<<<<< HEAD
                 "kind": "SCALAR",
                 "name": "Int",
-=======
-                "kind": "ENUM",
-                "name": "ArticleStatusInput",
->>>>>>> Add more states and copy to the voting component
                 "ofType": null
               }
             },
@@ -3342,34 +3206,6 @@
             "defaultValue": null
           },
           {
-            "name": "statusIn",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "ENUM",
-                "name": "ArticleStatusInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "versionIn",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
             "name": "checkpointEquals",
             "description": null,
             "type": {
@@ -3380,26 +3216,6 @@
             "defaultValue": null
           }
         ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Date",
-        "description": "Built-in scalar representing an instant in time",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Boolean",
-        "description": "The `Boolean` scalar type represents `true` or `false`.",
-        "fields": null,
-        "inputFields": null,
         "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
@@ -3443,6 +3259,26 @@
             "deprecationReason": null
           }
         ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Date",
+        "description": "Built-in scalar representing an instant in time",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Boolean",
+        "description": "The `Boolean` scalar type represents `true` or `false`.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
         "possibleTypes": null
       },
       {
@@ -4505,7 +4341,7 @@
       {
         "kind": "SCALAR",
         "name": "Float",
-        "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point). ",
+        "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point). ",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -5247,21 +5083,21 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "type",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "ResourceTypeInput",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
             "name": "version",
             "description": null,
             "type": {
               "kind": "SCALAR",
               "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "type",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "ResourceTypeInput",
               "ofType": null
             },
             "defaultValue": null
@@ -5398,6 +5234,20 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "resourcesId",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "ResourceIdentifierInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
             "name": "name",
             "description": null,
             "type": {
@@ -5424,20 +5274,6 @@
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "resourcesId",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "ResourceIdentifierInput",
-                "ofType": null
-              }
             },
             "defaultValue": null
           }
@@ -6806,7 +6642,6 @@
         "fields": null,
         "inputFields": [
           {
-<<<<<<< HEAD
             "name": "type",
             "description": null,
             "type": {
@@ -6817,10 +6652,7 @@
             "defaultValue": null
           },
           {
-            "name": "mustIncludeUserId",
-=======
-            "name": "mustNotIncludeUserId",
->>>>>>> Add more states and copy to the voting component
+            "name": "mustNotContainTag",
             "description": null,
             "type": {
               "kind": "LIST",
@@ -6834,20 +6666,7 @@
             "defaultValue": null
           },
           {
-<<<<<<< HEAD
-=======
-            "name": "type",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "ResourceTypeInput",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
->>>>>>> Add more states and copy to the voting component
-            "name": "mustNotContainTag",
+            "name": "mustIncludeUserId",
             "description": null,
             "type": {
               "kind": "LIST",
@@ -6875,11 +6694,7 @@
             "defaultValue": null
           },
           {
-<<<<<<< HEAD
             "name": "mustNotIncludeUserId",
-=======
-            "name": "mustIncludeUserId",
->>>>>>> Add more states and copy to the voting component
             "description": null,
             "type": {
               "kind": "LIST",
@@ -7816,7 +7631,7 @@
             "deprecationReason": null
           },
           {
-            "name": "addResourceToCuratedList",
+            "name": "removeResource",
             "description": null,
             "args": [
               {
@@ -7849,7 +7664,7 @@
             "deprecationReason": null
           },
           {
-            "name": "removeResource",
+            "name": "addResourceToCuratedList",
             "description": null,
             "args": [
               {
@@ -7887,11 +7702,7 @@
             "args": [
               {
                 "name": "criteria",
-<<<<<<< HEAD
                 "description": "",
-=======
-                "description": null,
->>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -7905,11 +7716,7 @@
               },
               {
                 "name": "name",
-<<<<<<< HEAD
                 "description": "",
-=======
-                "description": null,
->>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -7919,11 +7726,7 @@
               },
               {
                 "name": "content",
-<<<<<<< HEAD
                 "description": "",
-=======
-                "description": null,
->>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -7946,11 +7749,7 @@
             "args": [
               {
                 "name": "id",
-<<<<<<< HEAD
                 "description": "",
-=======
-                "description": null,
->>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -7960,11 +7759,7 @@
               },
               {
                 "name": "sections",
-<<<<<<< HEAD
                 "description": "",
-=======
-                "description": null,
->>>>>>> Add more states and copy to the voting component
                 "type": {
                   "kind": "LIST",
                   "name": null,
@@ -8035,13 +7830,8 @@
             "description": null,
             "args": [
               {
-<<<<<<< HEAD
-                "name": "parent",
-                "description": "",
-=======
                 "name": "resourceId",
-                "description": null,
->>>>>>> Add more states and copy to the voting component
+                "description": "",
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -8050,13 +7840,8 @@
                 "defaultValue": null
               },
               {
-<<<<<<< HEAD
-                "name": "body",
-                "description": "",
-=======
                 "name": "value",
-                "description": null,
->>>>>>> Add more states and copy to the voting component
+                "description": "",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Float",
@@ -8078,13 +7863,8 @@
             "description": null,
             "args": [
               {
-<<<<<<< HEAD
-                "name": "resourceId",
-                "description": "",
-=======
                 "name": "parent",
-                "description": null,
->>>>>>> Add more states and copy to the voting component
+                "description": "",
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ResourceIdentifierInput",
@@ -8093,13 +7873,8 @@
                 "defaultValue": null
               },
               {
-<<<<<<< HEAD
-                "name": "value",
-                "description": "",
-=======
                 "name": "body",
-                "description": null,
->>>>>>> Add more states and copy to the voting component
+                "description": "",
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -8770,39 +8545,6 @@
             "deprecationReason": null
           },
           {
-            "name": "curateResource",
-            "description": null,
-            "args": [
-              {
-                "name": "resource",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ResourceIdentifierInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MutationResponse",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "submitArticle",
             "description": null,
             "args": [
@@ -8914,18 +8656,6 @@
                 "defaultValue": null
               }
             ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MutationResponse",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "checkpointArticles",
-            "description": null,
-            "args": [],
             "type": {
               "kind": "OBJECT",
               "name": "MutationResponse",
@@ -9066,6 +8796,18 @@
                 "defaultValue": null
               }
             ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MutationResponse",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "checkpointArticles",
+            "description": null,
+            "args": [],
             "type": {
               "kind": "OBJECT",
               "name": "MutationResponse",
