@@ -33,9 +33,6 @@ export const ApprovedArticleDetails = styled(CreateRequestDetails)`
   > :last-child {
     margin-top: 0px;
   }
-  > :not(:first-child) {
-    margin-bottom: 20px;
-  }
 
   @media (max-width: 500px) {
     display: none;
