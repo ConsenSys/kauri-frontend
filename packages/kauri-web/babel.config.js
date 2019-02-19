@@ -15,6 +15,12 @@ const plugins = [
   ["@babel/plugin-proposal-class-properties", { loose: true }],
   "@babel/plugin-proposal-json-strings",
   [
+    "import",
+    {
+      libraryName: "antd",
+    },
+  ],
+  [
     "styled-components",
     {
       ssr: true,
