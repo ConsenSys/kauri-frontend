@@ -29,6 +29,14 @@ export interface searchPersonalArticles_searchArticles_content_voteResult {
   count: any | null;
 }
 
+export interface searchPersonalArticles_searchArticles_content_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface searchPersonalArticles_searchArticles_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -112,6 +120,7 @@ export interface searchPersonalArticles_searchArticles_content {
   checkpoint: string | null;
   tags: (string | null)[] | null;
   voteResult: searchPersonalArticles_searchArticles_content_voteResult | null;
+  contributors: (searchPersonalArticles_searchArticles_content_contributors | null)[] | null;
   author: searchPersonalArticles_searchArticles_content_author | null;
   owner: searchPersonalArticles_searchArticles_content_owner | null;
   comments: searchPersonalArticles_searchArticles_content_comments | null;

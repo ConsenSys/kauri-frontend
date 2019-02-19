@@ -29,6 +29,14 @@ export interface searchPendingArticles_searchArticles_content_voteResult {
   count: any | null;
 }
 
+export interface searchPendingArticles_searchArticles_content_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface searchPendingArticles_searchArticles_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -112,6 +120,7 @@ export interface searchPendingArticles_searchArticles_content {
   checkpoint: string | null;
   tags: (string | null)[] | null;
   voteResult: searchPendingArticles_searchArticles_content_voteResult | null;
+  contributors: (searchPendingArticles_searchArticles_content_contributors | null)[] | null;
   author: searchPendingArticles_searchArticles_content_author | null;
   owner: searchPendingArticles_searchArticles_content_owner | null;
   comments: searchPendingArticles_searchArticles_content_comments | null;

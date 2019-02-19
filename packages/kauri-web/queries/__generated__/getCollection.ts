@@ -68,6 +68,14 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_voteR
   count: any | null;
 }
 
+export interface getCollection_getCollection_sections_resources_ArticleDTO_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface getCollection_getCollection_sections_resources_ArticleDTO_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -151,6 +159,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO {
   checkpoint: string | null;
   tags: (string | null)[] | null;
   voteResult: getCollection_getCollection_sections_resources_ArticleDTO_voteResult | null;
+  contributors: (getCollection_getCollection_sections_resources_ArticleDTO_contributors | null)[] | null;
   author: getCollection_getCollection_sections_resources_ArticleDTO_author | null;
   owner: getCollection_getCollection_sections_resources_ArticleDTO_owner | null;
   comments: getCollection_getCollection_sections_resources_ArticleDTO_comments | null;

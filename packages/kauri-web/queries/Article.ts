@@ -33,6 +33,12 @@ export const Article = gql`
       sum
       count
     }
+    contributors {
+      id
+      name
+      username
+      avatar
+    }
     author {
       id
       name
