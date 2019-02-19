@@ -3,10 +3,10 @@ import React from "react";
 import { EditorState, ContentState } from "draft-js";
 import SharedEditor from "../../common/SharedEditor";
 import styled from "styled-components";
-import {
-  CreateRequestContent as SubmitArticleFormContent,
-  CreateRequestContainer as SubmitArticleFormContainer,
-} from "../CreateRequestForm/CreateRequestContent";
+import { CreateRequestContent as SubmitArticleFormContent } from "../../common/Legacy/CreateRequestContent";
+
+import { CreateRequestContainer as SubmitArticleFormContainer } from "../../common/Legacy/CreateRequestContainer";
+
 import type { EditArticlePayload, SubmitArticlePayload } from "./Module";
 
 type Props =

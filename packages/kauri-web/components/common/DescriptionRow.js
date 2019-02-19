@@ -1,5 +1,3 @@
-// @flow
-
 import React from "react";
 import redraft from "redraft";
 import styled, { css } from "styled-components";

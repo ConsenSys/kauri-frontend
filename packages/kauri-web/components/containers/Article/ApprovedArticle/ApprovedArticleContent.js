@@ -4,11 +4,13 @@ import { Helmet } from "react-helmet";
 import { EditorState, convertFromRaw } from "draft-js";
 import { Link } from "../../../../routes";
 import slugify from "slugify";
-import {
-  CreateRequestContent as SubmitArticleFormContent,
-  CreateRequestContainer as SubmitArticleFormContainer,
-  CreateRequestDetails,
-} from "../../CreateRequestForm/CreateRequestContent";
+
+import { CreateRequestDetails } from "../../../common/Legacy/CreateRequestDetails";
+
+import { CreateRequestContent as SubmitArticleFormContent } from "../../../common/Legacy/CreateRequestContent";
+
+import { CreateRequestContainer as SubmitArticleFormContainer } from "../../../common/Legacy/CreateRequestContainer";
+
 import DescriptionRow from "../../../common/DescriptionRow";
 import {
   contentStateFromHTML,

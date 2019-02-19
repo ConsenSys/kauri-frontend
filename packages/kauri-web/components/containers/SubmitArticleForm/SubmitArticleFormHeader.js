@@ -5,7 +5,7 @@ import type { AttributesPayload } from "./Module";
 import {
   CreateRequestSecondaryHeader as SubmitArticleFormHeader,
   TopicActionsContainer as SubmitArticleFormSubjectContainer,
-} from "../CreateRequestForm/CreateRequestHeader";
+} from "../../common/Legacy/CreateRequestSecondaryHeader";
 import TagSelector from "../../common/TagSelector";
 
 type Props = {
