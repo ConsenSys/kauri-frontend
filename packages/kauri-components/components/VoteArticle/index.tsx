@@ -50,19 +50,17 @@ const Component: React.FunctionComponent<IProps> = props => (
         ? `${props.voteResult.sum} out of ${
             props.voteResult.count
           } readers found this article helpful.`
-        : "No one has voted yet. Please vote to help others in the community!"}
+        : "No one has reviewed this article yet. Reviews help authors create good content!"}
     </VotingCaption>
     {props.isLoggedIn ? (
       props.voteResult.hasVoted ? (
-        <VotingCaption>
-          Thanks for your vote, the community really benefits!
-        </VotingCaption>
+        <VotingCaption>Thanks for reviewing!</VotingCaption>
       ) : (
         <VotingCTAContainer>
           <VotingCTA>{"Was this article helpful?"}</VotingCTA>
           <VotingButtons>
             <PrimaryButtonComponent onClick={() => props.positiveVoteAction()}>
-              Yes!
+              Yes
             </PrimaryButtonComponent>
             <SecondaryButtonComponent
               color="textPrimary"
@@ -70,7 +68,7 @@ const Component: React.FunctionComponent<IProps> = props => (
               borderHover={"hoverTextColor"}
               onClick={() => props.negativeVoteAction()}
             >
-              It needs improvement
+              Needs Improvement
             </SecondaryButtonComponent>
           </VotingButtons>
         </VotingCTAContainer>
@@ -78,7 +76,7 @@ const Component: React.FunctionComponent<IProps> = props => (
     ) : (
       <VotingCTAContainer>
         <PrimaryButtonComponent onClick={() => props.loginFirstToVote()}>
-          Login to vote
+          Login to Review
         </PrimaryButtonComponent>
       </VotingCTAContainer>
     )}
