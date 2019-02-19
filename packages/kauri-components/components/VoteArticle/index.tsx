@@ -3,6 +3,7 @@ import styled from "../../lib/styled-components";
 import PrimaryButtonComponent from "../Button/PrimaryButton";
 import SecondaryButtonComponent from "../Button/SecondaryButton";
 import { Article_voteResult } from "../../../kauri-web/queries/__generated__/Article";
+import { H4 } from "../Typography";
 
 const Container = styled.section`
   display: flex;
@@ -10,14 +11,6 @@ const Container = styled.section`
   > *:not(:last-child) {
     margin-bottom: ${props => props.theme.space[1]}px;
   }
-`;
-
-const VotingCTA = styled.div`
-  display: flex;
-`;
-
-const VotingCaption = styled.div`
-  display: flex;
 `;
 
 const VotingButtons = styled.div`
@@ -45,19 +38,19 @@ interface IProps {
 
 const Component: React.FunctionComponent<IProps> = props => (
   <Container>
-    <VotingCaption>
+    <H4>
       {props.voteResult.count > 0
         ? `${props.voteResult.sum} out of ${
             props.voteResult.count
           } readers found this article helpful.`
         : "No one has reviewed this article yet. Reviews help authors create good content!"}
-    </VotingCaption>
+    </H4>
     {props.isLoggedIn ? (
       props.voteResult.hasVoted ? (
-        <VotingCaption>Thanks for reviewing!</VotingCaption>
+        <H4>Thanks for reviewing!</H4>
       ) : (
         <VotingCTAContainer>
-          <VotingCTA>{"Was this article helpful?"}</VotingCTA>
+          <H4>{"Was this article helpful?"}</H4>
           <VotingButtons>
             <PrimaryButtonComponent onClick={() => props.positiveVoteAction()}>
               Yes

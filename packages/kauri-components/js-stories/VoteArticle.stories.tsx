@@ -62,6 +62,17 @@ storiesOf("VoteArticle", module)
       isLoggedIn={true}
     />
   ))
+  .add("1 voter already, has not voted yet, logged in", () => (
+    <VoteArticle
+      loginFirstToVote={() => {
+        return;
+      }}
+      positiveVoteAction={handleAction}
+      negativeVoteAction={handleAction}
+      voteResult={oneVoterVoteResultHasntVotedAlready}
+      isLoggedIn={true}
+    />
+  ))
   .add("1 voter already, has voted already, logged in", () => (
     <VoteArticle
       loginFirstToVote={() => {
