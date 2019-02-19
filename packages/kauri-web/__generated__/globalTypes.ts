@@ -62,11 +62,11 @@ export enum UserStatus {
 
 export interface ArticleFilterInput {
   dateCreatedGreaterThan?: any | null;
+  versionIn?: (number | null)[] | null;
   containsTag?: string | null;
   ownerIdEquals?: string | null;
-  versionIn?: (number | null)[] | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
   authorIdEquals?: string | null;
+  statusIn?: (ArticleStatusInput | null)[] | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
   dateCreatedLessThan?: any | null;
@@ -108,15 +108,15 @@ export interface ResourceIdentifierInput {
 export interface SearchFilterInput {
   mustNotContainTag?: (string | null)[] | null;
   mustIncludeUserId?: (string | null)[] | null;
-  mustContainTag?: (string | null)[] | null;
   type?: ResourceTypeInput | null;
+  mustContainTag?: (string | null)[] | null;
   mustNotIncludeUserId?: (string | null)[] | null;
 }
 
 export interface SectionDTOInput {
   name?: string | null;
-  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   description?: string | null;
+  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   id?: string | null;
 }
 

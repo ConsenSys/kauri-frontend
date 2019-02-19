@@ -90,11 +90,9 @@ export const searchResultsAutocomplete = gql`
             voteResult {
               sum
             }
-            author {
-              id
-              name
-              username
-              avatar
+            owner {
+              ...UserOwner
+              ...CommunityOwner
             }
           }
 

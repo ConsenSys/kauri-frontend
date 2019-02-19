@@ -8,7 +8,7 @@
   "scripts": {
     "get-schema": "node scripts/convertGQLSchemaToFlowTypes.js",
     "generate-query-types": "npx apollo client:codegen --localSchemaFile=schema.json --target=typescript",
-    "gqt": "npx apollo service:download --config=apollo.config.js && npx apollo client:codegen --target=typescript --config=apollo.config.js --mergeInFieldsFromFragmentSpreads",
+    "gqt": "npx apollo client:codegen --target=typescript --config=apollo.config.js",
     "dev": "npm run dev:web",
     "dev:web": "NODE_ENV=development babel-node --extensions '.ts, .tsx, .js, .jsx' index.js",
     "dev:mock": "NODE_ENV=development ENABLE_MOCK_SERVER=true babel-node --extensions '.ts, .tsx, .js, .jsx' index.js",
@@ -224,7 +224,6 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "yarn gqt",
       "yarn format",
       "yarn lint",
       "git add"
