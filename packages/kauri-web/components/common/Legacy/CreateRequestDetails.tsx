@@ -12,7 +12,6 @@ const outlineHeaderCss = css`
     overflow: auto;
     max-height: 100vh;
   }
-  ${props => props.isSubmitting && isSubmittingOutlineHeaderCss};
   ::-webkit-scrollbar {
     width: 0px;
     background: transparent;
@@ -22,7 +21,9 @@ const outlineHeaderCss = css`
   }
 `;
 
-export const CreateRequestDetails = styled.section`
+export const CreateRequestDetails = styled<{ type: string }, "section">(
+  "section"
+)`
   display: flex;
   width: 26%;
   padding-left: 30px;

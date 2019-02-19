@@ -1,10 +1,8 @@
-// @flow
 import React from "react";
 import styled from "styled-components";
-import GreenArrow from "../../common/GreenArrow";
 import TriggerImageUploader from "../../common/ImageUploader";
 import Stack from "stack-styled";
-import ActionsSection from "../../../../kauri-components/components/Section/ActionsSection";
+import ActionsSection from "../../../../kauri-components/components/Section/ActionsSections";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import SecondaryButton from "../../../../kauri-components/components/Button/SecondaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
@@ -44,35 +42,37 @@ const ContainerRow = styled.div`
   }
 `;
 
-type Props = {
-  routeChangeAction: string => void,
-  handleSubmit: any => void,
-  userId?: string,
-  authorId?: string,
-  openModalAction: (children: any) => void,
-  closeModalAction: () => void,
-};
+interface IProps {
+  routeChangeAction: (route: string) => void;
+  handleSubmit: (submissionType: string, updateComment?: string) => void;
+  userId: string;
+  openModalAction: (children: any) => void;
+  closeModalAction: () => void;
+  owner: string;
+  status: string;
+  getFieldDecorator: (field: string, arg1: any) => any;
+  setFieldsValue: ({ text }: { text: string }) => void;
+}
 
-const setupImageUploader = (setFieldsValue, getFieldDecorator) => {
+const setupImageUploader = (setFieldsValue: any, getFieldDecorator: any) => {
   getFieldDecorator("attributes");
   TriggerImageUploader(setFieldsValue, "attributes");
 };
 
-const isOwner = (status, owner, userId) =>
+const isOwner = (status: string, owner: string, userId: string) =>
   !status || !owner || owner === userId;
 
 export default ({
   routeChangeAction,
   handleSubmit,
   userId,
-  author,
   owner,
   status,
   setFieldsValue,
   getFieldDecorator,
   closeModalAction,
   openModalAction,
-}: Props) => (
+}: IProps) => (
   <SubmitArticleFormActions>
     <ActionsSection
       width={"100%"}
@@ -89,7 +89,8 @@ export default ({
       <Stack
         alignItems={["", "center"]}
         justifyContent={["", "center"]}
-        style={{ alignSelf: "center" }}
+        gridAutoFlow={["row"]}
+        gap={20}
       >
         <TertiaryButton
           icon={<UploadIcon />}
@@ -101,11 +102,11 @@ export default ({
         </TertiaryButton>
       </Stack>
       <ContainerRow>
-        <SecondaryButton onClick={handleSubmit("draft")}>
+        <SecondaryButton onClick={() => handleSubmit("draft")}>
           Save draft
         </SecondaryButton>
         {isOwner(status, owner, userId) ? (
-          <PrimaryButton onClick={handleSubmit("submit/update")}>
+          <PrimaryButton onClick={() => handleSubmit("submit/update")}>
             Publish Article
           </PrimaryButton>
         ) : (

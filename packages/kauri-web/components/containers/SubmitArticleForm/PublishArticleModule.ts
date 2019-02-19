@@ -46,12 +46,12 @@ interface IAction {
   payload?: {};
 }
 
-interface IOwnerPayload {
+export interface IOwnerPayload {
   type: string | null;
   id: string | null;
 }
 
-interface IPublishArticlePayload {
+export interface IPublishArticlePayload {
   id: string;
   version: number;
   contentHash: string;
@@ -61,7 +61,7 @@ interface IPublishArticlePayload {
   updateComment?: string;
 }
 
-interface IPublishArticleAction extends IAction {
+export interface IPublishArticleAction extends IAction {
   type: "PUBLISH_ARTICLE";
   payload: IPublishArticlePayload;
 }

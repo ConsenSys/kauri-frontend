@@ -2,8 +2,6 @@ import React from "react";
 import cookie from "cookie";
 import PropTypes from "prop-types";
 import Head from "next/head";
-import enUS from "antd/lib/locale-provider/en_US";
-import { LocaleProvider } from "antd";
 import { Provider } from "react-redux";
 import { ApolloProvider, getDataFromTree } from "react-apollo";
 import { ThemeProvider } from "styled-components";
@@ -179,14 +177,12 @@ export default ComposedComponent =>
         const app = (
           <Provider store={redux}>
             <ApolloProvider client={apollo}>
-              <LocaleProvider locale={enUS}>
-                <ThemeProvider theme={themeConfig}>
-                  <>
-                    <WelcomeBanner />
-                    <ComposedComponent url={url} {...composedInitialProps} />
-                  </>
-                </ThemeProvider>
-              </LocaleProvider>
+              <ThemeProvider theme={themeConfig}>
+                <>
+                  <WelcomeBanner />
+                  <ComposedComponent url={url} {...composedInitialProps} />
+                </>
+              </ThemeProvider>
             </ApolloProvider>
           </Provider>
         );
@@ -295,17 +291,15 @@ export default ComposedComponent =>
       return (
         <Provider store={this.redux}>
           <ApolloProvider client={this.apollo}>
-            <LocaleProvider locale={enUS}>
-              <ThemeProvider theme={themeConfig}>
-                <>
-                  <WelcomeBanner />
-                  <ComposedComponent
-                    {...this.props}
-                    web3={global.window ? global.window.web3 : global.window}
-                  />
-                </>
-              </ThemeProvider>
-            </LocaleProvider>
+            <ThemeProvider theme={themeConfig}>
+              <>
+                <WelcomeBanner />
+                <ComposedComponent
+                  {...this.props}
+                  web3={global.window ? global.window.web3 : global.window}
+                />
+              </>
+            </ThemeProvider>
           </ApolloProvider>
         </Provider>
       );

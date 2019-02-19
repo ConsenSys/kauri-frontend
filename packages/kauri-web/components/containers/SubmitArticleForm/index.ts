@@ -1,7 +1,6 @@
 import { compose, graphql } from "react-apollo";
 import { connect } from "react-redux";
 import { getArticle } from "../../../queries/Article";
-import { getRequest } from "../../../queries/Request";
 import {
   submitArticleAction,
   submitArticleVersionAction,
@@ -18,49 +17,46 @@ import {
   openModalAction,
 } from "../../../../kauri-components/components/Modal/Module";
 
-const mapStateToProps = (state, ownProps) => ({
-  isKauriTopicOwner: Boolean(
-    state.app.user &&
-      state.app.user.topics &&
-      state.app.user.topics.find(topic => topic === "kauri")
-  ),
-  categories: state.app && state.app.user && state.app.user.topics,
-  username: state.app.user && state.app.user.username,
-  userId: state.app.user && state.app.user && state.app.user.id,
+interface IReduxState {
+  app: {
+    hostName: string;
+    user: {
+      id: string;
+      avatar: string;
+      username: string;
+    };
+  };
+}
+
+const mapStateToProps = (state: IReduxState) => ({
   userAvatar: state.app.user && state.app.user.avatar,
+  userId: state.app.user && state.app.user && state.app.user.id,
+  username: state.app.user && state.app.user.username,
 });
 
 export default compose(
   connect(
     mapStateToProps,
     {
-      submitArticleAction,
-      submitArticleVersionAction,
+      closeModalAction,
+      draftArticleAction,
       editArticleAction,
+      openModalAction,
+      publishArticleAction,
       routeChangeAction,
       showNotificationAction,
-      draftArticleAction,
-      publishArticleAction,
-      closeModalAction,
-      openModalAction,
+      submitArticleAction,
+      submitArticleVersionAction,
     }
   ),
-  graphql(getRequest, {
-    options: ({ request_id }) => ({
-      variables: {
-        request_id,
-      },
-    }),
-    skip: ({ request_id }) => !request_id,
-  }),
   graphql(getArticle, {
-    options: ({ article_id, article_version }) => ({
+    options: ({ id, version }: { id: string; version: string }) => ({
       variables: {
-        id: article_id,
-        version: article_version,
+        id,
+        version,
       },
     }),
-    skip: ({ article_id }) => !article_id,
+    skip: ({ id }) => !id,
   }),
   withLoading()
 )(withRouter(View));

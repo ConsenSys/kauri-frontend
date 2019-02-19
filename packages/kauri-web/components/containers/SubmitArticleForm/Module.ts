@@ -1,52 +1,61 @@
-// @flow
-
 import { Observable } from "rxjs/Observable";
+import { Epic } from "redux-observable";
 import {
   submitArticleVersion,
   editArticle,
   getArticle,
   submitNewArticle,
-  approveArticle,
-  rejectArticle,
 } from "../../../queries/Article";
-import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
+import {
+  showNotificationAction,
+  routeChangeAction,
+  IDependencies,
+} from "../../../lib/Module";
 import { trackMixpanelAction } from "../Link/Module";
-import { publishArticleAction } from "./PublishArticleModule";
+import { publishArticleAction, IOwnerPayload } from "./PublishArticleModule";
 
-import type { Classification } from "../Link/Module";
-import type { Dependencies } from "../../../lib/Module";
+interface IGetArticleResult {
+  getArticle: {
+    id: string;
+    version: number;
+    contentHash: string;
+    dateCreated: string;
+    authorId: string;
+    owner: IOwnerPayload;
+  };
+}
 
-export type AttributesPayload = {
-  version?: string,
-  background?: string,
-};
+export interface IAttributesPayload {
+  version?: string;
+  background?: string;
+}
 
-export type SubmitArticlePayload = {
-  article_id?: string,
-  subject: string,
-  tags: string[],
-  text: string,
-  attributes?: AttributesPayload,
-  selfPublish?: boolean,
-};
+export interface ISubmitArticlePayload {
+  article_id?: string;
+  subject: string;
+  tags: string[];
+  text: string;
+  attributes?: IAttributesPayload;
+  selfPublish?: boolean;
+}
 
-export type SubmitArticleVersionPayload = {
-  id: string,
-  subject: string,
-  tags: string[],
-  text: string,
-  attributes?: AttributesPayload,
-  owner?: ?AbstractResourceDTO,
-  selfPublish?: boolean,
-  updateComment?: string,
-};
+export interface ISubmitArticleVersionPayload {
+  id: string;
+  subject: string;
+  tags: string[];
+  text: string;
+  attributes?: IAttributesPayload;
+  owner?: any;
+  selfPublish?: boolean;
+  updateComment?: string;
+}
 
-export type DraftArticleActionPayload = {
-  text: string,
-  subject: string,
-  tags: string[],
-  attributes?: AttributesPayload,
-};
+export interface IDraftArticleActionPayload {
+  text: string;
+  subject: string;
+  tags: string[];
+  attributes?: IAttributesPayload;
+}
 
 const SUBMIT_ARTICLE = "SUBMIT_ARTICLE";
 
@@ -56,116 +65,98 @@ const SUBMIT_ARTICLE_VERSION = "SUBMIT_ARTICLE_VERSION";
 
 const DRAFT_ARTICLE = "DRAFT_ARTICLE";
 
-export type EditArticlePayload = {
-  id: string,
-  version: number,
-  text: string,
-  subject: string,
-  tags: string[],
-  attributes?: AttributesPayload,
-  selfPublish?: boolean,
-};
+export interface IEditArticlePayload {
+  id: string;
+  version: number;
+  text: string;
+  subject: string;
+  tags: string[];
+  attributes?: IAttributesPayload;
+  selfPublish?: boolean;
+}
 
-export type SubmitArticleAction = {
-  type: string,
-  payload: SubmitArticlePayload,
-};
+export interface ISubmitArticleAction {
+  type: string;
+  payload: ISubmitArticlePayload;
+}
 
-export type SubmitArticleVersionAction = {
-  type: string,
-  payload: SubmitArticleVersionPayload,
-};
+export interface ISubmitArticleVersionAction {
+  type: string;
+  payload: ISubmitArticleVersionPayload;
+}
 
-export type EditArticleAction = { type: string, payload: EditArticlePayload };
+export interface IEditArticleAction {
+  type: string;
+  payload: IEditArticlePayload;
+}
 
-export type DraftArticleAction = {
-  type: string,
-  payload: DraftArticleActionPayload,
-};
-
-export type ApproveArticleAction = {
-  type: string,
-  payload: ApproveArticlePayload,
-};
-
-export type RejectArticleAction = {
-  type: string,
-  payload: RejectArticlePayload,
-};
+export interface IDraftArticleAction {
+  type: string;
+  payload: IDraftArticleActionPayload;
+}
 
 export const submitArticleAction = (
-  payload: SubmitArticlePayload
-): SubmitArticleAction => ({
-  type: SUBMIT_ARTICLE,
+  payload: ISubmitArticlePayload
+): ISubmitArticleAction => ({
   payload,
+  type: SUBMIT_ARTICLE,
 });
 
 export const editArticleAction = (
-  payload: EditArticlePayload
-): EditArticleAction => ({
-  type: EDIT_ARTICLE,
+  payload: IEditArticlePayload
+): IEditArticleAction => ({
   payload,
+  type: EDIT_ARTICLE,
 });
 
 export const submitArticleVersionAction = (
-  payload: SubmitArticleVersionPayload
-): SubmitArticleVersionAction => ({
-  type: SUBMIT_ARTICLE_VERSION,
+  payload: ISubmitArticleVersionPayload
+): ISubmitArticleVersionAction => ({
   payload,
+  type: SUBMIT_ARTICLE_VERSION,
 });
 
 export const draftArticleAction = (
-  payload: DraftArticleActionPayload
-): DraftArticleAction => ({
-  type: DRAFT_ARTICLE,
+  payload: IDraftArticleActionPayload
+): IDraftArticleAction => ({
   payload,
+  type: DRAFT_ARTICLE,
 });
 
-export const submitArticleEpic = (
-  action$: Observable<SubmitArticleAction>,
-  _: any,
-  { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
+export const submitArticleEpic: Epic<any, {}, IDependencies> = (
+  action$,
+  _,
+  { apolloClient, apolloSubscriber }: IDependencies
 ) =>
   action$
     .ofType(SUBMIT_ARTICLE)
     .switchMap(
-      ({
-        payload: {
-          request_id,
-          text,
-          subject,
-          tags,
-          article_id,
-          attributes,
-          selfPublish,
-        },
-      }) =>
+      ({ payload: { text, subject, tags, attributes, selfPublish } }) =>
         Observable.fromPromise(
           apolloClient.mutate({
             mutation: submitNewArticle,
             variables: { content: text, title: subject, tags, attributes },
           })
         )
-          .do(h => console.log("submitNewArticle"))
-          .do(h => console.log(h))
+          .do(h => console.log("submitNewArticle", h))
           .flatMap(
             ({
               data: {
                 submitNewArticle: { hash },
               },
             }: {
-              data: { submitNewArticle: { hash: string } },
-            }) => apolloSubscriber(hash)
+              data: { submitNewArticle: { hash: string } };
+            }) => apolloSubscriber<{ id: string; version: number }>(hash)
           )
           .do(h => console.log(h))
           .mergeMap(({ data: { output: { id, version } } }) =>
-            apolloClient.query({
+            apolloClient.query<IGetArticleResult>({
+              fetchPolicy: "network-only",
               query: getArticle,
               variables: {
                 id,
                 version,
               },
-              fetchPolicy: "network-only",
             })
           )
           .do(h => console.log(h))
@@ -173,24 +164,24 @@ export const submitArticleEpic = (
             ({
               data: {
                 getArticle: {
-                  id,
-                  version,
+                  authorId,
                   contentHash,
                   dateCreated,
-                  authorId,
+                  id,
                   owner,
+                  version,
                 },
               },
             }) =>
               typeof selfPublish !== "undefined"
                 ? Observable.of(
                     publishArticleAction({
-                      id,
-                      version,
                       contentHash,
-                      dateCreated,
                       contributor: authorId,
+                      dateCreated,
+                      id,
                       owner,
+                      version,
                     })
                   )
                 : Observable.of(
@@ -201,35 +192,35 @@ export const submitArticleEpic = (
                       event: "Offchain",
                       metaData: {
                         resource: "article",
+                        resourceAction: "submit article",
                         resourceID: id,
                         resourceVersion: version,
-                        resourceAction: "submit article",
                       },
                     }),
                     showNotificationAction({
-                      notificationType: "success",
-                      message: "Article published",
                       description:
                         "Your personal article has now been published!",
+                      message: "Article published",
+                      notificationType: "success",
                     })
                   )
           )
-          .catch(err => {
+          .catch((err: string) => {
             console.error(err);
             return Observable.of(
               showNotificationAction({
-                notificationType: "error",
-                message: "Submission error",
                 description: "Please try again!",
+                message: "Submission error",
+                notificationType: "error",
               })
             );
           })
     );
 
-export const submitArticleVersionEpic = (
-  action$: Observable<SubmitArticleVersionAction>,
-  { getState }: any,
-  { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
+export const submitArticleVersionEpic: Epic<any, {}, IDependencies> = (
+  action$,
+  _,
+  { apolloClient, apolloSubscriber }: IDependencies
 ) =>
   action$
     .ofType(SUBMIT_ARTICLE_VERSION)
@@ -250,11 +241,11 @@ export const submitArticleVersionEpic = (
           apolloClient.mutate({
             mutation: submitArticleVersion,
             variables: {
+              attributes,
               id,
-              text,
               subject,
               tags,
-              attributes,
+              text,
             },
           })
         )
@@ -265,42 +256,44 @@ export const submitArticleVersionEpic = (
                 submitArticleVersion: { hash },
               },
             }: {
-              data: { submitArticleVersion: { hash: string } },
-            }) => apolloSubscriber(hash)
+              data: { submitArticleVersion: { hash: string } };
+            }) => apolloSubscriber<{ id: string; version: number }>(hash)
           )
           .do(h => console.log(h))
-          .mergeMap(({ data: { output: { id, version } } }) =>
-            apolloClient.query({
+          .mergeMap(({ data: { output } }) =>
+            apolloClient.query<IGetArticleResult>({
+              fetchPolicy: "network-only",
               query: getArticle,
               variables: {
-                id,
-                version,
+                id: output.id,
+                version: output.version,
               },
-              fetchPolicy: "network-only",
             })
           )
           .do(h => console.log(h))
           .mergeMap(
             ({
               data: {
-                getArticle: { id, version, contentHash, dateCreated, authorId },
+                getArticle: { contentHash, dateCreated, authorId },
               },
             }) =>
               typeof selfPublish !== "undefined"
                 ? Observable.of(
                     publishArticleAction({
-                      id,
-                      version,
                       contentHash,
-                      dateCreated,
                       contributor: authorId,
+                      dateCreated,
+                      id: getArticle.id,
                       owner,
                       updateComment,
+                      version: getArticle.version,
                     })
                   )
                 : Observable.of(
                     routeChangeAction(
-                      `/article/${id}/v${version}/article-${
+                      `/article/${getArticle.id}/v${
+                        getArticle.version
+                      }/article-${
                         typeof selfPublish === "undefined"
                           ? "drafted"
                           : owner.id === authorId
@@ -312,13 +305,18 @@ export const submitArticleVersionEpic = (
                       event: "Offchain",
                       metaData: {
                         resource: "article",
-                        resourceID: id,
-                        resourceVersion: version,
                         resourceAction: "submit article version",
+                        resourceID: id,
+                        resourceVersion: getArticle.version,
                       },
                     }),
                     showNotificationAction({
-                      notificationType: "success",
+                      description:
+                        typeof selfPublish === "undefined"
+                          ? "Your article has now been drafted to be updated or published in the future"
+                          : owner.id === authorId
+                          ? "Your personal article has now been published!"
+                          : "Waiting for it to be reviewed!",
                       message: `Article ${
                         typeof selfPublish === "undefined"
                           ? "drafted"
@@ -326,12 +324,7 @@ export const submitArticleVersionEpic = (
                           ? "published"
                           : "proposed"
                       }`,
-                      description:
-                        typeof selfPublish === "undefined"
-                          ? "Your article has now been drafted to be updated or published in the future"
-                          : owner.id === authorId
-                          ? "Your personal article has now been published!"
-                          : "Waiting for it to be reviewed!",
+                      notificationType: "success",
                     })
                   )
           )
@@ -339,25 +332,25 @@ export const submitArticleVersionEpic = (
             console.error(err);
             return Observable.of(
               showNotificationAction({
-                notificationType: "error",
-                message: "Submission error",
                 description: "Please try again!",
+                message: "Submission error",
+                notificationType: "error",
               })
             );
           })
     );
 
-export const editArticleEpic = (
-  action$: Observable<EditArticleAction>,
-  { getState }: any,
-  { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
+export const editArticleEpic: Epic<any, {}, IDependencies> = (
+  action$,
+  _,
+  { apolloClient, apolloSubscriber }: IDependencies
 ) =>
   action$
     .ofType(EDIT_ARTICLE)
     .switchMap(
       ({
         payload: { id, version, text, subject, tags, attributes, selfPublish },
-      }: EditArticleAction) =>
+      }: IEditArticleAction) =>
         Observable.fromPromise(
           apolloClient.mutate({
             mutation: editArticle,
@@ -370,35 +363,35 @@ export const editArticleEpic = (
                 editArticleVersion: { hash },
               },
             }: {
-              data: { editArticleVersion: { hash: string } },
-            }) => apolloSubscriber(hash)
+              data: { editArticleVersion: { hash: string } };
+            }) => apolloSubscriber<{ id: string; version: number }>(hash)
           )
           .do(h => console.log(h))
-          .mergeMap(({ data: { output: { id, version } } }) =>
-            apolloClient.query({
+          .mergeMap(({ data: { output } }) =>
+            apolloClient.query<IGetArticleResult>({
+              fetchPolicy: "network-only",
               query: getArticle,
               variables: {
-                id,
-                version,
+                id: output.id,
+                version: output.version,
               },
-              fetchPolicy: "network-only",
             })
           )
           .mergeMap(
             ({
               data: {
-                getArticle: { id, version, contentHash, dateCreated, authorId },
+                getArticle: { contentHash, dateCreated, authorId },
               },
             }) =>
               typeof selfPublish !== "undefined"
                 ? Observable.of(
                     publishArticleAction({
-                      id,
-                      version,
                       contentHash,
-                      dateCreated,
                       contributor: authorId,
+                      dateCreated,
+                      id: getArticle.id,
                       owner: null,
+                      version: getArticle.version,
                     })
                   )
                 : Observable.of(
@@ -409,29 +402,29 @@ export const editArticleEpic = (
                       event: "Offchain",
                       metaData: {
                         resource: "article",
+                        resourceAction: "update article",
                         resourceID: id,
                         resourceVersion: version,
-                        resourceAction: "update article",
                       },
                     }),
                     showNotificationAction({
-                      notificationType: "info",
-                      message: "Article updated",
                       description: "The article version has been updated!",
+                      message: "Article updated",
+                      notificationType: "info",
                     })
                   )
           )
     );
 
-export const draftArticleEpic = (
-  action$: Observable<DraftArticleAction>,
-  { getState }: any,
-  { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
+export const draftArticleEpic: Epic<any, {}, IDependencies> = (
+  action$,
+  _,
+  { apolloClient, apolloSubscriber }: IDependencies
 ) =>
   action$
     .ofType(DRAFT_ARTICLE)
     .switchMap(
-      ({ payload: { text, subject, tags, attributes } }: DraftArticleAction) =>
+      ({ payload: { text, subject, tags, attributes } }: IDraftArticleAction) =>
         Observable.fromPromise(
           apolloClient.mutate({
             mutation: submitNewArticle,
@@ -444,8 +437,8 @@ export const draftArticleEpic = (
                 submitNewArticle: { hash },
               },
             }: {
-              data: { submitNewArticle: { hash: string } },
-            }) => apolloSubscriber(hash)
+              data: { submitNewArticle: { hash: string } };
+            }) => apolloSubscriber<{ id: string; version: number }>(hash)
           )
           .do(() => apolloClient.resetStore())
           .flatMap(({ data: { output: { id, version } } }) =>
@@ -455,16 +448,16 @@ export const draftArticleEpic = (
                 event: "Offchain",
                 metaData: {
                   resource: "article",
+                  resourceAction: "article-drafted",
                   resourceID: id,
                   resourceVersion: version,
-                  resourceAction: "article-drafted",
                 },
               }),
               showNotificationAction({
-                notificationType: "info",
-                message: "Draft Created",
                 description:
                   "The draft has just been saved. You can go back and submit it whenever you are ready.",
+                message: "Draft Created",
+                notificationType: "info",
               })
             )
           )

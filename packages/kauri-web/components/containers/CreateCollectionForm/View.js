@@ -5,7 +5,7 @@ import { space, bg } from "styled-system";
 import { Form, Field, FieldArray } from "formik";
 import Stack from "stack-styled";
 import R from "ramda";
-import ActionsSection from "../../../../kauri-components/components/Section/ActionsSection";
+import ActionsSection from "../../../../kauri-components/components/Section/ActionsSections";
 import PrimaryHeaderSection from "../../../../kauri-components/components/Section/PrimaryHeaderSection";
 import CardContentSection from "../../../../kauri-components/components/Section/CardContentSection";
 import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx";

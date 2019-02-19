@@ -3,7 +3,6 @@ import { withApollo, compose } from "react-apollo";
 import withData from "../lib/with-data";
 import AppWithoutNavbar from "../layouts/AppWithoutNavbar";
 import SubmitArticleForm from "../components/containers/SubmitArticleForm";
-import { withRouter } from "next/router";
 
 class SubmitArticle extends React.Component {
   static async getInitialProps(context, apolloClient) {
@@ -13,13 +12,7 @@ class SubmitArticle extends React.Component {
   render() {
     return (
       <AppWithoutNavbar url={this.props.router}>
-        <SubmitArticleForm
-          request_id={
-            this.props.router &&
-            this.props.router.query &&
-            this.props.router.query.request_id
-          }
-        />
+        <SubmitArticleForm />
       </AppWithoutNavbar>
     );
   }
@@ -27,6 +20,5 @@ class SubmitArticle extends React.Component {
 
 export default compose(
   withData,
-  withApollo,
-  withRouter
+  withApollo
 )(SubmitArticle);

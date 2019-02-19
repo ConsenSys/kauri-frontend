@@ -1,32 +1,33 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import theme from "../../../lib/theme-config";
-import type { AttributesPayload } from "./Module";
-import {
-  CreateRequestSecondaryHeader as SubmitArticleFormHeader,
-  TopicActionsContainer as SubmitArticleFormSubjectContainer,
-} from "../../common/Legacy/CreateRequestSecondaryHeader";
+import { IAttributesPayload } from "./Module";
+import { CreateRequestSecondaryHeader as SubmitArticleFormHeader } from "../../common/Legacy/CreateRequestSecondaryHeader";
+import { TopicActionsContainer as SubmitArticleFormSubjectContainer } from "../../common/Legacy/TopicActionsContainer";
 import TagSelector from "../../common/TagSelector";
 
-type Props = {
-  getFieldValue: string => ?string,
-  getFieldDecorator: (string, any) => any => any,
-  getFieldError: string => ?Array<string>,
-  status?: string,
-  subject?: ?string,
-  isKauriTopicOwner: boolean,
-  attributes?: AttributesPayload,
-};
+interface IProps {
+  getFieldValue: (field: string) => any;
+  getFieldDecorator: (arg0: string, arg1: any) => any;
+  getFieldError: (err: string) => string[];
+  setFieldsValue: (err: string) => string[];
+  status?: string;
+  subject?: string;
+  attributes?: IAttributesPayload;
+  tags: string[];
+}
 
 const errorBorderCss = css`
   border: 2px solid ${props => props.theme.errorRedColor};
 `;
 
-const handleKeyPress = e => {
-  if (e.key === "Enter") e.preventDefault();
+const handleKeyPress = (e: React.KeyboardEvent) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+  }
 };
 
-export const InputWrapper = styled.div`
+export const InputWrapper = styled<{ maxlength: number }, "div">("div")`
   margin-left: 10px;
   position: relative;
   align-self: auto;
@@ -44,7 +45,7 @@ const Overlay = styled.div`
   left: 0;
 `;
 
-export const ArticleSubject = styled.input`
+export const ArticleSubject = styled<{ hasErrors: boolean }, "input">("input")`
   display: inline-block;
   margin-left: 0px;
   background: none;
@@ -81,7 +82,7 @@ export const ArticleSubject = styled.input`
 const articleUnderlineSpanCss = css`
   font-size: 26px !important;
 `;
-export const UnderlineSpan = styled.span`
+export const UnderlineSpan = styled<{ type: string }, "span">("span")`
   user-select: none;
   border-top: 3px solid ${props => props.theme.primaryColor};
   left: 0;
@@ -103,22 +104,19 @@ const SubmitArticleFormSubject = ({
   setFieldsValue,
   subject,
   tags,
-  isKauriTopicOwner,
-  attributes,
-  form,
-}: *) => (
+}: IProps) => (
   <SubmitArticleFormSubjectContainer>
     <InputWrapper maxlength={150}>
       {getFieldDecorator("subject", {
+        initialValue: subject,
         rules: [
           {
-            required: true,
-            message: "Please input the subject of the article!",
-            whitespace: true,
             max: 150,
+            message: "Please input the subject of the article!",
+            required: true,
+            whitespace: true,
           },
         ],
-        initialValue: subject,
       })(
         <ArticleSubject
           onKeyPress={handleKeyPress}
@@ -128,8 +126,8 @@ const SubmitArticleFormSubject = ({
             getFieldError("subject") && getFieldError("subject").length > 0
           }
           style={{
-            width: "100%",
             alignSelf: "flex-start",
+            width: "100%",
           }}
         />
       )}
@@ -146,7 +144,10 @@ const SubmitArticleFormSubject = ({
   </SubmitArticleFormSubjectContainer>
 );
 
-const getBG = (getFieldValue, attributes) => {
+const getBG = (
+  getFieldValue: (field: string) => any,
+  attributes?: IAttributesPayload
+) => {
   const formValue = getFieldValue("attributes");
   if (formValue && typeof formValue.background === "string") {
     return `background-image: url(${
@@ -164,14 +165,12 @@ const getBG = (getFieldValue, attributes) => {
 export default ({
   getFieldError,
   getFieldDecorator,
-  status,
   subject,
   tags,
   getFieldValue,
   setFieldsValue,
-  isKauriTopicOwner,
   attributes,
-}: Props) => (
+}: IProps) => (
   <SubmitArticleFormHeader
     bg={getBG(getFieldValue, attributes)}
     type="article"
@@ -183,10 +182,8 @@ export default ({
       getFieldValue={getFieldValue}
       subject={subject}
       tags={tags}
-      theme={theme}
       getFieldDecorator={getFieldDecorator}
       setFieldsValue={setFieldsValue}
-      isKauriTopicOwner={isKauriTopicOwner}
       attributes={attributes}
     />
   </SubmitArticleFormHeader>

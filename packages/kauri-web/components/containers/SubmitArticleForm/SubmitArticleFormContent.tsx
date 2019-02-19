@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { EditorState, ContentState } from "draft-js";
 import SharedEditor from "../../common/SharedEditor";
@@ -7,32 +6,38 @@ import { CreateRequestContent as SubmitArticleFormContent } from "../../common/L
 
 import { CreateRequestContainer as SubmitArticleFormContainer } from "../../common/Legacy/CreateRequestContainer";
 
-import type { EditArticlePayload, SubmitArticlePayload } from "./Module";
+import { ISubmitArticlePayload } from "./Module";
+interface IProps {
+  submitArticleAction: (payload: ISubmitArticlePayload) => void;
+  article_id?: string;
+  request_id: string;
+  data: any;
+  article?: any;
+  form: any;
+  handleFormChange: ({ text }: { text: string }) => void;
+  routeChangeAction: (route: string) => void;
+  getFieldDecorator: (field: string, arg1: any) => any;
+  setFieldsValue: ({ text }: { text: string }) => void;
+  getFieldError: (err: string) => any;
+  text?: string;
+}
 
-type Props =
-  | any
-  | {
-      submitArticleAction: SubmitArticlePayload => void,
-      editArticleAction: EditArticlePayload => void,
-      article_id?: string,
-      request_id: string,
-      data: any,
-      article?: any,
-      form: any,
-      handleFormChange: ({ text: string }) => void,
-      routeChangeAction: string => void,
-      getFieldDecorator: (string, any) => any => any,
-      setFieldsValue: ({ text: string }) => void,
-      getFieldError: string => any,
-      text?: string,
-    };
+interface IState {
+  editorState: any;
+}
 
-type State = {
-  editorState: any,
-};
+interface ISubmitArticleFormTextProps {
+  getFieldError: any;
+  text: any;
+  setFieldsValue: any;
+  getFieldDecorator: any;
+}
 
-class SubmitArticleFormText extends React.Component<Props, State> {
-  constructor(props) {
+class SubmitArticleFormText extends React.Component<
+  ISubmitArticleFormTextProps,
+  IState
+> {
+  constructor(props: ISubmitArticleFormTextProps) {
     super(props);
     if (props.text) {
       const rawData = ContentState.createFromText(
@@ -73,7 +78,7 @@ class SubmitArticleFormText extends React.Component<Props, State> {
     }
   }
 
-  handleChange = editorState => {
+  handleChange = (editorState: any) => {
     this.setState(
       {
         editorState,
@@ -85,18 +90,18 @@ class SubmitArticleFormText extends React.Component<Props, State> {
 
   render() {
     return this.props.getFieldDecorator("text", {
-      rules: [
-        {
-          required: true,
-          message:
-            "Empty articles cannot be saved or published. Start writing 😘",
-          whitespace: true,
-        },
-      ],
       initialValue:
         typeof this.props.text === "string"
           ? JSON.stringify({ markdown: this.props.text })
           : null,
+      rules: [
+        {
+          message:
+            "Empty articles cannot be saved or published. Start writing 😘",
+          required: true,
+          whitespace: true,
+        },
+      ],
     })(
       <SharedEditor
         hasErrors={this.props.getFieldError("text")}
@@ -115,48 +120,18 @@ export const RandomLineThatGoesAcrossTheContent = styled.div`
   border-bottom: 1px solid #c8ccd0;
 `;
 
-export default class extends React.Component<
-  {
-    getFieldDecorator: (string, any) => any => any,
-    setFieldsValue: ({ text: string }) => void,
-    getFieldValue: string => any,
-    getFieldError: string => any,
-    text?: string,
-    article_id?: string,
-    ownerId: ?string,
-    username?: ?string,
-    userId: string,
-    userAvatar: ?string,
-    isUpdating: boolean,
-  },
-  { focused: boolean }
-> {
-  state = {
-    focused: false,
-  };
-
-  render() {
-    const {
-      getFieldDecorator,
-      setFieldsValue,
-      getFieldError,
-      text,
-    } = this.props;
-
-    return (
-      <SubmitArticleFormContent>
-        <RandomLineThatGoesAcrossTheContent />
-        <SubmitArticleFormContainer
-          onClick={() => this.setState({ focused: true })}
-        >
-          <SubmitArticleFormText
-            getFieldError={getFieldError}
-            text={text}
-            setFieldsValue={setFieldsValue}
-            getFieldDecorator={getFieldDecorator}
-          />
-        </SubmitArticleFormContainer>
-      </SubmitArticleFormContent>
-    );
-  }
-}
+export default (props: IProps) => {
+  return (
+    <SubmitArticleFormContent>
+      <RandomLineThatGoesAcrossTheContent />
+      <SubmitArticleFormContainer>
+        <SubmitArticleFormText
+          getFieldError={props.getFieldError}
+          text={props.text}
+          setFieldsValue={props.setFieldsValue}
+          getFieldDecorator={props.getFieldDecorator}
+        />
+      </SubmitArticleFormContainer>
+    </SubmitArticleFormContent>
+  );
+};

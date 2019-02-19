@@ -4,7 +4,10 @@ const articleHeaderCss = css`
   height: 196px;
 `;
 
-export const CreateRequestSecondaryHeader = styled.div`
+export const CreateRequestSecondaryHeader = styled<
+  { type: string; bg: string },
+  "div"
+>("div")`
   position: relative;
   display: flex;
   height: 163px;

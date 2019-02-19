@@ -1,75 +1,63 @@
-// @flow
 import React from "react";
 import Form from "antd/lib/form";
 import Helmet from "react-helmet";
 import SubmitArticleFormActions from "./SubmitArticleFormActions";
 import SubmitArticleFormHeader from "./SubmitArticleFormHeader";
 import SubmitArticleFormContent from "./SubmitArticleFormContent";
-import ScrollToTopButton from "../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton";
-import EthDenverTemplate from "./EthDenverTemplate";
 
-import type {
-  AttributesPayload,
-  ApproveArticlePayload,
-  EditArticlePayload,
-  SubmitArticlePayload,
-  SubmitArticleVersionPayload,
+import {
+  IAttributesPayload,
+  IEditArticlePayload,
+  ISubmitArticlePayload,
+  ISubmitArticleVersionPayload,
+  IDraftArticleActionPayload,
 } from "./Module";
-import type { ShowNotificationPayload } from "../../../lib/Module";
+
+import { IPublishArticlePayload } from "./PublishArticleModule";
 import Loading from "../../common/Loading";
 
-type Owner = {
-  id: string,
-  name: string,
-};
+interface IOwner {
+  id: string;
+  name: string;
+}
 
-type PublishArticlePayload = {
-  id: string,
-  version: number,
-  contentHash: string,
-  dateCreated: string,
-  contributor: string,
-  owner: ?Owner,
-};
+interface IProps {
+  router: any;
+  draftArticleAction: (payload: IDraftArticleActionPayload) => void;
+  submitArticleAction: (payload: ISubmitArticlePayload) => void;
+  submitArticleVersionAction: (payload: ISubmitArticleVersionPayload) => void;
+  editArticleAction: (payload: IEditArticlePayload) => void;
+  publishArticleAction: (payload: IPublishArticlePayload) => void;
+  id?: string;
+  data?: any;
+  article?: any;
+  form: any;
+  handleFormChange: any;
+  routeChangeAction: any;
+  showNotificationAction: (
+    {
+      message,
+      notificationType,
+      description,
+    }: { message: string; notificationType: string; description: string }
+  ) => void;
+  username: string;
+  userId: string;
+  userAvatar: string;
+  openModalAction: () => void;
+  closeModalAction: () => void;
+}
 
-type DraftArticlePayload = {
-  title: string,
-  content: string,
-  attributes?: AttributesPayload,
-};
+interface ISubmitArticleVariables {
+  subject: string;
+  text: string;
+  tags: string[];
+  owner: IOwner;
+  version?: string;
+  attributes?: IAttributesPayload;
+}
 
-type Props = {
-  draftArticleAction: DraftArticlePayload => void,
-  submitArticleAction: SubmitArticlePayload => void,
-  submitArticleVersionAction: SubmitArticleVersionPayload => void,
-  editArticleAction: EditArticlePayload => void,
-  publishArticleAction: PublishArticlePayload => void,
-  approveArticleAction: ApproveArticlePayload => void,
-  categories: Array<?string>,
-  article_id?: string,
-  request_id: string,
-  data?: ?{ getArticle?: ArticleDTO },
-  article?: ArticleDTO,
-  form: any,
-  handleFormChange: ({ text: string }) => void,
-  routeChangeAction: string => void,
-  isKauriTopicOwner: boolean,
-  showNotificationAction: ShowNotificationPayload => void,
-  username: ?string,
-  userId: string,
-  userAvatar: ?string,
-};
-
-type SubmitArticleVariables = {
-  subject: string,
-  text: string,
-  tags: string[],
-  owner: ?Owner,
-  version?: string,
-  attributes?: AttributesPayload,
-};
-
-class SubmitArticleForm extends React.Component<Props> {
+class SubmitArticleForm extends React.Component<IProps> {
   static Header = SubmitArticleFormHeader;
   static Actions = SubmitArticleFormActions;
   static Content = SubmitArticleFormContent;
@@ -81,60 +69,13 @@ class SubmitArticleForm extends React.Component<Props> {
     }
   }
 
-  getNetwork = async () =>
-    new Promise((resolve, reject) => {
-      window.web3.version.getNetwork((err, netId) => {
-        if (err) {
-          reject(err);
-        }
-
-        const networkId = netId;
-        let networkName;
-
-        switch (netId) {
-          case "1":
-            networkName = "Mainnet";
-            break;
-          case "2":
-            networkName = "Morden";
-            break;
-          case "3":
-            networkName = "Ropsten";
-            break;
-          case "4":
-            networkName = "Rinkeby";
-            break;
-          case "42":
-            networkName = "Kovan";
-            break;
-          case "224895":
-            networkName = "Kauri Dev";
-            break;
-          default:
-            networkName = "Unknown";
-        }
-
-        resolve({ networkId: Number(networkId), networkName });
-      });
-    });
-
-  checkNetwork = networkName => {
-    if (networkName !== "Rinkeby" && networkName !== "Kauri Dev") {
-      return this.props.showNotificationAction({
-        notificationType: "error",
-        message: "Network error!",
-        description: "Please switch to the correct Ethereum network!",
-      });
-    }
-  };
-
-  showFormError = formErr => {
+  showFormError = (formErr: any) => {
     Object.keys(formErr).map(errKey =>
-      formErr[errKey].errors.map(err =>
+      formErr[errKey].errors.map((err: { message: string }) =>
         this.props.showNotificationAction({
-          notificationType: "error",
-          message: "Validation error!",
           description: err.message,
+          message: "Validation error!",
+          notificationType: "error",
         })
       )
     );
@@ -143,25 +84,25 @@ class SubmitArticleForm extends React.Component<Props> {
 
   showGenericError = () => {
     return this.props.showNotificationAction({
-      notificationType: "error",
-      message: "Editor Error",
       description:
         "Something went wrong with the article creation, please refresh the page and try again.",
+      message: "Editor Error",
+      notificationType: "error",
     });
   };
 
   handleSubmit = (submissionType: string, updateComment: string) => (
-    e: SyntheticEvent<HTMLButtonElement>
+    e: React.SyntheticEvent<HTMLButtonElement>
   ) => {
     console.log("*** SUBMITTING ***", updateComment);
-    if (e) e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     this.props.form.validateFieldsAndScroll(
       async (
-        formErr,
-        { text, subject, attributes, tags }: SubmitArticleVariables
+        formErr: any,
+        { text, subject, attributes, tags }: ISubmitArticleVariables
       ) => {
-        const { networkName } = await this.getNetwork();
-        await this.checkNetwork(networkName);
         const {
           submitArticleAction,
           submitArticleVersionAction,
@@ -170,49 +111,54 @@ class SubmitArticleForm extends React.Component<Props> {
           userId,
         } = this.props;
 
-        if (formErr) return this.showFormError(formErr);
+        if (formErr) {
+          return this.showFormError(formErr);
+        }
 
-        const articleData: ArticleDTO =
-          this.props.data && this.props.data.getArticle;
+        const articleData: any = this.props.data && this.props.data.getArticle;
         text = JSON.stringify({ markdown: text });
 
         // NEW DRAFT
         if (!articleData && submissionType === "draft") {
           return draftArticleAction({
-            text,
+            attributes: attributes || {},
             subject,
             tags: tags || [],
-            attributes: attributes || {},
+            text,
           });
         }
         // NEW ARTICLE
         if (!articleData && submissionType === "submit/update") {
           return submitArticleAction({
-            text,
-            subject,
             attributes,
-            tags,
             selfPublish: true,
+            subject,
+            tags,
+            text,
           });
         }
 
         const { id, version, status, author, owner } = articleData;
 
-        if (!articleData.attributes) articleData.attributes = {};
+        if (!articleData.attributes) {
+          articleData.attributes = {};
+        }
 
         switch (status) {
           case "PUBLISHED":
             // OWNER'S DRAFT
             if (owner && userId === owner.id && submissionType === "draft") {
               return submitArticleVersionAction({
+                attributes:
+                  (articleData.attributes && {
+                    ...articleData.attributes,
+                    ...attributes,
+                  }) ||
+                  articleData.attributes,
                 id,
-                text,
                 subject,
                 tags: tags || articleData.tags,
-                attributes:
-                  (articleData.attributes &&
-                    Object.assign(articleData.attributes, attributes)) ||
-                  articleData.attributes,
+                text,
               });
               // OWNER'S UPDATE
             } else if (
@@ -221,16 +167,18 @@ class SubmitArticleForm extends React.Component<Props> {
               submissionType === "submit/update"
             ) {
               return submitArticleVersionAction({
-                id,
-                text,
-                subject,
-                tags: tags || articleData.tags,
                 attributes:
-                  (attributes &&
-                    Object.assign(articleData.attributes, attributes)) ||
+                  (attributes && {
+                    ...articleData.attributes,
+                    ...attributes,
+                  }) ||
                   articleData.attributes,
+                id,
                 owner,
                 selfPublish: true,
+                subject,
+                tags: tags || articleData.tags,
+                text,
               });
               // CONTRIBUTORS' DRAFT
             } else if (
@@ -239,15 +187,17 @@ class SubmitArticleForm extends React.Component<Props> {
               submissionType === "draft"
             ) {
               return submitArticleVersionAction({
+                attributes:
+                  (attributes && {
+                    ...articleData.attributes,
+                    ...attributes,
+                  }) ||
+                  articleData.attributes,
                 id,
-                text,
+                owner,
                 subject,
                 tags: tags || articleData.tags,
-                attributes:
-                  (attributes &&
-                    Object.assign(articleData.attributes, attributes)) ||
-                  articleData.attributes,
-                owner,
+                text,
               });
               // CONTRIBUTORS' UPDATE
             } else if (
@@ -256,16 +206,18 @@ class SubmitArticleForm extends React.Component<Props> {
               submissionType === "submit/update"
             ) {
               return submitArticleVersionAction({
-                id,
-                text,
-                subject,
-                tags: tags || articleData.tags,
                 attributes:
-                  (attributes &&
-                    Object.assign(articleData.attributes, attributes)) ||
+                  (attributes && {
+                    ...articleData.attributes,
+                    ...attributes,
+                  }) ||
                   articleData.attributes,
+                id,
                 owner,
                 selfPublish: false,
+                subject,
+                tags: tags || articleData.tags,
+                text,
                 updateComment,
               });
             } else {
@@ -274,15 +226,17 @@ class SubmitArticleForm extends React.Component<Props> {
           case "DRAFT":
             if (author && userId === author.id && submissionType === "draft") {
               return editArticleAction({
-                id,
-                version,
-                subject,
-                text,
-                tags: tags || articleData.tags,
                 attributes:
-                  (attributes &&
-                    Object.assign(articleData.attributes, attributes)) ||
+                  (attributes && {
+                    ...articleData.attributes,
+                    ...attributes,
+                  }) ||
                   articleData.attributes,
+                id,
+                subject,
+                tags: tags || articleData.tags,
+                text,
+                version,
               });
             } else if (
               author &&
@@ -290,16 +244,18 @@ class SubmitArticleForm extends React.Component<Props> {
               submissionType === "submit/update"
             ) {
               return editArticleAction({
-                id,
-                version,
-                subject,
-                text,
-                tags: tags || articleData.tags,
                 attributes:
-                  (attributes &&
-                    Object.assign(articleData.attributes, attributes)) ||
+                  (attributes && {
+                    ...articleData.attributes,
+                    ...attributes,
+                  }) ||
                   articleData.attributes,
+                id,
                 selfPublish: true,
+                subject,
+                tags: tags || articleData.tags,
+                text,
+                version,
               });
             } else {
               return this.showGenericError();
@@ -314,22 +270,13 @@ class SubmitArticleForm extends React.Component<Props> {
   };
 
   render() {
-    const { routeChangeAction, isKauriTopicOwner, form, userId } = this.props;
+    const { routeChangeAction, userId } = this.props;
 
     if (!userId) {
       return <Loading />;
     }
 
-    let articleData = this.props.data && this.props.data.getArticle;
-
-    if (this.props.templateId === "ethdenver") {
-      articleData = {
-        content: JSON.stringify({
-          markdown: EthDenverTemplate,
-        }),
-        tags: ["ETHDENVER-2019-SUBMISSION"],
-      };
-    }
+    const articleData = this.props.data && this.props.data.getArticle;
 
     return (
       <Form>
@@ -339,10 +286,8 @@ class SubmitArticleForm extends React.Component<Props> {
             href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
           />
         </Helmet>
-        <ScrollToTopButton />
         <SubmitArticleForm.Actions
           {...this.props.form}
-          categories={this.props.categories}
           handleSubmit={this.handleSubmit}
           routeChangeAction={routeChangeAction}
           text={articleData && articleData.content}
@@ -358,12 +303,11 @@ class SubmitArticleForm extends React.Component<Props> {
           status={articleData && articleData.status}
           subject={articleData && articleData.title}
           attributes={articleData && articleData.attributes}
-          isKauriTopicOwner={isKauriTopicOwner}
           tags={articleData && articleData.tags}
         />
         <SubmitArticleForm.Content
           {...this.props.form}
-          article_id={articleData && articleData.id}
+          id={articleData && articleData.id}
           text={articleData && articleData.content}
           ownerId={articleData && articleData.owner && articleData.owner.id}
           username={
