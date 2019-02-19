@@ -27,6 +27,7 @@ export interface searchApprovedArticles_searchArticles_content_voteResult {
   __typename: "VoteResultDTO";
   sum: number | null;
   count: any | null;
+  hasVoted: boolean | null;
 }
 
 export interface searchApprovedArticles_searchArticles_content_author {
@@ -120,8 +121,10 @@ export interface searchApprovedArticles_searchArticles_content {
 
 export interface searchApprovedArticles_searchArticles {
   __typename: "ResponsePage_ArticleDTO";
-  totalElements: any | null;
   content: (searchApprovedArticles_searchArticles_content | null)[] | null;
+  isLast: boolean | null;
+  totalElements: any | null;
+  totalPages: number | null;
 }
 
 export interface searchApprovedArticles {

@@ -32,6 +32,7 @@ export const Article = gql`
     voteResult {
       sum
       count
+      hasVoted
     }
     author {
       id
@@ -189,10 +190,12 @@ export const searchApprovedArticles = gql`
         ownerIdEquals: $category
       }
     ) {
-      totalElements
       content {
         ...Article
       }
+      isLast
+      totalElements
+      totalPages
     }
   }
 

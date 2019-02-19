@@ -27,6 +27,7 @@ export interface searchPersonalSubmittedArticles_searchArticles_content_voteResu
   __typename: "VoteResultDTO";
   sum: number | null;
   count: any | null;
+  hasVoted: boolean | null;
 }
 
 export interface searchPersonalSubmittedArticles_searchArticles_content_author {

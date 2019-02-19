@@ -63,7 +63,7 @@ const SectionsContent: React.FunctionComponent<IProps> = props => {
           index !== props.sections.length - 1 ? (
             <React.Fragment key={section.id}>
               <Label onClick={() => props.handleClick(section)}>
-                {section.name}
+                {section.name || "Untitled section"}
               </Label>
               <Divider />
             </React.Fragment>
