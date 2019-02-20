@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import TriggerImageUploader from "../../common/ImageUploader";
 import Stack from "stack-styled";
-import ActionsSection from "../../../../kauri-components/components/Section/ActionsSections";
+import ActionsSection from "../../../../kauri-components/components/Section/ActionsSection";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import SecondaryButton from "../../../../kauri-components/components/Button/SecondaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
