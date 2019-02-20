@@ -30,6 +30,14 @@ export interface searchPersonalSubmittedArticles_searchArticles_content_voteResu
   hasVoted: boolean | null;
 }
 
+export interface searchPersonalSubmittedArticles_searchArticles_content_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface searchPersonalSubmittedArticles_searchArticles_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -113,6 +121,7 @@ export interface searchPersonalSubmittedArticles_searchArticles_content {
   checkpoint: string | null;
   tags: (string | null)[] | null;
   voteResult: searchPersonalSubmittedArticles_searchArticles_content_voteResult | null;
+  contributors: (searchPersonalSubmittedArticles_searchArticles_content_contributors | null)[] | null;
   author: searchPersonalSubmittedArticles_searchArticles_content_author | null;
   owner: searchPersonalSubmittedArticles_searchArticles_content_owner | null;
   comments: searchPersonalSubmittedArticles_searchArticles_content_comments | null;

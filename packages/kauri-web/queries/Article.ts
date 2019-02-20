@@ -34,6 +34,12 @@ export const Article = gql`
       count
       hasVoted
     }
+    contributors {
+      id
+      name
+      username
+      avatar
+    }
     author {
       id
       name

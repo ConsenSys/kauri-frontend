@@ -30,6 +30,14 @@ export interface searchApprovedArticles_searchArticles_content_voteResult {
   hasVoted: boolean | null;
 }
 
+export interface searchApprovedArticles_searchArticles_content_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface searchApprovedArticles_searchArticles_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -113,6 +121,7 @@ export interface searchApprovedArticles_searchArticles_content {
   checkpoint: string | null;
   tags: (string | null)[] | null;
   voteResult: searchApprovedArticles_searchArticles_content_voteResult | null;
+  contributors: (searchApprovedArticles_searchArticles_content_contributors | null)[] | null;
   author: searchApprovedArticles_searchArticles_content_author | null;
   owner: searchApprovedArticles_searchArticles_content_owner | null;
   comments: searchApprovedArticles_searchArticles_content_comments | null;

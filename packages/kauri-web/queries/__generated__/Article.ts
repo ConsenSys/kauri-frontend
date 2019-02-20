@@ -30,6 +30,14 @@ export interface Article_voteResult {
   hasVoted: boolean | null;
 }
 
+export interface Article_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface Article_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -113,6 +121,7 @@ export interface Article {
   checkpoint: string | null;
   tags: (string | null)[] | null;
   voteResult: Article_voteResult | null;
+  contributors: (Article_contributors | null)[] | null;
   author: Article_author | null;
   owner: Article_owner | null;
   comments: Article_comments | null;

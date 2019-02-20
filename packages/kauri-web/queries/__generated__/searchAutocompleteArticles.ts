@@ -40,6 +40,14 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
   hasVoted: boolean | null;
 }
 
+export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -123,6 +131,7 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
   checkpoint: string | null;
   tags: (string | null)[] | null;
   voteResult: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_voteResult | null;
+  contributors: (searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_contributors | null)[] | null;
   author: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_author | null;
   owner: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner | null;
   comments: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_comments | null;

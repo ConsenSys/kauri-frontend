@@ -154,6 +154,9 @@ class ApprovedArticle extends React.Component<Props, State> {
             "searchMoreLikeThis",
             "content",
           ])(props)}
+          contributors={
+            props.data.getArticle && props.data.getArticle.contributors
+          }
         />
         <ApprovedArticle.Footer
           isLoggedIn={!!props.personalUsername}
