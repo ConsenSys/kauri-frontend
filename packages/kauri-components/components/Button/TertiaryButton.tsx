@@ -53,7 +53,7 @@ interface IProps {
   color?: string;
 }
 
-const Button: React.SFC<IProps> = ({
+const TertiaryButtonComponent: React.SFC<IProps> = ({
   type = "button",
   fontWeight = 700,
   fontSize = 0,
@@ -79,4 +79,4 @@ const Button: React.SFC<IProps> = ({
   </TertiaryButton>
 );
 
-export default Button;
+export default TertiaryButtonComponent;

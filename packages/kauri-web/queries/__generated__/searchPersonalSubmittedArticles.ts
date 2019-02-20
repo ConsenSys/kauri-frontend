@@ -28,6 +28,7 @@ export interface searchPersonalSubmittedArticles_searchArticles_content_voteResu
   sum: number | null;
   count: any | null;
   hasVoted: boolean | null;
+  quantity: any | null;
 }
 
 export interface searchPersonalSubmittedArticles_searchArticles_content_author {
