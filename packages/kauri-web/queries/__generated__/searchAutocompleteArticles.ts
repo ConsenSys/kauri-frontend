@@ -38,6 +38,7 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
   sum: number | null;
   count: any | null;
   hasVoted: boolean | null;
+  quantity: any | null;
 }
 
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_author {

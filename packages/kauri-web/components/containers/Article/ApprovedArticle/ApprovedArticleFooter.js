@@ -115,6 +115,10 @@ const Divider = styled.div`
   }
 `;
 
+const VoteContainer = styled(Details)`
+  justify-content: center;
+`;
+
 export default ({
   username,
   date_updated,
@@ -160,7 +164,7 @@ export default ({
       </Right>
     </Details>
     <Divider />
-    <Details>
+    <VoteContainer>
       <VoteArticle
         voteResult={voteResult}
         isLoggedIn={isLoggedIn}
@@ -168,6 +172,6 @@ export default ({
         negativeVoteAction={negativeVoteAction}
         loginFirstToVote={loginFirstToVote}
       />
-    </Details>
+    </VoteContainer>
   </ArticleFooter>
 );

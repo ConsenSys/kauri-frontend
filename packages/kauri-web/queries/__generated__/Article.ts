@@ -28,6 +28,7 @@ export interface Article_voteResult {
   sum: number | null;
   count: any | null;
   hasVoted: boolean | null;
+  quantity: any | null;
 }
 
 export interface Article_author {

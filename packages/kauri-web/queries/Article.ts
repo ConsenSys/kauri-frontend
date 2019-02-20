@@ -33,6 +33,7 @@ export const Article = gql`
       sum
       count
       hasVoted
+      quantity
     }
     author {
       id

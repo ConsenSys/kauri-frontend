@@ -117,7 +117,7 @@ const withPagination = (
       const scrolledToBottom =
         Math.ceil(scrollTop + clientHeight + 150) >= scrollHeight;
 
-      console.log(scrolledToBottom);
+      // console.log(scrolledToBottom);
 
       if (
         scrolledToBottom &&
