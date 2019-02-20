@@ -16,20 +16,7 @@ routes
     "view-article-version"
   )
   .add("view-article-version", "/article/:article_id/v:article_version")
-  .add(
-    "view-article-latest-version-with-slug",
-    "/article/:article_id/:slug",
-    "view-article-version"
-  )
-  .add(
-    "view-article-version-with-slug",
-    "/article/:article_id/v:article_version/:slug",
-    "view-article-version"
-  )
-  .add(
-    "update-article",
-    "/article/:article_id/v:article_version/update-article"
-  )
+  .add("update-article", "/article/:id/v:version/update-article")
   .add(
     "article-drafted",
     "/article/:article_id/v:article_version/article-drafted"
@@ -50,10 +37,7 @@ routes
     "article-approved",
     "/article/:article_id/v:article_version/article-approved"
   )
-  .add(
-    "article-rejected",
-    "/article/:article_id/v:article_version/article-rejected"
-  )
+  .add("article-rejected", "/article/:id/v:version/article-rejected")
   .add(
     "article-published",
     "/article/:article_id/v:article_version/article-published"
@@ -74,5 +58,15 @@ routes
   )
   .add("email-verification", "/activate/:uuid", "activate")
   .add("collection-with-slug", "/collection/:collection_id/:slug", "collection")
+  .add(
+    "view-article-latest-version-with-slug",
+    "/article/:article_id/:slug",
+    "view-article-version"
+  )
+  .add(
+    "view-article-version-with-slug",
+    "/article/:article_id/v:article_version/:slug",
+    "view-article-version"
+  )
   .add("write-article", "/write-article/:template_id", "write-article")
   .add("article-review", "/article-review/:id/v:version", "article-review");

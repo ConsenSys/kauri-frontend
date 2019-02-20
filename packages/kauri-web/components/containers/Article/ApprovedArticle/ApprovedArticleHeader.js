@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import slugify from "slugify";
 import moment from "moment";
-import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from "../../CreateRequestForm/CreateRequestHeader";
+import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from "../../../common/Legacy/CreateRequestSecondaryHeader";
 import ShareArticle from "../../../../../kauri-components/components/Tooltip/ShareArticle";
 import { TagList } from "../../../../../kauri-components/components/Tags";
 import { Link } from "../../../../routes";

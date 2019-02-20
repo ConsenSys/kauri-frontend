@@ -10,8 +10,8 @@ class ArticleRejectedPage extends React.Component {
     return (
       <App confirmationPage url={this.props.router}>
         <ArticleRejected
-          article_id={this.props.router.query.article_id}
-          article_version={this.props.router.query.article_version}
+          id={this.props.router.query.id}
+          version={this.props.router.query.version}
         />
       </App>
     );

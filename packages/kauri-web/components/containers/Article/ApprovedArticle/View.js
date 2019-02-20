@@ -5,7 +5,6 @@ import styled from "styled-components";
 import Actions from "./ApprovedArticleActions";
 import Content from "./ApprovedArticleContent";
 import Header from "./ApprovedArticleHeader";
-import Banner from "./ApprovedArticleBanner";
 import Footer from "./ApprovedArticleFooter";
 import Comments from "./ApprovedArticleComments";
 import { hljs } from "../../../../lib/hljs";
@@ -32,23 +31,14 @@ type Props =
     }
   | any;
 
-type State = {
-  showBanner: boolean,
-};
-
 class ApprovedArticle extends React.Component<Props, State> {
   static Header = Header;
   static Actions = Actions;
   static Content = Content;
-  static Banner = Banner;
   static Footer = Footer;
   static Comments = Comments;
 
-  state = {
-    showBanner: false,
-  };
-
-  componentDidUpdate () {
+  componentDidUpdate() {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
@@ -60,12 +50,7 @@ class ApprovedArticle extends React.Component<Props, State> {
     );
   }
 
-  toggleBanner = (status?: boolean) =>
-    typeof status === "boolean"
-      ? this.setState({ showBanner: status })
-      : this.setState({ showBanner: !this.state.showBanner });
-
-  render () {
+  render() {
     const props = this.props;
     if (!props.data.getArticle) return;
     const { associatedNfts } = props.data.getArticle;

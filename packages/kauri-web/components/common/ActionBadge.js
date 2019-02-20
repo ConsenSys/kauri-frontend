@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { CreateRequestLogo } from "../containers/CreateRequestForm/CreateRequestHeader";
+import { CreateRequestLogo } from "../common/Legacy/CreateRequestLogo";
 import theme from "../../lib/theme-config";
 
 const Badge = styled.div`

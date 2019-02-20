@@ -7,17 +7,6 @@ import app, {
   userDetailsEpic,
   hideIntroBannerEpic,
 } from "./Module";
-import request, {
-  flagRequestEpic,
-  addRequestCommentEpic,
-  addToBountyEpic,
-  requestRefundEpic,
-  resubmitRequestEpic,
-} from "../components/containers/Requests/Module";
-import createRequests, {
-  createRequestEpic,
-  updateRequestEpic,
-} from "../components/containers/CreateRequestForm/Module";
 import register, {
   registerEpic,
 } from "../components/containers/LoginForm/Module";
@@ -62,33 +51,24 @@ import { voteEpic } from "../components/containers/Article/ApprovedArticle/VoteM
 export const rootReducer = {
   app,
   modal,
-  createRequests,
   register,
   localStorage,
-  request,
 };
 
 const epics = [
-  createRequestEpic,
   showNotificationEpic,
   registerEpic,
   showConfirmationModalEpic,
   routeChangeEpic,
-  updateRequestEpic,
   submitArticleEpic,
   submitArticleVersionEpic,
   editArticleEpic,
-  flagRequestEpic,
   addCommentEpic,
   userDetailsEpic,
   // ethUsdPriceEpic,
-  addRequestCommentEpic,
-  addToBountyEpic,
   hideIntroBannerEpic,
   tipArticleEpic,
   rejectArticleEpic,
-  requestRefundEpic,
-  resubmitRequestEpic,
   trackAnalyticsEpic,
   trackMixpanelEpic,
   startDriverStepsEpic,

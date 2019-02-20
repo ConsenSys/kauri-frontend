@@ -3,10 +3,10 @@ import React from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import { PossibleActionBadge } from "../../common/ActionBadge";
-import { Container } from "../RequestCreated/View";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import { Link } from "../../../routes";
+import { menuHeaderHeight } from "../Navbar/View";
 
 type Props = {
   data: { getArticle: ArticleDTO },
@@ -35,6 +35,18 @@ const PossibleActions = styled.div`
   margin-bottom: ${props => props.theme.space[3]}px;
   > :not(:last-child) {
     margin-right: ${props => props.theme.space[4]}px;
+  }
+`;
+
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - ${menuHeaderHeight}px);
+  background-color: ${props => props.theme.primaryTextColor};
+  > :first-child {
+    margin-bottom: 30px;
   }
 `;
 

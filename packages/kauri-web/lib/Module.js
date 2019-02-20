@@ -1,4 +1,3 @@
-// @flow
 import { Observable } from "rxjs/Observable";
 import { notification, Modal } from "antd";
 import cookie from "cookie";

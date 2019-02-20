@@ -4,7 +4,7 @@ import IVoteAction from "../components/containers/Article/ApprovedArticle/VoteMo
 
 type NotificationType = "success" | "info" | "warning" | "error";
 
-interface IShowNotificationPayload {
+export interface IShowNotificationPayload {
   notificationType: NotificationType;
   message: string;
   description: string;
