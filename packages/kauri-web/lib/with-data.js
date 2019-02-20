@@ -12,7 +12,7 @@ import fetch from "isomorphic-unfetch";
 import mixpanel from "mixpanel-browser";
 import initRedux from "./init-redux";
 import initApollo from "./init-apollo";
-import { initSmartContracts } from "./init-smart-contracts";
+
 import {
   fetchEthUsdPriceAction,
   fetchUserDetailsAction,
@@ -253,9 +253,6 @@ export default ComposedComponent =>
           // No web3 detected. Show an error to the user or use Infura: https://infura.io/
           // window.web3 = new Web3(new Web3.providers.HttpProvider(`http://${process.env.gethBlockchain}`))
         }
-
-        // window.smartContracts
-        initSmartContracts(window.web3);
         // Init mixpanel
         mixpanel.init(
           config.mixpanelToken,
