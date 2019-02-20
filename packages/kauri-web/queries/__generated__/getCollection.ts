@@ -66,6 +66,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_voteR
   __typename: "VoteResultDTO";
   sum: number | null;
   count: any | null;
+  hasVoted: boolean | null;
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_author {

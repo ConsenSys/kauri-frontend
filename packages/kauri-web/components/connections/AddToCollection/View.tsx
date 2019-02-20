@@ -162,7 +162,7 @@ const Component: React.FunctionComponent<IProps> = ({
                   }
                   parentState={state}
                   setCollection={({ chosenCollection }) =>
-                    setState({ ...state, chosenCollection })
+                    setState({ chosenCollection, chosenSection: null })
                   }
                   setSection={({ chosenSection }) =>
                     setState({ ...state, chosenSection })

@@ -42,7 +42,11 @@ export const voteEpic: Epic<Actions, IReduxState, IDependencies> = (
         Observable.of(
           showNotificationAction({
             description:
-              "Your vote has been counted! Thanks for your feedback!",
+              (payload as voteVariables) &&
+              typeof payload.value === "number" &&
+              payload.value > 0
+                ? "Your vote has been counted! Thanks for your feedback!"
+                : "Please leave a comment below with your feedback to the author to help them improve the article.",
             message: `Voted`,
             notificationType: "success",
           })

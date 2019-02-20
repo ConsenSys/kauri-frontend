@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment } from "react";
+import React from "react";
 import styled from "styled-components";
 import DatePosted from "../../../common/DatePosted";
 import VoteArticle from "../../../../../kauri-components/components/VoteArticle";
@@ -16,6 +16,7 @@ type Props = {
   positiveVoteAction: () => void,
   negativeVoteAction: () => void,
   voteResult: { sum: number },
+  loginFirstToVote: () => void,
 };
 
 const ArticleFooter = styled.section`
@@ -114,15 +115,6 @@ const Divider = styled.div`
   }
 `;
 
-const VotingContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-`;
-
-const VotingCaption = styled.div`
-  display: flex;
-`;
-
 export default ({
   username,
   date_updated,
@@ -138,6 +130,7 @@ export default ({
   positiveVoteAction,
   negativeVoteAction,
   voteResult,
+  loginFirstToVote,
 }: Props) => (
   <ArticleFooter>
     <Divider />
@@ -168,17 +161,13 @@ export default ({
     </Details>
     <Divider />
     <Details>
-      <VotingContainer>
-        <VotingCaption>
-          {voteResult.sum} person(s) found this offensive.
-        </VotingCaption>
-        {isLoggedIn && (
-          <VoteArticle
-            positiveVoteAction={positiveVoteAction}
-            negativeVoteAction={negativeVoteAction}
-          />
-        )}
-      </VotingContainer>
+      <VoteArticle
+        voteResult={voteResult}
+        isLoggedIn={isLoggedIn}
+        positiveVoteAction={positiveVoteAction}
+        negativeVoteAction={negativeVoteAction}
+        loginFirstToVote={loginFirstToVote}
+      />
     </Details>
   </ArticleFooter>
 );
