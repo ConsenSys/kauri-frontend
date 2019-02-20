@@ -102,11 +102,11 @@ export default ({
         </TertiaryButton>
       </Stack>
       <ContainerRow>
-        <SecondaryButton onClick={() => handleSubmit("draft")}>
+        <SecondaryButton onClick={handleSubmit("draft")}>
           Save draft
         </SecondaryButton>
         {isOwner(status, owner, userId) ? (
-          <PrimaryButton onClick={() => handleSubmit("submit/update")}>
+          <PrimaryButton onClick={handleSubmit("submit/update")}>
             Publish Article
           </PrimaryButton>
         ) : (

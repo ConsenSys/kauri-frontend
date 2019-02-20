@@ -34,7 +34,7 @@ const SecondaryButton = styled<
 
 interface IProps {
   icon?: React.ReactElement<any>;
-  onClick?: () => void;
+  onClick?: void | (() => void);
   handleClick?: () => void;
   disabled?: boolean;
   fontWeight?: number;

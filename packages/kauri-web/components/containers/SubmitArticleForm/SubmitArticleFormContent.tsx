@@ -9,8 +9,7 @@ import { CreateRequestContainer as SubmitArticleFormContainer } from "../../comm
 import { ISubmitArticlePayload } from "./Module";
 interface IProps {
   submitArticleAction: (payload: ISubmitArticlePayload) => void;
-  article_id?: string;
-  request_id: string;
+  id?: string;
   data: any;
   article?: any;
   form: any;

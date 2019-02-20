@@ -47,8 +47,8 @@ interface IAction {
 }
 
 export interface IOwnerPayload {
-  type: string | null;
-  id: string | null;
+  type: string;
+  id: string;
 }
 
 export interface IPublishArticlePayload {
@@ -103,7 +103,6 @@ export const publishArticleEpic: Epic<any, {}, IDependencies> = (
           updateComment,
         },
       }: IPublishArticleAction) => {
-        console.log(updateComment);
         const signatureToSign = generatePublishArticleHash(
           id,
           version,

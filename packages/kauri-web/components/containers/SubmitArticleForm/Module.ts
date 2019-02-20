@@ -3,7 +3,7 @@ import { Epic } from "redux-observable";
 import {
   submitArticleVersion,
   editArticle,
-  getArticle,
+  getArticle as getArticleQuery,
   submitNewArticle,
 } from "../../../queries/Article";
 import {
@@ -31,7 +31,7 @@ export interface IAttributesPayload {
 }
 
 export interface ISubmitArticlePayload {
-  article_id?: string;
+  id?: string;
   subject: string;
   tags: string[];
   text: string;
@@ -149,61 +149,51 @@ export const submitArticleEpic: Epic<any, {}, IDependencies> = (
             }) => apolloSubscriber<{ id: string; version: number }>(hash)
           )
           .do(h => console.log(h))
-          .mergeMap(({ data: { output: { id, version } } }) =>
+          .mergeMap(({ data: { output } }) =>
             apolloClient.query<IGetArticleResult>({
               fetchPolicy: "network-only",
-              query: getArticle,
+              query: getArticleQuery,
               variables: {
-                id,
-                version,
+                id: output.id,
+                version: output.version,
               },
             })
           )
           .do(h => console.log(h))
-          .mergeMap(
-            ({
-              data: {
-                getArticle: {
-                  authorId,
-                  contentHash,
-                  dateCreated,
-                  id,
-                  owner,
-                  version,
-                },
-              },
-            }) =>
-              typeof selfPublish !== "undefined"
-                ? Observable.of(
-                    publishArticleAction({
-                      contentHash,
-                      contributor: authorId,
-                      dateCreated,
-                      id,
-                      owner,
-                      version,
-                    })
-                  )
-                : Observable.of(
-                    routeChangeAction(
-                      `/article/${id}/v${version}/article-published`
-                    ),
-                    trackMixpanelAction({
-                      event: "Offchain",
-                      metaData: {
-                        resource: "article",
-                        resourceAction: "submit article",
-                        resourceID: id,
-                        resourceVersion: version,
-                      },
-                    }),
-                    showNotificationAction({
-                      description:
-                        "Your personal article has now been published!",
-                      message: "Article published",
-                      notificationType: "success",
-                    })
-                  )
+          .mergeMap(({ data: { getArticle } }) =>
+            typeof selfPublish !== "undefined"
+              ? Observable.of(
+                  publishArticleAction({
+                    contentHash: getArticle.contentHash,
+                    contributor: getArticle.authorId,
+                    dateCreated: getArticle.dateCreated,
+                    id: getArticle.id,
+                    owner: getArticle.owner,
+                    version: getArticle.version,
+                  })
+                )
+              : Observable.of(
+                  routeChangeAction(
+                    `/article/${getArticle.id}/v${
+                      getArticle.version
+                    }/article-published`
+                  ),
+                  trackMixpanelAction({
+                    event: "Offchain",
+                    metaData: {
+                      resource: "article",
+                      resourceAction: "submit article",
+                      resourceID: getArticle.id,
+                      resourceVersion: getArticle.version,
+                    },
+                  }),
+                  showNotificationAction({
+                    description:
+                      "Your personal article has now been published!",
+                    message: "Article published",
+                    notificationType: "success",
+                  })
+                )
           )
           .catch((err: string) => {
             console.error(err);
@@ -232,7 +222,6 @@ export const submitArticleVersionEpic: Epic<any, {}, IDependencies> = (
           tags,
           id,
           attributes,
-          owner,
           selfPublish,
           updateComment,
         },
@@ -263,7 +252,7 @@ export const submitArticleVersionEpic: Epic<any, {}, IDependencies> = (
           .mergeMap(({ data: { output } }) =>
             apolloClient.query<IGetArticleResult>({
               fetchPolicy: "network-only",
-              query: getArticle,
+              query: getArticleQuery,
               variables: {
                 id: output.id,
                 version: output.version,
@@ -271,62 +260,55 @@ export const submitArticleVersionEpic: Epic<any, {}, IDependencies> = (
             })
           )
           .do(h => console.log(h))
-          .mergeMap(
-            ({
-              data: {
-                getArticle: { contentHash, dateCreated, authorId },
-              },
-            }) =>
-              typeof selfPublish !== "undefined"
-                ? Observable.of(
-                    publishArticleAction({
-                      contentHash,
-                      contributor: authorId,
-                      dateCreated,
-                      id: getArticle.id,
-                      owner,
-                      updateComment,
-                      version: getArticle.version,
-                    })
-                  )
-                : Observable.of(
-                    routeChangeAction(
-                      `/article/${getArticle.id}/v${
-                        getArticle.version
-                      }/article-${
-                        typeof selfPublish === "undefined"
-                          ? "drafted"
-                          : owner.id === authorId
-                          ? "published"
-                          : "proposed"
-                      }`
-                    ),
-                    trackMixpanelAction({
-                      event: "Offchain",
-                      metaData: {
-                        resource: "article",
-                        resourceAction: "submit article version",
-                        resourceID: id,
-                        resourceVersion: getArticle.version,
-                      },
-                    }),
-                    showNotificationAction({
-                      description:
-                        typeof selfPublish === "undefined"
-                          ? "Your article has now been drafted to be updated or published in the future"
-                          : owner.id === authorId
-                          ? "Your personal article has now been published!"
-                          : "Waiting for it to be reviewed!",
-                      message: `Article ${
-                        typeof selfPublish === "undefined"
-                          ? "drafted"
-                          : owner.id === authorId
-                          ? "published"
-                          : "proposed"
-                      }`,
-                      notificationType: "success",
-                    })
-                  )
+          .mergeMap(({ data: { getArticle } }) =>
+            typeof selfPublish !== "undefined"
+              ? Observable.of(
+                  publishArticleAction({
+                    contentHash: getArticle.contentHash,
+                    contributor: getArticle.authorId,
+                    dateCreated: getArticle.dateCreated,
+                    id: getArticle.id,
+                    owner: getArticle.owner,
+                    updateComment,
+                    version: getArticle.version,
+                  })
+                )
+              : Observable.of(
+                  routeChangeAction(
+                    `/article/${getArticle.id}/v${getArticle.version}/article-${
+                      typeof selfPublish === "undefined"
+                        ? "drafted"
+                        : getArticle.owner.id === getArticle.authorId
+                        ? "published"
+                        : "proposed"
+                    }`
+                  ),
+                  trackMixpanelAction({
+                    event: "Offchain",
+                    metaData: {
+                      resource: "article",
+                      resourceAction: "submit article version",
+                      resourceID: id,
+                      resourceVersion: getArticle.version,
+                    },
+                  }),
+                  showNotificationAction({
+                    description:
+                      typeof selfPublish === "undefined"
+                        ? "Your article has now been drafted to be updated or published in the future"
+                        : getArticle.owner.id === getArticle.authorId
+                        ? "Your personal article has now been published!"
+                        : "Waiting for it to be reviewed!",
+                    message: `Article ${
+                      typeof selfPublish === "undefined"
+                        ? "drafted"
+                        : getArticle.owner.id === getArticle.authorId
+                        ? "published"
+                        : "proposed"
+                    }`,
+                    notificationType: "success",
+                  })
+                )
           )
           .catch(err => {
             console.error(err);
@@ -370,49 +352,44 @@ export const editArticleEpic: Epic<any, {}, IDependencies> = (
           .mergeMap(({ data: { output } }) =>
             apolloClient.query<IGetArticleResult>({
               fetchPolicy: "network-only",
-              query: getArticle,
+              query: getArticleQuery,
               variables: {
                 id: output.id,
                 version: output.version,
               },
             })
           )
-          .mergeMap(
-            ({
-              data: {
-                getArticle: { contentHash, dateCreated, authorId },
-              },
-            }) =>
-              typeof selfPublish !== "undefined"
-                ? Observable.of(
-                    publishArticleAction({
-                      contentHash,
-                      contributor: authorId,
-                      dateCreated,
-                      id: getArticle.id,
-                      owner: null,
-                      version: getArticle.version,
-                    })
-                  )
-                : Observable.of(
-                    routeChangeAction(
-                      `/article/${id}/v${version}/article-updated`
-                    ),
-                    trackMixpanelAction({
-                      event: "Offchain",
-                      metaData: {
-                        resource: "article",
-                        resourceAction: "update article",
-                        resourceID: id,
-                        resourceVersion: version,
-                      },
-                    }),
-                    showNotificationAction({
-                      description: "The article version has been updated!",
-                      message: "Article updated",
-                      notificationType: "info",
-                    })
-                  )
+          .mergeMap(({ data: { getArticle } }) =>
+            typeof selfPublish !== "undefined"
+              ? Observable.of(
+                  publishArticleAction({
+                    contentHash: getArticle.contentHash,
+                    contributor: getArticle.authorId,
+                    dateCreated: getArticle.dateCreated,
+                    id: getArticle.id,
+                    owner: getArticle.owner,
+                    version: getArticle.version,
+                  })
+                )
+              : Observable.of(
+                  routeChangeAction(
+                    `/article/${id}/v${version}/article-updated`
+                  ),
+                  trackMixpanelAction({
+                    event: "Offchain",
+                    metaData: {
+                      resource: "article",
+                      resourceAction: "update article",
+                      resourceID: id,
+                      resourceVersion: version,
+                    },
+                  }),
+                  showNotificationAction({
+                    description: "The article version has been updated!",
+                    message: "Article updated",
+                    notificationType: "info",
+                  })
+                )
           )
     );
 

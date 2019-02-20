@@ -16,10 +16,7 @@ routes
     "view-article-version"
   )
   .add("view-article-version", "/article/:article_id/v:article_version")
-  .add(
-    "update-article",
-    "/article/:article_id/v:article_version/update-article"
-  )
+  .add("update-article", "/article/:id/v:version/update-article")
   .add(
     "article-drafted",
     "/article/:article_id/v:article_version/article-drafted"

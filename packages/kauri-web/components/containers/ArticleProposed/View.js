@@ -6,6 +6,7 @@ import { PossibleActionBadge } from "../../common/ActionBadge";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import { Link } from "../../../routes";
+import { menuHeaderHeight } from "../Navbar/View";
 
 type Props = {
   data: { getArticle: ArticleDTO },
