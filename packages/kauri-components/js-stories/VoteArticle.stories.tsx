@@ -2,6 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import VoteArticle from "../components/VoteArticle";
 import { Article_voteResult } from "../../kauri-web/queries/__generated__/Article";
+import styled from "styled-components";
 
 const handleAction = () => {
   return;
@@ -28,7 +29,13 @@ const votedAlreadyVoteResult: Article_voteResult = {
   sum: 0,
 };
 
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 storiesOf("VoteArticle", module)
+  .addDecorator(story => <Container>{story()}</Container>)
   .add("No voters yet, not logged in", () => (
     <VoteArticle
       loginFirstToVote={() => {

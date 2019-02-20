@@ -10,6 +10,8 @@ const Container = styled.section`
   > *:not(:last-child) {
     margin-bottom: ${props => props.theme.space[1]}px;
   }
+  justify-content: center;
+  align-items: center;
 `;
 
 const VotingButtons = styled.div`
