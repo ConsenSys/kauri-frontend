@@ -35,10 +35,9 @@ class CTA extends React.Component {
     this.loadWeb3();
   }
 
-  loadWeb3() {
-    console.log("loading web 3");
-    const sm = require("../../../lib/init-smart-contracts").initSmartContracts;
-    sm(window.web3, result => {
+  async loadWeb3() {
+    const sm = await import("../../../lib/init-smart-contracts");
+    sm.initSmartContracts(window.web3, result => {
       if (result) {
         this.setState({ activated: true });
       }
