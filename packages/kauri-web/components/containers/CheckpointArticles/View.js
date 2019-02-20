@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import CTA from "./CTA";
+import CTA, { CheckpointArticlesIcon } from "./CTA";
 
 const CheckpointArticlesCTAContainer = styled.section`
   display: flex;
