@@ -10,6 +10,7 @@ const Content = styled.div`
   font-size: ${props => props.theme.fontSizes[3]}px;
   width: 100%;
   background: white;
+  word-break: break-all;
 `;
 
 const Line = styled.span`

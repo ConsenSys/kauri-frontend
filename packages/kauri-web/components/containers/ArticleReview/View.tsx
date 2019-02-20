@@ -89,7 +89,10 @@ class ArticleReviewView extends React.Component<IProps, {}> {
         <Header
           routeChangeAction={this.props.routeChangeAction}
           bgUpdated={
-            current.attributes.background !== proposed.attributes.background
+            (!current.attributes && proposed.attributes) ||
+            (current.attributes &&
+              proposed.attributes &&
+              current.attributes.background !== proposed.attributes.background)
           }
           date={proposed.dateCreated}
           oldTags={current.tags || []}
