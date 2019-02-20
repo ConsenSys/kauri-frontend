@@ -12,6 +12,10 @@ const noVotersVoteResult: Article_voteResult = {
   __typename: "VoteResultDTO",
   count: 0,
   hasVoted: false,
+  quantity: {
+    1: 0,
+    "-1": 0,
+  },
   sum: 0,
 };
 
@@ -19,6 +23,10 @@ const oneVoterVoteResultHasntVotedAlready: Article_voteResult = {
   __typename: "VoteResultDTO",
   count: 1,
   hasVoted: false,
+  quantity: {
+    1: 1,
+    "-1": 0,
+  },
   sum: 1,
 };
 
@@ -26,6 +34,10 @@ const votedAlreadyVoteResult: Article_voteResult = {
   __typename: "VoteResultDTO",
   count: 1,
   hasVoted: true,
+  quantity: {
+    1: 0,
+    "-1": 1,
+  },
   sum: 0,
 };
 

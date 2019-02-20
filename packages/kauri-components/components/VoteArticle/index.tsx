@@ -110,7 +110,7 @@ const Component: React.FunctionComponent<IProps> = props => (
             }
             icon={<HeartIcon />}
           >
-            {`Yes (${props.voteResult.sum})`}
+            {`Yes (${props.voteResult.quantity["1"] || 0})`}
           </TertiaryButtonComponent>
           <TertiaryButtonComponent
             disabled={Boolean(props.voteResult.hasVoted)}
@@ -122,7 +122,7 @@ const Component: React.FunctionComponent<IProps> = props => (
                 : props.loginFirstToVote()
             }
           >
-            {`Needs improvement (${props.voteResult.sum})`}
+            {`Needs improvement (${props.voteResult.quantity["-1"] || 0})`}
           </TertiaryButtonComponent>
         </VotingButtons>
       </VotingCTAContainer>

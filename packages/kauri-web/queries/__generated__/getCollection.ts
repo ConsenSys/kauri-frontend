@@ -67,6 +67,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_voteR
   sum: number | null;
   count: any | null;
   hasVoted: boolean | null;
+  quantity: any | null;
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_author {
