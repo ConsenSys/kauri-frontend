@@ -35,7 +35,6 @@ export default compose(
     }) => {
       const variables = {
         filter: {
-          mustNotContainTag: ["ethdenver-2019-submission"],
           type: viewedSearchCategory,
         },
         page: 0,
