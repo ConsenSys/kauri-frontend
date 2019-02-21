@@ -8,6 +8,7 @@ import PrimaryButton from "../../../../kauri-components/components/Button/Primar
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
 import ModalHeader from "../../../../kauri-components/components/Headers/ModalHeader";
 import Input from "../../../../kauri-components/components/Input/Input";
+import { IShowNotificationPayload } from "../../../lib/Module";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -56,7 +57,6 @@ const Actions = ({
     </TertiaryButton>
     <PrimaryButton
       onClick={() => {
-        console.log(handleConfirm);
         handleClose();
         handleConfirm();
       }}
@@ -80,6 +80,7 @@ const ContentContainer = styled.section`
 interface IProps {
   closeModalAction: () => void;
   confirmModal: (submissionType: string, updateComment: string) => void;
+  showNotificationAction: (payload: IShowNotificationPayload) => void;
 }
 
 interface IState {
@@ -111,10 +112,17 @@ class ProposeArticleModal extends React.Component<IProps, IState> {
           fontSize={4}
         />
         <Actions
-          handleConfirm={confirmModal(
-            "submit/update",
-            this.state.updateComment
-          )}
+          handleConfirm={
+            this.state.updateComment.length > 0
+              ? confirmModal("submit/update", this.state.updateComment)
+              : () =>
+                  this.props.showNotificationAction({
+                    description: "Please add a comment!",
+                    message:
+                      "An update comment for the owner of the article is required.",
+                    notificationType: "error",
+                  })
+          }
           handleClose={() => closeModalAction()}
         />
       </ContentContainer>

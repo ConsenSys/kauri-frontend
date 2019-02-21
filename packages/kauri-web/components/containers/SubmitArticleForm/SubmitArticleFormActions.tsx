@@ -7,6 +7,7 @@ import PrimaryButton from "../../../../kauri-components/components/Button/Primar
 import SecondaryButton from "../../../../kauri-components/components/Button/SecondaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
 import ProposeUpdateModal from "./ProposeUpdateModal";
+import { IShowNotificationPayload } from "../../../lib/Module";
 
 const UploadIcon = () => (
   <img src="https://png.icons8.com/color/50/000000/upload.png" />
@@ -52,6 +53,7 @@ interface IProps {
   status: string;
   getFieldDecorator: (field: string, arg1: any) => any;
   setFieldsValue: ({ text }: { text: string }) => void;
+  showNotificationAction: (payload: IShowNotificationPayload) => void;
 }
 
 const setupImageUploader = (setFieldsValue: any, getFieldDecorator: any) => {
@@ -72,6 +74,7 @@ export default ({
   getFieldDecorator,
   closeModalAction,
   openModalAction,
+  showNotificationAction,
 }: IProps) => (
   <SubmitArticleFormActions>
     <ActionsSection
@@ -117,6 +120,7 @@ export default ({
                   <ProposeUpdateModal
                     closeModalAction={() => closeModalAction()}
                     confirmModal={handleSubmit}
+                    showNotificationAction={showNotificationAction}
                   />
                 ),
               })
