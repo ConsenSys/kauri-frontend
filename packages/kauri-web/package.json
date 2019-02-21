@@ -91,6 +91,7 @@
     "react-share": "^2.2.0",
     "react-text-truncate": "^0.13.1",
     "react-tippy": "^1.2.2",
+    "react-truncate-html": "^0.1.7",
     "react-youtube": "^7.5.0",
     "recompose": "0.26.0",
     "redraft": "^0.10.1",
