@@ -63,7 +63,7 @@ const StyledMenuItem = styled.div`
   display: flex;
   color: #fff !important;
   padding: 0 15px;
-  z-index: 1;
+  z-index: 100;
 
   @media (max-width: 500px) {
     display: ${props => (props.onlyDesktop ? "none !important" : "flex")};
