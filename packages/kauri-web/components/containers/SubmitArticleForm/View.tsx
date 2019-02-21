@@ -4,6 +4,7 @@ import Helmet from "react-helmet";
 import SubmitArticleFormActions from "./SubmitArticleFormActions";
 import SubmitArticleFormHeader from "./SubmitArticleFormHeader";
 import SubmitArticleFormContent from "./SubmitArticleFormContent";
+import { IShowNotificationPayload } from "../../../lib/Module";
 
 import {
   IAttributesPayload,
@@ -34,13 +35,7 @@ interface IProps {
   form: any;
   handleFormChange: any;
   routeChangeAction: any;
-  showNotificationAction: (
-    {
-      message,
-      notificationType,
-      description,
-    }: { message: string; notificationType: string; description: string }
-  ) => void;
+  showNotificationAction: (payload: IShowNotificationPayload) => void;
   username: string;
   userId: string;
   userAvatar: string;
@@ -297,6 +292,7 @@ class SubmitArticleForm extends React.Component<IProps> {
           owner={articleData && articleData.owner && articleData.owner.id}
           openModalAction={this.props.openModalAction}
           closeModalAction={this.props.closeModalAction}
+          showNotificationAction={this.props.showNotificationAction}
         />
         <SubmitArticleForm.Header
           {...this.props.form}
