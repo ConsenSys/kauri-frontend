@@ -52,7 +52,7 @@ const StyledMenu = styled(Menu)`
   background-color: ${props =>
     props.navcolor
       ? props.navcolor
-      : props.confirmationPage && props.theme.secondaryColor};
+      : props.cgonfirmationPage && props.theme.secondaryColor};
   border-bottom-color: ${props => props.navcolor} !important;
   @media (max-width: 500px) {
     padding: 0px 10px;
@@ -63,7 +63,7 @@ const StyledMenuItem = styled.div`
   display: flex;
   color: #fff !important;
   padding: 0 15px;
-  z-index: 1;
+  z-index: 100;
 
   @media (max-width: 500px) {
     display: ${props => (props.onlyDesktop ? "none !important" : "flex")};
