@@ -10,7 +10,7 @@ interface IState {
 
 type PaginationDataQuery =
   | "searchCommunities"
-  | "searchCollections"
+  | "searchAutocompleteCollections"
   | "searchArticles"
   | "searchAutocomplete";
 

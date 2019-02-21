@@ -48,4 +48,4 @@ export default compose(
     },
   }),
   withLoading()
-)(withPagination(ResourceRows, "searchAutocomplete"));
+)(withPagination(ResourceRows, "searchAutocompleteCollections"));
