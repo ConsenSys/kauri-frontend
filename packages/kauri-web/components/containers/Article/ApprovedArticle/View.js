@@ -38,7 +38,7 @@ class ApprovedArticle extends React.Component<Props, State> {
   static Footer = Footer;
   static Comments = Comments;
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
@@ -50,7 +50,7 @@ class ApprovedArticle extends React.Component<Props, State> {
     );
   }
 
-  render() {
+  render () {
     const props = this.props;
     if (!props.data.getArticle) return;
     const { associatedNfts } = props.data.getArticle;
@@ -196,6 +196,12 @@ class ApprovedArticle extends React.Component<Props, State> {
             })
           }
           voteResult={props.data.getArticle && props.data.getArticle.voteResult}
+          relatedArticles={R.path([
+            "RelatedArticles",
+            "searchMoreLikeThis",
+            "content",
+          ])(props)}
+          routeChangeAction={props.routeChangeAction}
         />
         <ApprovedArticle.Comments
           id={props.data.getArticle && props.data.getArticle.id}

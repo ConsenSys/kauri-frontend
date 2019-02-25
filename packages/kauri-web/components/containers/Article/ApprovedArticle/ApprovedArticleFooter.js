@@ -3,6 +3,8 @@ import React from "react";
 import styled from "styled-components";
 import DatePosted from "../../../common/DatePosted";
 import VoteArticle from "../../../../../kauri-components/components/VoteArticle";
+import RelatedArticles from "../../../../../kauri-components/components/RelatedArticles";
+import { Link } from "../../../../routes";
 import CheckpointArticles from "../../CheckpointArticles";
 
 type Props = {
@@ -17,6 +19,8 @@ type Props = {
   negativeVoteAction: () => void,
   voteResult: { sum: number },
   loginFirstToVote: () => void,
+  relatedArticles: ArticleDTO[],
+  routeChangeAction: (route: string) => void,
 };
 
 const ArticleFooter = styled.section`
@@ -30,6 +34,7 @@ const Details = styled.div`
   width: 74%;
   @media (max-width: 950px) {
     width: 100%;
+    padding: ${props => props.theme.space[1]}px;
   }
 `;
 
@@ -115,6 +120,22 @@ const Divider = styled.div`
   }
 `;
 
+const RelatedArticlesContainer = styled.div`
+  display: none;
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+    padding: ${props => props.theme.space[1]}px;
+  }
+`;
+
+const RelatedArticlesDividerContainer = styled.div`
+  display: none;
+  @media (max-width: 500px) {
+    display: flex;
+  }
+`;
+
 const VoteContainer = styled(Details)`
   justify-content: center;
 `;
@@ -135,6 +156,8 @@ export default ({
   negativeVoteAction,
   voteResult,
   loginFirstToVote,
+  relatedArticles,
+  routeChangeAction,
 }: Props) => (
   <ArticleFooter>
     <Divider />
@@ -173,5 +196,20 @@ export default ({
         loginFirstToVote={loginFirstToVote}
       />
     </VoteContainer>
+
+    <RelatedArticlesDividerContainer>
+      <Divider />
+    </RelatedArticlesDividerContainer>
+    <RelatedArticlesContainer>
+      <RelatedArticles
+        linkComponent={(children, route, key) => (
+          <Link key={key} useAnchorTag href={route}>
+            {children}
+          </Link>
+        )}
+        routeChangeAction={routeChangeAction}
+        relatedArticles={relatedArticles}
+      />
+    </RelatedArticlesContainer>
   </ArticleFooter>
 );
