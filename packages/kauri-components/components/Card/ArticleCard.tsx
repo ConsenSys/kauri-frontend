@@ -255,7 +255,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
           text={title}
         />
       </H1>
-      {cardHeight > DEFAULT_CARD_HEIGHT && (
+      {cardHeight > DEFAULT_CARD_HEIGHT && !imageURL && (
         <BodyCard>
           <TextTruncate
             line={contentLineHeight({ cardHeight, cardWidth, imageURL })}
