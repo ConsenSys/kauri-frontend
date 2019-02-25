@@ -63,14 +63,11 @@ export default compose(
     }),
   }),
   graphql(relatedArticles, {
-    name: "RelatedArticles",
+    name: "Related",
     options: ({ id }) => ({
       variables: {
-        size: 3,
+        size: 5,
         page: 0,
-        filter: {
-          type: "ARTICLE",
-        },
         resourceId: {
           id,
           type: "ARTICLE",

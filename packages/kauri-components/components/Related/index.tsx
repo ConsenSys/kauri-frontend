@@ -3,9 +3,10 @@ import styled from "../../lib/styled-components";
 import { TagList } from "../Tags";
 
 interface IProps {
-  relatedArticles: Array<{
+  related: Array<{
     resourceIdentifier: {
       id: string;
+      type: string;
     };
     tags: string[];
     name: string;
@@ -33,14 +34,39 @@ const Article = styled.div`
   }
 `;
 
+const RelatedBadge = styled.div`
+  text-transform: uppercase;
+  color: ${props => props.theme.colors.disabledTextColor};
+  border: 1px solid ${props => props.theme.colors.disabledTextColor};
+  height: 20px;
+  font-size: 9px;
+  padding: 3px 6px;
+  border-radius: 12px;
+  margin-left: ${props => props.theme.space[1]}px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+`;
+
+const HeadingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 const Related = (props: IProps) =>
-  props.relatedArticles ? (
+  {
+    return props.related ? (
     <RelatedArticlesContainer>
-      <Label>Related Articles</Label>
-      {props.relatedArticles.map((i, key) =>
+      <Label>Related Items</Label>
+      {props.related.map((i, key) =>
         props.linkComponent(
           <Article>
-            <H3>{i.name}</H3>
+            <HeadingContainer>
+              <H3>{i.name}</H3>
+              <RelatedBadge>{i.resourceIdentifier.type}</RelatedBadge>
+            </HeadingContainer>
             {i.tags && i.tags.length > 0 && (
               <TagList maxTags={3} color="textPrimary" tags={i.tags} />
             )}
@@ -50,6 +76,7 @@ const Related = (props: IProps) =>
         )
       )}
     </RelatedArticlesContainer>
-  ) : null;
+  ) : null
+};
 
 export default Related;

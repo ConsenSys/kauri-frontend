@@ -5,8 +5,6 @@ import { EditorState, convertFromRaw } from "draft-js";
 import { Link } from "../../../../routes";
 import slugify from "slugify";
 
-import { CreateRequestDetails } from "../../../common/Legacy/CreateRequestDetails";
-
 import { CreateRequestContent as SubmitArticleFormContent } from "../../../common/Legacy/CreateRequestContent";
 
 import { CreateRequestContainer as SubmitArticleFormContainer } from "../../../common/Legacy/CreateRequestContainer";
@@ -18,7 +16,9 @@ import {
 } from "../../../../lib/markdown-converter-helper";
 import ShareArticle from "../../../../../kauri-components/components/Tooltip/ShareArticle";
 import AlertView from "../../../../../kauri-components/components/Modal/AlertView";
-import Outline from "../../../../../kauri-components/components/Outline";
+import Outline, {
+  Divider,
+} from "../../../../../kauri-components/components/Outline";
 import TertiaryButton from "../../../../../kauri-components/components/Button/TertiaryButton";
 import styled from "../../../../lib/styled-components";
 import userIdTrim from "../../../../lib/userid-trim";
@@ -27,10 +27,15 @@ import { INFT } from "../../../../../kauri-components/components/Kudos/NFTList";
 import AddIcon from "../../../../../kauri-components/components/Icon/AddIcon";
 import AddToCollectionConnection from "../../../connections/AddToCollection";
 import { Label } from "../../../../../kauri-components/components/Typography";
-import RelatedArticles from "../../../../../kauri-components/components/RelatedArticles";
-import { Divider } from "../../../../../kauri-components/components/Outline";
+import Related from "../../../../../kauri-components/components/Related";
 
-export const ApprovedArticleDetails = styled(CreateRequestDetails)`
+export const ApprovedArticleDetails = styled.div`
+  display: flex;
+  width: 26%;
+  margin-top: 30px;
+  padding-left: 30px;
+  flex-direction: column;
+  align-items: center;
   align-items: inherit;
   > :last-child {
     margin-top: 0px;
@@ -138,7 +143,7 @@ export default ({
   closeModalAction,
   deleteDraftArticleAction,
   nfts,
-  relatedArticles,
+  related,
 }: {
   text?: string,
   username?: ?string,
@@ -153,7 +158,7 @@ export default ({
   address?: string,
   hostName: string,
   nfts: INFT[],
-  relatedArticles: ArticleDTO[],
+  related: ArticleDTO[],
   resourceType: "USER" | "COMMUNITY",
   openModalAction: ({ children: React.ReactNode }) => void,
   closeModalAction: () => void,
@@ -299,14 +304,14 @@ export default ({
             title={subject}
           />
           <Divider />
-          <RelatedArticles
+          <Related
             linkComponent={(children, route, key) => (
               <Link key={key} useAnchorTag href={route}>
                 {children}
               </Link>
             )}
             routeChangeAction={routeChangeAction}
-            relatedArticles={relatedArticles}
+            related={related}
           />
         </ActionsContainer>
       </ApprovedArticleDetails>

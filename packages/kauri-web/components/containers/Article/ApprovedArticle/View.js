@@ -44,7 +44,7 @@ class ApprovedArticle extends React.Component<Props, State> {
     );
   }
 
-  componentDidMount () {
+  componentDidMount() {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
@@ -82,8 +82,8 @@ class ApprovedArticle extends React.Component<Props, State> {
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)
               : R.path(["data", "getArticle", "owner"])(props)
-                ? R.path(["data", "getArticle", "owner", "username"])(props)
-                : R.path(["data", "getArticle", "author", "username"])(props)
+              ? R.path(["data", "getArticle", "owner", "username"])(props)
+              : R.path(["data", "getArticle", "author", "username"])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -113,8 +113,8 @@ class ApprovedArticle extends React.Component<Props, State> {
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)
               : R.path(["data", "getArticle", "owner"])(props)
-                ? R.path(["data", "getArticle", "owner", "username"])(props)
-                : R.path(["data", "getArticle", "author", "username"])(props)
+              ? R.path(["data", "getArticle", "owner", "username"])(props)
+              : R.path(["data", "getArticle", "author", "username"])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -134,11 +134,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           openModalAction={props.openModalAction}
           closeModalAction={props.closeModalAction}
           deleteDraftArticleAction={props.deleteDraftArticleAction}
-          relatedArticles={R.path([
-            "RelatedArticles",
-            "searchMoreLikeThis",
-            "content",
-          ])(props)}
+          related={R.path(["Related", "searchMoreLikeThis", "content"])(props)}
         />
         <ApprovedArticle.Footer
           isLoggedIn={!!props.personalUsername}
