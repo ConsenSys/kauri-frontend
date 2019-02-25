@@ -1,10 +1,64 @@
 import * as React from "react";
 import styled from "../../../lib/styled-components";
+import PrimaryHeaderSection from "../../../../kauri-components/components/Section/PrimaryHeaderSection";
+import { Label } from "../../../../kauri-components/components/Typography";
+import UploadLogoButtonComponent from "../../../../kauri-components/components/Button/UploadLogoButton";
+import AddMemberButtonComponent from "../../../../kauri-components/components/Button/AddMemberButton";
+import { Input } from "../../../../kauri-components/components/Input";
+import UserAvatarComponent from "../../../../kauri-components/components/UserAvatar";
 
-const Container = styled.section``;
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  > *:not(:last-child) {
+    margin-bottom: ${props => props.theme.space[2]}px;
+  }
+  > *:nth-last-child(2) {
+    margin-top: ${props => props.theme.space[3]}px;
+  }
+  padding: ${props => props.theme.space[3]}px 0px;
+`;
 
-interface IProps {}
+const CreateCommunityMembersContainer = styled.div`
+  display: flex;
+  align-items: center;
+  > *:not(:last-child) {
+    margin-right: ${props => props.theme.space[1]}px;
+  }
+`;
 
-const Component: React.SFC<IProps> = props => <Container>header</Container>;
+interface IProps {
+  uploadLogo: () => void;
+}
+
+const Component: React.SFC<IProps> = props => (
+  <PrimaryHeaderSection
+    justifyContent={["", "center"]}
+    gridTemplateColumns={""}
+  >
+    <Container>
+      <UploadLogoButtonComponent
+        color="white"
+        onClick={() => props.uploadLogo()}
+      />
+      <Input fontSize={24} fontWeight={500} value={"Add community title"} />
+      <Input fontSize={16} value={"Add description"} />
+      <Input fontSize={12} value={"Add website"} />
+      <Label color="white">Moderators</Label>
+      <CreateCommunityMembersContainer>
+        <UserAvatarComponent
+          variant="white"
+          fullWidth={true}
+          username={"rej156"}
+          userId={"1234567890"}
+          avatar={null}
+        />
+        <AddMemberButtonComponent onClick={() => {}} />
+      </CreateCommunityMembersContainer>
+    </Container>
+  </PrimaryHeaderSection>
+);
 
 export default Component;

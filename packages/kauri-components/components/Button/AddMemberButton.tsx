@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import styled from "../../lib/styled-components";
 
 const AddMemberButton = styled<IProps, "button">("button")`
@@ -11,13 +11,13 @@ border-radius: 50%;
 border: none;
 cursor: pointer;
 background ${props => props.theme.colors[props.bg]};
-opacity: ${props => props.disabled ? '0.3' : '1'};
+opacity: ${props => (props.disabled ? "0.3" : "1")};
 > svg, img {
   height: 18px;
   width: 18px;
 }
 :hover {
-  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+  cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
   background-color: ${props => props.theme.colors[props.bgHover]};
 }
 transition: all 0.3s;
@@ -25,20 +25,33 @@ transition: all 0.3s;
 
 interface IProps {
   handleClick?: () => void;
+  onClick?: () => void;
   disabled?: boolean;
-  bg: string;
-  bgHover: string;
-  fontWeight: number;
-  fontSize: number;
+  bg?: string;
+  bgHover?: string;
+  fontWeight?: number;
+  fontSize?: number;
 }
 
-export default ({ bg = 'primary', bgHover = 'primaryDark', fontWeight = 700, fontSize = 0, handleClick, disabled }: IProps) =>
+const AddMemberButtonComponent: React.FunctionComponent<IProps> = ({
+  bg = "primary",
+  bgHover = "primaryDark",
+  fontWeight = 700,
+  fontSize = 0,
+  handleClick,
+  onClick,
+  disabled,
+}) => (
   <AddMemberButton
     disabled={disabled}
-    onClick={handleClick}
+    onClick={onClick || handleClick}
     bg={bg}
     bgHover={bgHover}
     fontSize={fontSize}
-    fontWeight={fontWeight}>
-    <img src='https://png.icons8.com/ios-glyphs/50/000000/plus-math.png' />
-  </AddMemberButton>;
+    fontWeight={fontWeight}
+  >
+    <img src="https://png.icons8.com/ios-glyphs/50/000000/plus-math.png" />
+  </AddMemberButton>
+);
+
+export default AddMemberButtonComponent;
