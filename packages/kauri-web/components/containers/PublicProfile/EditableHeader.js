@@ -4,6 +4,7 @@ import styled from "styled-components";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
 import EditProfile from "../../common/EditProfile";
+import Helmet from "react-helmet";
 
 import type { HeaderState, HeaderProps } from "./types";
 
@@ -22,12 +23,12 @@ const ActionsContainer = styled.div`
 `;
 
 class EditableHeader extends Component<HeaderProps, HeaderState> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.router &&
       this.props.router.events.on("routeChangeStart", this.props.toggleEditing);
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.router &&
       this.props.router.events.off(
         "routeChangeStart",
@@ -35,16 +36,22 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
       );
   }
 
-  handleSubmit () {
+  handleSubmit() {
     this.login
       .getWrappedInstance()
       .getWrappedInstance()
       .saveUser(undefined, this.props.toggleEditing);
   }
 
-  render () {
+  render() {
     return (
       <HeaderContainer>
+        <Helmet>
+          <link
+            rel="stylesheet"
+            href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
+          />
+        </Helmet>
         <EditProfile ref={comp => (this.login = comp)} />
         <ActionsContainer>
           <TertiaryButton onClick={() => this.props.toggleEditing()}>
