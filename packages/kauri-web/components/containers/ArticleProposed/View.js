@@ -2,11 +2,14 @@
 import React from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-import { PossibleActionBadge } from "../../common/ActionBadge";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import { Link } from "../../../routes";
 import { menuHeaderHeight } from "../Navbar/View";
+import {
+  Title2,
+  BodyCard,
+} from "../../../../kauri-components/components/Typography";
 
 type Props = {
   data: { getArticle: ArticleDTO },
@@ -29,15 +32,6 @@ const ProfileVisibilityStatement = styled(Statement)`
   flex-direction: column;
 `;
 
-const PossibleActions = styled.div`
-  display: flex;
-  margin-top: ${props => props.theme.space[3]}px;
-  margin-bottom: ${props => props.theme.space[3]}px;
-  > :not(:last-child) {
-    margin-right: ${props => props.theme.space[4]}px;
-  }
-`;
-
 const Container = styled.section`
   display: flex;
   flex-direction: column;
@@ -47,6 +41,13 @@ const Container = styled.section`
   background-color: ${props => props.theme.primaryTextColor};
   > :first-child {
     margin-bottom: 30px;
+  }
+`;
+
+const SectionContainer = styled.div`
+  margin-top: ${props => props.theme.space[3]}px;
+  & > h2 {
+    margin-bottom: ${props => props.theme.space[1]}px;
   }
 `;
 
@@ -60,6 +61,12 @@ class ArticleProposed extends React.Component<Props> {
         <Helmet>
           <title>{"Kauri - Article Proposed"}</title>
         </Helmet>
+        <SectionContainer>
+          <Title2 color="white">Article Update Submitted</Title2>
+          <BodyCard color="white">
+            Waiting for original author approval
+          </BodyCard>
+        </SectionContainer>
         <ArticleCard
           key={article.id}
           id={article.id}
@@ -83,38 +90,15 @@ class ArticleProposed extends React.Component<Props> {
           changeRoute={routeChangeAction}
           isLoggedIn={!!userId}
         />
-        <Statement>
-          <span>is now being reviewed by {data.getArticle.owner.username}</span>
-        </Statement>
-        <ProfileVisibilityStatement>
-          <span>
-            It will be visible on your public profile too once approved!
-          </span>
-          <span>
-            {data.getArticle.owner.username} can indicate the article is:
-          </span>
-        </ProfileVisibilityStatement>
-        <PossibleActions>
-          <PossibleActionBadge
-            action="Approved"
-            description="Article will be added to the knowledge base after they approve it"
-          />
-          <PossibleActionBadge
-            action="Changes"
-            description="Article requires changes"
-          />
-          <PossibleActionBadge
-            action="Rejected"
-            description="Article is not suitable for the knowledgebase"
-          />
-        </PossibleActions>
-        <PrimaryButton
-          onClick={() =>
-            routeChangeAction(`/public-profile/${this.props.userId}`)
-          }
-        >
-          My Articles
-        </PrimaryButton>
+        <SectionContainer>
+          <PrimaryButton
+            onClick={() =>
+              routeChangeAction(`/public-profile/${this.props.userId}`)
+            }
+          >
+            My Articles
+          </PrimaryButton>
+        </SectionContainer>
       </Container>
     );
   }
