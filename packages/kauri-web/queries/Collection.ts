@@ -194,8 +194,16 @@ export const getCollectionsForUser = gql`
     $filter: CollectionFilterInput
     $size: Int = 8
     $page: Int = 0
+    $sort: String = "dateUpdated"
+    $dir: DirectionInput
   ) {
-    searchCollections(filter: $filter, page: $page, size: $size) {
+    searchCollections(
+      filter: $filter
+      page: $page
+      size: $size
+      sort: $sort
+      dir: $dir
+    ) {
       totalElements
       content {
         ...Collection

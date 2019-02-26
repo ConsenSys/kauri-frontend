@@ -55,6 +55,8 @@ export default compose(
       fetchPolicy: "cache-and-network",
       variables: {
         page: 0,
+        sort: "dateUpdated",
+        dir: "DESC",
         filter: {
           ownerIdEquals: userId,
         },
