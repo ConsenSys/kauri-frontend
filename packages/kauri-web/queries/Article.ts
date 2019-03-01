@@ -528,6 +528,8 @@ export const globalSearchApprovedArticles = gql`
       size: $size
       query: $query
       filter: $filter
+      dir: "desc"
+      sort: "dateUpdated"
     ) {
       totalElements
       totalPages
