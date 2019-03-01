@@ -26,7 +26,7 @@ const uppyConfig = {
     maxFileSize: 10000000,
     maxNumberOfFiles: 1,
     minNumberOfFiles: 1,
-    allowedFileTypes: ["image/png", "image/jpeg", "image/jpg", "image/gif"],
+    allowedFileTypes: ["image/*"],
   },
 };
 
