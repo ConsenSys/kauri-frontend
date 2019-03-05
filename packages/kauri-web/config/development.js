@@ -12,7 +12,7 @@ module.exports = {
     "../../../../flow/smart-contracts/build/contracts/Wallet.json",
   TopicModeratorArtifact:
     "../../../../flow/smart-contracts/build/contracts/TopicModerator.json",
-  KauriCommunityId: "8241ec73308348c890f19a9cdffc50cb",
+  KauriCommunityId: "3e174cdcf9744ee3898f6a3badc3288b",
   analyticsTokens: {
     mixpanel: "627c5ccb5bf7da1d079aef2efaa807c2",
     ga: "UA-112179323-4",
