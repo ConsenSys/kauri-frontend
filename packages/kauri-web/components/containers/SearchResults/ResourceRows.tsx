@@ -56,6 +56,7 @@ class ResourceRows extends React.Component<
   IProps & ISearchResultsAutocompleteData
 > {
   render() {
+    console.log(this.props.data);
     return Object.values(this.props.totalElementsBreakdown).filter(
       amount => amount > 0
     ).length ? (

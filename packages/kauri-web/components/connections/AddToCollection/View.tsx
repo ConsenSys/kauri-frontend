@@ -125,7 +125,7 @@ const Component: React.FunctionComponent<IProps> = ({
                   // Always insert article at the end
                   const position = chosenCollectionSections
                     ? Array.isArray(chosenCollectionSections.resources)
-                      ? chosenCollectionSections.resources.length - 1
+                      ? chosenCollectionSections.resources.length
                       : 0
                     : 0;
 
