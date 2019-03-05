@@ -67,7 +67,9 @@ const Collections = ({
               cardHeight={310}
               linkComponent={(childrenProps, route) => (
                 <Link
-                  toSlug={route.includes("collection") && collection.name}
+                  toSlug={
+                    route && route.includes("collection") && collection.name
+                  }
                   useAnchorTag
                   href={route}
                 >

@@ -132,7 +132,7 @@ class ArticleApproved extends React.Component<IProps> {
             isLoggedIn={isLoggedIn}
             linkComponent={(childrenProps, route) => (
               <Link
-                toSlug={route.includes("article") && article.title}
+                toSlug={route && route.includes("article") && article.title}
                 useAnchorTag={true}
                 href={route}
               >

@@ -112,7 +112,9 @@ class Articles extends Component<IProps> {
                     route: string
                   ) => (
                     <Link
-                      toSlug={route.includes("article") && article.title}
+                      toSlug={
+                        route && route.includes("article") && article.title
+                      }
                       useAnchorTag={true}
                       href={route}
                     >

@@ -12,7 +12,7 @@ import Awaiting from "./Awaiting/View";
 import Pending from "./Pending/View";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor (props: ViewProps) {
+  constructor(props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -23,14 +23,15 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       website: "",
       twitter: "",
       github: "",
+      hash: parseInt(this.props.router.asPath.split("#")[1], 10),
     };
   }
 
-  toggleEditing () {
+  toggleEditing() {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render () {
+  render() {
     const {
       PendingQuery,
       UserQuery,
@@ -57,6 +58,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       typeof PendingQuery.searchArticles === "object" &&
       typeof ApprovalsQuery.searchArticles === "object";
 
+    console.log(this.state.hash);
     const isEditing = this.state.isEditing;
     const isOwner = UserQuery.getUser && UserQuery.getUser.id === currentUser;
     return (
@@ -94,6 +96,8 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         {isHeaderLoaded && areListsLoaded ? (
           <Tabs
             dark
+            hash={typeof this.state.hash === "number" ? this.state.hash : 0}
+            router={this.props.router}
             tabs={[
               {
                 name: `Articles (${

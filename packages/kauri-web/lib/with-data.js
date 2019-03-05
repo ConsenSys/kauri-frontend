@@ -76,21 +76,6 @@ export default ComposedComponent =>
 
       // console.log(hostName)
 
-      // TODO REVERT AFTER ETHBERLIN
-      // TLDR; ethberlin.kauri.io 302 -> ethberlin collection
-      // console.log(hostName);
-      if (context.res && hostName && hostName.includes("ethberlin")) {
-        context.res.writeHead(302, {
-          Location: `https://${config
-            .getApiURL()
-            .replace(
-              "api.",
-              ""
-            )}/collection/5b8d373fe727370001c942de/ethberlin`,
-        });
-        context.res.end();
-      }
-      // REVERT ABOVE
       let stateApollo = {
         apollo: {
           data: {},
@@ -104,8 +89,10 @@ export default ComposedComponent =>
 
       // Redirect on write-article if user is logged out
       if (
+        context &&
         context.req &&
-        context.req.url.includes("write-article") &&
+        context.req.url &&
+        context.req.url.includes("/write-article") &&
         !context.req.url.includes("/login") &&
         !parsedToken
       ) {

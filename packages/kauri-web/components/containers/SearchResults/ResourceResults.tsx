@@ -47,11 +47,13 @@ class ResourceResults extends React.Component<IProps> {
           {Object.keys(this.props.totalElementsBreakdown).filter(
             category =>
               this.props.totalElementsBreakdown[category] > 0 &&
+              searchResultCategories &&
               searchResultCategories.includes(category)
           ).length ? (
             Object.keys(this.props.totalElementsBreakdown)
               .filter(
                 category =>
+                  searchResultCategories &&
                   searchResultCategories.includes(category) &&
                   this.props.totalElementsBreakdown[category] > 0
               )

@@ -116,7 +116,9 @@ class ResourceRows extends React.Component<
                           linkComponent={(childrenProps, route) => {
                             return (
                               <Link
-                                toSlug={route.includes("article") && title}
+                                toSlug={
+                                  route && route.includes("article") && title
+                                }
                                 useAnchorTag={true}
                                 href={route}
                               >
@@ -162,7 +164,9 @@ class ResourceRows extends React.Component<
                           linkComponent={(childrenProps, route) => {
                             return (
                               <Link
-                                toSlug={route.includes("collection") && name}
+                                toSlug={
+                                  route && route.includes("collection") && name
+                                }
                                 useAnchorTag={true}
                                 href={route}
                               >

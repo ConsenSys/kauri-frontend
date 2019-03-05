@@ -82,7 +82,7 @@ class CollectionCreated extends React.Component<Props> {
           articleCount={articleCount}
           linkComponent={(childrenProps, route) => (
             <Link
-              toSlug={route.includes("collection") && name}
+              toSlug={route && route.includes("collection") && name}
               useAnchorTag
               fullWidth={false}
               href={route}
