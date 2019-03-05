@@ -5,18 +5,24 @@ import { routeChangeAction, IReduxState } from "../../../lib/Module";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 
-interface IFormValues {
+export interface ICommunityAttributes {
+  background: undefined | string;
+}
+
+export interface IFormValues {
   name: string;
   description: string;
   logo: string;
   website: string;
   social: any | null;
-  attributes: any | null;
+  attributes: ICommunityAttributes | undefined;
 }
 
 const createCommunityAction = () => ({});
 
-const mapStateToProps = ({  }: IReduxState) => ({});
+const mapStateToProps = ({ app: { user } }: IReduxState) => ({
+  userId: user && user.id,
+});
 
 export default compose(
   connect(

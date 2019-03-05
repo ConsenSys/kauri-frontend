@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Field } from "formik";
 import styled from "../../../lib/styled-components";
 import PrimaryHeaderSection from "../../../../kauri-components/components/Section/PrimaryHeaderSection";
 import { Label } from "../../../../kauri-components/components/Typography";
@@ -31,12 +32,14 @@ const CreateCommunityMembersContainer = styled.div`
 
 interface IProps {
   uploadLogo: () => void;
+  background: undefined | string;
 }
 
 const Component: React.SFC<IProps> = props => (
   <PrimaryHeaderSection
     justifyContent={["", "center"]}
     gridTemplateColumns={""}
+    backgroundURL={props.background}
   >
     <Container>
       <UploadLogoButtonComponent
