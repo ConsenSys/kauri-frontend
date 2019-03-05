@@ -2,6 +2,8 @@ import { connect } from "react-redux";
 import { compose } from "react-apollo";
 import View, { IProps } from "./View";
 import { routeChangeAction, IReduxState } from "../../../lib/Module";
+import { createCommunityAction } from "./Module";
+import { createCommunityVariables } from "./__generated__/createCommunity";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 
@@ -9,16 +11,7 @@ export interface ICommunityAttributes {
   background: undefined | string;
 }
 
-export interface IFormValues {
-  name: string;
-  description: string;
-  avatar: string;
-  website: string;
-  social: any | null;
-  attributes: ICommunityAttributes | undefined;
-}
-
-const createCommunityAction = () => ({});
+export type IFormValues = createCommunityVariables;
 
 const mapStateToProps = ({ app: { user } }: IReduxState) => ({
   userId: user && user.id,
@@ -30,24 +23,28 @@ export default compose(
     { routeChangeAction, createCommunityAction }
   ),
   withFormik<IProps, IFormValues>({
-    handleSubmit: (values, { setSubmitting }) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
+    handleSubmit: (values, { setSubmitting, props }) => {
+      console.info(JSON.stringify(values, null, 2));
+      props.createCommunityAction(values, () => {
         setSubmitting(false);
-      }, 1000);
+      });
     },
     mapPropsToValues: () => ({
       attributes: undefined,
-      avatar: "",
+      avatar: null,
       description: "",
-      id: "",
+      id: null,
       name: "",
       social: null,
       website: "",
     }),
     validationSchema: Yup.object().shape({
-      description: Yup.string().required("Required"),
-      name: Yup.string().required("Required"),
+      description: Yup.string()
+        .min(2)
+        .required("Required"),
+      name: Yup.string()
+        .min(2)
+        .required("Required"),
     }),
   })
 )(View);

@@ -46,7 +46,7 @@ export interface ICreateCommunityAction extends IAction {
 
 const CREATE_COMMUNITY = "CREATE_COMMUNITY";
 
-export const addArticleToCollectionAction = (
+export const createCommunityAction = (
   payload: createCommunityVariables,
   callback: () => void
 ): ICreateCommunityAction => ({
@@ -55,16 +55,15 @@ export const addArticleToCollectionAction = (
   type: CREATE_COMMUNITY,
 });
 
-interface IAddArticleToCollectionCommandOutput {
+interface ICreateCommunityCommandOutput {
   id: string;
-  version: number;
 }
 
-export const addArticleToCollectionEpic: Epic<
-  Actions,
-  IReduxState,
-  IDependencies
-> = (action$, _, { apolloClient, apolloSubscriber }) =>
+export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
+  action$,
+  _,
+  { apolloClient, apolloSubscriber }
+) =>
   action$
     .ofType(CREATE_COMMUNITY)
     .switchMap(actions =>
@@ -75,7 +74,7 @@ export const addArticleToCollectionEpic: Epic<
         })
       )
         .mergeMap(({ data: { createCommunity: result } }) =>
-          apolloSubscriber<IAddArticleToCollectionCommandOutput>(result.hash)
+          apolloSubscriber<ICreateCommunityCommandOutput>(result.hash)
         )
         .do(() => typeof actions.callback === "function" && actions.callback())
         .mergeMap(({ data: { output: { id } } }) =>

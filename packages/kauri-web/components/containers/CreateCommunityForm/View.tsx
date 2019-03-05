@@ -5,6 +5,7 @@ import Header from "./CreateCommunityFormHeader";
 import Content from "./CreateCommunityFormContent";
 import setImageUploader from "../../common/ImageUploader";
 import { routeChangeAction } from "../../../lib/Module";
+import { createCommunityAction } from "./Module";
 import { InjectedFormikProps } from "formik";
 import Helmet from "react-helmet";
 import { IFormValues } from "./index";
@@ -16,6 +17,7 @@ const FormContainer = styled.form`
 
 export interface IProps {
   routeChangeAction: typeof routeChangeAction;
+  createCommunityAction: typeof createCommunityAction;
 }
 
 const handleBackgroundSetFormField = (setFieldValue: any) => () =>

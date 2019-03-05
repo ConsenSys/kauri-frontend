@@ -33,7 +33,7 @@ const CreateCommunityMembersContainer = styled.div`
 `;
 
 interface IProps {
-  avatar: undefined | string;
+  avatar: null | undefined | string;
   uploadLogo: () => void;
   background: undefined | string;
 }
@@ -46,7 +46,7 @@ const Component: React.SFC<IProps> = props => (
   >
     <Container>
       <UploadLogoButtonComponent
-        bg={props.avatar}
+        bg={String(props.avatar)}
         handleClick={() => props.uploadLogo()}
         text="Logo"
         color="white"
