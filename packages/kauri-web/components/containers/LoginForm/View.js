@@ -61,8 +61,7 @@ const Web3Unavailable = () => (
 );
 
 class LoginForm extends React.Component<{
-  handleSubmit: (SyntheticEvent<HTMLButtonElement>) => void,
-  getFieldDecorator: any,
+  handleSubmit: () => void,
   type?: string,
 }> {
   handleKeyPress = e => {
@@ -79,7 +78,7 @@ class LoginForm extends React.Component<{
         <LoginContainer height={160}>
           <Title2 color="white">Web3 Sign in</Title2>
           <BodyArticle color="white">
-            Sign in using Web3 enabled browser.(MetaMask, Status, Brave)
+            Sign in using Web3.(MetaMask, Status, Brave, Portis)
           </BodyArticle>
           <PrimaryButton
             disabled={isSubmitting}
@@ -96,26 +95,21 @@ class LoginForm extends React.Component<{
 
 type Props = {
   form: any,
+  handleSubmit: () => void,
   registerAction: (payload: RegisterActionPayload, callback: any) => void,
   showNotificationAction: ShowNotificationPayload => void,
 };
 
 class LoginFormContainer extends React.Component<Props> {
   render () {
-    if (global.window && !global.window.web3) {
-      return <Web3Unavailable />;
-    } else if (global.window && global.window.web3) {
-      return (
-        <Container>
-          <Helmet>
-            <title>Kauri - Login</title>
-          </Helmet>
-          <LoginForm {...this.props} type="register" />
-        </Container>
-      );
-    } else {
-      return null;
-    }
+    return (
+      <Container>
+        <Helmet>
+          <title>Kauri - Login</title>
+        </Helmet>
+        <LoginForm {...this.props} type="register" />
+      </Container>
+    );
   }
 }
 

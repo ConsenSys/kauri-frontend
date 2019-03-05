@@ -8,6 +8,8 @@ import { trackMixpanelAction } from "../Link/Module";
 import { loginPersonalSign } from "../../../lib/web3-personal-sign";
 import superagent from "superagent";
 import type { Dependencies } from "../../../lib/Module";
+import Portis from "@portis/web3";
+import Web3 from "web3";
 const config = require("../../../config").default;
 
 const request = superagent.agent();
@@ -55,6 +57,42 @@ type FinalLoginResponse = {
   token: string,
 };
 
+export const enablePortis = (doNotShowPrompt?: boolean) => {
+  return new Promise<string>((resolve, reject) => {
+    const portis = new Portis(
+      "3c8e5acf-1726-4d5c-a387-b7eaede1380d",
+      "rinkeby",
+      {
+        scope: ["email"],
+      }
+    );
+    const web3 = new Web3(portis.provider);
+    window.web3 = web3;
+    if (doNotShowPrompt) {
+      console.log("do not show prompt");
+      return portis.login();
+    }
+    return portis.showPortis().then(result => {
+      console.log("hi", result);
+      portis.login().then(result => {
+        portis.onLogin((walletAddress, email) => {
+          console.log(walletAddress, email);
+          resolve(email);
+        });
+      });
+    });
+  });
+};
+
+export const enableFortmatic = doNotShowPrompt => {
+  const Fortmatic = require("fortmatic");
+
+  const fm = new Fortmatic("pk_test_16295D5123260DE5");
+  window.web3 = new Web3(fm.getProvider());
+
+  return fm.user.login();
+};
+
 const registerSignaturePayload = (userId, signature, sentence_id) => ({
   address: userId,
   signature,
@@ -72,10 +110,10 @@ export const registerEpic = (
     .ofType(REGISTER)
     .switchMap(({ payload: { type = "register" }, callback }: RegisterAction) =>
       Observable.fromPromise(
-        window.ethereum
-          ? window.ethereum.enable()
-          : new Promise((resolve, reject) => resolve())
+        enableFortmatic()
+        // window.ethereum ? window.ethereum.enable() : enablePortis()
       )
+        .do(() => console.log("testing"))
         .mergeMap(() =>
           request
             // http://api.dev2.kauri.io/web3auth/api/login?app_id=kauri&client_id=kauri-gateway
@@ -150,7 +188,7 @@ export const registerEpic = (
               window.location = "/edit-profile" + window.location.search;
             })
             .catch(err => {
-              console.error(err);
+              alert(err.message);
               if (err && err.message.includes("locked")) {
                 return Observable.of(
                   showNotificationAction({
