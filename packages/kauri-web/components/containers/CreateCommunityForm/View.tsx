@@ -20,20 +20,18 @@ export interface IProps {
 
 const handleBackgroundSetFormField = (setFieldValue: any) => () =>
   setImageUploader((payload: any) => {
-    console.log(payload);
     setFieldValue("attributes.background", payload.background.background);
   }, "background");
 
 const handleAvatarSetFormField = (setFieldValue: any) => () =>
   setImageUploader((payload: any) => {
-    console.log(payload);
     setFieldValue("avatar", payload.avatar.background);
   }, "avatar");
 
 const Component: React.SFC<
   InjectedFormikProps<IProps, IFormValues>
 > = props => (
-  <FormContainer>
+  <FormContainer onSubmit={props.handleSubmit}>
     <Helmet>
       <link
         rel="stylesheet"
@@ -45,12 +43,14 @@ const Component: React.SFC<
       goBack={() => props.routeChangeAction(`back`)}
       setupImageUploader={handleBackgroundSetFormField(props.setFieldValue)}
     />
+
     <Header
       avatar={props.values.avatar}
       background={props.values.attributes && props.values.attributes.background}
       uploadLogo={handleAvatarSetFormField(props.setFieldValue)}
     />
-    <Content />
+
+    <Content {...props} />
   </FormContainer>
 );
 

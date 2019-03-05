@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Field } from "formik";
+import { Field, FieldProps } from "formik";
 import styled from "../../../lib/styled-components";
 import PrimaryHeaderSection from "../../../../kauri-components/components/Section/PrimaryHeaderSection";
 import { Label } from "../../../../kauri-components/components/Typography";
@@ -7,6 +7,7 @@ import UploadLogoButtonComponent from "../../../../kauri-components/components/B
 import AddMemberButtonComponent from "../../../../kauri-components/components/Button/AddMemberButton";
 import { Input } from "../../../../kauri-components/components/Input";
 import UserAvatarComponent from "../../../../kauri-components/components/UserAvatar";
+import { IFormValues } from ".";
 
 const Container = styled.section`
   display: flex;
@@ -49,9 +50,32 @@ const Component: React.SFC<IProps> = props => (
         text="Logo"
         color="white"
       />
-      <Input fontSize={24} fontWeight={500} value={"Add community title"} />
-      <Input fontSize={16} value={"Add description"} />
-      <Input fontSize={12} value={"Add website"} />
+      <Field
+        type="text"
+        name="name"
+        render={({ field }: FieldProps<IFormValues>) => (
+          <Input
+            {...field}
+            fontSize={24}
+            fontWeight={500}
+            value={"Add community title"}
+          />
+        )}
+      />
+      <Field
+        type="text"
+        name="description"
+        render={({ field }: FieldProps<IFormValues>) => (
+          <Input {...field} fontSize={16} value={"Add description"} />
+        )}
+      />
+      <Field
+        type="text"
+        name="website"
+        render={({ field }: FieldProps<IFormValues>) => (
+          <Input {...field} fontSize={12} value={"Add website"} />
+        )}
+      />
       <Label color="white">Moderators</Label>
       <CreateCommunityMembersContainer>
         <UserAvatarComponent
