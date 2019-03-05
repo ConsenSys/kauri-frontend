@@ -33,7 +33,10 @@ const uppyConfig = {
 const getApiURL = (hostName = process.env.monolithExternalApi) => {
   // localhost or mobile
   // console.log(hostName);
-  if (hostName.includes("192") || hostName.includes("localhost")) {
+  if (
+    (hostName && hostName.includes("192")) ||
+    (hostName && hostName.includes("localhost"))
+  ) {
     return process.env.monolithExternalApi;
   }
   let apiURL;

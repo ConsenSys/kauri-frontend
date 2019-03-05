@@ -67,7 +67,9 @@ const Component: React.SFC<IProps> = props => {
     ) => (
       <Link
         useAnchorTag={true}
-        toSlug={route.includes("article") ? String(article.title) : undefined}
+        toSlug={
+          route && route.includes("article") ? String(article.title) : undefined
+        }
         href={route}
       >
         {childrenProps}

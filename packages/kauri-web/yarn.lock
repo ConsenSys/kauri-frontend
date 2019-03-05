@@ -1212,6 +1212,14 @@
   resolved "https://registry.yarnpkg.com/@types/async/-/async-2.0.50.tgz#117540e026d64e1846093abbd5adc7e27fda7bcb"
   integrity sha512-VMhZMMQgV1zsR+lX/0IBfAk+8Eb7dPVMWiQGFAt3qjo5x7Ml6b77jUo0e1C3ToD+XRDXqtrfw+6AB0uUsPEr3Q==
 
+"@types/draft-js@^0.10.28":
+  version "0.10.28"
+  resolved "https://registry.yarnpkg.com/@types/draft-js/-/draft-js-0.10.28.tgz#14d68b496072689466e81887ac1e1c585157cc31"
+  integrity sha512-mShgWAYAduZ2Rwzpo52cToq+q8SIZ2O6Byl2F9wphB0QFjuNtUMyvAzGGg4kYGWPLZKELMWlEA/wv+AdPlkclw==
+  dependencies:
+    "@types/react" "*"
+    immutable "^3.8.1"
+
 "@types/next-server@*":
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/@types/next-server/-/next-server-7.0.2.tgz#7115f4f9ad9605d4ce1d36b0e125dd523670c7b4"
@@ -7587,7 +7595,7 @@ immutable-tuple@^0.4.9:
   resolved "https://registry.yarnpkg.com/immutable-tuple/-/immutable-tuple-0.4.9.tgz#473ebdd6c169c461913a454bf87ef8f601a20ff0"
   integrity sha512-LWbJPZnidF8eczu7XmcnLBsumuyRBkpwIRPCZxlojouhBo5jEBO4toj6n7hMy6IxHU/c+MqDSWkvaTpPlMQcyA==
 
-immutable@3.8.2, immutable@^3.7.4:
+immutable@3.8.2, immutable@^3.7.4, immutable@^3.8.1:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
   integrity sha1-wkOZUUVbs5kT2vKBN28VMOEErfM=

@@ -40,7 +40,7 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
     this.login
       .getWrappedInstance()
       .getWrappedInstance()
-      .saveUser(undefined, this.props.toggleEditing);
+      .saveUser();
   }
 
   render() {

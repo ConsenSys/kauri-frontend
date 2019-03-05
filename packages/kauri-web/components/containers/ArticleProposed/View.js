@@ -80,7 +80,7 @@ class ArticleProposed extends React.Component<Props> {
           imageURL={article.attributes && article.attributes.background}
           linkComponent={(childrenProps, route) => (
             <Link
-              toSlug={route.includes("article") && article.title}
+              toSlug={route && route.includes("article") && article.title}
               useAnchorTag
               href={route}
             >

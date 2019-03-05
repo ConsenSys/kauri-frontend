@@ -56,6 +56,7 @@ class ResourceRows extends React.Component<
   IProps & ISearchResultsAutocompleteData
 > {
   render() {
+    console.log(this.props.data);
     return Object.values(this.props.totalElementsBreakdown).filter(
       amount => amount > 0
     ).length ? (
@@ -115,7 +116,9 @@ class ResourceRows extends React.Component<
                           linkComponent={(childrenProps, route) => {
                             return (
                               <Link
-                                toSlug={route.includes("article") && title}
+                                toSlug={
+                                  route && route.includes("article") && title
+                                }
                                 useAnchorTag={true}
                                 href={route}
                               >
@@ -161,7 +164,9 @@ class ResourceRows extends React.Component<
                           linkComponent={(childrenProps, route) => {
                             return (
                               <Link
-                                toSlug={route.includes("collection") && name}
+                                toSlug={
+                                  route && route.includes("collection") && name
+                                }
                                 useAnchorTag={true}
                                 href={route}
                               >

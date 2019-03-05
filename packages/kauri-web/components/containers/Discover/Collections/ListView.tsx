@@ -111,6 +111,7 @@ class Collections extends Component<IProps> {
                     ) => (
                       <Link
                         toSlug={
+                          route &&
                           route.includes("collection") &&
                           collectionResource &&
                           collectionResource.name
