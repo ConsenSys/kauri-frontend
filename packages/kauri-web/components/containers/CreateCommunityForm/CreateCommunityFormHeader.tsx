@@ -31,6 +31,7 @@ const CreateCommunityMembersContainer = styled.div`
 `;
 
 interface IProps {
+  avatar: undefined | string;
   uploadLogo: () => void;
   background: undefined | string;
 }
@@ -43,8 +44,10 @@ const Component: React.SFC<IProps> = props => (
   >
     <Container>
       <UploadLogoButtonComponent
+        bg={props.avatar}
+        handleClick={() => props.uploadLogo()}
+        text="Logo"
         color="white"
-        onClick={() => props.uploadLogo()}
       />
       <Input fontSize={24} fontWeight={500} value={"Add community title"} />
       <Input fontSize={16} value={"Add description"} />

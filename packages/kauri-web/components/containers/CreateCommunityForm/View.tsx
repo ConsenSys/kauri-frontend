@@ -24,6 +24,12 @@ const handleBackgroundSetFormField = (setFieldValue: any) => () =>
     setFieldValue("attributes.background", payload.background.background);
   }, "background");
 
+const handleAvatarSetFormField = (setFieldValue: any) => () =>
+  setImageUploader((payload: any) => {
+    console.log(payload);
+    setFieldValue("avatar", payload.avatar.background);
+  }, "avatar");
+
 const Component: React.SFC<
   InjectedFormikProps<IProps, IFormValues>
 > = props => (
@@ -40,10 +46,9 @@ const Component: React.SFC<
       setupImageUploader={handleBackgroundSetFormField(props.setFieldValue)}
     />
     <Header
+      avatar={props.values.avatar}
       background={props.values.attributes && props.values.attributes.background}
-      uploadLogo={() => {
-        return;
-      }}
+      uploadLogo={handleAvatarSetFormField(props.setFieldValue)}
     />
     <Content />
   </FormContainer>

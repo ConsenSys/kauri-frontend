@@ -12,7 +12,7 @@ export interface ICommunityAttributes {
 export interface IFormValues {
   name: string;
   description: string;
-  logo: string;
+  avatar: string;
   website: string;
   social: any | null;
   attributes: ICommunityAttributes | undefined;
@@ -37,10 +37,10 @@ export default compose(
       }, 1000);
     },
     mapPropsToValues: () => ({
-      attributes: null,
+      attributes: undefined,
+      avatar: "",
       description: "",
       id: "",
-      logo: "",
       name: "",
       social: null,
       website: "",

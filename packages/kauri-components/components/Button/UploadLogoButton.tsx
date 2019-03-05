@@ -95,6 +95,7 @@ const UploadLogoButtonComponent: React.FunctionComponent<IProps> = ({
     onClick={onClick || handleClick}
     color={color}
     fontSize={fontSize}
+    type="button"
   >
     <Overlay>
       <img src="https://png.icons8.com/color/50/000000/upload.png" />
