@@ -12,7 +12,10 @@ const StatisticsContainer = styled.section`
   }
 `;
 
-const PageType = t.literal("CreateCollectionPage");
+const PageType = t.union([
+  t.literal("CreateCollectionPage"),
+  t.literal("CreateCommunityPage"),
+]);
 
 const Statistic = t.type({
   count: t.number,

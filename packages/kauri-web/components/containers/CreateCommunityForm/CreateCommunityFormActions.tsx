@@ -34,7 +34,9 @@ const Component: React.FunctionComponent<IProps> = props => (
       </MiddleActionsStack>
 
       <RightActionsRow>
-        <PrimaryButtonComponent type="submit">Create</PrimaryButtonComponent>
+        <PrimaryButtonComponent type="submit">
+          Create Community
+        </PrimaryButtonComponent>
       </RightActionsRow>
     </ActionsSection>
   </ActionsContainer>

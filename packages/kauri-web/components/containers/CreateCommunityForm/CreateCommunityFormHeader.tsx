@@ -7,7 +7,8 @@ import UploadLogoButtonComponent from "../../../../kauri-components/components/B
 import AddMemberButtonComponent from "../../../../kauri-components/components/Button/AddMemberButton";
 import { Input } from "../../../../kauri-components/components/Input";
 import UserAvatarComponent from "../../../../kauri-components/components/UserAvatar";
-import { IFormValues } from ".";
+import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer";
+import { IFormValues } from "./index";
 
 const Container = styled.section`
   display: flex;
@@ -18,7 +19,7 @@ const Container = styled.section`
     margin-bottom: ${props => props.theme.space[2]}px;
   }
   > *:nth-last-child(2) {
-    margin-top: ${props => props.theme.space[3]}px;
+    margin-top: ${props => props.theme.space[2]}px;
   }
   padding: ${props => props.theme.space[3]}px 0px;
 `;
@@ -75,6 +76,13 @@ const Component: React.SFC<IProps> = props => (
         render={({ field }: FieldProps<IFormValues>) => (
           <Input {...field} fontSize={12} value={"Add website"} />
         )}
+      />
+      <StatisticsContainer
+        pageType={"CreateCommunityPage"}
+        statistics={[
+          { name: "Articles", count: 0 },
+          { name: "Collections", count: 0 },
+        ]}
       />
       <Label color="white">Moderators</Label>
       <CreateCommunityMembersContainer>
