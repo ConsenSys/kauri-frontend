@@ -12,7 +12,7 @@ import UploadIcon from "../../../../kauri-components/components/Icon/UploadIcon"
 interface IProps {
   goBack: () => void;
   setupImageUploader: () => void;
-  createCommunity: () => void;
+  createCommunityAction: () => void;
 }
 
 const Component: React.FunctionComponent<IProps> = props => (
@@ -35,7 +35,7 @@ const Component: React.FunctionComponent<IProps> = props => (
       </MiddleActionsStack>
 
       <RightActionsRow>
-        <PrimaryButtonComponent onClick={() => props.createCommunity()}>
+        <PrimaryButtonComponent onClick={() => props.createCommunityAction()}>
           Create
         </PrimaryButtonComponent>
       </RightActionsRow>
