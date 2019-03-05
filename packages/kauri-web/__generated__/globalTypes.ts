@@ -67,16 +67,16 @@ export enum UserStatus {
 
 export interface ArticleFilterInput {
   dateCreatedGreaterThan?: any | null;
+  versionIn?: (number | null)[] | null;
   containsTag?: string | null;
   ownerIdEquals?: string | null;
+  statusIn?: (ArticleStatusInput | null)[] | null;
   authorIdEquals?: string | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
   dateCreatedLessThan?: any | null;
   idEquals?: string | null;
-  versionIn?: (number | null)[] | null;
   ownerEquals?: string | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
   checkpointEquals?: string | null;
 }
 
@@ -105,16 +105,16 @@ export interface CommunityFilterInput {
 }
 
 export interface ResourceIdentifierInput {
-  version?: number | null;
   type?: ResourceTypeInput | null;
+  version?: number | null;
   id?: string | null;
 }
 
 export interface SearchFilterInput {
+  type?: ResourceTypeInput | null;
   mustNotContainTag?: (string | null)[] | null;
   mustIncludeUserId?: (string | null)[] | null;
   mustContainTag?: (string | null)[] | null;
-  type?: ResourceTypeInput | null;
   mustNotIncludeUserId?: (string | null)[] | null;
 }
 
