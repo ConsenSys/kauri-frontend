@@ -32,8 +32,8 @@ const InputComp = styled<IInputProps, "input">("input")`
 `;
 
 interface IUnderline {
-  fontSize: number;
-textAlign?: string;
+    fontSize: number;
+    textAlign?: string;
 }
 const Underline = styled<IUnderline, "span">("span")`
   user-select: none;
@@ -64,7 +64,7 @@ interface IWrapperProps {
   enterFocus?: () => void;
   exitFocus?: () => void;
 }
-const Wrapper = styled.div`
+const Wrapper = styled<IWrapperProps, "div">("div")`
   display: flex;
   position: relative;
   align-self: auto;
@@ -130,7 +130,6 @@ class Input extends React.Component<IWrapperProps, IInputState> {
       hideUnderline,
       onKeyPress,
       name,
-      centered,
     } = this.props;
 
     const underlineValue =
