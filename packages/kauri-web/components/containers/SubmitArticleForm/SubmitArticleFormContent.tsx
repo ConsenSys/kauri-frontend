@@ -7,6 +7,7 @@ import { CreateRequestContent as SubmitArticleFormContent } from "../../common/L
 import { CreateRequestContainer as SubmitArticleFormContainer } from "../../common/Legacy/CreateRequestContainer";
 
 import { ISubmitArticlePayload } from "./Module";
+
 interface IProps {
   submitArticleAction: (payload: ISubmitArticlePayload) => void;
   id?: string;
@@ -16,6 +17,7 @@ interface IProps {
   handleFormChange: ({ text }: { text: string }) => void;
   routeChangeAction: (route: string) => void;
   getFieldDecorator: (field: string, arg1: any) => any;
+  getFieldsValue: () => any;
   setFieldsValue: ({ text }: { text: string }) => void;
   getFieldError: (err: string) => any;
   text?: string;
@@ -29,6 +31,7 @@ interface ISubmitArticleFormTextProps {
   getFieldError: any;
   text: any;
   setFieldsValue: any;
+  getFieldsValue: any;
   getFieldDecorator: any;
 }
 
@@ -83,7 +86,9 @@ class SubmitArticleFormText extends React.Component<
         editorState,
       },
       () =>
-        this.props.setFieldsValue({ text: editorState && editorState.markdown })
+        this.props.setFieldsValue({
+          text: editorState && editorState.markdown,
+        })
     );
   };
 
@@ -127,6 +132,7 @@ export default (props: IProps) => {
         <SubmitArticleFormText
           getFieldError={props.getFieldError}
           text={props.text}
+          getFieldsValue={props.getFieldsValue}
           setFieldsValue={props.setFieldsValue}
           getFieldDecorator={props.getFieldDecorator}
         />

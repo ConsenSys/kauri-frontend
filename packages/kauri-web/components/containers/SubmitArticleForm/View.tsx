@@ -272,6 +272,8 @@ class SubmitArticleForm extends React.Component<IProps> {
 
     const articleData = this.props.data && this.props.data.getArticle;
 
+    // console.log(this.props.form.getFieldsValue());
+
     return (
       <Form>
         <SubmitArticleForm.Actions

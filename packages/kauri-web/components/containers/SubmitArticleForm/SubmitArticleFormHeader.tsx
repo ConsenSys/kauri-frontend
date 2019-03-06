@@ -176,6 +176,9 @@ export default ({
     type="article"
     theme={theme}
   >
+    {getFieldDecorator("attributes", {
+      initialValue: {},
+    })(<div />)}
     <Overlay />
     <SubmitArticleFormSubject
       getFieldError={getFieldError}
