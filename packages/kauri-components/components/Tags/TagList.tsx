@@ -17,7 +17,7 @@ interface IProps {
     maxChars?: number;
 }
 
-const StyledTag = styled(TagName)`
+export const StyledTag = styled(TagName)`
     &:not(:last-child):after {
         content: '•';
         color: ${theme.colors.primary};

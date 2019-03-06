@@ -1,5 +1,17 @@
 import gql from "graphql-tag";
 
+export const CommunityOwner = gql`
+  fragment CommunityOwner on CommunityDTO {
+    id
+    name
+    avatar
+    resourceIdentifier {
+      id
+      type
+    }
+  }
+`;
+
 export const getCommunity = gql`
   query getCommunity($id: String) {
     getCommunity(id: $id) {
@@ -29,14 +41,21 @@ export const getCommunity = gql`
           content
           dateCreated
           datePublished
+          associatedNfts {
+            tokenType
+            contractAddress
+            name
+            image
+            externalUrl
+          }
           author {
             id
             name
           }
           status
           attributes
-          vote {
-            totalVote
+          voteResult {
+            sum
           }
         }
         ... on CollectionDTO {
@@ -50,16 +69,24 @@ export const getCommunity = gql`
           version
           title
           content
+          description
           dateCreated
           datePublished
+          associatedNfts {
+            tokenType
+            contractAddress
+            name
+            image
+            externalUrl
+          }
           author {
             id
             name
           }
           status
           attributes
-          vote {
-            totalVote
+          voteResult {
+            sum
           }
         }
         ... on CollectionDTO {

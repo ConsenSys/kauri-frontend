@@ -34,9 +34,9 @@ export interface getAllCuratedList_getAllCuratedList_header_ArticleDTO_author {
   avatar: string | null;
 }
 
-export interface getAllCuratedList_getAllCuratedList_header_ArticleDTO_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
+export interface getAllCuratedList_getAllCuratedList_header_ArticleDTO_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
 }
 
 export interface getAllCuratedList_getAllCuratedList_header_ArticleDTO {
@@ -45,12 +45,13 @@ export interface getAllCuratedList_getAllCuratedList_header_ArticleDTO {
   version: number | null;
   title: string | null;
   content: string | null;
+  description: string | null;
   dateCreated: any | null;
   datePublished: any | null;
   author: getAllCuratedList_getAllCuratedList_header_ArticleDTO_author | null;
   status: ArticleStatus | null;
   attributes: any | null;
-  vote: getAllCuratedList_getAllCuratedList_header_ArticleDTO_vote | null;
+  voteResult: getAllCuratedList_getAllCuratedList_header_ArticleDTO_voteResult | null;
 }
 
 export interface getAllCuratedList_getAllCuratedList_header_CollectionDTO {
@@ -94,9 +95,44 @@ export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO_author
   avatar: string | null;
 }
 
-export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
+export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO_owner_ArticleDTO {
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+}
+
+export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
+}
+
+export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO_owner_PublicUserDTO {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+  resourceIdentifier: getAllCuratedList_getAllCuratedList_resources_ArticleDTO_owner_PublicUserDTO_resourceIdentifier | null;
+}
+
+export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO_owner_CommunityDTO_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
+}
+
+export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO_owner_CommunityDTO {
+  __typename: "CommunityDTO";
+  id: string | null;
+  name: string | null;
+  avatar: string | null;
+  resourceIdentifier: getAllCuratedList_getAllCuratedList_resources_ArticleDTO_owner_CommunityDTO_resourceIdentifier | null;
+}
+
+export type getAllCuratedList_getAllCuratedList_resources_ArticleDTO_owner = getAllCuratedList_getAllCuratedList_resources_ArticleDTO_owner_ArticleDTO | getAllCuratedList_getAllCuratedList_resources_ArticleDTO_owner_PublicUserDTO | getAllCuratedList_getAllCuratedList_resources_ArticleDTO_owner_CommunityDTO;
+
+export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
 }
 
 export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO {
@@ -106,12 +142,14 @@ export interface getAllCuratedList_getAllCuratedList_resources_ArticleDTO {
   version: number | null;
   title: string | null;
   content: string | null;
+  description: string | null;
   dateCreated: any | null;
   datePublished: any | null;
   author: getAllCuratedList_getAllCuratedList_resources_ArticleDTO_author | null;
+  owner: getAllCuratedList_getAllCuratedList_resources_ArticleDTO_owner | null;
   status: ArticleStatus | null;
   attributes: any | null;
-  vote: getAllCuratedList_getAllCuratedList_resources_ArticleDTO_vote | null;
+  voteResult: getAllCuratedList_getAllCuratedList_resources_ArticleDTO_voteResult | null;
 }
 
 export interface getAllCuratedList_getAllCuratedList_resources_CollectionDTO_resourceIdentifier {
@@ -120,13 +158,40 @@ export interface getAllCuratedList_getAllCuratedList_resources_CollectionDTO_res
   id: string | null;
 }
 
-export interface getAllCuratedList_getAllCuratedList_resources_CollectionDTO_owner {
+export interface getAllCuratedList_getAllCuratedList_resources_CollectionDTO_owner_ArticleDTO {
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+}
+
+export interface getAllCuratedList_getAllCuratedList_resources_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
+}
+
+export interface getAllCuratedList_getAllCuratedList_resources_CollectionDTO_owner_PublicUserDTO {
   __typename: "PublicUserDTO";
   id: string | null;
+  name: string | null;
   username: string | null;
+  avatar: string | null;
+  resourceIdentifier: getAllCuratedList_getAllCuratedList_resources_CollectionDTO_owner_PublicUserDTO_resourceIdentifier | null;
+}
+
+export interface getAllCuratedList_getAllCuratedList_resources_CollectionDTO_owner_CommunityDTO_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
+}
+
+export interface getAllCuratedList_getAllCuratedList_resources_CollectionDTO_owner_CommunityDTO {
+  __typename: "CommunityDTO";
+  id: string | null;
   name: string | null;
   avatar: string | null;
+  resourceIdentifier: getAllCuratedList_getAllCuratedList_resources_CollectionDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
+
+export type getAllCuratedList_getAllCuratedList_resources_CollectionDTO_owner = getAllCuratedList_getAllCuratedList_resources_CollectionDTO_owner_ArticleDTO | getAllCuratedList_getAllCuratedList_resources_CollectionDTO_owner_PublicUserDTO | getAllCuratedList_getAllCuratedList_resources_CollectionDTO_owner_CommunityDTO;
 
 export interface getAllCuratedList_getAllCuratedList_resources_CollectionDTO_sections_resourcesId {
   __typename: "ResourceIdentifier";

@@ -31,6 +31,8 @@ export function create (initialState, { getToken }) {
     }://${apiURL}/graphql`,
   });
   const token = getToken();
+  // console.log(token);
+  // console.log(apiURL);
   const authMiddlewareLink = new ApolloLink((operation, next) => {
     operation.setContext({
       headers: {

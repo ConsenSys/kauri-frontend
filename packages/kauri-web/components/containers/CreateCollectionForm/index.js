@@ -35,9 +35,9 @@ const getCollectionField = (field, data) =>
 export default compose(
   connect(
     state => ({
-      userId: state.app && state.app.user.id,
-      username: state.app && state.app.user.username,
-      userAvatar: state.app && state.app.user.avatar,
+      userId: state.app && state.app.user && state.app.user.id,
+      username: state.app && state.app.user && state.app.user.username,
+      userAvatar: state.app && state.app.user && state.app.user.avatar,
     }),
     {
       showNotificationAction,
@@ -101,7 +101,7 @@ export default compose(
       tags: Yup.array().min(1, "Minimum one tag"),
       sections: Yup.array(
         Yup.object().shape({
-          name: Yup.string().required("Missing section name!"),
+          // name: Yup.string().required("Missing section name!"),
           resourcesId: Yup.array().required("Missing a resource!"),
         })
       ),

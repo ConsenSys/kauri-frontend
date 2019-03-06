@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from "react";
 import styled from "styled-components";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
@@ -22,12 +21,12 @@ const ActionsContainer = styled.div`
 `;
 
 class EditableHeader extends Component<HeaderProps, HeaderState> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.router &&
       this.props.router.events.on("routeChangeStart", this.props.toggleEditing);
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.router &&
       this.props.router.events.off(
         "routeChangeStart",
@@ -35,14 +34,14 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
       );
   }
 
-  handleSubmit () {
+  handleSubmit() {
     this.login
       .getWrappedInstance()
       .getWrappedInstance()
-      .saveUser(undefined, this.props.toggleEditing);
+      .saveUser();
   }
 
-  render () {
+  render() {
     return (
       <HeaderContainer>
         <EditProfile ref={comp => (this.login = comp)} />

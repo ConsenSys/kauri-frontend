@@ -2,8 +2,6 @@ import React from "react";
 import cookie from "cookie";
 import PropTypes from "prop-types";
 import Head from "next/head";
-import enUS from "antd/lib/locale-provider/en_US";
-import { LocaleProvider } from "antd";
 import { Provider } from "react-redux";
 import { ApolloProvider, getDataFromTree } from "react-apollo";
 import { ThemeProvider } from "styled-components";
@@ -14,7 +12,7 @@ import fetch from "isomorphic-unfetch";
 import mixpanel from "mixpanel-browser";
 import initRedux from "./init-redux";
 import initApollo from "./init-apollo";
-import { initSmartContracts } from "./init-smart-contracts";
+
 import {
   fetchEthUsdPriceAction,
   fetchUserDetailsAction,
@@ -29,6 +27,7 @@ import "@rej156/react-mde/lib/styles/css/react-mde-all.css";
 import "../static/css/redraft-image.css";
 import "draft-js-inline-toolbar-plugin/lib/plugin.css";
 import "../ant-theme-vars.less";
+import analytics from "./pageAnalytics";
 import WelcomeBanner from "../components/containers/WelcomeBanner";
 
 const config = require("../config").default;
@@ -51,7 +50,7 @@ const dispatchEpic = (epic, action, state = {}, dependencies = {}) => {
   return promised;
 };
 
-export function parseCookies (ctx = {}, options = {}) {
+export function parseCookies(ctx = {}, options = {}) {
   let cookieToParse =
     ctx.req && ctx.req.headers.cookie && ctx.req.headers.cookie;
   if (global.window) cookieToParse = window.document.cookie;
@@ -69,7 +68,7 @@ export default ComposedComponent =>
       stateRedux: PropTypes.object.isRequired,
     };
 
-    static async getInitialProps (context) {
+    static async getInitialProps(context) {
       const url = { query: context.query, pathname: context.pathname };
       const hostName =
         (context.req && context.req.headers.host) ||
@@ -77,21 +76,6 @@ export default ComposedComponent =>
 
       // console.log(hostName)
 
-      // TODO REVERT AFTER ETHBERLIN
-      // TLDR; ethberlin.kauri.io 302 -> ethberlin collection
-      // console.log(hostName);
-      if (context.res && hostName && hostName.includes("ethberlin")) {
-        context.res.writeHead(302, {
-          Location: `https://${config
-            .getApiURL()
-            .replace(
-              "api.",
-              ""
-            )}/collection/5b8d373fe727370001c942de/ethberlin`,
-        });
-        context.res.end();
-      }
-      // REVERT ABOVE
       let stateApollo = {
         apollo: {
           data: {},
@@ -101,11 +85,14 @@ export default ComposedComponent =>
       let stateRedux = {};
 
       const parsedToken = parseCookies(context)["TOKEN"];
+      // console.log(parsedToken);
 
       // Redirect on write-article if user is logged out
       if (
+        context &&
         context.req &&
-        context.req.url.includes("write-article") &&
+        context.req.url &&
+        context.req.url.includes("/write-article") &&
         !context.req.url.includes("/login") &&
         !parsedToken
       ) {
@@ -177,14 +164,12 @@ export default ComposedComponent =>
         const app = (
           <Provider store={redux}>
             <ApolloProvider client={apollo}>
-              <LocaleProvider locale={enUS}>
-                <ThemeProvider theme={themeConfig}>
-                  <>
-                    <WelcomeBanner />
-                    <ComposedComponent url={url} {...composedInitialProps} />
-                  </>
-                </ThemeProvider>
-              </LocaleProvider>
+              <ThemeProvider theme={themeConfig}>
+                <>
+                  <WelcomeBanner />
+                  <ComposedComponent url={url} {...composedInitialProps} />
+                </>
+              </ThemeProvider>
             </ApolloProvider>
           </Provider>
         );
@@ -221,16 +206,16 @@ export default ComposedComponent =>
       };
     }
 
-    constructor (props) {
+    constructor(props) {
       super(props);
       this.apollo = initApollo(this.props.stateApollo.apollo.data, {
-        getToken: () => props.parsedToken || parseCookies()["TOKEN"],
+        getToken: () => props.parsedToken,
         hostName: props.hostName,
       });
       this.redux = initRedux(this.apollo, this.props.stateRedux);
     }
 
-    componentDidMount () {
+    componentDidMount() {
       window.addEventListener("load", async () => {
         if (window.ethereum) {
           // NOTICE - Moved to sign in only.
@@ -243,16 +228,18 @@ export default ComposedComponent =>
           //   // User denied account access...
           // }
           // Supports Metamask and Mist, and other wallets that provide 'web3'.
+          analytics.setWeb3Status(true); // Track web3 status
         } else if (typeof window.web3 !== "undefined") {
           // Use the Mist/wallet provider.
           window.web3 = new Web3(window.web3.currentProvider);
+
+          // track web3 status
+          analytics.setWeb3Status(true);
         } else {
+          analytics.setWeb3Status(false);
           // No web3 detected. Show an error to the user or use Infura: https://infura.io/
           // window.web3 = new Web3(new Web3.providers.HttpProvider(`http://${process.env.gethBlockchain}`))
         }
-
-        // window.smartContracts
-        initSmartContracts(window.web3);
         // Init mixpanel
         mixpanel.init(
           config.mixpanelToken,
@@ -277,28 +264,26 @@ export default ComposedComponent =>
       this.redux.dispatch(fetchEthUsdPriceAction());
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
       if (global.window && this.apollo && this.apollo.close) {
         console.log("Unsubscribing WebSocket");
         this.apollo.close();
       }
     }
 
-    render () {
+    render() {
       return (
         <Provider store={this.redux}>
           <ApolloProvider client={this.apollo}>
-            <LocaleProvider locale={enUS}>
-              <ThemeProvider theme={themeConfig}>
-                <>
-                  <WelcomeBanner />
-                  <ComposedComponent
-                    {...this.props}
-                    web3={global.window ? global.window.web3 : global.window}
-                  />
-                </>
-              </ThemeProvider>
-            </LocaleProvider>
+            <ThemeProvider theme={themeConfig}>
+              <>
+                <WelcomeBanner />
+                <ComposedComponent
+                  {...this.props}
+                  web3={global.window ? global.window.web3 : global.window}
+                />
+              </>
+            </ThemeProvider>
           </ApolloProvider>
         </Provider>
       );

@@ -18,7 +18,7 @@ if (isProduction) {
 }
 
 export default class MyDocument extends Document {
-  static async getInitialProps ({ renderPage }) {
+  static async getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet();
     const page = renderPage(App => props => <App {...props} />);
     const styleTags = sheet.getStyleElement();
@@ -30,17 +30,17 @@ export default class MyDocument extends Document {
   }
 
   // should render on <html>
-  get helmetHtmlAttrComponents () {
+  get helmetHtmlAttrComponents() {
     return this.props.helmet.htmlAttributes.toComponent();
   }
 
   // should render on <body>
-  get helmetBodyAttrComponents () {
+  get helmetBodyAttrComponents() {
     return this.props.helmet.bodyAttributes.toComponent();
   }
 
   // should render on <head>
-  get helmetHeadComponents () {
+  get helmetHeadComponents() {
     return Object.keys(this.props.helmet)
       .filter(
         el =>
@@ -49,7 +49,7 @@ export default class MyDocument extends Document {
       .map(el => this.props.helmet[el].toComponent());
   }
 
-  get helmetJsx () {
+  get helmetJsx() {
     return (
       <Helmet
         htmlAttributes={{ lang: "en" }}
@@ -59,13 +59,17 @@ export default class MyDocument extends Document {
     );
   }
 
-  render () {
+  render() {
     return (
       <html {...this.helmetHtmlAttrComponents}>
         <Head>
           {this.helmetJsx}
           {this.helmetHeadComponents}
           <link rel="icon" href="/favicon.ico" />
+          <link
+            rel="stylesheet"
+            href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
+          />
           <script src="https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver" />
           <script
             defer

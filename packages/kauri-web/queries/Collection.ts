@@ -1,5 +1,7 @@
 import gql from "graphql-tag";
 import { Article } from "./Article";
+import { UserOwner } from "./User";
+import { CommunityOwner } from "./Community";
 
 export const Collection = gql`
   fragment Collection on CollectionDTO {
@@ -10,10 +12,8 @@ export const Collection = gql`
     background
     dateUpdated
     owner {
-      id
-      name
-      username
-      avatar
+      ...UserOwner
+      ...CommunityOwner
     }
     sections {
       id
@@ -35,6 +35,9 @@ export const Collection = gql`
       id
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const globalCollectionDetails = gql`
@@ -47,14 +50,8 @@ export const globalCollectionDetails = gql`
       background
       dateCreated
       owner {
-        id
-        name
-        username
-        avatar
-        resourceIdentifier {
-          id
-          type
-        }
+        ...UserOwner
+        ...CommunityOwner
       }
       sections {
         name
@@ -71,7 +68,10 @@ export const globalCollectionDetails = gql`
       }
     }
   }
+
   ${Article}
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const getCollection = globalCollectionDetails;
@@ -145,13 +145,37 @@ export const getLatestCollections = gql`
         }
         resource {
           ... on CollectionDTO {
-            ...Collection
+            id
+            name
+            description
+            tags
+            background
+            dateUpdated
+            owner {
+              ...UserOwner
+              ...CommunityOwner
+            }
+            sections {
+              id
+              name
+              description
+              resourcesId {
+                id
+                type
+              }
+            }
+            resourceIdentifier {
+              type
+              id
+            }
           }
         }
       }
     }
   }
-  ${Collection}
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const searchCollections = gql`
@@ -170,8 +194,16 @@ export const getCollectionsForUser = gql`
     $filter: CollectionFilterInput
     $size: Int = 8
     $page: Int = 0
+    $sort: String = "dateUpdated"
+    $dir: DirectionInput
   ) {
-    searchCollections(filter: $filter, page: $page, size: $size) {
+    searchCollections(
+      filter: $filter
+      page: $page
+      size: $size
+      sort: $sort
+      dir: $dir
+    ) {
       totalElements
       content {
         ...Collection

@@ -1,15 +1,34 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
+import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchPersonalSubmittedArticles
 // ====================================================
 
-export interface searchPersonalSubmittedArticles_searchArticles_content_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
+export interface searchPersonalSubmittedArticles_searchArticles_content_associatedNfts {
+  __typename: "NftTokenDTO";
+  tokenType: string | null;
+  contractAddress: string | null;
+  name: string | null;
+  image: string | null;
+  externalUrl: string | null;
+}
+
+export interface searchPersonalSubmittedArticles_searchArticles_content_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
+  version: number | null;
+}
+
+export interface searchPersonalSubmittedArticles_searchArticles_content_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
+  count: any | null;
+  hasVoted: boolean | null;
+  quantity: any | null;
 }
 
 export interface searchPersonalSubmittedArticles_searchArticles_content_author {
@@ -33,8 +52,8 @@ export interface searchPersonalSubmittedArticles_searchArticles_content_owner_Pu
 export interface searchPersonalSubmittedArticles_searchArticles_content_owner_PublicUserDTO {
   __typename: "PublicUserDTO";
   id: string | null;
-  username: string | null;
   name: string | null;
+  username: string | null;
   avatar: string | null;
   resourceIdentifier: searchPersonalSubmittedArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier | null;
 }
@@ -77,15 +96,11 @@ export interface searchPersonalSubmittedArticles_searchArticles_content_comments
   totalElements: any | null;
 }
 
-export interface searchPersonalSubmittedArticles_searchArticles_content_resourceIdentifier {
-  __typename: "ResourceIdentifier";
-  id: string | null;
-  type: ResourceType | null;
-  version: number | null;
-}
-
 export interface searchPersonalSubmittedArticles_searchArticles_content {
   __typename: "ArticleDTO";
+  associatedNfts: (searchPersonalSubmittedArticles_searchArticles_content_associatedNfts | null)[] | null;
+  resourceIdentifier: searchPersonalSubmittedArticles_searchArticles_content_resourceIdentifier | null;
+  description: string | null;
   id: string | null;
   version: number | null;
   title: string | null;
@@ -98,11 +113,11 @@ export interface searchPersonalSubmittedArticles_searchArticles_content {
   contentHash: string | null;
   checkpoint: string | null;
   tags: (string | null)[] | null;
-  vote: searchPersonalSubmittedArticles_searchArticles_content_vote | null;
+  voteResult: searchPersonalSubmittedArticles_searchArticles_content_voteResult | null;
   author: searchPersonalSubmittedArticles_searchArticles_content_author | null;
   owner: searchPersonalSubmittedArticles_searchArticles_content_owner | null;
   comments: searchPersonalSubmittedArticles_searchArticles_content_comments | null;
-  resourceIdentifier: searchPersonalSubmittedArticles_searchArticles_content_resourceIdentifier | null;
+  updateComment: string | null;
 }
 
 export interface searchPersonalSubmittedArticles_searchArticles {

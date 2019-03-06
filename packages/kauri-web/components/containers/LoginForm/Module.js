@@ -109,18 +109,20 @@ export const registerEpic = (
               console.log(window.web3.eth.accounts[0]);
               document.cookie = cookie.serialize("TOKEN", token, {
                 maxAge: 30 * 24 * 60 * 60, // 30 days,
-                domain: window.location.hostname.includes("localhost")
-                  ? window.location.hostname
-                  : "." + window.location.hostname,
+                domain:
+                  window && window.location.hostname.includes("localhost")
+                    ? window.location.hostname
+                    : "." + window.location.hostname,
               });
               document.cookie = cookie.serialize(
                 "USER_ID",
                 window.web3.eth.accounts[0],
                 {
                   maxAge: 30 * 24 * 60 * 60, // 30 days
-                  domain: window.location.hostname.includes("localhost")
-                    ? window.location.hostname
-                    : "." + window.location.hostname,
+                  domain:
+                    window && window.location.hostname.includes("localhost")
+                      ? window.location.hostname
+                      : "." + window.location.hostname,
                 }
               );
             })
@@ -151,7 +153,7 @@ export const registerEpic = (
             })
             .catch(err => {
               console.error(err);
-              if (err && err.message.includes("Metamask locked!")) {
+              if (err && err.message.includes("locked")) {
                 return Observable.of(
                   showNotificationAction({
                     notificationType: "error",

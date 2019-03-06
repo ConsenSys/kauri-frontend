@@ -5,7 +5,7 @@ import { PrimaryButton } from "../../../../kauri-components/components/Button";
 import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx";
 import SocialWebsiteIcon from "../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.tsx";
 import UserAvatar from "../../../../kauri-components/components/UserAvatar";
-import { Helmet } from "react-helmet";
+import Helmet from "react-helmet";
 import type { HeaderProps } from "./types";
 
 const PublicProfileHeader = styled.div`
@@ -107,13 +107,37 @@ const ProfileHeader = ({
   collections,
   articles,
   toggleEditing,
+  hostName,
 }: HeaderProps) => (
   <PublicProfileHeader>
     <Helmet>
-      <link
-        rel="stylesheet"
-        href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
+      <title>{`Kauri - ${name || (username && `@${username}`) || id}`}</title>
+      <meta name="description" content={`${title}`} />
+      <meta
+        name="keywords"
+        content={typeof title === "string" && title.split(" ")}
       />
+      <meta
+        property="og:title"
+        content={`Kauri - ${name || (username && `@${username}`) || id}`}
+      />
+      <meta property="og:site_name" content="kauri.io" />
+      <meta
+        property="og:url"
+        content={`https://${hostName}/public-profile/${id}`}
+      />
+      <meta property="og:description" content={`${title}`} />
+      <meta property="og:type" content="public profile" />
+      <meta property="og:image" content={avatar} />
+      <meta name="twitter:card" content="summary" />
+      <meta
+        name="twitter:site"
+        content={`https://${hostName}/public-profile/${id}`}
+      />
+      <meta name="twitter:title" content={name} />
+      <meta name="twitter:description" content={title} />
+      <meta name="twitter:creator" content="@kauri_io" />
+      <meta name="twitter:image" content={avatar} />
     </Helmet>
     {avatar ? (
       <UserAvatar borderRadius="4px" height={100} width={100} avatar={avatar}>

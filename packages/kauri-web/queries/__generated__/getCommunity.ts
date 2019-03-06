@@ -23,15 +23,24 @@ export interface getCommunity_getCommunity_pending_CommunityDTO {
   __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
 }
 
+export interface getCommunity_getCommunity_pending_ArticleDTO_associatedNfts {
+  __typename: "NftTokenDTO";
+  tokenType: string | null;
+  contractAddress: string | null;
+  name: string | null;
+  image: string | null;
+  externalUrl: string | null;
+}
+
 export interface getCommunity_getCommunity_pending_ArticleDTO_author {
   __typename: "PublicUserDTO";
   id: string | null;
   name: string | null;
 }
 
-export interface getCommunity_getCommunity_pending_ArticleDTO_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
+export interface getCommunity_getCommunity_pending_ArticleDTO_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
 }
 
 export interface getCommunity_getCommunity_pending_ArticleDTO {
@@ -42,10 +51,11 @@ export interface getCommunity_getCommunity_pending_ArticleDTO {
   content: string | null;
   dateCreated: any | null;
   datePublished: any | null;
+  associatedNfts: (getCommunity_getCommunity_pending_ArticleDTO_associatedNfts | null)[] | null;
   author: getCommunity_getCommunity_pending_ArticleDTO_author | null;
   status: ArticleStatus | null;
   attributes: any | null;
-  vote: getCommunity_getCommunity_pending_ArticleDTO_vote | null;
+  voteResult: getCommunity_getCommunity_pending_ArticleDTO_voteResult | null;
 }
 
 export interface getCommunity_getCommunity_pending_CollectionDTO {
@@ -60,15 +70,24 @@ export interface getCommunity_getCommunity_approved_CommunityDTO {
   __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
 }
 
+export interface getCommunity_getCommunity_approved_ArticleDTO_associatedNfts {
+  __typename: "NftTokenDTO";
+  tokenType: string | null;
+  contractAddress: string | null;
+  name: string | null;
+  image: string | null;
+  externalUrl: string | null;
+}
+
 export interface getCommunity_getCommunity_approved_ArticleDTO_author {
   __typename: "PublicUserDTO";
   id: string | null;
   name: string | null;
 }
 
-export interface getCommunity_getCommunity_approved_ArticleDTO_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
+export interface getCommunity_getCommunity_approved_ArticleDTO_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
 }
 
 export interface getCommunity_getCommunity_approved_ArticleDTO {
@@ -77,12 +96,14 @@ export interface getCommunity_getCommunity_approved_ArticleDTO {
   version: number | null;
   title: string | null;
   content: string | null;
+  description: string | null;
   dateCreated: any | null;
   datePublished: any | null;
+  associatedNfts: (getCommunity_getCommunity_approved_ArticleDTO_associatedNfts | null)[] | null;
   author: getCommunity_getCommunity_approved_ArticleDTO_author | null;
   status: ArticleStatus | null;
   attributes: any | null;
-  vote: getCommunity_getCommunity_approved_ArticleDTO_vote | null;
+  voteResult: getCommunity_getCommunity_approved_ArticleDTO_voteResult | null;
 }
 
 export interface getCommunity_getCommunity_approved_CollectionDTO {

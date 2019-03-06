@@ -1,4 +1,6 @@
 import gql from "graphql-tag";
+import { UserOwner } from "./User";
+import { CommunityOwner } from "./Community";
 
 // TODO - Sync with backend once CollectionDTO > owner becomes author
 export const HomePageQuery = gql`
@@ -26,6 +28,7 @@ export const HomePageQuery = gql`
           version
           title
           content
+          description
           dateCreated
           datePublished
           author {
@@ -37,8 +40,8 @@ export const HomePageQuery = gql`
 
           status
           attributes
-          vote {
-            totalVote
+          voteResult {
+            sum
           }
         }
         ... on CollectionDTO {
@@ -67,6 +70,7 @@ export const HomePageQuery = gql`
           version
           title
           content
+          description
           dateCreated
           datePublished
           author {
@@ -75,11 +79,15 @@ export const HomePageQuery = gql`
             username
             avatar
           }
+          owner {
+            ...UserOwner
+            ...CommunityOwner
+          }
 
           status
           attributes
-          vote {
-            totalVote
+          voteResult {
+            sum
           }
         }
         ... on CollectionDTO {
@@ -93,10 +101,8 @@ export const HomePageQuery = gql`
             id
           }
           owner {
-            id
-            username
-            name
-            avatar
+            ...UserOwner
+            ...CommunityOwner
           }
           sections {
             name
@@ -118,4 +124,7 @@ export const HomePageQuery = gql`
       }
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;

@@ -3,6 +3,7 @@ import styled from "../../lib/styled-components";
 import { TagList } from "../Tags";
 import Tabs from "../Tabs";
 import PrimaryButton from "../Button/PrimaryButton";
+import Truncate from "react-truncate-html";
 
 export interface IResult {
   description: string;
@@ -40,25 +41,20 @@ const ResultComp = styled.div`
     background: ${props => props.theme.colors.tertiaryBackgroundColor};
   }
 
-  & .highlighter {
-    background: ${props => props.theme.colors.primary};
-    color: white;
-    padding: 0px 2px;
-    border-radius: 2px;
-  }
-
-  & div {
-    line-height: normal !important;
-    height: auto !important;
+  div {
+    line-height: normal;
+    max-height: 54px;
     white-space: normal;
   }
 
   & .quickSearchDescription {
     font-size: ${props => props.theme.fontSizes[1]}px;
-    text-overflow: ellipsis;
-    max-height: 54px;
-    overflow-wrap: break-word;
-    overflow: hidden;
+    > span > span {
+      background: ${props => props.theme.colors.primary};
+      color: white;
+      padding: 0px 2px;
+      border-radius: 2px;
+    }
   }
 
   > :first-child {
@@ -117,12 +113,17 @@ const Result = (props: IResultComp) => (
     onClick={() => props.routeChangeAction(getRoute(props.result))}
   >
     <H3>
-      <div dangerouslySetInnerHTML={{ __html: props.result.name }} />
+      <div
+        className="quickSearchTitle"
+        dangerouslySetInnerHTML={{ __html: props.result.name }}
+      />
     </H3>
-    <div
-      className="quickSearchDescription"
-      dangerouslySetInnerHTML={{ __html: props.result.description }}
-    />
+    <div className="quickSearchDescription">
+      <Truncate
+        lines={4}
+        dangerouslySetInnerHTML={{ __html: props.result.description }}
+      />
+    </div>
     {props.result.tags && (
       <TagList color="textPrimary" tags={props.result.tags} maxTags={3} />
     )}
@@ -148,7 +149,7 @@ const SearchResults = (props: ISearchResults) => (
         result={i}
       />
     ))}
-    {viewAllCategories.includes(props.type) && (
+    {viewAllCategories && viewAllCategories.includes(props.type) && (
       <PrimaryButton
         onClick={() =>
           props.routeChangeAction(

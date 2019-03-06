@@ -1,11 +1,26 @@
 import gql from "graphql-tag";
+import { UserOwner } from "./User";
+import { CommunityOwner } from "./Community";
 
 export const Article = gql`
   fragment Article on ArticleDTO {
+    associatedNfts {
+      tokenType
+      contractAddress
+      name
+      image
+      externalUrl
+    }
+    resourceIdentifier {
+      id
+      type
+    }
+    description
     id
     version
     title
     content
+    description
     authorId
     dateCreated
     datePublished
@@ -14,16 +29,11 @@ export const Article = gql`
     contentHash
     checkpoint
     tags
-    associatedNfts {
-      tokenType
-      contractAddress
-      name
-      description
-      image
-      externalUrl
-    }
-    vote {
-      totalVote
+    voteResult {
+      sum
+      count
+      hasVoted
+      quantity
     }
     author {
       id
@@ -32,25 +42,8 @@ export const Article = gql`
       avatar
     }
     owner {
-      ... on PublicUserDTO {
-        id
-        username
-        name
-        avatar
-        resourceIdentifier {
-          id
-          type
-        }
-      }
-      ... on CommunityDTO {
-        id
-        name
-        avatar
-        resourceIdentifier {
-          id
-          type
-        }
-      }
+      ...UserOwner
+      ...CommunityOwner
     }
     comments {
       content {
@@ -71,7 +64,11 @@ export const Article = gql`
       type
       version
     }
+    updateComment
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const submitArticle = gql`
@@ -136,8 +133,8 @@ export const getArticleForAnalytics = gql`
       attributes
       contentHash
       checkpoint
-      vote {
-        totalVote
+      voteResult {
+        sum
       }
       author {
         id
@@ -194,10 +191,12 @@ export const searchApprovedArticles = gql`
         ownerIdEquals: $category
       }
     ) {
-      totalElements
       content {
         ...Article
       }
+      isLast
+      totalElements
+      totalPages
     }
   }
 
@@ -297,7 +296,7 @@ export const searchPersonalDrafts = gql`
         id
         version
         title
-        content
+        description
         tags
         dateCreated
         datePublished
@@ -308,24 +307,15 @@ export const searchPersonalDrafts = gql`
           avatar
         }
         owner {
-          ... on PublicUserDTO {
-            id
-            username
-            name
-            avatar
-          }
-          ... on CommunityDTO {
-            id
-            name
-            avatar
-          }
+          ...UserOwner
+          ...CommunityOwner
         }
         status
         attributes
         contentHash
         checkpoint
-        vote {
-          totalVote
+        voteResult {
+          sum
         }
         comments {
           content {
@@ -349,6 +339,9 @@ export const searchPersonalDrafts = gql`
       }
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const submitArticleVersion = gql`
@@ -394,7 +387,7 @@ export const searchPending = gql`
         id
         version
         title
-        content
+        description
         tags
         dateCreated
         datePublished
@@ -404,23 +397,15 @@ export const searchPending = gql`
           username
         }
         owner {
-          ... on PublicUserDTO {
-            id
-            username
-            name
-            avatar
-          }
-          ... on CommunityDTO {
-            id
-            name
-          }
+          ...UserOwner
+          ...CommunityOwner
         }
         status
         attributes
         contentHash
         checkpoint
-        vote {
-          totalVote
+        voteResult {
+          sum
         }
         comments {
           content {
@@ -442,6 +427,9 @@ export const searchPending = gql`
       }
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const searchAwaitingApproval = gql`
@@ -459,7 +447,7 @@ export const searchAwaitingApproval = gql`
         id
         version
         title
-        content
+        description
         tags
         dateCreated
         datePublished
@@ -469,23 +457,15 @@ export const searchAwaitingApproval = gql`
           username
         }
         owner {
-          ... on PublicUserDTO {
-            id
-            username
-            name
-            avatar
-          }
-          ... on CommunityDTO {
-            id
-            name
-          }
+          ...UserOwner
+          ...CommunityOwner
         }
         status
         attributes
         contentHash
         checkpoint
-        vote {
-          totalVote
+        voteResult {
+          sum
         }
         comments {
           content {
@@ -507,6 +487,9 @@ export const searchAwaitingApproval = gql`
       }
     }
   }
+
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const approveArticle = gql`
@@ -545,6 +528,8 @@ export const globalSearchApprovedArticles = gql`
       size: $size
       query: $query
       filter: $filter
+      dir: "desc"
+      sort: "dateUpdated"
     ) {
       totalElements
       totalPages
@@ -590,6 +575,14 @@ export const relatedArticles = gql`
         description
         score
       }
+    }
+  }
+`;
+
+export const vote = gql`
+  mutation vote($resourceId: ResourceIdentifierInput, $value: Float) {
+    vote(resourceId: $resourceId, value: $value) {
+      hash
     }
   }
 `;

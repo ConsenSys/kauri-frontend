@@ -3,12 +3,12 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import slugify from "slugify";
-import rake from "rake-js";
 import R from "ramda";
 import CollectionHeader from "../../../../kauri-components/components/Headers/CollectionHeader";
 import CollectionSection from "./CollectionSection";
 import ScrollToTopOnMount from "../../../../kauri-components/components/ScrollToTopOnMount";
 import { Link } from "../../../routes";
+import Image from "../../../../kauri-components/components/Image";
 
 type Props = {
   data: {
@@ -37,13 +37,19 @@ const ContentContainer = styled.div`
 `;
 
 const HeaderContainer = styled(ContentContainer)`
-  background: url(${props => props.background}) center center;
+  background: ${props => props.theme.colors.bgPrimary};
   background-size: cover;
-  margin-top: -76px;
-  padding-top: 106px;
-  padding-bottom: 50px;
   flex-wrap: wrap;
   position: relative;
+  height: inherit;
+  padding: 0;
+  margin-top: -76px;
+  @media (max-width: 700px) {
+    max-height: 90vh;
+  }
+  @media (min-width: 700px) {
+    max-height: 300px;
+  }
 `;
 
 class CollectionPage extends Component<Props, { trianglify: string }> {
@@ -51,7 +57,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     trianglify: "",
   };
 
-  componentDidMount() {
+  componentDidMount () {
     const trianglify = require("trianglify");
     const trianglifyBg = trianglify({
       width: 1920,
@@ -69,7 +75,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     this.setState({ trianglifyBg: trianglifyBgString });
   }
 
-  render() {
+  render () {
     if (!this.props.data || !this.props.data.getCollection) return null;
 
     const {
@@ -83,9 +89,6 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       sections,
     } = this.props.data.getCollection;
     const { userId, routeChangeAction, hostName, openModalAction } = this.props;
-    const extractedKeywords = description
-      ? rake(description, { language: "english" })
-      : [];
     const bg = (background && background) || this.state.trianglifyBg;
     const url = `https://${hostName.replace(/api\./g, "")}/collection/${
       this.props.id
@@ -111,7 +114,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
           />
           <meta
             name="keywords"
-            content={extractedKeywords.map(keyword => keyword)}
+            content={Array.isArray(tags) && tags.map(keyword => keyword)}
           />
           <link rel="canonical" href={url} />
           <meta property="og:title" content={name} />
@@ -131,7 +134,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
           <meta name="twitter:card" content="summary" />
           <meta
             name="twitter:site"
-            ccontent={`https://${hostName}/article/${id}/${slugify(name, {
+            content={`https://${hostName}/article/${id}/${slugify(name, {
               lower: true,
             })}`}
           />
@@ -144,8 +147,14 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
           <meta name="twitter:image" content={bg} />
         </Helmet>
         <ScrollToTopOnMount />
-        <HeaderContainer background={bg}>
-          <Overlay />
+        <HeaderContainer>
+          <Image
+            height="100%"
+            width="100%"
+            overlay={{ opacity: 0.5 }}
+            asBackground
+            image={bg}
+          />
           <CollectionHeader
             imageURL={typeof bg === "string" ? bg : null}
             id={id}

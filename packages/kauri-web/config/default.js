@@ -26,14 +26,25 @@ const uppyConfig = {
     maxFileSize: 10000000,
     maxNumberOfFiles: 1,
     minNumberOfFiles: 1,
-    allowedFileTypes: ["image/png", "image/jpeg", "image/jpg", "image/gif"],
+    allowedFileTypes: [
+      "image/*",
+      "jpeg",
+      "png",
+      "images/*",
+      "jpg",
+      "image/jpeg",
+      "image/png",
+    ],
   },
 };
 
 const getApiURL = (hostName = process.env.monolithExternalApi) => {
   // localhost or mobile
   // console.log(hostName);
-  if (hostName.includes("192") || hostName.includes("localhost")) {
+  if (
+    (hostName && hostName.includes("192")) ||
+    (hostName && hostName.includes("localhost"))
+  ) {
     return process.env.monolithExternalApi;
   }
   let apiURL;

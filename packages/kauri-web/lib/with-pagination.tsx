@@ -1,5 +1,5 @@
 import * as React from "react";
-import ReactDOM from "react-dom";
+import { findDOMNode } from "react-dom";
 import Loading from "../components/common/Loading";
 import { DataValue } from "react-apollo";
 
@@ -10,7 +10,7 @@ interface IState {
 
 type PaginationDataQuery =
   | "searchCommunities"
-  | "searchCollections"
+  | "searchAutocompleteCollections"
   | "searchArticles"
   | "searchAutocomplete";
 
@@ -71,7 +71,7 @@ const withPagination = (
       };
 
       if (this.childRef) {
-        const childRefElement = ReactDOM.findDOMNode(this.childRef);
+        const childRefElement = findDOMNode(this.childRef);
         this.childRefElement = childRefElement as Element;
         (childRefElement as Element).addEventListener(
           "touchstart",
@@ -117,7 +117,7 @@ const withPagination = (
       const scrolledToBottom =
         Math.ceil(scrollTop + clientHeight + 150) >= scrollHeight;
 
-      // alert(`${scrollTop}, ${scrollHeight}, ${clientHeight}`);
+      // console.log(scrolledToBottom);
 
       if (
         scrolledToBottom &&

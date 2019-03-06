@@ -1,7 +1,7 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
+import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchArticles
@@ -18,25 +18,40 @@ export interface searchArticles_searchArticles_content_owner_ArticleDTO {
   __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
+export interface searchArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
+}
+
 export interface searchArticles_searchArticles_content_owner_PublicUserDTO {
   __typename: "PublicUserDTO";
   id: string | null;
-  username: string | null;
   name: string | null;
+  username: string | null;
   avatar: string | null;
+  resourceIdentifier: searchArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier | null;
+}
+
+export interface searchArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
 }
 
 export interface searchArticles_searchArticles_content_owner_CommunityDTO {
   __typename: "CommunityDTO";
   id: string | null;
   name: string | null;
+  avatar: string | null;
+  resourceIdentifier: searchArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier | null;
 }
 
 export type searchArticles_searchArticles_content_owner = searchArticles_searchArticles_content_owner_ArticleDTO | searchArticles_searchArticles_content_owner_PublicUserDTO | searchArticles_searchArticles_content_owner_CommunityDTO;
 
-export interface searchArticles_searchArticles_content_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
+export interface searchArticles_searchArticles_content_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
 }
 
 export interface searchArticles_searchArticles_content_comments_content_author {
@@ -71,7 +86,7 @@ export interface searchArticles_searchArticles_content {
   id: string | null;
   version: number | null;
   title: string | null;
-  content: string | null;
+  description: string | null;
   tags: (string | null)[] | null;
   dateCreated: any | null;
   datePublished: any | null;
@@ -81,7 +96,7 @@ export interface searchArticles_searchArticles_content {
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
-  vote: searchArticles_searchArticles_content_vote | null;
+  voteResult: searchArticles_searchArticles_content_voteResult | null;
   comments: searchArticles_searchArticles_content_comments | null;
   resourceIdentifier: searchArticles_searchArticles_content_resourceIdentifier | null;
 }

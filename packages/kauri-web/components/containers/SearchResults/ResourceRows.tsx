@@ -7,6 +7,8 @@ import {
   searchResultsAutocomplete_searchAutocomplete_content_resource_ArticleDTO,
   searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO,
   searchResultsAutocomplete_searchAutocomplete_content_resource_CommunityDTO,
+  searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO,
+  searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO,
 } from "../../../queries/__generated__/searchResultsAutocomplete";
 import { Link } from "../../../routes";
 
@@ -54,6 +56,7 @@ class ResourceRows extends React.Component<
   IProps & ISearchResultsAutocompleteData
 > {
   render() {
+    console.log(this.props.data);
     return Object.values(this.props.totalElementsBreakdown).filter(
       amount => amount > 0
     ).length ? (
@@ -82,12 +85,16 @@ class ResourceRows extends React.Component<
                         id,
                         version,
                         title,
-                        content,
+                        description,
                         datePublished,
                         tags,
-                        author,
+                        owner,
                         attributes,
                       } = resource.resource;
+
+                      const typedOwner = owner as
+                        | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO
+                        | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO;
                       return (
                         <ResourceRowWithImage
                           key={String(id)}
@@ -96,16 +103,22 @@ class ResourceRows extends React.Component<
                           version={Number(version)}
                           date={datePublished}
                           title={String(title)}
-                          content={String(content)}
-                          userId={(author && String(author.id)) || ""}
-                          username={author && author.username}
-                          userAvatar={author && author.avatar}
+                          description={description}
+                          userId={(typedOwner && String(typedOwner.id)) || ""}
+                          username={
+                            typedOwner.__typename === "PublicUserDTO"
+                              ? typedOwner.username
+                              : typedOwner.name
+                          }
+                          userAvatar={typedOwner && typedOwner.avatar}
                           imageURL={attributes && attributes.background}
                           tags={isArticleTags(tags) ? tags : []}
                           linkComponent={(childrenProps, route) => {
                             return (
                               <Link
-                                toSlug={route.includes("article") && title}
+                                toSlug={
+                                  route && route.includes("article") && title
+                                }
                                 useAnchorTag={true}
                                 href={route}
                               >
@@ -127,6 +140,10 @@ class ResourceRows extends React.Component<
                         owner,
                         background,
                       } = resource.resource;
+
+                      const typedOwner = owner as
+                        | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO
+                        | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO;
                       return (
                         <ResourceRowWithImage
                           key={String(id)}
@@ -134,16 +151,22 @@ class ResourceRows extends React.Component<
                           resourceType={"COLLECTION"}
                           date={dateUpdated}
                           title={String(name)}
-                          content={String(description)}
-                          userId={(owner && String(owner.id)) || ""}
-                          username={owner && owner.username}
-                          userAvatar={owner && owner.avatar}
+                          description={String(description)}
+                          userId={(typedOwner && String(typedOwner.id)) || ""}
+                          username={
+                            typedOwner.__typename === "PublicUserDTO"
+                              ? typedOwner.username
+                              : typedOwner.name
+                          }
+                          userAvatar={typedOwner && typedOwner.avatar}
                           imageURL={background}
                           tags={isArticleTags(tags) ? tags : []}
                           linkComponent={(childrenProps, route) => {
                             return (
                               <Link
-                                toSlug={route.includes("collection") && name}
+                                toSlug={
+                                  route && route.includes("collection") && name
+                                }
                                 useAnchorTag={true}
                                 href={route}
                               >
@@ -171,7 +194,7 @@ class ResourceRows extends React.Component<
                           resourceType={"COMMUNITY"}
                           date={dateUpdated}
                           title={String(name)}
-                          content={String(description)}
+                          description={String(description)}
                           userId={String(id)}
                           username={name}
                           userAvatar={avatar}

@@ -1,15 +1,34 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
+import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL fragment: Article
 // ====================================================
 
-export interface Article_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
+export interface Article_associatedNfts {
+  __typename: "NftTokenDTO";
+  tokenType: string | null;
+  contractAddress: string | null;
+  name: string | null;
+  image: string | null;
+  externalUrl: string | null;
+}
+
+export interface Article_resourceIdentifier {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceType | null;
+  version: number | null;
+}
+
+export interface Article_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
+  count: any | null;
+  hasVoted: boolean | null;
+  quantity: any | null;
 }
 
 export interface Article_author {
@@ -33,8 +52,8 @@ export interface Article_owner_PublicUserDTO_resourceIdentifier {
 export interface Article_owner_PublicUserDTO {
   __typename: "PublicUserDTO";
   id: string | null;
-  username: string | null;
   name: string | null;
+  username: string | null;
   avatar: string | null;
   resourceIdentifier: Article_owner_PublicUserDTO_resourceIdentifier | null;
 }
@@ -77,15 +96,11 @@ export interface Article_comments {
   totalElements: any | null;
 }
 
-export interface Article_resourceIdentifier {
-  __typename: "ResourceIdentifier";
-  id: string | null;
-  type: ResourceType | null;
-  version: number | null;
-}
-
 export interface Article {
   __typename: "ArticleDTO";
+  associatedNfts: (Article_associatedNfts | null)[] | null;
+  resourceIdentifier: Article_resourceIdentifier | null;
+  description: string | null;
   id: string | null;
   version: number | null;
   title: string | null;
@@ -98,9 +113,9 @@ export interface Article {
   contentHash: string | null;
   checkpoint: string | null;
   tags: (string | null)[] | null;
-  vote: Article_vote | null;
+  voteResult: Article_voteResult | null;
   author: Article_author | null;
   owner: Article_owner | null;
   comments: Article_comments | null;
-  resourceIdentifier: Article_resourceIdentifier | null;
+  updateComment: string | null;
 }

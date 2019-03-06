@@ -16,7 +16,7 @@ import {
 import { addCommentAction } from "../AddCommentForm/Module";
 import withLoading from "../../../lib/with-loading";
 import withApolloError from "../../../lib/with-apollo-error";
-import { addToBountyAction } from "../Requests/Module";
+import { voteAction } from "./ApprovedArticle/VoteModule";
 import {
   closeModalAction,
   openModalAction,
@@ -35,11 +35,11 @@ export default compose(
   connect(
     mapStateToProps,
     {
+      voteAction,
       toggleModalAction,
       approveArticleAction,
       rejectArticleAction,
       routeChangeAction,
-      addToBountyAction,
       tipArticleAction,
       addCommentAction,
       publishArticleAction,

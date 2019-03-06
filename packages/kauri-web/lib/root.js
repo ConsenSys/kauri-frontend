@@ -7,25 +7,14 @@ import app, {
   userDetailsEpic,
   hideIntroBannerEpic,
 } from "./Module";
-import request, {
-  flagRequestEpic,
-  addRequestCommentEpic,
-  addToBountyEpic,
-  requestRefundEpic,
-  resubmitRequestEpic,
-} from "../components/containers/Requests/Module";
-import createRequests, {
-  createRequestEpic,
-  updateRequestEpic,
-} from "../components/containers/CreateRequestForm/Module";
 import register, {
   registerEpic,
 } from "../components/containers/LoginForm/Module";
+import { tipArticleEpic } from "../components/containers/Article/Module";
 import {
-  tipArticleEpic,
   rejectArticleEpic,
   approveArticleEpic,
-} from "../components/containers/Article/Module";
+} from "../components/containers/ArticleReview/Module";
 import { publishArticleEpic } from "../components/containers/SubmitArticleForm/PublishArticleModule";
 import {
   submitArticleEpic,
@@ -57,37 +46,29 @@ import {
   verifyEmailEpic,
   resendEmailVerificationEpic,
 } from "../components/containers/EmailVerification/Module";
+import { voteEpic } from "../components/containers/Article/ApprovedArticle/VoteModule";
 
 export const rootReducer = {
   app,
   modal,
-  createRequests,
   register,
   localStorage,
-  request,
 };
 
 const epics = [
-  createRequestEpic,
   showNotificationEpic,
   registerEpic,
   showConfirmationModalEpic,
   routeChangeEpic,
-  updateRequestEpic,
   submitArticleEpic,
   submitArticleVersionEpic,
   editArticleEpic,
-  flagRequestEpic,
   addCommentEpic,
   userDetailsEpic,
   // ethUsdPriceEpic,
-  addRequestCommentEpic,
-  addToBountyEpic,
   hideIntroBannerEpic,
   tipArticleEpic,
   rejectArticleEpic,
-  requestRefundEpic,
-  resubmitRequestEpic,
   trackAnalyticsEpic,
   trackMixpanelEpic,
   startDriverStepsEpic,
@@ -107,6 +88,7 @@ const epics = [
   addArticleToCollectionEpic,
   verifyEmailEpic,
   resendEmailVerificationEpic,
+  voteEpic,
 ];
 
 export const rootEpic = combineEpics(...epics);

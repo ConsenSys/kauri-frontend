@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import styled from "styled-components";
 import moment from "moment";
@@ -115,13 +114,13 @@ const CuratedList = ({
                       key={articleCard.id}
                       date={articleCard.dateCreated}
                       title={articleCard.title}
-                      content={articleCard.content}
-                      userId={articleCard.author && articleCard.author.id}
+                      description={articleCard.description}
+                      userId={articleCard.owner && articleCard.owner.id}
                       username={
-                        articleCard.author && articleCard.author.username
+                        articleCard.owner && articleCard.owner.username
                       }
                       userAvatar={
-                        articleCard.author && articleCard.author.avatar
+                        articleCard.owner && articleCard.owner.avatar
                       }
                       id={articleCard.id}
                       version={articleCard.version}
@@ -151,7 +150,7 @@ const CuratedList = ({
                           return (
                             <Link
                               toSlug={
-                                route.includes("article") && articleCard.title
+                                route && route.includes("article") && articleCard.title
                               }
                               useAnchorTag
                               href={route}
@@ -212,7 +211,7 @@ const CuratedList = ({
                           return (
                             <Link
                               toSlug={
-                                route.includes("article") && collectionCard.name
+                                route && route.includes("article") && collectionCard.name
                               }
                               useAnchorTag
                               href={route}

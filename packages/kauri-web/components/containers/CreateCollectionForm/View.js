@@ -22,7 +22,8 @@ import CreateCollectionOptions from "./CreateCollectionOptions";
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 import TagSelector from "../../common/TagSelector";
-import Helmet from "react-helmet";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import handleDragEnd from "./handleDragEnd";
 
 import type { FormState } from "./index";
 import type { ShowNotificationPayload } from "../../../lib/Module";
@@ -167,28 +168,48 @@ const renderResourceSection = (
   arrayHelpers,
   section,
   values,
-  mappingKey
+  mappingKey,
+  provided
 ) => (resource, resourceIndex) => (
   <ResourceSection key={resourceIndex} mt={3}>
     {R.path(
       ["sections", index, mappingKey, resourceIndex, "version"],
       values
     ) && (
-      <div id="article-card">
-        <ArticleCard
-          id={R.path(
-            ["sections", index, mappingKey, resourceIndex, "id"],
-            values
-          )}
-          version={parseInt(
-            R.path(
-              ["sections", index, mappingKey, resourceIndex, "version"],
-              values
-            )
-          )}
-          cardHeight={420}
-        />
-      </div>
+      <Draggable
+        index={resourceIndex}
+        draggableId={`${R.path(
+          ["sections", index, mappingKey, resourceIndex, "id"],
+          values
+        )}-${R.path(
+          ["sections", index, mappingKey, resourceIndex, "version"],
+          values
+        )}`}
+      >
+        {provided => (
+          <div
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+            id="article-card"
+          >
+            <ArticleCard
+              id={R.path(
+                ["sections", index, mappingKey, resourceIndex, "id"],
+                values
+              )}
+              version={parseInt(
+                R.path(
+                  ["sections", index, mappingKey, resourceIndex, "version"],
+                  values
+                )
+              )}
+              cardHeight={420}
+            />
+            {provided.placeholder}
+          </div>
+        )}
+      </Draggable>
     )}
     <TertiaryButton
       color="primaryTextColor"
@@ -260,12 +281,6 @@ export default ({
   userAvatar,
 }: Props) => (
   <Section>
-    <Helmet>
-      <link
-        rel="stylesheet"
-        href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
-      />
-    </Helmet>
     <Form>
       <ActionsSection
         bg={
@@ -363,7 +378,8 @@ export default ({
                     name: "Articles",
                     count: R.pipe(
                       R.reduce(
-                        (current, next) => current + next["resourcesId"].length,
+                        (current, next) =>
+                          (current + next && next["resourcesId"].length) || 0,
                         0
                       )
                     )(values.sections),
@@ -431,19 +447,34 @@ export default ({
                       )}
                     />
 
-                    <CardContentSection>
-                      {section.resourcesId &&
-                        Array.isArray(section.resourcesId) &&
-                        section.resourcesId.map(
-                          renderResourceSection(
-                            index,
-                            arrayHelpers,
-                            section,
-                            values,
-                            "resourcesId"
-                          )
+                    <DragDropContext
+                      onDragEnd={handleDragEnd(arrayHelpers, index, values)}
+                    >
+                      <Droppable
+                        direction={"horizontal"}
+                        droppableId={section.id || "0"}
+                      >
+                        {provided => (
+                          <CardContentSection
+                            {...provided.droppableProps}
+                            innerRef={provided.innerRef}
+                          >
+                            {/* Section id */}
+                            {section.resourcesId &&
+                              Array.isArray(section.resourcesId) &&
+                              section.resourcesId.map(
+                                renderResourceSection(
+                                  index,
+                                  arrayHelpers,
+                                  section,
+                                  values,
+                                  "resourcesId"
+                                )
+                              )}
+                          </CardContentSection>
                         )}
-                    </CardContentSection>
+                      </Droppable>
+                    </DragDropContext>
 
                     <CreateCollectionOptions
                       currentSectionIndex={index}

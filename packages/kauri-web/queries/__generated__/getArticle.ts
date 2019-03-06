@@ -7,9 +7,9 @@ import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
 // GraphQL query operation: getArticle
 // ====================================================
 
-export interface getArticle_getArticle_vote {
-  __typename: "VoteStatDTO";
-  totalVote: any | null;
+export interface getArticle_getArticle_voteResult {
+  __typename: "VoteResultDTO";
+  sum: number | null;
 }
 
 export interface getArticle_getArticle_author {
@@ -36,7 +36,7 @@ export interface getArticle_getArticle {
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
-  vote: getArticle_getArticle_vote | null;
+  voteResult: getArticle_getArticle_voteResult | null;
   author: getArticle_getArticle_author | null;
   resourceIdentifier: getArticle_getArticle_resourceIdentifier | null;
 }

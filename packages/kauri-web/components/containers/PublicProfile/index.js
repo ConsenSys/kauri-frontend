@@ -16,6 +16,7 @@ import {
 } from "../../../../kauri-components/components/Modal/Module";
 import { connect } from "react-redux";
 import withLoading from "../../../lib/with-loading";
+import { withRouter } from "next/router";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -55,6 +56,8 @@ export default compose(
       fetchPolicy: "cache-and-network",
       variables: {
         page: 0,
+        sort: "dateUpdated",
+        dir: "DESC",
         filter: {
           ownerIdEquals: userId,
         },
@@ -92,4 +95,4 @@ export default compose(
     }),
   }),
   withLoading()
-)(PublicProfile);
+)(withRouter(PublicProfile));

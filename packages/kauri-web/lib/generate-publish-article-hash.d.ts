@@ -7,7 +7,8 @@ const generatePublishArticleHash = (
   version: number,
   contentHash: string,
   contributor: string,
-  dateCreated: string
+  dateCreated: string,
+  updateComment?: string
 ) => string;
 
 export default generatePublishArticleHash;

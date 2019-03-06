@@ -1,7 +1,5 @@
-// @flow
 import React from "react";
 import ApprovedArticle from "./ApprovedArticle/View";
-import InReviewArticle from "./InReviewArticle/View";
 import R from "ramda";
 import Loading from "../../common/Loading";
 import Helmet from "react-helmet";
@@ -80,7 +78,6 @@ class Article extends React.Component<ArticleProps> {
 
   publishArticle = () => {
     if (typeof this.props.data.getArticle === "object") {
-      console.log(this.props.data.getArticle);
       if (
         typeof this.props.data.getArticle.id === "string" &&
         typeof this.props.data.getArticle.version === "number" &&
@@ -112,30 +109,7 @@ class Article extends React.Component<ArticleProps> {
   };
 
   render() {
-    if (R.path(["data", "getArticle", "status"])(this.props) === "PENDING") {
-      return (
-        <>
-          <Helmet>
-            <link
-              href="https://fonts.googleapis.com/css?family=Source+Code+Pro"
-              rel="stylesheet"
-            />
-          </Helmet>
-          <InReviewArticle
-            {...this.props}
-            updateUnsubmittedArticle={this.updateUnsubmittedArticle}
-            approveArticle={this.approveArticle}
-            rejectArticle={this.rejectArticle}
-            preApproveArticle={this.preApproveArticle}
-            addCommentAction={this.props.addCommentAction}
-            personalUsername={this.props.personalUsername}
-            publishArticle={this.publishArticle}
-            openModalAction={this.props.openModalAction}
-            closeModalAction={this.props.closeModalAction}
-          />
-        </>
-      );
-    } else if (R.path(["data", "getArticle", "status"])(this.props))
+    if (R.path(["data", "getArticle", "status"])(this.props))
       return <ApprovedArticle {...this.props} />;
     else return <Loading />;
   }

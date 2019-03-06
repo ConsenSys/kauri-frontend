@@ -1,13 +1,10 @@
 // @flow
 import React from "react";
-import slugify from "slugify";
-import rake from "rake-js";
 import R from "ramda";
 import styled from "styled-components";
 import Actions from "./ApprovedArticleActions";
 import Content from "./ApprovedArticleContent";
 import Header from "./ApprovedArticleHeader";
-import Banner from "./ApprovedArticleBanner";
 import Footer from "./ApprovedArticleFooter";
 import Comments from "./ApprovedArticleComments";
 import { hljs } from "../../../../lib/hljs";
@@ -34,21 +31,12 @@ type Props =
     }
   | any;
 
-type State = {
-  showBanner: boolean,
-};
-
 class ApprovedArticle extends React.Component<Props, State> {
   static Header = Header;
   static Actions = Actions;
   static Content = Content;
-  static Banner = Banner;
   static Footer = Footer;
   static Comments = Comments;
-
-  state = {
-    showBanner: false,
-  };
 
   componentDidUpdate () {
     R.map(block => hljs.highlightBlock(block))(
@@ -62,25 +50,10 @@ class ApprovedArticle extends React.Component<Props, State> {
     );
   }
 
-  toggleBanner = (status?: boolean) =>
-    typeof status === "boolean"
-      ? this.setState({ showBanner: status })
-      : this.setState({ showBanner: !this.state.showBanner });
-
   render () {
     const props = this.props;
     if (!props.data.getArticle) return;
-    const {
-      title,
-      id,
-      content,
-      attributes,
-      associatedNfts,
-    } = props.data.getArticle;
-    const articleContent =
-      content[0] === "{" && JSON.parse(content).markdown
-        ? JSON.parse(content).markdown
-        : content;
+    const { associatedNfts } = props.data.getArticle;
     const hostName = `https://${props.hostName.replace(/api\./g, "")}`;
 
     const resourceType = R.path([
@@ -168,6 +141,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           ])(props)}
         />
         <ApprovedArticle.Footer
+          isLoggedIn={!!props.personalUsername}
           metadata={props.data.getArticle && props.data.getArticle.attributes}
           articleCheckpointed={R.path(["data", "getArticle", "checkpoint"])(
             props
@@ -196,6 +170,38 @@ class ApprovedArticle extends React.Component<Props, State> {
             props.data.getArticle.contentHash
           }
           apiURL={`https://${process.env.monolithExternalApi}`}
+          loginFirstToVote={() =>
+            props.routeChangeAction(
+              `/login?r=/article/${props.data.getArticle &&
+                props.data.getArticle.id}/v${props.data.getArticle &&
+                props.data.getArticle.version}`
+            )
+          }
+          positiveVoteAction={() =>
+            props.voteAction({
+              resourceId: {
+                type: "ARTICLE",
+                id: props.data.getArticle && props.data.getArticle.id,
+              },
+              value: 1,
+            })
+          }
+          negativeVoteAction={() =>
+            props.voteAction({
+              resourceId: {
+                type: "ARTICLE",
+                id: props.data.getArticle && props.data.getArticle.id,
+              },
+              value: -1,
+            })
+          }
+          voteResult={props.data.getArticle && props.data.getArticle.voteResult}
+          relatedArticles={R.path([
+            "RelatedArticles",
+            "searchMoreLikeThis",
+            "content",
+          ])(props)}
+          routeChangeAction={props.routeChangeAction}
         />
         <ApprovedArticle.Comments
           id={props.data.getArticle && props.data.getArticle.id}

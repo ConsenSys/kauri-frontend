@@ -46,22 +46,10 @@ const Articles = ({
               tags={article.tags}
               date={article.dateCreated}
               title={article.title}
-              content={article.content}
-              userId={
-                type !== "toBeApproved" && article.owner
-                  ? article.owner.id
-                  : article.author.id
-              }
-              username={
-                type !== "toBeApproved" && article.owner
-                  ? article.owner.username
-                  : article.author.username
-              }
-              userAvatar={
-                type !== "toBeApproved" && article.owner
-                  ? article.owner.avatar
-                  : article.author.avatar
-              }
+              description={article.description}
+              userId={article.author && article.author.id}
+              username={article.author && article.author.username}
+              userAvatar={article.author && article.author.avatar}
               id={article.id}
               version={article.version}
               cardHeight={420}
@@ -69,7 +57,7 @@ const Articles = ({
               nfts={article.associatedNfts}
               linkComponent={(childrenProps, route) => (
                 <Link
-                  toSlug={route.includes("article") && article.title}
+                  toSlug={route && route.includes("article") && article.title}
                   useAnchorTag
                   href={route}
                 >

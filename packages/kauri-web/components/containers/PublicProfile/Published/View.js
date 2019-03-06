@@ -50,7 +50,7 @@ const Articles = ({
               changeRoute={routeChangeAction}
               date={article.datePublished}
               title={article.title}
-              content={article.content}
+              description={article.description}
               tags={article.tags}
               userId={
                 type !== "toBeApproved" && article.owner
@@ -91,7 +91,7 @@ const Articles = ({
               nfts={article.associatedNfts}
               linkComponent={(childrenProps, route) => (
                 <Link
-                  toSlug={route.includes("article") && article.title}
+                  toSlug={route && route.includes("article") && article.title}
                   useAnchorTag
                   href={route}
                 >

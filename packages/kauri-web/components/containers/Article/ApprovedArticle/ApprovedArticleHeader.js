@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import slugify from "slugify";
 import moment from "moment";
-import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from "../../CreateRequestForm/CreateRequestHeader";
+import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from "../../../common/Legacy/CreateRequestSecondaryHeader";
 import ShareArticle from "../../../../../kauri-components/components/Tooltip/ShareArticle";
 import { TagList } from "../../../../../kauri-components/components/Tags";
 import { Link } from "../../../../routes";
@@ -23,7 +23,12 @@ const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
   padding: 0;
   margin-top: -76px;
   height: inherit;
-  max-height: 290px;
+  @media (max-width: 700px) {
+    max-height: 90vh;
+  }
+  @media (min-width: 700px) {
+    max-height: 300px;
+  }
 `;
 
 const InfoContainer = styled.div`
@@ -141,8 +146,9 @@ export default ({
     </InfoContainer>
     {status !== "PUBLISHED" && (
       <PullRight>
-        <H5 color="white">{`STATUS ${typeof status === "string" &&
-          status.replace(/_/g, " ")}`}</H5>
+        <H5 color="white">
+          {`STATUS ${typeof status === "string" && status.replace(/_/g, " ")}`}
+        </H5>
       </PullRight>
     )}
   </ApproveArticleHeader>

@@ -12,19 +12,19 @@ const BarContainer = styled.div`
   z-index: 999;
 `;
 
-const Fill = styled<IProps, "div">("div")`
+const Fill = styled<IState, "div">("div")`
   width: ${props => props.scrolled}%;
   left: 0;
   background: ${props => props.theme.colors.primary};
   height: 100%;
 `;
 
-interface IProps {
+interface IState {
   scrolled: number;
 }
 
-class Indicator extends React.Component<IProps, IProps> {
-  constructor(props: IProps) {
+class Indicator extends React.Component<{}, IState> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       scrolled: 0,

@@ -68,7 +68,7 @@ const PrimaryButton = styled<
 interface IProps {
   icon?: React.ReactElement<any>;
   handleClick?: () => void;
-  onClick?: () => void;
+  onClick?:void | (() => void);
   disabled?: boolean;
   type?: string;
   bg?: string;

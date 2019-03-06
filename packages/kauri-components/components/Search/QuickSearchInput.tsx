@@ -15,6 +15,7 @@ const Input = styled<IInputProps, "input">("input")`
     background: transparent;
     border: none;
     color: ${props => props.open ? props.theme.colors.white : 'transparent'};
+    line-height: 0;
 `;
 
 interface IContainerProps {

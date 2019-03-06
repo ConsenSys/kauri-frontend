@@ -35,7 +35,6 @@ export default compose(
     }) => {
       const variables = {
         filter: {
-          mustNotContainTag: ["ethdenver-2019-submission"],
           type: viewedSearchCategory,
         },
         page: 0,
@@ -49,4 +48,4 @@ export default compose(
     },
   }),
   withLoading()
-)(withPagination(ResourceRows, "searchAutocomplete"));
+)(withPagination(ResourceRows, "searchAutocompleteCollections"));

@@ -39,7 +39,7 @@ const Header: React.FunctionComponent<{ category: string }> = ({
 }) => (
   <CollectionsHeader>
     <KauriTitle>Discover Collections</KauriTitle>
-    <KauriDescription>User and Communitiy Collections</KauriDescription>
+    <KauriDescription>User and Community Collections</KauriDescription>
     <DiscoverSearch category={category} />
   </CollectionsHeader>
 );

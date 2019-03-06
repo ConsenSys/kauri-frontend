@@ -14,8 +14,8 @@ class ViewArticle extends React.Component {
     return (
       <AppWithoutNavbar url={this.props.router}>
         <SubmitArticle
-          article_id={this.props.router.query["article_id"]}
-          article_version={this.props.router.query["article_version"]}
+          id={this.props.router.query["id"]}
+          version={this.props.router.query["version"]}
         />
       </AppWithoutNavbar>
     );

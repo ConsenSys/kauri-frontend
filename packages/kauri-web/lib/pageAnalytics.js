@@ -25,6 +25,10 @@ const analytics = {
     mixpanel.init(tokens.mixpanel);
     ga.initialize(tokens.ga);
   },
+
+  setWeb3Status(status) {
+    ga.set({ dimension1: status.toString() });
+  },
 };
 
 export default analytics;

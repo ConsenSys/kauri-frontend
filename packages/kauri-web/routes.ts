@@ -10,21 +10,13 @@ const routes = (module.exports = nextRoutes({
 }));
 
 routes
-  .add("submit-article", "/request/:request_id/submit-article")
-  .add("view-article", "/article/:article_id")
+  .add(
+    "view-article-last-version",
+    "/article/:article_id",
+    "view-article-version"
+  )
   .add("view-article-version", "/article/:article_id/v:article_version")
-  .add(
-    "view-article-latest-version-with-slug",
-    "/article/:article_id/:slug",
-    "view-article"
-  )
-  .add(
-    "update-article",
-    "/article/:article_id/v:article_version/update-article"
-  )
-  // .add('request', '/request/:request_id')
-  // .add('update-request', '/request/:request_id/update-request')
-  // .add('request-created', '/request/:request_id/request-created')
+  .add("update-article", "/article/:id/v:version/update-article")
   .add(
     "article-drafted",
     "/article/:article_id/v:article_version/article-drafted"
@@ -45,10 +37,7 @@ routes
     "article-approved",
     "/article/:article_id/v:article_version/article-approved"
   )
-  .add(
-    "article-rejected",
-    "/article/:article_id/v:article_version/article-rejected"
-  )
+  .add("article-rejected", "/article/:id/v:version/article-rejected")
   .add(
     "article-published",
     "/article/:article_id/v:article_version/article-published"
@@ -63,15 +52,21 @@ routes
   .add("collection", "/collection/:collection_id")
   .add("community", "/community/:category")
   .add(
-    "view-article-version-with-slug",
-    "/article/:article_id/v:article_version/:slug",
-    "view-article-version"
-  )
-  .add(
     "update-collection",
     "/collection/:id/update-collection",
     "update-collection"
   )
   .add("email-verification", "/activate/:uuid", "activate")
   .add("collection-with-slug", "/collection/:collection_id/:slug", "collection")
-  .add("write-article", "/write-article/:template_id", "write-article");
+  .add(
+    "view-article-latest-version-with-slug",
+    "/article/:article_id/:slug",
+    "view-article-version"
+  )
+  .add(
+    "view-article-version-with-slug",
+    "/article/:article_id/v:article_version/:slug",
+    "view-article-version"
+  )
+  .add("write-article", "/write-article/:template_id", "write-article")
+  .add("article-review", "/article-review/:id/v:version", "article-review");
