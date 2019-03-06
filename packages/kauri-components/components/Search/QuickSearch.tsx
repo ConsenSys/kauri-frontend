@@ -149,7 +149,7 @@ const SearchResults = (props: ISearchResults) => (
         result={i}
       />
     ))}
-    {viewAllCategories.includes(props.type) && (
+    {viewAllCategories && viewAllCategories.includes(props.type) && (
       <PrimaryButton
         onClick={() =>
           props.routeChangeAction(

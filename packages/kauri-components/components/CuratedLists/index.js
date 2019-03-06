@@ -150,7 +150,7 @@ const CuratedList = ({
                           return (
                             <Link
                               toSlug={
-                                route.includes("article") && articleCard.title
+                                route && route.includes("article") && articleCard.title
                               }
                               useAnchorTag
                               href={route}
@@ -211,7 +211,7 @@ const CuratedList = ({
                           return (
                             <Link
                               toSlug={
-                                route.includes("article") && collectionCard.name
+                                route && route.includes("article") && collectionCard.name
                               }
                               useAnchorTag
                               href={route}
