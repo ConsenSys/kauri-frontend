@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import anchorme from "anchorme";
@@ -6,7 +5,7 @@ import { PrimaryButton } from "../../../../kauri-components/components/Button";
 import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx";
 import SocialWebsiteIcon from "../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.tsx";
 import UserAvatar from "../../../../kauri-components/components/UserAvatar";
-import { Helmet } from "react-helmet";
+import Helmet from "react-helmet";
 import type { HeaderProps } from "./types";
 
 const PublicProfileHeader = styled.div`
@@ -113,10 +112,6 @@ const ProfileHeader = ({
   <PublicProfileHeader>
     <Helmet>
       <title>{`Kauri - ${name || (username && `@${username}`) || id}`}</title>
-      <link
-        rel="stylesheet"
-        href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
-      />
       <meta name="description" content={`${title}`} />
       <meta
         name="keywords"

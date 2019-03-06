@@ -1,6 +1,5 @@
 import React from "react";
 import Form from "antd/lib/form";
-import Helmet from "react-helmet";
 import SubmitArticleFormActions from "./SubmitArticleFormActions";
 import SubmitArticleFormHeader from "./SubmitArticleFormHeader";
 import SubmitArticleFormContent from "./SubmitArticleFormContent";
@@ -275,12 +274,6 @@ class SubmitArticleForm extends React.Component<IProps> {
 
     return (
       <Form>
-        <Helmet>
-          <link
-            rel="stylesheet"
-            href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
-          />
-        </Helmet>
         <SubmitArticleForm.Actions
           {...this.props.form}
           handleSubmit={this.handleSubmit}

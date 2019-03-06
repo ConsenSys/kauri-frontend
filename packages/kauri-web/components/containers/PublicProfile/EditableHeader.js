@@ -1,10 +1,8 @@
-// @flow
 import React, { Component } from "react";
 import styled from "styled-components";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
 import EditProfile from "../../common/EditProfile";
-import Helmet from "react-helmet";
 
 import type { HeaderState, HeaderProps } from "./types";
 
@@ -46,12 +44,6 @@ class EditableHeader extends Component<HeaderProps, HeaderState> {
   render() {
     return (
       <HeaderContainer>
-        <Helmet>
-          <link
-            rel="stylesheet"
-            href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
-          />
-        </Helmet>
         <EditProfile ref={comp => (this.login = comp)} />
         <ActionsContainer>
           <TertiaryButton onClick={() => this.props.toggleEditing()}>
