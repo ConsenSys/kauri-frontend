@@ -58,7 +58,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       typeof PendingQuery.searchArticles === "object" &&
       typeof ApprovalsQuery.searchArticles === "object";
 
-    console.log(this.state.hash);
     const isEditing = this.state.isEditing;
     const isOwner = UserQuery.getUser && UserQuery.getUser.id === currentUser;
     return (
