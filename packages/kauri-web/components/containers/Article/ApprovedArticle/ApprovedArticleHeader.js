@@ -146,8 +146,9 @@ export default ({
     </InfoContainer>
     {status !== "PUBLISHED" && (
       <PullRight>
-        <H5 color="white">{`STATUS ${typeof status === "string" &&
-          status.replace(/_/g, " ")}`}</H5>
+        <H5 color="white">
+          {`STATUS ${typeof status === "string" && status.replace(/_/g, " ")}`}
+        </H5>
       </PullRight>
     )}
   </ApproveArticleHeader>
