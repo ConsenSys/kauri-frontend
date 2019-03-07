@@ -89,8 +89,7 @@ jobs:
         - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head
           -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
         - cd scripts
-        - if [ "$AUTHOR_NAME" != "Travis CI User" ]; then bash ./deploy.sh ${FRONTEND_VERSION}-SNAPSHOT-DEV2;
-          fi
+        - ./deploy.sh ${FRONTEND_VERSION}-SNAPSHOT-DEV2;
     - stage: git-tag
       if: '(NOT type IN (pull_request) AND (branch = master))'
       install:
