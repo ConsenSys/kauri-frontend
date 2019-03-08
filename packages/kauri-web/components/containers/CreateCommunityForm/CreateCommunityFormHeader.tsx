@@ -57,9 +57,10 @@ const Component: React.SFC<IProps> = props => (
         render={({ field }: FieldProps<IFormValues>) => (
           <Input
             {...field}
+            textAlign="center"
             fontSize={24}
             fontWeight={500}
-            value={"Add community title"}
+            placeHolder={"Add community title"}
           />
         )}
       />
@@ -67,14 +68,24 @@ const Component: React.SFC<IProps> = props => (
         type="text"
         name="description"
         render={({ field }: FieldProps<IFormValues>) => (
-          <Input {...field} fontSize={16} value={"Add description"} />
+          <Input
+            {...field}
+            textAlign="center"
+            fontSize={16}
+            placeHolder={"Add description"}
+          />
         )}
       />
       <Field
         type="text"
         name="website"
         render={({ field }: FieldProps<IFormValues>) => (
-          <Input {...field} fontSize={12} value={"Add website"} />
+          <Input
+            {...field}
+            textAlign="center"
+            fontSize={12}
+            placeHolder={"Add website"}
+          />
         )}
       />
       <StatisticsContainer

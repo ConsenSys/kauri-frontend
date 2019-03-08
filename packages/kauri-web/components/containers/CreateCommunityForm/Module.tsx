@@ -173,7 +173,7 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
           variables: (actions as IUpdateCommunityAction).payload,
         })
       )
-        .mergeMap(({ data: { updateCommunity: result } }) =>
+        .mergeMap(({ data: { createCommunity: result } }) =>
           apolloSubscriber<IUpdateCommunityCommandOutput>(result.hash)
         )
         .do(() => typeof actions.callback === "function" && actions.callback())
