@@ -100,6 +100,7 @@ export const updateCommunityAction = (
 
 interface ICreateCommunityCommandOutput {
   id: string;
+  error: string | undefined;
 }
 
 type IUpdateCommunityCommandOutput = ICreateCommunityCommandOutput;
@@ -118,23 +119,27 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
           variables: (actions as ICreateCommunityAction).payload,
         })
       )
+        .do(console.log)
         .mergeMap(({ data: { createCommunity: result } }) =>
           apolloSubscriber<ICreateCommunityCommandOutput>(result.hash)
         )
+        .do(console.log)
         .do(() => typeof actions.callback === "function" && actions.callback())
-        .mergeMap(({ data: { output: { id } } }) =>
-          Observable.merge(
-            Observable.of(
-              (showNotificationAction as any)({
-                description: `woo woo`,
-                message: "Community Created",
-                notificationType: "success",
-              })
-            ),
-            Observable.of(
-              routeChangeAction(`/community/${id}/community-created`)
-            )
-          )
+        .mergeMap(({ data: { output: { id, error } } }) =>
+          error
+            ? Observable.throw(new Error("Submission error"))
+            : Observable.merge(
+                Observable.of(
+                  (showNotificationAction as any)({
+                    description: `woo woo`,
+                    message: "Community Created",
+                    notificationType: "success",
+                  })
+                )
+                // Observable.of(
+                //   routeChangeAction(`/community/${id}/community-created`)
+                // )
+              )
         )
         .do(() => apolloClient.resetStore())
         .catch(err => {
@@ -173,23 +178,27 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
           variables: (actions as IUpdateCommunityAction).payload,
         })
       )
+        .do(console.log)
         .mergeMap(({ data: { createCommunity: result } }) =>
           apolloSubscriber<IUpdateCommunityCommandOutput>(result.hash)
         )
+        .do(console.log)
         .do(() => typeof actions.callback === "function" && actions.callback())
-        .mergeMap(({ data: { output: { id } } }) =>
-          Observable.merge(
-            Observable.of(
-              (showNotificationAction as any)({
-                description: `woo woo`,
-                message: "Community updated",
-                notificationType: "success",
-              })
-            ),
-            Observable.of(
-              routeChangeAction(`/community/${id}/community-updated`)
-            )
-          )
+        .mergeMap(({ data: { output: { id, error } } }) =>
+          error
+            ? Observable.throw(new Error("Submission error"))
+            : Observable.merge(
+                Observable.of(
+                  (showNotificationAction as any)({
+                    description: `woo woo`,
+                    message: "Community updated",
+                    notificationType: "success",
+                  })
+                )
+                // Observable.of(
+                //   routeChangeAction(`/community/${id}/community-updated`)
+                // )
+              )
         )
         .do(() => apolloClient.resetStore())
         .catch(err => {
