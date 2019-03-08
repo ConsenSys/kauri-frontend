@@ -2,16 +2,16 @@ import { connect } from "react-redux";
 import { compose } from "react-apollo";
 import View, { IProps } from "./View";
 import { routeChangeAction, IReduxState } from "../../../lib/Module";
-import { createCommunityAction } from "./Module";
-import { createCommunityVariables } from "./__generated__/createCommunity";
+import { createCommunityAction, updateCommunityAction } from "./Module";
 import { withFormik } from "formik";
 import * as Yup from "yup";
+import { updateCommunityVariables } from "./__generated__/updateCommunity";
 
 export interface ICommunityAttributes {
   background: undefined | string;
 }
 
-export type IFormValues = createCommunityVariables;
+export type IFormValues = updateCommunityVariables;
 
 const mapStateToProps = ({ app: { user } }: IReduxState) => ({
   userId: user && user.id,
@@ -20,14 +20,20 @@ const mapStateToProps = ({ app: { user } }: IReduxState) => ({
 export default compose(
   connect(
     mapStateToProps,
-    { routeChangeAction, createCommunityAction }
+    { routeChangeAction, createCommunityAction, updateCommunityAction }
   ),
   withFormik<IProps, IFormValues>({
     handleSubmit: (values, { setSubmitting, props }) => {
       console.info(JSON.stringify(values, null, 2));
-      props.createCommunityAction(values, () => {
-        setSubmitting(false);
-      });
+      if (values.id) {
+        props.updateCommunityAction(values, () => {
+          setSubmitting(false);
+        });
+      } else {
+        props.createCommunityAction(values, () => {
+          setSubmitting(false);
+        });
+      }
     },
     mapPropsToValues: () => ({
       attributes: undefined,

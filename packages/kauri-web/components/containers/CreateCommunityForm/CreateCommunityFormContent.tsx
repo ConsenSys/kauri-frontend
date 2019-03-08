@@ -24,7 +24,7 @@ interface IProps {}
 //   </div>
 // );
 
-const Component: React.SFC<IProps> = props => (
+const Component: React.SFC<IProps> = _ => (
   <Container>
     <TabsComponent
       padContent={true}

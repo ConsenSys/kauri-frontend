@@ -12,7 +12,14 @@ const Message = styled.h4`
   color: red;
 `;
 
-export class ErrorMessage extends React.Component<Props> {
+interface IProps {
+  setNavcolorOverrideAction: any;
+  data: {
+    error: { message: string };
+  };
+}
+
+export class ErrorMessage extends React.Component<IProps> {
   componentDidMount() {
     this.props.setNavcolorOverrideAction(theme.colors.bgPrimary);
   }
