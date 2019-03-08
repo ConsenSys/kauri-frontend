@@ -35,15 +35,23 @@ export default compose(
         });
       }
     },
-    mapPropsToValues: () => ({
-      attributes: undefined,
-      avatar: null,
-      description: "",
-      id: null,
-      name: "",
-      social: null,
-      website: "",
-    }),
+    mapPropsToValues: ({ data, id }) => {
+      if (id && data) {
+        const { getCommunity } = data;
+        if (getCommunity) {
+          return getCommunity;
+        }
+      }
+      return {
+        attributes: undefined,
+        avatar: null,
+        description: "",
+        id: null,
+        name: "",
+        social: null,
+        website: "",
+      };
+    },
     validationSchema: Yup.object().shape({
       description: Yup.string()
         .min(2)

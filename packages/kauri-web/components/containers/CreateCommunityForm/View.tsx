@@ -9,6 +9,7 @@ import { createCommunityAction, updateCommunityAction } from "./Module";
 import { InjectedFormikProps } from "formik";
 import Helmet from "react-helmet";
 import { IFormValues } from "./index";
+import { getCommunity } from "../../../queries/__generated__/getCommunity";
 
 const FormContainer = styled.form`
   display: flex;
@@ -20,6 +21,7 @@ export interface IProps {
   routeChangeAction: typeof routeChangeAction;
   createCommunityAction: typeof createCommunityAction;
   updateCommunityAction: typeof updateCommunityAction;
+  data: getCommunity | null;
 }
 
 const handleBackgroundSetFormField = (setFieldValue: any) => () =>

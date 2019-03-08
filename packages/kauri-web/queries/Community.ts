@@ -25,6 +25,7 @@ export const getCommunity = gql`
       website
       avatar
       social
+      attributes
       members {
         id
         name
