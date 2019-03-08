@@ -2,19 +2,20 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: createCommunity
+// GraphQL mutation operation: updateCommunity
 // ====================================================
 
-export interface createCommunity_createCommunity {
+export interface updateCommunity_createCommunity {
   __typename: "MutationResponse";
   hash: string | null;
 }
 
-export interface createCommunity {
-  createCommunity: createCommunity_createCommunity | null;
+export interface updateCommunity {
+  createCommunity: updateCommunity_createCommunity | null;
 }
 
-export interface createCommunityVariables {
+export interface updateCommunityVariables {
+  id?: string | null;
   name?: string | null;
   description?: string | null;
   avatar?: string | null;
