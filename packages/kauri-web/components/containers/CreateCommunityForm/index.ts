@@ -25,7 +25,7 @@ export default compose(
   withFormik<IProps, IFormValues>({
     handleSubmit: (values, { setSubmitting, props }) => {
       console.info(JSON.stringify(values, null, 2));
-      if (values.id) {
+      if (props.id) {
         props.updateCommunityAction(values, () => {
           setSubmitting(false);
         });

@@ -10,7 +10,11 @@ class CreateCommunity extends React.Component<{ router: any }> {
     return (
       <AppWithoutNavbar url={this.props.router}>
         <CreateCommunityConnection
-          query={this.props.router && this.props.router.query}
+          id={
+            this.props.router &&
+            this.props.router.query &&
+            this.props.router.query.id
+          }
         />
       </AppWithoutNavbar>
     );

@@ -16,6 +16,7 @@ const FormContainer = styled.form`
 `;
 
 export interface IProps {
+  id: string | undefined;
   routeChangeAction: typeof routeChangeAction;
   createCommunityAction: typeof createCommunityAction;
   updateCommunityAction: typeof updateCommunityAction;
