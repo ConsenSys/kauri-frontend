@@ -10,6 +10,7 @@ import GreenArrow from "../../common/GreenArrow";
 import UploadIcon from "../../../../kauri-components/components/Icon/UploadIcon";
 
 interface IProps {
+  id: string | undefined;
   goBack: () => void;
   setupImageUploader: () => void;
 }
@@ -35,7 +36,7 @@ const Component: React.FunctionComponent<IProps> = props => (
 
       <RightActionsRow>
         <PrimaryButtonComponent type="submit">
-          Create Community
+          {`${props.id ? "Update" : "Create"} Community`}
         </PrimaryButtonComponent>
       </RightActionsRow>
     </ActionsSection>

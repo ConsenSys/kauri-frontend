@@ -44,6 +44,7 @@ const Component: React.SFC<
     </Helmet>
 
     <Actions
+      id={props.id}
       goBack={() => props.routeChangeAction(`back`)}
       setupImageUploader={handleBackgroundSetFormField(props.setFieldValue)}
     />
