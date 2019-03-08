@@ -1,3 +1,5 @@
+Sitemap: https://kauri.io/sitemap
+
 User-agent: *
 Disallow: /login
 Disallow: /ipfs
