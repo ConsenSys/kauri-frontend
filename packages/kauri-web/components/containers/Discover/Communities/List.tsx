@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { routeChangeAction } from "../../../../lib/Module";
 import withLoading from "../../../../lib/with-loading";
 import withPagination from "../../../../lib/with-pagination";
-const config = require("../../../../config/default");
 
 interface IState {
   app: {
@@ -28,11 +27,7 @@ export default compose(
     name: QUERY_NAME,
     options: () => ({
       fetchPolicy: "no-cache",
-      variables: {
-        filter: {
-          mustNotIncludeUserId: config.testingAccounts,
-        },
-      },
+      variables: {},
     }),
   }),
   withLoading()

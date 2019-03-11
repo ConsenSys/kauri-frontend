@@ -102,9 +102,17 @@ export const getAllCommunities = gql`
   query searchCommunities(
     $size: Int = 12
     $page: Int = 0
-    $filter: SearchFilterInput
+    $filter: CommunityFilterInput
+    $sort: String = "dateUpdated"
+    $dir: DirectionInput = DESC
   ) {
-    searchCommunities(size: $size, page: $page, filter: $filter) {
+    searchCommunities(
+      size: $size
+      page: $page
+      filter: $filter
+      sort: $sort
+      dir: $dir
+    ) {
       content {
         id
         dateCreated
@@ -115,34 +123,13 @@ export const getAllCommunities = gql`
         status
         website
         avatar
+        tags
         social
         approvedId {
           type
         }
       }
       isLast
-    }
-  }
-`;
-
-export const searchCommunities = gql`
-  query searchCommunities($filter: CommunityFilterInput) {
-    searchCommunities(size: 12, filter: $filter) {
-      content {
-        id
-        dateCreated
-        dateUpdated
-        creatorId
-        name
-        description
-        status
-        website
-        avatar
-        social
-        approvedId {
-          type
-        }
-      }
     }
   }
 `;
