@@ -129,7 +129,7 @@ class CreateCuratedList extends Component {
           <Content>
               <h1>Add Item to List</h1>
           <Tabs
-            tabs={['Article','Collection']}
+            tabs={[{ name: 'Article' }, { name: 'Collection' }]}
             panels={[
               <AddArticle handleChange={this.handleChange} searchArticles={this.props.searchArticles} />,
               <AddCollection handleChange={this.handleChange} searchCollections={this.props.searchCollections} />,
