@@ -61,6 +61,9 @@ const SectionSection = styled.section`
   :not(:first-child) {
     ${space};
   }
+  > :nth-child(2) {
+    margin-bottom: ${props => props.theme.space[2]}px;
+  }
   > button:nth-child(4) {
     margin-top: ${props => props.theme.space[2]}px;
   }
@@ -425,7 +428,6 @@ export default ({
                           fontSize={5}
                           fontWeight={500}
                           color={"primaryTextColor"}
-                          hideUnderline
                           textAlign={"center"}
                         />
                       )}
@@ -441,7 +443,6 @@ export default ({
                           fontSize={2}
                           fontWeight={300}
                           color={"primaryTextColor"}
-                          hideUnderline
                           textAlign={"center"}
                         />
                       )}
