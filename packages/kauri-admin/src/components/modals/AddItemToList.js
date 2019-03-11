@@ -11,14 +11,16 @@ class AddArticle extends Component {
     this.state = {
       articles: [],
       selected_id: '',
+      loading: false
     }
     this.fetchArticles = this.fetchArticles.bind(this);
   }
 
   async fetchArticles(e) {
     if (e.target.value.length >= 3) {
+      this.setState({ loading: true });
       const articles = await this.props.searchArticles({ val: e.target.value });
-      this.setState({ articles: articles.content });
+      this.setState({ articles: articles.content, loading: false });
     }
   }
 
@@ -37,7 +39,7 @@ class AddArticle extends Component {
           onChange={this.fetchArticles}
         />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-          {this.state.articles.length > 0 && this.state.articles.map(i =>
+          {this.state.loading ? <p>Loading... </p> : this.state.articles.length > 0 && this.state.articles.map(i =>
             <PrimaryButton
               onClick={() => this.handleChange(i.id)}
               bsStyle="link"
@@ -57,14 +59,16 @@ class AddCollection extends Component {
     this.state = {
       collections: [],
       selected_id: '',
+      loading: false
     }
     this.fetchCollections = this.fetchCollections.bind(this);
   }
 
   async fetchCollections(e) {
     if (e.target.value.length >= 1) {
+      this.setState({ loading: true })
       const collections = await this.props.searchCollections({ val: e.target.value });
-      this.setState({ collections: collections.content });
+      this.setState({ collections: collections.content, loading: false });
     }
   }
 
@@ -83,7 +87,7 @@ class AddCollection extends Component {
           onChange={this.fetchCollections}
         />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-          {this.state.collections.length > 0 && this.state.collections.map(i =>
+          {this.state.loading ? <p>Loading... This takes long because backend and unoptimised queries in the frontend</p> : this.state.collections.length > 0 && this.state.collections.map(i =>
             <PrimaryButton
               onClick={() => this.handleChange(i.id)}
               bsStyle="link"
@@ -129,7 +133,7 @@ class CreateCuratedList extends Component {
           <Content>
               <h1>Add Item to List</h1>
           <Tabs
-            tabs={['Article','Collection']}
+            tabs={[{ name: 'Article' }, { name: 'Collection' }]}
             panels={[
               <AddArticle handleChange={this.handleChange} searchArticles={this.props.searchArticles} />,
               <AddCollection handleChange={this.handleChange} searchCollections={this.props.searchCollections} />,
