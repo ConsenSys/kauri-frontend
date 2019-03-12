@@ -1,14 +1,26 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { CollectionFilterInput, ResourceType } from "./../../__generated__/globalTypes";
+import {
+  CollectionFilterInput,
+  DirectionInput,
+  ResourceType,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCollectionsForUser
 // ====================================================
 
 export interface getCollectionsForUser_searchCollections_content_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface getCollectionsForUser_searchCollections_content_owner_PublicUserDTO_resourceIdentifier {
@@ -40,7 +52,10 @@ export interface getCollectionsForUser_searchCollections_content_owner_Community
   resourceIdentifier: getCollectionsForUser_searchCollections_content_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type getCollectionsForUser_searchCollections_content_owner = getCollectionsForUser_searchCollections_content_owner_ArticleDTO | getCollectionsForUser_searchCollections_content_owner_PublicUserDTO | getCollectionsForUser_searchCollections_content_owner_CommunityDTO;
+export type getCollectionsForUser_searchCollections_content_owner =
+  | getCollectionsForUser_searchCollections_content_owner_ArticleDTO
+  | getCollectionsForUser_searchCollections_content_owner_PublicUserDTO
+  | getCollectionsForUser_searchCollections_content_owner_CommunityDTO;
 
 export interface getCollectionsForUser_searchCollections_content_sections_resourcesId {
   __typename: "ResourceIdentifier";
@@ -49,7 +64,16 @@ export interface getCollectionsForUser_searchCollections_content_sections_resour
 }
 
 export interface getCollectionsForUser_searchCollections_content_sections_resources_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface getCollectionsForUser_searchCollections_content_sections_resources_ArticleDTO {
@@ -58,15 +82,21 @@ export interface getCollectionsForUser_searchCollections_content_sections_resour
   version: number | null;
 }
 
-export type getCollectionsForUser_searchCollections_content_sections_resources = getCollectionsForUser_searchCollections_content_sections_resources_CommunityDTO | getCollectionsForUser_searchCollections_content_sections_resources_ArticleDTO;
+export type getCollectionsForUser_searchCollections_content_sections_resources =
+  | getCollectionsForUser_searchCollections_content_sections_resources_CommunityDTO
+  | getCollectionsForUser_searchCollections_content_sections_resources_ArticleDTO;
 
 export interface getCollectionsForUser_searchCollections_content_sections {
   __typename: "SectionDTO";
   id: string | null;
   name: string | null;
   description: string | null;
-  resourcesId: (getCollectionsForUser_searchCollections_content_sections_resourcesId | null)[] | null;
-  resources: (getCollectionsForUser_searchCollections_content_sections_resources | null)[] | null;
+  resourcesId:
+    | (getCollectionsForUser_searchCollections_content_sections_resourcesId | null)[]
+    | null;
+  resources:
+    | (getCollectionsForUser_searchCollections_content_sections_resources | null)[]
+    | null;
 }
 
 export interface getCollectionsForUser_searchCollections_content_resourceIdentifier {
@@ -84,7 +114,9 @@ export interface getCollectionsForUser_searchCollections_content {
   background: string | null;
   dateUpdated: any | null;
   owner: getCollectionsForUser_searchCollections_content_owner | null;
-  sections: (getCollectionsForUser_searchCollections_content_sections | null)[] | null;
+  sections:
+    | (getCollectionsForUser_searchCollections_content_sections | null)[]
+    | null;
   resourceIdentifier: getCollectionsForUser_searchCollections_content_resourceIdentifier | null;
 }
 
@@ -103,4 +135,6 @@ export interface getCollectionsForUserVariables {
   filter?: CollectionFilterInput | null;
   size?: number | null;
   page?: number | null;
+  sort?: string | null;
+  dir?: DirectionInput | null;
 }

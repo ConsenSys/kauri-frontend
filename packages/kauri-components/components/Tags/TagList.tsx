@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 interface IProps {
-    tags: string[];
+    tags: Array<(string | null)>;
     color: string;
     maxTags: number;
     maxChars?: number;
@@ -65,6 +65,9 @@ const TagList = (props: IProps) => {
     const shownTags: string[] = [];
     const hiddenTags: string[] = [];
     props.tags.reduce((counter, item) => {
+        if (item === null) {
+            return counter;
+        }
         if ((props.maxChars && counter + item.length <= props.maxChars) || (!props.maxChars && shownTags.length <= props.maxTags)) {
             shownTags.push(item);
             return counter + item.length;

@@ -32,6 +32,11 @@ export enum CommunityStatus {
   OPENED = "OPENED",
 }
 
+export enum DirectionInput {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 export enum ResourceType {
   ARTICLE = "ARTICLE",
   COLLECTION = "COLLECTION",
@@ -67,11 +72,11 @@ export interface ArticleFilterInput {
   authorIdEquals?: string | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
-  versionIn?: (number | null)[] | null;
   dateCreatedLessThan?: any | null;
   idEquals?: string | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
+  versionIn?: (number | null)[] | null;
   ownerEquals?: string | null;
+  statusIn?: (ArticleStatusInput | null)[] | null;
   checkpointEquals?: string | null;
 }
 
@@ -106,16 +111,16 @@ export interface ResourceIdentifierInput {
 }
 
 export interface SearchFilterInput {
-  mustNotIncludeUserId?: (string | null)[] | null;
-  type?: ResourceTypeInput | null;
   mustNotContainTag?: (string | null)[] | null;
-  mustContainTag?: (string | null)[] | null;
   mustIncludeUserId?: (string | null)[] | null;
+  mustContainTag?: (string | null)[] | null;
+  type?: ResourceTypeInput | null;
+  mustNotIncludeUserId?: (string | null)[] | null;
 }
 
 export interface SectionDTOInput {
-  name?: string | null;
   resourcesId?: (ResourceIdentifierInput | null)[] | null;
+  name?: string | null;
   description?: string | null;
   id?: string | null;
 }
