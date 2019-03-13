@@ -114,10 +114,11 @@ const getURL = (value: string, type: string) => {
   }
 };
 
-interface IUserProps {
-  avatar?: string | null;
-  username?: string | null;
-  userId: string;
+interface ICommunityMember {
+  id: string | null;
+  name: string | null;
+  role: string | null;
+  avatar: string | null;
 }
 
 interface IProps {
@@ -126,12 +127,12 @@ interface IProps {
   name: string;
   website: string;
   description: string;
-  tags: string[] | null;
+  tags: Array<string | null> | null;
   social: {
     github?: string;
     twitter?: string;
   } | null;
-  members: IUserProps[];
+  members: Array<ICommunityMember | null> | null;
   articles: number;
   collections: number;
   background?: string;
@@ -173,29 +174,27 @@ const CommunityHeader = ({
           {description}
         </PageDescription>
         <TagList color="white" maxTags={7} tags={tags} />
-        {social && (
-          <Links className="links">
-            {social.github && (
-              <SocialWebsiteIcon
-                brand="github"
-                height={20}
-                socialURL={getURL(social.github, "github")}
-              />
-            )}
-            {social.twitter && (
-              <SocialWebsiteIcon
-                brand="twitter"
-                height={20}
-                socialURL={getURL(social.twitter, "twitter")}
-              />
-            )}
-            <ShareCommunity
-              color={"white"}
-              url={`https://www.kauri.io/community/${id}`}
-              title={`${name} on Kauri`}
+        <Links className="links">
+          {social && social.github && (
+            <SocialWebsiteIcon
+              brand="github"
+              height={20}
+              socialURL={getURL(social.github, "github")}
             />
-          </Links>
-        )}
+          )}
+          {social && social.twitter && (
+            <SocialWebsiteIcon
+              brand="twitter"
+              height={20}
+              socialURL={getURL(social.twitter, "twitter")}
+            />
+          )}
+          <ShareCommunity
+            color={"white"}
+            url={`https://www.kauri.io/community/${id}`}
+            title={`${name} on Kauri`}
+          />
+        </Links>
       </Column>
       <RightSide>
         <Statistics
@@ -206,25 +205,33 @@ const CommunityHeader = ({
         />
         <Row>
           <RightSide>
-            <Label className="moderators" color="white">
-              Moderators
-            </Label>
-            <Row>
-              {members.map(i => (
-                <UserAvatar
-                  userId={i.userId}
-                  username={i.username || null}
-                  borderRadius="4px"
-                  height={30}
-                  width={30}
-                  avatar={i.avatar || null}
-                  variant="white"
-                  hideUsername={true}
-                >
-                  {i.avatar ? "" : (name || id).substring(0, 1).toUpperCase()}
-                </UserAvatar>
-              ))}
-            </Row>
+            {members && members.length > 0 && (
+              <>
+                <Label className="moderators" color="white">
+                  Moderators
+                </Label>
+                <Row>
+                  {members.map(i =>
+                    i ? (
+                      <UserAvatar
+                        userId={String(i.id)}
+                        username={i.name || null}
+                        borderRadius="4px"
+                        height={30}
+                        width={30}
+                        avatar={i.avatar || null}
+                        variant="white"
+                        hideUsername={true}
+                      >
+                        {i.avatar
+                          ? ""
+                          : (name || id).substring(0, 1).toUpperCase()}
+                      </UserAvatar>
+                    ) : null
+                  )}
+                </Row>
+              </>
+            )}
           </RightSide>
         </Row>
         <Row className="suggest-content">

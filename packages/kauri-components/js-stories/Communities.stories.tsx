@@ -12,27 +12,31 @@ storiesOf("Community", module).add("Community Header", () => (
     social={{ github: "aragon", twitter: "aragonproject" }}
     members={[
       {
-        avatar: undefined,
-        userId: "dd23401dcab425f0a435eb7a86c77c5e8513bead",
-        username: "jmrocco",
+        avatar: null,
+        id: "dd23401dcab425f0a435eb7a86c77c5e8513bead",
+        name: "jmrocco",
+        role: "moderator",
       },
       {
         avatar:
           "https://api.beta.kauri.io:443/ipfs/QmRVCyQ3ng5AWGmjodzXcxg1LK9CRvePmd6ciDXY1mLofY",
-        userId: "37648fc15a8365735289e002d65d44d80c505e8b",
-        username: "kauri-team",
+        id: "37648fc15a8365735289e002d65d44d80c505e8b",
+        name: "kauri-team",
+        role: "moderator",
       },
       {
         avatar:
           "https://api.beta.kauri.io:443/ipfs/QmV2qgMi7rJ5k7kZqNbXLkePKEBN3S1UT8Qg3YSGAgVtkG",
-        userId: "52d5520c145553241ffe4609008695519b3ad705",
-        username: "kendall",
+        id: "52d5520c145553241ffe4609008695519b3ad705",
+        name: "kendall",
+        role: "moderator",
       },
       {
         avatar:
           "https://api.beta.kauri.io:443/ipfs/QmX55Vs7WZUkG94VEFaCYe1naJf2A68vdkue8FNUXMSx5g",
-        userId: "dd23401dcab425f0a435eb7a86c77c5e8513bead",
-        username: "davide",
+        id: "dd23401dcab425f0a435eb7a86c77c5e8513bead",
+        name: "davide",
+        role: "moderator",
       },
     ]}
     tags={["Aragon", "DAO"]}
