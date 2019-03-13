@@ -10,12 +10,14 @@ interface IContainerProps {
   variant: "white" | undefined;
   color: string | undefined;
   cardType?: "COLLECTION" | "ARTICLE";
+  hideUsername?: boolean;
 }
 
 const Container = styled<IContainerProps, "div">("div")`
   display: flex;
   align-items: center;
-  width: ${props => !props.fullWidth && "140px"};
+  width: ${props =>
+    props.fullWidth ? "100%" : props.hideUsername ? "inherit" : "140px"};
   > :first-child {
     margin-right: ${props => props.theme.space[1]}px;
   }
@@ -45,16 +47,16 @@ interface IAvatarProps {
   color: string;
   height?: number;
   width?: number;
-  borderRadius?: '4px';
+  borderRadius?: "4px";
 }
 
 const Avatar = styled<IAvatarProps, "div">("div")`
   display: flex;
-  height: ${props => props.height ? `${props.height}px` : '30px'};
-  width: ${props => props.width ? `${props.width}px` : '30px'};
+  height: ${props => (props.height ? `${props.height}px` : "30px")};
+  width: ${props => (props.width ? `${props.width}px` : "30px")};
   justify-content: center;
   align-items: center;
-  border-radius: ${props => props.borderRadius ? props.borderRadius : '4px'};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : "4px")};
   background: ${props =>
     props.avatar
       ? "none"
@@ -82,11 +84,13 @@ interface IProps {
   cardType?: "COLLECTION" | "ARTICLE";
   height?: number;
   width?: number;
+  hideUsername?: boolean;
   borderRadius?: string;
 }
 
 const UserAvatarComponent: React.SFC<IProps> = props => (
   <Container
+    hideUsername={props.hideUsername}
     cardType={props.cardType}
     variant={props.variant}
     color={typeof props.color === "string" ? props.color : "textPrimary"}
@@ -102,7 +106,7 @@ const UserAvatarComponent: React.SFC<IProps> = props => (
     >
       {typeof props.avatar === "string" && props.avatar.length > 1 ? (
         <Image
-          borderRadius={props.borderRadius ? props.borderRadius : '4px'}
+          borderRadius={props.borderRadius ? props.borderRadius : "4px"}
           image={props.avatar}
           height={props.height ? props.height : 30}
           width={props.width ? props.width : 30}
@@ -125,15 +129,17 @@ const UserAvatarComponent: React.SFC<IProps> = props => (
         </H6>
       )}
     </Avatar>
-    <H5>
-      {props.username
-        ? props.username
-        : typeof props.userId === "string"
-        ? props.userId.length > 15
-          ? userIdTrim(props.userId)
-          : props.userId
-        : "Anonymous"}
-    </H5>
+    {!props.hideUsername && (
+      <H5>
+        {props.username
+          ? props.username
+          : typeof props.userId === "string"
+          ? props.userId.length > 15
+            ? userIdTrim(props.userId)
+            : props.userId
+          : "Anonymous"}
+      </H5>
+    )}
   </Container>
 );
 

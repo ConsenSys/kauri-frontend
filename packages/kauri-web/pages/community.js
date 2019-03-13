@@ -2,7 +2,7 @@ import React from "react";
 import { withApollo, compose } from "react-apollo";
 import withData from "../lib/with-data";
 import App from "../layouts/App";
-import Community from "../components/connections/Community";
+import Community from "../components/containers/Community";
 import { withRouter } from "next/router";
 
 class TopicsPage extends React.Component {

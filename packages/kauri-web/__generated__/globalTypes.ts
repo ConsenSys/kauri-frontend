@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 //==============================================================
@@ -71,12 +72,12 @@ export interface ArticleFilterInput {
   ownerIdEquals?: string | null;
   authorIdEquals?: string | null;
   latestVersion?: boolean | null;
+  versionIn?: (number | null)[] | null;
   fullText?: string | null;
   dateCreatedLessThan?: any | null;
   idEquals?: string | null;
-  versionIn?: (number | null)[] | null;
-  ownerEquals?: string | null;
   statusIn?: (ArticleStatusInput | null)[] | null;
+  ownerEquals?: string | null;
   checkpointEquals?: string | null;
 }
 
@@ -111,10 +112,10 @@ export interface ResourceIdentifierInput {
 }
 
 export interface SearchFilterInput {
-  mustNotContainTag?: (string | null)[] | null;
   mustIncludeUserId?: (string | null)[] | null;
-  mustContainTag?: (string | null)[] | null;
+  mustNotContainTag?: (string | null)[] | null;
   type?: ResourceTypeInput | null;
+  mustContainTag?: (string | null)[] | null;
   mustNotIncludeUserId?: (string | null)[] | null;
 }
 
