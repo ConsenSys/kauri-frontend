@@ -37,24 +37,21 @@ class AddLinkToList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: null,
-      id: null,
       value: {
         label: '',
         url: '',
+        type: 'secondary-button'
       }
     };
   }
 
   handleSubmit = () => {
-    this.setState({ selected_id: id });
-    this.props.addLink({ id: this.props.selectedList, ...this.state.value });
+    this.props.addLink({ id: this.props.selectedList, links: [ this.state.value ] });
   }
 
   handleChange = ({ target: { value, name } }) => {
-    const valueChange = { [name]: value }
-    const updatedFormValues = { ...this.props.value, ...valueChange }
-    this.setState({ ...this.state, value: updatedFormValues  })
+    const valueChange = { ...this.state.value, [name]: value }
+    this.setState({ ...this.state, value: valueChange  })
   }
 
   render() {
@@ -71,7 +68,8 @@ class AddLinkToList extends Component {
           <SecondaryButton color='primaryDark' onClick={this.props.closeModal}>Cancel</SecondaryButton>
           <PrimaryButton onClick={this.handleSubmit} bsStyle="primary">Submit</PrimaryButton>
         </Footer>
-        } />);
+        } />
+    );
   }
 };
 

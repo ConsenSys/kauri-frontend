@@ -67,6 +67,14 @@ const RemoveHeader = styled.div`
   }
 `
 
+const RemoveLinks = styled(RemoveHeader)`
+  right: 360px;
+  background: red;
+  &:hover {
+    background: darkred;
+  }
+`
+
 const AddHeaderButton = styled.div`
   transition: all 0.3s;
   background: darkgreen;
@@ -104,7 +112,7 @@ const AddToList = styled.div`
 `
 
 const AddLinkToListButton = styled(AddToList)`
-  right: 95px;
+  right: 300px;
 `
 
 const Warning = styled.div`
@@ -156,6 +164,11 @@ class CuratedLists extends Component {
 
   async removeListReq(payload) {
     await this.state.ws.executeQuery('removeCuratedList', {}, 1000, payload)
+    this.fetchLists();
+  }
+
+  async removeLinksReq(payload) {
+    await this.state.ws.executeQuery('editCuratedList', {}, 1000, { id: payload, links: [] })
     this.fetchLists();
   }
 
@@ -219,7 +232,8 @@ class CuratedLists extends Component {
             <DeleteList onClick={() => this.removeListReq({ id: i.id })} className="list-button">Delete List</DeleteList>
             {i.header && <RemoveHeader onClick={() => this.removeHeader(i.id)} className="list-button">Remove Header</RemoveHeader>}
             {!i.header && <AddHeaderButton onClick={() => this.setState({ modal: 'AddHeader', selectedList: i.id })} className="list-button">Add Header</AddHeaderButton>}
-            <AddLinkToListButton  onClick={() => this.setState({ modal: 'AddLinkToList', selectedList: i.id })} className="list-button">Add Link to List</AddLinkToListButton >
+            {Array.isArray(i.links) && i.links.length > 0 && <RemoveLinks onClick={() => this.removeLinksReq(i.id)} className="list-button">Remove links</RemoveLinks>}
+            <AddLinkToListButton  onClick={() => this.setState({ modal: 'AddLinkToList', selectedList: i.id })} className="list-button">Add Link</AddLinkToListButton >
             <CuratedList
               fromAdmin={true}
               onCardClick={payload => this.removeResourceFromListReq({ id: i.id, resource: payload})}
