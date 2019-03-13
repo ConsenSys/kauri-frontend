@@ -112,7 +112,7 @@ const RuntimeProps = t.interface({
   communityLogo: t.union([t.null, t.string]),
   communityName: t.string,
   linkComponent: t.union([t.undefined, t.null, t.any]),
-  tags: t.union([t.array(t.union([t.null, t.string])), t.null])
+  tags: t.union([t.array(t.union([t.null, t.string])), t.null]),
 });
 
 type Props = t.TypeOf<typeof RuntimeProps>;
@@ -152,8 +152,14 @@ const Component: React.SFC<Props> = props => {
           />
         )}
         {Array.isArray(tags) && tags.length > 0 && (
-        <TagList maxTags={3} color="textPrimary" tags={tags} maxChars={40} />
-      )}
+          <TagList
+            align="center"
+            maxTags={3}
+            color="textPrimary"
+            tags={tags}
+            maxChars={40}
+          />
+        )}
         <Divider />
         <Footer>
           <CountContainer>
