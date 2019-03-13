@@ -69,4 +69,10 @@ routes
     "view-article-version"
   )
   .add("write-article", "/write-article/:template_id", "write-article")
-  .add("article-review", "/article-review/:id/v:version", "article-review");
+  .add("article-review", "/article-review/:id/v:version", "article-review")
+  .add("create-community", "/create-community")
+  .add(
+    "update-community",
+    "/community/:id/update-community",
+    "create-community"
+  );

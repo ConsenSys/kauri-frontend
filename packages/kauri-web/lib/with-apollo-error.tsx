@@ -12,16 +12,23 @@ const Message = styled.h4`
   color: red;
 `;
 
-export class ErrorMessage extends React.Component<Props> {
-  componentDidMount () {
+interface IProps {
+  setNavcolorOverrideAction: any;
+  data: {
+    error: { message: string };
+  };
+}
+
+export class ErrorMessage extends React.Component<IProps> {
+  componentDidMount() {
     this.props.setNavcolorOverrideAction(theme.colors.bgPrimary);
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.setNavcolorOverrideAction(null);
   }
 
-  render () {
+  render() {
     const {
       data: {
         error: { message },
@@ -42,6 +49,6 @@ const ConnectedErrorMessage = connect(
 
 export default (component = ConnectedErrorMessage, propName = "data") =>
   branch(
-    props => props[propName] && props[propName].error,
+    (props: any) => props[propName] && props[propName].error,
     renderComponent(component)
   );
