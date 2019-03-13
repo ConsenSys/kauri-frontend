@@ -16,6 +16,7 @@ storiesOf("CommunityCard", module)
         The Next-Generation Blockchain Application Platform for Ethereum.
         The Next-Generation Blockchain Application Platform for Ethereum.
       `}
+      tags={[]}
       articles="58"
     />
   ))
@@ -24,6 +25,7 @@ storiesOf("CommunityCard", module)
       cardHeight={310}
       linkComponent={null}
       communityName="Loom Network"
+      tags={["test-tage", "testing"]}
       communityDescription={`
         The Next-Generation Blockchain Application Platform for Ethereum.
         The Next-Generation Blockchain Application Platform for Ethereum.
