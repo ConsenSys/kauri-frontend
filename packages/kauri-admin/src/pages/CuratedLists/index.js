@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import WebService from '../../components/WebService';
-import { CreateCuratedList, AddItemToList, AddHeader } from '../../components/modals';
+import { CreateCuratedList, AddItemToList, AddHeader, AddLinkToList } from '../../components/modals';
 import { ScaleLoader } from 'react-spinners';
 import {Button} from '../../components/common/button.js';
 // import CuratedList from './CuratedList';
@@ -103,6 +103,10 @@ const AddToList = styled.div`
   }
 `
 
+const AddLinkToListButton = styled(AddToList)`
+  right: 95px;
+`
+
 const Warning = styled.div`
   color: white;
   background: darkorange;
@@ -166,6 +170,12 @@ class CuratedLists extends Component {
     this.fetchLists();
   }
 
+  async addLinkToListReq(payload) {
+    await this.state.ws.executeQuery('editCuratedList', {}, 1000, payload)
+    this.setState({ modal: null });
+    this.fetchLists();
+  }
+
   async searchArticles(payload) {
     const articles = await this.state.ws.executeQuery('searchArticles', { fullText: payload.val, latestVersion: true, statusIn: ["PUBLISHED"] }, 10, payload);
     return articles;
@@ -209,6 +219,7 @@ class CuratedLists extends Component {
             <DeleteList onClick={() => this.removeListReq({ id: i.id })} className="list-button">Delete List</DeleteList>
             {i.header && <RemoveHeader onClick={() => this.removeHeader(i.id)} className="list-button">Remove Header</RemoveHeader>}
             {!i.header && <AddHeaderButton onClick={() => this.setState({ modal: 'AddHeader', selectedList: i.id })} className="list-button">Add Header</AddHeaderButton>}
+            <AddLinkToListButton  onClick={() => this.setState({ modal: 'AddLinkToList', selectedList: i.id })} className="list-button">Add Link to List</AddLinkToListButton >
             <CuratedList
               fromAdmin={true}
               onCardClick={payload => this.removeResourceFromListReq({ id: i.id, resource: payload})}
@@ -234,6 +245,11 @@ class CuratedLists extends Component {
           searchRequests={payload => this.searchRequests(payload)}
           searchCollections={payload => this.searchCollections(payload)}
           addItem={payload => this.addToListReq(payload)} />}
+        {this.state.modal === 'AddLinkToList' && <AddLinkToList
+          show={true}
+          selectedList={this.state.selectedList}
+          closeModal={() => this.setState({ modal: null })}
+          addLink={payload => this.addLinkToListReq(payload)} />}
         {this.state.modal === 'AddHeader' && <AddHeader
           show={true}
           selectedList={this.state.selectedList}
