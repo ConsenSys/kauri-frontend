@@ -23,13 +23,16 @@ const CollectionHeaderSection = styled.section`
   }
 `;
 
-const LeftSide = styled.div`
+const LeftSide = styled<{ tags: any | undefined }, "div">("div")`
   display: flex;
   flex: 3;
   flex-direction: column;
   color: white;
   > :nth-child(2) {
     margin-top: ${props => props.theme.space[1]}px;
+  }
+  > :nth-last-child(2) {
+    margin-bottom: ${props => props.tags && props.theme.space[1]}px;
   }
   > :last-child {
     margin-top: ${props => props.theme.space[2]}px;
@@ -92,7 +95,7 @@ const Container: React.SFC<IProps> = props => {
   } = props;
   return (
     <CollectionHeaderSection>
-      <LeftSide>
+      <LeftSide tags={tags}>
         <Label>Collection Updated {moment(updated).fromNow()}</Label>
         <Title1 color="white">{name}</Title1>
         <PageDescription color="white">{description}</PageDescription>
