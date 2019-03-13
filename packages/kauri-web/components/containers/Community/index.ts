@@ -18,8 +18,9 @@ export default compose(
     { openModalAction }
   ),
   graphql(getCommunity, {
-    options: () => ({
+    options: ({ communityId }: {communityId: string}) => ({
       variables: {
+        id: communityId
       },
     }),
   }),

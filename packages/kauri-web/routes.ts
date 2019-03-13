@@ -50,7 +50,7 @@ routes
   .add("collection-created", "/collection/:id/collection-created")
   .add("collection-updated", "/collection/:id/collection-updated")
   .add("collection", "/collection/:collection_id")
-  .add("community", "/community/:category")
+  .add("community", "/community/:communityId")
   .add(
     "update-collection",
     "/collection/:id/update-collection",

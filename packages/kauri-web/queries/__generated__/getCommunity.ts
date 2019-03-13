@@ -13,6 +13,7 @@ export interface getCommunity_getCommunity_members {
   id: string | null;
   name: string | null;
   role: CommunityPermission | null;
+  avatar: string | null;
 }
 
 export interface getCommunity_getCommunity_approvedId {

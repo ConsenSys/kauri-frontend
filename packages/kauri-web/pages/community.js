@@ -10,7 +10,7 @@ class TopicsPage extends React.Component {
     return (
       <App url={this.props.router}>
         <Community
-          category={this.props.router && this.props.router.query["category"]}
+          communityId={this.props.router && this.props.router.query.communityId}
         />
       </App>
     );
