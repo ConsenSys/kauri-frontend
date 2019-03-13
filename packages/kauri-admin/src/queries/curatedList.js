@@ -175,7 +175,7 @@ export const createCuratedList = (payload, maxResult, filter) => ({
 
 export const editCuratedList = (payload, maxResult, filter) => ({
   query:
-    "mutation createCuratedList($id: String, $name: String, $description: String, $featured: Boolean, $resources: [ResourceIdentifierInput]) { createCuratedList (id: $id, name: $name, description: $description, featured: $featured, resources: $resources) {hash}    }",
+    "mutation createCuratedList($id: String, $name: String, $description: String, $featured: Boolean, $resources: [ResourceIdentifierInput], $links: [LinkInput]) { createCuratedList (id: $id, name: $name, description: $description, featured: $featured, resources: $resources, links: $links) {hash}    }",
   variables: payload,
   operationName: "createCuratedList",
 });
