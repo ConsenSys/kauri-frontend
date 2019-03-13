@@ -48,7 +48,7 @@ export default compose(
         description: "",
         id: null,
         name: "",
-        social: null,
+        social: {},
         website: "",
       };
     },

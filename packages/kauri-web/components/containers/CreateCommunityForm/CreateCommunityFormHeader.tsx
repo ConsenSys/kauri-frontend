@@ -88,6 +88,30 @@ const Component: React.SFC<IProps> = props => (
           />
         )}
       />
+      <Field
+        type="text"
+        name="social.github"
+        render={({ field }: FieldProps<IFormValues>) => (
+          <Input
+            {...field}
+            textAlign="center"
+            fontSize={12}
+            placeHolder={"Add Github"}
+          />
+        )}
+      />
+      <Field
+        type="text"
+        name="social.twitter"
+        render={({ field }: FieldProps<IFormValues>) => (
+          <Input
+            {...field}
+            textAlign="center"
+            fontSize={12}
+            placeHolder={"Add Twitter"}
+          />
+        )}
+      />
       <StatisticsContainer
         pageType={"CreateCommunityPage"}
         statistics={[
