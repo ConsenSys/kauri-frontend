@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import Configuration from '../Configuration';
 import { PrimaryButton, SecondaryButton } from '../../../../kauri-components/components/Button';
 import { BaseModal, Footer, Content } from './BaseModal';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  > :not(:last-child) {
+    margin-bottom: 10px;
+  }
+`
 
 class AddLink extends Component {
   constructor(props) {
@@ -11,7 +20,8 @@ class AddLink extends Component {
 
   render() {
     return (
-      <div>
+      <Container>
+
         <input
           type="text"
           name="label"
@@ -27,8 +37,8 @@ class AddLink extends Component {
           placeholder="Url"
           onChange={this.props.handleChange}
         />
-
-      </div>
+      
+      </Container>
       );
     }
   }
@@ -46,7 +56,7 @@ class AddLinkToList extends Component {
   }
 
   handleSubmit = () => {
-    this.props.addLink({ id: this.props.selectedList, links: [ this.state.value ] });
+    this.props.addLink({ id: this.props.selectedList, featured: this.props.featured, links: [ this.state.value ] });
   }
 
   handleChange = ({ target: { value, name } }) => {

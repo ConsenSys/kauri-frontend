@@ -233,7 +233,7 @@ class CuratedLists extends Component {
             {i.header && <RemoveHeader onClick={() => this.removeHeader(i.id)} className="list-button">Remove Header</RemoveHeader>}
             {!i.header && <AddHeaderButton onClick={() => this.setState({ modal: 'AddHeader', selectedList: i.id })} className="list-button">Add Header</AddHeaderButton>}
             {Array.isArray(i.links) && i.links.length > 0 && <RemoveLinks onClick={() => this.removeLinksReq(i.id)} className="list-button">Remove links</RemoveLinks>}
-            <AddLinkToListButton  onClick={() => this.setState({ modal: 'AddLinkToList', selectedList: i.id })} className="list-button">Add Link</AddLinkToListButton >
+            <AddLinkToListButton onClick={() => this.setState({ modal: 'AddLinkToList', selectedList: i.id, featured: i.featured })} className="list-button">Add Link</AddLinkToListButton >
             <CuratedList
               fromAdmin={true}
               onCardClick={payload => this.removeResourceFromListReq({ id: i.id, resource: payload})}
@@ -261,6 +261,7 @@ class CuratedLists extends Component {
           addItem={payload => this.addToListReq(payload)} />}
         {this.state.modal === 'AddLinkToList' && <AddLinkToList
           show={true}
+          featured={this.state.featured}
           selectedList={this.state.selectedList}
           closeModal={() => this.setState({ modal: null })}
           addLink={payload => this.addLinkToListReq(payload)} />}
