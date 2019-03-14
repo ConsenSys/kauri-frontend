@@ -30,7 +30,7 @@ const Component: React.FunctionComponent<IProps> = props => (
           icon={<UploadIcon />}
           handleClick={() => props.setupImageUploader()}
         >
-          Upload Background
+          Background Image
         </TertiaryButtonComponent>
       </MiddleActionsStack>
 

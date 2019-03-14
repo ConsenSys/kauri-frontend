@@ -24,6 +24,7 @@ export const createCommunityMutation = gql`
     $description: String
     $avatar: String
     $website: String
+    $tags: [String]
     $social: Map_String_StringScalar
     $attributes: Map_String_StringScalar
   ) {
@@ -34,6 +35,7 @@ export const createCommunityMutation = gql`
       website: $website
       social: $social
       attributes: $attributes
+      tags: $tags
     ) {
       hash
     }
@@ -47,6 +49,7 @@ export const updateCommunityMutation = gql`
     $description: String
     $avatar: String
     $website: String
+    $tags: [String]
     $social: Map_String_StringScalar
     $attributes: Map_String_StringScalar
   ) {
@@ -58,6 +61,7 @@ export const updateCommunityMutation = gql`
       website: $website
       social: $social
       attributes: $attributes
+      tags: $tags
     ) {
       hash
     }
