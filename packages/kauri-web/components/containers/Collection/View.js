@@ -160,6 +160,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             id={id}
             name={name}
             description={description || ""}
+            articleCount={sections.map(({ resources }) => resources.length).reduce((current, next) => current + next, 0)}
             updated={dateCreated}
             username={owner && owner.username}
             ownerId={owner.id}

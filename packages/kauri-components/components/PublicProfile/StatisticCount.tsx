@@ -10,6 +10,7 @@ interface IPageTypeProps {
 const PageType = t.union([
   t.literal("CreateCollectionPage"),
   t.literal("CreateCommunityPage"),
+  t.literal("CollectionPage"),
   t.undefined,
 ]);
 
@@ -19,7 +20,10 @@ const Count = styled<IPageTypeProps, "h3">("h3")`
   font-weight: ${props => props.theme.fontWeight[2]};
   margin: 0px;
   margin-bottom: ${props => props.theme.space[0]}px;
-  opacity: ${props => (typeof props.pageType === "string" ? 0.2 : 1.0)};
+  opacity: ${props =>
+    typeof props.pageType === "string" && props.pageType !== "CollectionPage"
+      ? 0.2
+      : 1.0};
 `;
 
 const SectionContainer = styled.section`
@@ -33,7 +37,10 @@ const Name = styled<IPageTypeProps, "span">("span")`
   color: white;
   font-size: ${props => props.theme.fontSizes[0]}px;
   font-weight: ${props => props.theme.fontWeight[3]};
-  opacity: ${props => (typeof props.pageType === "string" ? 0.2 : 1.0)};
+  opacity: ${props =>
+    typeof props.pageType === "string" && props.pageType !== "CollectionPage"
+      ? 0.2
+      : 1.0};
   text-transform: uppercase;
 `;
 
