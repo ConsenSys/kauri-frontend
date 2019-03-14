@@ -71,7 +71,8 @@ interface IProps {
   avatar: null | undefined | string;
   uploadLogo: () => void;
   background: undefined | string;
-  tags: string[] | null;
+  tags: Array<string | null> | null;
+  setFieldValue: (field: string, value: any) => void;
 }
 
 const Component: React.SFC<IProps> = props => (
@@ -127,7 +128,7 @@ const Component: React.SFC<IProps> = props => (
       <TagSelector
         maxTags={7}
         tags={props.tags || []}
-        setFieldsValue={() => {}}
+        updateTags={(tags: string[]) => props.setFieldValue("tags", tags)}
       />
 
       <SocialFieldContainer>

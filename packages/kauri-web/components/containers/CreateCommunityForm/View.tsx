@@ -53,9 +53,11 @@ const Component: React.SFC<
 
     <Header
       {...props.values}
+      tags={props.values.tags || []}
       avatar={props.values.avatar}
       background={props.values.attributes && props.values.attributes.background}
       uploadLogo={handleAvatarSetFormField(props.setFieldValue)}
+      setFieldValue={props.setFieldValue}
     />
 
     <Content {...props} />
