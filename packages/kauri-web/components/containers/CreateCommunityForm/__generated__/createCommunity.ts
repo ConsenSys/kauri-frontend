@@ -19,6 +19,7 @@ export interface createCommunityVariables {
   description?: string | null;
   avatar?: string | null;
   website?: string | null;
+  tags?: (string | null)[] | null;
   social?: any | null;
   attributes?: any | null;
 }

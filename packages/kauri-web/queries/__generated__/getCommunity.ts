@@ -127,6 +127,7 @@ export interface getCommunity_getCommunity {
   avatar: string | null;
   social: any | null;
   attributes: any | null;
+  tags: (string | null)[] | null;
   members: (getCommunity_getCommunity_members | null)[] | null;
   approvedId: (getCommunity_getCommunity_approvedId | null)[] | null;
   pending: (getCommunity_getCommunity_pending | null)[] | null;
