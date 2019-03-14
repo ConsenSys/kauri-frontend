@@ -15,6 +15,7 @@ const StatisticsContainer = styled.section`
 const PageType = t.union([
   t.literal("CreateCollectionPage"),
   t.literal("CreateCommunityPage"),
+  t.literal("CollectionPage"),
 ]);
 
 const Statistic = t.type({

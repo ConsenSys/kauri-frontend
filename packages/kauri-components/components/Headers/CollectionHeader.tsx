@@ -9,6 +9,7 @@ import {
 import ShareArticle from "../../../kauri-components/components/Tooltip/ShareArticle";
 import UserAvatar from "../../../kauri-components/components/UserAvatar";
 import PrimaryButton from "../../../kauri-components/components/Button/PrimaryButton";
+import StatisticsContainer from "../../../kauri-components/components/PublicProfile/StatisticsContainer";
 import { TagList } from "../Tags";
 
 const CollectionHeaderSection = styled.section`
@@ -49,7 +50,7 @@ const RightSide = styled.div`
   justify-content: center;
   flex-direction: column;
   > :first-child {
-    margin-bottom: ${props => props.theme.space[1]}px;
+    margin-bottom: ${props => props.theme.space[3]}px;
   }
   > button:last-child {
     margin-top: ${props => props.theme.space[3]}px;
@@ -62,6 +63,7 @@ const changeRoute = (
 ) => () => routeChangeAction(`/collection/${id}/update-collection`);
 
 interface IProps {
+  articleCount: number;
   description: string;
   id: string;
   imageURL: string | null;
@@ -79,6 +81,7 @@ interface IProps {
 
 const Container: React.SFC<IProps> = props => {
   const {
+    articleCount,
     description,
     id,
     linkComponent,
@@ -103,6 +106,16 @@ const Container: React.SFC<IProps> = props => {
         <ShareArticle color={"white"} url={url} title={name} />
       </LeftSide>
       <RightSide>
+        <StatisticsContainer
+          pageType="CollectionPage"
+          statistics={[
+            {
+              count: articleCount,
+              name: "Articles",
+            },
+          ]}
+        />
+
         <Label color="white">Curator</Label>
         {linkComponent ? (
           linkComponent(
