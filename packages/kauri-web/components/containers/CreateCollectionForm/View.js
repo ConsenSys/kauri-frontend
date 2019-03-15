@@ -18,6 +18,7 @@ import ArticleCard from "../../connections/ArticleCard";
 import setImageUploader from "../../common/ImageUploader";
 import showFormValidationErrors from "../../../lib/show-form-validation-errors";
 import ChooseArticleModal from "./ChooseArticleModal";
+import ChooseCollectionModal from "./ChooseCollectionModal";
 import CreateCollectionOptions from "./CreateCollectionOptions";
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
@@ -502,19 +503,58 @@ export default ({
                                 (section, sectionIndex) =>
                                   index !== sectionIndex
                               )}
-                              chosenArticles={R.path([
-                                "sections",
-                                index,
-                                "resourcesId",
-                              ])(values)}
+                              chosenArticles={R.pipe(
+                                R.path(["sections", index, "resourcesId"]),
+                                R.filter(({ type }) => type === "ARTICLE")
+                              )(values)}
                               closeModalAction={() => closeModalAction()}
                               confirmModal={chosenArticles =>
                                 arrayHelpers.form.setFieldValue(
                                   `sections[${index}].resourcesId`,
-                                  chosenArticles.map(article => ({
-                                    ...article,
-                                    type: "ARTICLE",
-                                  }))
+                                  R.pipe(
+                                    R.path(["sections", index, "resourcesId"]),
+                                    R.filter(
+                                      ({ type }) => type === "COLLECTION"
+                                    ),
+                                    R.concat(
+                                      chosenArticles.map(article => ({
+                                        ...article,
+                                        type: "ARTICLE",
+                                      }))
+                                    )
+                                  )(values)
+                                )
+                              }
+                            />
+                          ),
+                        })
+                      }
+                      chooseCollection={() =>
+                        openModalAction({
+                          children: (
+                            <ChooseCollectionModal
+                              allOtherChosenCollections={values.sections.filter(
+                                (section, sectionIndex) =>
+                                  index !== sectionIndex
+                              )}
+                              chosenCollections={R.pipe(
+                                R.path(["sections", index, "resourcesId"]),
+                                R.filter(({ type }) => type === "COLLECTION")
+                              )(values)}
+                              closeModalAction={() => closeModalAction()}
+                              confirmModal={chosenCollections =>
+                                arrayHelpers.form.setFieldValue(
+                                  `sections[${index}].resourcesId`,
+                                  R.pipe(
+                                    R.path(["sections", index, "resourcesId"]),
+                                    R.filter(({ type }) => type === "ARTICLE"),
+                                    R.concat(
+                                      chosenCollections.map(collection => ({
+                                        ...collection,
+                                        type: "COLLECTION",
+                                      }))
+                                    )
+                                  )(values)
                                 )
                               }
                             />

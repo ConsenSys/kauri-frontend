@@ -2,15 +2,10 @@
 import React from "react";
 import styled from "styled-components";
 import R from "ramda";
-import {
-  NavigationText,
-  BodyCard,
-} from "../../../../kauri-components/components/Typography";
+import { BodyCard } from "../../../../kauri-components/components/Typography";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
-import ChooseArticleCard, {
-  articleSize,
-} from "../../connections/ChooseArticleCard";
+import ChooseCollectionCard from "../../connections/ChooseCollectionCard";
 import ModalHeader from "../../../../kauri-components/components/Headers/ModalHeader";
 
 const TitleContainer = styled.div`
@@ -20,10 +15,10 @@ const TitleContainer = styled.div`
     margin-right: ${props => props.theme.space[3]}px;
   }
 `;
-const Title = ({ chosenArticles }) => (
+const Title = ({ chosenCollections }) => (
   <TitleContainer>
     <BodyCard>{`${
-      Array.isArray(chosenArticles) ? chosenArticles.length : 0
+      Array.isArray(chosenCollections) ? chosenCollections.length : 0
     } Selected`}</BodyCard>
   </TitleContainer>
 );
@@ -42,7 +37,7 @@ const CloseIcon = () => (
   />
 );
 
-const Actions = ({ handleClose, handleConfirm, chosenArticles }) => (
+const Actions = ({ handleClose, handleConfirm, chosenCollections }) => (
   <ActionsContainer>
     <TertiaryButton
       icon={<CloseIcon />}
@@ -53,7 +48,7 @@ const Actions = ({ handleClose, handleConfirm, chosenArticles }) => (
     </TertiaryButton>
     <PrimaryButton
       onClick={() => {
-        handleConfirm(chosenArticles);
+        handleConfirm(chosenCollections);
         handleClose();
       }}
     >
@@ -75,40 +70,43 @@ const ContentContainer = styled.section`
 type Props = {
   closeModalAction: () => void,
   confirmModal: (Array<{ id: string, version: string }>) => void,
-  chosenArticles: Array<{ id: string, version: string }>,
-  allOtherChosenArticles: Array<{ id: string, version: string }>,
+  chosenCollections: Array<{ id: string, version: string }>,
+  allOtherChosenCollections: Array<{ id: string, version: string }>,
 };
 
 type State = {
-  chosenArticles: Array<{ id: string, version: string }>,
+  chosenCollections: Array<{ id: string, version: string }>,
 };
 
-export default class ChooseArticleModal extends React.Component<Props, State> {
+export default class ChooseCollectionModal extends React.Component<
+  Props,
+  State
+> {
   constructor (props: Props) {
     super(props);
     this.state = {
-      chosenArticles: this.props.chosenArticles || [],
+      chosenCollections: this.props.chosenCollections || [],
     };
   }
 
-  chooseArticle = (chosenArticle: { id: string, version: string }) =>
+  chooseCollection = (chosenCollection: { id: string, version: string }) =>
     this.setState({
-      chosenArticles: R.find(
+      chosenCollections: R.find(
         ({ id, version }) =>
-          chosenArticle.id === id && chosenArticle.version === version
-      )(this.state.chosenArticles)
+          chosenCollection.id === id && chosenCollection.version === version
+      )(this.state.chosenCollections)
         ? R.reduce((current, next) => {
           if (
-            next.id === chosenArticle.id &&
-              next.version === chosenArticle.version
+            next.id === chosenCollection.id &&
+              next.version === chosenCollection.version
           ) {
             return current;
           } else {
             current.push(next);
             return current;
           }
-        }, [])(this.state.chosenArticles)
-        : R.union(this.state.chosenArticles, [chosenArticle]),
+        }, [])(this.state.chosenCollections)
+        : R.union(this.state.chosenCollections, [chosenCollection]),
     });
 
   render () {
@@ -120,17 +118,17 @@ export default class ChooseArticleModal extends React.Component<Props, State> {
         <ModalHeader
           actions={
             <Actions
-              chosenArticles={this.state.chosenArticles}
+              chosenCollections={this.state.chosenCollections}
               handleConfirm={confirmModal}
               handleClose={() => closeModalAction()}
             />
           }
-          title={<Title chosenArticles={this.state.chosenArticles} />}
+          title={<Title chosenCollections={this.state.chosenCollections} />}
         />
-        <ChooseArticleCard
-          allOtherChosenArticles={this.props.allOtherChosenArticles}
-          chosenArticles={this.state.chosenArticles}
-          chooseArticle={this.chooseArticle}
+        <ChooseCollectionCard
+          allOtherChosenCollections={this.props.allOtherChosenCollections}
+          chosenCollections={this.state.chosenCollections}
+          chooseCollection={this.chooseCollection}
         />
       </ContentContainer>
     );
