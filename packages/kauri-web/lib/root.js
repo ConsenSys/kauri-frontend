@@ -47,7 +47,12 @@ import {
   resendEmailVerificationEpic,
 } from "../components/containers/EmailVerification/Module";
 import { voteEpic } from "../components/containers/Article/ApprovedArticle/VoteModule";
-import { createCommunityEpic, updateCommunityEpic } from "../components/containers/CreateCommunityForm/Module";
+import {
+  createCommunityEpic,
+  updateCommunityEpic,
+} from "../components/containers/CreateCommunityForm/Module";
+import { curateResourceEpic } from "../components/containers/CreateCommunityForm/CurateResourceModule";
+import { approveResourceEpic } from "../components/containers/CreateCommunityForm/ApproveResourceModule";
 
 export const rootReducer = {
   app,
@@ -92,6 +97,8 @@ const epics = [
   voteEpic,
   createCommunityEpic,
   updateCommunityEpic,
+  curateResourceEpic,
+  approveResourceEpic,
 ];
 
 export const rootEpic = combineEpics(...epics);

@@ -6,6 +6,8 @@ import { createCommunityAction, updateCommunityAction } from "./Module";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import { updateCommunityVariables } from "./__generated__/updateCommunity";
+import { curateResourceAction } from "./CurateResourceModule";
+import { approveResourceAction } from "./ApproveResourceModule";
 
 export interface ICommunityAttributes {
   background: undefined | string;
@@ -20,7 +22,13 @@ const mapStateToProps = ({ app: { user } }: IReduxState) => ({
 export default compose(
   connect(
     mapStateToProps,
-    { routeChangeAction, createCommunityAction, updateCommunityAction }
+    {
+      routeChangeAction,
+      createCommunityAction,
+      updateCommunityAction,
+      curateResourceAction,
+      approveResourceAction,
+    }
   ),
   withFormik<IProps, IFormValues>({
     handleSubmit: (values, { setSubmitting, props }) => {

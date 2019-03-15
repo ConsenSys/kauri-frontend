@@ -10,6 +10,7 @@ import { InjectedFormikProps } from "formik";
 import Helmet from "react-helmet";
 import { IFormValues } from "./index";
 import { getCommunity } from "../../../queries/__generated__/getCommunity";
+import { approveResourceAction } from "./ApproveResourceModule";
 
 const FormContainer = styled.form`
   display: flex;
@@ -21,6 +22,7 @@ export interface IProps {
   routeChangeAction: typeof routeChangeAction;
   createCommunityAction: typeof createCommunityAction;
   updateCommunityAction: typeof updateCommunityAction;
+  approveResourceAction: typeof approveResourceAction;
   data: getCommunity | null;
 }
 
