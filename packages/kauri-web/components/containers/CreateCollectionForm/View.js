@@ -15,9 +15,11 @@ import Input from "../../../../kauri-components/components/Input/Input";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
 import ArticleCard from "../../connections/ArticleCard";
+import CollectionCard from "../../connections/CollectionCard";
 import setImageUploader from "../../common/ImageUploader";
 import showFormValidationErrors from "../../../lib/show-form-validation-errors";
 import ChooseArticleModal from "./ChooseArticleModal";
+import ChooseCollectionModal from "./ChooseCollectionModal";
 import CreateCollectionOptions from "./CreateCollectionOptions";
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
@@ -46,7 +48,7 @@ const ResourceSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   ${space};
   > button:last-child {
     margin-top: ${props => props.theme.space[1]}px;
@@ -181,42 +183,71 @@ const renderResourceSection = (
     {R.path(
       ["sections", index, mappingKey, resourceIndex, "version"],
       values
-    ) && (
-      <Draggable
-        index={resourceIndex}
-        draggableId={`${R.path(
-          ["sections", index, mappingKey, resourceIndex, "id"],
-          values
-        )}-${R.path(
-          ["sections", index, mappingKey, resourceIndex, "version"],
-          values
-        )}`}
-      >
-        {provided => (
-          <div
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            ref={provided.innerRef}
-            id="article-card"
-          >
-            <ArticleCard
-              id={R.path(
-                ["sections", index, mappingKey, resourceIndex, "id"],
-                values
-              )}
-              version={parseInt(
-                R.path(
-                  ["sections", index, mappingKey, resourceIndex, "version"],
+    ) ? (
+        <Draggable
+          index={resourceIndex}
+          draggableId={`${R.path(
+            ["sections", index, mappingKey, resourceIndex, "id"],
+            values
+          )}-${R.path(
+            ["sections", index, mappingKey, resourceIndex, "version"],
+            values
+          )}`}
+        >
+          {provided => (
+            <div
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+              id="article-card"
+            >
+              <ArticleCard
+                id={R.path(
+                  ["sections", index, mappingKey, resourceIndex, "id"],
                   values
-                )
-              )}
-              cardHeight={420}
-            />
-            {provided.placeholder}
-          </div>
-        )}
-      </Draggable>
-    )}
+                )}
+                version={parseInt(
+                  R.path(
+                    ["sections", index, mappingKey, resourceIndex, "version"],
+                    values
+                  )
+                )}
+                cardHeight={420}
+              />
+              {provided.placeholder}
+            </div>
+          )}
+        </Draggable>
+      ) : R.path(
+        ["sections", index, mappingKey, resourceIndex],
+        values
+      ) && (
+        <Draggable
+          index={resourceIndex}
+          draggableId={`${R.path(
+            ["sections", index, mappingKey, resourceIndex, "id"],
+            values
+          )}`}
+        >
+          {provided => (
+            <div
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+              id="collection-card"
+            >
+              <CollectionCard
+                id={R.path(
+                  ["sections", index, mappingKey, resourceIndex, "id"],
+                  values
+                )}
+              />
+              {provided.placeholder}
+            </div>
+          )}
+        </Draggable>
+      )
+    }
     <TertiaryButton
       color="primaryTextColor"
       icon={<RemoveIcon />}
@@ -232,7 +263,7 @@ const renderResourceSection = (
         )
       } // Remove current resource index
     >
-      Remove Article
+      {`Remove ${resource.type}`}
     </TertiaryButton>
   </ResourceSection>
 );
@@ -379,19 +410,32 @@ export default ({
               <StatisticsContainer
                 pageType="CreateCollectionPage"
                 statistics={[
-                  // { name: 'Followers', count: 0 },
                   {
                     name: "Articles",
                     count: R.pipe(
-                      R.reduce(
-                        (current, next) =>
-                          (current + next && next["resourcesId"].length) || 0,
-                        0
-                      )
+                      R.map(({ resourcesId }) => resourcesId),
+                      R.reduce((current, next) => {
+                        const articlesInSection = next.filter(({ type }) => type.toLowerCase() === "article")
+                        if (articlesInSection) {
+                          return current + articlesInSection.length
+                        }
+                        return current
+                      }, 0),
                     )(values.sections),
                   },
-                  // { name: 'Views', count: 0 },
-                  // { name: 'Upvotes', count: 0 },
+                  {
+                    name: "Collections",
+                    count: R.pipe(
+                      R.map(({ resourcesId }) => resourcesId),
+                      R.reduce((current, next) => {
+                        const collectionsInSection = next.filter(({ type }) => type.toLowerCase() === "collection")
+                        if (collectionsInSection) {
+                          return current + collectionsInSection.length
+                        }
+                        return current
+                      }, 0),
+                    )(values.sections),
+                  },
                 ]}
               />
               <Label color="white">Curator</Label>
@@ -502,19 +546,58 @@ export default ({
                                 (section, sectionIndex) =>
                                   index !== sectionIndex
                               )}
-                              chosenArticles={R.path([
-                                "sections",
-                                index,
-                                "resourcesId",
-                              ])(values)}
+                              chosenArticles={R.pipe(
+                                R.path(["sections", index, "resourcesId"]),
+                                R.filter(({ type }) => type.toLowerCase() === "article")
+                              )(values)}
                               closeModalAction={() => closeModalAction()}
                               confirmModal={chosenArticles =>
                                 arrayHelpers.form.setFieldValue(
                                   `sections[${index}].resourcesId`,
-                                  chosenArticles.map(article => ({
-                                    ...article,
-                                    type: "ARTICLE",
-                                  }))
+                                  R.pipe(
+                                    R.path(["sections", index, "resourcesId"]),
+                                    R.filter(
+                                      ({ type }) => type.toLowerCase() === "collection"
+                                    ),
+                                    R.concat(
+                                      chosenArticles.map(article => ({
+                                        ...article,
+                                        type: "ARTICLE",
+                                      }))
+                                    ),
+                                  )(values)
+                                )
+                              }
+                            />
+                          ),
+                        })
+                      }
+                      chooseCollection={() =>
+                        openModalAction({
+                          children: (
+                            <ChooseCollectionModal
+                              allOtherChosenCollections={values.sections.filter(
+                                (section, sectionIndex) =>
+                                  index !== sectionIndex
+                              )}
+                              chosenCollections={R.pipe(
+                                R.path(["sections", index, "resourcesId"]),
+                                R.filter(({ type }) => type.toLowerCase() === "collection")
+                              )(values)}
+                              closeModalAction={() => closeModalAction()}
+                              confirmModal={chosenCollections =>
+                                arrayHelpers.form.setFieldValue(
+                                  `sections[${index}].resourcesId`,
+                                  R.pipe(
+                                    R.path(["sections", index, "resourcesId"]),
+                                    R.filter(({ type }) => type.toLowerCase() === "article"),
+                                    R.concat(
+                                      chosenCollections.map(collection => ({
+                                        ...collection,
+                                        type: "COLLECTION",
+                                      }))
+                                    )
+                                  )(values)
                                 )
                               }
                             />

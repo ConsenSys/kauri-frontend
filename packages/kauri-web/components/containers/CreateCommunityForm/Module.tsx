@@ -6,7 +6,6 @@ import {
   IDependencies,
   IAction,
   showNotificationAction,
-  routeChangeAction,
   Actions,
 } from "../../../lib/Module";
 import {
@@ -129,7 +128,8 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
         )
         .do(console.log)
         .do(() => typeof actions.callback === "function" && actions.callback())
-        .mergeMap(({ data: { output: { id, error } } }) =>
+        .mergeMap(({ data: { output: { // id,
+              error } } }) =>
           error
             ? Observable.throw(new Error("Submission error"))
             : Observable.merge(
@@ -188,7 +188,8 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
         )
         .do(console.log)
         .do(() => typeof actions.callback === "function" && actions.callback())
-        .mergeMap(({ data: { output: { id, error } } }) =>
+        .mergeMap(({ data: { output: { // id,
+              error } } }) =>
           error
             ? Observable.throw(new Error("Submission error"))
             : Observable.merge(
