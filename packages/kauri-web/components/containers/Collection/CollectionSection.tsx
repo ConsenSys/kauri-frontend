@@ -14,7 +14,10 @@ import {
   Article_owner_PublicUserDTO,
   Article_owner_CommunityDTO,
 } from "../../../queries/__generated__/Article";
-import { Collection } from "../../../queries/__generated__/Collection";
+import {
+  Collection,
+  Collection_owner_PublicUserDTO,
+} from "../../../queries/__generated__/Collection";
 import CollectionCard from "../../../../kauri-components/components/Card/CollectionCard";
 
 const Container = styled.section`
@@ -45,7 +48,7 @@ const StyledDescription = styled(PageDescription)`
 `;
 
 interface IProps {
-  resources: Article[] | Collection[];
+  resources: [Article | Collection];
   currentUser: string | null;
   description: string | null;
   isLoggedIn: boolean;
@@ -87,7 +90,7 @@ const Component: React.SFC<IProps> = props => {
         <StyledTitle>{name}</StyledTitle>
         <StyledDescription>{description}</StyledDescription>
         <ResourcesSection>
-          {resources.map((resource: Article | Collection) => {
+          {resources.map(resource => {
             const owner = resource.owner as
               | Article_owner_PublicUserDTO
               | Article_owner_CommunityDTO;
@@ -159,22 +162,33 @@ const Component: React.SFC<IProps> = props => {
               const articleCount =
                 collection.sections &&
                 collection.sections.reduce((current, next) => {
-                  current += next.resources && next.resources.length;
+                  if (Array.isArray(next) && next.resources) {
+                    current += next.resources.length;
+                  }
                   return current;
                 }, 0);
 
               return (
                 <CollectionCard
-                  key={collection.id}
-                  id={collection.id}
-                  articleCount={articleCount}
-                  linkComponent={children => <Link>{children}</Link>}
-                  description={collection.description}
+                  key={String(collection.id)}
+                  id={String(collection.id)}
+                  articleCount={String(articleCount)}
+                  description={String(collection.description)}
                   date={collection.dateUpdated}
-                  name={collection.name}
-                  userId={collection.owner && collection.owner.id}
-                  username={collection.owner && collection.owner.name}
-                  userAvatar={collection.owner && collection.owner.avatar}
+                  name={String(collection.name)}
+                  userId={String(
+                    collection.owner &&
+                      (collection.owner as Collection_owner_PublicUserDTO).id
+                  )}
+                  username={String(
+                    collection.owner &&
+                      (collection.owner as Collection_owner_PublicUserDTO).name
+                  )}
+                  userAvatar={String(
+                    collection.owner &&
+                      (collection.owner as Collection_owner_PublicUserDTO)
+                        .avatar
+                  )}
                   imageURL={collection.background}
                   linkComponent={(
                     childrenProps: React.ReactElement<any>,
@@ -193,9 +207,11 @@ const Component: React.SFC<IProps> = props => {
                       {childrenProps}
                     </Link>
                   )}
+                  cardHeight={310}
                 />
               );
             }
+            return null;
           })}
         </ResourcesSection>
       </Container>
