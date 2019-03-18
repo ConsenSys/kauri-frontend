@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { CommunityStatus, CommunityPermission, ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
@@ -12,6 +13,7 @@ export interface getCommunity_getCommunity_members {
   id: string | null;
   name: string | null;
   role: CommunityPermission | null;
+  avatar: string | null;
 }
 
 export interface getCommunity_getCommunity_approvedId {

@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { UserOwner } from "./User";
 
 export const CommunityOwner = gql`
   fragment CommunityOwner on CommunityDTO {
@@ -13,91 +14,102 @@ export const CommunityOwner = gql`
 `;
 
 export const getCommunity = gql`
-  query getCommunity($id: String) {
-    getCommunity(id: $id) {
+query getCommunity(
+  $id: String
+) {
+  getCommunity(
+      id: $id
+  ) {
       id
       dateCreated
       dateUpdated
-      creatorId
+      creator {
+          id
+          username
+          name
+      }
       name
       description
       status
       website
       avatar
       social
-      attributes
       tags
+      attributes
       members {
-        id
-        name
-        role
+          id
+          name
+          avatar
+          role
       }
       approvedId {
+        id
         type
       }
-      pending {
-        ... on ArticleDTO {
-          id
-          version
-          title
-          content
-          dateCreated
-          datePublished
-          associatedNfts {
-            tokenType
-            contractAddress
-            name
-            image
-            externalUrl
-          }
-          author {
-            id
-            name
-          }
-          status
-          attributes
-          voteResult {
-            sum
-          }
-        }
-        ... on CollectionDTO {
-          id
-          name
-        }
+      pendingId {
+        id
+        type
       }
       approved {
-        ... on ArticleDTO {
-          id
-          version
-          title
-          content
-          description
-          dateCreated
-          datePublished
-          associatedNfts {
-            tokenType
-            contractAddress
-            name
-            image
-            externalUrl
-          }
-          author {
-            id
-            name
-          }
-          status
-          attributes
-          voteResult {
-            sum
-          }
+        ...on ArticleDTO {
+            version
+            title
+            content
+            dateCreated
+            datePublished
+            author {
+                id
+                name
+            }
+            status
+            attributes
         }
-        ... on CollectionDTO {
+        
+        ...on CollectionDTO {
           id
           name
+          description
+          tags
+          background
+          dateUpdated
+          owner {
+            ...UserOwner
+            ...CommunityOwner
+          }
+        }
+      }
+      pending {
+        ...on ArticleDTO {
+            version
+            title
+            content
+            dateCreated
+            datePublished
+            author {
+                id
+                name
+            }
+            status
+            attributes
+        }
+        
+        ...on CollectionDTO {
+          id
+          name
+          description
+          tags
+          background
+          dateUpdated
+          owner {
+            ...UserOwner
+            ...CommunityOwner
+          }
         }
       }
     }
   }
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const getAllCommunities = gql`

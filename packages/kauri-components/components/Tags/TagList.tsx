@@ -17,7 +17,7 @@ const Container = styled<IContainerProps, "div">("div")`
 `;
 
 interface IProps {
-  tags: Array<string | null>;
+  tags: Array<string | null> | null;
   color: string;
   maxTags: number;
   maxChars?: number;
@@ -71,6 +71,9 @@ const TooltipArrow = styled.div`
 const TagList = (props: IProps) => {
   const shownTags: string[] = [];
   const hiddenTags: string[] = [];
+  if (!props.tags) {
+    return null;
+  }
   props.tags.reduce((counter, item) => {
     if (item === null) {
       return counter;

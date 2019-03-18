@@ -12,6 +12,7 @@ type Props = {
 
 class CommunityConnection extends React.Component<Props> {
   render() {
+    console.log(this.props.data);
     return this.props.data && this.props.data.getCommunity ? (
       <Community
         id={this.props.data.getCommunity.id}
