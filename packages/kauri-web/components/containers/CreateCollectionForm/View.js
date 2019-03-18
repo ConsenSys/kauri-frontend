@@ -121,6 +121,9 @@ const CreateCollectionCuratorDetails = styled.div`
   > :first-child {
     margin-bottom: ${props => props.theme.space[3]}px;
   }
+  > :nth-child(2) {
+    margin-bottom: ${props => props.theme.space[1]}px;
+  }
 `;
 
 const CreateCollectionCurators = styled.div`

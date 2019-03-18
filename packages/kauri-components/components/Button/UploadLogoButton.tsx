@@ -1,25 +1,24 @@
 import * as React from "react";
 import styled from "../../lib/styled-components";
-import { fontSize as fontSizeSS, color as colorSS, space } from "styled-system";
+import {
+  fontSize as fontSizeSS,
+  color as colorSS,
+  space,
+  BgColorProps,
+} from "styled-system";
 
 interface IButtonProps {
   bg?: string;
-  height: string;
-  width: string;
+  height?: string;
+  width?: string;
   fontSize?: number;
   color?: string;
-}
-
-interface IProps extends IButtonProps {
-  className: string;
-  children?: Element;
-  handleClick: () => void;
   disabled?: boolean;
-  space?: number;
-  text?: string;
 }
 
-const UploadLogoButton = styled.button`
+const UploadLogoButton = styled<IButtonProps & BgColorProps, "button">(
+  "button"
+)`
   border: 1px solid
     ${({
       theme: {
@@ -27,7 +26,7 @@ const UploadLogoButton = styled.button`
       },
     }) => primary};
   border-radius: 4px;
-  background: ${(props: IButtonProps) =>
+  background: ${props =>
     props.bg ? `url(${props.bg}) center center` : "transparent"};
   background-size: cover;
   cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
@@ -44,6 +43,7 @@ const UploadLogoButton = styled.button`
         },
       }) => primary};
   }
+  font-weight: ${props => props.theme.fontWeight[2]};
   ${fontSizeSS};
   ${colorSS};
 `;
@@ -64,7 +64,16 @@ const Overlay = styled.div`
   }
 `;
 
-export default ({
+interface IProps extends IButtonProps {
+  className?: string;
+  handleClick?: () => void;
+  onClick?: () => void;
+  disabled?: boolean;
+  space?: number;
+  text?: string;
+}
+
+const UploadLogoButtonComponent: React.FunctionComponent<IProps> = ({
   className,
   bg,
   fontSize = 0,
@@ -73,18 +82,20 @@ export default ({
   width = "100px",
   text = "Logo",
   handleClick,
+  onClick,
   children,
   disabled,
-}: IProps) => (
+}) => (
   <UploadLogoButton
     className={className}
     bg={bg}
     height={height}
     width={width}
     disabled={disabled}
-    onClick={handleClick}
+    onClick={onClick || handleClick}
     color={color}
     fontSize={fontSize}
+    type="button"
   >
     <Overlay>
       <img src="https://png.icons8.com/color/50/000000/upload.png" />
@@ -92,3 +103,5 @@ export default ({
     </Overlay>
   </UploadLogoButton>
 );
+
+export default UploadLogoButtonComponent;

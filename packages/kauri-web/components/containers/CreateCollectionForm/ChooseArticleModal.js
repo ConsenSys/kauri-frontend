@@ -22,7 +22,6 @@ const TitleContainer = styled.div`
 `;
 const Title = ({ chosenArticles }) => (
   <TitleContainer>
-    <NavigationText>{`${articleSize} Most Recent articles`}</NavigationText>
     <BodyCard>{`${
       Array.isArray(chosenArticles) ? chosenArticles.length : 0
     } Selected`}</BodyCard>

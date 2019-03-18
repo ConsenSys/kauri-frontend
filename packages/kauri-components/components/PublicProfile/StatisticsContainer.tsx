@@ -16,7 +16,7 @@ interface IStatistic {
 }
 
 interface IProps {
-  pageType?: "CreateCollectionPage";
+  pageType?: "CreateCollectionPage" | "CreateCommunityPage" | "CollectionPage";
   statistics: IStatistic[];
 }
 

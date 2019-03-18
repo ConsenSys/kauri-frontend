@@ -1,5 +1,5 @@
-import * as React from 'react';
-import styled from "../../lib/styled-components"
+import * as React from "react";
+import styled from "../../lib/styled-components";
 
 const InvertSocialIcon = styled.img`
   filter: invert(100%);
@@ -8,7 +8,7 @@ const InvertSocialIcon = styled.img`
 interface ISocialWebsiteIconProps {
   brand: string;
   height?: number;
-  socialURL: string;
+  socialURL?: string;
 }
 
 const SocialWebsiteIcon: React.SFC<ISocialWebsiteIconProps> = ({

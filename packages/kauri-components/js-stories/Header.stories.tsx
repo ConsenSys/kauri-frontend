@@ -53,6 +53,7 @@ const Actions = () => (
 storiesOf("Headers", module)
   .add("Collection Header", () => (
     <CollectionHeader
+      articleCount={4}
       tags={["lol", "lol2", "hey"]}
       imageURL={null}
       id={"1234567890"}

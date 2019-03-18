@@ -47,6 +47,7 @@ import {
   resendEmailVerificationEpic,
 } from "../components/containers/EmailVerification/Module";
 import { voteEpic } from "../components/containers/Article/ApprovedArticle/VoteModule";
+import { createCommunityEpic, updateCommunityEpic } from "../components/containers/CreateCommunityForm/Module";
 
 export const rootReducer = {
   app,
@@ -89,6 +90,8 @@ const epics = [
   verifyEmailEpic,
   resendEmailVerificationEpic,
   voteEpic,
+  createCommunityEpic,
+  updateCommunityEpic,
 ];
 
 export const rootEpic = combineEpics(...epics);
