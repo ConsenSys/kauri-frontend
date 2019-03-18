@@ -63,7 +63,7 @@ const Component: React.SFC<IProps> = props => {
     openModalAction,
     isOwnedByCurrentUser,
   } = props;
-  console.log(resources);
+  // console.log(resources);
   if (resources) {
     const linkComponent = (resource: Article | Collection) => (
       childrenProps: React.ReactElement<any>,
@@ -92,7 +92,7 @@ const Component: React.SFC<IProps> = props => {
               | Article_owner_PublicUserDTO
               | Article_owner_CommunityDTO;
 
-            console.log(resource);
+            // console.log(resource);
             if (resource.__typename === "ArticleDTO") {
               const article = resource;
               return (

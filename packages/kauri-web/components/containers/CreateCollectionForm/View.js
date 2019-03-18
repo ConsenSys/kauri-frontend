@@ -415,7 +415,7 @@ export default ({
                     count: R.pipe(
                       R.map(({ resourcesId }) => resourcesId),
                       R.reduce((current, next) => {
-                        const articlesInSection = next.filter(({ type }) => type === "ARTICLE")
+                        const articlesInSection = next.filter(({ type }) => type.toLowerCase() === "article")
                         if (articlesInSection) {
                           return current + articlesInSection.length
                         }
@@ -428,7 +428,7 @@ export default ({
                     count: R.pipe(
                       R.map(({ resourcesId }) => resourcesId),
                       R.reduce((current, next) => {
-                        const collectionsInSection = next.filter(({ type }) => type === "COLLECTION")
+                        const collectionsInSection = next.filter(({ type }) => type.toLowerCase() === "collection")
                         if (collectionsInSection) {
                           return current + collectionsInSection.length
                         }
@@ -548,7 +548,7 @@ export default ({
                               )}
                               chosenArticles={R.pipe(
                                 R.path(["sections", index, "resourcesId"]),
-                                R.filter(({ type }) => type === "ARTICLE")
+                                R.filter(({ type }) => type.toLowerCase() === "article")
                               )(values)}
                               closeModalAction={() => closeModalAction()}
                               confirmModal={chosenArticles =>
@@ -557,14 +557,14 @@ export default ({
                                   R.pipe(
                                     R.path(["sections", index, "resourcesId"]),
                                     R.filter(
-                                      ({ type }) => type === "COLLECTION"
+                                      ({ type }) => type.toLowerCase() === "collection"
                                     ),
                                     R.concat(
                                       chosenArticles.map(article => ({
                                         ...article,
                                         type: "ARTICLE",
                                       }))
-                                    )
+                                    ),
                                   )(values)
                                 )
                               }
@@ -582,7 +582,7 @@ export default ({
                               )}
                               chosenCollections={R.pipe(
                                 R.path(["sections", index, "resourcesId"]),
-                                R.filter(({ type }) => type === "COLLECTION")
+                                R.filter(({ type }) => type.toLowerCase() === "collection")
                               )(values)}
                               closeModalAction={() => closeModalAction()}
                               confirmModal={chosenCollections =>
@@ -590,7 +590,7 @@ export default ({
                                   `sections[${index}].resourcesId`,
                                   R.pipe(
                                     R.path(["sections", index, "resourcesId"]),
-                                    R.filter(({ type }) => type === "ARTICLE"),
+                                    R.filter(({ type }) => type.toLowerCase() === "article"),
                                     R.concat(
                                       chosenCollections.map(collection => ({
                                         ...collection,
