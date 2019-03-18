@@ -60,6 +60,9 @@ export const globalCollectionDetails = gql`
           ... on ArticleDTO {
             ...Article
           }
+          ... on CollectionDTO {
+            ...Collection
+          }
         }
       }
       resourceIdentifier {
@@ -70,6 +73,7 @@ export const globalCollectionDetails = gql`
   }
 
   ${Article}
+  ${Collection}
   ${UserOwner}
   ${CommunityOwner}
 `;

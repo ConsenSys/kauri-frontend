@@ -54,6 +54,7 @@ storiesOf("Headers", module)
   .add("Collection Header", () => (
     <CollectionHeader
       articleCount={4}
+      collectionCount={0}
       tags={["lol", "lol2", "hey"]}
       imageURL={null}
       id={"1234567890"}
