@@ -42,7 +42,7 @@ class CommunityConnection extends React.Component<IProps> {
             {name: `Home`},
             {name: `Articles (${articles && articles.length})`},
             {name: `Collections (${collections && collections.length})`},
-            !isMember ? {name: 'Manage Community'} : null,
+            isMember ? {name: 'Manage Community'} : null,
           ]}
           panels={[
           <DisplayResources key="home" resources={getCommunity.approved} />,
