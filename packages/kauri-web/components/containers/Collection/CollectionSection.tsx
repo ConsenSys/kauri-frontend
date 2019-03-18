@@ -206,10 +206,10 @@ const Component: React.SFC<IProps> = props => {
                     collection.owner &&
                       (collection.owner as Collection_owner_PublicUserDTO).id
                   )}
-                  username={String(
+                  username={
                     collection.owner &&
-                      (collection.owner as Collection_owner_PublicUserDTO).name
-                  )}
+                    (collection.owner as Collection_owner_PublicUserDTO).name
+                  }
                   userAvatar={String(
                     collection.owner &&
                       (collection.owner as Collection_owner_PublicUserDTO)
