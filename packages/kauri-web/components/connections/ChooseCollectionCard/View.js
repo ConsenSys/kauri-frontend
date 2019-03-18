@@ -62,11 +62,38 @@ const CollectionsContent = ({
           }
 
           const articleCount =
-            collection.sections &&
-            collection.sections.reduce((current, next) => {
-              current += next.resources && next.resources.length;
-              return current;
-            }, 0);
+                collection.sections &&
+                collection.sections.reduce((current, next) => {
+                  if (next && Array.isArray(next.resources)) {
+                    const articlesInSection = next.resources.filter(
+                      sectionResource =>
+                        sectionResource &&
+                        sectionResource.__typename
+                          .toLowerCase()
+                          .includes("article")
+                    );
+                    current += articlesInSection.length;
+                  }
+                  return current;
+                }, 0);
+
+              const collectionCount =
+                collection.sections &&
+                collection.sections.reduce((current, next) => {
+                  if (next && Array.isArray(next.resources)) {
+                    const collectionsInSection = next.resources.filter(
+                      sectionResource =>
+                        sectionResource &&
+                        sectionResource.__typename
+                          .toLowerCase()
+                          .includes("collection")
+                    );
+                    current += collectionsInSection.length;
+                  }
+                  return current;
+                }, 0);
+
+
 
           return (
             <CollectionCard
@@ -81,6 +108,7 @@ const CollectionsContent = ({
               imageURL={collection.background}
               isLoggedIn={!!userId}
               articleCount={articleCount}
+              collectionCount={collectionCount}
               linkComponent={children => <Link>{children}</Link>}
               hoverChildren={({ hideDispatch }) => (
                 <React.Fragment>

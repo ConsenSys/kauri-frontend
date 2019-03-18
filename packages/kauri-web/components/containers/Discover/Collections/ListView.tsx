@@ -70,10 +70,33 @@ class Collections extends Component<IProps> {
                   collectionResource &&
                   collectionResource.sections &&
                   collectionResource.sections.reduce((current, next) => {
-                    const sectionCount =
-                      (next && next.resourcesId && next.resourcesId.length) ||
-                      0;
-                    current += sectionCount;
+                    if (next && Array.isArray(next.resourcesId)) {
+                      const articlesInSection = next.resourcesId.filter(
+                        sectionResource =>
+                          sectionResource &&
+                          sectionResource.type &&
+                          sectionResource.type.toLowerCase().includes("article")
+                      );
+                      current += articlesInSection.length;
+                    }
+                    return current;
+                  }, 0);
+
+                const collectionCount =
+                  collectionResource &&
+                  collectionResource.sections &&
+                  collectionResource.sections.reduce((current, next) => {
+                    if (next && Array.isArray(next.resourcesId)) {
+                      const collectionsInSection = next.resourcesId.filter(
+                        sectionResource =>
+                          sectionResource &&
+                          sectionResource.type &&
+                          sectionResource.type
+                            .toLowerCase()
+                            .includes("collection")
+                      );
+                      current += collectionsInSection.length;
+                    }
                     return current;
                   }, 0);
 
@@ -102,6 +125,7 @@ class Collections extends Component<IProps> {
                       collectionResource && collectionResource.background
                     }
                     articleCount={String(articleCount)}
+                    collectionCount={String(collectionCount)}
                     date={collectionResource && collectionResource.dateUpdated}
                     cardHeight={310}
                     cardWidth={290}

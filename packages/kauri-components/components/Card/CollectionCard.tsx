@@ -92,16 +92,26 @@ const Content = styled<{}, "div">("div")`
 
 const Footer = styled<IContentStyledComponentProps, "div">("div")`
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  > :not(:last-child) {
+    margin-right: ${props => props.theme.space[1]}px;
+  }
+`;
+
+const Count = styled<IContentStyledComponentProps, "div">("div")`
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  > * {
-    text-transform: uppercase;
-  }
   padding: ${props =>
     typeof props.imageURL === "string" ? props.theme.space[2] + "px" : ""};
   padding-top: ${props =>
     typeof props.imageURL === "string" ? props.theme.space[1] + "px" : ""};
+  > * {
+    text-transform: uppercase;
+  }
 `;
 
 const Divider = styled.div`
@@ -511,6 +521,7 @@ interface IProps {
   userAvatar: string | null;
   userId: string;
   articleCount: string;
+  collectionCount: string;
   imageURL: string | null;
   cardHeight: number;
   cardWidth?: number;
@@ -535,6 +546,7 @@ interface IRenderFooterProps {
   id: string;
   imageURL: string | null;
   articleCount: string;
+  collectionCount: string;
   linkComponent: (
     childrenProps: React.ReactElement<any>,
     route: string
@@ -545,12 +557,23 @@ const RenderFooter: React.FunctionComponent<IRenderFooterProps> = ({
   id,
   imageURL,
   articleCount,
+  collectionCount,
   linkComponent,
 }) =>
   linkComponent(
     <Footer imageURL={imageURL}>
-      <H4>{articleCount || "0"}</H4>
-      <Label>Articles</Label>
+      {!!Number(articleCount) && (
+        <Count imageURL={imageURL}>
+          <H4>{articleCount}</H4>
+          <Label>{`Article${Number(articleCount) > 1 ? "s" : ""}`}</Label>
+        </Count>
+      )}
+      {!!Number(collectionCount) && (
+        <Count imageURL={imageURL}>
+          <H4>{collectionCount}</H4>
+          <Label>{`Collection${Number(collectionCount) > 1 ? "s" : ""}`}</Label>
+        </Count>
+      )}
     </Footer>,
     `/collection/${id}`
   );
@@ -570,6 +593,7 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
   hoverChildren,
   isChosenCollection,
   articleCount,
+  collectionCount,
   triggerHoverChildrenOnFullCardClick = false,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
@@ -620,6 +644,7 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
           imageURL={imageURL}
           linkComponent={linkComponent}
           articleCount={articleCount}
+          collectionCount={collectionCount}
         />
       </Container>
     </BaseCard>

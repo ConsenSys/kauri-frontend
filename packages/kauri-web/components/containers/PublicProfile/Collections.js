@@ -46,9 +46,34 @@ const Collections = ({
       <CollectionsContainer>
         {data.searchCollections.content.map(collection => {
           const articleCount =
+            collection &&
             collection.sections &&
             collection.sections.reduce((current, next) => {
-              current += next.resourcesId && next.resourcesId.length;
+              if (next && Array.isArray(next.resourcesId)) {
+                const articlesInSection = next.resourcesId.filter(
+                  sectionResource =>
+                    sectionResource &&
+                    sectionResource.type &&
+                    sectionResource.type.toLowerCase().includes("article")
+                );
+                current += articlesInSection.length;
+              }
+              return current;
+            }, 0);
+
+          const collectionCount =
+            collection &&
+            collection.sections &&
+            collection.sections.reduce((current, next) => {
+              if (next && Array.isArray(next.resourcesId)) {
+                const collectionsInSection = next.resourcesId.filter(
+                  sectionResource =>
+                    sectionResource &&
+                    sectionResource.type &&
+                    sectionResource.type.toLowerCase().includes("collection")
+                );
+                current += collectionsInSection.length;
+              }
               return current;
             }, 0);
           return (
@@ -63,6 +88,7 @@ const Collections = ({
               userId={collection.owner && collection.owner.id}
               userAvatar={collection.owner && collection.owner.avatar}
               articleCount={articleCount}
+              collectionCount={collectionCount}
               imageURL={collection.background}
               cardHeight={310}
               linkComponent={(childrenProps, route) => (

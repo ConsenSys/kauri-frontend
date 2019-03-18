@@ -162,8 +162,31 @@ const Component: React.SFC<IProps> = props => {
               const articleCount =
                 collection.sections &&
                 collection.sections.reduce((current, next) => {
-                  if (Array.isArray(next) && next.resources) {
-                    current += next.resources.length;
+                  if (next && Array.isArray(next.resources)) {
+                    const articlesInSection = next.resources.filter(
+                      sectionResource =>
+                        sectionResource &&
+                        sectionResource.__typename
+                          .toLowerCase()
+                          .includes("article")
+                    );
+                    current += articlesInSection.length;
+                  }
+                  return current;
+                }, 0);
+
+              const collectionCount =
+                collection.sections &&
+                collection.sections.reduce((current, next) => {
+                  if (next && Array.isArray(next.resources)) {
+                    const collectionsInSection = next.resources.filter(
+                      sectionResource =>
+                        sectionResource &&
+                        sectionResource.__typename
+                          .toLowerCase()
+                          .includes("collection")
+                    );
+                    current += collectionsInSection.length;
                   }
                   return current;
                 }, 0);
@@ -173,9 +196,12 @@ const Component: React.SFC<IProps> = props => {
                   key={String(collection.id)}
                   id={String(collection.id)}
                   articleCount={String(articleCount)}
-                  description={String(collection.description)}
+                  collectionCount={String(collectionCount)}
+                  description={
+                    collection.description ? collection.description : ""
+                  }
                   date={collection.dateUpdated}
-                  name={String(collection.name)}
+                  name={collection.name ? collection.name : ""}
                   userId={String(
                     collection.owner &&
                       (collection.owner as Collection_owner_PublicUserDTO).id

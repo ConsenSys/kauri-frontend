@@ -58,6 +58,7 @@ storiesOf("CollectionCard", module)
       userId={"HEY"}
       linkComponent={linkComponent}
       articleCount={"3"}
+      collectionCount={"3"}
       cardHeight={310}
     />
   ))
@@ -88,6 +89,7 @@ storiesOf("CollectionCard", module)
       linkComponent={linkComponent}
       userAvatar={null}
       articleCount={"5"}
+      collectionCount={"3"}
     />
   ))
   .add(
@@ -119,6 +121,7 @@ storiesOf("CollectionCard", module)
         linkComponent={linkComponent}
         userAvatar={null}
         articleCount={"5"}
+        collectionCount={"3"}
         isChosenCollection={true}
       />
     )
