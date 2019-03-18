@@ -5,7 +5,6 @@ import R from "ramda";
 import TextTruncate from "react-text-truncate";
 import { Label, Title2, H4, BodyCard } from "../Typography";
 import theme from "../../lib/theme-config";
-import PrimaryButton from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
 import UserAvatar from "../UserAvatar";
 import Image from "../Image";
@@ -15,6 +14,7 @@ import {
   IToggleAction,
   showDispatch,
   hideDispatch,
+  toggleDispatch,
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
 import Date from "../HoverDateLabel";
@@ -412,49 +412,33 @@ const HoverContainer = styled<{ hasImageURL: boolean }, "div">("div")`
   display: flex;
   height: 100%;
   width: 100%;
-  z-index: 9001;
+  z-index: 2;
   flex-direction: column;
   position: absolute;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
   background: ${props => props.theme.colors.textPrimary};
-  > :first-child {
-    margin-bottom: ${props => props.theme.space[2]}px;
+  > :not(:last-child) {
+    margin-bottom: ${props => props.theme.space[1]}px;
   }
   ${props => !props.hasImageURL && shiftMarginDueToNoImageURLCss};
 `;
 
-interface IHoverActionPayload {
-  id: string;
-}
-
 interface IHoverProps {
-  id: string;
   hasImageURL: boolean;
-  hoverAction: (payload: IHoverActionPayload) => void;
-  viewAction: (payload: IHoverActionPayload) => void;
-  isChosenCollection?: boolean;
+  hoverChildren: React.ReactElement<any>;
+  cancelAction: () => void;
 }
 
-const handleHovereredClick = (id: string, hoverAction: any) => () =>
-  hoverAction({ id });
-const handleViewClick = (id: string, viewAction: any) => () =>
-  viewAction({ id });
-
-const Hover: React.SFC<IHoverProps> = ({
+const Hover: React.FunctionComponent<IHoverProps> = ({
   hasImageURL,
-  hoverAction,
-  viewAction,
-  id,
+  cancelAction,
+  hoverChildren,
 }) => (
   <HoverContainer hasImageURL={hasImageURL}>
-    <PrimaryButton onClick={handleHovereredClick(id, hoverAction)}>
-      Choose Article
-    </PrimaryButton>
-    <SecondaryButton onClick={handleViewClick(id, viewAction)}>
-      View Article
-    </SecondaryButton>
+    {hoverChildren}
+    <SecondaryButton onClick={cancelAction}>Cancel</SecondaryButton>
   </HoverContainer>
 );
 
@@ -534,9 +518,17 @@ interface IProps {
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
-  hoverAction?: (payload: IHoverActionPayload) => void;
-  viewAction?: (payload: IHoverActionPayload) => void;
   isChosenCollection?: boolean;
+  triggerHoverChildrenOnFullCardClick?: boolean;
+  hoverChildren?:
+    | null
+    | ((
+        payload: {
+          hideDispatch: () => void;
+          showDispatch: () => void;
+          toggleDispatch: () => void;
+        }
+      ) => React.ReactElement<any>);
 }
 
 interface IRenderFooterProps {
@@ -575,10 +567,10 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
   cardWidth = DEFAULT_CARD_WIDTH,
   cardHeight = DEFAULT_CARD_HEIGHT,
   linkComponent,
-  hoverAction,
-  viewAction,
+  hoverChildren,
   isChosenCollection,
   articleCount,
+  triggerHoverChildrenOnFullCardClick = false,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
     IToggleState,
@@ -590,23 +582,25 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
       imageURL={imageURL}
       cardWidth={calculateCardWidth({ cardWidth, imageURL })}
       cardHeight={calculateCardHeight({ cardHeight, cardWidth, imageURL })}
-      handleMouseEnter={showDispatch(dispatch)}
-      handleMouseLeave={hideDispatch(dispatch)}
       isChosenArticle={isChosenCollection}
       toggledOn={toggledOn}
-      hoverAction={hoverAction}
     >
-      {typeof hoverAction === "function" &&
-        typeof viewAction === "function" &&
-        toggledOn === true && (
-          <Hover
-            hasImageURL={Boolean(imageURL)}
-            viewAction={viewAction}
-            hoverAction={hoverAction}
-            id={id}
-          />
-        )}
-      <Container>
+      {!!hoverChildren && toggledOn === true && (
+        <Hover
+          hasImageURL={Boolean(imageURL)}
+          cancelAction={hideDispatch(dispatch)}
+          hoverChildren={hoverChildren({
+            hideDispatch: hideDispatch(dispatch),
+            showDispatch: showDispatch(dispatch),
+            toggleDispatch: toggleDispatch(dispatch),
+          })}
+        />
+      )}
+      <Container
+        onClick={() =>
+          triggerHoverChildrenOnFullCardClick && showDispatch(dispatch)()
+        }
+      >
         <RenderContent
           cardHeight={cardHeight}
           cardWidth={cardWidth}

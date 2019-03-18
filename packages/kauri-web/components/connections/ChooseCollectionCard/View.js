@@ -22,6 +22,23 @@ const Container = styled.div`
   }
 `;
 
+const Link = styled.a`
+  text-decoration: none;
+  color: inherit;
+  :hover {
+    color: ${props => props.theme.colors.hoverTextColor} !important;
+    > * {
+      color: ${props => props.theme.colors.hoverTextColor} !important;
+      > * {
+        color: ${props => props.theme.colors.hoverTextColor} !important;
+        > * {
+          color: ${props => props.theme.colors.hoverTextColor} !important;
+        }
+      }
+    }
+  }
+`;
+
 const CollectionsContent = ({
   chooseCollection,
   viewCollection,
@@ -64,7 +81,7 @@ const CollectionsContent = ({
               imageURL={collection.background}
               isLoggedIn={!!userId}
               articleCount={articleCount}
-              linkComponent={children => children}
+              linkComponent={children => <Link>{children}</Link>}
               hoverChildren={({ hideDispatch }) => (
                 <React.Fragment>
                   <PrimaryButton
@@ -96,6 +113,7 @@ const CollectionsContent = ({
                     collection.id === id && collection.version === version
                 )
               }
+              triggerHoverChildrenOnFullCardClick
             />
           );
         })}
