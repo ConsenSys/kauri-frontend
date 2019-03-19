@@ -43,5 +43,6 @@ storiesOf("Community", module).add("Community Header", () => (
     background="https://aragon.org/static/37b0448a-unstoppable-org.svg"
     articles={23}
     collections={6}
+    isMember={true}
   />
 ));
