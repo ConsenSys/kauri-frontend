@@ -4,7 +4,7 @@ import Actions from "./CreateCommunityFormActions";
 import Header from "./CreateCommunityFormHeader";
 import Content from "./CreateCommunityFormContent";
 import setImageUploader from "../../common/ImageUploader";
-import { routeChangeAction } from "../../../lib/Module";
+import { routeChangeAction, IUser } from "../../../lib/Module";
 import { createCommunityAction, updateCommunityAction } from "./Module";
 import { InjectedFormikProps } from "formik";
 import Helmet from "react-helmet";
@@ -22,6 +22,9 @@ export interface IProps {
   createCommunityAction: typeof createCommunityAction;
   updateCommunityAction: typeof updateCommunityAction;
   data: getCommunity | null;
+  userId: string;
+  userAvatar: string | null;
+  username: string | null;
 }
 
 const handleBackgroundSetFormField = (setFieldValue: any) => () =>
@@ -49,10 +52,14 @@ const Component: React.SFC<
       id={props.id}
       goBack={() => props.routeChangeAction(`back`)}
       setupImageUploader={handleBackgroundSetFormField(props.setFieldValue)}
+      isSubmitting={props.isSubmitting}
     />
 
     <Header
       {...props.values}
+      userId={props.userId}
+      userAvatar={props.userAvatar}
+      username={props.username}
       tags={props.values.tags || []}
       avatar={props.values.avatar}
       background={props.values.attributes && props.values.attributes.background}

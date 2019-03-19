@@ -59,6 +59,8 @@ export type Actions =
 
 export interface IUser {
   id: string;
+  avatar: string | null;
+  username: string | null;
 }
 
 export interface IReduxState {
