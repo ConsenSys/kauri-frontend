@@ -210,11 +210,11 @@ const Component: React.SFC<IProps> = props => {
                     collection.owner &&
                     (collection.owner as Collection_owner_PublicUserDTO).name
                   }
-                  userAvatar={String(
+                  userAvatar={
                     collection.owner &&
                       (collection.owner as Collection_owner_PublicUserDTO)
                         .avatar
-                  )}
+                  }
                   imageURL={collection.background}
                   linkComponent={(
                     childrenProps: React.ReactElement<any>,
