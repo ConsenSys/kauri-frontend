@@ -14,7 +14,9 @@ export interface ICommunityAttributes {
 export type IFormValues = updateCommunityVariables;
 
 const mapStateToProps = ({ app: { user } }: IReduxState) => ({
+  userAvatar: user && user.avatar,
   userId: user && user.id,
+  username: user && user.username,
 });
 
 export default compose(
@@ -25,6 +27,7 @@ export default compose(
   withFormik<IProps, IFormValues>({
     handleSubmit: (values, { setSubmitting, props }) => {
       console.info(JSON.stringify(values, null, 2));
+      setSubmitting(true);
       if (props.id) {
         props.updateCommunityAction(values, () => {
           setSubmitting(false);

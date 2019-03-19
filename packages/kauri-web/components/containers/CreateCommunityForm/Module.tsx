@@ -1,6 +1,5 @@
 import { Epic } from "redux-observable";
 import { Observable } from "rxjs/Observable";
-import gql from "graphql-tag";
 import {
   IReduxState,
   IDependencies,
@@ -11,61 +10,15 @@ import {
 import {
   createCommunity,
   createCommunityVariables,
-} from "./__generated__/createCommunity";
+} from "../../../queries/__generated__/createCommunity";
 import {
   updateCommunity,
   updateCommunityVariables,
-} from "./__generated__/updateCommunity";
-
-export const createCommunityMutation = gql`
-  mutation createCommunity(
-    $name: String
-    $description: String
-    $avatar: String
-    $website: String
-    $tags: [String]
-    $social: Map_String_StringScalar
-    $attributes: Map_String_StringScalar
-  ) {
-    createCommunity(
-      name: $name
-      description: $description
-      avatar: $avatar
-      website: $website
-      social: $social
-      attributes: $attributes
-      tags: $tags
-    ) {
-      hash
-    }
-  }
-`;
-
-export const updateCommunityMutation = gql`
-  mutation updateCommunity(
-    $id: String
-    $name: String
-    $description: String
-    $avatar: String
-    $website: String
-    $tags: [String]
-    $social: Map_String_StringScalar
-    $attributes: Map_String_StringScalar
-  ) {
-    createCommunity(
-      id: $id
-      name: $name
-      description: $description
-      avatar: $avatar
-      website: $website
-      social: $social
-      attributes: $attributes
-      tags: $tags
-    ) {
-      hash
-    }
-  }
-`;
+} from "../../../queries/__generated__/updateCommunity";
+import {
+  createCommunityMutation,
+  updateCommunityMutation,
+} from "../../../queries/Community";
 
 export interface ICreateCommunityAction extends IAction {
   callback: () => void;

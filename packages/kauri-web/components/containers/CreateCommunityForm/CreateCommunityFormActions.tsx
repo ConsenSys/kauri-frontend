@@ -13,6 +13,7 @@ interface IProps {
   id: string | undefined;
   goBack: () => void;
   setupImageUploader: () => void;
+  isSubmitting: boolean;
 }
 
 const Component: React.FunctionComponent<IProps> = props => (
@@ -35,7 +36,7 @@ const Component: React.FunctionComponent<IProps> = props => (
       </MiddleActionsStack>
 
       <RightActionsRow>
-        <PrimaryButtonComponent type="submit">
+        <PrimaryButtonComponent type="submit" disabled={props.isSubmitting}>
           {`${props.id ? "Update" : "Create"} Community`}
         </PrimaryButtonComponent>
       </RightActionsRow>

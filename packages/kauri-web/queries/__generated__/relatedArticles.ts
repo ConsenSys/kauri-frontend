@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceIdentifierInput, SearchFilterInput, ResourceType } from "./../../__generated__/globalTypes";
