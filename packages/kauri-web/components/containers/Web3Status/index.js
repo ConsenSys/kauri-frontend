@@ -12,7 +12,7 @@ const networkNames = {
   224895: "Kauri Dev",
 };
 
-const supportedNetworkIds = [4, 224895];
+// const supportedNetworkIds = [4, 224895];
 const ONE_SECOND = 1000;
 const ONE_MINUTE = ONE_SECOND * 60;
 
@@ -28,11 +28,11 @@ const StatusIndicator = styled.div`
 
 const Loading = props => <div>Loading...</div>;
 
-const UnsupportedNetwork = props => (
-  <div>
-    MetaMask should be on <strong>Rinkeby</strong> Network
-  </div>
-);
+// const UnsupportedNetwork = props => (
+//   <div>
+//     MetaMask should be on <strong>Rinkeby</strong> Network
+//   </div>
+// );
 
 const Web3Unavailable = props => (
   <div>
@@ -147,7 +147,7 @@ class AccountDetails extends Component {
 
   toggleHovered = () => this.setState({ hovered: !this.state.hovered });
 
-  render() {
+  render () {
     const {
       currentNetworkName,
       networkError,
@@ -175,7 +175,7 @@ class AccountDetails extends Component {
 }
 
 class Web3Status extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.interval = null;
@@ -191,7 +191,7 @@ class Web3Status extends Component {
     };
   }
 
-  componentDidCatch(err, errorInfo) {
+  componentDidCatch (err, errorInfo) {
     console.log(this.state);
     console.log(err);
     console.log(errorInfo);
@@ -201,7 +201,7 @@ class Web3Status extends Component {
    * Start polling accounts, & network. We poll indefinitely so that we can
    * react to the user changing accounts or networks.
    */
-  componentDidMount() {
+  componentDidMount () {
     this.fetchAccounts();
     this.fetchNetwork();
     this.initPoll();
@@ -212,7 +212,7 @@ class Web3Status extends Component {
    * Init web3/account polling, and prevent duplicate interval.
    * @return {void}
    */
-  initPoll() {
+  initPoll () {
     if (!this.interval) {
       this.interval = setInterval(this.fetchAccounts, ONE_SECOND);
     }
@@ -222,7 +222,7 @@ class Web3Status extends Component {
    * Init network polling, and prevent duplicate intervals.
    * @return {void}
    */
-  initNetworkPoll() {
+  initNetworkPoll () {
     if (!this.networkInterval) {
       this.networkInterval = setInterval(this.fetchNetwork, ONE_MINUTE);
     }
@@ -232,7 +232,7 @@ class Web3Status extends Component {
    * Update state regarding the availability of web3 and an ETH account.
    * @return {void}
    */
-  fetchAccounts() {
+  fetchAccounts () {
     const { web3 } = global.window;
 
     web3 &&
@@ -257,7 +257,7 @@ class Web3Status extends Component {
       });
   }
 
-  handleAccounts(accounts) {
+  handleAccounts (accounts) {
     let next = accounts && accounts[0];
     let curr = this.state.accounts && this.state.accounts[0];
     next = next && next.toLowerCase();
@@ -294,7 +294,7 @@ class Web3Status extends Component {
    * Get the network and update state accordingly.
    * @return {void}
    */
-  fetchNetwork() {
+  fetchNetwork () {
     const { web3 } = window;
 
     web3 &&
@@ -318,7 +318,7 @@ class Web3Status extends Component {
       });
   }
 
-  render() {
+  render () {
     if (!global.window) return <Loading />;
 
     const { web3 } = global.window;
@@ -331,9 +331,9 @@ class Web3Status extends Component {
       return <Web3Unavailable />;
     }
 
-    if (networkId && supportedNetworkIds.indexOf(networkId) < 0) {
-      return <UnsupportedNetwork currentNetworkName={currentNetworkName} />;
-    }
+    // if (networkId && supportedNetworkIds.indexOf(networkId) < 0) {
+    //   return <UnsupportedNetwork currentNetworkName={currentNetworkName} />;
+    // }
 
     if (!accountsLoaded) {
       return <Loading />;
