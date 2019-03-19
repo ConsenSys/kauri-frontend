@@ -22,7 +22,7 @@ const StatusIndicator = styled.div`
   width: 15px;
   border-radius: 50%;
   background: ${props =>
-    props.accountsError || props.networkError ? "red" : "rgb(246, 195, 67)"};
+    props.accountsError || props.networkError ? "red" : "rgb(3, 135, 137)"};
   border: 1px solid #fff;
 `;
 
