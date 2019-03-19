@@ -23,6 +23,7 @@ query getCommunity(
       id
       dateCreated
       dateUpdated
+      creatorId
       creator {
           id
           username

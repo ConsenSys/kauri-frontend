@@ -136,6 +136,7 @@ interface IProps {
   articles: number;
   collections: number;
   background?: string;
+  isMember: boolean;
 }
 
 const CommunityHeader = ({
@@ -150,6 +151,7 @@ const CommunityHeader = ({
   articles,
   collections,
   members,
+  isMember,
 }: IProps) => (
   <Wrapper>
     {background && (
@@ -234,10 +236,12 @@ const CommunityHeader = ({
             )}
           </RightSide>
         </Row>
-        <Row className="suggest-content">
-          <SuggestIcon />
-          <Label color="white">Suggest Content</Label>
-        </Row>
+        {!isMember && (
+          <Row className="suggest-content">
+            <SuggestIcon />
+            <Label color="white">Suggest Content</Label>
+          </Row>
+        )}
       </RightSide>
     </Container>
   </Wrapper>
