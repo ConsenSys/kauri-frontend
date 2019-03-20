@@ -83,20 +83,20 @@ const withSchema = (WrappedComponent: React.ComponentClass) => {
         schemaString,
       } = getValues(this.props);
 
+      const canonicalURL =
+        attributes && attributes.origin_url
+          ? attributes.origin_url
+          : attributes && attributes.json
+          ? attributes.json.origin_url
+          : getCanonicalURL(hostName, String(id), String(title));
+
       return (
         <>
           <Helmet>
             <script type="application/ld+json">{schemaString}</script>
             <title>{title} - Kauri</title>
             <meta name="description" content={String(description)} />
-            <link
-              rel="canonical"
-              href={
-                attributes && attributes.origin_url
-                  ? attributes.origin_url
-                  : getCanonicalURL(hostName, String(id), String(title))
-              }
-            />
+            <link rel="canonical" href={canonicalURL} />
             <meta property="og:title" content={String(title)} />
             <meta property="og:site_name" content="kauri.io" />
             <meta
