@@ -186,6 +186,7 @@ export default ({
         )}
       </Right>
     </Details>
+    {status !== 'DRAFT' && <>
     <Divider />
     <VoteContainer>
       <VoteArticle
@@ -196,7 +197,7 @@ export default ({
         loginFirstToVote={loginFirstToVote}
       />
     </VoteContainer>
-
+    </>}
     <RelatedArticlesDividerContainer>
       <Divider />
     </RelatedArticlesDividerContainer>
