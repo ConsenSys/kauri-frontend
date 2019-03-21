@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import { getCommunity } from "../../../queries/Community";
 import withLoading from "../../../lib/with-loading";
-import { openModalAction } from "../../../../kauri-components/components/Modal/Module";
+import { openModalAction, closeModalAction } from "../../../../kauri-components/components/Modal/Module";
+
 import { IReduxState } from '../../../lib/Module';
 
 const mapStateToProps = (state:  IReduxState) => ({
@@ -15,7 +16,7 @@ const mapStateToProps = (state:  IReduxState) => ({
 export default compose(
   connect(
     mapStateToProps,
-    { openModalAction }
+    { openModalAction, closeModalAction }
   ),
   graphql(getCommunity, {
     options: ({ communityId }: {communityId: string}) => ({

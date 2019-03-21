@@ -11,6 +11,8 @@ interface IProps {
   data: {
     getCommunity: getCommunity_getCommunity;
   }
+  closeModalAction: () => void;
+  openModalAction: () => void;
 }
 
 class CommunityConnection extends React.Component<IProps> {
@@ -19,12 +21,11 @@ class CommunityConnection extends React.Component<IProps> {
       return null;
     }
 
-    const {data: {getCommunity}, currentUser} = this.props;
+    const {data: {getCommunity}, currentUser, closeModalAction, openModalAction} = this.props;
     const articles = getCommunity.approved && getCommunity.approved.filter( i => i && i.__typename === 'ArticleDTO');
     const collections = getCommunity.approved && getCommunity.approved.filter( i => i && i.__typename === 'CollectionDTO');
     const isCreator = getCommunity.creatorId === currentUser
     const isMember = isCreator || R.any(R.propEq('id', currentUser), getCommunity.members || [])
-
       return <>
           <CommunityHeader
           avatar={String(getCommunity.avatar)}
@@ -38,6 +39,8 @@ class CommunityConnection extends React.Component<IProps> {
           tags={getCommunity.tags}
           members={getCommunity.members}
           isMember={isMember}
+          openModalAction={openModalAction}
+          closeModalAction={closeModalAction}
         />
         <Tabs
           dark={true}

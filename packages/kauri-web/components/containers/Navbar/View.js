@@ -287,7 +287,7 @@ class Navbar extends React.Component {
                   Articles
                 </TooltipItem>
               </Link>
-              <TooltipDivider />
+              {/* <TooltipDivider />
               <Link route="/communities">
                 <TooltipItem
                   href="/communities"
@@ -296,7 +296,7 @@ class Navbar extends React.Component {
                 >
                   Communities
                 </TooltipItem>
-              </Link>
+              </Link> */}
               <TooltipDivider />
               <Link route="/collections">
                 <TooltipItem
@@ -350,7 +350,7 @@ class Navbar extends React.Component {
                   Create Collection
                 </TooltipItem>
               </Link>
-              <TooltipDivider />
+              {/* <TooltipDivider />
 
               <Link
                 route={
@@ -364,7 +364,7 @@ class Navbar extends React.Component {
                 >
                   Create Community
                 </TooltipItem>
-              </Link>
+              </Link> */}
               <TooltipDivider />
 
               <Link
