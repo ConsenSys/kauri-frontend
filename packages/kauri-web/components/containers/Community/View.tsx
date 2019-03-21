@@ -19,10 +19,12 @@ class CommunityConnection extends React.Component<IProps> {
       return null;
     }
 
-    const {data: {getCommunity}} = this.props;
+    const {data: {getCommunity}, currentUser} = this.props;
     const articles = getCommunity.approved && getCommunity.approved.filter( i => i && i.__typename === 'ArticleDTO');
     const collections = getCommunity.approved && getCommunity.approved.filter( i => i && i.__typename === 'CollectionDTO');
-    const isMember = R.any(R.propEq('id', this.props.currentUser), getCommunity.members || [])
+    const isCreator = getCommunity.creatorId === currentUser
+    const isMember = isCreator || R.any(R.propEq('id', currentUser), getCommunity.members || [])
+
       return <>
           <CommunityHeader
           avatar={String(getCommunity.avatar)}
@@ -31,10 +33,11 @@ class CommunityConnection extends React.Component<IProps> {
           description={String(getCommunity.description)}
           id={String(getCommunity.id)}
           social={getCommunity.social}
-          articles={5}
-          collections={5}
+          articles={articles && articles.length || 0}
+          collections={collections && collections.length || 0}
           tags={getCommunity.tags}
           members={getCommunity.members}
+          isMember={isMember}
         />
         <Tabs
           dark={true}
@@ -42,7 +45,7 @@ class CommunityConnection extends React.Component<IProps> {
             {name: `Home`},
             {name: `Articles (${articles && articles.length})`},
             {name: `Collections (${collections && collections.length})`},
-            isMember ? {name: 'Manage Community'} : null,
+            isCreator ? {name: 'Manage Community'} : null,
           ]}
           panels={[
           <DisplayResources key="home" resources={getCommunity.approved} />,

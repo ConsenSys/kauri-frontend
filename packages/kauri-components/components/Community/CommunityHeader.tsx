@@ -7,6 +7,69 @@ import Statistics from "../PublicProfile/StatisticsContainer";
 import anchorme from "anchorme";
 import ShareCommunity from "../Tooltip/ShareArticle";
 import UserAvatar from "../UserAvatar";
+import { Tooltip } from "react-tippy";
+
+const TooltipContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  position: relative;
+  width: 190px;
+  text-align: center;
+  > * {
+    cursor: pointer;
+  }
+  > span:last-child {
+    text-transform: uppercase;
+  }
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+  border-radius: 4px;
+`;
+
+const TooltipArrow = styled.div`
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+  position: absolute;
+  z-index: -1;
+  top: -3%;
+  width: 14px;
+  height: 14px;
+  background: white;
+  transform: rotate(45deg);
+  border-radius: 2px;
+`;
+const TooltipItem = styled.div`
+  color: #0ba986;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+  width: 190px;
+  line-height: 15px;
+  text-align: center;
+  margin: 10px;
+
+  &: hover {
+    color: #267765;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`;
+
+const Divider = styled.div`
+  height: 2px;
+  width: 80%;
+  margin: auto;
+  background-color: #d8d8d8;
+`;
+
+export const Content = () => (
+  <TooltipContainer>
+    <TooltipArrow />
+    <TooltipItem>Suggest Article</TooltipItem>
+    <Divider />
+    <TooltipItem>Suggest Collection</TooltipItem>
+  </TooltipContainer>
+);
 
 const SuggestIcon = () => {
   const injectTags = `
@@ -65,6 +128,9 @@ const Container = styled.div`
 
   & .suggest-content {
     margin: ${props => props.theme.space[3]}px;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center;
     & svg {
       margin-right: ${props => props.theme.space[1]}px;
     }
@@ -136,6 +202,7 @@ interface IProps {
   articles: number;
   collections: number;
   background?: string;
+  isMember?: boolean;
 }
 
 const CommunityHeader = ({
@@ -150,6 +217,7 @@ const CommunityHeader = ({
   articles,
   collections,
   members,
+  isMember,
 }: IProps) => (
   <Wrapper>
     {background && (
@@ -234,10 +302,18 @@ const CommunityHeader = ({
             )}
           </RightSide>
         </Row>
-        <Row className="suggest-content">
-          <SuggestIcon />
-          <Label color="white">Suggest Content</Label>
-        </Row>
+        {isMember && (
+          <Tooltip
+            className="suggest-content"
+            position="bottom"
+            trigger="mouseenter"
+            html={<Content />}
+            interactive={true}
+          >
+            <SuggestIcon />
+            <Label color="white">Suggest Content</Label>
+          </Tooltip>
+        )}
       </RightSide>
     </Container>
   </Wrapper>
