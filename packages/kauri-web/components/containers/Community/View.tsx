@@ -31,8 +31,8 @@ class CommunityConnection extends React.Component<IProps> {
           description={String(getCommunity.description)}
           id={String(getCommunity.id)}
           social={getCommunity.social}
-          articles={5}
-          collections={5}
+          articles={articles && articles.length || 0}
+          collections={collections && collections.length || 0}
           tags={getCommunity.tags}
           members={getCommunity.members}
         />
