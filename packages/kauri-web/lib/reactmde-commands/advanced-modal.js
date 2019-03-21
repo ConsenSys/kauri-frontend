@@ -22,7 +22,8 @@ const AdvancedSettingsButtonContent = connect(
               confirmModal={origin_url => {
                 window.setFieldsValue({
                   attributes: {
-                    ...window.getFieldsValue(["attributes"]),
+                    ...(window.getFieldsValue(["attributes"]) &&
+                      window.getFieldsValue(["attributes"]).attributes),
                     origin_url,
                   },
                 });
