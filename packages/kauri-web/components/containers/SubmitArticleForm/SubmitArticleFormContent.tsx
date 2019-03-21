@@ -108,6 +108,8 @@ class SubmitArticleFormText extends React.Component<
       ],
     })(
       <SharedEditor
+        setFieldsValue={this.props.setFieldsValue}
+        getFieldsValue={this.props.getFieldsValue}
         hasErrors={this.props.getFieldError("text")}
         editorState={this.state.editorState}
         handleChange={this.handleChange}
