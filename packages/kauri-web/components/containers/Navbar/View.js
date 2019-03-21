@@ -113,7 +113,7 @@ const ProfileMiniature = styled.div`
   color: #1e2428;
   height: 30px;
   width: 30px;
-  border-radius: 15px;
+  border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -164,7 +164,7 @@ const Avatar = styled.div`
   justify-self: center;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
+  border-radius: 4px;
   background: ${props =>
     props.variant === "white"
       ? props.theme.colors["white"]
@@ -406,7 +406,7 @@ class Navbar extends React.Component {
                       image={user.avatar}
                       height={30}
                       width={30}
-                      borderRadius="15px"
+                      borderRadius="4px"
                     />
                   ) : (
                     <H6 color={"textPrimary"}>
