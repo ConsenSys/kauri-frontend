@@ -1,7 +1,7 @@
 import React from "react";
 
 const TriggerImageUploader: (
-  setFieldsValue?: ({ [string]: string }) => void,
+  setFieldsValue?: (payload: any) => void,
   fieldName: string,
   callback?: (file: string, hash: string) => void
 ) => void;
