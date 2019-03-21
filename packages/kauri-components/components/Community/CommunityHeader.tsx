@@ -302,7 +302,7 @@ const CommunityHeader = ({
             )}
           </RightSide>
         </Row>
-        {isMember && (
+        {!isMember && (
           <Tooltip
             className="suggest-content"
             position="bottom"
