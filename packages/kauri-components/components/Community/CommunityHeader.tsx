@@ -8,6 +8,8 @@ import anchorme from "anchorme";
 import ShareCommunity from "../Tooltip/ShareArticle";
 import UserAvatar from "../UserAvatar";
 import { Tooltip } from "react-tippy";
+import Modal from "../Modal/View";
+// import AddToCollectionModalContent from "../AddToCollection/AddToCollectionModalContent";
 
 const TooltipContainer = styled.section`
   display: flex;
@@ -62,12 +64,42 @@ const Divider = styled.div`
   background-color: #d8d8d8;
 `;
 
-export const Content = () => (
+export const Content = ({
+  openModalAction,
+  closeModalAction,
+}: {
+  openModalAction: any;
+  closeModalAction: any;
+}) => (
   <TooltipContainer>
     <TooltipArrow />
-    <TooltipItem>Suggest Article</TooltipItem>
+    <TooltipItem
+      onClick={() =>
+        openModalAction({
+          children: (
+            <Modal isModalOpen={true} closeModalAction={closeModalAction}>
+              <div>Create separate article selection component</div>
+            </Modal>
+          ),
+        })
+      }
+    >
+      Suggest Article
+    </TooltipItem>
     <Divider />
-    <TooltipItem>Suggest Collection</TooltipItem>
+    <TooltipItem
+      onClick={() =>
+        openModalAction({
+          children: (
+            <Modal isModalOpen={true} closeModalAction={closeModalAction}>
+              <div>Create separate collection selection component</div>
+            </Modal>
+          ),
+        })
+      }
+    >
+      Suggest Collection
+    </TooltipItem>
   </TooltipContainer>
 );
 
@@ -203,6 +235,8 @@ interface IProps {
   collections: number;
   background?: string;
   isMember?: boolean;
+  openModalAction: (children: any) => void;
+  closeModalAction: () => void;
 }
 
 const CommunityHeader = ({
@@ -218,6 +252,8 @@ const CommunityHeader = ({
   collections,
   members,
   isMember,
+  openModalAction,
+  closeModalAction,
 }: IProps) => (
   <Wrapper>
     {background && (
@@ -307,7 +343,12 @@ const CommunityHeader = ({
             className="suggest-content"
             position="bottom"
             trigger="mouseenter"
-            html={<Content />}
+            html={
+              <Content
+                closeModalAction={closeModalAction}
+                openModalAction={openModalAction}
+              />
+            }
             interactive={true}
           >
             <SuggestIcon />

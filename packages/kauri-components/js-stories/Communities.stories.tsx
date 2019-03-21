@@ -44,5 +44,7 @@ storiesOf("Community", module).add("Community Header", () => (
     articles={23}
     collections={6}
     isMember={true}
+    openModalAction={() => null}
+    closeModalAction={() => null}
   />
 ));
