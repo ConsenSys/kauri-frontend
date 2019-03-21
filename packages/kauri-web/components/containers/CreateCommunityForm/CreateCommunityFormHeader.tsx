@@ -73,6 +73,9 @@ interface IProps {
   background: undefined | string;
   tags: Array<string | null> | null;
   setFieldValue: (field: string, value: any) => void;
+  userId: string;
+  userAvatar: string | null;
+  username: string | null;
 }
 
 const Component: React.SFC<IProps> = props => (
@@ -166,9 +169,9 @@ const Component: React.SFC<IProps> = props => (
         <UserAvatarComponent
           variant="white"
           fullWidth={true}
-          username={"rej156"}
-          userId={"1234567890"}
-          avatar={null}
+          username={props.username}
+          userId={props.userId}
+          avatar={props.userAvatar}
         />
         <AddMemberButtonComponent onClick={() => {}} />
       </CreateCommunityMembersContainer>

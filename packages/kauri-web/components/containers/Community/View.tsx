@@ -25,8 +25,6 @@ class CommunityConnection extends React.Component<IProps> {
     const isCreator = getCommunity.creatorId === currentUser
     const isMember = isCreator || R.any(R.propEq('id', currentUser), getCommunity.members || [])
 
-    console.log(getCommunity);
-
       return <>
           <CommunityHeader
           avatar={String(getCommunity.avatar)}

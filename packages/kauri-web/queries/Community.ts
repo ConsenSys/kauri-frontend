@@ -52,21 +52,21 @@ query getCommunity(
         type
       }
       approved {
-        ...on ArticleDTO {
-            version
-            title
-            content
-            dateCreated
-            datePublished
-            author {
-                id
-                name
-            }
-            status
-            attributes
+        ... on ArticleDTO {
+          version
+          title
+          content
+          dateCreated
+          datePublished
+          author {
+            id
+            name
+          }
+          status
+          attributes
         }
-        
-        ...on CollectionDTO {
+
+        ... on CollectionDTO {
           id
           name
           description
@@ -80,21 +80,21 @@ query getCommunity(
         }
       }
       pending {
-        ...on ArticleDTO {
-            version
-            title
-            content
-            dateCreated
-            datePublished
-            author {
-                id
-                name
-            }
-            status
-            attributes
+        ... on ArticleDTO {
+          version
+          title
+          content
+          dateCreated
+          datePublished
+          author {
+            id
+            name
+          }
+          status
+          attributes
         }
-        
-        ...on CollectionDTO {
+
+        ... on CollectionDTO {
           id
           name
           description
@@ -145,6 +145,56 @@ export const getAllCommunities = gql`
         }
       }
       isLast
+    }
+  }
+`;
+
+export const createCommunityMutation = gql`
+  mutation createCommunity(
+    $name: String
+    $description: String
+    $avatar: String
+    $website: String
+    $tags: [String]
+    $social: Map_String_StringScalar
+    $attributes: Map_String_StringScalar
+  ) {
+    createCommunity(
+      name: $name
+      description: $description
+      avatar: $avatar
+      website: $website
+      social: $social
+      attributes: $attributes
+      tags: $tags
+    ) {
+      hash
+    }
+  }
+`;
+
+export const updateCommunityMutation = gql`
+  mutation updateCommunity(
+    $id: String
+    $name: String
+    $description: String
+    $avatar: String
+    $website: String
+    $tags: [String]
+    $social: Map_String_StringScalar
+    $attributes: Map_String_StringScalar
+  ) {
+    createCommunity(
+      id: $id
+      name: $name
+      description: $description
+      avatar: $avatar
+      website: $website
+      social: $social
+      attributes: $attributes
+      tags: $tags
+    ) {
+      hash
     }
   }
 `;

@@ -47,6 +47,7 @@ const AddMemberButtonComponent: React.FunctionComponent<IProps> = ({
   disabled,
 }) => (
   <AddMemberButton
+    type="button"
     disabled={Boolean(disabled)}
     onClick={onClick || handleClick}
     bg={bg}

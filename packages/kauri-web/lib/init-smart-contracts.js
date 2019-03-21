@@ -48,12 +48,18 @@ export const initSmartContracts = (web3: Web3Props, cb: any) => {
         });
         return smartContracts;
       })
-      .subscribe(result => {
-        // console.log(result)
-        window.smartContracts = result;
-        cb(result);
-        return result;
-      });
+      .subscribe(
+        result => {
+          // console.log(result)
+          window.smartContracts = result;
+          cb(result);
+          return result;
+        },
+        err => {
+          console.error(err);
+          cb(false, err);
+        }
+      );
   }
 };
 

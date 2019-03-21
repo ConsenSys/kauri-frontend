@@ -57,18 +57,23 @@ export default ({
     <CheckpointArticlesCTAContainer>
       {Array.isArray(articles) &&
       articles.find(article => !article.checkpoint) ? (
-        isOwner && (
-          <CTA
-            checkpointArticlesAction={checkpointArticlesAction}
-            pageType={pageType}
-          />
-        )
-      ) : (
-        <AllArticlesOnMainnet />
-      )}
+          isOwner && (
+            <CTA
+              checkpointArticlesAction={checkpointArticlesAction}
+              pageType={pageType}
+            />
+          )
+        ) : (
+          <AllArticlesOnMainnet />
+        )}
     </CheckpointArticlesCTAContainer>
   ) : articleCheckpointed === false ? (
-    isOwner && <CTA pageType={pageType} />
+    isOwner && (
+      <CTA
+        checkpointArticlesAction={checkpointArticlesAction}
+        pageType={pageType}
+      />
+    )
   ) : (
     <AllArticlesOnMainnet
       checkpointArticlesAction={checkpointArticlesAction}

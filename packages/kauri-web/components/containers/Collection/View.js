@@ -48,7 +48,7 @@ const HeaderContainer = styled(ContentContainer)`
     max-height: 90vh;
   }
   @media (min-width: 700px) {
-    max-height: 300px;
+    min-height: 300px;
   }
 `;
 
@@ -160,7 +160,28 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             id={id}
             name={name}
             description={description || ""}
-            articleCount={sections.map(({ resources }) => resources.length).reduce((current, next) => current + next, 0)}
+            articleCount={sections
+              .map(({ resources }) => resources)
+              .reduce((current, next) => {
+                const articlesInSection = next.filter(
+                  ({ __typename }) => __typename === "ArticleDTO"
+                );
+                if (articlesInSection) {
+                  return current + articlesInSection.length;
+                }
+                return current;
+              }, 0)}
+            collectionCount={sections
+              .map(({ resources }) => resources)
+              .reduce((current, next) => {
+                const collectionsInSection = next.filter(
+                  ({ __typename }) => __typename === "CollectionDTO"
+                );
+                if (collectionsInSection) {
+                  return current + collectionsInSection.length;
+                }
+                return current;
+              }, 0)}
             updated={dateCreated}
             username={owner && owner.username}
             ownerId={owner.id}
@@ -195,7 +216,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
                   isLoggedIn={!!this.props.userId}
                   currentUser={this.props.userId}
                   description={section.description || ""}
-                  articles={section.resources}
+                  resources={section.resources}
                   openModalAction={openModalAction}
                   isOwnedByCurrentUser={this.props.userId === owner.id}
                 />

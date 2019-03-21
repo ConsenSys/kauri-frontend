@@ -1,9 +1,9 @@
 // @flow
-import * as React from 'react'
-import { Fragment } from 'react'
-import styled from 'styled-components'
-import theme from '../../../lib/theme-config'
-import AddOptions from '../../../../kauri-components/components/AddOptions'
+import * as React from "react";
+import { Fragment } from "react";
+import styled from "styled-components";
+import theme from "../../../lib/theme-config";
+import AddOptions from "../../../../kauri-components/components/AddOptions";
 
 const TooltipContainer = styled.div`
   display: flex;
@@ -21,35 +21,38 @@ const TooltipContainer = styled.div`
   > * {
     cursor: pointer;
   }
-`
+`;
 
 const Label = styled.span`
   font-size: 11px;
   font-weight: bold;
   text-transform: uppercase;
-  color: ${theme.colors['primary']};
-`
+  color: ${theme.colors["primary"]};
+`;
 
 const Divider = styled.div`
   display: flex;
   height: 2px;
   width: 100%;
-  background-color: ${theme.colors['divider']};
+  background-color: ${theme.colors["divider"]};
   margin-top: ${theme.space[2]}px;
   margin-bottom: ${theme.space[2]}px;
   cursor: default;
-`
+`;
 type Props = {
   currentSectionIndex: number,
   previousSectionHasArticles: boolean,
   addNewSection: () => void,
   removeSection: () => void,
   chooseArticle: () => void,
-}
+  chooseCollection: () => void,
+};
 
 const Content = (props: Props) => (
   <TooltipContainer>
     <Label onClick={props.chooseArticle}>Add Article To Section</Label>
+    <Divider />
+    <Label onClick={props.chooseCollection}>Add Collection To Section</Label>
     {props.previousSectionHasArticles && (
       <Fragment>
         <Divider />
@@ -63,10 +66,10 @@ const Content = (props: Props) => (
       </Fragment>
     )}
   </TooltipContainer>
-)
+);
 
 export default (props: Props) => (
   <AddOptions>
     <Content {...props} />
   </AddOptions>
-)
+);

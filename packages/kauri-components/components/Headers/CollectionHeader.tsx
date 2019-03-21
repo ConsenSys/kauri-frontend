@@ -18,7 +18,7 @@ const CollectionHeaderSection = styled.section`
   flex-direction: row;
   z-index: 1;
   padding: ${props => props.theme.space[4] + 40}px
-    ${props => props.theme.padding} ${props => props.theme.space[4]}px;
+    ${props => props.theme.padding} ${props => props.theme.space[3]}px;
   @media (max-width: 500px) {
     flex-direction: column;
   }
@@ -66,6 +66,7 @@ const changeRoute = (
 ) => () => routeChangeAction(`/collection/${id}/update-collection`);
 
 interface IProps {
+  collectionCount: number;
   articleCount: number;
   description: string;
   id: string;
@@ -84,6 +85,7 @@ interface IProps {
 
 const Container: React.SFC<IProps> = props => {
   const {
+    collectionCount,
     articleCount,
     description,
     id,
@@ -115,6 +117,10 @@ const Container: React.SFC<IProps> = props => {
             {
               count: articleCount,
               name: "Articles",
+            },
+            {
+              count: collectionCount,
+              name: "Collections",
             },
           ]}
         />
