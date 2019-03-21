@@ -5,7 +5,7 @@ import { routeChangeAction, IReduxState } from "../../../lib/Module";
 import { createCommunityAction, updateCommunityAction } from "./Module";
 import { withFormik } from "formik";
 import * as Yup from "yup";
-import { updateCommunityVariables } from "./__generated__/updateCommunity";
+import { updateCommunityVariables } from "../../../queries/__generated__/updateCommunity";
 
 export interface ICommunityAttributes {
   background: undefined | string;

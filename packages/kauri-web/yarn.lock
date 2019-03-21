@@ -1335,10 +1335,10 @@
     "@types/uglify-js" "*"
     source-map "^0.6.0"
 
-"@types/yup@^0.26.11":
-  version "0.26.11"
-  resolved "https://registry.yarnpkg.com/@types/yup/-/yup-0.26.11.tgz#e0ca839aab79f1d8f4a9861162e7034fc350d700"
-  integrity sha512-l4jY6ytoTDm2gZCfSgP5TsirNSUGLMf+fuWSz3HvDiBwh7EQWdoi4LF2PeAPTYf5GV8MAwZYbPEvc2mcciMGCg==
+"@types/yup@^0.26.12":
+  version "0.26.12"
+  resolved "https://registry.yarnpkg.com/@types/yup/-/yup-0.26.12.tgz#60fc1a485923a929699d2107fac46e6769707c4a"
+  integrity sha512-lWCsvLer6G84Gj7yh+oFGRuGHsqZd1Dwu47CVVL0ATw+bOnGDgMNHbTn80p1onT66fvLfN8FnRA3eRANsnnbbQ==
 
 "@types/zen-observable@^0.8.0":
   version "0.8.0"

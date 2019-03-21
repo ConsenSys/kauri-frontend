@@ -7,8 +7,6 @@ import TabsComponent from "../../../../kauri-components/components/Tabs";
 
 const Container = styled.section``;
 
-interface IProps {}
-
 // const DisplayFormikState = (props: any) => (
 //   <div style={{ margin: "1rem 0", background: "#f6f8fa", padding: ".5rem" }}>
 //     <strong>Injected Formik props (the form's state)</strong>
@@ -24,7 +22,7 @@ interface IProps {}
 //   </div>
 // );
 
-const Component: React.SFC<IProps> = _ => (
+const Component: React.SFC<{}> = _ => (
   <Container>
     <TabsComponent
       padContent={true}

@@ -173,7 +173,7 @@ const Component: React.SFC<IProps> = props => (
           userId={props.userId}
           avatar={props.userAvatar}
         />
-        <AddMemberButtonComponent onClick={() => {}} />
+        <AddMemberButtonComponent onClick={() => undefined} />
       </CreateCommunityMembersContainer>
     </RightSide>
   </PrimaryHeaderSection>

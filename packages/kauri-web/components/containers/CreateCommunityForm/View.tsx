@@ -4,7 +4,7 @@ import Actions from "./CreateCommunityFormActions";
 import Header from "./CreateCommunityFormHeader";
 import Content from "./CreateCommunityFormContent";
 import setImageUploader from "../../common/ImageUploader";
-import { routeChangeAction, IUser } from "../../../lib/Module";
+import { routeChangeAction } from "../../../lib/Module";
 import { createCommunityAction, updateCommunityAction } from "./Module";
 import { InjectedFormikProps } from "formik";
 import Helmet from "react-helmet";
