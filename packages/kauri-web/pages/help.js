@@ -16,7 +16,6 @@ class HelpPage extends React.Component {
   render() {
     return (
       <App url={this.props.router}>
-        {console.log(process.env)}
         <ConnectedCommunity
           routeChangeAction={this.props.routeChangeAction}
           category={process.env.KauriCommunityId}
