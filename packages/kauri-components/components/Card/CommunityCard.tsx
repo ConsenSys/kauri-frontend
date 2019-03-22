@@ -3,9 +3,8 @@ import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 import TextTruncate from "react-text-truncate";
 import styled from "../../lib/styled-components";
-import { Label, BodyCard, H1, H4 } from "../Typography";
+import { Label, BodyCard, H4, Title2 } from "../Typography";
 import BaseCard from "../Card/BaseCard";
-import { TagList } from "../Tags";
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = 290;
@@ -24,7 +23,7 @@ const Container = styled<{ cardHeight: number | null }, "section">("section")`
 `;
 
 const Image = styled.img`
-  width: 46px;
+  width: 70px;
 `;
 
 const ImageContainer = styled.div`
@@ -41,6 +40,9 @@ const Footer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  > :not(:last-child) {
+    margin-right: ${props => props.theme.space[1]}px;
+  }
 `;
 
 const Content = styled.div`
@@ -52,9 +54,6 @@ const Content = styled.div`
   height: 100%;
   overflow: hidden;
   > :first-child {
-    margin-bottom: ${props => props.theme.space[2]}px;
-  }
-  > h1 {
     margin-bottom: ${props => props.theme.space[1]}px;
   }
 `;
@@ -85,13 +84,6 @@ const Divider = styled.div`
   margin-bottom: ${props => props.theme.space[1]}px;
 `;
 
-const CountContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 50px;
-`;
-
 interface ICardContentProps {
   description: string;
   name: string;
@@ -105,16 +97,21 @@ const CardContent: React.SFC<ICardContentProps> = ({
 }) => (
   <React.Fragment>
     <Content>
-      <Label textTransform={"uppercase"} />
       {logo ? (
         <ImageContainer>
           <Image src={logo} />
         </ImageContainer>
       ) : null}
-      <H1>{name}</H1>
+      <Title2>
+        <TextTruncate
+          line={typeof logo === "string" ? 2 : 3}
+          truncateText="…"
+          text={name}
+        />
+      </Title2>
       <BodyCard>
         <TextTruncate
-          line={typeof logo === "string" ? 3 : 6}
+          line={typeof logo === "string" ? 3 : 5}
           truncateText="…"
           text={description}
         />
@@ -122,6 +119,13 @@ const CardContent: React.SFC<ICardContentProps> = ({
     </Content>
   </React.Fragment>
 );
+
+const LabelContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: ${props => props.theme.space[2]}px;
+`;
 
 const RuntimeProps = t.interface({
   articleCount: t.string,
@@ -132,7 +136,6 @@ const RuntimeProps = t.interface({
   linkComponent: t.union([t.undefined, t.null, t.any]),
   logo: t.union([t.null, t.string]),
   name: t.string,
-  tags: t.union([t.array(t.union([t.null, t.string])), t.null]),
 });
 
 type Props = t.TypeOf<typeof RuntimeProps>;
@@ -146,7 +149,6 @@ const Component: React.SFC<Props> = props => {
     logo,
     description,
     name,
-    tags,
     imageURL,
   } = RuntimeProps.decode(props).getOrElseL(errors => {
     throw new Error(failure(errors).join("\n"));
@@ -159,6 +161,9 @@ const Component: React.SFC<Props> = props => {
       cardHeight={cardHeight}
     >
       <Container cardHeight={cardHeight}>
+        <LabelContainer>
+          <Label textAlign="center">{"Community"}</Label>
+        </LabelContainer>
         {linkComponent ? (
           linkComponent(
             <CardContent description={description} name={name} logo={logo} />
@@ -166,33 +171,22 @@ const Component: React.SFC<Props> = props => {
         ) : (
           <CardContent description={description} name={name} logo={logo} />
         )}
-        {Array.isArray(tags) && tags.length > 0 && (
-          <TagList
-            align="center"
-            maxTags={3}
-            color="textPrimary"
-            tags={tags}
-            maxChars={40}
-          />
-        )}
         <Divider />
         <Footer>
-          <CountContainer>
-            {!!Number(articleCount) && (
-              <Count imageURL={imageURL}>
-                <H4>{articleCount}</H4>
-                <Label>{`Article${Number(articleCount) > 1 ? "s" : ""}`}</Label>
-              </Count>
-            )}
-            {!!Number(collectionCount) && (
-              <Count imageURL={imageURL}>
-                <H4>{collectionCount}</H4>
-                <Label>{`Collection${
-                  Number(collectionCount) > 1 ? "s" : ""
-                }`}</Label>
-              </Count>
-            )}
-          </CountContainer>
+          {!!Number(articleCount) && (
+            <Count imageURL={imageURL}>
+              <H4>{articleCount}</H4>
+              <Label>{`Article${Number(articleCount) > 1 ? "s" : ""}`}</Label>
+            </Count>
+          )}
+          {!!Number(collectionCount) && (
+            <Count imageURL={imageURL}>
+              <H4>{collectionCount}</H4>
+              <Label>{`Collection${
+                Number(collectionCount) > 1 ? "s" : ""
+              }`}</Label>
+            </Count>
+          )}
         </Footer>
       </Container>
     </BaseCard>

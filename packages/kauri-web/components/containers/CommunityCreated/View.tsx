@@ -84,7 +84,6 @@ const CommunityCreated: React.FunctionComponent<IProps> = props => {
           logo={avatar}
           articleCount={String(articleCount)}
           collectionCount={String(collectionCount)}
-          tags={tags}
           linkComponent={(
             childrenProps: React.ReactElement<any>,
             route: string

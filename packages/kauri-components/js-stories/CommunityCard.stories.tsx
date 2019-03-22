@@ -1,15 +1,24 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import CommunityCard from "../components/Card/CommunityCard";
+import styled from "../lib/styled-components";
+
+const Container = styled.div`
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 storiesOf("CommunityCard", module)
+  .addDecorator(story => <Container>{story()}</Container>)
   .add("Community Card No Image", () => (
     <CommunityCard
       cardHeight={310}
       logo={null}
       imageURL={null}
       linkComponent={null}
-      name="Loom Network"
+      name="Loom Network Loom Network Loom Network Loom Network"
       description={`
         The Next-Generation Blockchain Application Platform for Ethereum.
         The Next-Generation Blockchain Application Platform for Ethereum.
@@ -17,7 +26,6 @@ storiesOf("CommunityCard", module)
         The Next-Generation Blockchain Application Platform for Ethereum.
         The Next-Generation Blockchain Application Platform for Ethereum.
       `}
-      tags={[]}
       articleCount="58"
       collectionCount="58"
     />
@@ -38,6 +46,5 @@ storiesOf("CommunityCard", module)
       `}
       articleCount="58"
       collectionCount="58"
-      tags={["loom"]}
     />
   ));
