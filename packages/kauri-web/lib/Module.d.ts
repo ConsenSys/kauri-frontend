@@ -63,9 +63,17 @@ export interface IUser {
   username: string | null;
 }
 
-export interface IReduxState {
+interface IReduxState {
   app: {
-    user?: IUser;
     hostName: string;
+    user: {
+      id: string;
+      avatar: string;
+      username: string;
+      communities: Array<{
+        id: string;
+        name: string;
+      }>;
+    };
   };
 }

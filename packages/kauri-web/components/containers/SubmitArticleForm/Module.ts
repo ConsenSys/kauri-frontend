@@ -13,6 +13,7 @@ import {
 } from "../../../lib/Module";
 import { trackMixpanelAction } from "../Link/Module";
 import { publishArticleAction, IOwnerPayload } from "./PublishArticleModule";
+import { IOption } from "./PublishingSelector";
 
 interface IGetArticleResult {
   getArticle: {
@@ -37,6 +38,7 @@ export interface ISubmitArticlePayload {
   text: string;
   attributes?: IAttributesPayload;
   selfPublish?: boolean;
+  destination?: IOption;
 }
 
 export interface ISubmitArticleVersionPayload {
@@ -131,7 +133,9 @@ export const submitArticleEpic: Epic<any, {}, IDependencies> = (
   action$
     .ofType(SUBMIT_ARTICLE)
     .switchMap(
-      ({ payload: { text, subject, tags, attributes, selfPublish } }) =>
+      ({
+        payload: { text, subject, tags, attributes, selfPublish, destination },
+      }) =>
         Observable.fromPromise(
           apolloClient.mutate({
             mutation: submitNewArticle,
@@ -168,7 +172,10 @@ export const submitArticleEpic: Epic<any, {}, IDependencies> = (
                     contributor: getArticle.authorId,
                     dateCreated: getArticle.dateCreated,
                     id: getArticle.id,
-                    owner: getArticle.owner,
+                    owner:
+                      destination.__typename === "CommunityDTO"
+                        ? { type: "COMMUNITY", id: destination.id }
+                        : getArticle.owner,
                     version: getArticle.version,
                   })
                 )

@@ -111,7 +111,12 @@ export const publishArticleEpic: Epic<any, {}, IDependencies> = (
           dateCreated
         );
 
-        const articleOwner = owner ? { id: owner.id, type: "USER" } : null;
+        const articleOwner = owner
+          ? {
+              id: owner.id,
+              type: owner.type === "COMMUNITY" ? "COMMUNITY" : "USER",
+            }
+          : null;
 
         return Observable.fromPromise(personalSign(signatureToSign))
           .mergeMap(signature =>

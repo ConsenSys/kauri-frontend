@@ -47,6 +47,10 @@ export const getOwnProfile = gql`
       avatar
       social
       status
+      communities {
+        id
+        name
+      }
       subscriptions
     }
   }

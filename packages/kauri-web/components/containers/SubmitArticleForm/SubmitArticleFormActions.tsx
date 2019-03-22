@@ -54,6 +54,7 @@ interface IProps {
   getFieldDecorator: (field: string, arg1: any) => any;
   setFieldsValue: ({ text }: { text: string }) => void;
   showNotificationAction: (payload: IShowNotificationPayload) => void;
+  selectDestination: () => void;
 }
 
 const setupImageUploader = (setFieldsValue: any, getFieldDecorator: any) => {
@@ -75,6 +76,7 @@ export default ({
   closeModalAction,
   openModalAction,
   showNotificationAction,
+  selectDestination,
 }: IProps) => (
   <SubmitArticleFormActions>
     <ActionsSection
@@ -109,7 +111,7 @@ export default ({
           Save draft
         </SecondaryButton>
         {isOwner(status, owner, userId) ? (
-          <PrimaryButton onClick={handleSubmit("submit/update")}>
+          <PrimaryButton onClick={selectDestination}>
             Publish Article
           </PrimaryButton>
         ) : (
