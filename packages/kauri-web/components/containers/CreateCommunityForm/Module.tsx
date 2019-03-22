@@ -6,6 +6,7 @@ import {
   IAction,
   showNotificationAction,
   Actions,
+  routeChangeAction,
 } from "../../../lib/Module";
 import {
   createCommunity,
@@ -81,8 +82,7 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
         )
         .do(console.log)
         .do(() => typeof actions.callback === "function" && actions.callback())
-        .mergeMap(({ data: { output: { // id,
-              error } } }) =>
+        .mergeMap(({ data: { output: { id, error } } }) =>
           error
             ? Observable.throw(new Error("Submission error"))
             : Observable.merge(
@@ -92,10 +92,10 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                     message: "Community Created",
                     notificationType: "success",
                   })
+                ),
+                Observable.of(
+                  routeChangeAction(`/community/${id}/community-created`)
                 )
-                // Observable.of(
-                //   routeChangeAction(`/community/${id}/community-created`)
-                // )
               )
         )
         .do(() => apolloClient.resetStore())
@@ -141,8 +141,7 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
         )
         .do(console.log)
         .do(() => typeof actions.callback === "function" && actions.callback())
-        .mergeMap(({ data: { output: { // id,
-              error } } }) =>
+        .mergeMap(({ data: { output: { id, error } } }) =>
           error
             ? Observable.throw(new Error("Submission error"))
             : Observable.merge(
@@ -152,10 +151,10 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                     message: "Community updated",
                     notificationType: "success",
                   })
+                ),
+                Observable.of(
+                  routeChangeAction(`/community/${id}/community-updated`)
                 )
-                // Observable.of(
-                //   routeChangeAction(`/community/${id}/community-updated`)
-                // )
               )
         )
         .do(() => apolloClient.resetStore())

@@ -99,7 +99,7 @@ const CommunityCreated: React.FunctionComponent<IProps> = props => {
           )}
         />
         <PrimaryButton
-          onClick={() => routeChangeAction(`/Community/${String(id)}`)}
+          onClick={() => routeChangeAction(`/community/${String(id)}`)}
         >
           View Community
         </PrimaryButton>

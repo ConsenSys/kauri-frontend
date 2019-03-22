@@ -75,4 +75,6 @@ routes
     "update-community",
     "/community/:id/update-community",
     "create-community"
-  );
+  )
+  .add("community-created", "/community/:id/community-created")
+  .add("community-updated", "/community/:id/community-updated");
