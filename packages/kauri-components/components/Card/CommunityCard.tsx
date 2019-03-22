@@ -3,7 +3,7 @@ import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 import TextTruncate from "react-text-truncate";
 import styled from "../../lib/styled-components";
-import { Label, BodyCard, H1 } from "../Typography";
+import { Label, BodyCard, H1, H4 } from "../Typography";
 import BaseCard from "../Card/BaseCard";
 import { TagList } from "../Tags";
 
@@ -59,6 +59,24 @@ const Content = styled.div`
   }
 `;
 
+interface IContentStyledComponentProps {
+  imageURL: string | null;
+}
+
+const Count = styled<IContentStyledComponentProps, "div">("div")`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: ${props =>
+    typeof props.imageURL === "string" ? props.theme.space[2] + "px" : ""};
+  padding-top: ${props =>
+    typeof props.imageURL === "string" ? props.theme.space[1] + "px" : ""};
+  > * {
+    text-transform: uppercase;
+  }
+`;
+
 const Divider = styled.div`
   height: 2px;
   width: 100%;
@@ -75,30 +93,30 @@ const CountContainer = styled.div`
 `;
 
 interface ICardContentProps {
-  communityDescription: string;
-  communityName: string;
-  communityLogo: string | null;
+  description: string;
+  name: string;
+  logo: string | null;
 }
 
 const CardContent: React.SFC<ICardContentProps> = ({
-  communityDescription,
-  communityName,
-  communityLogo,
+  description,
+  name,
+  logo,
 }) => (
   <React.Fragment>
     <Content>
-      <Label textTransform={"uppercase"}>Community</Label>
-      {communityLogo ? (
+      <Label textTransform={"uppercase"} />
+      {logo ? (
         <ImageContainer>
-          <Image src={communityLogo} />
+          <Image src={logo} />
         </ImageContainer>
       ) : null}
-      <H1>{communityName}</H1>
+      <H1>{name}</H1>
       <BodyCard>
         <TextTruncate
-          line={typeof communityLogo === "string" ? 3 : 6}
+          line={typeof logo === "string" ? 3 : 6}
           truncateText="…"
-          text={communityDescription}
+          text={description}
         />
       </BodyCard>
     </Content>
@@ -106,12 +124,14 @@ const CardContent: React.SFC<ICardContentProps> = ({
 );
 
 const RuntimeProps = t.interface({
-  articles: t.string,
+  articleCount: t.string,
   cardHeight: t.number,
-  communityDescription: t.string,
-  communityLogo: t.union([t.null, t.string]),
-  communityName: t.string,
+  collectionCount: t.string,
+  description: t.string,
+  imageURL: t.union([t.null, t.string]),
   linkComponent: t.union([t.undefined, t.null, t.any]),
+  logo: t.union([t.null, t.string]),
+  name: t.string,
   tags: t.union([t.array(t.union([t.null, t.string])), t.null]),
 });
 
@@ -121,14 +141,17 @@ const Component: React.SFC<Props> = props => {
   const {
     linkComponent,
     cardHeight = DEFAULT_CARD_HEIGHT,
-    articles,
-    communityLogo,
-    communityDescription,
-    communityName,
+    articleCount,
+    collectionCount,
+    logo,
+    description,
+    name,
     tags,
+    imageURL,
   } = RuntimeProps.decode(props).getOrElseL(errors => {
     throw new Error(failure(errors).join("\n"));
   });
+
   return (
     <BaseCard
       imageURL={null}
@@ -138,18 +161,10 @@ const Component: React.SFC<Props> = props => {
       <Container cardHeight={cardHeight}>
         {linkComponent ? (
           linkComponent(
-            <CardContent
-              communityDescription={communityDescription}
-              communityName={communityName}
-              communityLogo={communityLogo}
-            />
+            <CardContent description={description} name={name} logo={logo} />
           )
         ) : (
-          <CardContent
-            communityDescription={communityDescription}
-            communityName={communityName}
-            communityLogo={communityLogo}
-          />
+          <CardContent description={description} name={name} logo={logo} />
         )}
         {Array.isArray(tags) && tags.length > 0 && (
           <TagList
@@ -163,8 +178,20 @@ const Component: React.SFC<Props> = props => {
         <Divider />
         <Footer>
           <CountContainer>
-            <Label>{articles}</Label>
-            <Label>Articles</Label>
+            {!!Number(articleCount) && (
+              <Count imageURL={imageURL}>
+                <H4>{articleCount}</H4>
+                <Label>{`Article${Number(articleCount) > 1 ? "s" : ""}`}</Label>
+              </Count>
+            )}
+            {!!Number(collectionCount) && (
+              <Count imageURL={imageURL}>
+                <H4>{collectionCount}</H4>
+                <Label>{`Collection${
+                  Number(collectionCount) > 1 ? "s" : ""
+                }`}</Label>
+              </Count>
+            )}
           </CountContainer>
         </Footer>
       </Container>
