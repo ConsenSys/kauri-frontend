@@ -14,6 +14,8 @@ const handleChange: (e: React.ChangeEvent<HTMLInputElement>) => any = () => {
   return;
 };
 
+const currentStep = 1;
+
 storiesOf("AddMember ModalAlert - Empty Form", module)
   .addDecorator(getStory => (
     <Provider
@@ -26,11 +28,14 @@ storiesOf("AddMember ModalAlert - Empty Form", module)
               confirmButtonAction={handleConfirmAction(() => alert("confirm"))}
               content={
                 <AddMemberModalContent
+                  currentStep={currentStep}
                   emailAddress=""
                   handleChange={handleChange}
                 />
               }
-              title={"Add Member to Community"}
+              title={
+                currentStep === 1 ? "Add Member to Community" : "Email Sent"
+              }
             />
           ),
           isModalOpen: true,
