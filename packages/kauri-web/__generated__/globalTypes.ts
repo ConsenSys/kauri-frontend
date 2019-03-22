@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 //==============================================================
@@ -67,16 +66,16 @@ export enum UserStatus {
 }
 
 export interface ArticleFilterInput {
+  statusIn?: (ArticleStatusInput | null)[] | null;
   dateCreatedGreaterThan?: any | null;
-  versionIn?: (number | null)[] | null;
   containsTag?: string | null;
   ownerIdEquals?: string | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
   authorIdEquals?: string | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
   dateCreatedLessThan?: any | null;
   idEquals?: string | null;
+  versionIn?: (number | null)[] | null;
   ownerEquals?: string | null;
   checkpointEquals?: string | null;
 }
@@ -106,24 +105,24 @@ export interface CommunityFilterInput {
 }
 
 export interface ResourceIdentifierInput {
-  type?: ResourceTypeInput | null;
   version?: number | null;
   id?: string | null;
+  type?: ResourceTypeInput | null;
 }
 
 export interface SearchFilterInput {
-  type?: ResourceTypeInput | null;
-  mustNotContainTag?: (string | null)[] | null;
   mustIncludeUserId?: (string | null)[] | null;
+  mustNotContainTag?: (string | null)[] | null;
   mustContainTag?: (string | null)[] | null;
   mustNotIncludeUserId?: (string | null)[] | null;
+  type?: ResourceTypeInput | null;
 }
 
 export interface SectionDTOInput {
-  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   name?: string | null;
   description?: string | null;
   id?: string | null;
+  resourcesId?: (ResourceIdentifierInput | null)[] | null;
 }
 
 //==============================================================

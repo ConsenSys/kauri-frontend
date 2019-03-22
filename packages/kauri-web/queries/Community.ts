@@ -14,20 +14,16 @@ export const CommunityOwner = gql`
 `;
 
 export const getCommunity = gql`
-query getCommunity(
-  $id: String
-) {
-  getCommunity(
-      id: $id
-  ) {
+  query getCommunity($id: String) {
+    getCommunity(id: $id) {
       id
       dateCreated
       dateUpdated
       creatorId
       creator {
-          id
-          username
-          name
+        id
+        username
+        name
       }
       name
       description
@@ -38,10 +34,10 @@ query getCommunity(
       tags
       attributes
       members {
-          id
-          name
-          avatar
-          role
+        id
+        name
+        avatar
+        role
       }
       approvedId {
         id

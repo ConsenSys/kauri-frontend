@@ -15,7 +15,7 @@ export const AddMemberSection = styled.section`
 interface IProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
   emailAddress: string;
-  currentStep: 1 | 2;
+  currentStep: number;
 }
 const { Fragment } = React;
 

@@ -20,6 +20,7 @@ import {
   createCommunityMutation,
   updateCommunityMutation,
 } from "../../../queries/Community";
+import { IFormValues } from "./index";
 
 export interface ICreateCommunityAction extends IAction {
   callback: () => void;
@@ -38,7 +39,7 @@ const CREATE_COMMUNITY = "CREATE_COMMUNITY";
 const UPDATE_COMMUNITY = "UPDATE_COMMUNITY";
 
 export const createCommunityAction = (
-  payload: createCommunityVariables,
+  payload: IFormValues,
   callback: () => void
 ): ICreateCommunityAction => ({
   callback,
@@ -47,7 +48,7 @@ export const createCommunityAction = (
 });
 
 export const updateCommunityAction = (
-  payload: updateCommunityVariables,
+  payload: IFormValues,
   callback: () => void
 ): IUpdateCommunityAction => ({
   callback,
