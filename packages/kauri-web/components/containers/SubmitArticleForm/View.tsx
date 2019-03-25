@@ -116,7 +116,6 @@ class SubmitArticleForm extends React.Component<IProps> {
       userId,
     } = this.props;
     if (communities && communities.length > 0) {
-      console.log(communities);
       openModalAction({
         children: (
           <PublishingSelector
@@ -176,6 +175,7 @@ class SubmitArticleForm extends React.Component<IProps> {
     if (e) {
       e.preventDefault();
     }
+    this.props.closeModalAction();
     this.props.form.validateFieldsAndScroll(
       async (
         formErr: any,
