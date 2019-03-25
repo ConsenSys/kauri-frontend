@@ -25,14 +25,14 @@ const Container = styled<{ active: boolean }, "div">("div")`
 interface IProps {
   active: boolean;
   category: string;
-  amount: number;
+  amount: number | undefined;
   onClick: any;
 }
 
 const ResourceCategory: React.SFC<IProps> = props => (
   <Container onClick={props.onClick} active={props.active}>
     <NavigationText color="primary">{props.category}</NavigationText>
-    <NavigationText>{props.amount}</NavigationText>
+    {props.amount && <NavigationText>{props.amount}</NavigationText>}
   </Container>
 );
 

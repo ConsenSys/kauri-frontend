@@ -131,7 +131,15 @@ const CreateCommunityForm: React.SFC<
         setFieldValue={props.setFieldValue}
       />
 
-      <Content {...props} />
+      <Content {...props} openAddMemberModal={openAddMemberModal({
+          closeModalAction: props.closeModalAction,
+          confirmButtonAction: handleConfirmButton({
+            members: props.values.members,
+            setFieldValue: props.setFieldValue,
+            showNotification: props.showNotificationAction,
+          }),
+          openModalAction: props.openModalAction,
+        })} />
     </FormContainer>
   );
 };

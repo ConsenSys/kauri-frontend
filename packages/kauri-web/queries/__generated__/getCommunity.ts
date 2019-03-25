@@ -1,7 +1,7 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { CommunityStatus, CommunityPermission, ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
+import { CommunityStatus, UserStatus, CommunityPermission, ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCommunity
@@ -19,6 +19,7 @@ export interface getCommunity_getCommunity_members {
   id: string | null;
   name: string | null;
   avatar: string | null;
+  status: UserStatus | null;
   role: CommunityPermission | null;
 }
 

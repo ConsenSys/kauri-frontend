@@ -37,6 +37,7 @@ export const getCommunity = gql`
         id
         name
         avatar
+        status
         role
       }
       approvedId {

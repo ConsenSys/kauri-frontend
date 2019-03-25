@@ -1,13 +1,14 @@
 import * as React from "react";
-// import { Field } from "formik";
+import { InjectedFormikProps } from "formik";
 import styled from "../../../lib/styled-components";
 import ContentSection from "../../../../kauri-components/components/Section/ContentSection";
 import TabsComponent from "../../../../kauri-components/components/Tabs";
 // import { Label } from "../../../../kauri-components/components/Typography";
+import ManageCommunity from '../ManageCommunity'
+import { IFormValues } from "./index";
+import { IProps } from "./View";
 
 const Container = styled.section``;
-
-interface IProps {}
 
 // const DisplayFormikState = (props: any) => (
 //   <div style={{ margin: "1rem 0", background: "#f6f8fa", padding: ".5rem" }}>
@@ -24,7 +25,11 @@ interface IProps {}
 //   </div>
 // );
 
-const Component: React.SFC<IProps> = _ => (
+interface IProps {
+  openAddMemberModal: () => void;
+}
+
+const Component: React.SFC<InjectedFormikProps<IProps, IFormValues>> = props => (
   <Container>
     <TabsComponent
       padContent={true}
@@ -39,6 +44,9 @@ const Component: React.SFC<IProps> = _ => (
         {
           name: "Collections",
         },
+        {
+          name: "Manage Community",
+        },
         // process.env.NODE_ENV !== "production" && {
         //   name: "DEBUG",
         // },
@@ -47,7 +55,10 @@ const Component: React.SFC<IProps> = _ => (
         <ContentSection key="home" />,
         <ContentSection key="articles" />,
         <ContentSection key="collections" />,
-        // <ContentSection key="collections">
+        <ManageCommunity key="manage-community"
+          openAddMemberModal={props.openAddMemberModal}
+          members={props.values.members}
+        />
         //   <DisplayFormikState
         //     touched={props.touched}
         //     errors={props.errors}
