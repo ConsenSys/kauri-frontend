@@ -16,7 +16,12 @@ const Header = styled.div`
   border-bottom: 2px solid ${props => props.theme.divider};
 `;
 
-const Footer = styled.div``;
+const Footer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: ${props => props.theme.space[3]}px;
+`;
 
 const Content = styled.div``;
 
