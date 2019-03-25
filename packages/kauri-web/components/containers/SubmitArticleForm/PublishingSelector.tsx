@@ -96,11 +96,10 @@ const PublishingSelector = (props: IProps) => {
         </div>
       }
       closeModalAction={props.closeModalAction}
-      confirmButtonAction={props.handleSubmit(
-        "submit/update",
-        undefined,
-        destination
-      )}
+      confirmButtonAction={() => {
+        props.closeModalAction();
+        props.handleSubmit("submit/update", undefined, destination);
+      }}
     />
   );
 };

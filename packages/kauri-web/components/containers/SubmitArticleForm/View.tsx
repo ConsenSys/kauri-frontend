@@ -71,7 +71,11 @@ class SubmitArticleForm extends React.Component<IProps> {
     if (!userId) {
       routeChangeAction(`/login?r=${router.asPath}&redirected=true`);
     }
-    if (communities && communities.length > 0) {
+    if (
+      communities &&
+      communities.length > 0 &&
+      !window.localStorage.getItem("community-publishing-modal")
+    ) {
       openModalAction({
         children: (
           <AlertView
@@ -82,8 +86,20 @@ class SubmitArticleForm extends React.Component<IProps> {
                 when selecting Publish
               </div>
             }
-            confirmButtonAction={() => closeModalAction()}
-            closeModalAction={() => closeModalAction()}
+            confirmButtonAction={() => {
+              window.localStorage.setItem(
+                "community-publishing-modal",
+                Date.now().toString()
+              );
+              closeModalAction();
+            }}
+            closeModalAction={() => {
+              window.localStorage.setItem(
+                "community-publishing-modal",
+                Date.now().toString()
+              );
+              closeModalAction();
+            }}
             closeButtonText="Understood"
             confirmButtonText="Learn More"
           />
