@@ -52,7 +52,7 @@ const ManageCommunity: React.SFC<IProps> = props => {
       {props.members &&
       Array.isArray(props.members) &&
       props.members.length > 0 ? (
-        <MembersPanel openAddMemberModal={() => props.openAddMemberModal()} />
+        <MembersPanel openAddMemberModal={() => props.openAddMemberModal()} members={props.members} />
       ) : (
         <ManageCommunityEmptyState
           handleClick={() => props.openAddMemberModal()}
