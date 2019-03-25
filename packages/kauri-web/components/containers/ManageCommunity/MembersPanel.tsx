@@ -28,6 +28,9 @@ const Content = styled.div``;
 const Section = styled.section`
   display: flex;
   flex-direction: column;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.106912);
 `;
 
 const RemoveMemberIcon = () => (
