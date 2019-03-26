@@ -85,7 +85,7 @@ export default compose(
   ),
   graphql(getCollection, {
     options: ({ id }) => ({
-      fetchPolicy: "no-cache",
+      fetchPolicy: "network-only",
       variables: {
         id,
       },
