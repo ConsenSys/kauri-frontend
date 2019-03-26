@@ -20,7 +20,7 @@ export default compose(
       console.log(props)
       console.log("Received values of form: ", values)
       return props.registerAction(
-        { ...values, userId: window && window.web3.eth.accounts && window.web3.eth.accounts[0], type: "login" },
+        { ...values },
         resetForm
       )
     },
