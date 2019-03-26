@@ -184,7 +184,7 @@ const renderResourceSection = (
       ["sections", index, mappingKey, resourceIndex, "version"],
       values
     ) ? (
-        <Draggable
+      <Draggable
           index={resourceIndex}
           draggableId={`${R.path(
             ["sections", index, mappingKey, resourceIndex, "id"],
@@ -195,7 +195,7 @@ const renderResourceSection = (
           )}`}
         >
           {provided => (
-            <div
+          <div
               {...provided.draggableProps}
               {...provided.dragHandleProps}
               ref={provided.innerRef}
@@ -269,6 +269,7 @@ const renderResourceSection = (
 );
 
 type Props = {
+  id?: string,
   userId: string,
   touched: {
     name: boolean,
@@ -302,6 +303,7 @@ const BackIcon = styled.div`
 `;
 
 export default ({
+  id,
   touched,
   errors,
   values,
@@ -576,10 +578,12 @@ export default ({
                         openModalAction({
                           children: (
                             <ChooseCollectionModal
+                              currentCollectionIdIfUpdating={id}
                               allOtherChosenCollections={values.sections.filter(
                                 (section, sectionIndex) =>
                                   index !== sectionIndex
-                              )}
+                              )
+                              }
                               chosenCollections={R.pipe(
                                 R.path(["sections", index, "resourcesId"]),
                                 R.filter(({ type }) => type.toLowerCase() === "collection")

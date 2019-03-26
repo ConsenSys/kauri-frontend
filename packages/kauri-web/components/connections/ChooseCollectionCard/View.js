@@ -47,6 +47,7 @@ const CollectionsContent = ({
   userId,
   setRef,
   allOtherChosenCollections,
+  currentCollectionIdIfUpdating,
 }) =>
   content.length > 0 ? (
     <Container>
@@ -55,7 +56,7 @@ const CollectionsContent = ({
           // Don't show chosen Collections from other sections
           if (
             allOtherChosenCollections.find(({ resourcesId }) =>
-              resourcesId.find(({ id, version }) => id === collection.id)
+              resourcesId.find(({ id, version }) => id === collection.id || currentCollectionIdIfUpdating === collection.id)
             )
           ) {
             return null;
@@ -77,7 +78,7 @@ const CollectionsContent = ({
                   return current;
                 }, 0);
 
-              const collectionCount =
+          const collectionCount =
                 collection.sections &&
                 collection.sections.reduce((current, next) => {
                   if (next && Array.isArray(next.resources)) {
@@ -92,8 +93,6 @@ const CollectionsContent = ({
                   }
                   return current;
                 }, 0);
-
-
 
           return (
             <CollectionCard
