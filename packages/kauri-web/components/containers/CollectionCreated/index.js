@@ -1,9 +1,9 @@
-import CollectionCreated from './View.js'
-import { routeChangeAction } from '../../../lib/Module'
-import { getCollection } from '../../../queries/Collection'
-import { connect } from 'react-redux'
-import { compose, graphql } from 'react-apollo'
-import withLoading from '../../../lib/with-loading'
+import CollectionCreated from "./View.js"
+import { routeChangeAction } from "../../../lib/Module"
+import { getCollection } from "../../../queries/Collection"
+import { connect } from "react-redux"
+import { compose, graphql } from "react-apollo"
+import withLoading from "../../../lib/with-loading"
 
 const mapStateToProps = (state, ownProps) => {
   return {}
@@ -15,7 +15,10 @@ export default compose(
     { routeChangeAction }
   ),
   graphql(getCollection, {
-    options: ({ id }) => ({ variables: { id } }),
+    options: ({ id }) => ({
+      fetchPolicy: "no-cache",
+      variables: { id },
+    }),
   }),
   withLoading()
 )(CollectionCreated)
