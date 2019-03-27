@@ -72,6 +72,7 @@ type Props = {
   confirmModal: (Array<{ id: string, version: string }>) => void,
   chosenCollections: Array<{ id: string, version: string }>,
   allOtherChosenCollections: Array<{ id: string, version: string }>,
+  currentCollectionIdIfUpdating?: string
 };
 
 type State = {
@@ -110,7 +111,7 @@ export default class ChooseCollectionModal extends React.Component<
     });
 
   render () {
-    const { closeModalAction, confirmModal } = this.props;
+    const { closeModalAction, confirmModal, currentCollectionIdIfUpdating } = this.props;
 
     return (
       <ContentContainer>
@@ -126,6 +127,7 @@ export default class ChooseCollectionModal extends React.Component<
           title={<Title chosenCollections={this.state.chosenCollections} />}
         />
         <ChooseCollectionCard
+          currentCollectionIdIfUpdating={currentCollectionIdIfUpdating}
           allOtherChosenCollections={this.props.allOtherChosenCollections}
           chosenCollections={this.state.chosenCollections}
           chooseCollection={this.chooseCollection}
