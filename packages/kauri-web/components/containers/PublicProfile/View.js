@@ -10,9 +10,10 @@ import Published from "./Published/View";
 import Drafts from "./Drafts/View";
 import Awaiting from "./Awaiting/View";
 import Pending from "./Pending/View";
+import Manage from "./Manage/index"
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor(props: ViewProps) {
+  constructor (props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -27,11 +28,11 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     };
   }
 
-  toggleEditing() {
+  toggleEditing () {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render() {
+  render () {
     const {
       PendingQuery,
       UserQuery,
@@ -109,18 +110,21 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 })`,
               },
               isOwner && {
-                name: `Drafts (${DraftsQuery.searchArticles.totalElements})`,
+                name: "Manage",
               },
-              isOwner && {
-                name: `Approval needed (${
-                  ApprovalsQuery.searchArticles.totalElements
-                })`,
-              },
-              isOwner && {
-                name: `Submitted updates (${
-                  PendingQuery.searchArticles.totalElements
-                })`,
-              },
+              // isOwner && {
+              //   name: `Drafts (${DraftsQuery.searchArticles.totalElements})`,
+              // },
+              // isOwner && {
+              //   name: `Approval needed (${
+              //     ApprovalsQuery.searchArticles.totalElements
+              //   })`,
+              // },
+              // isOwner && {
+              //   name: `Submitted updates (${
+              //     PendingQuery.searchArticles.totalElements
+              //   })`,
+              // },
             ]}
             panels={[
               <Published
@@ -136,30 +140,40 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 data={CollectionQuery}
                 routeChangeAction={routeChangeAction}
               />,
-              isOwner && (
-                <Drafts
-                  data={DraftsQuery}
-                  type="draft"
-                  routeChangeAction={routeChangeAction}
-                  deleteDraftArticleAction={deleteDraftArticleAction}
-                  isOwner={UserQuery.getUser.id === currentUser}
-                  isLoggedIn={!!currentUser}
-                  closeModalAction={closeModalAction}
-                  openModalAction={openModalAction}
-                />
-              ),
-              <Awaiting
-                isLoggedIn={!!currentUser}
-                data={ApprovalsQuery}
-                type="pending"
+              isOwner && <Manage
+                data={DraftsQuery}
+                type="draft"
                 routeChangeAction={routeChangeAction}
-              />,
-              <Pending
+                deleteDraftArticleAction={deleteDraftArticleAction}
+                isOwner={UserQuery.getUser.id === currentUser}
                 isLoggedIn={!!currentUser}
-                data={PendingQuery}
-                type="toBeApproved"
-                routeChangeAction={routeChangeAction}
+                closeModalAction={closeModalAction}
+                openModalAction={openModalAction}
               />,
+              // isOwner && (
+              //   <Drafts
+              // data={DraftsQuery}
+              // type="draft"
+              // routeChangeAction={routeChangeAction}
+              // deleteDraftArticleAction={deleteDraftArticleAction}
+              // isOwner={UserQuery.getUser.id === currentUser}
+              // isLoggedIn={!!currentUser}
+              // closeModalAction={closeModalAction}
+              // openModalAction={openModalAction}
+              //   />
+              // ),
+              // <Awaiting
+              //   isLoggedIn={!!currentUser}
+              //   data={ApprovalsQuery}
+              //   type="pending"
+              //   routeChangeAction={routeChangeAction}
+              // />,
+              // <Pending
+              //   isLoggedIn={!!currentUser}
+              //   data={PendingQuery}
+              //   type="toBeApproved"
+              //   routeChangeAction={routeChangeAction}
+              // />,
             ]}
           />
         ) : !isHeaderLoaded ? null : (
