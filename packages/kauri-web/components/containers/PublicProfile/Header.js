@@ -1,3 +1,4 @@
+// @flow
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import anchorme from "anchorme";
@@ -22,10 +23,14 @@ const PublicProfileHeader = styled.div`
 
 const RightSide = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  > :first-child {
+    margin-bottom: ${props => props.theme.space[3]}px;
+  }
+  margin-right: ${props => props.theme.space[4]}px;
 
   h3,
   span {
@@ -205,10 +210,10 @@ const ProfileHeader = ({
           ]}
         />
       )}
+      {id === currentUser && (
+        <StyledButton onClick={() => toggleEditing()}>Edit Profile</StyledButton>
+      )}
     </RightSide>
-    {id === currentUser && (
-      <StyledButton onClick={() => toggleEditing()}>Edit Profile</StyledButton>
-    )}
   </PublicProfileHeader>
 );
 
