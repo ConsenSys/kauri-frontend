@@ -57,6 +57,11 @@ const Web3Unavailable = () => (
       <a href="https://metamask.io" target="_blank">
         https://metamask.io
       </a>
+      <div>
+        Here for the content? Sign up for a newsletter below and receive the
+        latest Web3 tutorials, project announcements, and articles every 2
+        weeks!
+      </div>
       <link
         href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css"
         rel="stylesheet"
@@ -65,9 +70,7 @@ const Web3Unavailable = () => (
       <style
         type="text/css"
         dangerouslySetInnerHTML={{
-          __html: `	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
-	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */`,
+          __html: `	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }`,
         }}
       />
       <div id="mc_embed_signup">

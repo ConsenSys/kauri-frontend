@@ -29,7 +29,9 @@ const Link = styled.a`
   }
 `;
 
-const View = ({ isLoggedIn, data: { getCollection: collection } }) => {
+const View = ({ isLoggedIn, data }) => {
+  if (!data.getCollection) return null;
+  const { getCollection: collection } = data;
   const articleCount =
     collection.sections &&
     collection.sections.reduce((current, next) => {
@@ -83,6 +85,7 @@ export default compose(
   ),
   graphql(getCollection, {
     options: ({ id }) => ({
+      fetchPolicy: "no-cache",
       variables: {
         id,
       },

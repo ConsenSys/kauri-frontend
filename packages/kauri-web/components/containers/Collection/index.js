@@ -21,6 +21,7 @@ export default compose(
   ),
   graphql(globalCollectionDetails, {
     options: ({ id }) => ({
+      fetchPolicy: "no-cache",
       variables: {
         id,
       },
