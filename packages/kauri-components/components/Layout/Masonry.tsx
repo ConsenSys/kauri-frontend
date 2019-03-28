@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "../../lib/styled-components";
 
-const Column = styled.div`
+const Column = styled<{ removeFirstRowMarginTop: boolean }, "div">("div")`
   flex: 1;
   flex-direction: column;
   & > div {
@@ -9,6 +9,8 @@ const Column = styled.div`
     margin-left: ${props => props.theme.space[3] / 2}px;
     margin-right: ${props => props.theme.space[3] / 2}px;
   }
+  ${props =>
+    props.removeFirstRowMarginTop && `& > div:first-child { margin-top: 0px; }`}
 `;
 
 const MasonryContainer = styled.div`
@@ -20,6 +22,7 @@ const MasonryContainer = styled.div`
 interface IProps {
   minWidth: number;
   columns: number;
+  removeFirstRowMarginTop?: boolean;
   children: Array<React.ReactElement<any>>;
 }
 
@@ -73,11 +76,21 @@ class Masonry extends Component<IProps, IState> {
       const columnIndex = i % this.state.numCol;
       columnsArray[columnIndex].push(children[i]);
     }
+
     return (
       <MasonryContainer>
-        {columnsArray.map((i, index) => (
-          <Column key={index}>{i}</Column>
-        ))}
+        {columnsArray.map((i, index) => {
+          return (
+            <Column
+              key={index}
+              removeFirstRowMarginTop={
+                this.props.removeFirstRowMarginTop === true
+              }
+            >
+              {i}
+            </Column>
+          );
+        })}
       </MasonryContainer>
     );
   }

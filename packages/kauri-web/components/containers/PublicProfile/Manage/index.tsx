@@ -14,6 +14,12 @@ const categories = [
   // "communities",
 ];
 
+const queriesMatch: { [key: string]: string } = {
+  'awaiting approval': 'approvalsQuery',
+  drafts: 'draftsQuery',
+  'submitted updates': 'pendingQuery'
+}
+
 interface IState {
   currentCategory: string;
 }
@@ -35,7 +41,7 @@ const Manage: React.FunctionComponent<
             key={category}
             active={category === state.currentCategory}
             category={category}
-            amount={3}
+            amount={props[queriesMatch[category]].searchArticles.totalElements}
             onClick={() => setState({ currentCategory: category })}
           />
         ))}

@@ -7,9 +7,6 @@ import EditableHeader from "./EditableHeader";
 import Loading from "../../common/Loading";
 import type { ViewProps, ViewState } from "./types";
 import Published from "./Published/View";
-import Drafts from "./Drafts/View";
-import Awaiting from "./Awaiting/View";
-import Pending from "./Pending/View";
 import Manage from "./Manage"
 
 class PublicProfile extends Component<ViewProps, ViewState> {
@@ -112,19 +109,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
               isOwner && {
                 name: "Manage",
               },
-              // isOwner && {
-              //   name: `Drafts (${DraftsQuery.searchArticles.totalElements})`,
-              // },
-              // isOwner && {
-              //   name: `Approval needed (${
-              //     ApprovalsQuery.searchArticles.totalElements
-              //   })`,
-              // },
-              // isOwner && {
-              //   name: `Submitted updates (${
-              //     PendingQuery.searchArticles.totalElements
-              //   })`,
-              // },
             ]}
             panels={[
               <Published
@@ -152,20 +136,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 closeModalAction={closeModalAction}
                 openModalAction={openModalAction}
               />,
-              // isOwner && (
-              // ),
-              // <Awaiting
-              //   isLoggedIn={!!currentUser}
-              //   data={ApprovalsQuery}
-              //   type="pending"
-              //   routeChangeAction={routeChangeAction}
-              // />,
-              // <Pending
-              //   isLoggedIn={!!currentUser}
-              //   data={PendingQuery}
-              //   type="toBeApproved"
-              //   routeChangeAction={routeChangeAction}
-              // />,
             ]}
           />
         ) : !isHeaderLoaded ? null : (

@@ -37,37 +37,35 @@ const Articles = ({
       {typeof type === "string" && type === "published" && isOwner && (
         <CheckpointArticles isOwner={isOwner} articles={articles} />
       )}
-      <ContentContainer>
-        <Masonry columns={4} minWidth={310}>
-          {articles.map(article => (
-            <ArticleCard
-              key={`${article.id}-${article.version}`}
-              changeRoute={routeChangeAction}
-              tags={article.tags}
-              date={article.dateCreated}
-              title={article.title}
-              description={article.description}
-              userId={article.author && article.author.id}
-              username={article.author && article.author.username}
-              userAvatar={article.author && article.author.avatar}
-              id={article.id}
-              version={article.version}
-              cardHeight={420}
-              imageURL={article.attributes && article.attributes.background}
-              nfts={article.associatedNfts}
-              linkComponent={(childrenProps, route) => (
-                <Link
-                  toSlug={route && route.includes("article") && article.title}
-                  useAnchorTag
-                  href={route}
-                >
-                  {childrenProps}
-                </Link>
-              )}
-            />
-          ))}
-        </Masonry>
-      </ContentContainer>
+      <Masonry columns={3} minWidth={310} removeFirstRowMarginTop>
+        {articles.map(article => (
+          <ArticleCard
+            key={`${article.id}-${article.version}`}
+            changeRoute={routeChangeAction}
+            tags={article.tags}
+            date={article.dateCreated}
+            title={article.title}
+            description={article.description}
+            userId={article.author && article.author.id}
+            username={article.author && article.author.username}
+            userAvatar={article.author && article.author.avatar}
+            id={article.id}
+            version={article.version}
+            cardHeight={420}
+            imageURL={article.attributes && article.attributes.background}
+            nfts={article.associatedNfts}
+            linkComponent={(childrenProps, route) => (
+              <Link
+                toSlug={route && route.includes("article") && article.title}
+                useAnchorTag
+                href={route}
+              >
+                {childrenProps}
+              </Link>
+            )}
+          />
+        ))}
+      </Masonry>
     </Fragment>
   ) : (
     <Centered>

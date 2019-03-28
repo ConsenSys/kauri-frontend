@@ -33,81 +33,79 @@ const Articles = ({
   const articles = data.searchArticles && data.searchArticles.content;
   return articles.length > 0 ? (
     <Fragment>
-      <ContentContainer>
-        <Masonry columns={4} minWidth={310}>
-          {articles.map(article => (
-            <ArticleCard
-              key={`${article.id}-${article.version}`}
-              tags={article.tags}
-              changeRoute={routeChangeAction}
-              date={article.dateCreated}
-              title={article.title}
-              description={article.description}
-              userId={
-                type !== "toBeApproved" && article.owner
-                  ? article.owner.id
-                  : article.author.id
-              }
-              username={
-                type !== "toBeApproved" && article.owner
-                  ? article.owner.username
-                  : article.author.username
-              }
-              userAvatar={
-                type !== "toBeApproved" && article.owner
-                  ? article.owner.avatar
-                  : article.author.avatar
-              }
-              id={article.id}
-              version={article.version}
-              cardHeight={420}
-              imageURL={article.attributes && article.attributes.background}
-              nfts={article.associatedNfts}
-              linkComponent={(childrenProps, route) => (
-                <Link
-                  toSlug={route && route.includes("article") && article.title}
-                  useAnchorTag
-                  href={route}
-                >
-                  {childrenProps}
-                </Link>
-              )}
-              status={"DRAFT"}
-              isLoggedIn={isLoggedIn}
-              hoverChildren={() => (
-                <PrimaryButton
-                  onClick={() =>
-                    openModalAction({
-                      children: (
-                        <AlertView
-                          closeModalAction={() => closeModalAction()}
-                          confirmButtonAction={() =>
-                            deleteDraftArticleAction(
-                              { id: article.id, version: article.version },
-                              closeModalAction
-                            )
-                          }
-                          content={
-                            <div>
-                              <BodyCard>
+      <Masonry columns={3} minWidth={310} removeFirstRowMarginTop>
+        {articles.map(article => (
+          <ArticleCard
+            key={`${article.id}-${article.version}`}
+            tags={article.tags}
+            changeRoute={routeChangeAction}
+            date={article.dateCreated}
+            title={article.title}
+            description={article.description}
+            userId={
+              type !== "toBeApproved" && article.owner
+                ? article.owner.id
+                : article.author.id
+            }
+            username={
+              type !== "toBeApproved" && article.owner
+                ? article.owner.username
+                : article.author.username
+            }
+            userAvatar={
+              type !== "toBeApproved" && article.owner
+                ? article.owner.avatar
+                : article.author.avatar
+            }
+            id={article.id}
+            version={article.version}
+            cardHeight={420}
+            imageURL={article.attributes && article.attributes.background}
+            nfts={article.associatedNfts}
+            linkComponent={(childrenProps, route) => (
+              <Link
+                toSlug={route && route.includes("article") && article.title}
+                useAnchorTag
+                href={route}
+              >
+                {childrenProps}
+              </Link>
+            )}
+            status={"DRAFT"}
+            isLoggedIn={isLoggedIn}
+            hoverChildren={() => (
+              <PrimaryButton
+                onClick={() =>
+                  openModalAction({
+                    children: (
+                      <AlertView
+                        closeModalAction={() => closeModalAction()}
+                        confirmButtonAction={() =>
+                          deleteDraftArticleAction(
+                            { id: article.id, version: article.version },
+                            closeModalAction
+                          )
+                        }
+                        content={
+                          <div>
+                            <BodyCard>
                                 You won't be able to retrieve the draft article
                                 after deleting.
-                              </BodyCard>
-                            </div>
-                          }
-                          title={"Are you sure?"}
-                        />
-                      ),
-                    })
-                  }
-                >
+                            </BodyCard>
+                          </div>
+                        }
+                        title={"Are you sure?"}
+                      />
+                    ),
+                  })
+                }
+              >
                   Delete draft
-                </PrimaryButton>
-              )}
-            />
-          ))}
-        </Masonry>
-      </ContentContainer>
+              </PrimaryButton>
+            )}
+          />
+        ))}
+      </Masonry>
     </Fragment>
   ) : (
     <Centered>
