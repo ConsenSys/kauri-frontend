@@ -15,6 +15,12 @@ const PublicProfileHeader = styled.div`
   color: white;
   padding: 2.5em ${props => props.theme.padding};
 
+  @media (min-width: 700px) {
+    > div:first-child {
+      margin-right: ${props => props.theme.space[2]}px;
+    }
+  }
+
   @media (max-width: 700px) {
     flex-direction: column;
     align-items: center;
@@ -27,10 +33,12 @@ const RightSide = styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  > :first-child {
-    margin-bottom: ${props => props.theme.space[3]}px;
+  @media (min-width: 700px) {
+    > :first-child {
+      margin-bottom: ${props => props.theme.space[3]}px;
+    }
+    margin-right: ${props => props.theme.space[4]}px;
   }
-  margin-right: ${props => props.theme.space[4]}px;
 
   h3,
   span {
@@ -57,8 +65,6 @@ const DetailsContainer = styled.div`
 `;
 
 const StyledButton = styled(PrimaryButton)`
-  margin-left: ${props => props.theme.space[3]}px;
-  margin-right: ${props => props.theme.space[1]}px;
   align-self: center;
 `;
 
@@ -145,7 +151,10 @@ const ProfileHeader = ({
       <meta name="twitter:image" content={avatar} />
     </Helmet>
     {avatar ? (
-      <UserAvatar borderRadius="4px" height={100} width={100} avatar={avatar}>
+      <UserAvatar
+        hideUsername
+        borderRadius="4px" height={100} width={100} avatar={avatar}
+      >
         {avatar ? "" : (name || id).substring(0, 1).toUpperCase()}
       </UserAvatar>
     ) : (
