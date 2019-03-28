@@ -10,7 +10,7 @@ import Published from "./Published/View";
 import Drafts from "./Drafts/View";
 import Awaiting from "./Awaiting/View";
 import Pending from "./Pending/View";
-import Manage from "./Manage/index"
+import Manage from "./Manage"
 
 class PublicProfile extends Component<ViewProps, ViewState> {
   constructor (props: ViewProps) {
@@ -141,8 +141,10 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 routeChangeAction={routeChangeAction}
               />,
               isOwner && <Manage
-                data={DraftsQuery}
-                type="draft"
+                approvalsQuery={ApprovalsQuery}
+                draftsQuery={DraftsQuery}
+                pendingQuery={PendingQuery}
+                type="manage"
                 routeChangeAction={routeChangeAction}
                 deleteDraftArticleAction={deleteDraftArticleAction}
                 isOwner={UserQuery.getUser.id === currentUser}
@@ -151,16 +153,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 openModalAction={openModalAction}
               />,
               // isOwner && (
-              //   <Drafts
-              // data={DraftsQuery}
-              // type="draft"
-              // routeChangeAction={routeChangeAction}
-              // deleteDraftArticleAction={deleteDraftArticleAction}
-              // isOwner={UserQuery.getUser.id === currentUser}
-              // isLoggedIn={!!currentUser}
-              // closeModalAction={closeModalAction}
-              // openModalAction={openModalAction}
-              //   />
               // ),
               // <Awaiting
               //   isLoggedIn={!!currentUser}

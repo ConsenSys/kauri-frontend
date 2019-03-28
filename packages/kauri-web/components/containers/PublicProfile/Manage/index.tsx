@@ -3,12 +3,15 @@ import withPagination from "../../../../lib/with-pagination";
 import ContentSection from "../../../../../kauri-components/components/Section/ContentSection";
 import CategorySection from "../../../../../kauri-components/components/Section/CategorySection";
 import ResourceCategory from "../../../../../kauri-components/components/ResourceCategory";
+import Drafts from '../Drafts/View'
+import Awaiting from '../Awaiting/View'
+import Pending from '../Pending/View'
 
 const categories = [
   "drafts",
   "awaiting approval",
   "submitted updates",
-  "communities",
+  // "communities",
 ];
 
 interface IState {
@@ -19,7 +22,7 @@ const Manage: React.FunctionComponent<
   any & {
     isLoggedIn: boolean;
   }
-> = _ => {
+> = props => {
   const [state, setState] = React.useState<IState>({
     currentCategory: "drafts",
   });
@@ -37,6 +40,27 @@ const Manage: React.FunctionComponent<
           />
         ))}
       </CategorySection>
+      {state.currentCategory === 'drafts' && (
+          <Drafts
+            {...props}
+            data={props.draftsQuery}
+          />
+        ) 
+      }
+      {state.currentCategory === 'awaiting approval' && (
+          <Awaiting
+            {...props}
+            data={props.approvalsQuery}
+          />
+        ) 
+      }
+      {state.currentCategory === 'submitted updates' && (
+          <Pending
+            {...props}
+              data={props.pendingQuery}
+          />
+        ) 
+      }
     </ContentSection>
   );
 };
