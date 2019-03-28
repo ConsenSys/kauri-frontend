@@ -72,7 +72,7 @@ type Props = {
   confirmModal: (Array<{ id: string, version: string }>) => void,
   chosenCollections: Array<{ id: string, version: string }>,
   allOtherChosenCollections: Array<{ id: string, version: string }>,
-  currentCollectionIdIfUpdating?: string
+  currentCollectionIdIfUpdating?: string,
 };
 
 type State = {
@@ -83,7 +83,7 @@ export default class ChooseCollectionModal extends React.Component<
   Props,
   State
 > {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       chosenCollections: this.props.chosenCollections || [],
@@ -97,21 +97,25 @@ export default class ChooseCollectionModal extends React.Component<
           chosenCollection.id === id && chosenCollection.version === version
       )(this.state.chosenCollections)
         ? R.reduce((current, next) => {
-          if (
-            next.id === chosenCollection.id &&
+            if (
+              next.id === chosenCollection.id &&
               next.version === chosenCollection.version
-          ) {
-            return current;
-          } else {
-            current.push(next);
-            return current;
-          }
-        }, [])(this.state.chosenCollections)
+            ) {
+              return current;
+            } else {
+              current.push(next);
+              return current;
+            }
+          }, [])(this.state.chosenCollections)
         : R.union(this.state.chosenCollections, [chosenCollection]),
     });
 
-  render () {
-    const { closeModalAction, confirmModal, currentCollectionIdIfUpdating } = this.props;
+  render() {
+    const {
+      closeModalAction,
+      confirmModal,
+      currentCollectionIdIfUpdating,
+    } = this.props;
 
     return (
       <ContentContainer>

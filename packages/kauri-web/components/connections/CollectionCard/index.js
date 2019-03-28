@@ -30,8 +30,8 @@ const Link = styled.a`
 `;
 
 const View = ({ isLoggedIn, data }) => {
-  if (!data.getCollection) return null
-  const { getCollection: collection } = data
+  if (!data.getCollection) return null;
+  const { getCollection: collection } = data;
   const articleCount =
     collection.sections &&
     collection.sections.reduce((current, next) => {

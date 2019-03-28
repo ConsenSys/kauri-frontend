@@ -22,14 +22,20 @@ interface IProps {
   maxTags: number;
   maxChars?: number;
   align?: string;
+  routeChangeAction?: (route: string) => void;
 }
 
 export const StyledTag = styled(TagName)`
+  cursor: pointer;
+  transition: 0.3s;
   &:not(:last-child):after {
     content: "•";
     color: ${theme.colors.primary};
     margin: ${theme.space[1] / 2}px;
     font-weight: ${theme.fontWeight[3]};
+  }
+  &:hover {
+    color: ${theme.colors.primary}
   }
 `;
 
@@ -94,6 +100,7 @@ const TagList = (props: IProps) => {
       {shownTags.length > 0 &&
         shownTags.map((tag, key) => (
           <StyledTag
+            onClick={() => props.routeChangeAction && props.routeChangeAction(`/search-results?q=${tag}`)}
             hiddenTags={hiddenTags.length > 0}
             color={props.color}
             key={key}

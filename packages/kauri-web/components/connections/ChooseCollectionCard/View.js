@@ -56,43 +56,45 @@ const CollectionsContent = ({
           // Don't show chosen Collections from other sections
           if (
             allOtherChosenCollections.find(({ resourcesId }) =>
-              resourcesId.find(({ id, version }) => id === collection.id || currentCollectionIdIfUpdating === collection.id)
+              resourcesId.find(
+                ({ id, version }) =>
+                  id === collection.id ||
+                  currentCollectionIdIfUpdating === collection.id
+              )
             )
           ) {
             return null;
           }
 
           const articleCount =
-                collection.sections &&
-                collection.sections.reduce((current, next) => {
-                  if (next && Array.isArray(next.resources)) {
-                    const articlesInSection = next.resources.filter(
-                      sectionResource =>
-                        sectionResource &&
-                        sectionResource.__typename
-                          .toLowerCase()
-                          .includes("article")
-                    );
-                    current += articlesInSection.length;
-                  }
-                  return current;
-                }, 0);
+            collection.sections &&
+            collection.sections.reduce((current, next) => {
+              if (next && Array.isArray(next.resources)) {
+                const articlesInSection = next.resources.filter(
+                  sectionResource =>
+                    sectionResource &&
+                    sectionResource.__typename.toLowerCase().includes("article")
+                );
+                current += articlesInSection.length;
+              }
+              return current;
+            }, 0);
 
           const collectionCount =
-                collection.sections &&
-                collection.sections.reduce((current, next) => {
-                  if (next && Array.isArray(next.resources)) {
-                    const collectionsInSection = next.resources.filter(
-                      sectionResource =>
-                        sectionResource &&
-                        sectionResource.__typename
-                          .toLowerCase()
-                          .includes("collection")
-                    );
-                    current += collectionsInSection.length;
-                  }
-                  return current;
-                }, 0);
+            collection.sections &&
+            collection.sections.reduce((current, next) => {
+              if (next && Array.isArray(next.resources)) {
+                const collectionsInSection = next.resources.filter(
+                  sectionResource =>
+                    sectionResource &&
+                    sectionResource.__typename
+                      .toLowerCase()
+                      .includes("collection")
+                );
+                current += collectionsInSection.length;
+              }
+              return current;
+            }, 0);
 
           return (
             <CollectionCard
