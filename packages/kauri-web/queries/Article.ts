@@ -533,6 +533,7 @@ export const globalSearchApprovedArticles = gql`
     ) {
       totalElements
       totalPages
+      isLast
       content {
         resourceIdentifier {
           id
