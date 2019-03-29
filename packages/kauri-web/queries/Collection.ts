@@ -142,6 +142,7 @@ export const getLatestCollections = gql`
     ) {
       totalElements
       totalPages
+      isLast
       content {
         resourceIdentifier {
           id
