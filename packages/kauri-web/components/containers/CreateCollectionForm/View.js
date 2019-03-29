@@ -166,6 +166,14 @@ const ShareIcon = () => (
   </svg>
 );
 
+const DraggableResourceContainer = styled.div`
+  :hover {
+    > :first-child {
+      box-shadow: 0 0 0 2px ${props => props.theme.hoverTextColor};
+    }
+  }
+`;
+
 const handleBackgroundSetFormField = setFieldValue => () =>
   setImageUploader(payload => {
     setFieldValue("background", payload.background.background);
@@ -185,67 +193,67 @@ const renderResourceSection = (
       values
     ) ? (
       <Draggable
-        index={resourceIndex}
-        draggableId={`${R.path(
-          ["sections", index, mappingKey, resourceIndex, "id"],
-          values
-        )}-${R.path(
-          ["sections", index, mappingKey, resourceIndex, "version"],
-          values
-        )}`}
-      >
-        {provided => (
-          <div
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            ref={provided.innerRef}
-            id="article-card"
-          >
-            <ArticleCard
-              id={R.path(
-                ["sections", index, mappingKey, resourceIndex, "id"],
-                values
-              )}
-              version={parseInt(
-                R.path(
-                  ["sections", index, mappingKey, resourceIndex, "version"],
-                  values
-                )
-              )}
-              cardHeight={420}
-            />
-            {provided.placeholder}
-          </div>
-        )}
-      </Draggable>
-    ) : (
-      R.path(["sections", index, mappingKey, resourceIndex], values) && (
-        <Draggable
           index={resourceIndex}
           draggableId={`${R.path(
             ["sections", index, mappingKey, resourceIndex, "id"],
             values
+          )}-${R.path(
+            ["sections", index, mappingKey, resourceIndex, "version"],
+            values
           )}`}
         >
           {provided => (
-            <div
+          <DraggableResourceContainer
               {...provided.draggableProps}
               {...provided.dragHandleProps}
-              ref={provided.innerRef}
-              id="collection-card"
+              innerRef={provided.innerRef}
+              id="article-card"
             >
-              <CollectionCard
-                id={R.path(
+              <ArticleCard
+              id={R.path(
                   ["sections", index, mappingKey, resourceIndex, "id"],
                   values
                 )}
+              version={parseInt(
+                  R.path(
+                    ["sections", index, mappingKey, resourceIndex, "version"],
+                    values
+                  )
+                )}
+              cardHeight={420}
               />
               {provided.placeholder}
-            </div>
+            </DraggableResourceContainer>
           )}
         </Draggable>
-      )
-    )}
+      ) : (
+        R.path(["sections", index, mappingKey, resourceIndex], values) && (
+          <Draggable
+            index={resourceIndex}
+            draggableId={`${R.path(
+              ["sections", index, mappingKey, resourceIndex, "id"],
+              values
+            )}`}
+          >
+            {provided => (
+              <DraggableResourceContainer
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                innerRef={provided.innerRef}
+                id="collection-card"
+              >
+                <CollectionCard
+                  id={R.path(
+                    ["sections", index, mappingKey, resourceIndex, "id"],
+                    values
+                  )}
+                />
+                {provided.placeholder}
+              </DraggableResourceContainer>
+            )}
+          </Draggable>
+        )
+      )}
     <TertiaryButton
       color="primaryTextColor"
       icon={<RemoveIcon />}
