@@ -16,11 +16,11 @@ type PaginationDataQuery =
 
 interface IProps {
   [queryName: string]: { [key in PaginationDataQuery]: { isLast: boolean } } &
-    DataValue<{}>;
+    DataValue<any>;
 }
 
 const withPagination = (
-  Paginated: React.ComponentClass<any>,
+  Paginated: React.FunctionComponent<any> | React.ComponentClass<any>,
   key: PaginationDataQuery,
   queryName: string = "data"
 ) => {

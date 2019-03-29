@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import styled from 'styled-components';
-import SearchCategory from '../../../../kauri-components/components/SearchResults/SearchCategory'
+import ResourceCategory from '../../../../kauri-components/components/ResourceCategory'
 import DisplayResources from './DisplayResources';
 import ManageModerators from './ManageModerators';
 import { getCommunity_getCommunity_pending, getCommunity_getCommunity_members } from '../../../queries/__generated__/getCommunity';
@@ -34,18 +34,18 @@ const Manage = ({ pending, members }: IProps) => {
     const collections = pending && pending.filter(i => i && i.__typename === 'CollectionDTO');
 return <Container>
     <Column>
-        <SearchCategory
+        <ResourceCategory
             active={tabIndex === 0}
             category="Manage Members"
             amount={members ? members.length: 0}
             onClick={() => setTabIndex(0)} />
-        <SearchCategory
+        <ResourceCategory
             active={tabIndex === 1}
             category="Articles for approval"
             amount={articles ? articles.length : 0}
             onClick={() => setTabIndex(1)}
         />
-        <SearchCategory
+        <ResourceCategory
             active={tabIndex === 2}
             category="Collections for approval"
             amount={collections ? collections.length: 0}
