@@ -3,7 +3,6 @@ import React, { Fragment } from "react";
 import styled from "styled-components";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
 import { Link } from "../../../../routes";
-import ContentContainer from "../PublicProfileContentContainer";
 import withPagination from "../../../../lib/with-pagination";
 import PublicProfileEmptyState from "../../../../../kauri-components/components/PublicProfileEmptyState";
 import { PrimaryButton } from "../../../../../kauri-components/components/Button";
@@ -16,7 +15,7 @@ import type { ArticlesProps } from "../types";
 const Centered = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: ${props => props.theme.paddingTop};
+  margin-left: 100px;
 `;
 
 const Articles = ({

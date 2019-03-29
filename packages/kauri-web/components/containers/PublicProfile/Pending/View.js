@@ -3,7 +3,6 @@ import React, { Fragment } from "react";
 import styled from "styled-components";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
 import { Link } from "../../../../routes";
-import ContentContainer from "../PublicProfileContentContainer";
 import CheckpointArticles from "../../CheckpointArticles";
 import withPagination from "../../../../lib/with-pagination";
 import PublicProfileEmptyState from "../../../../../kauri-components/components/PublicProfileEmptyState";
@@ -21,7 +20,7 @@ const DescriptionContainer = styled.div`
 const Centered = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: ${props => props.theme.paddingTop};
+  margin-left: 100px;
 `;
 
 const Articles = ({
