@@ -74,6 +74,7 @@ interface IProps {
   dark?: boolean;
   hash?: number;
   router?: any;
+  passChangeTabFunction?: (func: any) => void;
 }
 
 interface IState {
@@ -90,6 +91,12 @@ class TabsComponent extends React.Component<IProps, IState> {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  public componentDidMount() {
+    if (this.props.passChangeTabFunction) {
+      this.props.passChangeTabFunction(this.changeTab.bind(this));
+    }
+  }
+
   public changeTab(index: number) {
     if (this.props.router) {
       const { push, asPath } = this.props.router;
@@ -103,7 +110,7 @@ class TabsComponent extends React.Component<IProps, IState> {
   public handleClick(index: number, tab: ITab) {
     this.changeTab(index);
     if (tab.callback) {
-      tab.callback(tab.name);
+      tab.callback();
     }
   }
 

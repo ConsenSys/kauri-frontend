@@ -52,15 +52,13 @@ const Actions = ({
   currentTab,
   searchPersonalPublishedArticles,
   searchPublishedArticles,
+  changeTab,
 }) => (
   <ActionsContainer>
     <ChooseResourceModalSearch
       userId={userId}
-      query={
-        currentTab === "My articles"
-          ? searchPersonalPublishedArticles
-          : searchPublishedArticles
-      }
+      query={searchPublishedArticles}
+      changeTab={changeTab}
     />
     <TertiaryButton
       icon={<CloseIcon />}
@@ -103,6 +101,7 @@ type Props = {
 type State = {
   chosenArticles: Array<{ id: string, version: string }>,
   currentTab: string,
+  changeTab: (index: number) => void,
 };
 
 class ChooseArticleModal extends React.Component<Props, State> {
@@ -111,6 +110,7 @@ class ChooseArticleModal extends React.Component<Props, State> {
     this.state = {
       chosenArticles: this.props.chosenArticles || [],
       currentTab: "My articles",
+      changeTab: () => {},
     };
   }
 
@@ -152,14 +152,12 @@ class ChooseArticleModal extends React.Component<Props, State> {
               currentTab={this.state.currentTab}
               handleConfirm={confirmModal}
               handleClose={() => closeModalAction()}
+              changeTab={this.state.changeTab}
             />
           }
           title={<Title chosenArticles={this.state.chosenArticles} />}
         />
         <ChooseArticleCard
-          handleTabChange={currentTab =>
-            this.setState({ ...this.state, currentTab })
-          }
           userId={this.props.userId}
           searchPersonalPublishedArticles={
             this.props.searchPersonalPublishedArticles
@@ -168,6 +166,9 @@ class ChooseArticleModal extends React.Component<Props, State> {
           allOtherChosenArticles={this.props.allOtherChosenArticles}
           chosenArticles={this.state.chosenArticles}
           chooseArticle={this.chooseArticle}
+          passChangeTabFunction={changeTab =>
+            this.setState({ ...this.state, changeTab })
+          }
         />
       </ContentContainer>
     );

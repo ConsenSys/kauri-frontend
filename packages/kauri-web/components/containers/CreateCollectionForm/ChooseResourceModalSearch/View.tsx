@@ -1,68 +1,58 @@
 import React from "react";
-import QuickSearch, {
-  IResult,
-  IElementsBreakdown,
-} from "../../../../../kauri-components/components/Search/QuickSearch";
-import QuickSearchInput from "../../../../../kauri-components/components/Search/QuickSearchInput";
+import { IResult } from "../../../../../kauri-components/components/Search/QuickSearch";
 import styled from "styled-components";
-import { searchAutocomplete } from "../../../../queries/Search";
 import { Subject } from "rxjs/Subject";
 import { Subscription } from "rxjs/Subscription";
-import ApolloClient from "apollo-client";
 
-const EmptyData = {
-  results: [],
-  totalElementsBreakdown: {
-    ARTICLE: 0,
-    COLLECTION: 0,
-    COMMENT: 0,
-    COMMUNITY: 0,
-    CURATED_LIST: 0,
-    REQUEST: 0,
-    USER: 0,
-  },
-};
+const SearchSVG = () => (
+  <div className="certain-category-icon">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#1E2428">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M11 4C7.13401 4 4 7.13401 4 11C4 14.866 7.13401 18 11 18C14.866 18 18 14.866 18 11C18 7.13401 14.866 4 11 4ZM2 11C2 6.02944 6.02944 2 11 2C15.9706 2 20 6.02944 20 11C20 15.9706 15.9706 20 11 20C6.02944 20 2 15.9706 2 11Z"
+        fill="#1E2428"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M15.9429 15.9429C16.3334 15.5524 16.9666 15.5524 17.3571 15.9429L21.7071 20.2929C22.0976 20.6834 22.0976 21.3166 21.7071 21.7071C21.3166 22.0977 20.6834 22.0977 20.2929 21.7071L15.9429 17.3571C15.5524 16.9666 15.5524 16.3334 15.9429 15.9429Z"
+        fill="#1E2428"
+      />
+    </svg>
+  </div>
+);
 
-const NavBarAdjusted = styled.div`
-  margin-top: 20px;
+const SearchInput = styled.input`
+  border: 1px solid ${props => props.theme.colors.bgPrimary};
+  border-radius: 4px;
+  background: transparent;
+  height: 40px;
+  outline: none;
+  padding: 0 ${props => props.theme.space[1]}px;
+`;
 
-  & .icon {
-    top: -10px;
+interface ISearchWrapperProps {
+  collapsible: boolean;
+}
+
+const SearchWrapper = styled<ISearchWrapperProps, "div">("div")`
+  width: 300px;
+  display: grid;
+  position: relative;
+
+  &:hover {
+    & > input {
+      border: 1px solid #209b86;
+    }
   }
-  z-index: 100;
+
+  & > .certain-category-icon {
+    position: absolute;
+    top: 11px;
+    right: 9px;
+  }
 `;
-
-const Overlay = styled.div<{ open: boolean }>`
-  height: ${props => (props.open ? "100%" : 0)};
-  width: ${props => (props.open ? "100%" : 0)};
-  opacity: ${props => (props.open ? 1 : 0)};
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 99;
-  position: fixed;
-  top: 0;
-  left: 0;
-  transition: opacity 0.3s;
-`;
-
-interface IProps {
-  userId: string;
-  query: any;
-  routeChangeAction: (route: string) => void;
-}
-
-interface IDataSource {
-  results: IResult[];
-  totalElementsBreakdown: IElementsBreakdown;
-}
-
-interface IState {
-  dataSource: IDataSource;
-  sub?: Subscription;
-  open: boolean;
-  value: string;
-  type: string | null;
-  hovered: boolean;
-}
 
 interface ISearch {
   value: string;
@@ -71,41 +61,52 @@ interface ISearch {
 
 const handleSearch$: Subject<ISearch> = new Subject();
 
-class NavSearch extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      dataSource: EmptyData,
-      hovered: false,
-      open: false,
-      type: null,
-      value: "",
-    };
+interface IDataSource {
+  results: IResult[];
+}
 
-    this.collapseSearch = this.collapseSearch.bind(this);
-    this.expandSearch = this.expandSearch.bind(this);
-    this.fetchResults = this.fetchResults.bind(this);
-    this.goToAdvancedSearch = this.goToAdvancedSearch.bind(this);
-  }
+const EmptyData: IDataSource = {
+  results: [],
+};
+
+interface IState {
+  dataSource: IDataSource;
+  sub: Subscription | null;
+}
+
+interface IProps {
+  query: any;
+  routeChangeAction: (route: string) => void;
+  category: string | null;
+  changeTab: (index: number) => void;
+}
+
+class Complete extends React.Component<IProps, IState> {
+  state = {
+    dataSource: EmptyData,
+    sub: null,
+    value: "",
+  };
 
   componentDidMount() {
     const sub = handleSearch$
       .debounceTime(200)
-      .filter((search: ISearch) => search.value !== "")
-      .flatMap(() =>
-        this.props.query.refetch({
-          category: this.props.userId,
-          page: 0,
-          size: 8,
-          text: this.state.value,
-        })
+      .flatMap(
+        (): Promise<{
+          data: { searchArticles: { content: IResult[] } };
+        }> =>
+          this.props.query.refetch({
+            page: 0,
+            size: 8,
+            text: this.state.value,
+          })
       )
+      .do(() => this.props.changeTab(1))
       .map(({ data: { searchArticles: queryResult } }) => ({
         results: queryResult.content,
-        totalElementsBreakdown: queryResult.totalElementsBreakdown,
       }))
       .subscribe(
-        (dataSource: IDataSource) => {
+        dataSource => {
           this.setState({ ...this.state, dataSource });
         },
         (err: string) => console.log(err)
@@ -119,61 +120,36 @@ class NavSearch extends React.Component<IProps, IState> {
     }
   }
 
-  expandSearch() {
-    this.setState({ open: true, hovered: true });
-  }
+  handleChange = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      this.props.routeChangeAction(
+        `/search-results?q=${this.state.q}${
+          typeof this.props.category === "string"
+            ? `&default_category=${this.props.category}`
+            : ""
+        }`
+      );
+    }
+  };
 
-  collapseSearch() {
-    this.setState({ hovered: false });
-    setTimeout(() => {
-      if (this.state.hovered) {
-        return null;
-      } else {
-        return this.setState({ open: false, value: "", dataSource: EmptyData });
-      }
-    }, 1000);
-  }
-
-  fetchResults(value: string, type?: string) {
+  fetchResults = (value: string, type?: string) => {
     this.setState({ value, type: type ? type : null });
     handleSearch$.next({ value });
-  }
-
-  goToAdvancedSearch(search: string) {
-    this.props.routeChangeAction(`/search-results?q=${search}`);
-  }
+  };
 
   render() {
     return (
-      <>
-        <NavBarAdjusted
-          onMouseEnter={this.expandSearch}
-          onMouseLeave={this.collapseSearch}
-        >
-          <QuickSearchInput
-            open={this.state.open}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              this.fetchResults(e.target.value)
-            }
-            goToSearch={this.goToAdvancedSearch}
-            value={this.state.value}
-          />
-          {/* {JSON.stringify(this.state.dataSource.results, 2)} */}
-          {/* <QuickSearch
-            value={this.state.value}
-            fetchByType={(type: string) =>
-              this.fetchResults(this.state.value, type)
-            }
-            routeChangeAction={this.props.routeChangeAction}
-            maxResults={3}
-            breakDown={this.state.dataSource.totalElementsBreakdown}
-            results={this.state.dataSource.results}
-          /> */}
-        </NavBarAdjusted>
-        <Overlay open={this.state.open} onClick={this.collapseSearch} />
-      </>
+      <SearchWrapper
+        collapsible={this.props.collapsible}
+        className="global-search-wrapper"
+      >
+        <SearchInput
+          onChange={({ target: { value } }) => this.fetchResults(value)}
+        />
+        <SearchSVG />
+      </SearchWrapper>
     );
   }
 }
 
-export default NavSearch;
+export default Complete;
