@@ -124,8 +124,8 @@ export default props => {
 
   return (
     <Tabs
-      passChangeTabFunction={props.passChangeTabFunction}
       centerTabs
+      passChangeTabFunction={props.passChangeTabFunction}
       tabs={[
         {
           name: "My articles",

@@ -45,17 +45,18 @@ const CloseIcon = () => (
 );
 
 const Actions = ({
-  userId,
   handleClose,
   handleConfirm,
   chosenArticles,
-  currentTab,
   searchPersonalPublishedArticles,
   searchPublishedArticles,
+  currentTab,
   changeTab,
+  userId,
 }) => (
   <ActionsContainer>
     <ChooseResourceModalSearch
+      type="article"
       userId={userId}
       query={searchPublishedArticles}
       changeTab={changeTab}
@@ -149,10 +150,10 @@ class ChooseArticleModal extends React.Component<Props, State> {
               }
               searchPublishedArticles={this.props.searchPublishedArticles}
               chosenArticles={this.state.chosenArticles}
-              currentTab={this.state.currentTab}
               handleConfirm={confirmModal}
               handleClose={() => closeModalAction()}
               changeTab={this.state.changeTab}
+              currentTab={this.state.currentTab}
             />
           }
           title={<Title chosenArticles={this.state.chosenArticles} />}

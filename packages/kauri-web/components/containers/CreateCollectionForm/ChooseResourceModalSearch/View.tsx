@@ -3,6 +3,7 @@ import { IResult } from "../../../../../kauri-components/components/Search/Quick
 import styled from "styled-components";
 import { Subject } from "rxjs/Subject";
 import { Subscription } from "rxjs/Subscription";
+import { Observable } from "rxjs/Observable";
 
 const SearchSVG = () => (
   <div className="certain-category-icon">
@@ -79,7 +80,28 @@ interface IProps {
   routeChangeAction: (route: string) => void;
   category: string | null;
   changeTab: (index: number) => void;
+  type: "article" | "collection";
 }
+
+const queryAllArticles = (refetchQuery: any, text: string) =>
+  Observable.fromPromise(
+    refetchQuery({
+      page: 0,
+      size: 8,
+      text,
+    })
+  );
+
+const queryAllCollections = (refetchQuery: any, text: string) =>
+  Observable.fromPromise(
+    refetchQuery({
+      filter: {
+        fullText: text,
+      },
+      page: 0,
+      size: 8,
+    })
+  );
 
 class Complete extends React.Component<IProps, IState> {
   state = {
@@ -91,22 +113,18 @@ class Complete extends React.Component<IProps, IState> {
   componentDidMount() {
     const sub = handleSearch$
       .debounceTime(200)
-      .flatMap(
-        (): Promise<{
-          data: { searchArticles: { content: IResult[] } };
-        }> =>
-          this.props.query.refetch({
-            page: 0,
-            size: 8,
-            text: this.state.value,
-          })
+      .flatMap(() =>
+        this.props.type === "article"
+          ? queryAllArticles(this.props.query.refetch, this.state.value)
+          : queryAllCollections(this.props.query.refetch, this.state.value)
       )
       .do(() => this.props.changeTab(1))
-      .map(({ data: { searchArticles: queryResult } }) => ({
+      .map(({ data: { searchCollections: queryResult } }) => ({
         results: queryResult.content,
       }))
       .subscribe(
         dataSource => {
+          console.log(dataSource);
           this.setState({ ...this.state, dataSource });
         },
         (err: string) => console.log(err)
