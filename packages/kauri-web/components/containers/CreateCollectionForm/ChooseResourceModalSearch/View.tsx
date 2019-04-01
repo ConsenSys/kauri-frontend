@@ -85,7 +85,7 @@ const queryAllArticles = (refetchQuery: any, text: string) =>
     refetchQuery({
       page: 0,
       size: 8,
-      text,
+      text: text === "" ? null : text,
     })
   );
 
@@ -93,7 +93,7 @@ const queryAllCollections = (refetchQuery: any, text: string) =>
   Observable.fromPromise(
     refetchQuery({
       filter: {
-        fullText: text,
+        fullText: text === "" ? null : text,
       },
       page: 0,
       size: 8,
