@@ -33,8 +33,8 @@ const SearchInput = styled.input`
   padding: 0 ${props => props.theme.space[1]}px;
 `;
 
-const SearchWrapper = styled.div`
-  width: 330px;
+const SearchWrapper = styled<{ type: string }, "div">("div")`
+  width: ${props => (props.type === "article" ? "330" : "357")}px;
   display: grid;
   position: relative;
 
@@ -145,7 +145,7 @@ class Complete extends React.Component<IProps, IState> {
 
   render() {
     return (
-      <SearchWrapper className="global-search-wrapper">
+      <SearchWrapper type={this.props.type} className="global-search-wrapper">
         <SearchInput
           onChange={({ target: { value } }) => this.fetchResults(value)}
         />
