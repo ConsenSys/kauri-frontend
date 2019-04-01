@@ -1,98 +1,166 @@
 export const getAllCuratedList = (payload, maxResult, filter) => ({
   query: `
-    query getAllCuratedList {
-        getAllCuratedList {
+  query getAllCuratedList {
+    getAllCuratedList {
+      id
+      name
+      description
+      featured
+      dateCreated
+      links {
+        label
+        url
+        type
+      }
+      owner {
+        id
+        name
+        username
+        avatar
+      }
+      header {
+        ... on ArticleDTO {
+          id
+          version
+          title
+          content
+          description
+          dateCreated
+          datePublished
+          author {
+            id
+            name
+            username
+            avatar
+          }
+
+          status
+          attributes
+          voteResult {
+            sum
+          }
+          resourceIdentifier {
+            id
+            type
+            version
+          }
+        }
+        ... on CollectionDTO {
           id
           name
           description
-          featured
-          owner {
+          attributes
+          background
+          resourceIdentifier {
             id
-            name
+            type
+            version
           }
-          header {
-            ...on ArticleDTO {id, version, title, content, dateCreated, datePublished, author { id name }, status, attributes, vote { totalVote }, resourceIdentifier {
-              id
-              type
-              version
-            } },
-            ...on CollectionDTO { id, name, background, attributes, resourceIdentifier {
-              id
-              type
-              version
-            }},
-            ...on CommunityDTO { id, name, resourceIdentifier {
-              id
-              type
-              version
-            } },
-            ...on UserDTO { id, name, resourceIdentifier {
-              id
-              type
-              version
-            }}
+        }
+        ... on CommunityDTO {
+          id
+          name
+          resourceIdentifier {
+            id
+            type
+            version
           }
-          resources {
-            ... on ArticleDTO {
-              resourceIdentifier {
-                type
-                id
-              }
-              id
-              version
-              title
-              content
-              dateCreated
-              datePublished
-              author {
-                id
-                name
-                username
-                avatar
-              }
-    
-              status
-              attributes
-              vote {
-                totalVote
-              }
-            }
-            ... on CollectionDTO {
-              id
-              name
-              description
-              background
-              dateUpdated
-              resourceIdentifier {
-                type
-                id
-              }
-              owner {
-                id
-                username
-                name
-                avatar
-              }
-              sections {
-                name
-                description
-                resourcesId {
-                  id
-                  type
-                }
-              }
-            }
-            ... on CommunityDTO {
-              id
-              name
-              resourceIdentifier {
-                type
-                id
-              }
-            }
+        }
+        ... on PublicUserDTO {
+          id
+          name
+          resourceIdentifier {
+            id
+            type
+            version
           }
         }
       }
+      resources {
+        ... on ArticleDTO {
+          resourceIdentifier {
+            type
+            id
+          }
+          id
+          version
+          title
+          content
+          description
+          dateCreated
+          datePublished
+          author {
+            id
+            name
+            username
+            avatar
+          }
+          owner {
+            ...UserOwner
+            ...CommunityOwner
+          }
+
+          status
+          attributes
+          voteResult {
+            sum
+          }
+        }
+        ... on CollectionDTO {
+          id
+          name
+          description
+          background
+          dateUpdated
+          resourceIdentifier {
+            type
+            id
+          }
+          owner {
+            ...UserOwner
+            ...CommunityOwner
+          }
+          sections {
+            name
+            description
+            resourcesId {
+              id
+              type
+            }
+          }
+        }
+        ... on CommunityDTO {
+          id
+          name
+          resourceIdentifier {
+            type
+            id
+          }
+        }
+      }    
+    }
+  }
+
+  fragment UserOwner on PublicUserDTO {
+    id
+    name
+    username
+    avatar
+    resourceIdentifier {
+      id
+      type
+    }
+  }
+
+  fragment CommunityOwner on CommunityDTO {
+    id
+    name
+    avatar
+    resourceIdentifier {
+      id
+      type
+    }
+  }
 `,
   variables: {},
   operationName: "getAllCuratedList",
@@ -107,7 +175,7 @@ export const createCuratedList = (payload, maxResult, filter) => ({
 
 export const editCuratedList = (payload, maxResult, filter) => ({
   query:
-    "mutation createCuratedList($id: String, $name: String, $description: String, $featured: Boolean, $resources: [ResourceIdentifierInput]) { createCuratedList (id: $id, name: $name, description: $description, featured: $featured, resources: $resources) {hash}    }",
+    "mutation createCuratedList($id: String, $name: String, $description: String, $featured: Boolean, $resources: [ResourceIdentifierInput], $links: [LinkInput]) { createCuratedList (id: $id, name: $name, description: $description, featured: $featured, resources: $resources, links: $links) {hash}    }",
   variables: payload,
   operationName: "createCuratedList",
 });

@@ -50,7 +50,7 @@ routes
   .add("collection-created", "/collection/:id/collection-created")
   .add("collection-updated", "/collection/:id/collection-updated")
   .add("collection", "/collection/:collection_id")
-  .add("community", "/community/:category")
+  .add("community", "/community/:communityId")
   .add(
     "update-collection",
     "/collection/:id/update-collection",
@@ -69,4 +69,10 @@ routes
     "view-article-version"
   )
   .add("write-article", "/write-article/:template_id", "write-article")
-  .add("article-review", "/article-review/:id/v:version", "article-review");
+  .add("article-review", "/article-review/:id/v:version", "article-review")
+  .add("create-community", "/create-community")
+  .add(
+    "update-community",
+    "/community/:id/update-community",
+    "create-community"
+  );

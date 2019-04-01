@@ -96,6 +96,7 @@ export default ({
   authorId,
   userAvatar,
   username,
+  routeChangeAction,
 }: *) => (
   <ApproveArticleHeader type="article" theme={theme}>
     {attributes && attributes.background && (
@@ -114,7 +115,14 @@ export default ({
         )}`}
       </Label>
       <Title1 color="white">{title}</Title1>
-      {tags && <TagList color={"white"} maxTags={7} tags={tags} />}
+      {tags && (
+        <TagList
+          routeChangeAction={routeChangeAction}
+          color={"white"}
+          maxTags={7}
+          tags={tags}
+        />
+      )}
       <MobileShareContainer>
         <ShareArticle
           color="white"

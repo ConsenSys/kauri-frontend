@@ -1,7 +1,8 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { CollectionFilterInput, ResourceType } from "./../../__generated__/globalTypes";
+import { CollectionFilterInput, DirectionInput, ResourceType } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCollectionsForUser
@@ -103,4 +104,6 @@ export interface getCollectionsForUserVariables {
   filter?: CollectionFilterInput | null;
   size?: number | null;
   page?: number | null;
+  sort?: string | null;
+  dir?: DirectionInput | null;
 }

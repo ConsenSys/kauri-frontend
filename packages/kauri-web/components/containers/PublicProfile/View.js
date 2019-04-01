@@ -7,12 +7,10 @@ import EditableHeader from "./EditableHeader";
 import Loading from "../../common/Loading";
 import type { ViewProps, ViewState } from "./types";
 import Published from "./Published/View";
-import Drafts from "./Drafts/View";
-import Awaiting from "./Awaiting/View";
-import Pending from "./Pending/View";
+import Manage from "./Manage"
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor(props: ViewProps) {
+  constructor (props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -27,11 +25,11 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     };
   }
 
-  toggleEditing() {
+  toggleEditing () {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render() {
+  render () {
     const {
       PendingQuery,
       UserQuery,
@@ -109,17 +107,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 })`,
               },
               isOwner && {
-                name: `Drafts (${DraftsQuery.searchArticles.totalElements})`,
-              },
-              isOwner && {
-                name: `Approval needed (${
-                  ApprovalsQuery.searchArticles.totalElements
-                })`,
-              },
-              isOwner && {
-                name: `Submitted updates (${
-                  PendingQuery.searchArticles.totalElements
-                })`,
+                name: "Manage",
               },
             ]}
             panels={[
@@ -136,29 +124,17 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 data={CollectionQuery}
                 routeChangeAction={routeChangeAction}
               />,
-              isOwner && (
-                <Drafts
-                  data={DraftsQuery}
-                  type="draft"
-                  routeChangeAction={routeChangeAction}
-                  deleteDraftArticleAction={deleteDraftArticleAction}
-                  isOwner={UserQuery.getUser.id === currentUser}
-                  isLoggedIn={!!currentUser}
-                  closeModalAction={closeModalAction}
-                  openModalAction={openModalAction}
-                />
-              ),
-              <Awaiting
-                isLoggedIn={!!currentUser}
-                data={ApprovalsQuery}
-                type="pending"
+              isOwner && <Manage
+                approvalsQuery={ApprovalsQuery}
+                draftsQuery={DraftsQuery}
+                pendingQuery={PendingQuery}
+                type="manage"
                 routeChangeAction={routeChangeAction}
-              />,
-              <Pending
+                deleteDraftArticleAction={deleteDraftArticleAction}
+                isOwner={UserQuery.getUser.id === currentUser}
                 isLoggedIn={!!currentUser}
-                data={PendingQuery}
-                type="toBeApproved"
-                routeChangeAction={routeChangeAction}
+                closeModalAction={closeModalAction}
+                openModalAction={openModalAction}
               />,
             ]}
           />

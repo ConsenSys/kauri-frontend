@@ -8,8 +8,8 @@ export const searchCollections = (payload, maxResult, filter) => ({
                 description
                 dateCreated
                 owner {
-                    id,
-                    name
+                  ...UserOwner
+                  ...CommunityOwner
                 }
                 sections {
                     name
@@ -27,7 +27,29 @@ export const searchCollections = (payload, maxResult, filter) => ({
             totalPages
             totalElements
         }
-    }`,
+    }
+
+    fragment UserOwner on PublicUserDTO {
+      id
+      name
+      username
+      avatar
+      resourceIdentifier {
+        id
+        type
+      }
+    }
+
+    fragment CommunityOwner on CommunityDTO {
+      id
+      name
+      avatar
+      resourceIdentifier {
+        id
+        type
+      }
+    }
+    `,
     variables: {
         page: 0,
         size: 100,

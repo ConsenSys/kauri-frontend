@@ -4,6 +4,8 @@ interface ISharedEditor {
   hasErrors: any;
   handleChange: any;
   editorState: any;
+  setFieldsValue: any;
+  getFieldsValue: any;
 }
 
 const Component: React.FunctionComponent<ISharedEditor>;

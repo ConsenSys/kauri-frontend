@@ -25,14 +25,14 @@ const UserIcon = (
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M4.46447 15.4645C5.40215 14.5268 6.67392 14 8 14H16C17.3261 14 18.5979 14.5268 19.5355 15.4645C20.4732 16.4021 21 17.6739 21 19V21C21 21.5523 20.5523 22 20 22C19.4477 22 19 21.5523 19 21V19C19 18.2044 18.6839 17.4413 18.1213 16.8787C17.5587 16.3161 16.7956 16 16 16H8C7.20435 16 6.44129 16.3161 5.87868 16.8787C5.31607 17.4413 5 18.2044 5 19V21C5 21.5523 4.55228 22 4 22C3.44772 22 3 21.5523 3 21V19C3 17.6739 3.52678 16.4021 4.46447 15.4645Z"
       fill="black"
     />
     <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M12 4C10.3431 4 9 5.34315 9 7C9 8.65685 10.3431 10 12 10C13.6569 10 15 8.65685 15 7C15 5.34315 13.6569 4 12 4ZM7 7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7C17 9.76142 14.7614 12 12 12C9.23858 12 7 9.76142 7 7Z"
       fill="black"
     />
@@ -113,7 +113,7 @@ const ProfileMiniature = styled.div`
   color: #1e2428;
   height: 30px;
   width: 30px;
-  border-radius: 15px;
+  border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -164,16 +164,16 @@ const Avatar = styled.div`
   justify-self: center;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
+  border-radius: 4px;
   background: ${props =>
     props.variant === "white"
       ? props.theme.colors["white"]
       : props.theme.colors["textPrimary"]};
   > * {
     color: ${props =>
-      props.variant === "white"
-        ? props.theme.colors["textPrimary"]
-        : props.theme.colors[props.color]};
+    props.variant === "white"
+      ? props.theme.colors["textPrimary"]
+      : props.theme.colors[props.color]};
     text-transform: uppercase;
     line-height: 10px;
   }
@@ -213,7 +213,7 @@ const eraseCookieFromAllPaths = name => {
 };
 
 class Logo extends React.Component {
-  render() {
+  render () {
     return (
       <LogoWrapper>
         <LogoImage
@@ -226,7 +226,7 @@ class Logo extends React.Component {
 }
 
 class Navbar extends React.Component {
-  render() {
+  render () {
     const {
       userId,
       router,
@@ -287,8 +287,8 @@ class Navbar extends React.Component {
                   Articles
                 </TooltipItem>
               </Link>
-              <TooltipDivider />
-              {/* <Link route="/communities">
+              {/* <TooltipDivider />
+              <Link route="/communities">
                 <TooltipItem
                   href="/communities"
                   pathname={router.pathname}
@@ -296,8 +296,8 @@ class Navbar extends React.Component {
                 >
                   Communities
                 </TooltipItem>
-              </Link>
-              <TooltipDivider /> */}
+              </Link> */}
+              <TooltipDivider />
               <Link route="/collections">
                 <TooltipItem
                   href="/collections"
@@ -350,14 +350,30 @@ class Navbar extends React.Component {
                   Create Collection
                 </TooltipItem>
               </Link>
+              {/* <TooltipDivider />
+
+              <Link
+                route={
+                  userId ? "/create-community" : "/login?r=/create-community"
+                }
+              >
+                <TooltipItem
+                  href="/create-community"
+                  pathname={router.pathname}
+                  link="/create-community"
+                >
+                  Create Community
+                </TooltipItem>
+              </Link> */}
               <TooltipDivider />
+
               <Link
                 route={
                   userId
                     ? `https://import.${config.getApiURL().replace("api.", "")}`
                     : `/login?r=https://import.${config
-                        .getApiURL()
-                        .replace("api.", "")}`
+                      .getApiURL()
+                      .replace("api.", "")}`
                 }
               >
                 <TooltipItem
@@ -390,15 +406,15 @@ class Navbar extends React.Component {
                       image={user.avatar}
                       height={30}
                       width={30}
-                      borderRadius="15px"
+                      borderRadius="4px"
                     />
                   ) : (
                     <H6 color={"textPrimary"}>
                       {user.username
                         ? user.username.charAt(0)
                         : typeof user.id === "string"
-                        ? user.id.charAt(0)
-                        : "Anonymous"}
+                          ? user.id.charAt(0)
+                          : "Anonymous"}
                     </H6>
                   )}
                 </Avatar>

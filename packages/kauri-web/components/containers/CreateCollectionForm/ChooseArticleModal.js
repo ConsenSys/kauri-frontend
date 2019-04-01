@@ -22,7 +22,6 @@ const TitleContainer = styled.div`
 `;
 const Title = ({ chosenArticles }) => (
   <TitleContainer>
-    <NavigationText>{`${articleSize} Most Recent articles`}</NavigationText>
     <BodyCard>{`${
       Array.isArray(chosenArticles) ? chosenArticles.length : 0
     } Selected`}</BodyCard>
@@ -85,7 +84,7 @@ type State = {
 };
 
 export default class ChooseArticleModal extends React.Component<Props, State> {
-  constructor (props) {
+  constructor (props: Props) {
     super(props);
     this.state = {
       chosenArticles: this.props.chosenArticles || [],

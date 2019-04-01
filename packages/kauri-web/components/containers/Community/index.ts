@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import { getCommunity } from "../../../queries/Community";
 import withLoading from "../../../lib/with-loading";
-import withApolloError from "../../../lib/with-apollo-error";
-import { openModalAction } from "../../../../kauri-components/components/Modal/Module";
+import { openModalAction, closeModalAction } from "../../../../kauri-components/components/Modal/Module";
 
-const mapStateToProps = state => ({
+import { IReduxState } from '../../../lib/Module';
+
+const mapStateToProps = (state:  IReduxState) => ({
   currentUser: state.app && state.app.user && state.app.user.id,
   hostName: state.app && state.app.hostName,
   isLoggedIn: !!(state.app && state.app.user && state.app.user.id),
@@ -15,15 +16,14 @@ const mapStateToProps = state => ({
 export default compose(
   connect(
     mapStateToProps,
-    { openModalAction }
+    { openModalAction, closeModalAction }
   ),
   graphql(getCommunity, {
-    options: ({ category }) => ({
+    options: ({ communityId }: {communityId: string}) => ({
       variables: {
-        id: category,
+        id: communityId
       },
     }),
   }),
-  withLoading(),
-  withApolloError()
+  withLoading()
 )(View);

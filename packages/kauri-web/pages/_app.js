@@ -26,6 +26,17 @@ class MyApp extends App {
       <Container>
         <Head>
           <title>Kauri</title>
+          <script
+            type="text/javascript"
+            src="//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js"
+            data-dojo-config="usePlainJson: true, isDebug: false"
+          />
+          <script
+            type="text/javascript"
+            dangerouslySetInnerHTML={{
+              __html: `window.dojoRequire(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us17.list-manage.com","uuid":"e46233ccfd6bb938ab7cbb5a3","lid":"f49f81a2a9","uniqueMethods":true}) })`,
+            }}
+          />
         </Head>
         <Component {...pageProps} />
       </Container>

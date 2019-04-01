@@ -1,6 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import SearchCategory from "../components/SearchResults/SearchCategory";
+import ResourceCategory from "../components/ResourceCategory";
 import styled from "../lib/styled-components";
 import ResourceRowWithImage from "../components/SearchResults/ResourceRowWithImage";
 
@@ -35,9 +35,9 @@ const linkComponent = (
 ) => <Link href={route}>{childrenProps}</Link>;
 
 storiesOf("SearchResults", module)
-  .add("SearchCategory - active", () => (
+  .add("ResourceCategory - active", () => (
     <Container>
-      <SearchCategory
+      <ResourceCategory
         onClick={() => alert("clicked")}
         active={true}
         category={"Articles"}
@@ -45,9 +45,9 @@ storiesOf("SearchResults", module)
       />
     </Container>
   ))
-  .add("SearchCategory - inactive", () => (
+  .add("ResourceCategory - inactive", () => (
     <Container>
-      <SearchCategory
+      <ResourceCategory
         onClick={() => alert("clicked")}
         active={false}
         category={"Collections"}

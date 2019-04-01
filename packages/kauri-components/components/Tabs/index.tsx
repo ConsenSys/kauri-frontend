@@ -65,7 +65,7 @@ interface ITab {
 }
 
 interface IProps {
-  tabs: ITab[];
+  tabs: Array<ITab | null>;
   panels: Element[] | JSX.Element[];
   padContent?: boolean;
   centerTabs?: boolean;
@@ -92,11 +92,11 @@ class TabsComponent extends React.Component<IProps, IState> {
 
   public changeTab(index: number) {
     if (this.props.router) {
-      const { push, asPath} = this.props.router;
-      const url = asPath.split('#')[0]; 
+      const { push, asPath } = this.props.router;
+      const url = asPath.split("#")[0];
       push(url + `#${index}`);
     }
-    
+
     this.setState({ selectedTabIndex: index });
   }
 
@@ -115,7 +115,7 @@ class TabsComponent extends React.Component<IProps, IState> {
       minWidth,
       centerTabs,
       dark,
-      hash
+      hash,
     } = this.props;
 
     return (
@@ -126,16 +126,23 @@ class TabsComponent extends React.Component<IProps, IState> {
           padContent={padContent}
           centerTabs={centerTabs}
         >
-          {this.props.tabs.map((tab, index) => (
-            <Tab
-              key={index}
-              minWidth={minWidth}
-              selected={hash ? index === hash : index === this.state.selectedTabIndex}
-              onClick={() => this.handleClick(index, tab)}
-            >
-              {tab.name}
-            </Tab>
-          ))}
+          {this.props.tabs.map(
+            (tab, index) =>
+              tab && (
+                <Tab
+                  key={index}
+                  minWidth={minWidth}
+                  selected={
+                    hash
+                      ? index === hash
+                      : index === this.state.selectedTabIndex
+                  }
+                  onClick={() => this.handleClick(index, tab)}
+                >
+                  {tab.name}
+                </Tab>
+              )
+          )}
         </Tabs>
         {props.panels[this.state.selectedTabIndex]}
       </TabContainer>

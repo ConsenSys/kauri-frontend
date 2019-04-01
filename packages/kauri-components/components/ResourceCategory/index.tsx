@@ -29,11 +29,11 @@ interface IProps {
   onClick: any;
 }
 
-const Component: React.SFC<IProps> = props => (
+const ResourceCategory: React.SFC<IProps> = props => (
   <Container onClick={props.onClick} active={props.active}>
     <NavigationText color="primary">{props.category}</NavigationText>
     <NavigationText>{props.amount}</NavigationText>
   </Container>
 );
 
-export default Component;
+export default ResourceCategory;
