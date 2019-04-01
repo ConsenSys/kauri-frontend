@@ -37,7 +37,7 @@ interface ISearchWrapperProps {
 }
 
 const SearchWrapper = styled<ISearchWrapperProps, "div">("div")`
-  width: 300px;
+  width: 330px;
   display: grid;
   position: relative;
 
