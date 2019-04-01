@@ -33,11 +33,7 @@ const SearchInput = styled.input`
   padding: 0 ${props => props.theme.space[1]}px;
 `;
 
-interface ISearchWrapperProps {
-  collapsible: boolean;
-}
-
-const SearchWrapper = styled<ISearchWrapperProps, "div">("div")`
+const SearchWrapper = styled.div`
   width: 330px;
   display: grid;
   position: relative;
@@ -73,6 +69,7 @@ const EmptyData: IDataSource = {
 interface IState {
   dataSource: IDataSource;
   sub: Subscription | null;
+  value: string;
 }
 
 interface IProps {
@@ -104,11 +101,14 @@ const queryAllCollections = (refetchQuery: any, text: string) =>
   );
 
 class Complete extends React.Component<IProps, IState> {
-  state = {
-    dataSource: EmptyData,
-    sub: null,
-    value: "",
-  };
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      dataSource: EmptyData,
+      sub: null,
+      value: "",
+    };
+  }
 
   componentDidMount() {
     const sub = handleSearch$
@@ -119,12 +119,12 @@ class Complete extends React.Component<IProps, IState> {
           : queryAllCollections(this.props.query.refetch, this.state.value)
       )
       .do(() => this.props.changeTab(1))
-      .map(({ data: { searchCollections: queryResult } }) => ({
+      .map(({ data: { searchCollections: queryResult } }: any) => ({
         results: queryResult.content,
       }))
       .subscribe(
         dataSource => {
-          console.log(dataSource);
+          // console.log(dataSource);
           this.setState({ ...this.state, dataSource });
         },
         (err: string) => console.log(err)
@@ -138,29 +138,14 @@ class Complete extends React.Component<IProps, IState> {
     }
   }
 
-  handleChange = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      this.props.routeChangeAction(
-        `/search-results?q=${this.state.q}${
-          typeof this.props.category === "string"
-            ? `&default_category=${this.props.category}`
-            : ""
-        }`
-      );
-    }
-  };
-
-  fetchResults = (value: string, type?: string) => {
-    this.setState({ value, type: type ? type : null });
+  fetchResults = (value: string) => {
+    this.setState({ value });
     handleSearch$.next({ value });
   };
 
   render() {
     return (
-      <SearchWrapper
-        collapsible={this.props.collapsible}
-        className="global-search-wrapper"
-      >
+      <SearchWrapper className="global-search-wrapper">
         <SearchInput
           onChange={({ target: { value } }) => this.fetchResults(value)}
         />

@@ -1,5 +1,5 @@
 import View from "./View";
-import { compose, withApollo } from "react-apollo";
+import { compose } from "react-apollo";
 import { connect } from "react-redux";
 import { routeChangeAction } from "../../../../lib/Module";
 
