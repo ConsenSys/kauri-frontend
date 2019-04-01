@@ -5,5 +5,4 @@ export const CreateRequestContent = styled.div`
   padding: 0 ${props => props.theme.padding};
   min-height: 70vh;
   background: white;
-  width: 70%;
 `;
