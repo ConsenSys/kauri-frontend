@@ -103,7 +103,7 @@ class TabsComponent extends React.Component<IProps, IState> {
   public handleClick(index: number, tab: ITab) {
     this.changeTab(index);
     if (tab.callback) {
-      tab.callback();
+      tab.callback(tab.name);
     }
   }
 

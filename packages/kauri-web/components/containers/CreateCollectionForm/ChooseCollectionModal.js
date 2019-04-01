@@ -5,8 +5,14 @@ import R from "ramda";
 import { BodyCard } from "../../../../kauri-components/components/Typography";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
-import ChooseCollectionCard from "../../connections/ChooseCollectionCard";
+import ChooseCollectionCard from "../../connections/ChooseCollectionCard/View";
 import ModalHeader from "../../../../kauri-components/components/Headers/ModalHeader";
+import { compose, graphql } from "react-apollo";
+import { connect } from "react-redux";
+import withApolloError from "../../../lib/with-apollo-error";
+import { getCollectionsForUser } from "../../../queries/Collection";
+
+const collectionSize = 12;
 
 const TitleContainer = styled.div`
   display: flex;
@@ -68,22 +74,22 @@ const ContentContainer = styled.section`
 `;
 
 type Props = {
+  userId: string,
   closeModalAction: () => void,
   confirmModal: (Array<{ id: string, version: string }>) => void,
   chosenCollections: Array<{ id: string, version: string }>,
   allOtherChosenCollections: Array<{ id: string, version: string }>,
   currentCollectionIdIfUpdating?: string,
+  searchPublishedCollections: any,
+  searchPersonalPublishedCollections: any,
 };
 
 type State = {
   chosenCollections: Array<{ id: string, version: string }>,
 };
 
-export default class ChooseCollectionModal extends React.Component<
-  Props,
-  State
-> {
-  constructor(props: Props) {
+class ChooseCollectionModal extends React.Component<Props, State> {
+  constructor (props: Props) {
     super(props);
     this.state = {
       chosenCollections: this.props.chosenCollections || [],
@@ -97,20 +103,20 @@ export default class ChooseCollectionModal extends React.Component<
           chosenCollection.id === id && chosenCollection.version === version
       )(this.state.chosenCollections)
         ? R.reduce((current, next) => {
-            if (
-              next.id === chosenCollection.id &&
+          if (
+            next.id === chosenCollection.id &&
               next.version === chosenCollection.version
-            ) {
-              return current;
-            } else {
-              current.push(next);
-              return current;
-            }
-          }, [])(this.state.chosenCollections)
+          ) {
+            return current;
+          } else {
+            current.push(next);
+            return current;
+          }
+        }, [])(this.state.chosenCollections)
         : R.union(this.state.chosenCollections, [chosenCollection]),
     });
 
-  render() {
+  render () {
     const {
       closeModalAction,
       confirmModal,
@@ -131,6 +137,11 @@ export default class ChooseCollectionModal extends React.Component<
           title={<Title chosenCollections={this.state.chosenCollections} />}
         />
         <ChooseCollectionCard
+          userId={this.props.userId}
+          searchPublishedCollections={this.props.searchPublishedCollections}
+          searchPersonalPublishedCollections={
+            this.props.searchPersonalPublishedCollections
+          }
           currentCollectionIdIfUpdating={currentCollectionIdIfUpdating}
           allOtherChosenCollections={this.props.allOtherChosenCollections}
           chosenCollections={this.state.chosenCollections}
@@ -140,3 +151,34 @@ export default class ChooseCollectionModal extends React.Component<
     );
   }
 }
+
+const mapStateToProps = state => ({
+  userId: state.app && state.app.user && state.app.user.id,
+});
+
+export default compose(
+  connect(
+    mapStateToProps,
+    {}
+  ),
+  graphql(getCollectionsForUser, {
+    options: ({ userId }) => ({
+      variables: {
+        size: collectionSize, // Because lag and no searchbar
+      },
+    }),
+    name: "searchPublishedCollections",
+  }),
+  graphql(getCollectionsForUser, {
+    options: ({ userId }) => ({
+      variables: {
+        size: collectionSize, // Because lag and no searchbar
+        filter: {
+          ownerIdEquals: userId,
+        },
+      },
+    }),
+    name: "searchPersonalPublishedCollections",
+  }),
+  withApolloError()
+)(ChooseCollectionModal);

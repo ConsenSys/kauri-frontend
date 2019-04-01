@@ -125,7 +125,16 @@ export default props => {
   return (
     <Tabs
       centerTabs
-      tabs={[{ name: "My articles" }, { name: "All articles" }]}
+      tabs={[
+        {
+          name: "My articles",
+          callback: currentTab => props.handleTabChange(currentTab),
+        },
+        {
+          name: "All articles",
+          callback: currentTab => props.handleTabChange(currentTab),
+        },
+      ]}
       panels={[
         <PersonalPublishedArticles
           {...props}
