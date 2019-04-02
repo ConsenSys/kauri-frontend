@@ -20,7 +20,7 @@ interface ImgProps {
   delay?: number;
 }
 
-const getURL = (
+export const getURL = (
   url: string,
   height?: number | string,
   width?: number | string
