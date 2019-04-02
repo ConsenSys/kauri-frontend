@@ -1,10 +1,12 @@
-import styled from "../../lib/styled-components";
+import styled, { css } from "../../lib/styled-components";
 import { InView } from "react-intersection-observer";
 
 interface ImgProps {
   image: string;
   height?: number | string;
   width: number | string;
+  mobileHeight?: number | string;
+  mobileWidth?: number | string;
   borderRadius?: string;
   inView?: boolean;
   borderTopLeftRadius?: string;
@@ -54,6 +56,13 @@ export const getURL = (
   }
 };
 
+const mobileDimensionsCSS = css<Pick<ImgProps, "mobileHeight" | "mobileWidth">>`
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    height: ${props => props.mobileHeight};
+    width: ${props => props.mobileWidth};
+  }
+`;
+
 const Img = styled.div<ImgProps>`
   height: ${props =>
     typeof props.height === "number" ? `${props.height}px` : props.height};
@@ -100,6 +109,8 @@ const Img = styled.div<ImgProps>`
       ${props.borderBottomRightRadius &&
         `border-bottom-right-radius: ${props.borderBottomRightRadius}`};
     }`}
+
+  ${props => (props.mobileHeight || props.mobileWidth) && mobileDimensionsCSS};
 `;
 
 const Image = (props: ImgProps) => (

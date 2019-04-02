@@ -1,28 +1,24 @@
 import React from "react";
-import styled, { css } from "../../lib/styled-components";
+import styled from "../../lib/styled-components";
 import { Label, BodyCard } from "../Typography";
-import { getURL } from "../Image";
-
-const getBackgroundImageURL = (props: { background: string | null }) =>
-  props.background && getURL(props.background);
-
-const backgroundImageCSS = css<{ background: string | null }>`
-  background-image: url(${getBackgroundImageURL});
-  background-size: cover;
-`;
+import Image from "../Image";
+import theme from "../../lib/theme-config";
 
 const Container = styled<{ background: null | string }, "div">("div")`
   display: flex;
+  z-index: 1;
+  position: relative;
   flex-direction: column;
   width: 290px;
   height: 70px;
-  padding: ${props => props.theme.space[2]}px;
   background: ${props => props.theme.colors.bgPrimary};
-  ${props => props.background && backgroundImageCSS};
   border-radius: 4px;
-  @media (max-width: ${props => props.theme.breakpoints[1]}) {
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
     height: 60px;
     width: 170px;
+    > a {
+      z-index: 9001;
+    }
     > a > div > *:last-child {
       display: none;
     }
@@ -31,8 +27,11 @@ const Container = styled<{ background: null | string }, "div">("div")`
 
 const Content = styled.div`
   display: flex;
+  z-index: 9001;
+  position: absolute;
   flex-direction: column;
   text-overflow: ellipsis;
+  padding: ${props => props.theme.space[2]}px;
   overflow-x: hidden;
   > :first-child {
     margin-bottom: ${props => props.theme.space[1]}px;
@@ -55,6 +54,18 @@ const CuratedCategory: React.FunctionComponent<IProps> = ({
   background,
 }) => (
   <Container background={background}>
+    {background && (
+      <Image
+        asBackground={true}
+        height="70px"
+        width="290px"
+        mobileHeight="60px"
+        mobileWidth="170px"
+        overlay={{ color: theme.bgPrimary, opacity: 0.7 }}
+        image={background}
+        borderRadius={"4px"}
+      />
+    )}
     {linkComponent(
       <Content>
         <Label textTransform="uppercase" color="white">
