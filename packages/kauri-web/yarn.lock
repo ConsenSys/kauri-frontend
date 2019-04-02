@@ -12818,12 +12818,7 @@ react-is@16.6.3:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.6.3.tgz#d2d7462fcfcbe6ec0da56ad69047e47e56e7eac0"
   integrity sha512-u7FDWtthB4rWibG/+mFbVd5FvdI20yde86qKGx4lVUTWmPlSWQ4QxbBIrrs+HnXGbxOUlUzTAP/VDmvCwaP2yA==
 
-react-is@^16.3.1, react-is@^16.6.0, react-is@^16.6.1, react-is@^16.6.3, react-is@^16.7.0, react-is@^16.8.1:
-  version "16.8.5"
-  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.5.tgz#c54ac229dd66b5afe0de5acbe47647c3da692ff8"
-  integrity sha512-sudt2uq5P/2TznPV4Wtdi+Lnq3yaYW8LfvPKLM9BKD8jJNBkxMVyB0C9/GmVhLw7Jbdmndk/73n7XQGeN9A3QQ==
-
-react-is@^16.3.2:
+react-is@^16.3.1, react-is@^16.3.2, react-is@^16.6.0, react-is@^16.6.1, react-is@^16.6.3, react-is@^16.7.0, react-is@^16.8.1:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
   integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
@@ -13939,15 +13934,10 @@ sequencify@~0.0.7:
   resolved "https://registry.yarnpkg.com/sequencify/-/sequencify-0.0.7.tgz#90cff19d02e07027fd767f5ead3e7b95d1e7380c"
   integrity sha1-kM/xnQLgcCf9dn9erT57ldHnOAw=
 
-serialize-javascript@1.4.0:
+serialize-javascript@1.4.0, serialize-javascript@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.4.0.tgz#7c958514db6ac2443a8abc062dc9f7886a7f6005"
   integrity sha1-fJWFFNtqwkQ6irwGLcn3iGp/YAU=
-
-serialize-javascript@^1.4.0:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.6.1.tgz#4d1f697ec49429a847ca6f442a2a755126c4d879"
-  integrity sha512-A5MOagrPFga4YaKQSWHryl7AXvbQkEqpw4NNYMTNYUNV51bA8ABHgYFpqKx+YFFrw59xMV1qGH1R4AgoNIVgCw==
 
 serve-favicon@^2.4.5:
   version "2.5.0"
@@ -16670,3 +16660,4 @@ zip-stream@^1.2.0:
     compress-commons "^1.2.0"
     lodash "^4.8.0"
     readable-stream "^2.0.0"
+

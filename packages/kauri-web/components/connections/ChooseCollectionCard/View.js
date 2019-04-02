@@ -176,6 +176,7 @@ export default props => {
   return (
     <Tabs
       centerTabs
+      passChangeTabFunction={props.passChangeTabFunction}
       tabs={[{ name: "My Collections" }, { name: "All Collections" }]}
       panels={[
         <PersonalPublishedCollections

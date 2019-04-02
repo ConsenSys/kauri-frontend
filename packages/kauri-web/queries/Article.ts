@@ -257,6 +257,7 @@ export const searchPersonalArticles = gql`
     $userId: String
     $size: Int = 8
     $page: Int = 0
+    $text: String
   ) {
     searchArticles(
       size: $size
@@ -267,6 +268,7 @@ export const searchPersonalArticles = gql`
         ownerIdEquals: $userId
         statusIn: [PUBLISHED]
         latestVersion: true
+        fullText: $text
       }
     ) {
       totalElements
