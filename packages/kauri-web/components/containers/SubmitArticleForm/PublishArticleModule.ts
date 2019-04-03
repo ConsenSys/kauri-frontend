@@ -5,7 +5,6 @@ import { ApolloClient, ApolloQueryResult } from "apollo-client";
 import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
-import { trackMixpanelAction } from "../Link/Module";
 import { publishArticle } from "./__generated__/publishArticle";
 import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
 import analytics from "../../../lib/analytics";
