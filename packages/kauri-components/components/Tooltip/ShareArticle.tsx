@@ -82,7 +82,7 @@ const Container: React.SFC<Props> = props => {
   return (
     <ReferenceContainer>
       <Tooltip
-        html={<Content url={url} title={title} />}
+        html={<Content  url={url} title={title} />}
         position="bottom"
         trigger="click"
         unmountHTMLWhenHide={true}

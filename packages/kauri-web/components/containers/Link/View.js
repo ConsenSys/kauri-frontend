@@ -49,6 +49,9 @@ class Link extends React.Component<LinkProps> {
     url.indexOf("https://") !== -1
       ? window.open(url, "_blank")
       : this.props.routeChangeAction(url);
+    if (this.props.callback) {
+      this.props.callback();
+    }
   };
 
   render() {
