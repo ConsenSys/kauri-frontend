@@ -3,6 +3,7 @@ import { Observable } from "rxjs/Observable";
 import { trackMixpanelAction } from "../Link/Module";
 import { showNotificationAction } from "../../../lib/Module";
 import { checkpointArticles } from "../../../queries/Article";
+import analytics from "../../../lib/analytics";
 
 import type { Dependencies } from "../../../lib/Module";
 
@@ -115,6 +116,11 @@ export const checkpointArticlesEpic = (
                   description: "All Kauri platform articles are now On-chain!",
                 })
               )
+              .do(() => {
+                analytics.track("Checkpoint", {
+                  category: "generic",
+                });
+              })
               .catch(err => {
                 if (err.message && err.message.includes("locked")) {
                   return Observable.of(
