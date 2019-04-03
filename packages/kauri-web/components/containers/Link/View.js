@@ -46,14 +46,12 @@ class Link extends React.Component<LinkProps> {
     }
     e.preventDefault();
     e.stopPropagation();
-    // TODO: Uncomment again later
-    // this.props.trackAnalyticsAction({ url })
     url.indexOf("https://") !== -1
       ? window.open(url, "_blank")
       : this.props.routeChangeAction(url);
   };
 
-  render () {
+  render() {
     let url =
       this.props.as || this.props.href || this.props.children.props.href;
     const slug = this.props.toSlug

@@ -9,15 +9,15 @@ const tokens =
     : devConfig.analyticsTokens;
 
 const analytics = {
-  page: router => {
+  page: (router: any) => {
     mixpanel.track("Page View", {
-      url: router.asPath,
       page_type: router.pathname,
+      url: router.asPath,
     });
     ga.pageview(router.asPath);
   },
 
-  track: (eventName, payload) => {
+  track: (eventName: string, payload: any) => {
     mixpanel.track(eventName, payload);
   },
 
@@ -26,7 +26,7 @@ const analytics = {
     ga.initialize(tokens.ga);
   },
 
-  setWeb3Status(status) {
+  setWeb3Status(status: boolean) {
     ga.set({ dimension1: status.toString() });
   },
 };

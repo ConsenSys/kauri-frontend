@@ -1215,6 +1215,11 @@
     "@types/react" "*"
     immutable "^3.8.1"
 
+"@types/mixpanel-browser@^2.23.0":
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/@types/mixpanel-browser/-/mixpanel-browser-2.23.0.tgz#cd011257e44f5a1c61d46e4c09787750baca7373"
+  integrity sha512-Ul1jcqUPCynt6phOqFpaPP3im6xVIQutT4LGCpy2XUo4VwqXPAW011IKCLw9oaNwaxzKCe2/lYCTyCh3Ri5hjg==
+
 "@types/next-server@*":
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/@types/next-server/-/next-server-7.0.2.tgz#7115f4f9ad9605d4ce1d36b0e125dd523670c7b4"
@@ -16660,4 +16665,3 @@ zip-stream@^1.2.0:
     compress-commons "^1.2.0"
     lodash "^4.8.0"
     readable-stream "^2.0.0"
-
