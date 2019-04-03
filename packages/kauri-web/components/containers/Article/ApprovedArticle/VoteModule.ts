@@ -8,6 +8,7 @@ import {
 import { Epic } from "redux-observable";
 import { vote as voteMutation } from "../../../../queries/Article";
 import { vote, voteVariables } from "../../../../queries/__generated__/vote";
+import analytics from "../../../../lib/analytics";
 
 // import { // } from '../../../../queries/Article';
 
@@ -37,6 +38,12 @@ export const voteEpic: Epic<Actions, IReduxState, IDependencies> = (
       })
     )
       .mergeMap(({ data: { vote: { hash } } }) => apolloSubscriber(hash))
+      .do(() =>
+        analytics.track("Vote Content", {
+          category: "article_actions",
+          type: payload.value === 1 ? "Upvoted" : "Downvoted",
+        })
+      )
       .do(() => apolloClient.resetStore())
       .mergeMap(() =>
         Observable.of(

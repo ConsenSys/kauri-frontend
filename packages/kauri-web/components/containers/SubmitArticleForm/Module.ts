@@ -13,6 +13,7 @@ import {
 } from "../../../lib/Module";
 import { trackMixpanelAction } from "../Link/Module";
 import { publishArticleAction, IOwnerPayload } from "./PublishArticleModule";
+import analytics from "../../../lib/analytics";
 
 interface IGetArticleResult {
   getArticle: {
@@ -418,6 +419,11 @@ export const draftArticleEpic: Epic<any, {}, IDependencies> = (
             }) => apolloSubscriber<{ id: string; version: number }>(hash)
           )
           .do(() => apolloClient.resetStore())
+          .do(() => {
+            analytics.track("Create Draft", {
+              category: "article_actions",
+            });
+          })
           .flatMap(({ data: { output: { id, version } } }) =>
             Observable.of(
               routeChangeAction(`/article/${id}/v${version}/article-drafted`),

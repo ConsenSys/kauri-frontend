@@ -8,6 +8,7 @@ import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
 import { trackMixpanelAction } from "../Link/Module";
 import { publishArticle } from "./__generated__/publishArticle";
 import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
+import analytics from "../../../lib/analytics";
 
 const publishArticleMutation = gql`
   mutation publishArticle(
@@ -136,6 +137,16 @@ export const publishArticleEpic: Epic<any, {}, IDependencies> = (
             )
           )
           .do(() => apolloClient.resetStore())
+          .do(() => {
+            analytics.track(
+              !owner || (owner && owner.id === contributor)
+                ? "Publish Article"
+                : "Propose Article Update",
+              {
+                category: "article_actions",
+              }
+            );
+          })
           .mergeMap(() =>
             Observable.merge(
               Observable.of(
@@ -144,20 +155,6 @@ export const publishArticleEpic: Epic<any, {}, IDependencies> = (
                   message: "Article submitted",
                   notificationType: "success",
                 })
-              ),
-              Observable.of(
-                trackMixpanelAction(
-                  {
-                    event: "Offchain",
-                    metaData: {
-                      resource: "article",
-                      resourceAction: "publish draft article",
-                      resourceID: id,
-                      resourceVersion: String(version),
-                    },
-                  },
-                  undefined
-                )
               ),
               Observable.of(
                 routeChangeAction(
