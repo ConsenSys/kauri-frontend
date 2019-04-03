@@ -10,10 +10,6 @@ const tokens =
 
 const analytics = {
   page: (router: any) => {
-    mixpanel.track("Page View", {
-      page_type: router.pathname,
-      url: router.asPath,
-    });
     ga.pageview(router.asPath);
   },
 

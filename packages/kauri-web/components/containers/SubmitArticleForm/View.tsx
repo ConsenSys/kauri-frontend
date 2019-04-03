@@ -4,6 +4,7 @@ import SubmitArticleFormActions from "./SubmitArticleFormActions";
 import SubmitArticleFormHeader from "./SubmitArticleFormHeader";
 import SubmitArticleFormContent from "./SubmitArticleFormContent";
 import { IShowNotificationPayload } from "../../../lib/Module";
+import analytics from "../../../lib/analytics";
 
 import {
   IAttributesPayload,
@@ -61,6 +62,9 @@ class SubmitArticleForm extends React.Component<IProps> {
     if (!userId) {
       routeChangeAction(`/login?r=${router.asPath}&redirected=true`);
     }
+    analytics.track("Write Article Start", {
+      category: "generic",
+    });
   }
 
   showFormError = (formErr: any) => {

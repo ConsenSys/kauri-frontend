@@ -10,6 +10,7 @@ import generatePublishArticleHash from "../../../lib/generate-publish-article-ha
 import { getEvent } from "../../../queries/Module";
 import { create } from "../../../lib/init-apollo";
 import { approveArticle, rejectArticle } from "../../../queries/Article";
+import analytics from "../../../lib/analytics";
 
 interface IApproveArticlePayload {
   id: string;
@@ -93,6 +94,11 @@ export const approveArticleEpic: Epic<any, IReduxState, IDependencies> = (
               })
             )
           )
+          .do(() =>
+            analytics.track("Article Update Approved", {
+              category: "article_actions",
+            })
+          )
           .do(() => apolloClient.resetStore())
           .mergeMap(() =>
             Observable.of(
@@ -171,6 +177,11 @@ export const rejectArticleEpic: Epic<any, IReduxState, IDependencies> = (
           }) => apolloSubscriber(hash)
         )
         .do(() => apolloClient.resetStore())
+        .do(() =>
+          analytics.track("Article Update Rejected", {
+            category: "article_actions",
+          })
+        )
         .mergeMap(() =>
           Observable.of(
             routeChangeAction(`/article/${id}/v${version}/article-rejected`),

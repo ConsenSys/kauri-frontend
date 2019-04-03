@@ -20,6 +20,7 @@ class MyApp extends App {
   }
 
   render() {
+    analytics.page(this.props.router);
     const { Component, pageProps } = this.props;
     return (
       <Container>
