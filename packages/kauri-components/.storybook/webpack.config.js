@@ -2,7 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 
 // Export a function. Accept the base config as the only param.
-module.exports = ({ config }, configType) => {
+module.exports = (config, configType) => {
   config.resolve.alias = {
     recompose: path.resolve(__dirname, "../node_modules", "recompose"),
   };
