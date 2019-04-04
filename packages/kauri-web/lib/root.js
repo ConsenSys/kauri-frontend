@@ -23,10 +23,6 @@ import {
   draftArticleEpic,
 } from "../components/containers/SubmitArticleForm/Module";
 import { addCommentEpic } from "../components/containers/Article/CommentArticleForm/Module";
-import {
-  trackAnalyticsEpic,
-  trackMixpanelEpic,
-} from "../components/containers/Link/Module";
 import localStorage, {
   startDriverStepsEpic,
   persistStateToLocalStorageEpic,
@@ -47,7 +43,10 @@ import {
   resendEmailVerificationEpic,
 } from "../components/containers/EmailVerification/Module";
 import { voteEpic } from "../components/containers/Article/ApprovedArticle/VoteModule";
-import { createCommunityEpic, updateCommunityEpic } from "../components/containers/CreateCommunityForm/Module";
+import {
+  createCommunityEpic,
+  updateCommunityEpic,
+} from "../components/containers/CreateCommunityForm/Module";
 
 export const rootReducer = {
   app,
@@ -70,8 +69,6 @@ const epics = [
   hideIntroBannerEpic,
   tipArticleEpic,
   rejectArticleEpic,
-  trackAnalyticsEpic,
-  trackMixpanelEpic,
   startDriverStepsEpic,
   persistStateToLocalStorageEpic,
   finishedDriverStepsEpic,

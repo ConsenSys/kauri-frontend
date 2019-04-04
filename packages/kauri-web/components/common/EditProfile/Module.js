@@ -1,7 +1,6 @@
 import { Observable } from "rxjs/Observable";
 import { saveUserDetails, getOwnProfile } from "../../../queries/User";
 import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
-import { trackMixpanelAction } from "../../containers/Link/Module";
 import type { Dependencies } from "../../../lib/Module";
 import type { HeaderState } from "./types";
 import analytics from "../../../lib/analytics";
@@ -104,16 +103,6 @@ export const saveUserDetailsEpic = (
                   }
 
                   return Observable.merge(
-                    Observable.of(
-                      trackMixpanelAction({
-                        event: "Offchain",
-                        metaData: {
-                          resource: "profile",
-                          resourceAction: "update profile",
-                          resourceID: getState().app.user.id,
-                        },
-                      })
-                    ),
                     Observable.of(routeChangeAction(newRedirectURL)),
                     Observable.of(
                       showNotificationAction({

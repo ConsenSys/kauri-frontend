@@ -1,6 +1,5 @@
 import { Observable } from "rxjs/Observable";
 import { Epic } from "redux-observable";
-import { trackMixpanelAction } from "../Link/Module";
 import {
   showNotificationAction,
   routeChangeAction,
@@ -100,25 +99,20 @@ export const approveArticleEpic: Epic<any, IReduxState, IDependencies> = (
             })
           )
           .do(() => apolloClient.resetStore())
-          .mergeMap(() =>
-            Observable.of(
-              routeChangeAction(
-                `/article/${id}/v${version}/article-${"published"}`
+          .mergeMap<any, any>(() =>
+            Observable.merge(
+              Observable.of(
+                routeChangeAction(
+                  `/article/${id}/v${version}/article-${"published"}`
+                )
               ),
-              trackMixpanelAction({
-                event: "Offchain",
-                metaData: {
-                  resource: "article",
-                  resourceAction: "approved article",
-                  resourceID: id,
-                  resourceVersion: version,
-                },
-              }),
-              showNotificationAction({
-                description: "The update has been approved!",
-                message: `Article approved`,
-                notificationType: "success",
-              })
+              Observable.of(
+                showNotificationAction({
+                  description: "The update has been approved!",
+                  message: `Article approved`,
+                  notificationType: "success",
+                })
+              )
             )
           )
           .catch(err => {
@@ -182,22 +176,18 @@ export const rejectArticleEpic: Epic<any, IReduxState, IDependencies> = (
             category: "article_actions",
           })
         )
-        .mergeMap(() =>
-          Observable.of(
-            routeChangeAction(`/article/${id}/v${version}/article-rejected`),
-            trackMixpanelAction({
-              event: "Offchain",
-              metaData: {
-                resource: "article",
-                resourceAction: "reject article",
-                resourceID: id,
-              },
-            }),
-            showNotificationAction({
-              description: `It will not show up in your approvals queue anymore!`,
-              message: "Article rejected!",
-              notificationType: "success",
-            })
+        .mergeMap<any, any>(() =>
+          Observable.merge(
+            Observable.of(
+              routeChangeAction(`/article/${id}/v${version}/article-rejected`)
+            ),
+            Observable.of(
+              showNotificationAction({
+                description: `It will not show up in your approvals queue anymore!`,
+                message: "Article rejected!",
+                notificationType: "success",
+              })
+            )
           )
         )
     );

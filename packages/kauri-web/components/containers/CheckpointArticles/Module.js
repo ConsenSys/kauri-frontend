@@ -1,6 +1,5 @@
 // @flow
 import { Observable } from "rxjs/Observable";
-import { trackMixpanelAction } from "../Link/Module";
 import { showNotificationAction } from "../../../lib/Module";
 import { checkpointArticles } from "../../../queries/Article";
 import analytics from "../../../lib/analytics";
@@ -90,18 +89,6 @@ export const checkpointArticlesEpic = (
                     message: "Waiting for it to be mined",
                     description:
                       "You will get another notification when the block is mined!",
-                  })
-                );
-                dispatch(
-                  trackMixpanelAction({
-                    event: "Onchain",
-                    metaData: {
-                      resource: "articles",
-                      resourceID: "all",
-                      resourceAction:
-                        "checkpoint articles transaction submitted",
-                      transactionHash,
-                    },
                   })
                 );
               })

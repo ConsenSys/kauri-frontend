@@ -4,7 +4,6 @@ import { Observable } from "rxjs/Observable";
 import cookie from "cookie";
 import createReducer from "../../../lib/createReducer";
 import { showNotificationAction } from "../../../lib/Module";
-import { trackMixpanelAction } from "../Link/Module";
 import { loginPersonalSign } from "../../../lib/web3-personal-sign";
 import superagent from "superagent";
 import type { Dependencies } from "../../../lib/Module";
@@ -128,15 +127,6 @@ export const registerEpic = (
             })
             .mergeMapTo(
               Observable.of(
-                trackMixpanelAction({
-                  event: "Offchain",
-                  metaData: {
-                    resource: "kauri",
-                    resourceID: "n/a",
-                    resourceVersion: "n/a",
-                    resourceAction: "login",
-                  },
-                }),
                 showNotificationAction({
                   notificationType: "success",
                   message:

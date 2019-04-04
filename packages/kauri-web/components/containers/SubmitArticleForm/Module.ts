@@ -11,7 +11,6 @@ import {
   routeChangeAction,
   IDependencies,
 } from "../../../lib/Module";
-import { trackMixpanelAction } from "../Link/Module";
 import { publishArticleAction, IOwnerPayload } from "./PublishArticleModule";
 import analytics from "../../../lib/analytics";
 
@@ -161,7 +160,7 @@ export const submitArticleEpic: Epic<any, {}, IDependencies> = (
             })
           )
           .do(h => console.log(h))
-          .mergeMap(({ data: { getArticle } }) =>
+          .mergeMap<any, any>(({ data: { getArticle } }) =>
             typeof selfPublish !== "undefined"
               ? Observable.of(
                   publishArticleAction({
@@ -173,27 +172,22 @@ export const submitArticleEpic: Epic<any, {}, IDependencies> = (
                     version: getArticle.version,
                   })
                 )
-              : Observable.of(
-                  routeChangeAction(
-                    `/article/${getArticle.id}/v${
-                      getArticle.version
-                    }/article-published`
+              : Observable.merge(
+                  Observable.of(
+                    routeChangeAction(
+                      `/article/${getArticle.id}/v${
+                        getArticle.version
+                      }/article-published`
+                    )
                   ),
-                  trackMixpanelAction({
-                    event: "Offchain",
-                    metaData: {
-                      resource: "article",
-                      resourceAction: "submit article",
-                      resourceID: getArticle.id,
-                      resourceVersion: getArticle.version,
-                    },
-                  }),
-                  showNotificationAction({
-                    description:
-                      "Your personal article has now been published!",
-                    message: "Article published",
-                    notificationType: "success",
-                  })
+                  Observable.of(
+                    showNotificationAction({
+                      description:
+                        "Your personal article has now been published!",
+                      message: "Article published",
+                      notificationType: "success",
+                    })
+                  )
                 )
           )
           .catch((err: string) => {
@@ -261,7 +255,7 @@ export const submitArticleVersionEpic: Epic<any, {}, IDependencies> = (
             })
           )
           .do(h => console.log(h))
-          .mergeMap(({ data: { getArticle } }) =>
+          .mergeMap<any, any>(({ data: { getArticle } }) =>
             typeof selfPublish !== "undefined"
               ? Observable.of(
                   publishArticleAction({
@@ -274,41 +268,38 @@ export const submitArticleVersionEpic: Epic<any, {}, IDependencies> = (
                     version: getArticle.version,
                   })
                 )
-              : Observable.of(
-                  routeChangeAction(
-                    `/article/${getArticle.id}/v${getArticle.version}/article-${
-                      typeof selfPublish === "undefined"
-                        ? "drafted"
-                        : getArticle.owner.id === getArticle.authorId
-                        ? "published"
-                        : "proposed"
-                    }`
+              : Observable.merge(
+                  Observable.of(
+                    routeChangeAction(
+                      `/article/${getArticle.id}/v${
+                        getArticle.version
+                      }/article-${
+                        typeof selfPublish === "undefined"
+                          ? "drafted"
+                          : getArticle.owner.id === getArticle.authorId
+                          ? "published"
+                          : "proposed"
+                      }`
+                    )
                   ),
-                  trackMixpanelAction({
-                    event: "Offchain",
-                    metaData: {
-                      resource: "article",
-                      resourceAction: "submit article version",
-                      resourceID: id,
-                      resourceVersion: getArticle.version,
-                    },
-                  }),
-                  showNotificationAction({
-                    description:
-                      typeof selfPublish === "undefined"
-                        ? "Your article has now been drafted to be updated or published in the future"
-                        : getArticle.owner.id === getArticle.authorId
-                        ? "Your personal article has now been published!"
-                        : "Waiting for it to be reviewed!",
-                    message: `Article ${
-                      typeof selfPublish === "undefined"
-                        ? "drafted"
-                        : getArticle.owner.id === getArticle.authorId
-                        ? "published"
-                        : "proposed"
-                    }`,
-                    notificationType: "success",
-                  })
+                  Observable.of(
+                    showNotificationAction({
+                      description:
+                        typeof selfPublish === "undefined"
+                          ? "Your article has now been drafted to be updated or published in the future"
+                          : getArticle.owner.id === getArticle.authorId
+                          ? "Your personal article has now been published!"
+                          : "Waiting for it to be reviewed!",
+                      message: `Article ${
+                        typeof selfPublish === "undefined"
+                          ? "drafted"
+                          : getArticle.owner.id === getArticle.authorId
+                          ? "published"
+                          : "proposed"
+                      }`,
+                      notificationType: "success",
+                    })
+                  )
                 )
           )
           .catch(err => {
@@ -360,7 +351,7 @@ export const editArticleEpic: Epic<any, {}, IDependencies> = (
               },
             })
           )
-          .mergeMap(({ data: { getArticle } }) =>
+          .mergeMap<any, any>(({ data: { getArticle } }) =>
             typeof selfPublish !== "undefined"
               ? Observable.of(
                   publishArticleAction({
@@ -372,24 +363,19 @@ export const editArticleEpic: Epic<any, {}, IDependencies> = (
                     version: getArticle.version,
                   })
                 )
-              : Observable.of(
-                  routeChangeAction(
-                    `/article/${id}/v${version}/article-updated`
+              : Observable.merge(
+                  Observable.of(
+                    routeChangeAction(
+                      `/article/${id}/v${version}/article-updated`
+                    )
                   ),
-                  trackMixpanelAction({
-                    event: "Offchain",
-                    metaData: {
-                      resource: "article",
-                      resourceAction: "update article",
-                      resourceID: id,
-                      resourceVersion: version,
-                    },
-                  }),
-                  showNotificationAction({
-                    description: "The article version has been updated!",
-                    message: "Article updated",
-                    notificationType: "info",
-                  })
+                  Observable.of(
+                    showNotificationAction({
+                      description: "The article version has been updated!",
+                      message: "Article updated",
+                      notificationType: "info",
+                    })
+                  )
                 )
           )
     );
@@ -424,24 +410,19 @@ export const draftArticleEpic: Epic<any, {}, IDependencies> = (
               category: "article_actions",
             });
           })
-          .flatMap(({ data: { output: { id, version } } }) =>
-            Observable.of(
-              routeChangeAction(`/article/${id}/v${version}/article-drafted`),
-              trackMixpanelAction({
-                event: "Offchain",
-                metaData: {
-                  resource: "article",
-                  resourceAction: "article-drafted",
-                  resourceID: id,
-                  resourceVersion: version,
-                },
-              }),
-              showNotificationAction({
-                description:
-                  "The draft has just been saved. You can go back and submit it whenever you are ready.",
-                message: "Draft Created",
-                notificationType: "info",
-              })
+          .mergeMap<any, any>(({ data: { output: { id, version } } }) =>
+            Observable.merge(
+              Observable.of(
+                showNotificationAction({
+                  description:
+                    "The draft has just been saved. You can go back and submit it whenever you are ready.",
+                  message: "Draft Created",
+                  notificationType: "info",
+                })
+              ),
+              Observable.of(
+                routeChangeAction(`/article/${id}/v${version}/article-drafted`)
+              )
             )
           )
     );
