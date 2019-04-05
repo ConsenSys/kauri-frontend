@@ -92,6 +92,10 @@ const analytics = {
     mpSessionConfig.check_Session_id();
     mixpanel.register({ "last event time": Date.now() });
     mixpanel.track(eventName, payload);
+    ga.event({
+      action: eventName,
+      category: payload.category,
+    });
   },
 
   signup: (user: any) => {
