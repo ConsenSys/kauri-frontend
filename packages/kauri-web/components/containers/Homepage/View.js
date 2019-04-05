@@ -56,14 +56,14 @@ const KauriDescription = styled.div`
 class Homepage extends Component<Props> {
   static ContentContainer = ContentContainer;
 
-  render() {
+  render () {
     if (!this.props.data || !this.props.data.getAllCuratedList) {
       return null;
     } // TODO replace with an error message if exists
 
     const { getAllCuratedList } = this.props.data;
 
-    const pageTitle = "Learn to Build on Tron With Kauri";
+    const pageTitle = "Learn to Build on Ethereum With Kauri";
 
     return (
       <ContentContainer>

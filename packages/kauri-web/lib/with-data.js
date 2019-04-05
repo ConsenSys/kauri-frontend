@@ -27,7 +27,7 @@ import "@rej156/react-mde/lib/styles/css/react-mde-all.css";
 import "../static/css/redraft-image.css";
 import "draft-js-inline-toolbar-plugin/lib/plugin.css";
 import "../ant-theme-vars.less";
-import analytics from "./pageAnalytics";
+import analytics from "./analytics";
 import WelcomeBanner from "../components/containers/WelcomeBanner";
 
 const config = require("../config").default;

@@ -18,7 +18,7 @@ class HelpPage extends React.Component {
       <App url={this.props.router}>
         <ConnectedCommunity
           routeChangeAction={this.props.routeChangeAction}
-          category={process.env.KauriCommunityId}
+          communityId={process.env.KauriCommunityId}
         />
       </App>
     );

@@ -1,7 +1,7 @@
 import App, { Container } from "next/app";
 import Head from "next/head";
 import React from "react";
-import pageAnalytics from "../lib/pageAnalytics";
+import analytics from "../lib/analytics";
 
 class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
@@ -16,11 +16,11 @@ class MyApp extends App {
 
   constructor(props) {
     super(props);
-    pageAnalytics.init();
+    analytics.init();
   }
 
   render() {
-    pageAnalytics.page(this.props.router);
+    analytics.page(this.props.router);
     const { Component, pageProps } = this.props;
     return (
       <Container>
