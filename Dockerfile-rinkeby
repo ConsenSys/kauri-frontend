@@ -4,6 +4,7 @@ FROM gcr.io/kauri-197812/kauri-contract-abis:latest-uat
 ENV GETH_BLOCKCHAIN=rinkeby.infura.io
 ENV MONOLITH_EXTERNAL_API=api.kauri.io
 ENV MONOLITH_API=monolith.uat:8081
+ENV KAURI_COMMUNITY_ID="524d2cb07f2d40c992479064209bbb21"
 EXPOSE 3000
 
 # setup workspace
