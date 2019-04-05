@@ -1,7 +1,6 @@
 // @flow
 
 import { Observable } from "rxjs/Observable";
-import { trackMixpanelAction } from "../Link/Module";
 import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
 import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
 
@@ -102,18 +101,6 @@ export const tipArticleEpic = (
                   "You will get another notification when the block is mined!",
               })
             );
-            dispatch(
-              trackMixpanelAction({
-                event: "Onchain",
-                metaData: {
-                  resource: "article",
-                  resourceID: article_id,
-                  resourceAction: "tip article transaction submitted",
-                  additionalTip: bounty,
-                  transactionHash,
-                },
-              })
-            );
           })
           .flatMap((transactionHash: string) =>
             apolloSubscriber(transactionHash, "ArticleTipped")
@@ -186,14 +173,6 @@ export const deleteArticleCommentEpic = (
           .do(h => (callback ? callback() : null))
           .flatMapTo(
             Observable.of(
-              trackMixpanelAction({
-                event: "Offchain",
-                metaData: {
-                  resource: "article",
-                  resourceID: article_id,
-                  resourceAction: "delete comment of article",
-                },
-              }),
               showNotificationAction({
                 notificationType: "success",
                 message: "Comment deleted",

@@ -13,6 +13,7 @@ import ScrollToTopButton from "../../../../../kauri-components/components/Scroll
 import type { TipArticlePayload } from "../Module";
 import withSchema from "../../../../lib/with-schema";
 import ScrollIndicator from "../../../../../kauri-components/components/ScrollIndicator";
+import analytics from "../../../../lib/analytics";
 
 const ArticleContent = styled.section`
   background: white;
@@ -48,6 +49,9 @@ class ApprovedArticle extends React.Component<Props, State> {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
+    analytics.track("Read Article", {
+      category: "article_actions",
+    });
   }
 
   render() {

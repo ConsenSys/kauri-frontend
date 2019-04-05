@@ -7,6 +7,7 @@ import { failure } from "io-ts/lib/PathReporter";
 import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
 import { deleteDraftArticle } from "./__generated__/deleteDraftArticle";
 import { getArticleTitle } from "./__generated__/getArticleTitle";
+import analytics from "../../../lib/analytics";
 
 export const deleteDraftArticleMutation = gql`
   mutation deleteDraftArticle($id: String, $version: Int) {
@@ -134,5 +135,10 @@ export const deleteDraftArticleEpic: Epic<any, IReduxState, IDependencies> = (
             )
           )
         )
+        .do(() => {
+          analytics.track("Delete Draft", {
+            category: "article_actions",
+          });
+        })
         .do(() => apolloClient.resetStore())
     );
