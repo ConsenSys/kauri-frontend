@@ -114,7 +114,7 @@
     "url": "^0.11.0",
     "wdio-jasmine-framework": "0.3.2",
     "web3": "0.20.1",
-    "yup": "^0.26.6"
+    "yup": "0.26.6"
   },
   "devDependencies": {
     "@babel/core": "7.1.2",

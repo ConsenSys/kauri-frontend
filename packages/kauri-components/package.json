@@ -26,7 +26,6 @@
     "@storybook/react": "4.1.6",
     "anchorme": "^1.1.2",
     "core-js": "^2.6.5",
-    "webpack": "^4.28.0",
     "dependency-env": "^0.1.1",
     "io-ts": "^1.4.1",
     "moment": "2.20.1",
@@ -48,7 +47,9 @@
     "redux-mock-store": "^1.5.3",
     "stack-styled": "^0.1.0",
     "styled-components": "^3.4.9",
-    "styled-system": "^4.1.0"
+    "styled-system": "^4.1.0",
+    "webpack": "^4.28.0",
+    "yup": "0.26.6"
   },
   "devDependencies": {
     "@babel/core": "7.1.2",
@@ -83,6 +84,7 @@
     "@types/storybook__react": "^4.0.1",
     "@types/styled-components": "^4.1.0",
     "@types/styled-system": "^3.0.8",
+    "@types/yup": "^0.26.12",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0-beta.3",
     "babel-loader": "8.0.5",
