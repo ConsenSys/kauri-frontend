@@ -188,7 +188,7 @@ export default ({
           .map(block => block.toJS()));
 
   const outlineHeadings = blocks
-    .filter(({ type }) => type.includes("header-one"))
+    .filter(({ type }) => type.includes("header-two"))
     .map(({ text }) => text);
 
   return (
