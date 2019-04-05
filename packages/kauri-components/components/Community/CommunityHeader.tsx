@@ -271,7 +271,7 @@ const CommunityHeader = ({
           {avatar && <Image width={100} height={100} image={avatar} />}
           <Column className="name-website">
             <Title1 color="white">{name}</Title1>
-            <BodyCard color="white">{website}</BodyCard>
+            {website && <BodyCard color="white">{website}</BodyCard>}
           </Column>
         </Row>
         <PageDescription className="description" color="white">
