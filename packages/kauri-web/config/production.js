@@ -7,7 +7,7 @@ module.exports = {
   gethBlockchain: process.env.GETH_BLOCKCHAIN,
   KauriCommunityId: process.env.KAURI_COMMUNITY_ID,
   analyticsTokens: {
-    mixpanel: "7d83001be784f09b212b9b3274e41530",
+    mixpanel: process.env.MIXPANEL_TOKEN,
     ga: "UA-112179323-1",
   },
 };
