@@ -17,7 +17,7 @@ gtag('js', new Date());
 gtag('config', 'UA-112179323-1');
 `;
 
-const mixpanelToken = process.env.analyticsTokens.mixpanel;
+const mixpanelToken = process.env.MIXPANEL_TOKEN;
 
 const uppyConfig = {
   debug: true,
