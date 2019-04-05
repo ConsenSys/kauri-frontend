@@ -48,6 +48,7 @@ export const getOwnProfile = gql`
       social
       status
       subscriptions
+      dateCreated
     }
   }
 `;

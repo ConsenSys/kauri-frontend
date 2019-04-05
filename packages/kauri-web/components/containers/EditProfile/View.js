@@ -6,6 +6,8 @@ import {
   SecondaryButton,
 } from "../../../../kauri-components/components/Button";
 import Loading from "../../common/Loading";
+import analytics from "../../../lib/analytics";
+import moment from "moment";
 
 const Page = styled.div`
   display: flex;
@@ -25,12 +27,12 @@ const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: ${props => props.theme.space[3]}px;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
 `;
 
 class OnboardingEditProfile extends Component {
-  handleSubmit () {
+  handleSubmit() {
     this.login
       .getWrappedInstance()
       .getWrappedInstance()
@@ -41,7 +43,7 @@ class OnboardingEditProfile extends Component {
       );
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const {
       name,
       username,
@@ -50,6 +52,7 @@ class OnboardingEditProfile extends Component {
       social,
       title,
       website,
+      dateCreated,
     } = this.props.user;
     const github = social && social.github;
     const twitter = social && social.twitter;
@@ -63,6 +66,19 @@ class OnboardingEditProfile extends Component {
       title ||
       website;
 
+    const loginTrackingPending = window.localStorage.getItem(
+      "login-tracking-pending"
+    );
+
+    if (loginTrackingPending) {
+      const daysCreated = moment().diff(moment(dateCreated), "minutes");
+      if (!daysCreated || daysCreated <= 5) {
+        analytics.signup(this.props.user);
+      } else {
+        analytics.login(this.props.user);
+      }
+      window.localStorage.removeItem("login-tracking-pending");
+    }
     if (hasData) {
       let newRedirectURL;
       if (typeof this.props.router.query.r === "string") {
@@ -78,7 +94,7 @@ class OnboardingEditProfile extends Component {
     }
   }
 
-  render () {
+  render() {
     const {
       name,
       username,
@@ -90,15 +106,7 @@ class OnboardingEditProfile extends Component {
     } = this.props.user;
     const github = social && social.github;
     const twitter = social && social.twitter;
-    const hasData =
-      name ||
-      username ||
-      email ||
-      avatar ||
-      github ||
-      twitter ||
-      title ||
-      website;
+    const hasData = name && username && email;
     if (hasData) {
       return (
         <Page>
@@ -111,16 +119,17 @@ class OnboardingEditProfile extends Component {
         <Wrapper>
           <EditProfile ref={comp => (this.login = comp)} />
           <ButtonWrapper>
-            <SecondaryButton
+            <PrimaryButton
               onClick={() =>
-                this.props.routeChangeAction(
-                  `/public-profile/${this.props.userId}`
-                )
+                email
+                  ? this.handleSubmit()
+                  : this.props.showNotificationAction({
+                      notificationType: "error",
+                      message: "Email Required",
+                      description: "Please enter your email address",
+                    })
               }
             >
-              Skip
-            </SecondaryButton>
-            <PrimaryButton onClick={() => this.handleSubmit()}>
               Next
             </PrimaryButton>
           </ButtonWrapper>

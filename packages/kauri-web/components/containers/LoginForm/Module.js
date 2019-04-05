@@ -137,6 +137,9 @@ export const registerEpic = (
                 })
               )
             )
+            .do(() =>
+              window.localStorage.setItem("login-tracking-pending", true)
+            )
             .delay(500)
             .do(() => {
               window.location = "/edit-profile" + window.location.search;
