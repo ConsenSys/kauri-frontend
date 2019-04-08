@@ -16,7 +16,7 @@ const waitForInit = (mpCall: any) => {
       mpCall();
       clearInterval(wait);
     }
-  }, 100);
+  }, 200);
 };
 
 const mpSessionConfig = {
