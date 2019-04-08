@@ -8,8 +8,75 @@ const tokens =
     ? prodConfig.analyticsTokens
     : devConfig.analyticsTokens;
 
-const analytics = {
-  login: (user: any) => {
+let distinctID: string;
+
+const waitForInit = (mpCall: any) => {
+  const wait = setInterval(() => {
+    if (distinctID) {
+      mpCall();
+      clearInterval(wait);
+    }
+  }, 1000);
+};
+
+const mpSessionConfig = {
+  // check for a new session id
+  check_Session_id: () => {
+    //  check #1 do they have a session already?
+    if (!mixpanel.get_property("last event time")) {
+      mpSessionConfig.set_Session_id();
+    }
+
+    if (!mixpanel.get_property("session ID")) {
+      mpSessionConfig.set_Session_id();
+    }
+
+    // check #2 did the last session exceed the timeout?
+    if (
+      Date.now() - mixpanel.get_property("last event time") >
+      mpSessionConfig.timeout
+    ) {
+      mpSessionConfig.set_Session_id();
+    }
+  },
+
+  // safe client-side function for generating session_id
+  // from: https://stackoverflow.com/a/105074
+  get_Session_id: () => {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return (
+      s4() +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      s4() +
+      s4()
+    );
+  },
+
+  // set a new session id
+  set_Session_id: () => {
+    mixpanel.register({
+      "session ID": mpSessionConfig.get_Session_id(),
+    });
+  },
+
+  // thirty minutes in milliseconds
+  timeout: 1800000,
+};
+
+const login = (user: any) => {
+  waitForInit(() => {
     mixpanel.track("Login", {
       id: user.id,
     });
@@ -25,40 +92,55 @@ const analytics = {
     });
     mixpanel.identify(user.id);
     mixpanel.people.increment("Logins");
-  },
-
-  page: (router: any) => {
-    ga.pageview(router.asPath);
-  },
-
-  track: (eventName: string, payload: any) => {
-    console.log("track");
-    mixpanel.track(eventName, payload);
-    ga.event({
-      action: eventName,
-      category: payload.category,
-    });
-  },
-
-  signup: (user: any) => {
-    mixpanel.track("Signup", {
-      id: user.id,
-    });
-    mixpanel.alias(user.id);
-  },
-
-  init: () => {
-    console.log("init tracking", mixpanel);
-    ga.initialize(tokens.ga);
-    mixpanel.init(tokens.mixpanel, {
-      loaded: () => console.log("loaded"),
-    });
-  },
-
-  setWeb3Status(status: boolean) {
-    mixpanel.register({ Web3: status.toString() });
-    ga.set({ dimension1: status.toString() });
-  },
+  });
 };
 
-export default analytics;
+const page = (router: any) => {
+  ga.pageview(router.asPath);
+};
+
+const track = (eventName: string, payload: any) => {
+  waitForInit(() => {
+    mpSessionConfig.check_Session_id();
+    mixpanel.register({ "last event time": Date.now() });
+    mixpanel.track(eventName, payload);
+  });
+  ga.event({
+    action: eventName,
+    category: payload.category,
+  });
+};
+
+const signup = (user: any) => {
+  waitForInit(() =>
+    mixpanel.track("Signup", {
+      id: user.id,
+    })
+  );
+  mixpanel.alias(user.id);
+};
+
+const init = () => {
+  ga.initialize(tokens.ga);
+  mixpanel.init(tokens.mixpanel, {
+    loaded: () => {
+      // check for a session_id ... if any of the checks fail set a new session id
+      mpSessionConfig.check_Session_id();
+      distinctID = mixpanel.get_distinct_id();
+    },
+  });
+};
+
+const setWeb3Status = (status: boolean) => {
+  waitForInit(() => mixpanel.register({ Web3: status.toString() }));
+  ga.set({ dimension1: status.toString() });
+};
+
+export default {
+  init,
+  login,
+  page,
+  setWeb3Status,
+  signup,
+  track,
+};
