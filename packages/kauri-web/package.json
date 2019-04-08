@@ -32,6 +32,7 @@
     "watch-types": "tsc --watch"
   },
   "dependencies": {
+    "@quentin-sommer/react-useragent": "^2.0.0",
     "@rej156/react-mde": "5.7.0",
     "anchorme": "^1.1.2",
     "antd": "3.2.1",
