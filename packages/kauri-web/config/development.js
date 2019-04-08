@@ -14,7 +14,7 @@ module.exports = {
     "../../../../flow/smart-contracts/build/contracts/TopicModerator.json",
   KauriCommunityId: "3e174cdcf9744ee3898f6a3badc3288b",
   analyticsTokens: {
-    mixpanel: process.env.MIXPANEL_TOKEN,
+    mixpanel: "627c5ccb5bf7da1d079aef2efaa807c2",
     ga: "UA-112179323-4",
   },
 };
