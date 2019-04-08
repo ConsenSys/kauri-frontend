@@ -4,7 +4,7 @@ import devConfig from "../config/development";
 import prodConfig from "../config/production";
 
 const tokens =
-  process.env.MONOLITH_API && process.env.MONOLITH_API.indexOf("dev") === -1
+  process.env.monolithApi && process.env.monolithApi.includes("uat")
     ? prodConfig.analyticsTokens
     : devConfig.analyticsTokens;
 
@@ -32,8 +32,7 @@ const analytics = {
   },
 
   track: (eventName: string, payload: any) => {
-    console.log("session checked");
-    mixpanel.register({ "last event time": Date.now() });
+    console.log("track");
     mixpanel.track(eventName, payload);
     ga.event({
       action: eventName,
@@ -49,11 +48,15 @@ const analytics = {
   },
 
   init: () => {
+    console.log("init tracking", mixpanel);
     ga.initialize(tokens.ga);
-    mixpanel.init(tokens.mixpanel);
+    mixpanel.init(tokens.mixpanel, {
+      loaded: () => console.log("loaded"),
+    });
   },
 
   setWeb3Status(status: boolean) {
+    mixpanel.register({ Web3: status.toString() });
     ga.set({ dimension1: status.toString() });
   },
 };
