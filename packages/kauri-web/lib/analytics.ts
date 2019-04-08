@@ -11,12 +11,16 @@ const tokens =
 let KauriMXP: any;
 
 const waitForInit = (mpCall: any) => {
-  const wait = setInterval(() => {
-    if (KauriMXP) {
-      mpCall();
-      clearInterval(wait);
-    }
-  }, 1000);
+  if (KauriMXP) {
+    mpCall();
+  } else {
+    const wait = setInterval(() => {
+      if (KauriMXP) {
+        mpCall();
+        clearInterval(wait);
+      }
+    }, 1000);
+  }
 };
 
 const mpSessionConfig = {
