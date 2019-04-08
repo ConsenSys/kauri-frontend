@@ -8,32 +8,37 @@ const tokens =
     ? prodConfig.analyticsTokens
     : devConfig.analyticsTokens;
 
-let distinctID: string;
+let KauriMXP: any;
 
 const waitForInit = (mpCall: any) => {
-  const wait = setInterval(() => {
-    if (distinctID) {
-      mpCall();
-      clearInterval(wait);
-    }
-  }, 200);
+  if (KauriMXP) {
+    mpCall();
+  } else {
+    const wait = setInterval(() => {
+      if (KauriMXP) {
+        mpCall();
+        clearInterval(wait);
+      }
+    }, 100);
+  }
 };
 
 const mpSessionConfig = {
   // check for a new session id
   check_Session_id: () => {
+    console.log("checking session");
     //  check #1 do they have a session already?
-    if (!mixpanel.get_property("last event time")) {
+    if (!KauriMXP.get_property("last_event_time")) {
       mpSessionConfig.set_Session_id();
     }
 
-    if (!mixpanel.get_property("session ID")) {
+    if (!KauriMXP.get_property("session ID")) {
       mpSessionConfig.set_Session_id();
     }
 
     // check #2 did the last session exceed the timeout?
     if (
-      Date.now() - mixpanel.get_property("last event time") >
+      Date.now() - KauriMXP.get_property("last_event_time") >
       mpSessionConfig.timeout
     ) {
       mpSessionConfig.set_Session_id();
@@ -66,7 +71,8 @@ const mpSessionConfig = {
 
   // set a new session id
   set_Session_id: () => {
-    mixpanel.register({
+    console.log("setting session id");
+    KauriMXP.register({
       "session ID": mpSessionConfig.get_Session_id(),
     });
   },
@@ -77,10 +83,10 @@ const mpSessionConfig = {
 
 const login = (user: any) => {
   waitForInit(() => {
-    mixpanel.track("Login", {
+    KauriMXP.track("Login", {
       id: user.id,
     });
-    mixpanel.people.set({
+    KauriMXP.people.set({
       avatar: user.avatar ? true : false,
       email: user.email,
       github: user.github,
@@ -90,8 +96,8 @@ const login = (user: any) => {
       username: user.username,
       website: user.website,
     });
-    mixpanel.identify(user.id);
-    mixpanel.people.increment("Logins");
+    KauriMXP.identify(user.id);
+    KauriMXP.people.increment("Logins");
   });
 };
 
@@ -102,8 +108,8 @@ const page = (router: any) => {
 const track = (eventName: string, payload: any) => {
   waitForInit(() => {
     mpSessionConfig.check_Session_id();
-    mixpanel.register({ "last event time": Date.now() });
-    mixpanel.track(eventName, payload);
+    KauriMXP.register({ last_event_time: Date.now() });
+    KauriMXP.track(eventName, payload);
   });
   ga.event({
     action: eventName,
@@ -113,26 +119,31 @@ const track = (eventName: string, payload: any) => {
 
 const signup = (user: any) => {
   waitForInit(() =>
-    mixpanel.track("Signup", {
+    KauriMXP.track("Signup", {
       id: user.id,
     })
   );
-  mixpanel.alias(user.id);
+  KauriMXP.alias(user.id);
 };
 
 const init = () => {
   ga.initialize(tokens.ga);
-  mixpanel.init(tokens.mixpanel, {
-    loaded: () => {
-      // check for a session_id ... if any of the checks fail set a new session id
-      mpSessionConfig.check_Session_id();
-      distinctID = mixpanel.get_distinct_id();
+  mixpanel.init(
+    tokens.mixpanel,
+    {
+      debug: true,
+      loaded: (mixp: any) => {
+        KauriMXP = mixp;
+        // check for a session_id ... if any of the checks fail set a new session id
+        mpSessionConfig.check_Session_id();
+      },
     },
-  });
+    "KauriMXP"
+  );
 };
 
 const setWeb3Status = (status: boolean) => {
-  waitForInit(() => mixpanel.register({ Web3: status.toString() }));
+  waitForInit(() => KauriMXP.register({ Web3: status.toString() }));
   ga.set({ dimension1: status.toString() });
 };
 
