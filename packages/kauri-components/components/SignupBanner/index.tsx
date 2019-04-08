@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "../../lib/styled-components";
-import { Title1, PageDescription } from "../Typography";
+import { Title2, BodyCard } from "../Typography";
 import SecondaryButtonComponent from "../Button/SecondaryButton";
 import Stack from "stack-styled";
 import PrimaryButtonComponent from "../Button/PrimaryButton";
@@ -20,6 +20,9 @@ const ViewContainer = styled.section`
   margin: auto;
   > :first-child {
     margin-right: ${props => props.theme.space[2]}px;
+  }
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    display: none;
   }
 `;
 
@@ -43,10 +46,10 @@ const SignupBanner: React.FunctionComponent<IProps> = props => (
     gap={30}
   >
     <ResourceDetailsContainer>
-      <Title1 color="white">Learn to Build on Ethereum with Kauri</Title1>
-      <PageDescription color="white">
+      <Title2 color="white">Learn to Build on Ethereum with Kauri</Title2>
+      <BodyCard color="white">
         Articles, Tutorials, Documentation and Best Practices
-      </PageDescription>
+      </BodyCard>
     </ResourceDetailsContainer>
     <ViewContainer>
       {props.linkComponent(
