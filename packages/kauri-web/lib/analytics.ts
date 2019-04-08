@@ -4,7 +4,7 @@ import devConfig from "../config/development";
 import prodConfig from "../config/production";
 
 const tokens =
-  process.env.NODE_ENV === "production"
+  process.env.MONOLITH_API && process.env.MONOLITH_API.indexOf("dev") === -1
     ? prodConfig.analyticsTokens
     : devConfig.analyticsTokens;
 
