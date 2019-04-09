@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
@@ -93,8 +92,8 @@ export interface searchPersonalSubmittedArticles_searchArticles_content_comments
 export interface searchPersonalSubmittedArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
   content: (searchPersonalSubmittedArticles_searchArticles_content_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface searchPersonalSubmittedArticles_searchArticles_content {

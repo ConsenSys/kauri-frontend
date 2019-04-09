@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { SearchFilterInput, ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
@@ -103,8 +102,8 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_comments {
   __typename: "ResponsePage_CommentDTO";
   content: (searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO {
@@ -141,8 +140,9 @@ export interface searchAutocompleteArticles_searchAutocomplete_content {
 
 export interface searchAutocompleteArticles_searchAutocomplete {
   __typename: "ResponseBreakdownPage_SearchResultDTO";
-  totalElements: any | null;
-  totalPages: number | null;
+  totalElements: any;
+  totalPages: number;
+  isLast: boolean;
   content: (searchAutocompleteArticles_searchAutocomplete_content | null)[] | null;
 }
 

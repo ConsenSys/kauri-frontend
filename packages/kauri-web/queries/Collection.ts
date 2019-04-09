@@ -200,7 +200,7 @@ export const getCollectionsForUser = gql`
     $size: Int = 8
     $page: Int = 0
     $sort: String = "dateUpdated"
-    $dir: DirectionInput
+    $dir: Direction
   ) {
     searchCollections(
       filter: $filter

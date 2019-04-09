@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ArticleFilterInput, ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
@@ -93,8 +92,8 @@ export interface searchPendingArticles_searchArticles_content_comments_content {
 export interface searchPendingArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
   content: (searchPendingArticles_searchArticles_content_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface searchPendingArticles_searchArticles_content {
@@ -124,7 +123,7 @@ export interface searchPendingArticles_searchArticles_content {
 export interface searchPendingArticles_searchArticles {
   __typename: "ResponsePage_ArticleDTO";
   content: (searchPendingArticles_searchArticles_content | null)[] | null;
-  totalElements: any | null;
+  totalElements: any;
 }
 
 export interface searchPendingArticles {

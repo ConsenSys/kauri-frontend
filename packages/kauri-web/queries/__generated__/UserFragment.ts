@@ -2,13 +2,12 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL subscription operation: getEvent
+// GraphQL fragment: UserFragment
 // ====================================================
 
-export interface getEvent {
-  getEvent: boolean;
-}
-
-export interface getEventVariables {
-  hash?: string | null;
+export interface UserFragment {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
 }

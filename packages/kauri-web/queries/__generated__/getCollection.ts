@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
@@ -132,8 +131,8 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_comme
 export interface getCollection_getCollection_sections_resources_ArticleDTO_comments {
   __typename: "ResponsePage_CommentDTO";
   content: (getCollection_getCollection_sections_resources_ArticleDTO_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO {

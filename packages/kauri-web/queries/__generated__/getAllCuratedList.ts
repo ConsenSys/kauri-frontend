@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
@@ -239,7 +238,7 @@ export interface getAllCuratedList_getAllCuratedList {
   id: string | null;
   name: string | null;
   description: string | null;
-  featured: boolean | null;
+  featured: boolean;
   dateCreated: any | null;
   links: (getAllCuratedList_getAllCuratedList_links | null)[] | null;
   owner: getAllCuratedList_getAllCuratedList_owner | null;

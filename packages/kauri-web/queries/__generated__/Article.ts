@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
@@ -93,8 +92,8 @@ export interface Article_comments_content {
 export interface Article_comments {
   __typename: "ResponsePage_CommentDTO";
   content: (Article_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface Article {
