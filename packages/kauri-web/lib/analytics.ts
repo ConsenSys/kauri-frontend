@@ -25,15 +25,15 @@ const waitForInit = (mpCall: any) => {
 
 const mpSessionConfig = {
   // check for a new session id
-  check_Session_id: () => {
+  checkSessionId: () => {
     console.log("checking session");
     //  check #1 do they have a session already?
     if (!KauriMXP.get_property("last_event_time")) {
-      mpSessionConfig.set_Session_id();
+      mpSessionConfig.setSessionId();
     }
 
     if (!KauriMXP.get_property("session ID")) {
-      mpSessionConfig.set_Session_id();
+      mpSessionConfig.setSessionId();
     }
 
     // check #2 did the last session exceed the timeout?
@@ -41,7 +41,7 @@ const mpSessionConfig = {
       Date.now() - KauriMXP.get_property("last_event_time") >
       mpSessionConfig.timeout
     ) {
-      mpSessionConfig.set_Session_id();
+      mpSessionConfig.setSessionId();
     }
   },
 
@@ -70,7 +70,7 @@ const mpSessionConfig = {
   },
 
   // set a new session id
-  set_Session_id: () => {
+  setSessionId: () => {
     console.log("setting session id");
     KauriMXP.register({
       "session ID": mpSessionConfig.get_Session_id(),
@@ -107,7 +107,7 @@ const page = (router: any) => {
 
 const track = (eventName: string, payload: any) => {
   waitForInit(() => {
-    mpSessionConfig.check_Session_id();
+    mpSessionConfig.checkSessionId();
     KauriMXP.register({ last_event_time: Date.now() });
     KauriMXP.track(eventName, payload);
   });
@@ -127,6 +127,7 @@ const signup = (user: any) => {
 };
 
 const init = () => {
+  console.log("Initialising Mixpanel");
   ga.initialize(tokens.ga);
   mixpanel.init(
     tokens.mixpanel,
@@ -134,8 +135,9 @@ const init = () => {
       debug: true,
       loaded: (mixp: any) => {
         KauriMXP = mixp;
+        console.log("Mixpanel Initialised");
         // check for a session_id ... if any of the checks fail set a new session id
-        mpSessionConfig.check_Session_id();
+        mpSessionConfig.checkSessionId();
       },
     },
     "KauriMXP"
