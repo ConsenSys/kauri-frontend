@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
-import { HomePageV2Query as query } from "../../../queries/HomePage";
+import { HomePageV2Query as query } from "../../../queries/Homepage";
 import {
   HomePageV2,
   HomePageV2Variables,
@@ -8,6 +8,8 @@ import {
 import { Query } from "react-apollo";
 import Loading from "../../common/Loading";
 import { ErrorMessage } from "../../../lib/with-apollo-error";
+import SignupBanner from "../../../../kauri-components/components/SignupBanner";
+import { Link } from "../../../routes";
 
 const HomePageSection = styled.section`
   display: flex;
@@ -37,27 +39,37 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
         if (loading) {
           return <Loading />;
         }
-        if (error) {
-          return (
-            <ErrorMessage
-              data={{ error: { message: error.message } }}
-              setNavcolorOverrideAction={props.setNavcolorOverrideAction}
-            />
-          );
-        }
+        // if (error) {
+        //   return (
+        //     <ErrorMessage
+        //       data={{ error: { message: error.message } }}
+        //       setNavcolorOverrideAction={props.setNavcolorOverrideAction}
+        //     />
+        //   );
+        // }
         if (
           data &&
           data.getLatestHomepageDescriptor &&
-          data.getLatestHomepageDescriptor.rows &&
-          data.getLatestHomepageDescriptor.rows.map(
+          data.getLatestHomepageDescriptor.rows
+        ) {
+          return data.getLatestHomepageDescriptor.rows.map(
             row =>
               row && (
                 <HomePageSection>
                   <p>helo world</p>
                 </HomePageSection>
               )
-          )
-        ) {; }
+          );
+        }
+        return (
+          <HomePageSection>
+            <SignupBanner
+              linkComponent={(children, route) => (
+                <Link href={route}>{children}</Link>
+              )}
+            />
+          </HomePageSection>
+        );
       }}
     </Query>
   );

@@ -1,4 +1,4 @@
-import Homepage from "./View.js";
+import Homepage from "./View";
 import { connect } from "react-redux";
 import {
   routeChangeAction,
