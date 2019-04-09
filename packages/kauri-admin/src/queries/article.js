@@ -30,3 +30,12 @@ export const searchArticles = (payload, maxResult, filter) => ({
     },
     operationName: 'searchArticles'
 });
+
+export const transferArticle = (payload) => ({
+    query:"mutation initiateArticleTransfer($id: String, $recipient: ResourceIdentifierInput) { initiateArticleTransfer ($id: id, recipient: $recipient) {hash} }",
+    variables: {
+          id: payload.articleID,
+          recipient: {"type": "USER", id: payload.recipientID}
+    },
+    operationName: "initiateArticleTransfer"
+  })
