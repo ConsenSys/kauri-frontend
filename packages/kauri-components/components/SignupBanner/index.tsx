@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "../../lib/styled-components";
-import { Title2, BodyCard } from "../Typography";
+import { Title1, BodyCard } from "../Typography";
 import SecondaryButtonComponent from "../Button/SecondaryButton";
 import Stack from "stack-styled";
 import PrimaryButtonComponent from "../Button/PrimaryButton";
@@ -47,7 +47,7 @@ const SignupBanner: React.FunctionComponent<IProps> = props => (
     gap={30}
   >
     <ResourceDetailsContainer>
-      <Title2 color="white">Learn to Build on Ethereum with Kauri</Title2>
+      <Title1 color="white">Learn to Build on Ethereum with Kauri</Title1>
       <BodyCard color="white">
         Articles, Tutorials, Documentation and Best Practices
       </BodyCard>

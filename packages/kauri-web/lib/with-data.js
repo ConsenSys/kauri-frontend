@@ -12,6 +12,7 @@ import fetch from "isomorphic-unfetch";
 import mixpanel from "mixpanel-browser";
 import initRedux from "./init-redux";
 import initApollo from "./init-apollo";
+import { UserAgentProvider } from "@quentin-sommer/react-useragent";
 
 import {
   fetchEthUsdPriceAction,
@@ -50,7 +51,7 @@ const dispatchEpic = (epic, action, state = {}, dependencies = {}) => {
   return promised;
 };
 
-export function parseCookies(ctx = {}, options = {}) {
+export function parseCookies (ctx = {}, options = {}) {
   let cookieToParse =
     ctx.req && ctx.req.headers.cookie && ctx.req.headers.cookie;
   if (global.window) cookieToParse = window.document.cookie;
@@ -68,11 +69,15 @@ export default ComposedComponent =>
       stateRedux: PropTypes.object.isRequired,
     };
 
-    static async getInitialProps(context) {
+    static async getInitialProps (context) {
       const url = { query: context.query, pathname: context.pathname };
       const hostName =
         (context.req && context.req.headers.host) ||
         process.env.monolithExternalApi;
+      const ua =
+        context && context.req
+          ? context.req.headers["user-agent"]
+          : navigator.userAgent;
 
       // console.log(hostName)
 
@@ -198,6 +203,7 @@ export default ComposedComponent =>
       }
 
       return {
+        ua,
         stateApollo,
         stateRedux,
         hostName,
@@ -206,7 +212,7 @@ export default ComposedComponent =>
       };
     }
 
-    constructor(props) {
+    constructor (props) {
       super(props);
       this.apollo = initApollo(this.props.stateApollo.apollo.data, {
         getToken: () => props.parsedToken,
@@ -215,7 +221,7 @@ export default ComposedComponent =>
       this.redux = initRedux(this.apollo, this.props.stateRedux);
     }
 
-    componentDidMount() {
+    componentDidMount () {
       window.addEventListener("load", async () => {
         if (window.ethereum) {
           // NOTICE - Moved to sign in only.
@@ -264,25 +270,27 @@ export default ComposedComponent =>
       this.redux.dispatch(fetchEthUsdPriceAction());
     }
 
-    componentWillUnmount() {
+    componentWillUnmount () {
       if (global.window && this.apollo && this.apollo.close) {
         console.log("Unsubscribing WebSocket");
         this.apollo.close();
       }
     }
 
-    render() {
+    render () {
       return (
         <Provider store={this.redux}>
           <ApolloProvider client={this.apollo}>
             <ThemeProvider theme={themeConfig}>
-              <>
-                <WelcomeBanner />
-                <ComposedComponent
-                  {...this.props}
-                  web3={global.window ? global.window.web3 : global.window}
-                />
-              </>
+              <UserAgentProvider ua={this.props.ua}>
+                <>
+                  <WelcomeBanner />
+                  <ComposedComponent
+                    {...this.props}
+                    web3={global.window ? global.window.web3 : global.window}
+                  />
+                </>
+              </UserAgentProvider>
             </ThemeProvider>
           </ApolloProvider>
         </Provider>

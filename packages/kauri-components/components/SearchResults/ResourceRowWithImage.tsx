@@ -62,7 +62,7 @@ export interface IProps {
   ownerType: string; // "USER" | "COMMUNITY" | "COLLECTION";
 }
 
-const Component: React.SFC<IProps> = props => (
+const ResourceRowWithImage: React.SFC<IProps> = props => (
   <ResourceRow>
     {props.imageURL &&
       props.linkComponent(
@@ -123,4 +123,4 @@ const Component: React.SFC<IProps> = props => (
   </ResourceRow>
 );
 
-export default Component;
+export default ResourceRowWithImage;

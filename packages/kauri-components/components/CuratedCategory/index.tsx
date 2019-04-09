@@ -38,6 +38,21 @@ const Content = styled.div`
   }
 `;
 
+export const CuratedCategoriesSection = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  background: ${props => props.theme.colors.contentBorder};
+  padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
+  justify-content: space-between;
+  column-count: 4;
+  > *:not(:nth-child(n + 4)) {
+    margin-bottom: ${props => props.theme.space[2]}px;
+  }
+  > :nth-child(n + 4) {
+    margin-right: ${props => props.theme.space[2]}px;
+  }
+`;
+
 interface IProps {
   category: string;
   description: string;
