@@ -33,14 +33,26 @@ const ButtonWrapper = styled.div`
 
 class OnboardingEditProfile extends Component {
   handleSubmit() {
-    this.login
-      .getWrappedInstance()
-      .getWrappedInstance()
-      .saveUser(
+    const loginComp = this.login.getWrappedInstance().getWrappedInstance();
+
+    const emailCheck = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const validEmail = emailCheck.test(
+      String(loginComp.state.email).toLowerCase()
+    );
+
+    if (validEmail) {
+      loginComp.saveUser(
         this.props.router.query.redirected
           ? `${this.props.router.query.r}?redirected=true`
           : this.props.router.query.r
       );
+    } else {
+      this.props.showNotificationAction({
+        notificationType: "error",
+        message: "Email Required",
+        description: "Please enter a valid email address",
+      });
+    }
   }
 
   componentDidMount() {
@@ -119,17 +131,7 @@ class OnboardingEditProfile extends Component {
         <Wrapper>
           <EditProfile ref={comp => (this.login = comp)} />
           <ButtonWrapper>
-            <PrimaryButton
-              onClick={() =>
-                email
-                  ? this.handleSubmit()
-                  : this.props.showNotificationAction({
-                      notificationType: "error",
-                      message: "Email Required",
-                      description: "Please enter your email address",
-                    })
-              }
-            >
+            <PrimaryButton onClick={() => this.handleSubmit()}>
               Next
             </PrimaryButton>
           </ButtonWrapper>
