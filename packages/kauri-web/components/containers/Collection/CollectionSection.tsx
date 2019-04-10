@@ -66,7 +66,6 @@ const Component: React.SFC<IProps> = props => {
     openModalAction,
     isOwnedByCurrentUser,
   } = props;
-  // console.log(resources);
   if (resources) {
     return (
       <Container>
@@ -78,7 +77,6 @@ const Component: React.SFC<IProps> = props => {
               | Article_owner_PublicUserDTO
               | Article_owner_CommunityDTO;
 
-            // console.log(resource);
             if (resource.__typename === "ArticleDTO") {
               const article = resource;
               return (
