@@ -68,23 +68,6 @@ const Component: React.SFC<IProps> = props => {
   } = props;
   // console.log(resources);
   if (resources) {
-    const linkComponent = (resource: Article | Collection) => (
-      childrenProps: React.ReactElement<any>,
-      route: string
-    ) => (
-      <Link
-        useAnchorTag={true}
-        toSlug={
-          route && route.includes("article")
-            ? String((resource as Article).title)
-            : String((resource as Collection).name)
-        }
-        href={route}
-      >
-        {childrenProps}
-      </Link>
-    );
-
     return (
       <Container>
         <StyledTitle>{name}</StyledTitle>
@@ -131,7 +114,20 @@ const Component: React.SFC<IProps> = props => {
                       article.attributes.background) ||
                     null
                   }
-                  linkComponent={linkComponent(article)}
+                  linkComponent={(
+                    childrenProps: React.ReactElement<any>,
+                    route: string
+                  ) => (
+                    <Link
+                      toSlug={
+                        route && route.includes("article") && article.title
+                      }
+                      useAnchorTag={true}
+                      href={route}
+                    >
+                      {childrenProps}
+                    </Link>
+                  )}
                   resourceType={"USER"}
                   cardHeight={420}
                   isLoggedIn={isLoggedIn}
@@ -212,8 +208,7 @@ const Component: React.SFC<IProps> = props => {
                   }
                   userAvatar={
                     collection.owner &&
-                      (collection.owner as Collection_owner_PublicUserDTO)
-                        .avatar
+                    (collection.owner as Collection_owner_PublicUserDTO).avatar
                   }
                   imageURL={collection.background}
                   linkComponent={(
