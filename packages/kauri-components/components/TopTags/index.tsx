@@ -7,6 +7,7 @@ interface IProps {
   tags: string[];
   routeChangeAction: any;
 }
+
 const TopTags: React.FunctionComponent<IProps> = ({
   tags,
   routeChangeAction,

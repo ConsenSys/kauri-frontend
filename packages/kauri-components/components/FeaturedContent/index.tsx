@@ -10,6 +10,7 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   padding: 0px ${props => props.theme.padding};
+  padding-right: 0px;
 `;
 
 const ResourceRowContainer = styled(Container)`
