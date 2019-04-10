@@ -21,7 +21,20 @@ const ResourceDetailsContainer = styled.section`
 const ViewContainer = styled.section`
   display: flex;
   flex-direction: column;
-  margin: auto;
+  justify-content: center;
+  align-items: center;
+`;
+
+const FeaturedResourceStack = styled(Stack)`
+  padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
+  background: white;
+`;
+
+export const FeaturedResourceContainer = styled.section`
+  display: flex;
+  background: white;
+  flex-direction: row;
+  padding: 0px ${props => props.theme.padding};
 `;
 
 interface IProps {
@@ -38,15 +51,11 @@ interface IProps {
   ) => React.ReactElement<any>;
 }
 
-const FeaturedResourceStack = styled(Stack)`
-  padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
-  background: white;
-`;
-
 const FeaturedResource: React.FunctionComponent<
   IProps & UserAvatarComponentProps
 > = props => (
   <FeaturedResourceStack
+    width={"100%"}
     alignItems={[""]}
     justifyContent={[""]}
     gridAutoFlow={["column"]}

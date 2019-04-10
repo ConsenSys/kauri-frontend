@@ -28,7 +28,7 @@ const TopContributors: React.FunctionComponent<IProps> = ({
     <ContributorsContainer>
       {contributors.map(contributor =>
         linkComponent(
-          <UserAvatarComponent {...contributor} />,
+          <UserAvatarComponent key={contributor.userId} {...contributor} />,
           `/public-profile/${contributor.userId}`
         )
       )}

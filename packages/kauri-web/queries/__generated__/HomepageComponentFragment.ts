@@ -287,8 +287,8 @@ export interface HomepageComponentFragment_TopTags {
 export interface HomepageComponentFragment_TopContributors_content_user {
   __typename: "PublicUserDTO";
   id: string | null;
-  name: string | null;
   username: string | null;
+  avatar: string | null;
 }
 
 export interface HomepageComponentFragment_TopContributors_content {

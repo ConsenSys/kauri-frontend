@@ -9,6 +9,9 @@ const Container = styled.section`
   > :first-child {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    display: none;
+  }
 `;
 
 const Buttons = styled.div`

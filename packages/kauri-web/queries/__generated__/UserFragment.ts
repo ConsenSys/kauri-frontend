@@ -8,6 +8,6 @@
 export interface UserFragment {
   __typename: "PublicUserDTO";
   id: string | null;
-  name: string | null;
   username: string | null;
+  avatar: string | null;
 }

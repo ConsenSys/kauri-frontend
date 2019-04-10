@@ -48,62 +48,62 @@ export enum UserStatus {
 }
 
 export interface ArticleFilterInput {
-  fullText?: string | null;
   checkpointEquals?: string | null;
-  dateCreatedGreaterThan?: any | null;
-  statusIn?: (ArticleStatus | null)[] | null;
   versionGreaterThan?: number | null;
-  latestVersion?: boolean | null;
+  dateCreatedGreaterThan?: any | null;
+  idEquals?: string | null;
+  dateCreatedLessThan?: any | null;
   authorIdEquals?: string | null;
-  ownerEquals?: string | null;
+  containsTag?: string | null;
   versionIn?: (number | null)[] | null;
   ownerIdEquals?: string | null;
-  dateCreatedLessThan?: any | null;
-  idEquals?: string | null;
-  containsTag?: string | null;
+  latestVersion?: boolean | null;
+  fullText?: string | null;
+  statusIn?: (ArticleStatus | null)[] | null;
+  ownerEquals?: string | null;
 }
 
 export interface CollectionFilterInput {
-  containingArticleId?: string | null;
-  descriptionContains?: string | null;
-  dateCreatedGreaterThan?: any | null;
-  ownerIdEquals?: string | null;
-  nameContains?: string | null;
-  dateUpdatedLessThan?: any | null;
-  resourcesCountGreaterThan?: number | null;
   fullText?: string | null;
-  dateCreatedLessThan?: any | null;
+  ownerIdEquals?: string | null;
+  dateUpdatedLessThan?: any | null;
+  descriptionContains?: string | null;
   dateUpdatedGreaterThan?: any | null;
+  dateCreatedLessThan?: any | null;
+  dateCreatedGreaterThan?: any | null;
+  resourcesCountGreaterThan?: number | null;
+  nameContains?: string | null;
+  containingArticleId?: string | null;
 }
 
 export interface CommunityFilterInput {
-  dateUpdatedLessThan?: any | null;
   nameContains?: string | null;
-  dateCreatedGreaterThan?: any | null;
   nameContain?: string | null;
-  membersIncludes?: string | null;
   dateUpdatedGreaterThan?: any | null;
+  dateCreatedGreaterThan?: any | null;
   dateCreatedLessThan?: any | null;
+  membersIncludes?: string | null;
   fullText?: string | null;
+  dateUpdatedLessThan?: any | null;
 }
 
 export interface ResourceIdentifierInput {
-  type?: ResourceType | null;
   id?: string | null;
+  type?: ResourceType | null;
   version?: number | null;
 }
 
 export interface SearchFilterInput {
-  mustNotIncludeUserId?: (string | null)[] | null;
-  mustNotContainTag?: (string | null)[] | null;
-  mustContainTag?: (string | null)[] | null;
-  type?: ResourceType | null;
   mustIncludeUserId?: (string | null)[] | null;
+  mustNotIncludeUserId?: (string | null)[] | null;
+  type?: ResourceType | null;
+  mustContainTag?: (string | null)[] | null;
+  mustNotContainTag?: (string | null)[] | null;
 }
 
 export interface SectionDTOInput {
-  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   description?: string | null;
+  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   id?: string | null;
   name?: string | null;
 }

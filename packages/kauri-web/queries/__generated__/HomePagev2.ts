@@ -287,8 +287,8 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_TopTags {
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_TopContributors_content_user {
   __typename: "PublicUserDTO";
   id: string | null;
-  name: string | null;
   username: string | null;
+  avatar: string | null;
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_TopContributors_content {
@@ -1058,8 +1058,8 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_TopTags {
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_TopContributors_content_user {
   __typename: "PublicUserDTO";
   id: string | null;
-  name: string | null;
   username: string | null;
+  avatar: string | null;
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_TopContributors_content {

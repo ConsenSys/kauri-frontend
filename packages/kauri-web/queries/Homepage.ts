@@ -1,6 +1,4 @@
 import gql from "graphql-tag";
-import { UserOwner } from "./User";
-import { CommunityOwner } from "./Community";
 import { Collection } from "./Collection";
 
 export const HomePageV2Query = gql`
@@ -24,6 +22,7 @@ export const HomePageV2Query = gql`
       type
     }
   }
+
   fragment ResourceFragment on AbstractResourceDTO {
     ... on CollectionDTO {
       ...Collection
@@ -109,8 +108,8 @@ export const HomePageV2Query = gql`
 
   fragment UserFragment on PublicUserDTO {
     id
-    name
     username
+    avatar
   }
 
   fragment HomepageComponentFragment on HomepageComponentDTO {
@@ -197,6 +196,4 @@ export const HomePageV2Query = gql`
   }
 
   ${Collection}
-  ${UserOwner}
-  ${CommunityOwner}
 `;
