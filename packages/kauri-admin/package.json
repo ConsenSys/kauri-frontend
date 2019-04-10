@@ -109,7 +109,7 @@
     "react-dom": "16.7.0-alpha.2"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "NODE_ENV=development node scripts/start.js",
     "dev": "node scripts/start.js",
     "start:prod": "NODE_ENV=production serve -s build",
     "build": "node --max_old_space_size=4096 scripts/build.js",
