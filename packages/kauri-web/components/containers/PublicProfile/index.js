@@ -6,6 +6,7 @@ import {
   searchPersonalDrafts,
   searchPending,
   searchAwaitingApproval,
+  getArticleTransfers,
 } from "../../../queries/Article";
 import { getUserDetails } from "../../../queries/User";
 import { getCollectionsForUser } from "../../../queries/Collection";
@@ -91,6 +92,17 @@ export default compose(
       variables: {
         page: 0,
         userId,
+      },
+    }),
+  }),
+  graphql(getArticleTransfers, {
+    name: "PendingTransfersQuery",
+    options: ({ userId }) => ({
+      fetchPolicy: "cache-and-network",
+      variables: {
+        page: 0,
+        size: 100,
+        recipient: userId,
       },
     }),
   }),

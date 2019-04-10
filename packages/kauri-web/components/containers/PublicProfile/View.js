@@ -7,10 +7,10 @@ import EditableHeader from "./EditableHeader";
 import Loading from "../../common/Loading";
 import type { ViewProps, ViewState } from "./types";
 import Published from "./Published/View";
-import Manage from "./Manage"
+import Manage from "./Manage";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor (props: ViewProps) {
+  constructor(props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -25,11 +25,11 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     };
   }
 
-  toggleEditing () {
+  toggleEditing() {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render () {
+  render() {
     const {
       PendingQuery,
       UserQuery,
@@ -37,6 +37,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       CollectionQuery,
       DraftsQuery,
       ApprovalsQuery,
+      PendingTransfersQuery,
       routeChangeAction,
       currentUser,
       deleteDraftArticleAction,
@@ -124,18 +125,20 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 data={CollectionQuery}
                 routeChangeAction={routeChangeAction}
               />,
-              isOwner && <Manage
-                approvalsQuery={ApprovalsQuery}
-                draftsQuery={DraftsQuery}
-                pendingQuery={PendingQuery}
-                type="manage"
-                routeChangeAction={routeChangeAction}
-                deleteDraftArticleAction={deleteDraftArticleAction}
-                isOwner={UserQuery.getUser.id === currentUser}
-                isLoggedIn={!!currentUser}
-                closeModalAction={closeModalAction}
-                openModalAction={openModalAction}
-              />,
+              isOwner && (
+                <Manage
+                  approvalsQuery={ApprovalsQuery}
+                  draftsQuery={DraftsQuery}
+                  pendingQuery={PendingQuery}
+                  type="manage"
+                  routeChangeAction={routeChangeAction}
+                  deleteDraftArticleAction={deleteDraftArticleAction}
+                  isOwner={UserQuery.getUser.id === currentUser}
+                  isLoggedIn={!!currentUser}
+                  closeModalAction={closeModalAction}
+                  openModalAction={openModalAction}
+                />
+              ),
             ]}
           />
         ) : !isHeaderLoaded ? null : (

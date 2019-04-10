@@ -589,3 +589,67 @@ export const vote = gql`
     }
   }
 `;
+
+export const getArticleTransfers = gql`
+  query getArticleTransfers(
+    $page: Int = 0
+    $size: Int = 100
+    $recipient: String
+  ) {
+    getArticleTransfers(page: $page, size: $size, recipient: $recipient) {
+      content {
+        id
+        article {
+          ... on ArticleDTO {
+            id
+            version
+            title
+            description
+            content
+            dateCreated
+            datePublished
+            authorId
+            ownerId {
+              id
+              type
+            }
+            status
+            attributes
+            contentHash
+            checkpoint
+            tags
+            resourceIdentifier {
+              type
+              id
+              version
+            }
+            voteResult {
+              resourceId {
+                id
+                type
+              }
+              count
+              sum
+              mean
+              median
+              quantity
+              hasVoted
+            }
+          }
+        }
+        transferrer {
+          type
+          id
+          version
+        }
+        recipient {
+          type
+          id
+          version
+        }
+      }
+      totalPages
+      totalElements
+    }
+  }
+`;
