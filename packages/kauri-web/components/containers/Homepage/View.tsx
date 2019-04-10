@@ -14,6 +14,7 @@ import PublishYourOwnContentCTA from "../../../../kauri-components/components/Pu
 import TopTags from "../../../../kauri-components/components/TopTags";
 import TopContributors from "../../../../kauri-components/components/TopContributors";
 import FeaturedContent from "../../../../kauri-components/components/FeaturedContent";
+import LatestContent from "../../../../kauri-components/components/LatestContent";
 import FeaturedResource, {
   FeaturedResourceContainer,
 } from "../../../../kauri-components/components/FeaturedResource";
@@ -175,95 +176,128 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                 }
                               }
                             }
-                          }
-                        }
-                      })}
-                    {row && row.sidebar && (
-                      <SideRow>
-                        {row &&
-                          row.sidebar &&
-                          row.sidebar.map(sideBar => {
-                            if (sideBar) {
-                              switch (sideBar.__typename) {
-                                case "Actions": {
+
+                            case "LatestContent": {
+                              if (mainRow.__typename === "LatestContent") {
+                                if (
+                                  mainRow.content &&
+                                  mainRow.content.length > 0
+                                ) {
+                                  const content = mainRow.content;
                                   return (
-                                    <PublishYourOwnContentCTA
-                                      key={sideBar.__typename}
-                                      linkComponent={(children, route) => (
-                                        <Link href={route}>{children}</Link>
-                                      )}
-                                      content={sideBar.content}
+                                    <LatestContent
+                                      content={content}
+                                      Link={Link}
                                     />
                                   );
                                 }
+                              }
+                            }
 
-                                case "TopTags": {
-                                  if (sideBar.content) {
-                                    const tags = sideBar.content.map(
-                                      tag => (tag && tag.name) || ""
-                                    );
-
+                            default: {
+                              return <p>Main row type needs implementing</p>;
+                            }
+                          }
+                        }
+                      })}
+                    {row &&
+                      row.sidebar &&
+                      // Filter out latestcontent sidebar
+                      row.sidebar.find(sideBar =>
+                        sideBar ? sideBar.__typename !== "LatestContent" : false
+                      ) && (
+                        <SideRow>
+                          {row &&
+                            row.sidebar &&
+                            row.sidebar.map(sideBar => {
+                              if (sideBar) {
+                                switch (sideBar.__typename) {
+                                  case "Actions": {
                                     return (
-                                      <TopTags
-                                        key={"top tags"}
-                                        routeChangeAction={
-                                          props.routeChangeAction
-                                        }
-                                        tags={tags as string[]}
+                                      <PublishYourOwnContentCTA
+                                        key={sideBar.__typename}
+                                        linkComponent={(children, route) => (
+                                          <Link href={route}>{children}</Link>
+                                        )}
+                                        content={sideBar.content}
                                       />
                                     );
                                   }
-                                }
 
-                                case "TopContributors": {
-                                  if (
-                                    sideBar.content &&
-                                    sideBar.__typename === "TopContributors"
-                                  ) {
+                                  case "TopTags": {
                                     if (sideBar.content) {
-                                      const contributors = sideBar.content.map(
-                                        contributor =>
-                                          (contributor &&
-                                            contributor.user && {
-                                              avatar: contributor.user.avatar,
-                                              userId: String(
-                                                contributor.user.id
-                                              ),
-                                              username:
-                                                contributor.user.username,
-                                            }) || {
-                                            avatar: "",
-                                            userId: "",
-                                            username: "",
-                                          }
+                                      const tags = sideBar.content.map(
+                                        tag => (tag && tag.name) || ""
                                       );
 
                                       return (
-                                        <TopContributors
-                                          key={"top contributors"}
-                                          linkComponent={(children, route) => (
-                                            <Link
-                                              useAnchorTag={true}
-                                              href={route}
-                                            >
-                                              {children}
-                                            </Link>
-                                          )}
-                                          contributors={contributors}
+                                        <TopTags
+                                          key={"top tags"}
+                                          routeChangeAction={
+                                            props.routeChangeAction
+                                          }
+                                          tags={tags as string[]}
                                         />
                                       );
                                     }
                                   }
-                                }
 
-                                default: {
-                                  return <p key="side">SIDEBAR ROW</p>;
+                                  case "TopContributors": {
+                                    if (
+                                      sideBar.content &&
+                                      sideBar.__typename === "TopContributors"
+                                    ) {
+                                      if (sideBar.content) {
+                                        const contributors = sideBar.content.map(
+                                          contributor =>
+                                            (contributor &&
+                                              contributor.user && {
+                                                avatar: contributor.user.avatar,
+                                                userId: String(
+                                                  contributor.user.id
+                                                ),
+                                                username:
+                                                  contributor.user.username,
+                                              }) || {
+                                              avatar: "",
+                                              userId: "",
+                                              username: "",
+                                            }
+                                        );
+
+                                        return (
+                                          <TopContributors
+                                            key={"top contributors"}
+                                            linkComponent={(
+                                              children,
+                                              route
+                                            ) => (
+                                              <Link
+                                                useAnchorTag={true}
+                                                href={route}
+                                              >
+                                                {children}
+                                              </Link>
+                                            )}
+                                            contributors={contributors}
+                                          />
+                                        );
+                                      }
+                                    }
+                                  }
+
+                                  case "LatestContent": {
+                                    return null;
+                                  }
+
+                                  default: {
+                                    return <p key="side">SIDEBAR ROW</p>;
+                                  }
                                 }
                               }
-                            }
-                          })}
-                      </SideRow>
-                    )}
+                            })}
+                        </SideRow>
+                      )}
                   </HomePageRow>
                 );
               })}
