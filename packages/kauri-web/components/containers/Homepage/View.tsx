@@ -4,7 +4,6 @@ import { HomePageV2Query as query } from "../../../queries/Homepage";
 import {
   HomePageV2,
   HomePageV2Variables,
-  HomePageV2_getLatestHomepageDescriptor_rows_sidebar_TopContributors_content,
 } from "../../../queries/__generated__/HomePageV2";
 import { Query } from "react-apollo";
 import Loading from "../../common/Loading";
@@ -15,26 +14,22 @@ import TopTags from "../../../../kauri-components/components/TopTags";
 import TopContributors from "../../../../kauri-components/components/TopContributors";
 import FeaturedContent from "../../../../kauri-components/components/FeaturedContent";
 import LatestContent from "../../../../kauri-components/components/LatestContent";
-import FeaturedResource, {
-  FeaturedResourceContainer,
-} from "../../../../kauri-components/components/FeaturedResource";
+import NewsletterBanner from "../../../../kauri-components/components/NewsletterBanner";
+import ImportYourContentBanner from "../../../../kauri-components/components/ImportYourContentBanner";
+import FeaturedResource from "../../../../kauri-components/components/FeaturedResource";
 import CuratedCategory, {
   CuratedCategoriesSection,
 } from "../../../../kauri-components/components/CuratedCategory";
 import { Link } from "../../../routes";
 // import mockData from "./mock";
 
-const SideRow = styled.section`
-  display: flex;
-  flex-direction: column;
-  > :not(:last-child) {
-    margin-bottom: ${props => props.theme.space[3]}px;
-  }
-`;
-
 const HomePageSection = styled.section`
   display: flex;
   flex-direction: column;
+  > :nth-last-child(2),
+  > :last-child {
+    margin-bottom: 0px;
+  }
 `;
 
 const HomePageRow = styled.section`
@@ -46,6 +41,14 @@ const HomePageRow = styled.section`
   }
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     flex-direction: column;
+  }
+`;
+
+const SideRow = styled.section`
+  display: flex;
+  flex-direction: column;
+  > :not(:last-child) {
+    margin-bottom: ${props => props.theme.space[3]}px;
   }
 `;
 
@@ -188,9 +191,35 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                     <LatestContent
                                       content={content}
                                       Link={Link}
+                                      linkComponent={(children, route) => (
+                                        <Link useAnchorTag={true} route={route}>
+                                          {children}
+                                        </Link>
+                                      )}
                                     />
                                   );
                                 }
+                              }
+                            }
+
+                            case "Newsletter": {
+                              if (mainRow.__typename === "Newsletter") {
+                                return (
+                                  <NewsletterBanner
+                                    handleSubmit={() => {
+                                      return;
+                                    }}
+                                    handleError={() => {
+                                      return;
+                                    }}
+                                  />
+                                );
+                              }
+                            }
+
+                            case "Import": {
+                              if (mainRow.__typename === "Import") {
+                                return <ImportYourContentBanner />;
                               }
                             }
 

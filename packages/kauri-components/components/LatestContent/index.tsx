@@ -39,11 +39,13 @@ const AllContentButtonsContainer = styled.div`
 interface IProps {
   content: any;
   Link: any;
+  linkComponent: (
+    children: React.ReactElement<any>,
+    route: string
+  ) => React.ReactElement<any>;
 }
 
 const LatestContent: React.FunctionComponent<IProps> = props => {
-  const { Link } = props;
-
   return (
     <LatestContentSection>
       <Title2>Latest Content</Title2>
@@ -53,33 +55,36 @@ const LatestContent: React.FunctionComponent<IProps> = props => {
         )}
       </LatestContentCardContainer>
       <AllContentButtonsContainer>
-        <Link href={`/articles`}>
+        {props.linkComponent(
           <SecondaryButtonComponent
             color="textPrimary"
             width={"140px"}
             border={"primary"}
           >
             All Articles
-          </SecondaryButtonComponent>
-        </Link>
-        <Link href={`/collections`}>
+          </SecondaryButtonComponent>,
+          `/articles`
+        )}
+        {props.linkComponent(
           <SecondaryButtonComponent
             color="textPrimary"
             width={"140px"}
             border={"primary"}
           >
             All Collections
-          </SecondaryButtonComponent>
-        </Link>
-        <Link href={`/communities`}>
+          </SecondaryButtonComponent>,
+          `/collections`
+        )}
+        {props.linkComponent(
           <SecondaryButtonComponent
             color="textPrimary"
             width={"140px"}
             border={"primary"}
           >
             All Communities
-          </SecondaryButtonComponent>
-        </Link>
+          </SecondaryButtonComponent>,
+          `/communities`
+        )}
       </AllContentButtonsContainer>
     </LatestContentSection>
   );
