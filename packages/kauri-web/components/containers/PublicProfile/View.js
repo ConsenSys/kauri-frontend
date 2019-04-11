@@ -41,6 +41,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       routeChangeAction,
       currentUser,
       deleteDraftArticleAction,
+      rejectArticleTransferAction,
       closeModalAction,
       openModalAction,
       isLoggedIn,
@@ -138,6 +139,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                   isLoggedIn={!!currentUser}
                   closeModalAction={closeModalAction}
                   openModalAction={openModalAction}
+                  rejectArticleTransferAction={rejectArticleTransferAction}
                 />
               ),
             ]}

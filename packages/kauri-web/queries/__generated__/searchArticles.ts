@@ -2,7 +2,10 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
+import {
+  ResourceTypeInput,
+  ArticleStatusInput,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchArticles
@@ -16,13 +19,21 @@ export interface searchArticles_searchArticles_content_author {
 }
 
 export interface searchArticles_searchArticles_content_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface searchArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchArticles_searchArticles_content_owner_PublicUserDTO {
@@ -37,7 +48,7 @@ export interface searchArticles_searchArticles_content_owner_PublicUserDTO {
 export interface searchArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchArticles_searchArticles_content_owner_CommunityDTO {
@@ -48,7 +59,10 @@ export interface searchArticles_searchArticles_content_owner_CommunityDTO {
   resourceIdentifier: searchArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type searchArticles_searchArticles_content_owner = searchArticles_searchArticles_content_owner_ArticleDTO | searchArticles_searchArticles_content_owner_PublicUserDTO | searchArticles_searchArticles_content_owner_CommunityDTO;
+export type searchArticles_searchArticles_content_owner =
+  | searchArticles_searchArticles_content_owner_ArticleDTO
+  | searchArticles_searchArticles_content_owner_PublicUserDTO
+  | searchArticles_searchArticles_content_owner_CommunityDTO;
 
 export interface searchArticles_searchArticles_content_voteResult {
   __typename: "VoteResultDTO";
@@ -70,14 +84,16 @@ export interface searchArticles_searchArticles_content_comments_content {
 
 export interface searchArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
-  content: (searchArticles_searchArticles_content_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  content:
+    | (searchArticles_searchArticles_content_comments_content | null)[]
+    | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface searchArticles_searchArticles_content_resourceIdentifier {
   __typename: "ResourceIdentifier";
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   id: string | null;
   version: number | null;
 }
@@ -93,7 +109,7 @@ export interface searchArticles_searchArticles_content {
   datePublished: any | null;
   author: searchArticles_searchArticles_content_author | null;
   owner: searchArticles_searchArticles_content_owner | null;
-  status: ArticleStatus | null;
+  status: ArticleStatusInput | null;
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
@@ -104,8 +120,8 @@ export interface searchArticles_searchArticles_content {
 
 export interface searchArticles_searchArticles {
   __typename: "ResponsePage_ArticleDTO";
-  totalElements: any | null;
-  isLast: boolean | null;
+  totalElements: any;
+  isLast: boolean;
   content: (searchArticles_searchArticles_content | null)[] | null;
 }
 

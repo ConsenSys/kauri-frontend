@@ -8,7 +8,7 @@
 
 export interface getTotalArticlesCount_searchArticles {
   __typename: "ResponsePage_ArticleDTO";
-  totalElements: any | null;
+  totalElements: any;
 }
 
 export interface getTotalArticlesCount {

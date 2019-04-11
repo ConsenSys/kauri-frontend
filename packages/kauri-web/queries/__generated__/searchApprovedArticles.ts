@@ -2,7 +2,10 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
+import {
+  ResourceTypeInput,
+  ArticleStatusInput,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchApprovedArticles
@@ -20,7 +23,7 @@ export interface searchApprovedArticles_searchArticles_content_associatedNfts {
 export interface searchApprovedArticles_searchArticles_content_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   version: number | null;
 }
 
@@ -41,13 +44,21 @@ export interface searchApprovedArticles_searchArticles_content_author {
 }
 
 export interface searchApprovedArticles_searchArticles_content_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface searchApprovedArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchApprovedArticles_searchArticles_content_owner_PublicUserDTO {
@@ -62,7 +73,7 @@ export interface searchApprovedArticles_searchArticles_content_owner_PublicUserD
 export interface searchApprovedArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchApprovedArticles_searchArticles_content_owner_CommunityDTO {
@@ -73,7 +84,10 @@ export interface searchApprovedArticles_searchArticles_content_owner_CommunityDT
   resourceIdentifier: searchApprovedArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type searchApprovedArticles_searchArticles_content_owner = searchApprovedArticles_searchArticles_content_owner_ArticleDTO | searchApprovedArticles_searchArticles_content_owner_PublicUserDTO | searchApprovedArticles_searchArticles_content_owner_CommunityDTO;
+export type searchApprovedArticles_searchArticles_content_owner =
+  | searchApprovedArticles_searchArticles_content_owner_ArticleDTO
+  | searchApprovedArticles_searchArticles_content_owner_PublicUserDTO
+  | searchApprovedArticles_searchArticles_content_owner_CommunityDTO;
 
 export interface searchApprovedArticles_searchArticles_content_comments_content_author {
   __typename: "PublicUserDTO";
@@ -92,14 +106,18 @@ export interface searchApprovedArticles_searchArticles_content_comments_content 
 
 export interface searchApprovedArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
-  content: (searchApprovedArticles_searchArticles_content_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  content:
+    | (searchApprovedArticles_searchArticles_content_comments_content | null)[]
+    | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface searchApprovedArticles_searchArticles_content {
   __typename: "ArticleDTO";
-  associatedNfts: (searchApprovedArticles_searchArticles_content_associatedNfts | null)[] | null;
+  associatedNfts:
+    | (searchApprovedArticles_searchArticles_content_associatedNfts | null)[]
+    | null;
   resourceIdentifier: searchApprovedArticles_searchArticles_content_resourceIdentifier | null;
   description: string | null;
   id: string | null;
@@ -109,7 +127,7 @@ export interface searchApprovedArticles_searchArticles_content {
   authorId: string | null;
   dateCreated: any | null;
   datePublished: any | null;
-  status: ArticleStatus | null;
+  status: ArticleStatusInput | null;
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
@@ -124,9 +142,9 @@ export interface searchApprovedArticles_searchArticles_content {
 export interface searchApprovedArticles_searchArticles {
   __typename: "ResponsePage_ArticleDTO";
   content: (searchApprovedArticles_searchArticles_content | null)[] | null;
-  isLast: boolean | null;
-  totalElements: any | null;
-  totalPages: number | null;
+  isLast: boolean;
+  totalElements: any;
+  totalPages: number;
 }
 
 export interface searchApprovedArticles {

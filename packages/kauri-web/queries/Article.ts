@@ -601,40 +601,7 @@ export const getArticleTransfers = gql`
         id
         article {
           ... on ArticleDTO {
-            id
-            version
-            title
-            description
-            content
-            dateCreated
-            datePublished
-            authorId
-            ownerId {
-              id
-              type
-            }
-            status
-            attributes
-            contentHash
-            checkpoint
-            tags
-            resourceIdentifier {
-              type
-              id
-              version
-            }
-            voteResult {
-              resourceId {
-                id
-                type
-              }
-              count
-              sum
-              mean
-              median
-              quantity
-              hasVoted
-            }
+            ...Article
           }
         }
         transferrer {
@@ -650,6 +617,15 @@ export const getArticleTransfers = gql`
       }
       totalPages
       totalElements
+    }
+  }
+  ${Article}
+`;
+
+export const rejectArticleTransfer = gql`
+  mutation rejectArticleTransfer($id: String) {
+    rejectArticleTransfer(id: $id) {
+      hash
     }
   }
 `;

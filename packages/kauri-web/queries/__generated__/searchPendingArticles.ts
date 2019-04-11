@@ -2,7 +2,11 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { ArticleFilterInput, ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
+import {
+  ArticleFilterInput,
+  ResourceTypeInput,
+  ArticleStatusInput,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchPendingArticles
@@ -20,7 +24,7 @@ export interface searchPendingArticles_searchArticles_content_associatedNfts {
 export interface searchPendingArticles_searchArticles_content_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   version: number | null;
 }
 
@@ -41,13 +45,21 @@ export interface searchPendingArticles_searchArticles_content_author {
 }
 
 export interface searchPendingArticles_searchArticles_content_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface searchPendingArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchPendingArticles_searchArticles_content_owner_PublicUserDTO {
@@ -62,7 +74,7 @@ export interface searchPendingArticles_searchArticles_content_owner_PublicUserDT
 export interface searchPendingArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchPendingArticles_searchArticles_content_owner_CommunityDTO {
@@ -73,7 +85,10 @@ export interface searchPendingArticles_searchArticles_content_owner_CommunityDTO
   resourceIdentifier: searchPendingArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type searchPendingArticles_searchArticles_content_owner = searchPendingArticles_searchArticles_content_owner_ArticleDTO | searchPendingArticles_searchArticles_content_owner_PublicUserDTO | searchPendingArticles_searchArticles_content_owner_CommunityDTO;
+export type searchPendingArticles_searchArticles_content_owner =
+  | searchPendingArticles_searchArticles_content_owner_ArticleDTO
+  | searchPendingArticles_searchArticles_content_owner_PublicUserDTO
+  | searchPendingArticles_searchArticles_content_owner_CommunityDTO;
 
 export interface searchPendingArticles_searchArticles_content_comments_content_author {
   __typename: "PublicUserDTO";
@@ -92,14 +107,18 @@ export interface searchPendingArticles_searchArticles_content_comments_content {
 
 export interface searchPendingArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
-  content: (searchPendingArticles_searchArticles_content_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  content:
+    | (searchPendingArticles_searchArticles_content_comments_content | null)[]
+    | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface searchPendingArticles_searchArticles_content {
   __typename: "ArticleDTO";
-  associatedNfts: (searchPendingArticles_searchArticles_content_associatedNfts | null)[] | null;
+  associatedNfts:
+    | (searchPendingArticles_searchArticles_content_associatedNfts | null)[]
+    | null;
   resourceIdentifier: searchPendingArticles_searchArticles_content_resourceIdentifier | null;
   description: string | null;
   id: string | null;
@@ -109,7 +128,7 @@ export interface searchPendingArticles_searchArticles_content {
   authorId: string | null;
   dateCreated: any | null;
   datePublished: any | null;
-  status: ArticleStatus | null;
+  status: ArticleStatusInput | null;
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
@@ -124,7 +143,7 @@ export interface searchPendingArticles_searchArticles_content {
 export interface searchPendingArticles_searchArticles {
   __typename: "ResponsePage_ArticleDTO";
   content: (searchPendingArticles_searchArticles_content | null)[] | null;
-  totalElements: any | null;
+  totalElements: any;
 }
 
 export interface searchPendingArticles {

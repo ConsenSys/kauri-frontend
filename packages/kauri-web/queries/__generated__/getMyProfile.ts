@@ -2,7 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { UserStatus } from "./../../__generated__/globalTypes";
+import { UserStatusInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getMyProfile
@@ -18,8 +18,9 @@ export interface getMyProfile_getMyProfile {
   website: string | null;
   avatar: string | null;
   social: any | null;
-  status: UserStatus | null;
+  status: UserStatusInput | null;
   subscriptions: any | null;
+  dateCreated: any | null;
 }
 
 export interface getMyProfile {

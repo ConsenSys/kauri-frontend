@@ -6,7 +6,7 @@ import ResourceCategory from "../../../../../kauri-components/components/Resourc
 import Drafts from "../Drafts/View";
 import Awaiting from "../Awaiting/View";
 import Pending from "../Pending/View";
-import Transfers from "../Transfers/View";
+import Transfers from "../../../../../kauri-components/components/Transfers";
 
 const categories = [
   "drafts",
@@ -34,8 +34,6 @@ const Manage: React.FunctionComponent<
   const [state, setState] = React.useState<IState>({
     currentCategory: "drafts",
   });
-
-  console.log(props);
 
   if (
     props.transfersQuery.getArticleTransfers &&
@@ -73,7 +71,10 @@ const Manage: React.FunctionComponent<
         <Pending {...props} data={props.pendingQuery} />
       )}
       {state.currentCategory === "pending transfers" && (
-        <Transfers {...props} data={props.transferQuery} />
+        <Transfers
+          {...props}
+          data={props.transfersQuery.getArticleTransfers.content}
+        />
       )}
     </ContentSection>
   );

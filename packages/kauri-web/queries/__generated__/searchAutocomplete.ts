@@ -10,8 +10,8 @@ import { SearchFilterInput } from "./../../__generated__/globalTypes";
 
 export interface searchAutocomplete_searchAutocomplete {
   __typename: "ResponseBreakdownPage_SearchResultDTO";
-  totalElements: any | null;
-  totalPages: number | null;
+  totalElements: any;
+  totalPages: number;
   totalElementsBreakdown: any | null;
 }
 

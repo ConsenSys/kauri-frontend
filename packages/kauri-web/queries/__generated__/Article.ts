@@ -2,7 +2,10 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
+import {
+  ResourceTypeInput,
+  ArticleStatusInput,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL fragment: Article
@@ -20,7 +23,7 @@ export interface Article_associatedNfts {
 export interface Article_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   version: number | null;
 }
 
@@ -41,13 +44,21 @@ export interface Article_author {
 }
 
 export interface Article_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface Article_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface Article_owner_PublicUserDTO {
@@ -62,7 +73,7 @@ export interface Article_owner_PublicUserDTO {
 export interface Article_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface Article_owner_CommunityDTO {
@@ -73,7 +84,10 @@ export interface Article_owner_CommunityDTO {
   resourceIdentifier: Article_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type Article_owner = Article_owner_ArticleDTO | Article_owner_PublicUserDTO | Article_owner_CommunityDTO;
+export type Article_owner =
+  | Article_owner_ArticleDTO
+  | Article_owner_PublicUserDTO
+  | Article_owner_CommunityDTO;
 
 export interface Article_comments_content_author {
   __typename: "PublicUserDTO";
@@ -93,8 +107,8 @@ export interface Article_comments_content {
 export interface Article_comments {
   __typename: "ResponsePage_CommentDTO";
   content: (Article_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface Article {
@@ -109,7 +123,7 @@ export interface Article {
   authorId: string | null;
   dateCreated: any | null;
   datePublished: any | null;
-  status: ArticleStatus | null;
+  status: ArticleStatusInput | null;
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;

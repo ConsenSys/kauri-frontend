@@ -18,6 +18,7 @@ import {
 import { connect } from "react-redux";
 import withLoading from "../../../lib/with-loading";
 import { withRouter } from "next/router";
+import { rejectArticleTransferAction } from "./Manage/TransferModule";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -29,7 +30,12 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connect(
     mapStateToProps,
-    { deleteDraftArticleAction, closeModalAction, openModalAction }
+    {
+      deleteDraftArticleAction,
+      closeModalAction,
+      openModalAction,
+      rejectArticleTransferAction,
+    }
   ),
   graphql(searchPersonalArticles, {
     name: "ArticlesQuery",
