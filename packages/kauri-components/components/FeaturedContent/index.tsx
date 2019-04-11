@@ -1,7 +1,6 @@
 import * as React from "react";
 import styled from "../../lib/styled-components";
 import ResourceRow from "../SearchResults/ResourceRowWithImage"; // IProps as ResourceRowProps,
-import { UserAgent } from "@quentin-sommer/react-useragent";
 import { Title2 } from "../Typography";
 import { RenderCardContent } from "../CuratedLists";
 import { HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_content_resource } from "../../../kauri-web/queries/__generated__/HomePagev2";

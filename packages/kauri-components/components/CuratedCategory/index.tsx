@@ -3,7 +3,6 @@ import styled from "../../lib/styled-components";
 import { Label, BodyCard } from "../Typography";
 import Image from "../Image";
 import theme from "../../lib/theme-config";
-import Stack from "stack-styled";
 
 const Container = styled<{ background: null | string }, "div">("div")`
   display: flex;
