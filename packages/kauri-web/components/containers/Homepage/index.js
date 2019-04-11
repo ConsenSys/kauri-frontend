@@ -1,20 +1,15 @@
-import Homepage from './View.js'
-import { compose, graphql } from 'react-apollo'
-import { HomePageQuery } from '../../../queries/Homepage'
-import { connect } from 'react-redux'
-import { routeChangeAction } from '../../../lib/Module'
-import withLoading from '../../../lib/with-loading'
+import Homepage from "./View";
+import { connect } from "react-redux";
+import {
+  routeChangeAction,
+  setNavcolorOverrideAction,
+} from "../../../lib/Module";
 
 const mapStateToProps = (state, ownProps) => {
-  return { hostName: state.app && state.app.hostName }
-}
+  return { hostName: state.app && state.app.hostName };
+};
 
-export default compose(
-  connect(mapStateToProps, { routeChangeAction }),
-  graphql(HomePageQuery, {
-    options: () => ({
-      variables: {},
-    }),
-  }),
-  withLoading()
-)(Homepage)
+export default connect(
+  mapStateToProps,
+  { routeChangeAction, setNavcolorOverrideAction }
+)(Homepage);

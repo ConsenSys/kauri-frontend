@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
@@ -71,8 +70,8 @@ export interface searchArticles_searchArticles_content_comments_content {
 export interface searchArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
   content: (searchArticles_searchArticles_content_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface searchArticles_searchArticles_content_resourceIdentifier {
@@ -104,8 +103,8 @@ export interface searchArticles_searchArticles_content {
 
 export interface searchArticles_searchArticles {
   __typename: "ResponsePage_ArticleDTO";
-  totalElements: any | null;
-  isLast: boolean | null;
+  totalElements: any;
+  isLast: boolean;
   content: (searchArticles_searchArticles_content | null)[] | null;
 }
 

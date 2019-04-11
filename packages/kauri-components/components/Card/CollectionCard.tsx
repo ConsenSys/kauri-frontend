@@ -600,7 +600,6 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
     IToggleState,
     IToggleAction
   >(toggleReducer, toggleInitialState);
-
   return (
     <BaseCard
       imageURL={imageURL}

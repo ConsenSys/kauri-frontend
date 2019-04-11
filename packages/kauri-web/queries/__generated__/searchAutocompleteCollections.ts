@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { SearchFilterInput, ResourceType } from "./../../__generated__/globalTypes";
@@ -96,8 +95,9 @@ export interface searchAutocompleteCollections_searchAutocomplete_content {
 
 export interface searchAutocompleteCollections_searchAutocomplete {
   __typename: "ResponseBreakdownPage_SearchResultDTO";
-  totalElements: any | null;
-  totalPages: number | null;
+  totalElements: any;
+  totalPages: number;
+  isLast: boolean;
   content: (searchAutocompleteCollections_searchAutocomplete_content | null)[] | null;
 }
 

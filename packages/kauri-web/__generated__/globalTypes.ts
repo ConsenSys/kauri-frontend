@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 //==============================================================
@@ -10,14 +9,7 @@ export enum ArticleStatus {
   CANCELLED = "CANCELLED",
   DRAFT = "DRAFT",
   PENDING = "PENDING",
-  PUBLISHED = "PUBLISHED",
-  REJECTED = "REJECTED",
-}
-
-export enum ArticleStatusInput {
-  CANCELLED = "CANCELLED",
-  DRAFT = "DRAFT",
-  PENDING = "PENDING",
+  PENDING_TRANSFER = "PENDING_TRANSFER",
   PUBLISHED = "PUBLISHED",
   REJECTED = "REJECTED",
 }
@@ -33,23 +25,12 @@ export enum CommunityStatus {
   OPENED = "OPENED",
 }
 
-export enum DirectionInput {
+export enum Direction {
   ASC = "ASC",
   DESC = "DESC",
 }
 
 export enum ResourceType {
-  ARTICLE = "ARTICLE",
-  COLLECTION = "COLLECTION",
-  COMMENT = "COMMENT",
-  COMMUNITY = "COMMUNITY",
-  CURATED_LIST = "CURATED_LIST",
-  REQUEST = "REQUEST",
-  TEMPLATE = "TEMPLATE",
-  USER = "USER",
-}
-
-export enum ResourceTypeInput {
   ARTICLE = "ARTICLE",
   COLLECTION = "COLLECTION",
   COMMENT = "COMMENT",
@@ -67,63 +48,64 @@ export enum UserStatus {
 }
 
 export interface ArticleFilterInput {
+  checkpointEquals?: string | null;
+  versionGreaterThan?: number | null;
   dateCreatedGreaterThan?: any | null;
-  versionIn?: (number | null)[] | null;
-  containsTag?: string | null;
-  ownerIdEquals?: string | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
+  idEquals?: string | null;
+  dateCreatedLessThan?: any | null;
   authorIdEquals?: string | null;
+  containsTag?: string | null;
+  versionIn?: (number | null)[] | null;
+  ownerIdEquals?: string | null;
   latestVersion?: boolean | null;
   fullText?: string | null;
-  dateCreatedLessThan?: any | null;
-  idEquals?: string | null;
+  statusIn?: (ArticleStatus | null)[] | null;
   ownerEquals?: string | null;
-  checkpointEquals?: string | null;
 }
 
 export interface CollectionFilterInput {
-  dateCreatedGreaterThan?: any | null;
-  ownerIdEquals?: string | null;
-  descriptionContains?: string | null;
   fullText?: string | null;
-  dateCreatedLessThan?: any | null;
-  nameContains?: string | null;
-  resourcesCountGreaterThan?: number | null;
-  containingArticleId?: string | null;
+  ownerIdEquals?: string | null;
   dateUpdatedLessThan?: any | null;
+  descriptionContains?: string | null;
   dateUpdatedGreaterThan?: any | null;
+  dateCreatedLessThan?: any | null;
+  dateCreatedGreaterThan?: any | null;
+  resourcesCountGreaterThan?: number | null;
+  nameContains?: string | null;
+  containingArticleId?: string | null;
 }
 
 export interface CommunityFilterInput {
-  dateCreatedGreaterThan?: any | null;
-  fullText?: string | null;
-  dateCreatedLessThan?: any | null;
   nameContains?: string | null;
   nameContain?: string | null;
-  membersIncludes?: string | null;
-  dateUpdatedLessThan?: any | null;
   dateUpdatedGreaterThan?: any | null;
+  dateCreatedGreaterThan?: any | null;
+  dateCreatedLessThan?: any | null;
+  membersIncludes?: string | null;
+  fullText?: string | null;
+  dateUpdatedLessThan?: any | null;
 }
 
 export interface ResourceIdentifierInput {
-  type?: ResourceTypeInput | null;
-  version?: number | null;
   id?: string | null;
+  type?: ResourceType | null;
+  version?: number | null;
 }
 
 export interface SearchFilterInput {
-  type?: ResourceTypeInput | null;
-  mustNotContainTag?: (string | null)[] | null;
   mustIncludeUserId?: (string | null)[] | null;
-  mustContainTag?: (string | null)[] | null;
   mustNotIncludeUserId?: (string | null)[] | null;
+  type?: ResourceType | null;
+  mustContainTag?: (string | null)[] | null;
+  mustNotContainTag?: (string | null)[] | null;
 }
 
 export interface SectionDTOInput {
-  resourcesId?: (ResourceIdentifierInput | null)[] | null;
-  name?: string | null;
   description?: string | null;
+  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   id?: string | null;
+  name?: string | null;
 }
 
 //==============================================================

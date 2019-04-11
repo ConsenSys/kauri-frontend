@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceIdentifierInput, SearchFilterInput, ResourceType } from "./../../__generated__/globalTypes";
@@ -25,9 +24,9 @@ export interface relatedArticles_searchMoreLikeThis_content {
 
 export interface relatedArticles_searchMoreLikeThis {
   __typename: "ResponseBreakdownPage_SearchResultDTO";
-  totalElements: any | null;
+  totalElements: any;
   totalElementsBreakdown: any | null;
-  totalPages: number | null;
+  totalPages: number;
   content: (relatedArticles_searchMoreLikeThis_content | null)[] | null;
 }
 

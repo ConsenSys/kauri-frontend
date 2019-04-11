@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -15,8 +14,8 @@ export interface searchTags_searchTags_content {
 
 export interface searchTags_searchTags {
   __typename: "Page_TagResultDTO";
-  totalElements: any | null;
-  totalPages: number | null;
+  totalElements: any;
+  totalPages: number;
   content: (searchTags_searchTags_content | null)[] | null;
 }
 

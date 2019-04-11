@@ -1,8 +1,7 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { CollectionFilterInput, DirectionInput, ResourceType } from "./../../__generated__/globalTypes";
+import { CollectionFilterInput, Direction, ResourceType } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCollectionsForUser
@@ -91,9 +90,9 @@ export interface getCollectionsForUser_searchCollections_content {
 
 export interface getCollectionsForUser_searchCollections {
   __typename: "ResponsePage_CollectionDTO";
-  totalElements: any | null;
+  totalElements: any;
   content: (getCollectionsForUser_searchCollections_content | null)[] | null;
-  isLast: boolean | null;
+  isLast: boolean;
 }
 
 export interface getCollectionsForUser {
@@ -105,5 +104,5 @@ export interface getCollectionsForUserVariables {
   size?: number | null;
   page?: number | null;
   sort?: string | null;
-  dir?: DirectionInput | null;
+  dir?: Direction | null;
 }

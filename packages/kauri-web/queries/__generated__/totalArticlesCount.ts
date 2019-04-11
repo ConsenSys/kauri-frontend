@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ArticleFilterInput } from "./../../__generated__/globalTypes";
@@ -10,7 +9,7 @@ import { ArticleFilterInput } from "./../../__generated__/globalTypes";
 
 export interface totalArticlesCount_searchArticles {
   __typename: "ResponsePage_ArticleDTO";
-  totalElements: any | null;
+  totalElements: any;
 }
 
 export interface totalArticlesCount {

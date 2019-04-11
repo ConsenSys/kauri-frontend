@@ -5,7 +5,7 @@ import styled from "../../lib/styled-components";
 import UserAvatar from "../UserAvatar";
 import { Label, H1, BodyCard } from "../Typography";
 import TagList from "../Tags/TagList";
-import Image from '../../../kauri-components/components/Image';
+import Image from "../../../kauri-components/components/Image";
 
 const ResourceRow = styled.div`
   display: flex;
@@ -44,7 +44,7 @@ const Divider = styled.div`
   height: 2px;
 `;
 
-interface IProps {
+export interface IProps {
   id: string;
   version?: number;
   title: string;
@@ -59,17 +59,17 @@ interface IProps {
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
-  resourceType: "USER" | "COMMUNITY" | "COLLECTION";
+  ownerType: string; // "USER" | "COMMUNITY" | "COLLECTION";
 }
 
-const Component: React.SFC<IProps> = props => (
+const ResourceRowWithImage: React.SFC<IProps> = props => (
   <ResourceRow>
     {props.imageURL &&
       props.linkComponent(
         <Image width={290} height={195} image={props.imageURL} />,
-        props.resourceType === "COLLECTION"
+        props.ownerType === "COLLECTION"
           ? `/collection/${props.id}`
-          : props.resourceType === "COMMUNITY"
+          : props.ownerType === "COMMUNITY"
           ? `/community/${props.id}`
           : `/article/${props.id}/v${props.version}`
       )}
@@ -77,23 +77,29 @@ const Component: React.SFC<IProps> = props => (
       {props.linkComponent(
         <Content>
           <Label>
-            {props.resourceType === "COLLECTION"
+            {props.ownerType === "COLLECTION"
               ? "Updated " + moment(props.date).format("DD MMM YYYY HH:mm")
               : "Posted " + moment(props.date).format("DD MMM YYYY HH:mm")}
           </Label>
           <H1>
             <TextTruncate line={1} truncateText="…" text={props.title} />
           </H1>
-            {props.description && <BodyCard>
-              <TextTruncate line={2} truncateText="…" text={props.description} />
-            </BodyCard>}
+          {props.description && (
+            <BodyCard>
+              <TextTruncate
+                line={2}
+                truncateText="…"
+                text={props.description}
+              />
+            </BodyCard>
+          )}
           {Array.isArray(props.tags) && props.tags.length > 0 && (
             <TagList maxTags={3} color="textPrimary" tags={props.tags} />
           )}
         </Content>,
-        props.resourceType === "COLLECTION"
+        props.ownerType === "COLLECTION"
           ? `/collection/${props.id}`
-          : props.resourceType === "COMMUNITY"
+          : props.ownerType === "COMMUNITY"
           ? `/community/${props.id}`
           : `/article/${props.id}/v${props.version}`
       )}
@@ -108,7 +114,7 @@ const Component: React.SFC<IProps> = props => (
             userId={props.userId}
             avatar={props.userAvatar}
           />,
-          props.resourceType === "COMMUNITY"
+          props.ownerType === "COMMUNITY"
             ? `/community/${props.userId}`
             : `/public-profile/${props.userId}`
         )}
@@ -117,4 +123,4 @@ const Component: React.SFC<IProps> = props => (
   </ResourceRow>
 );
 
-export default Component;
+export default ResourceRowWithImage;
