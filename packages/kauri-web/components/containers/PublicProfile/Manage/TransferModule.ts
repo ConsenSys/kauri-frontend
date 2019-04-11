@@ -213,7 +213,7 @@ export const finaliseArticleTransferEpic: Epic<
               Observable.of(
                 showNotificationAction({
                   description: `You successfully approved the ownership of the article!`,
-                  message: "Article Transfer Accepted!",
+                  message: "Article Transfer Accepted",
                   notificationType: "success",
                 })
               ),
