@@ -48,7 +48,11 @@ import {
   updateCommunityEpic,
 } from "../components/containers/CreateCommunityForm/Module";
 
-import { rejectArticleTransferEpic } from "../components/containers/PublicProfile/Manage/TransferModule";
+import {
+  rejectArticleTransferEpic,
+  acceptArticleTransferEpic,
+  finaliseArticleTransferEpic,
+} from "../components/containers/PublicProfile/Manage/TransferModule";
 
 export const rootReducer = {
   app,
@@ -92,6 +96,8 @@ const epics = [
   createCommunityEpic,
   updateCommunityEpic,
   rejectArticleTransferEpic,
+  acceptArticleTransferEpic,
+  finaliseArticleTransferEpic,
 ];
 
 export const rootEpic = combineEpics(...epics);

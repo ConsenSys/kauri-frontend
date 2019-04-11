@@ -629,3 +629,19 @@ export const rejectArticleTransfer = gql`
     }
   }
 `;
+
+export const acceptArticleTransfer = gql`
+  mutation acceptArticleTransfer($id: String) {
+    acceptArticleTransfer(id: $id) {
+      hash
+    }
+  }
+`;
+
+export const finaliseArticleTransfer = gql`
+  mutation finaliseArticleTransfer($id: String, $signature: String) {
+    finaliseArticleTransfer(id: $id, signature: $signature) {
+      hash
+    }
+  }
+`;
