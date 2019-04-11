@@ -23,6 +23,7 @@ const Link = styled.a`
 `;
 
 const resource: any = {
+  __typename: "ArticleDTO",
   attributes: {
     background:
       "https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80",
@@ -31,6 +32,7 @@ const resource: any = {
   description: "This is the description to my next song",
   id: "1234567890",
   linkComponent: (children: React.ReactElement<any>) => <Link>{children}</Link>,
+  owner: { userAvatar: null, userId: "1234567890", username: "rej156" },
   ownerType: "USER",
   resourceIdentifier: {
     type: "ARTICLE",
@@ -46,7 +48,11 @@ const resource: any = {
 storiesOf("FeaturedContent", module).add("full width", () => (
   <UserAgentProvider ua={window.navigator.userAgent}>
     <FeaturedContent
-      content={[resource, { ...resource, attributes: {} }, resource]}
+      content={[
+        { resource },
+        { resource: { ...resource, attributes: {} } },
+        { resource },
+      ]}
       Link={Link}
     />
   </UserAgentProvider>
