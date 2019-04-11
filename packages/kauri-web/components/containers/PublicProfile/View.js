@@ -130,6 +130,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                   approvalsQuery={ApprovalsQuery}
                   draftsQuery={DraftsQuery}
                   pendingQuery={PendingQuery}
+                  transfersQuery={PendingTransfersQuery}
                   type="manage"
                   routeChangeAction={routeChangeAction}
                   deleteDraftArticleAction={deleteDraftArticleAction}
