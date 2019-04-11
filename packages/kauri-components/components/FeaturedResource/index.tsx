@@ -28,6 +28,14 @@ const ViewContainer = styled.section`
 const FeaturedResourceStack = styled(Stack)`
   padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
   background: white;
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    padding: ${props => props.theme.space[3]}px
+      ${props => props.theme.space[2]}px;
+    grid-auto-flow: row;
+    ${ViewContainer} {
+      align-items: flex-start;
+    }
+  }
 `;
 
 export const FeaturedResourceContainer = styled.section`

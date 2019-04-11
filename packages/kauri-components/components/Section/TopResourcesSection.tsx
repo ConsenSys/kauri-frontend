@@ -12,6 +12,9 @@ const TopResourcesSection = styled.section`
   > * > *:nth-child(n + 6) {
     display: none;
   }
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    display: none;
+  }
 `;
 
 export default TopResourcesSection;

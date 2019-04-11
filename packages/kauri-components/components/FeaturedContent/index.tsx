@@ -11,6 +11,10 @@ const Container = styled.section`
   flex-direction: column;
   padding: 0px ${props => props.theme.padding};
   padding-right: 0px;
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    padding: ${props => props.theme.space[3]}px
+      ${props => props.theme.space[2]}px;
+  }
 `;
 
 const ResourceRowContainer = styled(Container)`

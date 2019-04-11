@@ -6,6 +6,7 @@ import SecondaryButtonComponent from "../Button/SecondaryButton";
 
 const LatestContentSection = styled.section`
   display: flex;
+  width: 100%;
   flex-direction: column;
   padding: 0px ${props => props.theme.padding};
   > :first-child {
@@ -14,15 +15,17 @@ const LatestContentSection = styled.section`
   > :nth-child(2) {
     margin-bottom: ${props => props.theme.space[3]}px;
   }
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    padding: 0px ${props => props.theme.space[2]}px;
+  }
 `;
 
 const LatestContentCardContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  column-count: 4;
-  > :not(:nth-child(4n)) {
-    margin-right: ${props => props.theme.space[3]}px;
-    margin-bottom: ${props => props.theme.space[3]}px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 310px));
+  grid-gap: ${props => props.theme.space[2]}px 0px;
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    justify-content: center;
   }
 `;
 
@@ -33,6 +36,13 @@ const AllContentButtonsContainer = styled.div`
   align-items: center;
   > :not(:last-child) {
     margin-right: ${props => props.theme.space[3]}px;
+  }
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    > :not(:last-child) {
+      margin-right: ${props => props.theme.space[0]}px;
+      margin-bottom: ${props => props.theme.space[2]}px;
+    }
+    flex-direction: column;
   }
 `;
 

@@ -37,6 +37,10 @@ interface IProps {
 const SignupBannerStack = styled(Stack)`
   padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
   background: ${props => props.theme.colors.bgPrimary};
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    padding: ${props => props.theme.space[3]}px
+      ${props => props.theme.space[2]}px;
+  }
 `;
 
 const SignupBanner: React.FunctionComponent<IProps> = props => (

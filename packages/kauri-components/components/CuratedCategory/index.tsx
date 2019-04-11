@@ -3,6 +3,7 @@ import styled from "../../lib/styled-components";
 import { Label, BodyCard } from "../Typography";
 import Image from "../Image";
 import theme from "../../lib/theme-config";
+import Stack from "stack-styled";
 
 const Container = styled<{ background: null | string }, "div">("div")`
   display: flex;
@@ -39,17 +40,17 @@ const Content = styled.div`
 `;
 
 export const CuratedCategoriesSection = styled.section`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 290px));
+  width: 100%;
+  grid-gap: ${props => props.theme.space[1]}px
+    ${props => props.theme.space[3]}px;
   background: ${props => props.theme.colors.contentBorder};
   padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
-  justify-content: space-between;
-  column-count: 4;
-  > *:not(:nth-child(n + 4)) {
-    margin-bottom: ${props => props.theme.space[2]}px;
-  }
-  > :nth-child(n + 4) {
-    margin-right: ${props => props.theme.space[2]}px;
+  padding-bottom: 0px;
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 170px));
+    justify-content: center;
   }
 `;
 

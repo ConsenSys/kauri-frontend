@@ -21,7 +21,7 @@ import CuratedCategory, {
   CuratedCategoriesSection,
 } from "../../../../kauri-components/components/CuratedCategory";
 import { Link } from "../../../routes";
-// import mockData from "./mock";
+import mockData from "./mock";
 
 const HomePageSection = styled.section`
   display: flex;
@@ -88,6 +88,8 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
           data.getLatestHomepageDescriptor &&
           data.getLatestHomepageDescriptor.rows
         ) {
+          // data = mockData.data;
+
           return (
             <HomePageSection>
               <SignupBanner
