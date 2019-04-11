@@ -21,7 +21,7 @@ import CuratedCategory, {
   CuratedCategoriesSection,
 } from "../../../../kauri-components/components/CuratedCategory";
 import { Link } from "../../../routes";
-import mockData from "./mock";
+// import mockData from "./mock";
 
 const HomePageSection = styled.section`
   display: flex;
@@ -71,7 +71,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
       variables={{}}
       fetchPolicy={"no-cache"}
     >
-      {({ loading, data, error }) => {
+      {({ loading, error, data }) => {
         if (loading) {
           return <Loading />;
         }
@@ -88,7 +88,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
           data.getLatestHomepageDescriptor &&
           data.getLatestHomepageDescriptor.rows
         ) {
-          // data = mockData.data;
+          // const data = mockData.data;
 
           return (
             <HomePageSection>

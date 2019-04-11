@@ -25,9 +25,9 @@ const Container = styled.div`
   &:after {
     content: "";
     background: ${props =>
-      props.background
-        ? `url(${props.background}) center center`
-        : props.bgColor};
+    props.background
+      ? `url(${props.background}) center center`
+      : props.bgColor};
     background-size: cover;
     position: absolute;
     top: 0;
@@ -114,11 +114,40 @@ export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {
     case "COLLECTION": {
       const collectionCard: CollectionDTO = card;
       const articleCount =
-        collectionCard.sections &&
-        collectionCard.sections.reduce((current, next) => {
-          current += next.resourcesId && next.resourcesId.length;
-          return current;
-        }, 0);
+        collectionCard.articleCount ||
+        (collectionCard.sections &&
+          collectionCard.sections.reduce((current, next) => {
+            if (next && Array.isArray(next.resources)) {
+              const articlesInSection = next.resources.filter(
+                sectionResource => {
+                  return (
+                    sectionResource &&
+                    sectionResource.__typename.toLowerCase().includes("article")
+                  );
+                }
+              );
+              return articlesInSection.length + current;
+            }
+            return current;
+          }, 0));
+
+      const collectionCount =
+        collectionCard.collectionCount ||
+        (collectionCard.sections &&
+          collectionCard.sections.reduce((current, next) => {
+            if (next && Array.isArray(next.resources)) {
+              const collectionsInSection = next.resources.filter(
+                sectionResource =>
+                  sectionResource &&
+                  sectionResource.__typename
+                    .toLowerCase()
+                    .includes("collection")
+              );
+              return collectionsInSection.length + current;
+            }
+            return current;
+          }, 0));
+
       return (
         <CollectionCard
           key={collectionCard.id}
@@ -133,6 +162,7 @@ export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {
           userId={collectionCard.owner && collectionCard.owner.id}
           userAvatar={collectionCard.owner && collectionCard.owner.avatar}
           articleCount={articleCount}
+          collectionCount={collectionCount}
           imageURL={collectionCard.background}
           cardHeight={HOMEPAGE_CARD_HEIGHT}
           linkComponent={(childrenProps, route) => {

@@ -144,6 +144,22 @@ const lol: any = {
                       id: "5bb60f034f34080001731dbe",
                       __typename: "ResourceIdentifier",
                     },
+                    sections: [
+                      {
+                        resources: [
+                          {
+                            __typename: "article",
+                          },
+                        ],
+                      },
+                      {
+                        resources: [
+                          {
+                            __typename: "collection",
+                          },
+                        ],
+                      },
+                    ],
                     __typename: "CollectionDTO",
                   },
                   __typename: "ResourceIdentifier",

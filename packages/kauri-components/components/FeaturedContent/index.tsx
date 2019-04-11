@@ -11,16 +11,34 @@ const Container = styled.section`
   flex-direction: column;
   padding: 0px ${props => props.theme.padding};
   padding-right: 0px;
+  > :first-child {
+    margin-bottom: ${props => props.theme.space[2]}px;
+  }
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     padding: ${props => props.theme.space[3]}px
       ${props => props.theme.space[2]}px;
   }
 `;
 
-const ResourceRowContainer = styled(Container)`
+const ResourceContainer = styled(Container)`
   padding: 0px;
   > :not(:last-child) {
     margin-bottom: ${props => props.theme.space[2]}px;
+  }
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    align-items: center;
+  }
+`;
+
+const DesktopResourceContainer = styled(ResourceContainer)`
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    display: none;
+  }
+`;
+
+const MobileResourceContainer = styled(ResourceContainer)`
+  @media (min-width: 501px) {
+    display: none;
   }
 `;
 
@@ -31,20 +49,65 @@ interface IProps {
   Link: React.ReactNode;
 }
 
-const RenderMobileFeaturedContent: React.FunctionComponent<IProps> = props => (
-  <ResourceRowContainer>
-    <Title2>Featured Content</Title2>
-    {props.content.map(
-      RenderCardContent({ fromAdmin: false, Link: props.Link })
-    )}
-  </ResourceRowContainer>
-);
+const RenderMobileFeaturedContent: React.FunctionComponent<IProps> = props => {
+  return (
+    <MobileResourceContainer>
+      {props.content.map(({ resource }) => {
+        const articleCount =
+          resource.sections &&
+          resource.sections.reduce((current: number, next: any) => {
+            if (next && Array.isArray(next.resources)) {
+              const articlesInSection = next.resources.filter(
+                (sectionResource: any) => {
+                  return (
+                    sectionResource &&
+                    sectionResource.__typename.toLowerCase().includes("article")
+                  );
+                }
+              );
+              return articlesInSection.length + current;
+            }
+            return current;
+          }, 0);
+
+        const collectionCount =
+          resource.sections &&
+          resource.sections.reduce((current: number, next: any) => {
+            if (next && Array.isArray(next.resources)) {
+              const collectionsInSection = next.resources.filter(
+                (sectionResource: any) =>
+                  sectionResource &&
+                  sectionResource.__typename
+                    .toLowerCase()
+                    .includes("collection")
+              );
+              return collectionsInSection.length + current;
+            }
+            return current;
+          }, 0);
+
+        const RenderedCard = RenderCardContent({
+          Link: props.Link,
+          fromAdmin: false,
+        });
+
+        return (
+          <RenderedCard
+            key={resource.id}
+            {...resource}
+            articleCount={articleCount}
+            collectionCount={collectionCount}
+          />
+        );
+      })}
+    </MobileResourceContainer>
+  );
+};
 
 const RenderDesktopFeaturedContent: React.FunctionComponent<
   IProps & { Link: React.FunctionComponent<any> }
 > = ({ content, Link }) => (
-  <ResourceRowContainer>
-    <Title2>Featured Content</Title2>
+  <DesktopResourceContainer>
     {content.map(
       ({
         resource,
@@ -117,23 +180,17 @@ const RenderDesktopFeaturedContent: React.FunctionComponent<
         }
       }
     )}
-  </ResourceRowContainer>
+  </DesktopResourceContainer>
 );
 
 const FeaturedContent: React.FunctionComponent<IProps> = props => (
   <Container>
-    <UserAgent mobile={true}>
-      {uaIsMobile =>
-        uaIsMobile ? (
-          <RenderMobileFeaturedContent {...props} />
-        ) : (
-          <RenderDesktopFeaturedContent
-            {...props}
-            Link={props.Link as React.FunctionComponent<any>}
-          />
-        )
-      }
-    </UserAgent>
+    <Title2>Featured Content</Title2>
+    <RenderDesktopFeaturedContent
+      {...props}
+      Link={props.Link as React.FunctionComponent<any>}
+    />
+    <RenderMobileFeaturedContent {...props} />
   </Container>
 );
 

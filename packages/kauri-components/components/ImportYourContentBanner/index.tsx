@@ -10,6 +10,9 @@ const Container = styled.section`
   align-items: center;
   padding: ${props => props.theme.space[3]}px;
   background: ${props => props.theme.colors.bgSecondary};
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    display: none;
+  }
 `;
 
 const Content = styled.section`
