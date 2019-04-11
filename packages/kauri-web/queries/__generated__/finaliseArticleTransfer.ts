@@ -3,20 +3,19 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: approveArticle
+// GraphQL mutation operation: finaliseArticleTransfer
 // ====================================================
 
-export interface approveArticle_approveArticle {
+export interface finaliseArticleTransfer_finaliseArticleTransfer {
   __typename: "MutationResponse";
   hash: string | null;
 }
 
-export interface approveArticle {
-  approveArticle: approveArticle_approveArticle | null;
+export interface finaliseArticleTransfer {
+  finaliseArticleTransfer: finaliseArticleTransfer_finaliseArticleTransfer | null;
 }
 
-export interface approveArticleVariables {
+export interface finaliseArticleTransferVariables {
   id?: string | null;
-  version?: number | null;
   signature?: string | null;
 }

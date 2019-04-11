@@ -589,3 +589,59 @@ export const vote = gql`
     }
   }
 `;
+
+export const getArticleTransfers = gql`
+  query getArticleTransfers(
+    $page: Int = 0
+    $size: Int = 100
+    $recipient: String
+  ) {
+    getArticleTransfers(page: $page, size: $size, recipient: $recipient) {
+      content {
+        id
+        article {
+          ... on ArticleDTO {
+            ...Article
+          }
+        }
+        transferrer {
+          type
+          id
+          version
+        }
+        recipient {
+          type
+          id
+          version
+        }
+      }
+      totalPages
+      totalElements
+    }
+  }
+  ${Article}
+`;
+
+export const rejectArticleTransfer = gql`
+  mutation rejectArticleTransfer($id: String) {
+    rejectArticleTransfer(id: $id) {
+      hash
+    }
+  }
+`;
+
+export const acceptArticleTransfer = gql`
+  mutation acceptArticleTransfer($id: String) {
+    acceptArticleTransfer(id: $id) {
+      hash
+    }
+  }
+`;
+
+export const finaliseArticleTransfer = gql`
+  mutation finaliseArticleTransfer($id: String, $signature: String) {
+    finaliseArticleTransfer(id: $id, signature: $signature) {
+      hash
+    }
+  }
+`;

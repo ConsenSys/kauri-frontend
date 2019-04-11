@@ -1,14 +1,19 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { ResourceType } from "./../../__generated__/globalTypes";
+import { ResourceTypeInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL fragment: HomepageComponentFragment
 // ====================================================
 
 export interface HomepageComponentFragment_AbstractComponent {
-  __typename: "AbstractComponent" | "ResourceContentComponent" | "ResourceIdContentComponent" | "StaticContentComponent";
+  __typename:
+    | "AbstractComponent"
+    | "ResourceContentComponent"
+    | "ResourceIdContentComponent"
+    | "StaticContentComponent";
 }
 
 export interface HomepageComponentFragment_Categories_content {
@@ -27,17 +32,32 @@ export interface HomepageComponentFragment_Categories {
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_PublicUserDTO {
-  __typename: "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_PublicUserDTO {
@@ -52,7 +72,7 @@ export interface HomepageComponentFragment_Featured_content_resource_CollectionD
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_CommunityDTO {
@@ -63,16 +83,28 @@ export interface HomepageComponentFragment_Featured_content_resource_CollectionD
   resourceIdentifier: HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner = HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_ArticleDTO | HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_PublicUserDTO | HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_CommunityDTO;
+export type HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner =
+  | HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_ArticleDTO
+  | HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_PublicUserDTO
+  | HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_CommunityDTO;
 
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resourcesId {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resources_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resources_ArticleDTO {
@@ -81,20 +113,26 @@ export interface HomepageComponentFragment_Featured_content_resource_CollectionD
   version: number | null;
 }
 
-export type HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resources = HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resources_CommunityDTO | HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resources_ArticleDTO;
+export type HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resources =
+  | HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resources_CommunityDTO
+  | HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resources_ArticleDTO;
 
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections {
   __typename: "SectionDTO";
   id: string | null;
   name: string | null;
   description: string | null;
-  resourcesId: (HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resourcesId | null)[] | null;
-  resources: (HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resources | null)[] | null;
+  resourcesId:
+    | (HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resourcesId | null)[]
+    | null;
+  resources:
+    | (HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resources | null)[]
+    | null;
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   id: string | null;
 }
 
@@ -107,14 +145,16 @@ export interface HomepageComponentFragment_Featured_content_resource_CollectionD
   background: string | null;
   dateUpdated: any | null;
   owner: HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner | null;
-  sections: (HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections | null)[] | null;
+  sections:
+    | (HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections | null)[]
+    | null;
   resourceIdentifier: HomepageComponentFragment_Featured_content_resource_CollectionDTO_resourceIdentifier | null;
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_ArticleDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   version: number | null;
 }
 
@@ -135,13 +175,21 @@ export interface HomepageComponentFragment_Featured_content_resource_ArticleDTO_
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_PublicUserDTO {
@@ -156,7 +204,7 @@ export interface HomepageComponentFragment_Featured_content_resource_ArticleDTO_
 export interface HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_CommunityDTO {
@@ -167,7 +215,10 @@ export interface HomepageComponentFragment_Featured_content_resource_ArticleDTO_
   resourceIdentifier: HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner = HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_ArticleDTO | HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_PublicUserDTO | HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_CommunityDTO;
+export type HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner =
+  | HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_ArticleDTO
+  | HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_PublicUserDTO
+  | HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_CommunityDTO;
 
 export interface HomepageComponentFragment_Featured_content_resource_ArticleDTO {
   __typename: "ArticleDTO";
@@ -200,17 +251,25 @@ export interface HomepageComponentFragment_Featured_content_resource_CommunityDT
 export interface HomepageComponentFragment_Featured_content_resource_CommunityDTO_approvedId {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CommunityDTO_pendingId {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved_ArticleDTO {
@@ -224,7 +283,10 @@ export interface HomepageComponentFragment_Featured_content_resource_CommunityDT
   id: string | null;
 }
 
-export type HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved = HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved_CommunityDTO | HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved_ArticleDTO | HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved_CollectionDTO;
+export type HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved =
+  | HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved_CommunityDTO
+  | HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved_ArticleDTO
+  | HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved_CollectionDTO;
 
 export interface HomepageComponentFragment_Featured_content_resource_CommunityDTO {
   __typename: "CommunityDTO";
@@ -240,12 +302,22 @@ export interface HomepageComponentFragment_Featured_content_resource_CommunityDT
   social: any | null;
   tags: (string | null)[] | null;
   attributes: any | null;
-  approvedId: (HomepageComponentFragment_Featured_content_resource_CommunityDTO_approvedId | null)[] | null;
-  pendingId: (HomepageComponentFragment_Featured_content_resource_CommunityDTO_pendingId | null)[] | null;
-  approved: (HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved | null)[] | null;
+  approvedId:
+    | (HomepageComponentFragment_Featured_content_resource_CommunityDTO_approvedId | null)[]
+    | null;
+  pendingId:
+    | (HomepageComponentFragment_Featured_content_resource_CommunityDTO_pendingId | null)[]
+    | null;
+  approved:
+    | (HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved | null)[]
+    | null;
 }
 
-export type HomepageComponentFragment_Featured_content_resource = HomepageComponentFragment_Featured_content_resource_PublicUserDTO | HomepageComponentFragment_Featured_content_resource_CollectionDTO | HomepageComponentFragment_Featured_content_resource_ArticleDTO | HomepageComponentFragment_Featured_content_resource_CommunityDTO;
+export type HomepageComponentFragment_Featured_content_resource =
+  | HomepageComponentFragment_Featured_content_resource_PublicUserDTO
+  | HomepageComponentFragment_Featured_content_resource_CollectionDTO
+  | HomepageComponentFragment_Featured_content_resource_ArticleDTO
+  | HomepageComponentFragment_Featured_content_resource_CommunityDTO;
 
 export interface HomepageComponentFragment_Featured_content {
   __typename: "ResourceIdentifier";
@@ -304,17 +376,32 @@ export interface HomepageComponentFragment_TopContributors {
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_PublicUserDTO {
-  __typename: "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_PublicUserDTO {
@@ -329,7 +416,7 @@ export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_CommunityDTO {
@@ -340,16 +427,28 @@ export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_
   resourceIdentifier: HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner = HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_ArticleDTO | HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_PublicUserDTO | HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_CommunityDTO;
+export type HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner =
+  | HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_ArticleDTO
+  | HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_PublicUserDTO
+  | HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_CommunityDTO;
 
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resourcesId {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resources_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resources_ArticleDTO {
@@ -358,20 +457,26 @@ export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_
   version: number | null;
 }
 
-export type HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resources = HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resources_CommunityDTO | HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resources_ArticleDTO;
+export type HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resources =
+  | HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resources_CommunityDTO
+  | HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resources_ArticleDTO;
 
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections {
   __typename: "SectionDTO";
   id: string | null;
   name: string | null;
   description: string | null;
-  resourcesId: (HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resourcesId | null)[] | null;
-  resources: (HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resources | null)[] | null;
+  resourcesId:
+    | (HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resourcesId | null)[]
+    | null;
+  resources:
+    | (HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resources | null)[]
+    | null;
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   id: string | null;
 }
 
@@ -384,14 +489,16 @@ export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO 
   background: string | null;
   dateUpdated: any | null;
   owner: HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner | null;
-  sections: (HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections | null)[] | null;
+  sections:
+    | (HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections | null)[]
+    | null;
   resourceIdentifier: HomepageComponentFragment_Promo_content_resource_CollectionDTO_resourceIdentifier | null;
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_ArticleDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   version: number | null;
 }
 
@@ -412,13 +519,21 @@ export interface HomepageComponentFragment_Promo_content_resource_ArticleDTO_aut
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_PublicUserDTO {
@@ -433,7 +548,7 @@ export interface HomepageComponentFragment_Promo_content_resource_ArticleDTO_own
 export interface HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_CommunityDTO {
@@ -444,7 +559,10 @@ export interface HomepageComponentFragment_Promo_content_resource_ArticleDTO_own
   resourceIdentifier: HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner = HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_ArticleDTO | HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_PublicUserDTO | HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_CommunityDTO;
+export type HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner =
+  | HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_ArticleDTO
+  | HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_PublicUserDTO
+  | HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_CommunityDTO;
 
 export interface HomepageComponentFragment_Promo_content_resource_ArticleDTO {
   __typename: "ArticleDTO";
@@ -477,17 +595,25 @@ export interface HomepageComponentFragment_Promo_content_resource_CommunityDTO_c
 export interface HomepageComponentFragment_Promo_content_resource_CommunityDTO_approvedId {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CommunityDTO_pendingId {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved_ArticleDTO {
@@ -501,7 +627,10 @@ export interface HomepageComponentFragment_Promo_content_resource_CommunityDTO_a
   id: string | null;
 }
 
-export type HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved = HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved_CommunityDTO | HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved_ArticleDTO | HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved_CollectionDTO;
+export type HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved =
+  | HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved_CommunityDTO
+  | HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved_ArticleDTO
+  | HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved_CollectionDTO;
 
 export interface HomepageComponentFragment_Promo_content_resource_CommunityDTO {
   __typename: "CommunityDTO";
@@ -517,12 +646,22 @@ export interface HomepageComponentFragment_Promo_content_resource_CommunityDTO {
   social: any | null;
   tags: (string | null)[] | null;
   attributes: any | null;
-  approvedId: (HomepageComponentFragment_Promo_content_resource_CommunityDTO_approvedId | null)[] | null;
-  pendingId: (HomepageComponentFragment_Promo_content_resource_CommunityDTO_pendingId | null)[] | null;
-  approved: (HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved | null)[] | null;
+  approvedId:
+    | (HomepageComponentFragment_Promo_content_resource_CommunityDTO_approvedId | null)[]
+    | null;
+  pendingId:
+    | (HomepageComponentFragment_Promo_content_resource_CommunityDTO_pendingId | null)[]
+    | null;
+  approved:
+    | (HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved | null)[]
+    | null;
 }
 
-export type HomepageComponentFragment_Promo_content_resource = HomepageComponentFragment_Promo_content_resource_PublicUserDTO | HomepageComponentFragment_Promo_content_resource_CollectionDTO | HomepageComponentFragment_Promo_content_resource_ArticleDTO | HomepageComponentFragment_Promo_content_resource_CommunityDTO;
+export type HomepageComponentFragment_Promo_content_resource =
+  | HomepageComponentFragment_Promo_content_resource_PublicUserDTO
+  | HomepageComponentFragment_Promo_content_resource_CollectionDTO
+  | HomepageComponentFragment_Promo_content_resource_ArticleDTO
+  | HomepageComponentFragment_Promo_content_resource_CommunityDTO;
 
 export interface HomepageComponentFragment_Promo_content {
   __typename: "ResourceIdentifier";
@@ -537,17 +676,32 @@ export interface HomepageComponentFragment_Promo {
 }
 
 export interface HomepageComponentFragment_LatestContent_content_PublicUserDTO {
-  __typename: "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_PublicUserDTO {
@@ -562,7 +716,7 @@ export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_o
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_CommunityDTO {
@@ -573,16 +727,28 @@ export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_o
   resourceIdentifier: HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type HomepageComponentFragment_LatestContent_content_CollectionDTO_owner = HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_ArticleDTO | HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_PublicUserDTO | HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_CommunityDTO;
+export type HomepageComponentFragment_LatestContent_content_CollectionDTO_owner =
+  | HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_ArticleDTO
+  | HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_PublicUserDTO
+  | HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_CommunityDTO;
 
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resourcesId {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resources_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resources_ArticleDTO {
@@ -591,20 +757,26 @@ export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_s
   version: number | null;
 }
 
-export type HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resources = HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resources_CommunityDTO | HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resources_ArticleDTO;
+export type HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resources =
+  | HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resources_CommunityDTO
+  | HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resources_ArticleDTO;
 
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_sections {
   __typename: "SectionDTO";
   id: string | null;
   name: string | null;
   description: string | null;
-  resourcesId: (HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resourcesId | null)[] | null;
-  resources: (HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resources | null)[] | null;
+  resourcesId:
+    | (HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resourcesId | null)[]
+    | null;
+  resources:
+    | (HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resources | null)[]
+    | null;
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   id: string | null;
 }
 
@@ -617,14 +789,16 @@ export interface HomepageComponentFragment_LatestContent_content_CollectionDTO {
   background: string | null;
   dateUpdated: any | null;
   owner: HomepageComponentFragment_LatestContent_content_CollectionDTO_owner | null;
-  sections: (HomepageComponentFragment_LatestContent_content_CollectionDTO_sections | null)[] | null;
+  sections:
+    | (HomepageComponentFragment_LatestContent_content_CollectionDTO_sections | null)[]
+    | null;
   resourceIdentifier: HomepageComponentFragment_LatestContent_content_CollectionDTO_resourceIdentifier | null;
 }
 
 export interface HomepageComponentFragment_LatestContent_content_ArticleDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   version: number | null;
 }
 
@@ -645,13 +819,21 @@ export interface HomepageComponentFragment_LatestContent_content_ArticleDTO_auth
 }
 
 export interface HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_PublicUserDTO {
@@ -666,7 +848,7 @@ export interface HomepageComponentFragment_LatestContent_content_ArticleDTO_owne
 export interface HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_CommunityDTO {
@@ -677,7 +859,10 @@ export interface HomepageComponentFragment_LatestContent_content_ArticleDTO_owne
   resourceIdentifier: HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type HomepageComponentFragment_LatestContent_content_ArticleDTO_owner = HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_ArticleDTO | HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_PublicUserDTO | HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_CommunityDTO;
+export type HomepageComponentFragment_LatestContent_content_ArticleDTO_owner =
+  | HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_ArticleDTO
+  | HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_PublicUserDTO
+  | HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_CommunityDTO;
 
 export interface HomepageComponentFragment_LatestContent_content_ArticleDTO {
   __typename: "ArticleDTO";
@@ -710,17 +895,25 @@ export interface HomepageComponentFragment_LatestContent_content_CommunityDTO_cr
 export interface HomepageComponentFragment_LatestContent_content_CommunityDTO_approvedId {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CommunityDTO_pendingId {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CommunityDTO_approved_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CommunityDTO_approved_ArticleDTO {
@@ -734,7 +927,10 @@ export interface HomepageComponentFragment_LatestContent_content_CommunityDTO_ap
   id: string | null;
 }
 
-export type HomepageComponentFragment_LatestContent_content_CommunityDTO_approved = HomepageComponentFragment_LatestContent_content_CommunityDTO_approved_CommunityDTO | HomepageComponentFragment_LatestContent_content_CommunityDTO_approved_ArticleDTO | HomepageComponentFragment_LatestContent_content_CommunityDTO_approved_CollectionDTO;
+export type HomepageComponentFragment_LatestContent_content_CommunityDTO_approved =
+  | HomepageComponentFragment_LatestContent_content_CommunityDTO_approved_CommunityDTO
+  | HomepageComponentFragment_LatestContent_content_CommunityDTO_approved_ArticleDTO
+  | HomepageComponentFragment_LatestContent_content_CommunityDTO_approved_CollectionDTO;
 
 export interface HomepageComponentFragment_LatestContent_content_CommunityDTO {
   __typename: "CommunityDTO";
@@ -750,12 +946,22 @@ export interface HomepageComponentFragment_LatestContent_content_CommunityDTO {
   social: any | null;
   tags: (string | null)[] | null;
   attributes: any | null;
-  approvedId: (HomepageComponentFragment_LatestContent_content_CommunityDTO_approvedId | null)[] | null;
-  pendingId: (HomepageComponentFragment_LatestContent_content_CommunityDTO_pendingId | null)[] | null;
-  approved: (HomepageComponentFragment_LatestContent_content_CommunityDTO_approved | null)[] | null;
+  approvedId:
+    | (HomepageComponentFragment_LatestContent_content_CommunityDTO_approvedId | null)[]
+    | null;
+  pendingId:
+    | (HomepageComponentFragment_LatestContent_content_CommunityDTO_pendingId | null)[]
+    | null;
+  approved:
+    | (HomepageComponentFragment_LatestContent_content_CommunityDTO_approved | null)[]
+    | null;
 }
 
-export type HomepageComponentFragment_LatestContent_content = HomepageComponentFragment_LatestContent_content_PublicUserDTO | HomepageComponentFragment_LatestContent_content_CollectionDTO | HomepageComponentFragment_LatestContent_content_ArticleDTO | HomepageComponentFragment_LatestContent_content_CommunityDTO;
+export type HomepageComponentFragment_LatestContent_content =
+  | HomepageComponentFragment_LatestContent_content_PublicUserDTO
+  | HomepageComponentFragment_LatestContent_content_CollectionDTO
+  | HomepageComponentFragment_LatestContent_content_ArticleDTO
+  | HomepageComponentFragment_LatestContent_content_CommunityDTO;
 
 export interface HomepageComponentFragment_LatestContent {
   __typename: "LatestContent";
@@ -776,4 +982,14 @@ export interface HomepageComponentFragment_Import {
   properties: any | null;
 }
 
-export type HomepageComponentFragment = HomepageComponentFragment_AbstractComponent | HomepageComponentFragment_Categories | HomepageComponentFragment_Featured | HomepageComponentFragment_Actions | HomepageComponentFragment_TopTags | HomepageComponentFragment_TopContributors | HomepageComponentFragment_Promo | HomepageComponentFragment_LatestContent | HomepageComponentFragment_Newsletter | HomepageComponentFragment_Import;
+export type HomepageComponentFragment =
+  | HomepageComponentFragment_AbstractComponent
+  | HomepageComponentFragment_Categories
+  | HomepageComponentFragment_Featured
+  | HomepageComponentFragment_Actions
+  | HomepageComponentFragment_TopTags
+  | HomepageComponentFragment_TopContributors
+  | HomepageComponentFragment_Promo
+  | HomepageComponentFragment_LatestContent
+  | HomepageComponentFragment_Newsletter
+  | HomepageComponentFragment_Import;

@@ -25,9 +25,9 @@ const Container = styled.div`
   &:after {
     content: "";
     background: ${props =>
-    props.background
-      ? `url(${props.background}) center center`
-      : props.bgColor};
+      props.background
+        ? `url(${props.background}) center center`
+        : props.bgColor};
     background-size: cover;
     position: absolute;
     top: 0;

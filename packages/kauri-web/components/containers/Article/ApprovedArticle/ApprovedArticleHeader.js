@@ -103,7 +103,7 @@ export default ({
       <Image
         height="100%"
         width="100%"
-        overlay={attributes.background && { opacity: 0.5 }}
+        overlay={attributes.background && { opacity: 0.8 }}
         asBackground
         image={attributes.background}
       />

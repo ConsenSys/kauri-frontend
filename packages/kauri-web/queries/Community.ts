@@ -122,7 +122,7 @@ export const getAllCommunities = gql`
     $page: Int = 0
     $filter: CommunityFilterInput
     $sort: String = "dateUpdated"
-    $dir: Direction = DESC
+    $dir: DirectionInput = DESC
   ) {
     searchCommunities(
       size: $size

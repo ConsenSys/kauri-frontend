@@ -3,19 +3,18 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: deleteDraftArticle
+// GraphQL mutation operation: acceptArticleTransfer
 // ====================================================
 
-export interface deleteDraftArticle_cancelArticle {
+export interface acceptArticleTransfer_acceptArticleTransfer {
   __typename: "MutationResponse";
   hash: string | null;
 }
 
-export interface deleteDraftArticle {
-  cancelArticle: deleteDraftArticle_cancelArticle | null;
+export interface acceptArticleTransfer {
+  acceptArticleTransfer: acceptArticleTransfer_acceptArticleTransfer | null;
 }
 
-export interface deleteDraftArticleVariables {
+export interface acceptArticleTransferVariables {
   id?: string | null;
-  version?: number | null;
 }
