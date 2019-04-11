@@ -12,103 +12,106 @@ export const CommunityOwner = gql`
     }
   }
 `;
-
-export const getCommunity = gql`
-query getCommunity(
-  $id: String
-) {
-  getCommunity(
-      id: $id
-  ) {
+export const Community = gql`
+  fragment Community on CommunityDTO {
+    id
+    dateCreated
+    dateUpdated
+    creatorId
+    creator {
       id
-      dateCreated
-      dateUpdated
-      creatorId
-      creator {
-          id
-          username
-          name
-      }
+      username
       name
-      description
-      status
-      website
+    }
+    name
+    description
+    status
+    website
+    avatar
+    social
+    tags
+    attributes
+    members {
+      id
+      name
       avatar
-      social
-      tags
-      attributes
-      members {
+      role
+    }
+    approvedId {
+      id
+      type
+    }
+    pendingId {
+      id
+      type
+    }
+    approved {
+      ... on ArticleDTO {
+        version
+        title
+        content
+        dateCreated
+        datePublished
+        author {
           id
           name
-          avatar
-          role
-      }
-      approvedId {
-        id
-        type
-      }
-      pendingId {
-        id
-        type
-      }
-      approved {
-        ... on ArticleDTO {
-          version
-          title
-          content
-          dateCreated
-          datePublished
-          author {
-            id
-            name
-          }
-          status
-          attributes
         }
+        status
+        attributes
+      }
 
-        ... on CollectionDTO {
-          id
-          name
-          description
-          tags
-          background
-          dateUpdated
-          owner {
-            ...UserOwner
-            ...CommunityOwner
-          }
+      ... on CollectionDTO {
+        id
+        name
+        description
+        tags
+        background
+        dateUpdated
+        owner {
+          ...UserOwner
+          ...CommunityOwner
         }
       }
-      pending {
-        ... on ArticleDTO {
-          version
-          title
-          content
-          dateCreated
-          datePublished
-          author {
-            id
-            name
-          }
-          status
-          attributes
-        }
-
-        ... on CollectionDTO {
+    }
+    pending {
+      ... on ArticleDTO {
+        version
+        title
+        content
+        dateCreated
+        datePublished
+        author {
           id
           name
-          description
-          tags
-          background
-          dateUpdated
-          owner {
-            ...UserOwner
-            ...CommunityOwner
-          }
+        }
+        status
+        attributes
+      }
+
+      ... on CollectionDTO {
+        id
+        name
+        description
+        tags
+        background
+        dateUpdated
+        owner {
+          ...UserOwner
+          ...CommunityOwner
         }
       }
     }
   }
+`;
+
+export const getCommunity = gql`
+  query getCommunity($id: String) {
+    getCommunity(id: $id) {
+      ...Community
+    }
+  }
+
+  ${Community}
   ${UserOwner}
   ${CommunityOwner}
 `;

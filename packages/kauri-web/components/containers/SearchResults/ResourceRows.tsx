@@ -99,12 +99,18 @@ class ResourceRows extends React.Component<
                         <ResourceRowWithImage
                           key={String(id)}
                           id={String(id)}
-                          resourceType={"USER"}
                           version={Number(version)}
                           date={datePublished}
                           title={String(title)}
                           description={description}
                           userId={(typedOwner && String(typedOwner.id)) || ""}
+                          ownerType={
+                            typedOwner.resourceIdentifier
+                              ? String(
+                                  typedOwner.resourceIdentifier.type || "USER"
+                                )
+                              : "USER"
+                          }
                           username={
                             typedOwner.__typename === "PublicUserDTO"
                               ? typedOwner.username
@@ -148,7 +154,6 @@ class ResourceRows extends React.Component<
                         <ResourceRowWithImage
                           key={String(id)}
                           id={String(id)}
-                          resourceType={"COLLECTION"}
                           date={dateUpdated}
                           title={String(name)}
                           description={String(description)}
@@ -157,6 +162,13 @@ class ResourceRows extends React.Component<
                             typedOwner.__typename === "PublicUserDTO"
                               ? typedOwner.username
                               : typedOwner.name
+                          }
+                          ownerType={
+                            typedOwner.resourceIdentifier
+                              ? String(
+                                  typedOwner.resourceIdentifier.type || "USER"
+                                )
+                              : "USER"
                           }
                           userAvatar={typedOwner && typedOwner.avatar}
                           imageURL={background}
@@ -187,11 +199,12 @@ class ResourceRows extends React.Component<
                         // creatorId,
                         avatar,
                       } = resource.resource;
+
                       return (
                         <ResourceRowWithImage
                           key={String(id)}
                           id={String(id)}
-                          resourceType={"COMMUNITY"}
+                          ownerType={"COMMUNITY"}
                           date={dateUpdated}
                           title={String(name)}
                           description={String(description)}

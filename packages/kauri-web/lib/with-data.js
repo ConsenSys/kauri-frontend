@@ -12,6 +12,7 @@ import fetch from "isomorphic-unfetch";
 import mixpanel from "mixpanel-browser";
 import initRedux from "./init-redux";
 import initApollo from "./init-apollo";
+import { UserAgentProvider } from "@quentin-sommer/react-useragent";
 
 import {
   fetchEthUsdPriceAction,
@@ -73,6 +74,10 @@ export default ComposedComponent =>
       const hostName =
         (context.req && context.req.headers.host) ||
         process.env.monolithExternalApi;
+      const ua =
+        context && context.req
+          ? context.req.headers["user-agent"]
+          : navigator.userAgent;
 
       // console.log(hostName)
 
@@ -198,6 +203,7 @@ export default ComposedComponent =>
       }
 
       return {
+        ua,
         stateApollo,
         stateRedux,
         hostName,
@@ -276,13 +282,15 @@ export default ComposedComponent =>
         <Provider store={this.redux}>
           <ApolloProvider client={this.apollo}>
             <ThemeProvider theme={themeConfig}>
-              <>
-                <WelcomeBanner />
-                <ComposedComponent
-                  {...this.props}
-                  web3={global.window ? global.window.web3 : global.window}
-                />
-              </>
+              <UserAgentProvider ua={this.props.ua}>
+                <>
+                  <WelcomeBanner />
+                  <ComposedComponent
+                    {...this.props}
+                    web3={global.window ? global.window.web3 : global.window}
+                  />
+                </>
+              </UserAgentProvider>
             </ThemeProvider>
           </ApolloProvider>
         </Provider>

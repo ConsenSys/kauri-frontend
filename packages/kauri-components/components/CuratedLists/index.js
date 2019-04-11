@@ -57,6 +57,166 @@ const Content = styled.div`
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
 `;
 
+export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {
+  switch (
+    card &&
+      card.resourceIdentifier &&
+      typeof card.resourceIdentifier.type === "string" &&
+      card.resourceIdentifier.type
+  ) {
+    case "ARTICLE": {
+      const articleCard: ArticleDTO = card;
+      return (
+        <ArticleCard
+          key={articleCard.id}
+          date={articleCard.dateCreated}
+          title={articleCard.title}
+          description={articleCard.description}
+          userId={articleCard.owner && articleCard.owner.id}
+          username={articleCard.owner && articleCard.owner.username}
+          userAvatar={articleCard.owner && articleCard.owner.avatar}
+          id={articleCard.id}
+          version={articleCard.version}
+          cardHeight={HOMEPAGE_CARD_HEIGHT}
+          imageURL={articleCard.attributes && articleCard.attributes.background}
+          nfts={articleCard.attributes && articleCard.attributes.nfts}
+          linkComponent={(childrenProps, route) => {
+            if (fromAdmin) {
+              return (
+                <div
+                  onClick={() =>
+                    onCardClick({
+                      id: articleCard.id,
+                      type: "ARTICLE",
+                    })
+                  }
+                >
+                  {childrenProps}
+                </div>
+              );
+            } else {
+              return (
+                <Link
+                  toSlug={
+                    route && route.includes("article") && articleCard.title
+                  }
+                  useAnchorTag
+                  href={route}
+                >
+                  {childrenProps}
+                </Link>
+              );
+            }
+          }}
+        />
+      );
+    }
+    case "COLLECTION": {
+      const collectionCard: CollectionDTO = card;
+      const articleCount =
+        collectionCard.articleCount ||
+        (collectionCard.sections &&
+          collectionCard.sections.reduce((current, next) => {
+            if (next && Array.isArray(next.resources)) {
+              const articlesInSection = next.resources.filter(
+                sectionResource => {
+                  return (
+                    sectionResource &&
+                    sectionResource.__typename.toLowerCase().includes("article")
+                  );
+                }
+              );
+              return articlesInSection.length + current;
+            }
+            return current;
+          }, 0));
+
+      const collectionCount =
+        collectionCard.collectionCount ||
+        (collectionCard.sections &&
+          collectionCard.sections.reduce((current, next) => {
+            if (next && Array.isArray(next.resources)) {
+              const collectionsInSection = next.resources.filter(
+                sectionResource =>
+                  sectionResource &&
+                  sectionResource.__typename
+                    .toLowerCase()
+                    .includes("collection")
+              );
+              return collectionsInSection.length + current;
+            }
+            return current;
+          }, 0));
+
+      return (
+        <CollectionCard
+          key={collectionCard.id}
+          id={collectionCard.id}
+          name={collectionCard.name}
+          date={moment(collectionCard.dateUpdated).format("D MMM YYYY")}
+          description={collectionCard.description}
+          username={
+            collectionCard.owner &&
+            (collectionCard.owner.name || collectionCard.owner.username)
+          }
+          userId={collectionCard.owner && collectionCard.owner.id}
+          userAvatar={collectionCard.owner && collectionCard.owner.avatar}
+          articleCount={articleCount}
+          collectionCount={collectionCount}
+          imageURL={collectionCard.background}
+          cardHeight={HOMEPAGE_CARD_HEIGHT}
+          linkComponent={(childrenProps, route) => {
+            if (fromAdmin) {
+              return (
+                <div
+                  onClick={() =>
+                    onCardClick({
+                      id: collectionCard.id,
+                      type: "COLLECTION",
+                    })
+                  }
+                >
+                  {childrenProps}
+                </div>
+              );
+            } else {
+              return (
+                <Link
+                  toSlug={
+                    route && route.includes("article") && collectionCard.name
+                  }
+                  useAnchorTag
+                  href={route}
+                >
+                  {childrenProps}
+                </Link>
+              );
+            }
+          }}
+        />
+      );
+    }
+    case "TOPIC" || "COMMUNITY": {
+      return (
+        <CommunityCard
+          key={card.id}
+          communityName={card.name || card.id}
+          communityId={card.id}
+          cardHeight={HOMEPAGE_CARD_HEIGHT}
+          communityLogo={`/static/images/${card.id}/avatar.png`}
+          linkComponent={childrenProps => (
+            <Link useAnchorTag route={`/community/${card.id}`}>
+              {childrenProps}
+            </Link>
+          )}
+        />
+      );
+    }
+    default:
+      return null;
+  }
+};
+
 const HOMEPAGE_CARD_HEIGHT = 310;
 
 type Props = {
@@ -78,13 +238,15 @@ const CuratedList = ({
 
   return (
     <Container>
-      {background && <Image
-        image={background}
-        height="100%"
-        width="100%"
-        overlay={background && { opacity: 0.5 }}
-        asBackground={true}
-      />}
+      {background && (
+        <Image
+          image={background}
+          height="100%"
+          width="100%"
+          overlay={background && { opacity: 0.5 }}
+          asBackground
+        />
+      )}
       <Content>
         {!header && <Title featured={featured}>{name}</Title>}
         {cards && (
@@ -99,155 +261,14 @@ const CuratedList = ({
                 links={links}
               />
             )}
-            {cards.map(card => {
-              switch (
-                card &&
-                  card.resourceIdentifier &&
-                  typeof card.resourceIdentifier.type === "string" &&
-                  card.resourceIdentifier.type
-              ) {
-                case "ARTICLE": {
-                  const articleCard: ArticleDTO = card;
-                  return (
-                    <ArticleCard
-                      changeRoute={routeChangeAction}
-                      key={articleCard.id}
-                      date={articleCard.dateCreated}
-                      title={articleCard.title}
-                      description={articleCard.description}
-                      userId={articleCard.owner && articleCard.owner.id}
-                      username={
-                        articleCard.owner && articleCard.owner.username
-                      }
-                      userAvatar={
-                        articleCard.owner && articleCard.owner.avatar
-                      }
-                      id={articleCard.id}
-                      version={articleCard.version}
-                      cardHeight={HOMEPAGE_CARD_HEIGHT}
-                      imageURL={
-                        articleCard.attributes &&
-                        articleCard.attributes.background
-                      }
-                      nfts={
-                        articleCard.attributes && articleCard.attributes.nfts
-                      }
-                      linkComponent={(childrenProps, route) => {
-                        if (fromAdmin) {
-                          return (
-                            <div
-                              onClick={() =>
-                                onCardClick({
-                                  id: articleCard.id,
-                                  type: "ARTICLE",
-                                })
-                              }
-                            >
-                              {childrenProps}
-                            </div>
-                          );
-                        } else {
-                          return (
-                            <Link
-                              toSlug={
-                                route && route.includes("article") && articleCard.title
-                              }
-                              useAnchorTag
-                              href={route}
-                            >
-                              {childrenProps}
-                            </Link>
-                          );
-                        }
-                      }}
-                    />
-                  );
-                }
-                case "COLLECTION": {
-                  const collectionCard: CollectionDTO = card;
-                  const articleCount =
-                    collectionCard.sections &&
-                    collectionCard.sections.reduce((current, next) => {
-                      current += next.resourcesId && next.resourcesId.length;
-                      return current;
-                    }, 0);
-                  return (
-                    <CollectionCard
-                      changeRoute={routeChangeAction}
-                      key={collectionCard.id}
-                      id={collectionCard.id}
-                      name={collectionCard.name}
-                      date={moment(collectionCard.dateUpdated).format(
-                        "D MMM YYYY"
-                      )}
-                      description={collectionCard.description}
-                      username={
-                        collectionCard.owner &&
-                        (collectionCard.owner.name ||
-                          collectionCard.owner.username)
-                      }
-                      userId={collectionCard.owner && collectionCard.owner.id}
-                      userAvatar={
-                        collectionCard.owner && collectionCard.owner.avatar
-                      }
-                      articleCount={articleCount}
-                      imageURL={collectionCard.background}
-                      cardHeight={HOMEPAGE_CARD_HEIGHT}
-                      linkComponent={(childrenProps, route) => {
-                        if (fromAdmin) {
-                          return (
-                            <div
-                              onClick={() =>
-                                onCardClick({
-                                  id: collectionCard.id,
-                                  type: "COLLECTION",
-                                })
-                              }
-                            >
-                              {childrenProps}
-                            </div>
-                          );
-                        } else {
-                          return (
-                            <Link
-                              toSlug={
-                                route && route.includes("article") && collectionCard.name
-                              }
-                              useAnchorTag
-                              href={route}
-                            >
-                              {childrenProps}
-                            </Link>
-                          );
-                        }
-                      }}
-                    />
-                  );
-                }
-                case "TOPIC" || "COMMUNITY": {
-                  const topic = theme[card.id];
-                  if (!topic) return null;
-
-                  return (
-                    <CommunityCard
-                      changeRoute={routeChangeAction}
-                      key={card.id}
-                      communityName={card.name || card.id}
-                      communityId={card.id}
-                      cardHeight={HOMEPAGE_CARD_HEIGHT}
-                      communityLogo={`/static/images/${card.id}/avatar.png`}
-                      linkComponent={childrenProps => (
-                        <Link useAnchorTag route={`/community/${card.id}`}>
-                          {childrenProps}
-                        </Link>
-                      )}
-                    />
-                  );
-                }
-                default:
-                  return null;
-              }
-            })}
+            {cards.map(
+              RenderCardContent({
+                routeChangeAction,
+                fromAdmin,
+                Link,
+                onCardClick,
+              })
+            )}
           </Resources>
         )}
       </Content>
