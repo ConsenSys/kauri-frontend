@@ -68,15 +68,7 @@ class OnboardingEditProfile extends Component {
     } = this.props.user;
     const github = social && social.github;
     const twitter = social && social.twitter;
-    const hasData =
-      name ||
-      username ||
-      email ||
-      avatar ||
-      github ||
-      twitter ||
-      title ||
-      website;
+    const hasData = name && username && email;
 
     const loginTrackingPending = window.localStorage.getItem(
       "login-tracking-pending"
