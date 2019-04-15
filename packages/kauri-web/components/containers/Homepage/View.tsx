@@ -36,8 +36,8 @@ const HomePageRow = styled.section`
   display: flex;
   flex-direction: row;
   margin-bottom: ${props => props.theme.space[3]}px;
-  > :not(:only-child) {
-    margin-right: ${props => props.theme.space[3]}px;
+  > :not(:last-child) {
+    margin-right: ${props => props.theme.space[4]}px;
   }
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     flex-direction: column;

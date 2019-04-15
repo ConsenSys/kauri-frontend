@@ -11,6 +11,8 @@ import {
   searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO,
 } from "../../../../queries/__generated__/searchAutocompleteCollections";
 
+const DEFAULT_CARD_WIDTH = 305;
+
 interface IProps {
   CollectionQuery: {
     error: string;
@@ -128,7 +130,7 @@ class Collections extends Component<IProps> {
                     collectionCount={String(collectionCount)}
                     date={collectionResource && collectionResource.dateUpdated}
                     cardHeight={310}
-                    cardWidth={290}
+                    cardWidth={DEFAULT_CARD_WIDTH}
                     linkComponent={(
                       childrenProps: React.ReactElement<any>,
                       route: string
