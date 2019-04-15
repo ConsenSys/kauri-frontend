@@ -41,7 +41,7 @@ export const transferArticle = (payload) => ({
   })
 
 export const getArticleTransfers = (payload, maxResult) => ({
-    query: `query getArticleTransfers($page: Int, $size: Int, $sort: String, $dir: Direction, $recipient: String) { getArticleTransfers (page: $page, size: $size, sort: $sort dir: $dir, recipient: $recipient) { content { id, article { ...on ArticleDTO {id, version, title, description, content, dateCreated, datePublished, authorId, ownerId {id, type}, status, attributes, contentHash, checkpoint, tags, resourceIdentifier {type, id, version}, voteResult { resourceId {id, type}, count, sum, mean, median, quantity, hasVoted}}}, transferrer { type, id, version }, recipient { type, id, version }} totalPages, totalElements } }`,
+    query: `query getArticleTransfers($page: Int, $size: Int, $sort: String, $dir: DirectionInput, $recipient: String) { getArticleTransfers (page: $page, size: $size, sort: $sort dir: $dir, recipient: $recipient) { content { id, article { ...on ArticleDTO {id, version, title, description, content, dateCreated, datePublished, authorId, ownerId {id, type}, status, attributes, contentHash, checkpoint, tags, resourceIdentifier {type, id, version}, voteResult { resourceId {id, type}, count, sum, mean, median, quantity, hasVoted}}}, transferrer { type, id, version }, recipient { type, id, version }} totalPages, totalElements } }`,
     variables: {
         page: 0,
         size: maxResult,
