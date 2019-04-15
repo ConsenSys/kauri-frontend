@@ -4,6 +4,8 @@ import { Title2 } from "../Typography";
 import { RenderCardContent } from "../CuratedLists";
 import SecondaryButtonComponent from "../Button/SecondaryButton";
 
+const DEFAULT_CARD_WIDTH = 305;
+
 const LatestContentSection = styled.section`
   display: flex;
   width: 100%;
@@ -22,8 +24,12 @@ const LatestContentSection = styled.section`
 
 const LatestContentCardContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 310px));
-  grid-gap: ${props => props.theme.space[2]}px 0px;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(290px, ${DEFAULT_CARD_WIDTH}px)
+  );
+  grid-gap: ${props => props.theme.space[2]}px
+    ${props => props.theme.space[3]}px;
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     justify-content: center;
   }

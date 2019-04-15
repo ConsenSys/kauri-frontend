@@ -32,7 +32,7 @@ const Articles = ({
   const articles = data.searchArticles && data.searchArticles.content;
   return articles.length > 0 ? (
     <Fragment>
-      <Masonry columns={3} minWidth={310} removeFirstRowMarginTop>
+      <Masonry withPadding={false}>
         {articles.map(article => (
           <ArticleCard
             key={`${article.id}-${article.version}`}
@@ -88,8 +88,8 @@ const Articles = ({
                         content={
                           <div>
                             <BodyCard>
-                                You won't be able to retrieve the draft article
-                                after deleting.
+                              You won't be able to retrieve the draft article
+                              after deleting.
                             </BodyCard>
                           </div>
                         }
@@ -99,7 +99,7 @@ const Articles = ({
                   })
                 }
               >
-                  Delete draft
+                Delete draft
               </PrimaryButton>
             )}
           />

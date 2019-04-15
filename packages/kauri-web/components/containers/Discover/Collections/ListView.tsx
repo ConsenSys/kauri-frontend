@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import CollectionCard from "../../../../../kauri-components/components/Card/CollectionCard";
+import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
 import {
@@ -10,6 +11,8 @@ import {
   searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO,
   searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO,
 } from "../../../../queries/__generated__/searchAutocompleteCollections";
+
+const DEFAULT_CARD_WIDTH = 305;
 
 interface IProps {
   CollectionQuery: {
@@ -59,7 +62,7 @@ class Collections extends Component<IProps> {
           />
         </Helmet>
         {searchAutocomplete ? (
-          <CollectionsContainer>
+          <Masonry>
             {searchAutocomplete &&
               searchAutocomplete.content &&
               searchAutocomplete.content.map(collection => {
@@ -128,7 +131,7 @@ class Collections extends Component<IProps> {
                     collectionCount={String(collectionCount)}
                     date={collectionResource && collectionResource.dateUpdated}
                     cardHeight={310}
-                    cardWidth={290}
+                    cardWidth={DEFAULT_CARD_WIDTH}
                     linkComponent={(
                       childrenProps: React.ReactElement<any>,
                       route: string
@@ -149,7 +152,7 @@ class Collections extends Component<IProps> {
                   />
                 );
               })}
-          </CollectionsContainer>
+          </Masonry>
         ) : (
           <Loading />
         )}

@@ -2,9 +2,11 @@ import * as React from "react";
 import styled from "../../lib/styled-components";
 import { NavigationText } from "../Typography";
 
+const DEFAULT_CARD_WIDTH = 305;
+
 const Container = styled<{ active: boolean }, "div">("div")`
   display: flex;
-  width: 291px;
+  width: ${DEFAULT_CARD_WIDTH}px;
   height: 60px;
   flex-direction: row;
   align-items: center;

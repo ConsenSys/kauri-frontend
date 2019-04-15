@@ -40,6 +40,7 @@ const TooltipArrow = styled.div`
   transform: rotate(45deg);
   border-radius: 2px;
 `;
+
 const TooltipItem = styled.div`
   color: #0ba986;
   font-size: 11px;
@@ -50,7 +51,7 @@ const TooltipItem = styled.div`
   text-align: center;
   margin: 10px;
 
-  &: hover {
+  &:hover {
     color: #267765;
     text-decoration: underline;
     cursor: pointer;
@@ -185,7 +186,7 @@ const Row = styled.div`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 3;
   justify-content: center;
 `;
 
@@ -251,10 +252,10 @@ const CommunityHeader = ({
   articles,
   collections,
   members,
-  // isMember,
-  // openModalAction,
-  // closeModalAction,
-}: IProps) => (
+}: // isMember,
+// openModalAction,
+// closeModalAction,
+IProps) => (
   <Wrapper>
     {background && (
       <Image

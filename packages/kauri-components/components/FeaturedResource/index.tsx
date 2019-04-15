@@ -99,9 +99,14 @@ const FeaturedResource: React.FunctionComponent<
       )}
     </ResourceDetailsContainer>
     <ViewContainer>
-      <SecondaryButtonComponent border="primary" color="textPrimary">{`View ${
-        props.resourceType
-      }`}</SecondaryButtonComponent>
+      {props.linkComponent(
+        <SecondaryButtonComponent border="primary" color="textPrimary">{`View ${
+          props.resourceType
+        }`}</SecondaryButtonComponent>,
+        props.ownerResourceType === "COMMUNITY"
+          ? `/community/${props.userId}`
+          : `/public-profile/${props.userId}`
+      )}
     </ViewContainer>
   </FeaturedResourceStack>
 );

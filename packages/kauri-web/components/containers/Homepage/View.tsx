@@ -21,6 +21,7 @@ import CuratedCategory, {
   CuratedCategoriesSection,
 } from "../../../../kauri-components/components/CuratedCategory";
 import { Link } from "../../../routes";
+import { IShowNotificationPayload } from "../../../lib/Module";
 // import mockData from "./mock";
 
 const HomePageSection = styled.section`
@@ -36,11 +37,14 @@ const HomePageRow = styled.section`
   display: flex;
   flex-direction: row;
   margin-bottom: ${props => props.theme.space[3]}px;
-  > :not(:only-child) {
-    margin-right: ${props => props.theme.space[3]}px;
+  > :not(:last-child) {
+    margin-right: ${props => props.theme.space[4]}px;
   }
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     flex-direction: column;
+    > :not(:last-child) {
+      margin-right: 0px;
+    }
   }
 `;
 
@@ -50,10 +54,14 @@ const SideRow = styled.section`
   > :not(:last-child) {
     margin-bottom: ${props => props.theme.space[3]}px;
   }
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    display: none;
+  }
 `;
 
 interface IProps {
   setNavcolorOverrideAction: any;
+  isLoggedIn: boolean;
   data: {
     searchArticles?: {
       content: Array<[]>;
@@ -62,6 +70,8 @@ interface IProps {
   };
   hostName: string;
   routeChangeAction: (route: string) => void;
+  emailSubscribeAction: (emailAddress: string) => void;
+  showNotificationAction: (payload: IShowNotificationPayload) => void;
 }
 
 const HomePageV2Component: React.FunctionComponent<IProps> = props => {
@@ -92,11 +102,13 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
 
           return (
             <HomePageSection>
-              <SignupBanner
-                linkComponent={(children, route) => (
-                  <Link href={route}>{children}</Link>
-                )}
-              />
+              {!props.isLoggedIn && (
+                <SignupBanner
+                  linkComponent={(children, route) => (
+                    <Link href={route}>{children}</Link>
+                  )}
+                />
+              )}
 
               {data.getLatestHomepageDescriptor.rows.map((row, index) => {
                 return (
@@ -169,6 +181,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                     <FeaturedResource
                                       {...resource[0]}
                                       {...resource[0].owner}
+                                      userId={resource[0].owner.id}
                                       resourceType={resource[0].resourceIdentifier.type.toLowerCase()}
                                       ownerResourceType={resource[0].owner.resourceIdentifier.type.toLowerCase()}
                                       linkComponent={(children, route) => (
@@ -208,11 +221,16 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                               if (mainRow.__typename === "Newsletter") {
                                 return (
                                   <NewsletterBanner
-                                    handleSubmit={() => {
-                                      return;
-                                    }}
+                                    handleSubmit={emailAddress =>
+                                      props.emailSubscribeAction(emailAddress)
+                                    }
                                     handleError={() => {
-                                      return;
+                                      props.showNotificationAction({
+                                        description:
+                                          "Please enter a valid email address!",
+                                        message: "Invalid Email address",
+                                        notificationType: "error",
+                                      });
                                     }}
                                   />
                                 );
@@ -322,7 +340,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                   }
 
                                   default: {
-                                    return <p key="side">SIDEBAR ROW</p>;
+                                    return null;
                                   }
                                 }
                               }

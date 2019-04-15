@@ -40,15 +40,15 @@ const Icon = () => (
       d="M8 2H56C59.3 2 62 4.7 62 8V44C62 47.3 59.3 50 56 50H8C4.7 50 2 47.3 2 44V8C2 4.7 4.7 2 8 2Z"
       stroke="#0BA986"
       stroke-width="4"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M62 8L32 29L2 8"
       stroke="#0BA986"
       stroke-width="4"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );

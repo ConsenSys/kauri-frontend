@@ -4,12 +4,14 @@ import { Label, BodyCard } from "../Typography";
 import Image from "../Image";
 import theme from "../../lib/theme-config";
 
+const DEFAULT_CARD_WIDTH = 305;
+
 const Container = styled<{ background: null | string }, "div">("div")`
   display: flex;
   z-index: 1;
   position: relative;
   flex-direction: column;
-  width: 290px;
+  width: ${DEFAULT_CARD_WIDTH}px;
   height: 70px;
   background: ${props => props.theme.colors.bgPrimary};
   border-radius: 4px;
@@ -40,11 +42,13 @@ const Content = styled.div`
 
 export const CuratedCategoriesSection = styled.section`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 290px));
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(170px, ${DEFAULT_CARD_WIDTH}px)
+  );
   width: 100%;
   grid-gap: ${props => props.theme.space[1]}px
     ${props => props.theme.space[3]}px;
-  background: ${props => props.theme.colors.contentBorder};
   padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
   padding-bottom: 0px;
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
@@ -73,7 +77,7 @@ const CuratedCategory: React.FunctionComponent<IProps> = ({
       <Image
         asBackground={true}
         height="70px"
-        width="290px"
+        width={`${DEFAULT_CARD_WIDTH}px`}
         mobileHeight="60px"
         mobileWidth="170px"
         overlay={{ color: theme.bgPrimary, opacity: 0.7 }}

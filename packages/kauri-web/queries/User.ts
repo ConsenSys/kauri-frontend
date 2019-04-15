@@ -94,3 +94,14 @@ export const verifyEmail = gql`
     }
   }
 `;
+
+export const emailSubscribe = gql`
+  mutation emailSubscribe(
+    $emailAddress: String
+    $subscriptions: Map_String_BooleanScalar
+  ) {
+    subscribe(email: $emailAddress, subscriptions: $subscriptions) {
+      hash
+    }
+  }
+`;
