@@ -74,7 +74,6 @@ interface IProps {
   bg?: string;
   minWidth?: string;
   dark?: boolean;
-  hash?: number;
   router?: any;
   passChangeTabFunction?: (func: any) => void;
 }
@@ -87,7 +86,7 @@ class TabsComponent extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      selectedTabIndex: props.hash ? props.hash : 0,
+      selectedTabIndex: 0,
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -124,7 +123,6 @@ class TabsComponent extends React.Component<IProps, IState> {
       minWidth,
       centerTabs,
       dark,
-      hash,
     } = this.props;
 
     return (
@@ -141,12 +139,8 @@ class TabsComponent extends React.Component<IProps, IState> {
                 <Tab
                   key={index}
                   minWidth={minWidth}
-                  selected={
-                    hash
-                      ? index === hash
-                      : index === this.state.selectedTabIndex
-                  }
                   onClick={() => this.handleClick(index, tab)}
+                  selected={index === this.state.selectedTabIndex}
                 >
                   {tab.name}
                 </Tab>
