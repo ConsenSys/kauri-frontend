@@ -595,8 +595,10 @@ export const getArticleTransfers = gql`
     $page: Int = 0
     $size: Int = 100
     $recipient: String
+    $sort: String = "id"
+    $dir: DirectionInput = DESC
   ) {
-    getArticleTransfers(page: $page, size: $size, recipient: $recipient) {
+    getArticleTransfers(page: $page, size: $size, recipient: $recipient, sort: $sort, dir: $dir) {
       content {
         id
         article {
