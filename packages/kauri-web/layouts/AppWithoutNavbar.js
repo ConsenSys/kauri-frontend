@@ -29,6 +29,7 @@ export default connect(mapStateToProps)(({ children, isModalOpen }) => (
     </Helmet>
     <Modal />
     <StyledContent style={{ overflow: isModalOpen ? "hidden" : "auto" }}>
+      <NetworkBanner />
       {children}
     </StyledContent>
   </Layout>

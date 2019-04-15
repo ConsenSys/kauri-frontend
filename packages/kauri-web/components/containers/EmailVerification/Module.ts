@@ -126,9 +126,14 @@ export const emailSubscribeEpic: Epic<any, IReduxState, IDependencies> = (
         )
         .mergeMap(({ data: { output } }) =>
           output && output.id
-            ? Observable.of(emailSubscribedAction())
-                .map(() => emailVerifiedAction())
-                .do(() => apolloClient.resetStore())
+            ? Observable.of(
+                showNotificationAction({
+                  description:
+                    "Please check your email inbox and confirm email newsletter subscription!",
+                  message: "Confirm your email newsletter subscription",
+                  notificationType: "success",
+                })
+              ).do(() => apolloClient.resetStore())
             : Observable.of(emailVerificationFail())
         )
         .do(callback)
