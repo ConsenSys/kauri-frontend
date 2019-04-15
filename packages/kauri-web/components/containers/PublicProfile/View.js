@@ -21,7 +21,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       website: "",
       twitter: "",
       github: "",
-      hash: parseInt(this.props.router.asPath.split("#")[1], 10),
     };
   }
 
@@ -96,7 +95,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         {isHeaderLoaded && areListsLoaded ? (
           <Tabs
             dark
-            hash={typeof this.state.hash === "number" ? this.state.hash : 0}
             router={this.props.router}
             tabs={[
               {
