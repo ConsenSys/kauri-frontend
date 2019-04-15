@@ -50,6 +50,9 @@ const SideRow = styled.section`
   > :not(:last-child) {
     margin-bottom: ${props => props.theme.space[3]}px;
   }
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    display: none;
+  }
 `;
 
 interface IProps {

@@ -44,7 +44,6 @@ export const CuratedCategoriesSection = styled.section`
   width: 100%;
   grid-gap: ${props => props.theme.space[1]}px
     ${props => props.theme.space[3]}px;
-  background: ${props => props.theme.colors.contentBorder};
   padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
   padding-bottom: 0px;
   @media (max-width: ${props => props.theme.breakpoints[0]}) {

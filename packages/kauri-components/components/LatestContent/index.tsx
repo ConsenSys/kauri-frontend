@@ -22,8 +22,9 @@ const LatestContentSection = styled.section`
 
 const LatestContentCardContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 310px));
-  grid-gap: ${props => props.theme.space[2]}px 0px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 290px));
+  grid-gap: ${props => props.theme.space[2]}px
+    ${props => props.theme.space[3]}px;
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     justify-content: center;
   }

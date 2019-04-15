@@ -18,7 +18,6 @@ const ViewContainer = styled.section`
   display: flex;
   flex-direction: row;
   margin-left: auto;
-  margin-right: ${props => props.theme.space[2]}px;
   > :first-child {
     margin-right: ${props => props.theme.space[2]}px;
   }
