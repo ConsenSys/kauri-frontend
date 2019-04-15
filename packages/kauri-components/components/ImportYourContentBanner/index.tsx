@@ -32,10 +32,8 @@ const NewsletterBanner: React.FunctionComponent = _ => {
       <Content>
         <Title2 color="white">Import your content into Kauri</Title2>
         <BodyCard color="white" textAlign={"center"}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem quos
-          quod error consectetur porro minima magni eius amet odit fugiat. Ullam
-          vero voluptas nihil accusantium repellat? Quas pariatur molestiae
-          atque!
+          Import a single article or your entire Medium profile/publication in
+          under 5 minutes with our importer! Coming soon: Wordpress importer
         </BodyCard>
         <SecondaryButtonComponent
           onClick={() => {
