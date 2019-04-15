@@ -8,7 +8,10 @@ import {
 import { emailSubscribeAction } from "../EmailVerification/Module";
 
 const mapStateToProps = (state, ownProps) => {
-  return { hostName: state.app && state.app.hostName };
+  return {
+    hostName: state.app && state.app.hostName,
+    isLoggedIn: !!(state.app && state.app.user && state.app.user.id),
+  };
 };
 
 export default connect(

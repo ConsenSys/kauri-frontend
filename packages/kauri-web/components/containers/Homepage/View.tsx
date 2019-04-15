@@ -61,6 +61,7 @@ const SideRow = styled.section`
 
 interface IProps {
   setNavcolorOverrideAction: any;
+  isLoggedIn: boolean;
   data: {
     searchArticles?: {
       content: Array<[]>;
@@ -101,11 +102,13 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
 
           return (
             <HomePageSection>
-              <SignupBanner
-                linkComponent={(children, route) => (
-                  <Link href={route}>{children}</Link>
-                )}
-              />
+              {!props.isLoggedIn && (
+                <SignupBanner
+                  linkComponent={(children, route) => (
+                    <Link href={route}>{children}</Link>
+                  )}
+                />
+              )}
 
               {data.getLatestHomepageDescriptor.rows.map((row, index) => {
                 return (
