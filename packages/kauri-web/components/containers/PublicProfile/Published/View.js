@@ -42,66 +42,64 @@ const Articles = ({
       {typeof type === "string" && type === "published" && isOwner && (
         <CheckpointArticles isOwner={isOwner} articles={articles} />
       )}
-      <ContentContainer>
-        <Masonry columns={4} minWidth={310}>
-          {articles.map(article => (
-            <ArticleCard
-              key={`${article.id}-${article.version}`}
-              changeRoute={routeChangeAction}
-              date={article.datePublished}
-              title={article.title}
-              description={article.description}
-              tags={article.tags}
-              userId={
-                type !== "toBeApproved" && article.owner
-                  ? article.owner.id
-                  : article.author.id
-              }
-              username={
-                type !== "toBeApproved" && article.owner
-                  ? article.owner.username
-                  : article.author.username
-              }
-              userAvatar={
-                type !== "toBeApproved" && article.owner
-                  ? article.owner.avatar
-                  : article.author.avatar
-              }
-              isLoggedIn={isLoggedIn}
-              hoverChildren={({ hideDispatch }) => (
-                <PrimaryButton
-                  onClick={() =>
-                    openModalAction({
-                      children: (
-                        <AddToCollectionConnection
-                          articleId={article.id}
-                          version={article.version}
-                        />
-                      ),
-                    })
-                  }
-                >
-                  Add To Collection
-                </PrimaryButton>
-              )}
-              id={article.id}
-              version={article.version}
-              cardHeight={420}
-              imageURL={article.attributes && article.attributes.background}
-              nfts={article.associatedNfts}
-              linkComponent={(childrenProps, route) => (
-                <Link
-                  toSlug={route && route.includes("article") && article.title}
-                  useAnchorTag
-                  href={route}
-                >
-                  {childrenProps}
-                </Link>
-              )}
-            />
-          ))}
-        </Masonry>
-      </ContentContainer>
+      <Masonry>
+        {articles.map(article => (
+          <ArticleCard
+            key={`${article.id}-${article.version}`}
+            changeRoute={routeChangeAction}
+            date={article.datePublished}
+            title={article.title}
+            description={article.description}
+            tags={article.tags}
+            userId={
+              type !== "toBeApproved" && article.owner
+                ? article.owner.id
+                : article.author.id
+            }
+            username={
+              type !== "toBeApproved" && article.owner
+                ? article.owner.username
+                : article.author.username
+            }
+            userAvatar={
+              type !== "toBeApproved" && article.owner
+                ? article.owner.avatar
+                : article.author.avatar
+            }
+            isLoggedIn={isLoggedIn}
+            hoverChildren={({ hideDispatch }) => (
+              <PrimaryButton
+                onClick={() =>
+                  openModalAction({
+                    children: (
+                      <AddToCollectionConnection
+                        articleId={article.id}
+                        version={article.version}
+                      />
+                    ),
+                  })
+                }
+              >
+                Add To Collection
+              </PrimaryButton>
+            )}
+            id={article.id}
+            version={article.version}
+            cardHeight={420}
+            imageURL={article.attributes && article.attributes.background}
+            nfts={article.associatedNfts}
+            linkComponent={(childrenProps, route) => (
+              <Link
+                toSlug={route && route.includes("article") && article.title}
+                useAnchorTag
+                href={route}
+              >
+                {childrenProps}
+              </Link>
+            )}
+          />
+        ))}
+      </Masonry>
     </Fragment>
   ) : (
     <Centered>

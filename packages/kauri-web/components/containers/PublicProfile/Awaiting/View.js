@@ -34,7 +34,7 @@ const Articles = ({
       {typeof type === "string" && type === "published" && isOwner && (
         <CheckpointArticles isOwner={isOwner} articles={articles} />
       )}
-      <Masonry columns={3} minWidth={310} removeFirstRowMarginTop>
+      <Masonry withPadding={false}>
         {articles.map(article => (
           <ArticleCard
             key={`${article.id}-${article.version}`}

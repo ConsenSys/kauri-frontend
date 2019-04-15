@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import CollectionCard from "../../../../../kauri-components/components/Card/CollectionCard";
+import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
 import {
@@ -61,7 +62,7 @@ class Collections extends Component<IProps> {
           />
         </Helmet>
         {searchAutocomplete ? (
-          <CollectionsContainer>
+          <Masonry>
             {searchAutocomplete &&
               searchAutocomplete.content &&
               searchAutocomplete.content.map(collection => {
@@ -151,7 +152,7 @@ class Collections extends Component<IProps> {
                   />
                 );
               })}
-          </CollectionsContainer>
+          </Masonry>
         ) : (
           <Loading />
         )}

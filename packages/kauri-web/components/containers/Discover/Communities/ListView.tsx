@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import CommunityCard from "../../../../../kauri-components/components/Card/CommunityCard";
+import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
 import { searchCommunities_searchCommunities } from "../../../../queries/__generated__/searchCommunities";
@@ -54,7 +55,7 @@ class Communities extends Component<IProps> {
           />
         </Helmet>
         {searchCommunities ? (
-          <CommunitiesContainer>
+          <Masonry>
             {searchCommunities &&
               searchCommunities.content &&
               searchCommunities.content.map(
@@ -96,7 +97,7 @@ class Communities extends Component<IProps> {
                     />
                   )
               )}
-          </CommunitiesContainer>
+          </Masonry>
         ) : (
           <Loading />
         )}
