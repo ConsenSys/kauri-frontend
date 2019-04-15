@@ -172,6 +172,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                     <FeaturedResource
                                       {...resource[0]}
                                       {...resource[0].owner}
+                                      userId={resource[0].owner.id}
                                       resourceType={resource[0].resourceIdentifier.type.toLowerCase()}
                                       ownerResourceType={resource[0].owner.resourceIdentifier.type.toLowerCase()}
                                       linkComponent={(children, route) => (
