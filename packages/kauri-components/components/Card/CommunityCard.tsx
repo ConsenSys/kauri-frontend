@@ -8,7 +8,7 @@ import BaseCard from "../Card/BaseCard";
 import { TagList } from "../Tags";
 
 const DEFAULT_CARD_HEIGHT = 310;
-const DEFAULT_CARD_WIDTH = 290;
+const DEFAULT_CARD_WIDTH = 305;
 
 const Container = styled<{ cardHeight: number | null }, "section">("section")`
   display: flex;

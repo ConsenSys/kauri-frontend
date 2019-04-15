@@ -162,7 +162,7 @@ const fontWeight: FontWeight = [300, "normal", 500, 700];
 
 const breakpoints: Breakpoints = ["500px", "52em", "64em"];
 
-const space: Space = [0, 10, 15, 30, 60];
+const space: Space = [0, 10, 15, 20, 40];
 
 const themeConfig = {
   bg: colors,

@@ -45,6 +45,23 @@ const Menu = styled.div`
   flex-direction: row;
 `;
 
+const StyledMenuItem = styled.div`
+  display: flex;
+  color: #fff !important;
+  z-index: 100;
+
+  @media (max-width: 500px) {
+    display: ${props => (props.onlyDesktop ? "none !important" : "flex")};
+  }
+
+  > a {
+    color: #fff !important;
+    :hover {
+      ${props => props.theme.primaryColor} !important;
+    }
+  }
+`;
+
 const StyledMenu = styled(Menu)`
   display: flex;
   position: relative;
@@ -58,23 +75,8 @@ const StyledMenu = styled(Menu)`
   @media (max-width: 500px) {
     padding: 0px 10px;
   }
-`;
-
-const StyledMenuItem = styled.div`
-  display: flex;
-  color: #fff !important;
-  padding: 0 15px;
-  z-index: 100;
-
-  @media (max-width: 500px) {
-    display: ${props => (props.onlyDesktop ? "none !important" : "flex")};
-  }
-
-  > a {
-    color: #fff !important;
-    :hover {
-      ${props => props.theme.primaryColor} !important;
-    }
+  > ${StyledMenuItem}:not(:last-child) {
+    margin-right: 30px;
   }
 `;
 

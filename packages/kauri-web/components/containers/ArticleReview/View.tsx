@@ -6,6 +6,8 @@ import { Label } from "../../../../kauri-components/components/Typography";
 import ScrollIndicator from "../../../../kauri-components/components/ScrollIndicator";
 import Loading from "../../common/Loading";
 
+const DEFAULT_CARD_WIDTH = 305;
+
 const Container = styled.div`
   background: white;
 `;
@@ -19,7 +21,7 @@ const Content = styled.div`
 const Details = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 290px;
+  max-width: ${DEFAULT_CARD_WIDTH}px;
   margin-left: ${props => props.theme.space[3]}px;
 `;
 

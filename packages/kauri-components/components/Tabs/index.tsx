@@ -38,6 +38,9 @@ const Tabs = styled<ITabsProps, "div">("div")`
     props.dark ? props.theme && props.theme.bg[props.bg] : "transparent"};
   ${props => props.padContent && "padding: 0px calc((100vw - 1280px) / 2)"};
   ${props => props.centerTabs && "justify-content: center"};
+  > :not(:last-child) {
+    margin-right: ${props => props.theme && props.theme.space[2]}px;
+  }
 `;
 
 interface ITabProps {
@@ -47,7 +50,6 @@ interface ITabProps {
 }
 
 const Tab = styled<ITabProps, "div">("div")`
-  margin: 0px ${props => props.theme && props.theme.space[2]}px;
   height: 50px;
   display: flex;
   align-items: center;

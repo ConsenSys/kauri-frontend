@@ -7,6 +7,7 @@ import Drafts from "../Drafts/View";
 import Awaiting from "../Awaiting/View";
 import Pending from "../Pending/View";
 import Transfers from "../../../../../kauri-components/components/Transfers";
+import styled from "../../../../lib/styled-components";
 
 const categories = [
   "drafts",
@@ -21,6 +22,15 @@ const queriesMatch: { [key: string]: string } = {
   "pending transfers": "transfersQuery",
   "submitted updates": "pendingQuery",
 };
+
+const ManageContentSection = styled.section`
+  display: flex;
+  flex-direction: row;
+  padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
+  > :first-child {
+    margin-right: ${props => props.theme.space[3]}px;
+  }
+`;
 
 interface IState {
   currentCategory: string;
@@ -44,7 +54,7 @@ const Manage: React.FunctionComponent<
   }
 
   return (
-    <ContentSection gridAutoFlow={["", "column"]}>
+    <ManageContentSection>
       <CategorySection>
         {categories.map(category => (
           <ResourceCategory
@@ -76,8 +86,8 @@ const Manage: React.FunctionComponent<
           data={props.transfersQuery.getArticleTransfers.content}
         />
       )}
-    </ContentSection>
+    </ManageContentSection>
   );
 };
-
+//
 export default withPagination(Manage, "searchArticles");

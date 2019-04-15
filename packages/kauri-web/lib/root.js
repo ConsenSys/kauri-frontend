@@ -41,6 +41,7 @@ import { addArticleToCollectionEpic } from "../components/connections/AddToColle
 import {
   verifyEmailEpic,
   resendEmailVerificationEpic,
+  emailSubscribeEpic
 } from "../components/containers/EmailVerification/Module";
 import { voteEpic } from "../components/containers/Article/ApprovedArticle/VoteModule";
 import {
@@ -92,6 +93,7 @@ const epics = [
   addArticleToCollectionEpic,
   verifyEmailEpic,
   resendEmailVerificationEpic,
+  emailSubscribeEpic,
   voteEpic,
   createCommunityEpic,
   updateCommunityEpic,

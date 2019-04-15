@@ -7,6 +7,8 @@ import { Label, H1, BodyCard } from "../Typography";
 import TagList from "../Tags/TagList";
 import Image from "../../../kauri-components/components/Image";
 
+const DEFAULT_CARD_WIDTH = 305;
+
 const ResourceRow = styled.div`
   display: flex;
   width: 933px;
@@ -66,7 +68,11 @@ const ResourceRowWithImage: React.SFC<IProps> = props => (
   <ResourceRow>
     {props.imageURL &&
       props.linkComponent(
-        <Image width={290} height={195} image={props.imageURL} />,
+        <Image
+          width={DEFAULT_CARD_WIDTH}
+          height={195}
+          image={props.imageURL}
+        />,
         props.ownerType === "COLLECTION"
           ? `/collection/${props.id}`
           : props.ownerType === "COMMUNITY"

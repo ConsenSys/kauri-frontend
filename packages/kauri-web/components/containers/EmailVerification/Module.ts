@@ -9,9 +9,14 @@ import { create } from "../../../lib/init-apollo";
 import { getEvent } from "../../../queries/Module";
 import {
   verifyEmail as verifyEmailMutation,
+  emailSubscribe as emailSubscribeMutation,
   regenerateEmailVerificationCode,
 } from "../../../queries/User";
 import { verifyEmail } from "../../../queries/__generated__/verifyEmail";
+import {
+  emailSubscribe,
+  emailSubscribeVariables,
+} from "../../../queries/__generated__/emailSubscribe";
 
 interface IVerifyEmailAction {
   callback: any;
@@ -20,6 +25,17 @@ interface IVerifyEmailAction {
 }
 
 const VERIFY_EMAIL = "VERIFY_EMAIL";
+
+const EMAIL_SUBSCRIBE = "EMAIL_SUBSCRIBE";
+
+export const emailSubscribeAction = (
+  emailAddress: string,
+  callback: any
+): IEmailSubscribeAction => ({
+  callback,
+  emailAddress,
+  type: EMAIL_SUBSCRIBE,
+});
 
 export const verifyEmailAction = (
   code: string,
@@ -42,9 +58,86 @@ export const resendEmailVerificationAction = () => ({
   type: "SEND_EMAIL_VERIFICATION",
 });
 
+export const emailSubscribedAction = () => ({
+  type: "EMAIL_SUBSCRIBED",
+});
+
+export const emailSubscribedFail = () => ({
+  type: "EMAIL_SUBSCRIBE_FAIL",
+});
+
 interface IVerifyEmailOutput {
   childHashes: string[];
 }
+
+interface IEmailSubscribeAction {
+  callback: any;
+  emailAddress: string;
+  type: "EMAIL_SUBSCRIBE";
+}
+
+interface IEmailSubscribeOutput {
+  id: string;
+}
+
+export const emailSubscribeEpic: Epic<any, IReduxState, IDependencies> = (
+  action$,
+  { getState },
+  { apolloClient }
+) =>
+  action$
+    .ofType(EMAIL_SUBSCRIBE)
+    .switchMap(({ emailAddress, callback }: IEmailSubscribeAction) =>
+      Observable.fromPromise(
+        apolloClient.mutate<emailSubscribe, emailSubscribeVariables>({
+          mutation: emailSubscribeMutation,
+          variables: {
+            emailAddress,
+            subscriptions: { newsletter: true },
+          },
+        })
+      )
+        .mergeMap(({ data: { emailSubscribe: { hash } } }) =>
+          Observable.fromPromise(
+            new Promise<{ data: { output: IEmailSubscribeOutput } }>(
+              (resolve, reject) => {
+                create(
+                  {},
+                  {
+                    getToken: () => "DUMMYVERIFICATIONTOKEN",
+                    hostName: getState().app.hostName,
+                  }
+                )
+                  .subscribe({
+                    query: getEvent,
+                    variables: { hash },
+                  })
+                  .subscribe({
+                    error: (err: Error) => reject(err),
+                    next: (data: {
+                      data: {
+                        output: IEmailSubscribeOutput;
+                      };
+                    }) => resolve(data),
+                  });
+              }
+            )
+          )
+        )
+        .mergeMap(({ data: { output } }) =>
+          output && output.id
+            ? Observable.of(
+                showNotificationAction({
+                  description:
+                    "Please check your email inbox and confirm email newsletter subscription!",
+                  message: "Confirm your email newsletter subscription",
+                  notificationType: "success",
+                })
+              ).do(() => apolloClient.resetStore())
+            : Observable.of(emailVerificationFail())
+        )
+        .do(callback)
+    );
 
 export const verifyEmailEpic: Epic<any, IReduxState, IDependencies> = (
   action$,
