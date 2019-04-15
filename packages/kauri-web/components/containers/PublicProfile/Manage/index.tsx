@@ -89,5 +89,5 @@ const Manage: React.FunctionComponent<
     </ManageContentSection>
   );
 };
-
+//
 export default withPagination(Manage, "searchArticles");
