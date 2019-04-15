@@ -130,7 +130,7 @@ class TransferOwnership extends React.Component {
         return <Container>
             <H1>Transfer Ownership</H1>
             <Label>Recipient ID</Label>
-           <InputWrapper prefix="0x"><Input onBlur={() => this.fetchTransfers()} onChange={e => this.setState({ recipientID: e.target.value})} /></InputWrapper> 
+           <InputWrapper prefix="0x"><Input onBlur={() => this.fetchTransfers()} onChange={e => this.setState({ recipientID: e.target.value.toLowerCase()})} /></InputWrapper> 
            {this.state.recipientID && this.state.transfers.length < 1 && <Error>No active transfers for this recipient Id</Error>}
             <Label>Article ID</Label>
             <Input onChange={e => this.setState({articleID: e.target.value})} />
