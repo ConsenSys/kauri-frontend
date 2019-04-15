@@ -84,7 +84,7 @@ const Avatar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50px;
+  border-radius: 4px;
   font-size: ${props => props.theme && props.theme.fontSizes[5]}px;
   font-weight: 700;
   margin-right: ${props => props.theme.space[2]}px;
@@ -153,7 +153,10 @@ const ProfileHeader = ({
     {avatar ? (
       <UserAvatar
         hideUsername
-        borderRadius="4px" height={100} width={100} avatar={avatar}
+        borderRadius="4px"
+        height={100}
+        width={100}
+        avatar={avatar}
       >
         {avatar ? "" : (name || id).substring(0, 1).toUpperCase()}
       </UserAvatar>
@@ -220,7 +223,9 @@ const ProfileHeader = ({
         />
       )}
       {id === currentUser && (
-        <StyledButton onClick={() => toggleEditing()}>Edit Profile</StyledButton>
+        <StyledButton onClick={() => toggleEditing()}>
+          Edit Profile
+        </StyledButton>
       )}
     </RightSide>
   </PublicProfileHeader>

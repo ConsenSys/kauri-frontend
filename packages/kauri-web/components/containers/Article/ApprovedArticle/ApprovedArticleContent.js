@@ -4,13 +4,9 @@ import { Helmet } from "react-helmet";
 import { EditorState, convertFromRaw } from "draft-js";
 import { Link } from "../../../../routes";
 import slugify from "slugify";
-
 import { CreateRequestDetails } from "../../../common/Legacy/CreateRequestDetails";
-
 import { CreateRequestContent as SubmitArticleFormContent } from "../../../common/Legacy/CreateRequestContent";
-
 import { CreateRequestContainer as SubmitArticleFormContainer } from "../../../common/Legacy/CreateRequestContainer";
-
 import DescriptionRow from "../../../common/DescriptionRow";
 import {
   contentStateFromHTML,
@@ -29,6 +25,7 @@ import AddToCollectionConnection from "../../../connections/AddToCollection";
 import { Label } from "../../../../../kauri-components/components/Typography";
 import RelatedArticles from "../../../../../kauri-components/components/RelatedArticles";
 import { Divider } from "../../../../../kauri-components/components/Outline";
+import UserAvatarComponent from "../../../../../kauri-components/components/UserAvatar";
 
 export const ApprovedArticleDetails = styled(CreateRequestDetails)`
   align-items: inherit;
@@ -46,7 +43,19 @@ export const ApprovedArticleDetails = styled(CreateRequestDetails)`
 
 const ActionsContainer = styled.div`
   & > button {
-    margin: ${props => props.theme.space[2]}px 0;
+    margin-bottom: ${props => props.theme.space[2]}px;
+  }
+`;
+
+const AuthorContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0px;
+  > :first-child {
+    margin-bottom: ${props => props.theme.space[1]}px;
+  }
+  > :last-child {
+    margin-bottom: 0px;
   }
 `;
 
@@ -123,6 +132,7 @@ export default ({
   text,
   username,
   userId,
+  author,
   ownerId,
   authorId,
   userAvatar,
@@ -140,6 +150,11 @@ export default ({
   nfts,
   relatedArticles,
 }: {
+  author: {
+    id: string,
+    avatar: string | null,
+    username: string | null,
+  },
   text?: string,
   username?: ?string,
   userAvatar?: ?string,
@@ -183,9 +198,9 @@ export default ({
     (editorState.markdown
       ? contentState.getBlocksAsArray().map(block => block.toJS())
       : editorState
-          .getCurrentContent()
-          .getBlocksAsArray()
-          .map(block => block.toJS()));
+        .getCurrentContent()
+        .getBlocksAsArray()
+        .map(block => block.toJS()));
 
   const outlineHeadings = blocks
     .filter(({ type }) => type.includes("header-two"))
@@ -222,6 +237,20 @@ export default ({
           text={ownerId ? "OWNER" : "AUTHOR"}
           routeChangeAction={routeChangeAction}
         />
+        {ownerId !== authorId &&
+          (status === "PENDING" || status === "IN_REVIEW") && (
+          <AuthorContainer>
+            <Label>{"AUTHOR"}</Label>
+            <Link useAnchorTag href={`/public-profile/${authorId}`}>
+              <UserAvatarComponent
+                userId={author.id}
+                avatar={author.avatar}
+                username={author.username}
+              />
+            </Link>
+            <Divider />
+          </AuthorContainer>
+        )}
         <ActionsContainer>
           {status !== "DRAFT" && (
             <TertiaryButton
@@ -230,13 +259,13 @@ export default ({
               handleClick={() =>
                 userId
                   ? openModalAction({
-                      children: (
-                        <AddToCollectionConnection
-                          articleId={id}
-                          version={version}
-                        />
-                      ),
-                    })
+                    children: (
+                      <AddToCollectionConnection
+                        articleId={id}
+                        version={version}
+                      />
+                    ),
+                  })
                   : routeChangeAction(`/login?r=/article/${id}/v${version}`)
               }
             >
@@ -250,8 +279,8 @@ export default ({
               userId
                 ? routeChangeAction(`/article/${id}/v${version}/update-article`)
                 : routeChangeAction(
-                    `/login?r=/article/${id}/v${version}/update-article`
-                  )
+                  `/login?r=/article/${id}/v${version}/update-article`
+                )
             }
           >
             {`Update ${status === "DRAFT" ? "draft" : "article"}`}

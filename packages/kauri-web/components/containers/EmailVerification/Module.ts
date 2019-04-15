@@ -97,7 +97,7 @@ export const emailSubscribeEpic: Epic<any, IReduxState, IDependencies> = (
           },
         })
       )
-        .mergeMap(({ data: { emailSubscribe: { hash } } }) =>
+        .mergeMap(({ data: { subscribe: { hash } } }) =>
           Observable.fromPromise(
             new Promise<{ data: { output: IEmailSubscribeOutput } }>(
               (resolve, reject) => {

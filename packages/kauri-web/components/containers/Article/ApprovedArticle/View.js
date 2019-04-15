@@ -39,13 +39,13 @@ class ApprovedArticle extends React.Component<Props, State> {
   static Footer = Footer;
   static Comments = Comments;
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
   }
 
-  componentDidMount() {
+  componentDidMount () {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
@@ -54,7 +54,7 @@ class ApprovedArticle extends React.Component<Props, State> {
     });
   }
 
-  render() {
+  render () {
     const props = this.props;
     if (!props.data.getArticle) return;
     const { associatedNfts } = props.data.getArticle;
@@ -86,8 +86,8 @@ class ApprovedArticle extends React.Component<Props, State> {
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)
               : R.path(["data", "getArticle", "owner"])(props)
-              ? R.path(["data", "getArticle", "owner", "username"])(props)
-              : R.path(["data", "getArticle", "author", "username"])(props)
+                ? R.path(["data", "getArticle", "owner", "username"])(props)
+                : R.path(["data", "getArticle", "author", "username"])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -118,8 +118,8 @@ class ApprovedArticle extends React.Component<Props, State> {
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)
               : R.path(["data", "getArticle", "owner"])(props)
-              ? R.path(["data", "getArticle", "owner", "username"])(props)
-              : R.path(["data", "getArticle", "author", "username"])(props)
+                ? R.path(["data", "getArticle", "owner", "username"])(props)
+                : R.path(["data", "getArticle", "author", "username"])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -127,6 +127,7 @@ class ApprovedArticle extends React.Component<Props, State> {
               : props.data.getArticle.author.avatar
           }
           userId={this.props.userId}
+          author={props.data.getArticle && props.data.getArticle.author}
           authorId={
             props.data.getArticle &&
             props.data.getArticle.author &&
