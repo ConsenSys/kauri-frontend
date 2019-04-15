@@ -208,21 +208,17 @@ export const finaliseArticleTransferEpic: Epic<
             }) => apolloSubscriber(hash)
           )
           .do(() => apolloClient.resetStore())
+          .do(() => analytics.track("Article Transfer Accepted", {
+            category: "article_actions",
+          }))
           .mergeMap(() =>
-            Observable.merge(
               Observable.of(
                 showNotificationAction({
                   description: `You successfully approved the ownership of the article!`,
                   message: "Article Transfer Accepted!",
                   notificationType: "success",
                 })
-              ),
-              Observable.of(
-                analytics.track("Article Transfer Accepted", {
-                  category: "article_actions",
-                })
               )
-            )
           );
       }
     );
