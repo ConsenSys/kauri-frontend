@@ -21,10 +21,7 @@ import CuratedCategory, {
   CuratedCategoriesSection,
 } from "../../../../kauri-components/components/CuratedCategory";
 import { Link } from "../../../routes";
-import {
-  IShowNotificationAction,
-  IShowNotificationPayload,
-} from "../../../lib/Module";
+import { IShowNotificationPayload } from "../../../lib/Module";
 // import mockData from "./mock";
 
 const HomePageSection = styled.section`
@@ -45,6 +42,9 @@ const HomePageRow = styled.section`
   }
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     flex-direction: column;
+    > :not(:last-child) {
+      margin-right: 0px;
+    }
   }
 `;
 
