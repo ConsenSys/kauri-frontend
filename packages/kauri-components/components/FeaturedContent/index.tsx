@@ -5,6 +5,8 @@ import { Title2 } from "../Typography";
 import { RenderCardContent } from "../CuratedLists";
 import { HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_content_resource } from "../../../kauri-web/queries/__generated__/HomePagev2";
 
+const DEFAULT_CARD_WIDTH = 305;
+
 const Container = styled.section`
   display: flex;
   flex-direction: column;
@@ -13,10 +15,6 @@ const Container = styled.section`
   > :first-child {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
-  @media (max-width: ${props => props.theme.breakpoints[0]}) {
-    padding: ${props => props.theme.space[3]}px
-      ${props => props.theme.space[2]}px;
-  }
 `;
 
 const ResourceContainer = styled(Container)`
@@ -24,19 +22,35 @@ const ResourceContainer = styled(Container)`
   > :not(:last-child) {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
-  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+  @media (max-width: 1280px) {
     align-items: center;
   }
 `;
 
 const DesktopResourceContainer = styled(ResourceContainer)`
-  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+  @media (max-width: 1280px) {
     display: none;
   }
 `;
 
 const MobileResourceContainer = styled(ResourceContainer)`
-  @media (min-width: 501px) {
+  @media (max-width: 1280px) {
+    display: grid;
+    min-width: 90vw;
+    > :not(:first-child) {
+      justify-content: center;
+    }
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(290px, ${DEFAULT_CARD_WIDTH}px)
+    );
+    grid-gap: ${props => props.theme.space[2]}px
+      ${props => props.theme.space[3]}px;
+  }
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    justify-content: center;
+  }
+  @media (min-width: 1280px) {
     display: none;
   }
 `;

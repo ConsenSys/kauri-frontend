@@ -40,7 +40,7 @@ const HomePageRow = styled.section`
   > :not(:last-child) {
     margin-right: ${props => props.theme.space[4]}px;
   }
-  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+  @media (max-width: 1280px) {
     flex-direction: column;
     > :not(:last-child) {
       margin-right: 0px;
@@ -54,7 +54,7 @@ const SideRow = styled.section`
   > :not(:last-child) {
     margin-bottom: ${props => props.theme.space[3]}px;
   }
-  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+  @media (max-width: 1280px) {
     display: none;
   }
 `;
