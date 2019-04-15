@@ -21,6 +21,10 @@ import CuratedCategory, {
   CuratedCategoriesSection,
 } from "../../../../kauri-components/components/CuratedCategory";
 import { Link } from "../../../routes";
+import {
+  IShowNotificationAction,
+  IShowNotificationPayload,
+} from "../../../lib/Module";
 // import mockData from "./mock";
 
 const HomePageSection = styled.section`
@@ -65,6 +69,8 @@ interface IProps {
   };
   hostName: string;
   routeChangeAction: (route: string) => void;
+  emailSubscribeAction: (emailAddress: string) => void;
+  showNotificationAction: (payload: IShowNotificationPayload) => void;
 }
 
 const HomePageV2Component: React.FunctionComponent<IProps> = props => {
@@ -212,11 +218,16 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                               if (mainRow.__typename === "Newsletter") {
                                 return (
                                   <NewsletterBanner
-                                    handleSubmit={() => {
-                                      return;
-                                    }}
+                                    handleSubmit={emailAddress =>
+                                      props.emailSubscribeAction(emailAddress)
+                                    }
                                     handleError={() => {
-                                      return;
+                                      props.showNotificationAction({
+                                        description:
+                                          "Please enter a valid email address!",
+                                        message: "Invalid Email address",
+                                        notificationType: "error",
+                                      });
                                     }}
                                   />
                                 );
@@ -326,7 +337,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                   }
 
                                   default: {
-                                    return <p key="side">SIDEBAR ROW</p>;
+                                    return null;
                                   }
                                 }
                               }

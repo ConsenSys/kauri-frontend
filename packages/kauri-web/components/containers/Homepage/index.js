@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import {
   routeChangeAction,
   setNavcolorOverrideAction,
+  showNotificationAction,
 } from "../../../lib/Module";
+import { emailSubscribeAction } from "../EmailVerification/Module";
 
 const mapStateToProps = (state, ownProps) => {
   return { hostName: state.app && state.app.hostName };
@@ -11,5 +13,10 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  { routeChangeAction, setNavcolorOverrideAction }
+  {
+    routeChangeAction,
+    setNavcolorOverrideAction,
+    emailSubscribeAction,
+    showNotificationAction,
+  }
 )(Homepage);
