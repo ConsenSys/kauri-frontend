@@ -268,9 +268,15 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                   case "Actions": {
                                     return (
                                       <PublishYourOwnContentCTA
+                                        isLoggedIn={props.isLoggedIn}
                                         key={sideBar.__typename}
                                         linkComponent={(children, route) => (
-                                          <Link href={route}>{children}</Link>
+                                          <Link
+                                            useAnchorTag={true}
+                                            href={route}
+                                          >
+                                            {children}
+                                          </Link>
                                         )}
                                         content={sideBar.content}
                                       />

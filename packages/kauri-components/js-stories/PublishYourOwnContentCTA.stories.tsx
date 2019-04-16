@@ -31,6 +31,7 @@ storiesOf("PublishYourOwnContentCTA", module)
   .addDecorator(story => <Container>{story()}</Container>)
   .add("Three buttons", () => (
     <PublishYourOwnContentCTA
+      isLoggedIn={true}
       content={[
         {
           __typename: "StaticContentElementDTO",

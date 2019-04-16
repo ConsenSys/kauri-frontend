@@ -30,6 +30,7 @@ interface IProps {
     children: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
+  isLoggedIn: boolean;
 }
 
 const PublishYourOwnContentCTA: React.FunctionComponent<IProps> = props => (
@@ -48,7 +49,7 @@ const PublishYourOwnContentCTA: React.FunctionComponent<IProps> = props => (
               >
                 {content.name}
               </SecondaryButtonComponent>,
-              content.link
+              props.isLoggedIn ? content.link : `/login?r=${content.link}`
             )
         )}
     </Buttons>
