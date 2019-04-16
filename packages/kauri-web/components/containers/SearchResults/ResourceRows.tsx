@@ -90,6 +90,7 @@ class ResourceRows extends React.Component<
                         tags,
                         owner,
                         attributes,
+                        __typename,
                       } = resource.resource;
 
                       const typedOwner = owner as
@@ -97,6 +98,9 @@ class ResourceRows extends React.Component<
                         | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO;
                       return (
                         <ResourceRowWithImage
+                          resourceType={__typename
+                            .split("DTO")[0]
+                            .toLowerCase()}
                           key={String(id)}
                           id={String(id)}
                           version={Number(version)}
@@ -145,6 +149,7 @@ class ResourceRows extends React.Component<
                         tags,
                         owner,
                         background,
+                        __typename,
                       } = resource.resource;
 
                       const typedOwner = owner as
@@ -152,6 +157,9 @@ class ResourceRows extends React.Component<
                         | searchResultsAutocomplete_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO;
                       return (
                         <ResourceRowWithImage
+                          resourceType={__typename
+                            .split("DTO")[0]
+                            .toLowerCase()}
                           key={String(id)}
                           id={String(id)}
                           date={dateUpdated}
@@ -198,10 +206,14 @@ class ResourceRows extends React.Component<
                         dateUpdated,
                         // creatorId,
                         avatar,
+                        __typename,
                       } = resource.resource;
 
                       return (
                         <ResourceRowWithImage
+                          resourceType={__typename
+                            .split("DTO")[0]
+                            .toLowerCase()}
                           key={String(id)}
                           id={String(id)}
                           ownerType={"COMMUNITY"}

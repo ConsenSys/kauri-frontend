@@ -134,6 +134,7 @@ const RenderDesktopFeaturedContent: React.FunctionComponent<
           case "ArticleDTO": {
             return (
               <ResourceRow
+                resourceType={resource.__typename.split("DTO")[0].toLowerCase()}
                 key={String(resource.id)}
                 id={String(resource.id)}
                 version={Number(resource.version)}
@@ -166,6 +167,7 @@ const RenderDesktopFeaturedContent: React.FunctionComponent<
           case "CollectionDTO": {
             return (
               <ResourceRow
+                resourceType={resource.__typename.split("DTO")[0].toLowerCase()}
                 key={String(resource.id)}
                 id={String(resource.id)}
                 title={String(resource.name)}

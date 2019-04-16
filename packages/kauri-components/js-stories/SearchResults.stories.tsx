@@ -58,6 +58,7 @@ storiesOf("SearchResults", module)
   .add("ResourceRow with image", () => (
     <Container>
       <ResourceRowWithImage
+        resourceType={"article"}
         ownerType={"USER"}
         date={"2019-01-14T09:49:25.350Z"}
         title={"One Line Title One Line Title One Line Title One Line Title"}
@@ -90,6 +91,7 @@ storiesOf("SearchResults", module)
   .add("ResourceRow without image", () => (
     <Container>
       <ResourceRowWithImage
+        resourceType={"article"}
         date={"2019-01-14T09:49:25.350Z"}
         title={"One Line Title One Line Title One Line Title One Line Title"}
         id={"1234567890"}

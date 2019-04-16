@@ -178,6 +178,8 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                     }
                                   );
 
+                                  // console.log(resource[0]);
+
                                   return (
                                     <FeaturedResource
                                       {...resource[0]}
