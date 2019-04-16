@@ -103,9 +103,11 @@ const FeaturedResource: React.FunctionComponent<
         <SecondaryButtonComponent border="primary" color="textPrimary">{`View ${
           props.resourceType
         }`}</SecondaryButtonComponent>,
-        props.ownerResourceType === "COMMUNITY"
-          ? `/community/${props.userId}`
-          : `/public-profile/${props.userId}`
+        props.resourceType === "article"
+          ? `/article/${props.id}/v${props.version}`
+          : props.resourceType === "collection"
+          ? `/collection/${props.id}`
+          : `/community/${props.id}`
       )}
     </ViewContainer>
   </FeaturedResourceStack>

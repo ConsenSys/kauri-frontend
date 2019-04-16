@@ -134,6 +134,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                             background={category.image}
                                             linkComponent={children => (
                                               <Link
+                                                fullWidth={true}
                                                 useAnchorTag={true}
                                                 href={category.link}
                                               >
@@ -181,6 +182,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                     <FeaturedResource
                                       {...resource[0]}
                                       {...resource[0].owner}
+                                      id={resource[0].id}
                                       userId={resource[0].owner.id}
                                       resourceType={resource[0].resourceIdentifier.type.toLowerCase()}
                                       ownerResourceType={resource[0].owner.resourceIdentifier.type.toLowerCase()}

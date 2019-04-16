@@ -30,6 +30,7 @@ const Container = styled<{ background: null | string }, "div">("div")`
 const Content = styled.div`
   display: flex;
   z-index: 9001;
+  width: 100%;
   position: absolute;
   flex-direction: column;
   text-overflow: ellipsis;
