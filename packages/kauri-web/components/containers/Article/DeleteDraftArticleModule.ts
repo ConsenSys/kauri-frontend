@@ -106,24 +106,18 @@ export const deleteDraftArticleEpic: Epic<any, IReduxState, IDependencies> = (
             }).hash
           )
         )
+        .do(() => {
+          analytics.track("Delete Draft", {
+            category: "article_actions",
+          });
+          apolloClient.resetStore()
+          return typeof callback === "function" && callback()
+        })
         .mergeMap(() =>
-          apolloClient.query<getArticleTitle>({
-            query: getArticleTitleQuery,
-            variables: { id: variables.id, version: variables.version },
-          })
-        )
-        .map(
-          ({ data: { getArticle } }) =>
-            GetArticle.decode(getArticle).getOrElseL(errors => {
-              throw new Error(failure(errors).join("\n"));
-            }).title
-        )
-        .do(() => typeof callback === "function" && callback())
-        .mergeMap(title =>
           Observable.merge(
             Observable.of(
               (showNotificationAction as any)({
-                description: `Your draft article "${title}" has been deleted!`,
+                description: `Your draft article has been deleted!`,
                 message: "Draft article deleted",
                 notificationType: "success",
               })
@@ -135,10 +129,4 @@ export const deleteDraftArticleEpic: Epic<any, IReduxState, IDependencies> = (
             )
           )
         )
-        .do(() => {
-          analytics.track("Delete Draft", {
-            category: "article_actions",
-          });
-        })
-        .do(() => apolloClient.resetStore())
     );

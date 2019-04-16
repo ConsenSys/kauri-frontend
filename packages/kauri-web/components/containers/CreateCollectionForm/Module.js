@@ -109,7 +109,19 @@ export const composeCollectionEpic = (
             Observable.fromPromise(apolloSubscriber(hash))
           )
           .do(h => console.log(h))
-          .mergeMap(() => apolloClient.resetStore())
+          .do(() => {
+            analytics.track(
+              updating ? "Update Collection" : "Create Collection",
+              {
+                category: "collection_actions",
+                sections: sections.length,
+                resources: sections.reduce(
+                  (all, item) => (all += item.resourcesId.length),
+                  0
+                ),
+              }
+            );
+          })
           .mergeMap(() =>
             Observable.of(
               showNotificationAction({
@@ -127,19 +139,6 @@ export const composeCollectionEpic = (
               )
             )
           )
-          .do(() => {
-            analytics.track(
-              updating ? "Update Collection" : "Create Collection",
-              {
-                category: "collection_actions",
-                sections: sections.length,
-                resources: sections.reduce(
-                  (all, item) => (all += item.resourcesId.length),
-                  0
-                ),
-              }
-            );
-          })
           .do(() => callback && callback())
           .catch(err => {
             console.error(err);
