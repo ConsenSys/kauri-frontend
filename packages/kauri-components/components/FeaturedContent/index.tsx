@@ -15,6 +15,9 @@ const Container = styled.section`
   > :first-child {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
+  @media (max-width: 1280px) {
+    padding: 0px ${props => props.theme.space[2]}px;
+  }
 `;
 
 const ResourceContainer = styled(Container)`

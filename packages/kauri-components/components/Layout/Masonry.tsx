@@ -17,6 +17,9 @@ const MasonryContainer = styled<{ withPadding: boolean }, "div">("div")`
   grid-gap: ${props => props.theme.space[2]}px
     ${props => props.theme.space[3]}px;
   ${props => props.withPadding && paddingCSS};
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    justify-content: center;
+  }
 `;
 
 interface IProps {

@@ -25,6 +25,7 @@ class LoadingComponent extends React.Component<IProps> {
           display: flex;
           flex: 1;
           align-items: center;
+          justify-content: center;
           min-height: 100px;
         }
         .lds-ellipsis {
