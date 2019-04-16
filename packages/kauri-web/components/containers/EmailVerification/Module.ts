@@ -77,7 +77,7 @@ interface IEmailSubscribeAction {
 }
 
 interface IEmailSubscribeOutput {
-  id: string;
+  commandResult: string;
 }
 
 export const emailSubscribeEpic: Epic<any, IReduxState, IDependencies> = (
@@ -87,7 +87,7 @@ export const emailSubscribeEpic: Epic<any, IReduxState, IDependencies> = (
 ) =>
   action$
     .ofType(EMAIL_SUBSCRIBE)
-    .switchMap(({ emailAddress, callback }: IEmailSubscribeAction) =>
+    .switchMap(({ emailAddress }: IEmailSubscribeAction) =>
       Observable.fromPromise(
         apolloClient.mutate<emailSubscribe, emailSubscribeVariables>({
           mutation: emailSubscribeMutation,
@@ -124,8 +124,9 @@ export const emailSubscribeEpic: Epic<any, IReduxState, IDependencies> = (
             )
           )
         )
+        .do(() => apolloClient.resetStore())
         .mergeMap(({ data: { output } }) =>
-          output && output.id
+          output && output.commandResult
             ? Observable.of(
                 showNotificationAction({
                   description:
@@ -133,10 +134,9 @@ export const emailSubscribeEpic: Epic<any, IReduxState, IDependencies> = (
                   message: "Confirm your email newsletter subscription",
                   notificationType: "success",
                 })
-              ).do(() => apolloClient.resetStore())
+              )
             : Observable.of(emailVerificationFail())
         )
-        .do(callback)
     );
 
 export const verifyEmailEpic: Epic<any, IReduxState, IDependencies> = (

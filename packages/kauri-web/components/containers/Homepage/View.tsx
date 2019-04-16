@@ -362,7 +362,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
               })}
             </HomePageSection>
           );
-        }
+        } else { return null; }
       }}
     </Query>
   );
