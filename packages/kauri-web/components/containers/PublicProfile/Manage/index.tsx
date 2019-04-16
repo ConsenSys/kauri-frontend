@@ -1,6 +1,5 @@
 import React from "react";
 import withPagination from "../../../../lib/with-pagination";
-import ContentSection from "../../../../../kauri-components/components/Section/ContentSection";
 import CategorySection from "../../../../../kauri-components/components/Section/CategorySection";
 import ResourceCategory from "../../../../../kauri-components/components/ResourceCategory";
 import Drafts from "../Drafts/View";
@@ -26,7 +25,8 @@ const queriesMatch: { [key: string]: string } = {
 const ManageContentSection = styled.section`
   display: flex;
   flex-direction: row;
-  padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
+  padding-top: ${props => props.theme.paddingTop};
+  ${props => props.theme.padContent};
   > :first-child {
     margin-right: ${props => props.theme.space[3]}px;
   }

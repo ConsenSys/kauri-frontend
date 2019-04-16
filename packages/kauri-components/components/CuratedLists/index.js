@@ -47,14 +47,15 @@ const Resources = styled.div`
   z-index: 10;
   position: relative;
   flex: 1;
-  max-width: 1280px;
+  max-width: ${props => props.theme.breakpoints[2]};
   > * {
     margin: ${props => props.theme.space[2]}px;
   }
 `;
 
 const Content = styled.div`
-  padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
+  padding: ${props => props.theme.paddingTop};
+  ${props => props.theme.padContent};
 `;
 
 export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {

@@ -1,4 +1,4 @@
-import styled from "../../lib/styled-components"
+import styled from "../../lib/styled-components";
 
 const CardContentSection = styled.section`
   display: flex;
@@ -7,10 +7,10 @@ const CardContentSection = styled.section`
   flex: 1;
   flex-wrap: wrap;
   padding-bottom: 0;
-  max-width: 1280px;
+  max-width: ${props => props.theme.breakpoints[2]};
   > * {
     margin: ${props => props.theme.space[2]}px;
-  } 
-`
+  }
+`;
 
-export default CardContentSection
+export default CardContentSection;

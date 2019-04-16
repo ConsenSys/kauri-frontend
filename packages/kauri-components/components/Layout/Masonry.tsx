@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import styled, { css } from "../../lib/styled-components";
+import theme from "../../lib/theme-config";
 
-const DEFAULT_CARD_WIDTH = 305;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const paddingCSS = css`
-  padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
+  padding-top: ${props => props.theme.paddingTop};
+  ${props => props.theme.padContent};
 `;
 
 const MasonryContainer = styled<{ withPadding: boolean }, "div">("div")`
@@ -12,7 +14,7 @@ const MasonryContainer = styled<{ withPadding: boolean }, "div">("div")`
   width: 100%;
   grid-template-columns: repeat(
     auto-fill,
-    minmax(290px, ${DEFAULT_CARD_WIDTH}px)
+    minmax(${DEFAULT_CARD_WIDTH}px, ${DEFAULT_CARD_WIDTH}px)
   );
   grid-gap: ${props => props.theme.space[2]}px
     ${props => props.theme.space[3]}px;

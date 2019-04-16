@@ -140,7 +140,7 @@ const colors: IColors = {
   divider: "#EBEBEB",
   errorRedColor: "#C03030",
   hoverTextColor: "#108E72",
-  padding: "calc((100vw - 1280px) / 2)",
+  padding: "calc((100vw - ${props => props.theme.breakpoints[2]}) / 2)",
   paddingTop: "2.5em",
   primary: "#0BA986",
   primaryColor: "#0BA986",
@@ -156,13 +156,26 @@ const colors: IColors = {
   white: "#FFFFFF",
 };
 
+const MAIN_BODY_WIDTH = 1242;
+
+const DEFAULT_CARD_WIDTH = 288;
+
 const fontSizes: FontSizes = [11, 13, 14, 16, 18, 20, 22, 28, 32];
 
 const fontWeight: FontWeight = [300, "normal", 500, 700];
 
-const breakpoints: Breakpoints = ["500px", "52em", "64em"];
+const breakpoints: Breakpoints = ["500px", "52em", `${MAIN_BODY_WIDTH}px`];
 
-const space: Space = [0, 10, 15, 20, 40];
+const space: Space = [0, 10, 15, 30, 60];
+
+const padContent = `
+  max-width: ${MAIN_BODY_WIDTH}px;
+  margin-left: auto;
+  margin-right: auto;
+  @media (min-width: ${breakpoints[2]}) {
+    min-width: ${MAIN_BODY_WIDTH}px;
+  }
+`;
 
 const themeConfig = {
   bg: colors,
@@ -172,7 +185,8 @@ const themeConfig = {
   fontWeight,
   space,
   ...colors, // TODO: Deprecate across the app
-  padding: "calc((100vw - 1280px) / 2)",
+  padding: `calc((100vw - ${MAIN_BODY_WIDTH}px) / 2)`,
+  padContent,
   paddingTop: "2.5em",
   // categories for stories
   aragon,
@@ -186,6 +200,8 @@ const themeConfig = {
   toshi,
   uport,
   zeppelin,
+  DEFAULT_CARD_WIDTH,
+  MAIN_BODY_WIDTH,
 };
 
 export type IThemeInterface = typeof themeConfig;

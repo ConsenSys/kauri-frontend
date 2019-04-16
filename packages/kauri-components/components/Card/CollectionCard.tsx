@@ -20,7 +20,7 @@ import {
 import Date from "../HoverDateLabel";
 
 const DEFAULT_CARD_HEIGHT = 310;
-const DEFAULT_CARD_WIDTH = 305;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 const DEFAULT_CARD_PADDING = theme.space[2];
 
 const withImageURLCss = css`

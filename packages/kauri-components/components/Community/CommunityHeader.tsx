@@ -132,7 +132,6 @@ const Wrapper = styled.div`
 const Container = styled.div`
   z-index: 2;
   background: ${props => props.theme.colors.bgPrimary};
-  padding: 60px ${props => props.theme.padding};
   display: flex;
   flex-direction: row;
   & .name-website {
@@ -183,6 +182,15 @@ const Row = styled.div`
   display: flex;
   flex-direction: row;
 `;
+
+const ContentRow = styled(Row)`
+  padding: ${props => props.theme.space[3]}px 0px;
+  ${props => props.theme.padContent};
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    flex-direction: column;
+  }
+`;
+
 const Column = styled.div`
   display: flex;
   flex-direction: column;
@@ -267,79 +275,80 @@ IProps) => (
       />
     )}
     <Container>
-      <Column>
-        <Row className="image-name">
-          {avatar && <Image width={100} height={100} image={avatar} />}
-          <Column className="name-website">
-            <Title1 color="white">{name}</Title1>
-            {website && <BodyCard color="white">{website}</BodyCard>}
-          </Column>
-        </Row>
-        <PageDescription className="description" color="white">
-          {description}
-        </PageDescription>
-        <TagList color="white" maxTags={7} tags={tags} />
-        <Links className="links">
-          {social && social.github && (
-            <SocialWebsiteIcon
-              brand="github"
-              height={20}
-              socialURL={getURL(social.github, "github")}
-            />
-          )}
-          {social && social.twitter && (
-            <SocialWebsiteIcon
-              brand="twitter"
-              height={20}
-              socialURL={getURL(social.twitter, "twitter")}
-            />
-          )}
-          <ShareCommunity
-            color={"white"}
-            url={`https://www.kauri.io/community/${id}`}
-            title={`${name} on Kauri`}
-          />
-        </Links>
-      </Column>
-      <RightSide>
-        <Statistics
-          statistics={[
-            { name: "Articles", count: articles },
-            { name: "Collections", count: collections },
-          ]}
-        />
-        <Row>
-          <RightSide>
-            {members && members.length > 0 && (
-              <>
-                <Label className="moderators" color="white">
-                  Moderators
-                </Label>
-                <Row>
-                  {members.map(i =>
-                    i ? (
-                      <UserAvatar
-                        userId={String(i.id)}
-                        username={i.name || null}
-                        borderRadius="4px"
-                        height={30}
-                        width={30}
-                        avatar={i.avatar || null}
-                        variant="white"
-                        hideUsername={true}
-                      >
-                        {i.avatar
-                          ? ""
-                          : (name || id).substring(0, 1).toUpperCase()}
-                      </UserAvatar>
-                    ) : null
-                  )}
-                </Row>
-              </>
+      <ContentRow>
+        <Column>
+          <Row className="image-name">
+            {avatar && <Image width={100} height={100} image={avatar} />}
+            <Column className="name-website">
+              <Title1 color="white">{name}</Title1>
+              {website && <BodyCard color="white">{website}</BodyCard>}
+            </Column>
+          </Row>
+          <PageDescription className="description" color="white">
+            {description}
+          </PageDescription>
+          <TagList color="white" maxTags={7} tags={tags} />
+          <Links className="links">
+            {social && social.github && (
+              <SocialWebsiteIcon
+                brand="github"
+                height={20}
+                socialURL={getURL(social.github, "github")}
+              />
             )}
-          </RightSide>
-        </Row>
-        {/* {!isMember && (
+            {social && social.twitter && (
+              <SocialWebsiteIcon
+                brand="twitter"
+                height={20}
+                socialURL={getURL(social.twitter, "twitter")}
+              />
+            )}
+            <ShareCommunity
+              color={"white"}
+              url={`https://www.kauri.io/community/${id}`}
+              title={`${name} on Kauri`}
+            />
+          </Links>
+        </Column>
+        <RightSide>
+          <Statistics
+            statistics={[
+              { name: "Articles", count: articles },
+              { name: "Collections", count: collections },
+            ]}
+          />
+          <Row>
+            <RightSide>
+              {members && members.length > 0 && (
+                <>
+                  <Label className="moderators" color="white">
+                    Moderators
+                  </Label>
+                  <Row>
+                    {members.map(i =>
+                      i ? (
+                        <UserAvatar
+                          userId={String(i.id)}
+                          username={i.name || null}
+                          borderRadius="4px"
+                          height={30}
+                          width={30}
+                          avatar={i.avatar || null}
+                          variant="white"
+                          hideUsername={true}
+                        >
+                          {i.avatar
+                            ? ""
+                            : (name || id).substring(0, 1).toUpperCase()}
+                        </UserAvatar>
+                      ) : null
+                    )}
+                  </Row>
+                </>
+              )}
+            </RightSide>
+          </Row>
+          {/* {!isMember && (
           <Tooltip
             className="suggest-content"
             position="bottom"
@@ -356,7 +365,8 @@ IProps) => (
             <Label color="white">Suggest Content</Label>
           </Tooltip>
         )} */}
-      </RightSide>
+        </RightSide>
+      </ContentRow>
     </Container>
   </Wrapper>
 );

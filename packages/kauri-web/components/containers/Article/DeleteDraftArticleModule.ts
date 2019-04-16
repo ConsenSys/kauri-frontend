@@ -6,7 +6,6 @@ import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
 import { deleteDraftArticle } from "./__generated__/deleteDraftArticle";
-import { getArticleTitle } from "./__generated__/getArticleTitle";
 import analytics from "../../../lib/analytics";
 
 export const deleteDraftArticleMutation = gql`
@@ -81,10 +80,6 @@ const CommandOutput = t.interface({
   hash: t.string,
 });
 
-const GetArticle = t.interface({
-  title: t.string,
-});
-
 export const deleteDraftArticleEpic: Epic<any, IReduxState, IDependencies> = (
   action$,
   store,
@@ -110,8 +105,8 @@ export const deleteDraftArticleEpic: Epic<any, IReduxState, IDependencies> = (
           analytics.track("Delete Draft", {
             category: "article_actions",
           });
-          apolloClient.resetStore()
-          return typeof callback === "function" && callback()
+          apolloClient.resetStore();
+          return typeof callback === "function" && callback();
         })
         .mergeMap(() =>
           Observable.merge(

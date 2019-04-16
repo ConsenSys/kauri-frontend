@@ -5,8 +5,9 @@ import Diffs from "../../../../kauri-components/components/DiffViewer";
 import { Label } from "../../../../kauri-components/components/Typography";
 import ScrollIndicator from "../../../../kauri-components/components/ScrollIndicator";
 import Loading from "../../common/Loading";
+import theme from "../../../../kauri-components/lib/theme-config";
 
-const DEFAULT_CARD_WIDTH = 305;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const Container = styled.div`
   background: white;

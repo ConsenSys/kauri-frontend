@@ -36,7 +36,9 @@ const Tabs = styled<ITabsProps, "div">("div")`
   align-items: center;
   background-color: ${props =>
     props.dark ? props.theme && props.theme.bg[props.bg] : "transparent"};
-  ${props => props.padContent && "padding: 0px calc((100vw - 1280px) / 2)"};
+  ${props =>
+    props.padContent &&
+    `padding: 0px calc((100vw - ${props.theme.breakpoints[2]}) / 2)`};
   ${props => props.centerTabs && "justify-content: center"};
   > :not(:last-child) {
     margin-right: ${props => props.theme && props.theme.space[2]}px;

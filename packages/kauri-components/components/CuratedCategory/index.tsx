@@ -4,7 +4,7 @@ import { Label, BodyCard } from "../Typography";
 import Image from "../Image";
 import theme from "../../lib/theme-config";
 
-const DEFAULT_CARD_WIDTH = 305;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const Container = styled<{ background: null | string }, "div">("div")`
   display: flex;
@@ -12,7 +12,7 @@ const Container = styled<{ background: null | string }, "div">("div")`
   position: relative;
   flex-direction: column;
   width: ${DEFAULT_CARD_WIDTH}px;
-  height: 70px;
+  height: 90px;
   background: ${props => props.theme.colors.bgPrimary};
   border-radius: 4px;
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
@@ -45,13 +45,14 @@ export const CuratedCategoriesSection = styled.section`
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
-    minmax(170px, ${DEFAULT_CARD_WIDTH}px)
+    minmax(${DEFAULT_CARD_WIDTH}px, ${DEFAULT_CARD_WIDTH}px)
   );
   width: 100%;
   grid-gap: ${props => props.theme.space[1]}px
     ${props => props.theme.space[3]}px;
-  padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
+  padding-top: ${props => props.theme.space[3]}px;
   padding-bottom: 0px;
+  ${props => props.theme.padContent};
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     grid-template-columns: repeat(auto-fill, minmax(170px, 170px));
     justify-content: center;

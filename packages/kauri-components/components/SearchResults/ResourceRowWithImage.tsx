@@ -6,12 +6,13 @@ import UserAvatar from "../UserAvatar";
 import { Label, H1, BodyCard } from "../Typography";
 import TagList from "../Tags/TagList";
 import Image from "../../../kauri-components/components/Image";
+import theme from "../../lib/theme-config";
 
-const DEFAULT_CARD_WIDTH = 305;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const ResourceRow = styled.div`
   display: flex;
-  width: 933px;
+  width: ${props => DEFAULT_CARD_WIDTH * 3 + props.theme.space[3] * 2}px;
   height: 195px;
   background-color: ${props => props.theme.colors.white};
   border-radius: 4px;
