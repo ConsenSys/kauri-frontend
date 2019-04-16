@@ -43,6 +43,7 @@ const PublishYourOwnContentCTA: React.FunctionComponent<IProps> = props => (
             content &&
             props.linkComponent(
               <SecondaryButtonComponent
+                key={content.name}
                 color="textPrimary"
                 border={"primary"}
                 width={`${DEFAULT_CARD_WIDTH}px`}

@@ -68,7 +68,7 @@ export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {
       const articleCard: ArticleDTO = card;
       return (
         <ArticleCard
-          key={articleCard.id}
+          key={`${articleCard.id}-${articleCard.version}`}
           date={articleCard.dateCreated}
           title={articleCard.title}
           description={articleCard.description}
