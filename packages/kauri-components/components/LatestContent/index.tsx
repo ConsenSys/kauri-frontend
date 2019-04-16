@@ -91,7 +91,7 @@ const LatestContent: React.FunctionComponent<IProps> = props => {
           </SecondaryButtonComponent>,
           `/collections`
         )}
-        {props.linkComponent(
+        {/* {props.linkComponent(
           <SecondaryButtonComponent
             color="textPrimary"
             width={"140px"}
@@ -100,7 +100,7 @@ const LatestContent: React.FunctionComponent<IProps> = props => {
             All Communities
           </SecondaryButtonComponent>,
           `/communities`
-        )}
+        )} */}
       </AllContentButtonsContainer>
     </LatestContentSection>
   );
