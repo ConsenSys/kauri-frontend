@@ -105,8 +105,8 @@ export const deleteDraftArticleEpic: Epic<any, IReduxState, IDependencies> = (
           analytics.track("Delete Draft", {
             category: "article_actions",
           });
-          apolloClient.resetStore();
-          return typeof callback === "function" && callback();
+          apolloClient.resetStore()
+          return typeof callback === "function" && callback()
         })
         .mergeMap(() =>
           Observable.merge(

@@ -104,12 +104,6 @@ class TabsComponent extends React.Component<IProps, IState> {
   }
 
   public changeTab(index: number) {
-    if (this.props.router) {
-      const { push, asPath } = this.props.router;
-      const url = asPath.split("#")[0];
-      push(url + `#${index}`);
-    }
-
     this.setState({ selectedTabIndex: index });
   }
 
