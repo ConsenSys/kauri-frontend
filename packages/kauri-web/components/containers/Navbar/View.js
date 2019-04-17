@@ -66,7 +66,7 @@ const StyledMenu = styled.div`
   background-color: ${props =>
     props.navcolor
       ? props.navcolor
-      : props.confirmationPage && props.theme.secondaryColor};
+      : props.confirmationPage && props.theme.colors.bgPrimary};
   border-bottom-color: ${props => props.navcolor} !important;
   @media (max-width: 500px) {
     padding: 0px 10px;
