@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { Link } from "../../../routes";
 import Web3Status from "../Web3Status";
 import NavSearch from "../QuickSearch";
@@ -8,6 +7,7 @@ import Tooltip from "../../../../kauri-components/components/Tooltip/Tooltip";
 import { withRouter } from "next/router";
 import Image from "../../../../kauri-components/components/Image";
 import analytics from "../../../lib/analytics";
+import styled from "../../../lib/styled-components";
 
 const config = require("../../../config").default;
 
@@ -40,11 +40,6 @@ const UserIcon = (
   </svg>
 );
 
-const Menu = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
 const StyledMenuItem = styled.div`
   display: flex;
   color: #fff !important;
@@ -62,10 +57,11 @@ const StyledMenuItem = styled.div`
   }
 `;
 
-const StyledMenu = styled(Menu)`
+const StyledMenu = styled.div`
   display: flex;
   position: relative;
   height: ${menuHeaderHeight}px !important;
+  ${props => props.theme.padContent};
   line-height: ${menuHeaderHeight}px !important;
   background-color: ${props =>
     props.navcolor
@@ -94,7 +90,7 @@ const LogoWrapper = styled.div`
 `;
 
 const Spacer = styled.div`
-  flex: 1;
+  margin-left: auto;
 `;
 
 const Text = styled.a`
@@ -174,9 +170,9 @@ const Avatar = styled.div`
       : props.theme.colors["textPrimary"]};
   > * {
     color: ${props =>
-      props.variant === "white"
-        ? props.theme.colors["textPrimary"]
-        : props.theme.colors[props.color]};
+    props.variant === "white"
+      ? props.theme.colors["textPrimary"]
+      : props.theme.colors[props.color]};
     text-transform: uppercase;
     line-height: 10px;
   }
@@ -216,7 +212,7 @@ const eraseCookieFromAllPaths = name => {
 };
 
 class Logo extends React.Component {
-  render() {
+  render () {
     return (
       <LogoWrapper>
         <LogoImage
@@ -229,7 +225,7 @@ class Logo extends React.Component {
 }
 
 class Navbar extends React.Component {
-  render() {
+  render () {
     const {
       userId,
       router,
@@ -242,8 +238,6 @@ class Navbar extends React.Component {
       <StyledMenu
         confirmationPage={confirmationPage}
         selectedKeys={[router.pathname]}
-        theme="dark"
-        mode="horizontal"
         navcolor={navcolor}
       >
         <Logo routeChangeAction={routeChangeAction} alt="logo" />
@@ -380,8 +374,8 @@ class Navbar extends React.Component {
                   userId
                     ? `https://import.${config.getApiURL().replace("api.", "")}`
                     : `/login?r=https://import.${config
-                        .getApiURL()
-                        .replace("api.", "")}`
+                      .getApiURL()
+                      .replace("api.", "")}`
                 }
               >
                 <TooltipItem
@@ -421,8 +415,8 @@ class Navbar extends React.Component {
                       {user.username
                         ? user.username.charAt(0)
                         : typeof user.id === "string"
-                        ? user.id.charAt(0)
-                        : "Anonymous"}
+                          ? user.id.charAt(0)
+                          : "Anonymous"}
                     </H6>
                   )}
                 </Avatar>

@@ -11,8 +11,9 @@ import {
   searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO,
   searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO,
 } from "../../../../queries/__generated__/searchAutocompleteCollections";
+import theme from "../../../../../kauri-components/lib/theme-config";
 
-const DEFAULT_CARD_WIDTH = 305;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 interface IProps {
   CollectionQuery: {
@@ -30,7 +31,7 @@ export const CollectionsContainer = styled.div`
   flex: 1;
   flex-wrap: wrap;
   padding-bottom: 0;
-  max-width: 1280px;
+  max-width: ${props => props.theme.breakpoints[2]};
   > div {
     margin: 15px;
   }

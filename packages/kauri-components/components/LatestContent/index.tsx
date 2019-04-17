@@ -3,14 +3,15 @@ import styled from "../../lib/styled-components";
 import { Title2 } from "../Typography";
 import { RenderCardContent } from "../CuratedLists";
 import SecondaryButtonComponent from "../Button/SecondaryButton";
+import theme from "../../lib/theme-config";
 
-const DEFAULT_CARD_WIDTH = 305;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const LatestContentSection = styled.section`
   display: flex;
   width: 100%;
   flex-direction: column;
-  padding: 0px ${props => props.theme.padding};
+  ${props => props.theme.padContent};
   > :first-child {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
@@ -26,7 +27,7 @@ const LatestContentCardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
-    minmax(290px, ${DEFAULT_CARD_WIDTH}px)
+    minmax(${DEFAULT_CARD_WIDTH}px, ${DEFAULT_CARD_WIDTH}px)
   );
   grid-gap: ${props => props.theme.space[2]}px
     ${props => props.theme.space[3]}px;

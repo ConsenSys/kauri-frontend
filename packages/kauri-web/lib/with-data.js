@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Head from "next/head";
 import { Provider } from "react-redux";
 import { ApolloProvider, getDataFromTree } from "react-apollo";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "./styled-components";
 import Web3 from "web3";
 import { Subject } from "rxjs/Subject";
 import { ActionsObservable } from "redux-observable";
@@ -12,7 +12,6 @@ import fetch from "isomorphic-unfetch";
 import mixpanel from "mixpanel-browser";
 import initRedux from "./init-redux";
 import initApollo from "./init-apollo";
-import { UserAgentProvider } from "@quentin-sommer/react-useragent";
 
 import {
   fetchEthUsdPriceAction,
@@ -280,14 +279,12 @@ export default ComposedComponent =>
         <Provider store={this.redux}>
           <ApolloProvider client={this.apollo}>
             <ThemeProvider theme={themeConfig}>
-              <UserAgentProvider ua={this.props.ua}>
                 <>
                   <ComposedComponent
                     {...this.props}
                     web3={global.window ? global.window.web3 : global.window}
                   />
                 </>
-              </UserAgentProvider>
             </ThemeProvider>
           </ApolloProvider>
         </Provider>

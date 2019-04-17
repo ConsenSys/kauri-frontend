@@ -4,19 +4,21 @@ import ResourceRow from "../SearchResults/ResourceRowWithImage"; // IProps as Re
 import { Title2 } from "../Typography";
 import { RenderCardContent } from "../CuratedLists";
 import { HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_content_resource } from "../../../kauri-web/queries/__generated__/HomePagev2";
+import theme from "../../lib/theme-config";
 
-const DEFAULT_CARD_WIDTH = 305;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const Container = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 0px ${props => props.theme.padding};
-  padding-right: 0px;
+  padding: 0px;
   > :first-child {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
-  @media (max-width: 1280px) {
-    padding: 0px ${props => props.theme.space[2]}px;
+  @media (max-width: ${props => props.theme.breakpoints[2]}) {
+    > h3 {
+      padding: 0px ${props => props.theme.space[2]}px;
+    }
   }
 `;
 
@@ -25,27 +27,27 @@ const ResourceContainer = styled(Container)`
   > :not(:last-child) {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
-  @media (max-width: 1280px) {
+  @media (max-width: ${props => props.theme.breakpoints[2]}) {
     align-items: center;
   }
 `;
 
 const DesktopResourceContainer = styled(ResourceContainer)`
-  @media (max-width: 1280px) {
+  @media (max-width: ${props => props.theme.breakpoints[2]}) {
     display: none;
   }
 `;
 
 const MobileResourceContainer = styled(ResourceContainer)`
-  @media (max-width: 1280px) {
+  @media (max-width: ${props => props.theme.breakpoints[2]}) {
     display: grid;
-    min-width: 90vw;
+    width: 100vw;
     > :not(:first-child) {
       justify-content: center;
     }
     grid-template-columns: repeat(
       auto-fill,
-      minmax(290px, ${DEFAULT_CARD_WIDTH}px)
+      minmax(${DEFAULT_CARD_WIDTH}px, ${DEFAULT_CARD_WIDTH}px)
     );
     grid-gap: ${props => props.theme.space[2]}px
       ${props => props.theme.space[3]}px;
@@ -53,7 +55,7 @@ const MobileResourceContainer = styled(ResourceContainer)`
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     justify-content: center;
   }
-  @media (min-width: 1280px) {
+  @media (min-width: ${props => props.theme.breakpoints[2]}) {
     display: none;
   }
 `;

@@ -33,14 +33,15 @@ const HomePageSection = styled.section`
   }
 `;
 
-const HomePageRow = styled.section`
+const HomePageRow = styled<{ padContent: boolean }, "section">("section")`
   display: flex;
   flex-direction: row;
   margin-bottom: ${props => props.theme.space[3]}px;
   > :not(:last-child) {
-    margin-right: ${props => props.theme.space[4]}px;
+    margin-right: ${props => props.theme.space[3]}px;
   }
-  @media (max-width: 1280px) {
+  ${props => props.padContent && props.theme.padContent};
+  @media (max-width: ${props => props.theme.breakpoints[2]}) {
     flex-direction: column;
     > :not(:last-child) {
       margin-right: 0px;
@@ -54,7 +55,7 @@ const SideRow = styled.section`
   > :not(:last-child) {
     margin-bottom: ${props => props.theme.space[3]}px;
   }
-  @media (max-width: 1280px) {
+  @media (max-width: ${props => props.theme.breakpoints[2]}) {
     display: none;
   }
 `;
@@ -112,7 +113,10 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
 
               {data.getLatestHomepageDescriptor.rows.map((row, index) => {
                 return (
-                  <HomePageRow key={index}>
+                  <HomePageRow
+                    key={index}
+                    padContent={Boolean(row && row.main && row.sidebar)}
+                  >
                     {row &&
                       row.main &&
                       row.main.map(mainRow => {
@@ -362,6 +366,8 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
               })}
             </HomePageSection>
           );
+        } else {
+          return null;
         }
       }}
     </Query>

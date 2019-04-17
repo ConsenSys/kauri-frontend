@@ -2,8 +2,9 @@ import * as React from "react";
 import styled from "../../lib/styled-components";
 import SecondaryButtonComponent from "../Button/SecondaryButton";
 import { Title2 } from "../Typography";
+import theme from "../../lib/theme-config";
 
-const DEFAULT_CARD_WIDTH = 305;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const Container = styled.section`
   display: flex;
@@ -43,6 +44,7 @@ const PublishYourOwnContentCTA: React.FunctionComponent<IProps> = props => (
             content &&
             props.linkComponent(
               <SecondaryButtonComponent
+                key={content.name}
                 color="textPrimary"
                 border={"primary"}
                 width={`${DEFAULT_CARD_WIDTH}px`}

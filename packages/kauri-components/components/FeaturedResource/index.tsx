@@ -6,13 +6,23 @@ import UserAvatarComponent, {
 import { Label, Title2, BodyCard } from "../Typography";
 import TagList from "../Tags/TagList";
 import SecondaryButtonComponent from "../Button/SecondaryButton";
-import Stack from "stack-styled";
 import TextTruncate from "react-text-truncate";
+
+const ContentSection = styled.div`
+  display: flex;
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    flex-direction: column;
+    > :first-child {
+      margin-bottom: ${props => props.theme.space[3]}px;
+    }
+  }
+  ${props => props.theme.padContent};
+`;
 
 const ResourceDetailsContainer = styled.section`
   display: flex;
   flex-direction: column;
-  max-width: 700px;
+  flex: 3;
   > :not(:last-child) {
     margin-bottom: ${props => props.theme.space[2]}px;
   }
@@ -23,26 +33,23 @@ const ViewContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex: 1;
 `;
 
-const FeaturedResourceStack = styled(Stack)`
-  padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
+export const FeaturedResourceContainer = styled.div`
+  display: flex;
+  width: 100%;
+  background: white;
+  flex-direction: column;
+  padding: ${props => props.theme.space[3]}px 0px;
   background: white;
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     padding: ${props => props.theme.space[3]}px
       ${props => props.theme.space[2]}px;
-    grid-auto-flow: row;
     ${ViewContainer} {
       align-items: flex-start;
     }
   }
-`;
-
-export const FeaturedResourceContainer = styled.section`
-  display: flex;
-  background: white;
-  flex-direction: row;
-  padding: 0px ${props => props.theme.padding};
 `;
 
 interface IProps {
@@ -62,55 +69,56 @@ interface IProps {
 const FeaturedResource: React.FunctionComponent<
   IProps & UserAvatarComponentProps
 > = props => (
-  <FeaturedResourceStack
-    width={"100%"}
-    alignItems={[""]}
-    justifyContent={[""]}
-    gridAutoFlow={["column"]}
-    gap={30}
-  >
-    <ResourceDetailsContainer>
-      <Label>Featured</Label>
-      {props.linkComponent(
-        <React.Fragment>
-          <Title2>
-            <TextTruncate line={2} truncateText="…" text={props.title} />
-          </Title2>
-          <BodyCard>
-            <TextTruncate line={2} truncateText="…" text={props.description} />
-          </BodyCard>
-        </React.Fragment>,
-        props.resourceType === "article"
-          ? `/article/${props.id}/v${props.version}`
-          : props.resourceType === "collection"
-          ? `/collection/${props.id}`
-          : `/community/${props.id}`
-      )}
-      <TagList maxTags={3} color="textPrimary" tags={props.tags} />
-      {props.linkComponent(
-        <UserAvatarComponent
-          userId={props.userId}
-          username={props.username}
-          avatar={props.avatar}
-        />,
-        props.ownerResourceType === "COMMUNITY"
-          ? `/community/${props.userId}`
-          : `/public-profile/${props.userId}`
-      )}
-    </ResourceDetailsContainer>
-    <ViewContainer>
-      {props.linkComponent(
-        <SecondaryButtonComponent border="primary" color="textPrimary">{`View ${
-          props.resourceType
-        }`}</SecondaryButtonComponent>,
-        props.resourceType === "article"
-          ? `/article/${props.id}/v${props.version}`
-          : props.resourceType === "collection"
-          ? `/collection/${props.id}`
-          : `/community/${props.id}`
-      )}
-    </ViewContainer>
-  </FeaturedResourceStack>
+  <FeaturedResourceContainer>
+    <ContentSection>
+      <ResourceDetailsContainer>
+        <Label>Featured</Label>
+        {props.linkComponent(
+          <React.Fragment>
+            <Title2>
+              <TextTruncate line={2} truncateText="…" text={props.title} />
+            </Title2>
+            <BodyCard>
+              <TextTruncate
+                line={2}
+                truncateText="…"
+                text={props.description}
+              />
+            </BodyCard>
+          </React.Fragment>,
+          props.resourceType === "article"
+            ? `/article/${props.id}/v${props.version}`
+            : props.resourceType === "collection"
+            ? `/collection/${props.id}`
+            : `/community/${props.id}`
+        )}
+        <TagList maxTags={3} color="textPrimary" tags={props.tags} />
+        {props.linkComponent(
+          <UserAvatarComponent
+            userId={props.userId}
+            username={props.username}
+            avatar={props.avatar}
+          />,
+          props.ownerResourceType === "COMMUNITY"
+            ? `/community/${props.userId}`
+            : `/public-profile/${props.userId}`
+        )}
+      </ResourceDetailsContainer>
+      <ViewContainer>
+        {props.linkComponent(
+          <SecondaryButtonComponent
+            border="primary"
+            color="textPrimary"
+          >{`View ${props.resourceType}`}</SecondaryButtonComponent>,
+          props.resourceType === "article"
+            ? `/article/${props.id}/v${props.version}`
+            : props.resourceType === "collection"
+            ? `/collection/${props.id}`
+            : `/community/${props.id}`
+        )}
+      </ViewContainer>
+    </ContentSection>
+  </FeaturedResourceContainer>
 );
 
 export default FeaturedResource;

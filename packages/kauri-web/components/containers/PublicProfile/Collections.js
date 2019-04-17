@@ -29,7 +29,7 @@ export const CollectionsContainer = styled.div`
   flex-wrap: wrap;
   padding-top: 1em;
   padding-bottom: 0px;
-  max-width: 1280px;
+  max-width: ${props => props.theme.breakpoints[2]};
   > div {
     margin: 15px;
   }

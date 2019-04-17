@@ -3,8 +3,9 @@ import styled from "../../lib/styled-components";
 import PrimaryButton from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
 import { Title1, H1 } from "../Typography";
+import theme from "../../lib/theme-config";
 
-const DEFAULT_CARD_WIDTH = 305;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const BannerContainer = styled<{}, "div">("div")`
   background: ${props => props.theme.colors.secondaryColor};

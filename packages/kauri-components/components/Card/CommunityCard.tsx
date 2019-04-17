@@ -6,9 +6,10 @@ import styled from "../../lib/styled-components";
 import { Label, BodyCard, H1 } from "../Typography";
 import BaseCard from "../Card/BaseCard";
 import { TagList } from "../Tags";
+import theme from "../../lib/theme-config";
 
 const DEFAULT_CARD_HEIGHT = 310;
-const DEFAULT_CARD_WIDTH = 305;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const Container = styled<{ cardHeight: number | null }, "section">("section")`
   display: flex;
