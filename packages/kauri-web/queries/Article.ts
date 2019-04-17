@@ -397,6 +397,7 @@ export const searchPending = gql`
           id
           name
           username
+          avatar
         }
         owner {
           ...UserOwner
@@ -457,6 +458,7 @@ export const searchAwaitingApproval = gql`
           id
           name
           username
+          avatar
         }
         owner {
           ...UserOwner
@@ -598,7 +600,13 @@ export const getArticleTransfers = gql`
     $sort: String = "id"
     $dir: DirectionInput = DESC
   ) {
-    getArticleTransfers(page: $page, size: $size, recipient: $recipient, sort: $sort, dir: $dir) {
+    getArticleTransfers(
+      page: $page
+      size: $size
+      recipient: $recipient
+      sort: $sort
+      dir: $dir
+    ) {
       content {
         id
         article {
