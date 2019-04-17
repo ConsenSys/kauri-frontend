@@ -43,6 +43,9 @@ const Tabs = styled<ITabsProps, "div">("div")`
   > :not(:last-child) {
     margin-right: ${props => props.theme && props.theme.space[2]}px;
   }
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    padding: 0px ${props => props.theme.space[1]}px;
+  }
 `;
 
 interface ITabProps {
