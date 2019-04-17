@@ -35,6 +35,7 @@
   "dependencies": {
     "@quentin-sommer/react-useragent": "^2.0.0",
     "@rej156/react-mde": "5.7.0",
+    "@rej156/draft-js": "0.10.7",
     "anchorme": "^1.1.2",
     "antd": "3.2.1",
     "apollo-cache-inmemory": "^1.5.1",
