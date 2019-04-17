@@ -223,15 +223,20 @@ export default ComposedComponent =>
         if (window.ethereum) {
           // NOTICE - Moved to sign in only.
           // window.web3 = new Web3(window.ethereum);
-          // try {
-          //   // Request account access if needed
-          //   await window.ethereum.enable();
-          //   // Acccounts now exposed
-          // } catch (error) {
-          //   // User denied account access...
-          // }
+          try {
+            const cookieToParse = window.document.cookie;
+            if (!cookieToParse) return {};
+            const userId = cookie.parse(cookieToParse)["USER_ID"];
+            // Request account access if needed and logged in
+            if (userId) {
+              await window.ethereum.enable();
+            }
+            // Acccounts now exposed
+            analytics.setWeb3Status(true); // Track web3 status
+          } catch (error) {
+            // User denied account access...
+          }
           // Supports Metamask and Mist, and other wallets that provide 'web3'.
-          analytics.setWeb3Status(true); // Track web3 status
         } else if (typeof window.web3 !== "undefined") {
           // Use the Mist/wallet provider.
           window.web3 = new Web3(window.web3.currentProvider);
@@ -279,12 +284,12 @@ export default ComposedComponent =>
         <Provider store={this.redux}>
           <ApolloProvider client={this.apollo}>
             <ThemeProvider theme={themeConfig}>
-                <>
-                  <ComposedComponent
-                    {...this.props}
-                    web3={global.window ? global.window.web3 : global.window}
-                  />
-                </>
+              <>
+                <ComposedComponent
+                  {...this.props}
+                  web3={global.window ? global.window.web3 : global.window}
+                />
+              </>
             </ThemeProvider>
           </ApolloProvider>
         </Provider>
