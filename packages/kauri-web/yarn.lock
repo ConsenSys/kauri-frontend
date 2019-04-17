@@ -1176,10 +1176,10 @@
   dependencies:
     styled-system "^3.0.1"
 
-"@rej156/draft-js@0.10.7":
-  version "0.10.7"
-  resolved "https://registry.yarnpkg.com/@rej156/draft-js/-/draft-js-0.10.7.tgz#cb5afeb3cb92da7f9b4df0652b93d817f03870e3"
-  integrity sha512-Q/UT9MhJ7fttn/tXEpYfiW5g1NUrwi+T+jAGIxCDY78LROTmlNiLd2+iYKIu/uXCz2dX+o/cQVt/0ix79qMh8Q==
+"@rej156/draft-js@0.10.8":
+  version "0.10.8"
+  resolved "https://registry.yarnpkg.com/@rej156/draft-js/-/draft-js-0.10.8.tgz#ce005ea328e422788913016122076d0656bbbefb"
+  integrity sha512-R4rs8PjPhWb7gefRBSmiUJIy9K3vCHRAqgntUA69GZc7gDv/7yTpgUeIdNxmZ+qqSRsh9gHB0ns215HLWyvAAQ==
   dependencies:
     fbjs "^1.0.0"
     immutable "~3.7.4"
@@ -4071,12 +4071,7 @@ core-js@^1.0.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
-core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.7:
-  version "2.5.7"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
-  integrity sha512-RszJCAxg/PP6uzXVXL6BsxSXx/B05oJAQ2vkJRjyjrEcNVycaqOmNb5OTxZPE3xa5gwZduqza6L9JOCenh/Ecw==
-
-core-js@^2.4.1:
+core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0, core-js@^2.5.7:
   version "2.6.5"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.5.tgz#44bc8d249e7fb2ff5d00e0341a7ffb94fbf67895"
   integrity sha512-klh/kDpwX8hryYL14M9w/xei6vrv6sE8gTHDG7/T/+SEovB/G4ejwcfE/CBzO6Edsu+OETZMZ3wcX/EjUkrl5A==
@@ -4967,15 +4962,6 @@ draft-js-export-html@^1.2.0:
   integrity sha1-HL4reOH+10/CnHzcv9dUBGjsogk=
   dependencies:
     draft-js-utils "^1.2.0"
-
-draft-js-iframe-fix@0.10.5:
-  version "0.10.5"
-  resolved "https://registry.yarnpkg.com/draft-js-iframe-fix/-/draft-js-iframe-fix-0.10.5.tgz#1a44eb844d640594083eaf4f4d38301c5bdae9b3"
-  integrity sha512-GqYTUh886RMM7ZLnT/DIeohFwFOd4+Q2d6EYMxLhPzrMXlmRZ91KHltyMv5aVvnxykiKsNZgmJLdYnqGizStuA==
-  dependencies:
-    fbjs "^0.8.15"
-    immutable "~3.7.4"
-    object-assign "^4.1.0"
 
 draft-js-import-element@^1.2.1:
   version "1.2.1"
