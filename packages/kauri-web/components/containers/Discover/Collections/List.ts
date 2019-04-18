@@ -27,7 +27,6 @@ export default compose(
   graphql(getLatestCollections, {
     name: QUERY_NAME,
     options: () => ({
-      fetchPolicy: "no-cache",
       variables: {
         filter: {
           mustNotIncludeUserId: config.testingAccounts,

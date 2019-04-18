@@ -26,7 +26,6 @@ export default compose(
   graphql(getAllCommunities, {
     name: QUERY_NAME,
     options: () => ({
-      fetchPolicy: "no-cache",
       variables: {},
     }),
   }),

@@ -1,11 +1,7 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import {
-  ResourceTypeInput,
-  ArticleStatusInput,
-} from "./../../__generated__/globalTypes";
+import { ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchArticles
@@ -16,18 +12,11 @@ export interface searchArticles_searchArticles_content_author {
   id: string | null;
   name: string | null;
   username: string | null;
+  avatar: string | null;
 }
 
 export interface searchArticles_searchArticles_content_owner_ArticleDTO {
-  __typename:
-    | "ArticleDTO"
-    | "CommentDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CuratedListDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface searchArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
@@ -59,10 +48,7 @@ export interface searchArticles_searchArticles_content_owner_CommunityDTO {
   resourceIdentifier: searchArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type searchArticles_searchArticles_content_owner =
-  | searchArticles_searchArticles_content_owner_ArticleDTO
-  | searchArticles_searchArticles_content_owner_PublicUserDTO
-  | searchArticles_searchArticles_content_owner_CommunityDTO;
+export type searchArticles_searchArticles_content_owner = searchArticles_searchArticles_content_owner_ArticleDTO | searchArticles_searchArticles_content_owner_PublicUserDTO | searchArticles_searchArticles_content_owner_CommunityDTO;
 
 export interface searchArticles_searchArticles_content_voteResult {
   __typename: "VoteResultDTO";
@@ -84,9 +70,7 @@ export interface searchArticles_searchArticles_content_comments_content {
 
 export interface searchArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
-  content:
-    | (searchArticles_searchArticles_content_comments_content | null)[]
-    | null;
+  content: (searchArticles_searchArticles_content_comments_content | null)[] | null;
   totalPages: number;
   totalElements: any;
 }

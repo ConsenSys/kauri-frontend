@@ -49,7 +49,6 @@ export default compose(
   graphql(getArticle, {
     name: "ProposedUpdate",
     options: ({ id, version }: IArticleVersion) => ({
-      fetchPolicy: "no-cache",
       variables: {
         id,
         version: parseInt(version, 10),
@@ -59,7 +58,6 @@ export default compose(
   graphql(getArticle, {
     name: "CurrentArticle",
     options: ({ id }: IArticleVersion) => ({
-      fetchPolicy: "no-cache",
       variables: {
         id,
       },
