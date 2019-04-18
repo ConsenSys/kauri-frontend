@@ -1,11 +1,11 @@
 import * as React from "react";
 import styled from "../../lib/styled-components";
 import Stack, { IStackStyledProps } from "stack-styled";
-import { bgColor, BgColorProps } from "styled-system";
+import { BackgroundProps } from "styled-system";
 import theme from "../../lib/theme-config";
 
-const ContentSectionStack = styled<BgColorProps & IStackStyledProps>(Stack)`
-  ${bgColor};
+const ContentSectionStack = styled<BackgroundProps & IStackStyledProps>(Stack)`
+  background: ${props => props.theme.colors[props.background as string]};
   min-height: calc(100vh - 220px);
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
 `;
@@ -27,7 +27,7 @@ const ContentSection: React.FunctionComponent<IProps> = ({
   gap = theme.space[3],
 }) => (
   <ContentSectionStack
-    bg={bg}
+    background={bg}
     alignItems={alignItems}
     justifyContent={justifyContent}
     gridAutoFlow={gridAutoFlow}

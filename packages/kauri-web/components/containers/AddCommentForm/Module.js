@@ -4,7 +4,6 @@ import { Observable } from "rxjs/Observable";
 import { commentArticle } from "../../../queries/Article";
 import createReducer from "../../../lib/createReducer";
 import { showNotificationAction, toggleModalAction } from "../../../lib/Module";
-import { trackMixpanelAction } from "../Link/Module";
 
 import type { Dependencies } from "../../../lib/Module";
 
@@ -89,29 +88,9 @@ export const addCommentEpic = (
           .do(h => (callback ? callback() : null))
           .flatMapTo(
             comment && comment.includes("Submit for publishing")
-              ? Observable.of(
-                  toggleModalAction({}),
-                  trackMixpanelAction({
-                    event: "Offchain",
-                    metaData: {
-                      resource: "article",
-                      resourceID: article_id,
-                      resourceVersion: article_version,
-                      resourceAction: "add comment for article",
-                    },
-                  })
-                )
+              ? Observable.of(toggleModalAction({}))
               : Observable.of(
                   toggleModalAction({}),
-                  trackMixpanelAction({
-                    event: "Offchain",
-                    metaData: {
-                      resource: "article",
-                      resourceID: article_id,
-                      resourceVersion: article_version,
-                      resourceAction: "add comment for article",
-                    },
-                  }),
                   showNotificationAction({
                     notificationType: "success",
                     message: "Comment added",

@@ -3,6 +3,7 @@ import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 import { H4, ListBulletPoint } from "../Typography";
 import TextTruncate from 'react-text-truncate';
+import analytics from '../../../kauri-web/lib/analytics'
 
 const handleClick = (heading: string) => (
   event: React.MouseEvent<HTMLElement>
@@ -12,8 +13,12 @@ const handleClick = (heading: string) => (
   const newHeading = heading
     .replace(/[\W_]+/g,"")
     .toLowerCase();
-  const headerDOMNode = document.getElementById(newHeading);
 
+    analytics.track('Clicked Outline', {
+      category: 'article_actions'
+    })
+  
+  const headerDOMNode = document.getElementById(newHeading);
   if (headerDOMNode) {
     headerDOMNode.scrollIntoView({ behavior: "smooth", block: "start" });
     setTimeout(() => {

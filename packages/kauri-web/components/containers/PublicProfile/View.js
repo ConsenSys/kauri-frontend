@@ -7,10 +7,10 @@ import EditableHeader from "./EditableHeader";
 import Loading from "../../common/Loading";
 import type { ViewProps, ViewState } from "./types";
 import Published from "./Published/View";
-import Manage from "./Manage"
+import Manage from "./Manage";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor (props: ViewProps) {
+  constructor(props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -21,15 +21,14 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       website: "",
       twitter: "",
       github: "",
-      hash: parseInt(this.props.router.asPath.split("#")[1], 10),
     };
   }
 
-  toggleEditing () {
+  toggleEditing() {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render () {
+  render() {
     const {
       PendingQuery,
       UserQuery,
@@ -37,9 +36,12 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       CollectionQuery,
       DraftsQuery,
       ApprovalsQuery,
+      PendingTransfersQuery,
       routeChangeAction,
       currentUser,
       deleteDraftArticleAction,
+      rejectArticleTransferAction,
+      acceptArticleTransferAction,
       closeModalAction,
       openModalAction,
       isLoggedIn,
@@ -93,7 +95,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         {isHeaderLoaded && areListsLoaded ? (
           <Tabs
             dark
-            hash={typeof this.state.hash === "number" ? this.state.hash : 0}
             router={this.props.router}
             tabs={[
               {
@@ -124,18 +125,23 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 data={CollectionQuery}
                 routeChangeAction={routeChangeAction}
               />,
-              isOwner && <Manage
-                approvalsQuery={ApprovalsQuery}
-                draftsQuery={DraftsQuery}
-                pendingQuery={PendingQuery}
-                type="manage"
-                routeChangeAction={routeChangeAction}
-                deleteDraftArticleAction={deleteDraftArticleAction}
-                isOwner={UserQuery.getUser.id === currentUser}
-                isLoggedIn={!!currentUser}
-                closeModalAction={closeModalAction}
-                openModalAction={openModalAction}
-              />,
+              isOwner && (
+                <Manage
+                  approvalsQuery={ApprovalsQuery}
+                  draftsQuery={DraftsQuery}
+                  pendingQuery={PendingQuery}
+                  transfersQuery={PendingTransfersQuery}
+                  type="manage"
+                  routeChangeAction={routeChangeAction}
+                  deleteDraftArticleAction={deleteDraftArticleAction}
+                  isOwner={UserQuery.getUser.id === currentUser}
+                  isLoggedIn={!!currentUser}
+                  closeModalAction={closeModalAction}
+                  openModalAction={openModalAction}
+                  rejectArticleTransferAction={rejectArticleTransferAction}
+                  acceptArticleTransferAction={acceptArticleTransferAction}
+                />
+              ),
             ]}
           />
         ) : !isHeaderLoaded ? null : (

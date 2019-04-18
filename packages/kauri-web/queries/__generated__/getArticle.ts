@@ -2,7 +2,10 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { ArticleStatus, ResourceType } from "./../../__generated__/globalTypes";
+import {
+  ArticleStatusInput,
+  ResourceTypeInput,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getArticle
@@ -22,7 +25,7 @@ export interface getArticle_getArticle_author {
 export interface getArticle_getArticle_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   version: number | null;
 }
 
@@ -33,7 +36,7 @@ export interface getArticle_getArticle {
   title: string | null;
   dateCreated: any | null;
   datePublished: any | null;
-  status: ArticleStatus | null;
+  status: ArticleStatusInput | null;
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;

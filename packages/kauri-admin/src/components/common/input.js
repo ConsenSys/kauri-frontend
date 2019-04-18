@@ -10,6 +10,7 @@ export const Input = styled.input`
     color: #526471;
     width: 100%;
     max-width: 400px;
+    padding-left: 25px;
     &:focus {
         border: 1px solid #11856B;
     }

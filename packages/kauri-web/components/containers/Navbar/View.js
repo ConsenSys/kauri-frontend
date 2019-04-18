@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { Link } from "../../../routes";
 import Web3Status from "../Web3Status";
 import NavSearch from "../QuickSearch";
@@ -7,6 +6,8 @@ import { H6 } from "../../../../kauri-components/components/Typography";
 import Tooltip from "../../../../kauri-components/components/Tooltip/Tooltip";
 import { withRouter } from "next/router";
 import Image from "../../../../kauri-components/components/Image";
+import analytics from "../../../lib/analytics";
+import styled from "../../../lib/styled-components";
 
 const config = require("../../../config").default;
 
@@ -39,30 +40,9 @@ const UserIcon = (
   </svg>
 );
 
-const Menu = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const StyledMenu = styled(Menu)`
-  display: flex;
-  position: relative;
-  height: ${menuHeaderHeight}px !important;
-  line-height: ${menuHeaderHeight}px !important;
-  background-color: ${props =>
-    props.navcolor
-      ? props.navcolor
-      : props.confirmationPage && props.theme.secondaryColor};
-  border-bottom-color: ${props => props.navcolor} !important;
-  @media (max-width: 500px) {
-    padding: 0px 10px;
-  }
-`;
-
 const StyledMenuItem = styled.div`
   display: flex;
   color: #fff !important;
-  padding: 0 15px;
   z-index: 100;
 
   @media (max-width: 500px) {
@@ -74,6 +54,25 @@ const StyledMenuItem = styled.div`
     :hover {
       ${props => props.theme.primaryColor} !important;
     }
+  }
+`;
+
+const StyledMenu = styled.div`
+  display: flex;
+  position: relative;
+  height: ${menuHeaderHeight}px !important;
+  ${props => props.theme.padContent};
+  line-height: ${menuHeaderHeight}px !important;
+  background-color: ${props =>
+    props.navcolor
+      ? props.navcolor
+      : props.confirmationPage && props.theme.colors.bgPrimary};
+  border-bottom-color: ${props => props.navcolor} !important;
+  @media (max-width: 500px) {
+    padding: 0px 10px;
+  }
+  > ${StyledMenuItem}:not(:last-child) {
+    margin-right: 30px;
   }
 `;
 
@@ -91,7 +90,7 @@ const LogoWrapper = styled.div`
 `;
 
 const Spacer = styled.div`
-  flex: 1;
+  margin-left: auto;
 `;
 
 const Text = styled.a`
@@ -239,8 +238,6 @@ class Navbar extends React.Component {
       <StyledMenu
         confirmationPage={confirmationPage}
         selectedKeys={[router.pathname]}
-        theme="dark"
-        mode="horizontal"
         navcolor={navcolor}
       >
         <Logo routeChangeAction={routeChangeAction} alt="logo" />
@@ -368,6 +365,11 @@ class Navbar extends React.Component {
               <TooltipDivider />
 
               <Link
+                callback={() =>
+                  analytics.track("Open Importer", {
+                    category: "generic",
+                  })
+                }
                 route={
                   userId
                     ? `https://import.${config.getApiURL().replace("api.", "")}`

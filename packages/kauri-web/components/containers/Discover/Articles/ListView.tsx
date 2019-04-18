@@ -55,7 +55,7 @@ class Articles extends Component<IProps> {
         {searchAutocomplete &&
         searchAutocomplete.content &&
         searchAutocomplete.content.length > 0 ? (
-          <Masonry minWidth={310} columns={4}>
+          <Masonry>
             {searchAutocomplete.content.map(articleResult => {
               const article =
                 articleResult &&

@@ -397,6 +397,7 @@ export const searchPending = gql`
           id
           name
           username
+          avatar
         }
         owner {
           ...UserOwner
@@ -457,6 +458,7 @@ export const searchAwaitingApproval = gql`
           id
           name
           username
+          avatar
         }
         owner {
           ...UserOwner
@@ -585,6 +587,70 @@ export const relatedArticles = gql`
 export const vote = gql`
   mutation vote($resourceId: ResourceIdentifierInput, $value: Float) {
     vote(resourceId: $resourceId, value: $value) {
+      hash
+    }
+  }
+`;
+
+export const getArticleTransfers = gql`
+  query getArticleTransfers(
+    $page: Int = 0
+    $size: Int = 100
+    $recipient: String
+    $sort: String = "id"
+    $dir: DirectionInput = DESC
+  ) {
+    getArticleTransfers(
+      page: $page
+      size: $size
+      recipient: $recipient
+      sort: $sort
+      dir: $dir
+    ) {
+      content {
+        id
+        article {
+          ... on ArticleDTO {
+            ...Article
+          }
+        }
+        transferrer {
+          type
+          id
+          version
+        }
+        recipient {
+          type
+          id
+          version
+        }
+      }
+      totalPages
+      totalElements
+    }
+  }
+  ${Article}
+`;
+
+export const rejectArticleTransfer = gql`
+  mutation rejectArticleTransfer($id: String) {
+    rejectArticleTransfer(id: $id) {
+      hash
+    }
+  }
+`;
+
+export const acceptArticleTransfer = gql`
+  mutation acceptArticleTransfer($id: String) {
+    acceptArticleTransfer(id: $id) {
+      hash
+    }
+  }
+`;
+
+export const finaliseArticleTransfer = gql`
+  mutation finaliseArticleTransfer($id: String, $signature: String) {
+    finaliseArticleTransfer(id: $id, signature: $signature) {
       hash
     }
   }

@@ -6,28 +6,21 @@
 // START Enums and Input Objects
 //==============================================================
 
-export enum ArticleStatus {
-  CANCELLED = "CANCELLED",
-  DRAFT = "DRAFT",
-  PENDING = "PENDING",
-  PUBLISHED = "PUBLISHED",
-  REJECTED = "REJECTED",
-}
-
 export enum ArticleStatusInput {
   CANCELLED = "CANCELLED",
   DRAFT = "DRAFT",
   PENDING = "PENDING",
+  PENDING_TRANSFER = "PENDING_TRANSFER",
   PUBLISHED = "PUBLISHED",
   REJECTED = "REJECTED",
 }
 
-export enum CommunityPermission {
+export enum CommunityPermissionInput {
   ADMIN = "ADMIN",
   CURATOR = "CURATOR",
 }
 
-export enum CommunityStatus {
+export enum CommunityStatusInput {
   CLOSED = "CLOSED",
   CREATED = "CREATED",
   OPENED = "OPENED",
@@ -36,17 +29,6 @@ export enum CommunityStatus {
 export enum DirectionInput {
   ASC = "ASC",
   DESC = "DESC",
-}
-
-export enum ResourceType {
-  ARTICLE = "ARTICLE",
-  COLLECTION = "COLLECTION",
-  COMMENT = "COMMENT",
-  COMMUNITY = "COMMUNITY",
-  CURATED_LIST = "CURATED_LIST",
-  REQUEST = "REQUEST",
-  TEMPLATE = "TEMPLATE",
-  USER = "USER",
 }
 
 export enum ResourceTypeInput {
@@ -60,7 +42,7 @@ export enum ResourceTypeInput {
   USER = "USER",
 }
 
-export enum UserStatus {
+export enum UserStatusInput {
   CREATED = "CREATED",
   EMAIL_VERIFIED = "EMAIL_VERIFIED",
   NOT_REGISTERED = "NOT_REGISTERED",
@@ -68,62 +50,63 @@ export enum UserStatus {
 
 export interface ArticleFilterInput {
   dateCreatedGreaterThan?: any | null;
-  versionIn?: (number | null)[] | null;
   containsTag?: string | null;
-  ownerIdEquals?: string | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
-  authorIdEquals?: string | null;
-  latestVersion?: boolean | null;
-  fullText?: string | null;
-  dateCreatedLessThan?: any | null;
   idEquals?: string | null;
-  ownerEquals?: string | null;
   checkpointEquals?: string | null;
+  authorIdEquals?: string | null;
+  fullText?: string | null;
+  latestVersion?: boolean | null;
+  ownerIdEquals?: string | null;
+  dateCreatedLessThan?: any | null;
+  versionIn?: (number | null)[] | null;
+  versionGreaterThan?: number | null;
+  statusIn?: (ArticleStatusInput | null)[] | null;
+  ownerEquals?: string | null;
 }
 
 export interface CollectionFilterInput {
+  dateUpdatedGreaterThan?: any | null;
   dateCreatedGreaterThan?: any | null;
+  containingArticleId?: string | null;
+  dateCreatedLessThan?: any | null;
+  dateUpdatedLessThan?: any | null;
+  nameContains?: string | null;
+  resourcesCountGreaterThan?: number | null;
   ownerIdEquals?: string | null;
   descriptionContains?: string | null;
   fullText?: string | null;
-  dateCreatedLessThan?: any | null;
-  nameContains?: string | null;
-  resourcesCountGreaterThan?: number | null;
-  containingArticleId?: string | null;
-  dateUpdatedLessThan?: any | null;
-  dateUpdatedGreaterThan?: any | null;
 }
 
 export interface CommunityFilterInput {
+  dateCreatedLessThan?: any | null;
+  dateUpdatedGreaterThan?: any | null;
+  dateUpdatedLessThan?: any | null;
+  membersIncludes?: string | null;
   dateCreatedGreaterThan?: any | null;
   fullText?: string | null;
-  dateCreatedLessThan?: any | null;
-  nameContains?: string | null;
   nameContain?: string | null;
-  membersIncludes?: string | null;
-  dateUpdatedLessThan?: any | null;
-  dateUpdatedGreaterThan?: any | null;
+  nameContains?: string | null;
 }
 
 export interface ResourceIdentifierInput {
   type?: ResourceTypeInput | null;
-  version?: number | null;
   id?: string | null;
+  version?: number | null;
 }
 
 export interface SearchFilterInput {
   type?: ResourceTypeInput | null;
   mustNotContainTag?: (string | null)[] | null;
-  mustIncludeUserId?: (string | null)[] | null;
   mustContainTag?: (string | null)[] | null;
+  mustIncludeUserId?: (string | null)[] | null;
   mustNotIncludeUserId?: (string | null)[] | null;
 }
 
 export interface SectionDTOInput {
-  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   name?: string | null;
   description?: string | null;
   id?: string | null;
+  resourcesId?: (ResourceIdentifierInput | null)[] | null;
 }
 
 //==============================================================

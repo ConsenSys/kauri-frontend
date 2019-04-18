@@ -2,7 +2,11 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { ResourceIdentifierInput, SearchFilterInput, ResourceType } from "./../../__generated__/globalTypes";
+import {
+  ResourceIdentifierInput,
+  SearchFilterInput,
+  ResourceTypeInput,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: relatedArticles
@@ -11,7 +15,7 @@ import { ResourceIdentifierInput, SearchFilterInput, ResourceType } from "./../.
 export interface relatedArticles_searchMoreLikeThis_content_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface relatedArticles_searchMoreLikeThis_content {
@@ -25,9 +29,9 @@ export interface relatedArticles_searchMoreLikeThis_content {
 
 export interface relatedArticles_searchMoreLikeThis {
   __typename: "ResponseBreakdownPage_SearchResultDTO";
-  totalElements: any | null;
+  totalElements: any;
   totalElementsBreakdown: any | null;
-  totalPages: number | null;
+  totalPages: number;
   content: (relatedArticles_searchMoreLikeThis_content | null)[] | null;
 }
 

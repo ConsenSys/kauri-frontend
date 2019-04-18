@@ -5,11 +5,14 @@ import styled from "../../lib/styled-components";
 import UserAvatar from "../UserAvatar";
 import { Label, H1, BodyCard } from "../Typography";
 import TagList from "../Tags/TagList";
-import Image from '../../../kauri-components/components/Image';
+import Image from "../../../kauri-components/components/Image";
+import theme from "../../lib/theme-config";
+
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const ResourceRow = styled.div`
   display: flex;
-  width: 933px;
+  width: ${props => DEFAULT_CARD_WIDTH * 3 + props.theme.space[3] * 2}px;
   height: 195px;
   background-color: ${props => props.theme.colors.white};
   border-radius: 4px;
@@ -44,7 +47,7 @@ const Divider = styled.div`
   height: 2px;
 `;
 
-interface IProps {
+export interface IProps {
   id: string;
   version?: number;
   title: string;
@@ -59,62 +62,76 @@ interface IProps {
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
-  resourceType: "USER" | "COMMUNITY" | "COLLECTION";
+  ownerType: string; // "USER" | "COMMUNITY" | "COLLECTION";
+  resourceType: string; // "article" | "community" | "collection"
+  key?: string;
 }
 
-const Component: React.SFC<IProps> = props => (
-  <ResourceRow>
-    {props.imageURL &&
-      props.linkComponent(
-        <Image width={290} height={195} image={props.imageURL} />,
-        props.resourceType === "COLLECTION"
-          ? `/collection/${props.id}`
-          : props.resourceType === "COMMUNITY"
-          ? `/community/${props.id}`
-          : `/article/${props.id}/v${props.version}`
-      )}
-    <Container>
-      {props.linkComponent(
-        <Content>
-          <Label>
-            {props.resourceType === "COLLECTION"
-              ? "Updated " + moment(props.date).format("DD MMM YYYY HH:mm")
-              : "Posted " + moment(props.date).format("DD MMM YYYY HH:mm")}
-          </Label>
-          <H1>
-            <TextTruncate line={1} truncateText="…" text={props.title} />
-          </H1>
-            {props.description && <BodyCard>
-              <TextTruncate line={2} truncateText="…" text={props.description} />
-            </BodyCard>}
-          {Array.isArray(props.tags) && props.tags.length > 0 && (
-            <TagList maxTags={3} color="textPrimary" tags={props.tags} />
-          )}
-        </Content>,
-        props.resourceType === "COLLECTION"
-          ? `/collection/${props.id}`
-          : props.resourceType === "COMMUNITY"
-          ? `/community/${props.id}`
-          : `/article/${props.id}/v${props.version}`
-      )}
-      <Divider />
-      <Footer>
-        {props.linkComponent(
-          <UserAvatar
-            imageURL={props.imageURL}
-            cardType="ARTICLE"
-            fullWidth={true}
-            username={props.username}
-            userId={props.userId}
-            avatar={props.userAvatar}
+const ResourceRowWithImage: React.SFC<IProps> = props => {
+  return (
+    <ResourceRow key={props.key}>
+      {props.imageURL &&
+        props.linkComponent(
+          <Image
+            width={DEFAULT_CARD_WIDTH}
+            height={195}
+            image={props.imageURL}
           />,
-          props.resourceType === "COMMUNITY"
-            ? `/community/${props.userId}`
-            : `/public-profile/${props.userId}`
+          props.resourceType === "collection"
+            ? `/collection/${props.id}`
+            : props.resourceType === "community"
+            ? `/community/${props.id}`
+            : `/article/${props.id}/v${props.version}`
         )}
-      </Footer>
-    </Container>
-  </ResourceRow>
-);
+      <Container>
+        {props.linkComponent(
+          <Content>
+            <Label>
+              {props.ownerType === "COLLECTION"
+                ? "Updated " + moment(props.date).format("DD MMM YYYY HH:mm")
+                : "Posted " + moment(props.date).format("DD MMM YYYY HH:mm")}
+            </Label>
+            <H1>
+              <TextTruncate line={1} truncateText="…" text={props.title} />
+            </H1>
+            {props.description && (
+              <BodyCard>
+                <TextTruncate
+                  line={2}
+                  truncateText="…"
+                  text={props.description}
+                />
+              </BodyCard>
+            )}
+            {Array.isArray(props.tags) && props.tags.length > 0 && (
+              <TagList maxTags={3} color="textPrimary" tags={props.tags} />
+            )}
+          </Content>,
+          props.resourceType === "collection"
+            ? `/collection/${props.id}`
+            : props.resourceType === "community"
+            ? `/community/${props.id}`
+            : `/article/${props.id}/v${props.version}`
+        )}
+        <Divider />
+        <Footer>
+          {props.linkComponent(
+            <UserAvatar
+              imageURL={props.imageURL}
+              cardType="ARTICLE"
+              fullWidth={true}
+              username={props.username}
+              userId={props.userId}
+              avatar={props.userAvatar}
+            />,
+            props.ownerType === "COMMUNITY"
+              ? `/community/${props.userId}`
+              : `/public-profile/${props.userId}`
+          )}
+        </Footer>
+      </Container>
+    </ResourceRow>
+  );
+};
 
-export default Component;
+export default ResourceRowWithImage;

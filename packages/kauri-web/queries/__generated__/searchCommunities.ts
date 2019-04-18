@@ -2,7 +2,12 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { CommunityFilterInput, DirectionInput, CommunityStatus, ResourceType } from "./../../__generated__/globalTypes";
+import {
+  CommunityFilterInput,
+  DirectionInput,
+  CommunityStatusInput,
+  ResourceTypeInput,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchCommunities
@@ -10,7 +15,7 @@ import { CommunityFilterInput, DirectionInput, CommunityStatus, ResourceType } f
 
 export interface searchCommunities_searchCommunities_content_approvedId {
   __typename: "ResourceIdentifier";
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchCommunities_searchCommunities_content {
@@ -21,18 +26,20 @@ export interface searchCommunities_searchCommunities_content {
   creatorId: string | null;
   name: string | null;
   description: string | null;
-  status: CommunityStatus | null;
+  status: CommunityStatusInput | null;
   website: string | null;
   avatar: string | null;
   tags: (string | null)[] | null;
   social: any | null;
-  approvedId: (searchCommunities_searchCommunities_content_approvedId | null)[] | null;
+  approvedId:
+    | (searchCommunities_searchCommunities_content_approvedId | null)[]
+    | null;
 }
 
 export interface searchCommunities_searchCommunities {
   __typename: "ResponsePage_CommunityDTO";
   content: (searchCommunities_searchCommunities_content | null)[] | null;
-  isLast: boolean | null;
+  isLast: boolean;
 }
 
 export interface searchCommunities {

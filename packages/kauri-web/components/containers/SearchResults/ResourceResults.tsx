@@ -19,7 +19,7 @@ const CategorySection = styled.section`
 
 const CenterContent = styled.div`
   display: flex;
-  min-width: 1280px;
+  min-width: ${props => props.theme.breakpoints[2]};
   justify-content: center;
 `;
 

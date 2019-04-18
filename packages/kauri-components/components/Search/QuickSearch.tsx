@@ -4,6 +4,7 @@ import { TagList } from "../Tags";
 import Tabs from "../Tabs";
 import PrimaryButton from "../Button/PrimaryButton";
 import Truncate from "react-truncate-html";
+import analytics from "../../../kauri-web/lib/analytics";
 
 export interface IResult {
   description: string;
@@ -68,6 +69,9 @@ const SearchComp = styled.div`
   padding-bottom: ${props => props.theme.space[1]}px;
   border-radius: 4px;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.11);
+  > div > div {
+    padding: ${props => props.theme.space[1]}px;
+  }
 `;
 
 const ResultsComp = styled.div`
@@ -110,7 +114,12 @@ interface IResultComp {
 const Result = (props: IResultComp) => (
   <ResultComp
     className="quickSearch"
-    onClick={() => props.routeChangeAction(getRoute(props.result))}
+    onClick={() => {
+      analytics.track("QuickSearch Clicked", {
+        category: "generic",
+      });
+      props.routeChangeAction(getRoute(props.result));
+    }}
   >
     <H3>
       <div
@@ -151,11 +160,15 @@ const SearchResults = (props: ISearchResults) => (
     ))}
     {viewAllCategories && viewAllCategories.includes(props.type) && (
       <PrimaryButton
-        onClick={() =>
+        onClick={() => {
+          analytics.track("QuickSearch - All Results", {
+            category: "generic",
+            keyword: props.value,
+          });
           props.routeChangeAction(
             `/search-results?q=${props.value}&default_category=${props.type}`
-          )
-        }
+          );
+        }}
         text={`View all ${props.type}`}
       />
     )}

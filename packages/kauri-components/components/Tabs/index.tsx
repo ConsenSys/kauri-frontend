@@ -36,8 +36,16 @@ const Tabs = styled<ITabsProps, "div">("div")`
   align-items: center;
   background-color: ${props =>
     props.dark ? props.theme && props.theme.bg[props.bg] : "transparent"};
-  ${props => props.padContent && "padding: 0px calc((100vw - 1280px) / 2)"};
+  ${props =>
+    props.padContent &&
+    `padding: 0px calc((100vw - ${props.theme.breakpoints[2]}) / 2)`};
   ${props => props.centerTabs && "justify-content: center"};
+  > :not(:last-child) {
+    margin-right: ${props => props.theme && props.theme.space[2]}px;
+  }
+  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+    padding: 0px ${props => props.theme.space[1]}px;
+  }
 `;
 
 interface ITabProps {
@@ -47,7 +55,6 @@ interface ITabProps {
 }
 
 const Tab = styled<ITabProps, "div">("div")`
-  margin: 0px ${props => props.theme && props.theme.space[2]}px;
   height: 50px;
   display: flex;
   align-items: center;
@@ -72,7 +79,6 @@ interface IProps {
   bg?: string;
   minWidth?: string;
   dark?: boolean;
-  hash?: number;
   router?: any;
   passChangeTabFunction?: (func: any) => void;
 }
@@ -85,7 +91,7 @@ class TabsComponent extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      selectedTabIndex: props.hash ? props.hash : 0,
+      selectedTabIndex: 0,
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -98,12 +104,6 @@ class TabsComponent extends React.Component<IProps, IState> {
   }
 
   public changeTab(index: number) {
-    if (this.props.router) {
-      const { push, asPath } = this.props.router;
-      const url = asPath.split("#")[0];
-      push(url + `#${index}`);
-    }
-
     this.setState({ selectedTabIndex: index });
   }
 
@@ -122,7 +122,6 @@ class TabsComponent extends React.Component<IProps, IState> {
       minWidth,
       centerTabs,
       dark,
-      hash,
     } = this.props;
 
     return (
@@ -139,12 +138,8 @@ class TabsComponent extends React.Component<IProps, IState> {
                 <Tab
                   key={index}
                   minWidth={minWidth}
-                  selected={
-                    hash
-                      ? index === hash
-                      : index === this.state.selectedTabIndex
-                  }
                   onClick={() => this.handleClick(index, tab)}
+                  selected={index === this.state.selectedTabIndex}
                 >
                   {tab.name}
                 </Tab>

@@ -1,6 +1,5 @@
 import { Observable } from "rxjs/Observable";
 import { Epic } from "redux-observable";
-import { trackMixpanelAction } from "../Link/Module";
 import {
   showNotificationAction,
   routeChangeAction,
@@ -10,6 +9,7 @@ import generatePublishArticleHash from "../../../lib/generate-publish-article-ha
 import { getEvent } from "../../../queries/Module";
 import { create } from "../../../lib/init-apollo";
 import { approveArticle, rejectArticle } from "../../../queries/Article";
+import analytics from "../../../lib/analytics";
 
 interface IApproveArticlePayload {
   id: string;
@@ -93,26 +93,26 @@ export const approveArticleEpic: Epic<any, IReduxState, IDependencies> = (
               })
             )
           )
+          .do(() =>
+            analytics.track("Article Update Approved", {
+              category: "article_actions",
+            })
+          )
           .do(() => apolloClient.resetStore())
-          .mergeMap(() =>
-            Observable.of(
-              routeChangeAction(
-                `/article/${id}/v${version}/article-${"published"}`
+          .mergeMap<any, any>(() =>
+            Observable.merge(
+              Observable.of(
+                routeChangeAction(
+                  `/article/${id}/v${version}/article-${"published"}`
+                )
               ),
-              trackMixpanelAction({
-                event: "Offchain",
-                metaData: {
-                  resource: "article",
-                  resourceAction: "approved article",
-                  resourceID: id,
-                  resourceVersion: version,
-                },
-              }),
-              showNotificationAction({
-                description: "The update has been approved!",
-                message: `Article approved`,
-                notificationType: "success",
-              })
+              Observable.of(
+                showNotificationAction({
+                  description: "The update has been approved!",
+                  message: `Article approved`,
+                  notificationType: "success",
+                })
+              )
             )
           )
           .catch(err => {
@@ -171,22 +171,23 @@ export const rejectArticleEpic: Epic<any, IReduxState, IDependencies> = (
           }) => apolloSubscriber(hash)
         )
         .do(() => apolloClient.resetStore())
-        .mergeMap(() =>
-          Observable.of(
-            routeChangeAction(`/article/${id}/v${version}/article-rejected`),
-            trackMixpanelAction({
-              event: "Offchain",
-              metaData: {
-                resource: "article",
-                resourceAction: "reject article",
-                resourceID: id,
-              },
-            }),
-            showNotificationAction({
-              description: `It will not show up in your approvals queue anymore!`,
-              message: "Article rejected!",
-              notificationType: "success",
-            })
+        .do(() =>
+          analytics.track("Article Update Rejected", {
+            category: "article_actions",
+          })
+        )
+        .mergeMap<any, any>(() =>
+          Observable.merge(
+            Observable.of(
+              routeChangeAction(`/article/${id}/v${version}/article-rejected`)
+            ),
+            Observable.of(
+              showNotificationAction({
+                description: `It will not show up in your approvals queue anymore!`,
+                message: "Article rejected!",
+                notificationType: "success",
+              })
+            )
           )
         )
     );

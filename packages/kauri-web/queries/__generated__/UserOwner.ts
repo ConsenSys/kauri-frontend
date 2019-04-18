@@ -2,7 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { ResourceType } from "./../../__generated__/globalTypes";
+import { ResourceTypeInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL fragment: UserOwner
@@ -11,7 +11,7 @@ import { ResourceType } from "./../../__generated__/globalTypes";
 export interface UserOwner_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface UserOwner {

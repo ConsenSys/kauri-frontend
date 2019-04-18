@@ -46,7 +46,7 @@
 }
 
 .1_0_1_profile_public_copy-navigation-1 {
-    width: 1250px;
+    width: ${props => props.theme.breakpoints[2]};
     height: 30px;
     flex-shrink: 0;
     background-color: #d8d8d8;

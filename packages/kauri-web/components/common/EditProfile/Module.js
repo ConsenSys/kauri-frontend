@@ -1,10 +1,9 @@
-// @flow
 import { Observable } from "rxjs/Observable";
 import { saveUserDetails, getOwnProfile } from "../../../queries/User";
 import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
-import { trackMixpanelAction } from "../../containers/Link/Module";
 import type { Dependencies } from "../../../lib/Module";
 import type { HeaderState } from "./types";
+import analytics from "../../../lib/analytics";
 
 export type SaveUserDetailActionType = {
   type: string,
@@ -77,6 +76,11 @@ export const saveUserDetailsEpic = (
               return Observable.throw(output.error);
             } else {
               return Observable.of({ type: "UPDATE_USER_SUCCESS" })
+                .do(() =>
+                  analytics.track("Edit Profile", {
+                    category: "user_actions",
+                  })
+                )
                 .do(() => callback && callback(false))
                 .mergeMap(() =>
                   apolloClient.query({
@@ -99,16 +103,6 @@ export const saveUserDetailsEpic = (
                   }
 
                   return Observable.merge(
-                    Observable.of(
-                      trackMixpanelAction({
-                        event: "Offchain",
-                        metaData: {
-                          resource: "profile",
-                          resourceAction: "update profile",
-                          resourceID: getState().app.user.id,
-                        },
-                      })
-                    ),
                     Observable.of(routeChangeAction(newRedirectURL)),
                     Observable.of(
                       showNotificationAction({
@@ -135,15 +129,15 @@ export const saveUserDetailsEpic = (
             console.error(err);
             const notificationPayload = err.includes("already uses this email")
               ? {
-                notificationType: "error",
-                message: "Submission error",
-                description: "A user already uses this email!",
-              }
+                  notificationType: "error",
+                  message: "Submission error",
+                  description: "A user already uses this email!",
+                }
               : {
-                notificationType: "error",
-                message: "Submission error",
-                description: "Please try again",
-              };
+                  notificationType: "error",
+                  message: "Submission error",
+                  description: "Please try again",
+                };
             return Observable.of(showNotificationAction(notificationPayload));
           })
     );

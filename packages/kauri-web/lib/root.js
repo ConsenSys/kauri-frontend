@@ -23,10 +23,6 @@ import {
   draftArticleEpic,
 } from "../components/containers/SubmitArticleForm/Module";
 import { addCommentEpic } from "../components/containers/Article/CommentArticleForm/Module";
-import {
-  trackAnalyticsEpic,
-  trackMixpanelEpic,
-} from "../components/containers/Link/Module";
 import localStorage, {
   startDriverStepsEpic,
   persistStateToLocalStorageEpic,
@@ -45,9 +41,19 @@ import { addArticleToCollectionEpic } from "../components/connections/AddToColle
 import {
   verifyEmailEpic,
   resendEmailVerificationEpic,
+  emailSubscribeEpic
 } from "../components/containers/EmailVerification/Module";
 import { voteEpic } from "../components/containers/Article/ApprovedArticle/VoteModule";
-import { createCommunityEpic, updateCommunityEpic } from "../components/containers/CreateCommunityForm/Module";
+import {
+  createCommunityEpic,
+  updateCommunityEpic,
+} from "../components/containers/CreateCommunityForm/Module";
+
+import {
+  rejectArticleTransferEpic,
+  acceptArticleTransferEpic,
+  finaliseArticleTransferEpic,
+} from "../components/containers/PublicProfile/Manage/TransferModule";
 
 export const rootReducer = {
   app,
@@ -70,8 +76,6 @@ const epics = [
   hideIntroBannerEpic,
   tipArticleEpic,
   rejectArticleEpic,
-  trackAnalyticsEpic,
-  trackMixpanelEpic,
   startDriverStepsEpic,
   persistStateToLocalStorageEpic,
   finishedDriverStepsEpic,
@@ -89,9 +93,13 @@ const epics = [
   addArticleToCollectionEpic,
   verifyEmailEpic,
   resendEmailVerificationEpic,
+  emailSubscribeEpic,
   voteEpic,
   createCommunityEpic,
   updateCommunityEpic,
+  rejectArticleTransferEpic,
+  acceptArticleTransferEpic,
+  finaliseArticleTransferEpic,
 ];
 
 export const rootEpic = combineEpics(...epics);
