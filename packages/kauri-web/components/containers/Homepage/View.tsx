@@ -22,6 +22,7 @@ import CuratedCategory, {
 } from "../../../../kauri-components/components/CuratedCategory";
 import { Link } from "../../../routes";
 import { IShowNotificationPayload } from "../../../lib/Module";
+import Helmet from "react-helmet";
 // import mockData from "./mock";
 
 const HomePageSection = styled.section`
@@ -100,6 +101,19 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
 
           return (
             <HomePageSection>
+              <Helmet>
+                <meta
+                  name="description"
+                  content={
+                    "Learn to Build on Ethereum with Kauri - Articles, Tutorials, Documentation and Best Practices"
+                  }
+                />
+                <meta
+                  name="keywords"
+                  content="ethereum, blockchain, learn to code, developer documentation"
+                />
+              </Helmet>
+
               {!props.isLoggedIn && (
                 <SignupBanner
                   linkComponent={(children, route) => (
