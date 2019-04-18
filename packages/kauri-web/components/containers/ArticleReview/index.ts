@@ -25,7 +25,7 @@ const mapStateToProps = (
   props: { id: string; version: string }
 ) => ({
   id: props.id,
-  userId: state.app.user.id,
+  userId: state.app && state.app.user && state.app.user.id,
   version: props.version,
 });
 
