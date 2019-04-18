@@ -5,16 +5,16 @@
 // GraphQL mutation operation: emailSubscribe
 // ====================================================
 
-export interface emailSubscribe_emailSubscribe {
+export interface emailSubscribe_subscribe {
   __typename: "MutationResponse";
   hash: string | null;
 }
 
 export interface emailSubscribe {
-  emailSubscribe: emailSubscribe_emailSubscribe | null;
+  subscribe: emailSubscribe_subscribe | null;
 }
 
 export interface emailSubscribeVariables {
   emailAddress?: string | null;
-  subscriptions?: any;
+  subscriptions?: any | null;
 }

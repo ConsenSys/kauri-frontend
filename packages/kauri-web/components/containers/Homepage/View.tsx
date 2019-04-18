@@ -77,11 +77,7 @@ interface IProps {
 
 const HomePageV2Component: React.FunctionComponent<IProps> = props => {
   return (
-    <Query<HomePageV2, HomePageV2Variables>
-      query={query}
-      variables={{}}
-      fetchPolicy={"no-cache"}
-    >
+    <Query<HomePageV2, HomePageV2Variables> query={query} variables={{}}>
       {({ loading, error, data }) => {
         if (loading) {
           return <Loading />;
@@ -100,6 +96,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
           data.getLatestHomepageDescriptor.rows
         ) {
           // const data = mockData.data;
+          // console.log(data.getLatestHomepageDescriptor);
 
           return (
             <HomePageSection>

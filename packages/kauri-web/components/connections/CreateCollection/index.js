@@ -16,7 +16,6 @@ export default compose(
   ),
   graphql(getCollection, {
     options: ({ id }) => ({
-      fetchPolicy: "no-cache",
       variables: {
         id,
       },

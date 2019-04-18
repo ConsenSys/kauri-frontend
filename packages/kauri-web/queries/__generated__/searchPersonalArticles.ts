@@ -1,11 +1,7 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import {
-  ResourceTypeInput,
-  ArticleStatusInput,
-} from "./../../__generated__/globalTypes";
+import { ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchPersonalArticles
@@ -44,15 +40,7 @@ export interface searchPersonalArticles_searchArticles_content_author {
 }
 
 export interface searchPersonalArticles_searchArticles_content_owner_ArticleDTO {
-  __typename:
-    | "ArticleDTO"
-    | "CommentDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CuratedListDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface searchPersonalArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
@@ -84,10 +72,7 @@ export interface searchPersonalArticles_searchArticles_content_owner_CommunityDT
   resourceIdentifier: searchPersonalArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type searchPersonalArticles_searchArticles_content_owner =
-  | searchPersonalArticles_searchArticles_content_owner_ArticleDTO
-  | searchPersonalArticles_searchArticles_content_owner_PublicUserDTO
-  | searchPersonalArticles_searchArticles_content_owner_CommunityDTO;
+export type searchPersonalArticles_searchArticles_content_owner = searchPersonalArticles_searchArticles_content_owner_ArticleDTO | searchPersonalArticles_searchArticles_content_owner_PublicUserDTO | searchPersonalArticles_searchArticles_content_owner_CommunityDTO;
 
 export interface searchPersonalArticles_searchArticles_content_comments_content_author {
   __typename: "PublicUserDTO";
@@ -106,18 +91,14 @@ export interface searchPersonalArticles_searchArticles_content_comments_content 
 
 export interface searchPersonalArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
-  content:
-    | (searchPersonalArticles_searchArticles_content_comments_content | null)[]
-    | null;
+  content: (searchPersonalArticles_searchArticles_content_comments_content | null)[] | null;
   totalPages: number;
   totalElements: any;
 }
 
 export interface searchPersonalArticles_searchArticles_content {
   __typename: "ArticleDTO";
-  associatedNfts:
-    | (searchPersonalArticles_searchArticles_content_associatedNfts | null)[]
-    | null;
+  associatedNfts: (searchPersonalArticles_searchArticles_content_associatedNfts | null)[] | null;
   resourceIdentifier: searchPersonalArticles_searchArticles_content_resourceIdentifier | null;
   description: string | null;
   id: string | null;

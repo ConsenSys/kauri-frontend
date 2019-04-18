@@ -9,7 +9,7 @@ import {
   defaultDataIdFromObject,
 } from "apollo-cache-inmemory";
 import { getMainDefinition } from "apollo-utilities";
-import introspectionQueryResultData from "../scripts/fragmentTypes.json";
+import introspectionQueryResultData from "../fragmentTypes.json";
 const config = require("../config").default;
 
 let apolloClient = null;

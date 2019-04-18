@@ -78,7 +78,7 @@ const CuratedCategory: React.FunctionComponent<IProps> = ({
     {background && (
       <Image
         asBackground={true}
-        height="70px"
+        height="90px"
         width={`${DEFAULT_CARD_WIDTH}px`}
         mobileHeight="60px"
         mobileWidth="170px"
