@@ -2,6 +2,7 @@ import styled, { css } from "../../lib/styled-components";
 import { InView } from "react-intersection-observer";
 
 interface ImgProps {
+  className?: string;
   image: string;
   height?: number | string;
   width: number | string;

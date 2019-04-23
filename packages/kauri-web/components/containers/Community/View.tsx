@@ -28,10 +28,10 @@ class CommunityConnection extends React.Component<IProps> {
     const isMember = isCreator || R.any(R.propEq('id', currentUser), getCommunity.members || [])
       return <>
           <CommunityHeader
-          avatar={String(getCommunity.avatar)}
-          name={String(getCommunity.name)}
-          website={String(getCommunity.website)}
-          description={String(getCommunity.description)}
+          avatar={getCommunity.avatar}
+          name={getCommunity.name}
+          website={getCommunity.website}
+          description={getCommunity.description}
           id={String(getCommunity.id)}
           social={getCommunity.social}
           articles={articles && articles.length || 0}
