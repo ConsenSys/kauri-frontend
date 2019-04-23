@@ -3,10 +3,11 @@ import { withApollo, compose } from "react-apollo";
 import withData from "../lib/with-data";
 import App from "../layouts/App";
 import ArticleApproved from "../components/containers/ArticleApproved";
+import theme from "../lib/theme-config";
 import { withRouter } from "next/router";
 
 class ArticleApprovedPage extends React.Component {
-  render() {
+  render () {
     return (
       <App confirmationPage url={this.props.router}>
         <ArticleApproved

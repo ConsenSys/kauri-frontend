@@ -6,6 +6,7 @@ import {
   searchPersonalDrafts,
   searchPending,
   searchAwaitingApproval,
+  getArticleTransfers,
 } from "../../../queries/Article";
 import { getUserDetails } from "../../../queries/User";
 import { getCollectionsForUser } from "../../../queries/Collection";
@@ -17,6 +18,10 @@ import {
 import { connect } from "react-redux";
 import withLoading from "../../../lib/with-loading";
 import { withRouter } from "next/router";
+import {
+  rejectArticleTransferAction,
+  acceptArticleTransferAction,
+} from "./Manage/TransferModule";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -28,7 +33,13 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connect(
     mapStateToProps,
-    { deleteDraftArticleAction, closeModalAction, openModalAction }
+    {
+      deleteDraftArticleAction,
+      closeModalAction,
+      openModalAction,
+      rejectArticleTransferAction,
+      acceptArticleTransferAction,
+    }
   ),
   graphql(searchPersonalArticles, {
     name: "ArticlesQuery",
@@ -91,6 +102,17 @@ export default compose(
       variables: {
         page: 0,
         userId,
+      },
+    }),
+  }),
+  graphql(getArticleTransfers, {
+    name: "PendingTransfersQuery",
+    options: ({ userId }) => ({
+      fetchPolicy: "cache-and-network",
+      variables: {
+        page: 0,
+        size: 100,
+        recipient: userId,
       },
     }),
   }),

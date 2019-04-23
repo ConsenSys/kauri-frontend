@@ -1,11 +1,11 @@
 import * as React from "react";
 import styled from "styled-components";
 import Stack, { IStackStyledProps } from "stack-styled";
-import { bgColor, BgColorProps } from "styled-system";
+import { BackgroundProps } from "styled-system";
 import theme from "../../lib/theme-config";
 
-const ActionsSectionStack = styled<BgColorProps & IStackStyledProps>(Stack)`
-  ${bgColor};
+const ActionsSectionStack = styled<BackgroundProps & IStackStyledProps>(Stack)`
+  background: ${props => props.theme.colors[props.background as string]};
   width: 100%;
   padding: 15px ${props => props.theme.padding};
 `;
@@ -44,11 +44,11 @@ export const RightActionsRow = styled.div`
 `;
 
 interface IActionSection {
+  bg?: string;
   justifyContent?: string[];
   gridAutoFlow?: string[];
   gridTemplateColumns?: string;
   alignItems?: string[];
-  bg?: string;
   width?: string;
   gap?: number;
 }
@@ -65,7 +65,7 @@ const ActionsSection: React.FunctionComponent<IActionSection> = ({
 }) => (
   <ActionsSectionStack
     alignItems={alignItems}
-    bg={bg}
+    background={bg}
     width={width}
     gap={gap}
     justifyContent={justifyContent}

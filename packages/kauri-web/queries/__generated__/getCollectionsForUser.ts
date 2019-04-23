@@ -1,8 +1,7 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { CollectionFilterInput, DirectionInput, ResourceType } from "./../../__generated__/globalTypes";
+import { CollectionFilterInput, DirectionInput, ResourceTypeInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCollectionsForUser
@@ -15,7 +14,7 @@ export interface getCollectionsForUser_searchCollections_content_owner_ArticleDT
 export interface getCollectionsForUser_searchCollections_content_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface getCollectionsForUser_searchCollections_content_owner_PublicUserDTO {
@@ -30,7 +29,7 @@ export interface getCollectionsForUser_searchCollections_content_owner_PublicUse
 export interface getCollectionsForUser_searchCollections_content_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface getCollectionsForUser_searchCollections_content_owner_CommunityDTO {
@@ -46,7 +45,7 @@ export type getCollectionsForUser_searchCollections_content_owner = getCollectio
 export interface getCollectionsForUser_searchCollections_content_sections_resourcesId {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface getCollectionsForUser_searchCollections_content_sections_resources_CommunityDTO {
@@ -72,7 +71,7 @@ export interface getCollectionsForUser_searchCollections_content_sections {
 
 export interface getCollectionsForUser_searchCollections_content_resourceIdentifier {
   __typename: "ResourceIdentifier";
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   id: string | null;
 }
 
@@ -91,9 +90,9 @@ export interface getCollectionsForUser_searchCollections_content {
 
 export interface getCollectionsForUser_searchCollections {
   __typename: "ResponsePage_CollectionDTO";
-  totalElements: any | null;
+  totalElements: any;
   content: (getCollectionsForUser_searchCollections_content | null)[] | null;
-  isLast: boolean | null;
+  isLast: boolean;
 }
 
 export interface getCollectionsForUser {

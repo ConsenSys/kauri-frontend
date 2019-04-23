@@ -24,9 +24,9 @@ const StyledContent = styled.div`
 `;
 
 const StyledHeader = styled.div`
-  padding: 0px ${props => props.theme.padding} !important;
+  padding: 0px !important;
   .ant-layout-header {
-    padding: 0px ${props => props.theme.padding} !important;
+    padding: 0px !important;
   }
   line-height: ${menuHeaderHeight}px;
   min-height: ${menuHeaderHeight}px;

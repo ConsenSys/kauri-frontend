@@ -1,7 +1,7 @@
 /* tslint:disable */
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import { TagInput, TagSelector } from "../components/Tags";
+import { TagInput, TagSelector, TagList } from "../components/Tags";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -40,4 +40,12 @@ storiesOf("Tags", module)
         maxTags={5}
       />
     </Container>
+  ))
+  .add("Tags - Vertical Orientation", () => (
+    <TagList
+      color="textPrimary"
+      orientation={"vertical"}
+      tags={["Ethereun", "Web3"]}
+      maxTags={5}
+    />
   ));

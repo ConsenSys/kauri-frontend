@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { routeChangeAction } from "../../../../lib/Module";
 import ApolloClient from "apollo-client";
 import { Subscription } from "rxjs/Subscription";
+import analytics from "../../../../lib/analytics";
 
 const SearchSVG = () => (
   <div className="certain-category-icon">
@@ -79,6 +80,10 @@ interface IProps {
 class Complete extends React.Component<IProps & ISearchWrapperProps, IState> {
   handleChange = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      analytics.track("Search", {
+        category: "generic",
+        keyword: this.state.q,
+      });
       this.props.routeChangeAction(
         `/search-results?q=${this.state.q}${
           typeof this.props.category === "string"

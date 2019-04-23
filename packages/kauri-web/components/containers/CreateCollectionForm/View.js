@@ -166,6 +166,14 @@ const ShareIcon = () => (
   </svg>
 );
 
+const DraggableResourceContainer = styled.div`
+  :hover {
+    > :first-child {
+      box-shadow: 0 0 0 2px ${props => props.theme.hoverTextColor};
+    }
+  }
+`;
+
 const handleBackgroundSetFormField = setFieldValue => () =>
   setImageUploader(payload => {
     setFieldValue("background", payload.background.background);
@@ -184,7 +192,7 @@ const renderResourceSection = (
       ["sections", index, mappingKey, resourceIndex, "version"],
       values
     ) ? (
-        <Draggable
+      <Draggable
           index={resourceIndex}
           draggableId={`${R.path(
             ["sections", index, mappingKey, resourceIndex, "id"],
@@ -195,59 +203,57 @@ const renderResourceSection = (
           )}`}
         >
           {provided => (
-            <div
+          <DraggableResourceContainer
               {...provided.draggableProps}
               {...provided.dragHandleProps}
-              ref={provided.innerRef}
+              innerRef={provided.innerRef}
               id="article-card"
             >
               <ArticleCard
-                id={R.path(
+              id={R.path(
                   ["sections", index, mappingKey, resourceIndex, "id"],
                   values
                 )}
-                version={parseInt(
+              version={parseInt(
                   R.path(
                     ["sections", index, mappingKey, resourceIndex, "version"],
                     values
                   )
                 )}
-                cardHeight={420}
+              cardHeight={420}
               />
               {provided.placeholder}
-            </div>
+            </DraggableResourceContainer>
           )}
         </Draggable>
-      ) : R.path(
-        ["sections", index, mappingKey, resourceIndex],
-        values
-      ) && (
-        <Draggable
-          index={resourceIndex}
-          draggableId={`${R.path(
-            ["sections", index, mappingKey, resourceIndex, "id"],
-            values
-          )}`}
-        >
-          {provided => (
-            <div
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              ref={provided.innerRef}
-              id="collection-card"
-            >
-              <CollectionCard
-                id={R.path(
-                  ["sections", index, mappingKey, resourceIndex, "id"],
-                  values
-                )}
-              />
-              {provided.placeholder}
-            </div>
-          )}
-        </Draggable>
-      )
-    }
+      ) : (
+        R.path(["sections", index, mappingKey, resourceIndex], values) && (
+          <Draggable
+            index={resourceIndex}
+            draggableId={`${R.path(
+              ["sections", index, mappingKey, resourceIndex, "id"],
+              values
+            )}`}
+          >
+            {provided => (
+              <DraggableResourceContainer
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                innerRef={provided.innerRef}
+                id="collection-card"
+              >
+                <CollectionCard
+                  id={R.path(
+                    ["sections", index, mappingKey, resourceIndex, "id"],
+                    values
+                  )}
+                />
+                {provided.placeholder}
+              </DraggableResourceContainer>
+            )}
+          </Draggable>
+        )
+      )}
     <TertiaryButton
       color="primaryTextColor"
       icon={<RemoveIcon />}
@@ -269,6 +275,7 @@ const renderResourceSection = (
 );
 
 type Props = {
+  id?: string,
   userId: string,
   touched: {
     name: boolean,
@@ -302,6 +309,7 @@ const BackIcon = styled.div`
 `;
 
 export default ({
+  id,
   touched,
   errors,
   values,
@@ -415,12 +423,14 @@ export default ({
                     count: R.pipe(
                       R.map(({ resourcesId }) => resourcesId),
                       R.reduce((current, next) => {
-                        const articlesInSection = next.filter(({ type }) => type.toLowerCase() === "article")
+                        const articlesInSection = next.filter(
+                          ({ type }) => type.toLowerCase() === "article"
+                        );
                         if (articlesInSection) {
-                          return current + articlesInSection.length
+                          return current + articlesInSection.length;
                         }
-                        return current
-                      }, 0),
+                        return current;
+                      }, 0)
                     )(values.sections),
                   },
                   {
@@ -428,12 +438,14 @@ export default ({
                     count: R.pipe(
                       R.map(({ resourcesId }) => resourcesId),
                       R.reduce((current, next) => {
-                        const collectionsInSection = next.filter(({ type }) => type.toLowerCase() === "collection")
+                        const collectionsInSection = next.filter(
+                          ({ type }) => type.toLowerCase() === "collection"
+                        );
                         if (collectionsInSection) {
-                          return current + collectionsInSection.length
+                          return current + collectionsInSection.length;
                         }
-                        return current
-                      }, 0),
+                        return current;
+                      }, 0)
                     )(values.sections),
                   },
                 ]}
@@ -548,7 +560,9 @@ export default ({
                               )}
                               chosenArticles={R.pipe(
                                 R.path(["sections", index, "resourcesId"]),
-                                R.filter(({ type }) => type.toLowerCase() === "article")
+                                R.filter(
+                                  ({ type }) => type.toLowerCase() === "article"
+                                )
                               )(values)}
                               closeModalAction={() => closeModalAction()}
                               confirmModal={chosenArticles =>
@@ -557,14 +571,15 @@ export default ({
                                   R.pipe(
                                     R.path(["sections", index, "resourcesId"]),
                                     R.filter(
-                                      ({ type }) => type.toLowerCase() === "collection"
+                                      ({ type }) =>
+                                        type.toLowerCase() === "collection"
                                     ),
                                     R.concat(
                                       chosenArticles.map(article => ({
                                         ...article,
                                         type: "ARTICLE",
                                       }))
-                                    ),
+                                    )
                                   )(values)
                                 )
                               }
@@ -576,13 +591,17 @@ export default ({
                         openModalAction({
                           children: (
                             <ChooseCollectionModal
+                              currentCollectionIdIfUpdating={id}
                               allOtherChosenCollections={values.sections.filter(
                                 (section, sectionIndex) =>
                                   index !== sectionIndex
                               )}
                               chosenCollections={R.pipe(
                                 R.path(["sections", index, "resourcesId"]),
-                                R.filter(({ type }) => type.toLowerCase() === "collection")
+                                R.filter(
+                                  ({ type }) =>
+                                    type.toLowerCase() === "collection"
+                                )
                               )(values)}
                               closeModalAction={() => closeModalAction()}
                               confirmModal={chosenCollections =>
@@ -590,7 +609,10 @@ export default ({
                                   `sections[${index}].resourcesId`,
                                   R.pipe(
                                     R.path(["sections", index, "resourcesId"]),
-                                    R.filter(({ type }) => type.toLowerCase() === "article"),
+                                    R.filter(
+                                      ({ type }) =>
+                                        type.toLowerCase() === "article"
+                                    ),
                                     R.concat(
                                       chosenCollections.map(collection => ({
                                         ...collection,

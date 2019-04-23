@@ -2,16 +2,18 @@
 import React from "react";
 import styled from "styled-components";
 import R from "ramda";
-import {
-  NavigationText,
-  BodyCard,
-} from "../../../../kauri-components/components/Typography";
+import { BodyCard } from "../../../../kauri-components/components/Typography";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
-import ChooseArticleCard, {
-  articleSize,
-} from "../../connections/ChooseArticleCard";
+import ChooseArticleCard from "../../connections/ChooseArticleCard/View";
 import ModalHeader from "../../../../kauri-components/components/Headers/ModalHeader";
+import ChooseResourceModalSearch from "./ChooseResourceModalSearch";
+import { connect } from "react-redux";
+import { compose, graphql } from "react-apollo";
+import { searchApprovedArticles } from "../../../queries/Article";
+import withApolloError from "../../../lib/with-apollo-error";
+
+const articleSize = 12;
 
 const TitleContainer = styled.div`
   display: flex;
@@ -30,7 +32,7 @@ const Title = ({ chosenArticles }) => (
 
 const ActionsContainer = styled.div`
   display: flex;
-  > :first-child {
+  > :not(:last-child) {
     margin-right: ${props => props.theme.space[3]}px;
   }
 `;
@@ -42,8 +44,23 @@ const CloseIcon = () => (
   />
 );
 
-const Actions = ({ handleClose, handleConfirm, chosenArticles }) => (
+const Actions = ({
+  handleClose,
+  handleConfirm,
+  chosenArticles,
+  searchPersonalPublishedArticles,
+  searchPublishedArticles,
+  currentTab,
+  changeTab,
+  userId,
+}) => (
   <ActionsContainer>
+    <ChooseResourceModalSearch
+      type="article"
+      userId={userId}
+      query={searchPublishedArticles}
+      changeTab={changeTab}
+    />
     <TertiaryButton
       icon={<CloseIcon />}
       onClick={() => handleClose()}
@@ -73,21 +90,28 @@ const ContentContainer = styled.section`
 `;
 
 type Props = {
+  userId: string,
   closeModalAction: () => void,
   confirmModal: (Array<{ id: string, version: string }>) => void,
   chosenArticles: Array<{ id: string, version: string }>,
   allOtherChosenArticles: Array<{ id: string, version: string }>,
+  searchPublishedArticles: any,
+  searchPersonalPublishedArticles: any,
 };
 
 type State = {
   chosenArticles: Array<{ id: string, version: string }>,
+  currentTab: string,
+  changeTab: (index: number) => void,
 };
 
-export default class ChooseArticleModal extends React.Component<Props, State> {
+class ChooseArticleModal extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props);
     this.state = {
       chosenArticles: this.props.chosenArticles || [],
+      currentTab: "My articles",
+      changeTab: () => {},
     };
   }
 
@@ -120,19 +144,63 @@ export default class ChooseArticleModal extends React.Component<Props, State> {
         <ModalHeader
           actions={
             <Actions
+              userId={this.props.userId}
+              searchPersonalPublishedArticles={
+                this.props.searchPersonalPublishedArticles
+              }
+              searchPublishedArticles={this.props.searchPublishedArticles}
               chosenArticles={this.state.chosenArticles}
               handleConfirm={confirmModal}
               handleClose={() => closeModalAction()}
+              changeTab={this.state.changeTab}
+              currentTab={this.state.currentTab}
             />
           }
           title={<Title chosenArticles={this.state.chosenArticles} />}
         />
         <ChooseArticleCard
+          userId={this.props.userId}
+          searchPersonalPublishedArticles={
+            this.props.searchPersonalPublishedArticles
+          }
+          searchPublishedArticles={this.props.searchPublishedArticles}
           allOtherChosenArticles={this.props.allOtherChosenArticles}
           chosenArticles={this.state.chosenArticles}
           chooseArticle={this.chooseArticle}
+          passChangeTabFunction={changeTab =>
+            this.setState({ ...this.state, changeTab })
+          }
         />
       </ContentContainer>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  userId: state.app && state.app.user && state.app.user.id,
+});
+
+export default compose(
+  connect(
+    mapStateToProps,
+    {}
+  ),
+  graphql(searchApprovedArticles, {
+    options: ({ userId }) => ({
+      variables: {
+        size: articleSize, // Because lag and no searchbar
+      },
+    }),
+    name: "searchPublishedArticles",
+  }),
+  graphql(searchApprovedArticles, {
+    options: ({ userId }) => ({
+      variables: {
+        size: articleSize, // Because lag and no searchbar
+        category: userId,
+      },
+    }),
+    name: "searchPersonalPublishedArticles",
+  }),
+  withApolloError()
+)(ChooseArticleModal);

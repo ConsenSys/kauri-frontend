@@ -6,6 +6,8 @@ ENV MONOLITH_EXTERNAL_API=api.dev.kauri.io
 ENV MONOLITH_API=api.dev.kauri.io
 ENV CI=true
 ENV DEV_SEED_WORDS="${DEV_SEED_WORDS}"
+ENV MIXPANEL_TOKEN="627c5ccb5bf7da1d079aef2efaa807c2"
+
 EXPOSE 3000
 
 # setup workspace

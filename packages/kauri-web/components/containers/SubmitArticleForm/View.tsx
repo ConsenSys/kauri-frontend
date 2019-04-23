@@ -6,6 +6,7 @@ import SubmitArticleFormContent from "./SubmitArticleFormContent";
 import { IShowNotificationPayload } from "../../../lib/Module";
 import AlertView from "../../../../kauri-components/components/Modal/AlertView";
 import PublishingSelector, { IOption } from "./PublishingSelector";
+import analytics from "../../../lib/analytics";
 
 import {
   IAttributesPayload,
@@ -70,41 +71,45 @@ class SubmitArticleForm extends React.Component<IProps> {
     } = this.props;
     if (!userId) {
       routeChangeAction(`/login?r=${router.asPath}&redirected=true`);
-    }
-    if (
-      communities &&
-      communities.length > 0 &&
-      !window.localStorage.getItem("community-publishing-modal")
-    ) {
-      openModalAction({
-        children: (
-          <AlertView
-            title="Publish to Community"
-            content={
-              <div>
-                You can publish articles to your personal and also communities
-                when selecting Publish
-              </div>
-            }
-            confirmButtonAction={() => {
-              window.localStorage.setItem(
-                "community-publishing-modal",
-                Date.now().toString()
-              );
-              closeModalAction();
-            }}
-            closeModalAction={() => {
-              window.localStorage.setItem(
-                "community-publishing-modal",
-                Date.now().toString()
-              );
-              closeModalAction();
-            }}
-            closeButtonText="Understood"
-            confirmButtonText="Learn More"
-          />
-        ),
+    } else {
+      analytics.track("Write Article Start", {
+        category: "generic",
       });
+      if (
+        communities &&
+        communities.length > 0 &&
+        !window.localStorage.getItem("community-publishing-modal")
+      ) {
+        openModalAction({
+          children: (
+            <AlertView
+              title="Publish to Community"
+              content={
+                <div>
+                  You can publish articles to your personal and also communities
+                  when selecting Publish
+                </div>
+              }
+              confirmButtonAction={() => {
+                window.localStorage.setItem(
+                  "community-publishing-modal",
+                  Date.now().toString()
+                );
+                closeModalAction();
+              }}
+              closeModalAction={() => {
+                window.localStorage.setItem(
+                  "community-publishing-modal",
+                  Date.now().toString()
+                );
+                closeModalAction();
+              }}
+              closeButtonText="Understood"
+              confirmButtonText="Learn More"
+            />
+          ),
+        });
+      }
     }
   }
 

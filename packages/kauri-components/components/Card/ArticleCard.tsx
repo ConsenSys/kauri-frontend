@@ -23,7 +23,7 @@ import Date from "../HoverDateLabel";
 import { Article_associatedNfts } from "../../../kauri-web/queries/__generated__/Article";
 
 const DEFAULT_CARD_HEIGHT = 310;
-const DEFAULT_CARD_WIDTH = 290;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 const DEFAULT_CARD_PADDING = theme.space[2];
 
 const withImageURLPaddingCss = css`

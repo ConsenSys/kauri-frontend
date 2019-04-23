@@ -52,6 +52,7 @@ export const getOwnProfile = gql`
         name
       }
       subscriptions
+      dateCreated
     }
   }
 `;
@@ -93,6 +94,17 @@ export const regenerateEmailVerificationCode = gql`
 export const verifyEmail = gql`
   mutation verifyEmail($code: String) {
     verifyEmail(code: $code) {
+      hash
+    }
+  }
+`;
+
+export const emailSubscribe = gql`
+  mutation emailSubscribe(
+    $emailAddress: String
+    $subscriptions: Map_String_BooleanScalar
+  ) {
+    subscribe(email: $emailAddress, subscriptions: $subscriptions) {
       hash
     }
   }

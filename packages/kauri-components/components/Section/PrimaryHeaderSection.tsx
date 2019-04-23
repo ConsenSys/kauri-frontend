@@ -2,7 +2,7 @@
 import * as React from "react";
 import styled, { css } from "../../lib/styled-components";
 import Stack, { IStackStyledProps } from "stack-styled";
-import { bgColor, BgColorProps } from "styled-system";
+import { BackgroundProps } from "styled-system";
 
 const withBackgroundURLCss = css<{ backgroundURL?: string }>`
   background: ${props =>
@@ -16,9 +16,9 @@ const withBackgroundURLCss = css<{ backgroundURL?: string }>`
 `;
 
 const PrimaryHeaderSectionStack = styled<
-  { backgroundURL?: string } & IStackStyledProps & BgColorProps
+  { backgroundURL?: string } & IStackStyledProps & BackgroundProps
 >(Stack)`
-  ${bgColor};
+  background: ${props => props.theme.colors[props.background as string]};
   min-height: 250px;
   padding: 0px ${props => props.theme.padding};
   ${props => props.backgroundURL && withBackgroundURLCss};
@@ -43,7 +43,7 @@ const PrimaryHeaderSection: React.FunctionComponent<
   <PrimaryHeaderSectionStack
     gap={30}
     backgroundURL={backgroundURL}
-    bg={bg}
+    background={bg}
     justifyContent={justifyContent}
     alignItems={["", "center"]}
     gridAutoFlow={["", "column"]}

@@ -1,8 +1,7 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
+import { ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCollection
@@ -15,7 +14,7 @@ export interface getCollection_getCollection_owner_ArticleDTO {
 export interface getCollection_getCollection_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface getCollection_getCollection_owner_PublicUserDTO {
@@ -30,7 +29,7 @@ export interface getCollection_getCollection_owner_PublicUserDTO {
 export interface getCollection_getCollection_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface getCollection_getCollection_owner_CommunityDTO {
@@ -59,7 +58,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_assoc
 export interface getCollection_getCollection_sections_resources_ArticleDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   version: number | null;
 }
 
@@ -86,7 +85,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_owner
 export interface getCollection_getCollection_sections_resources_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_owner_PublicUserDTO {
@@ -101,7 +100,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_owner
 export interface getCollection_getCollection_sections_resources_ArticleDTO_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO_owner_CommunityDTO {
@@ -132,8 +131,8 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_comme
 export interface getCollection_getCollection_sections_resources_ArticleDTO_comments {
   __typename: "ResponsePage_CommentDTO";
   content: (getCollection_getCollection_sections_resources_ArticleDTO_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface getCollection_getCollection_sections_resources_ArticleDTO {
@@ -148,7 +147,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO {
   authorId: string | null;
   dateCreated: any | null;
   datePublished: any | null;
-  status: ArticleStatus | null;
+  status: ArticleStatusInput | null;
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
@@ -167,7 +166,7 @@ export interface getCollection_getCollection_sections_resources_CollectionDTO_ow
 export interface getCollection_getCollection_sections_resources_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface getCollection_getCollection_sections_resources_CollectionDTO_owner_PublicUserDTO {
@@ -182,7 +181,7 @@ export interface getCollection_getCollection_sections_resources_CollectionDTO_ow
 export interface getCollection_getCollection_sections_resources_CollectionDTO_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface getCollection_getCollection_sections_resources_CollectionDTO_owner_CommunityDTO {
@@ -198,7 +197,7 @@ export type getCollection_getCollection_sections_resources_CollectionDTO_owner =
 export interface getCollection_getCollection_sections_resources_CollectionDTO_sections_resourcesId {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface getCollection_getCollection_sections_resources_CollectionDTO_sections_resources_CommunityDTO {
@@ -224,7 +223,7 @@ export interface getCollection_getCollection_sections_resources_CollectionDTO_se
 
 export interface getCollection_getCollection_sections_resources_CollectionDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   id: string | null;
 }
 
@@ -252,7 +251,7 @@ export interface getCollection_getCollection_sections {
 
 export interface getCollection_getCollection_resourceIdentifier {
   __typename: "ResourceIdentifier";
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   id: string | null;
 }
 

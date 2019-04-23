@@ -6,7 +6,7 @@ import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
 import { deleteDraftArticle } from "./__generated__/deleteDraftArticle";
-import { getArticleTitle } from "./__generated__/getArticleTitle";
+import analytics from "../../../lib/analytics";
 
 export const deleteDraftArticleMutation = gql`
   mutation deleteDraftArticle($id: String, $version: Int) {
@@ -80,10 +80,6 @@ const CommandOutput = t.interface({
   hash: t.string,
 });
 
-const GetArticle = t.interface({
-  title: t.string,
-});
-
 export const deleteDraftArticleEpic: Epic<any, IReduxState, IDependencies> = (
   action$,
   store,
@@ -105,24 +101,18 @@ export const deleteDraftArticleEpic: Epic<any, IReduxState, IDependencies> = (
             }).hash
           )
         )
+        .do(() => {
+          analytics.track("Delete Draft", {
+            category: "article_actions",
+          });
+          apolloClient.resetStore()
+          return typeof callback === "function" && callback()
+        })
         .mergeMap(() =>
-          apolloClient.query<getArticleTitle>({
-            query: getArticleTitleQuery,
-            variables: { id: variables.id, version: variables.version },
-          })
-        )
-        .map(
-          ({ data: { getArticle } }) =>
-            GetArticle.decode(getArticle).getOrElseL(errors => {
-              throw new Error(failure(errors).join("\n"));
-            }).title
-        )
-        .do(() => typeof callback === "function" && callback())
-        .mergeMap(title =>
           Observable.merge(
             Observable.of(
               (showNotificationAction as any)({
-                description: `Your draft article "${title}" has been deleted!`,
+                description: `Your draft article has been deleted!`,
                 message: "Draft article deleted",
                 notificationType: "success",
               })
@@ -134,5 +124,4 @@ export const deleteDraftArticleEpic: Epic<any, IReduxState, IDependencies> = (
             )
           )
         )
-        .do(() => apolloClient.resetStore())
     );

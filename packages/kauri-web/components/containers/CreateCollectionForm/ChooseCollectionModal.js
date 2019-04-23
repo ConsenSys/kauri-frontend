@@ -5,8 +5,15 @@ import R from "ramda";
 import { BodyCard } from "../../../../kauri-components/components/Typography";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
-import ChooseCollectionCard from "../../connections/ChooseCollectionCard";
+import ChooseCollectionCard from "../../connections/ChooseCollectionCard/View";
 import ModalHeader from "../../../../kauri-components/components/Headers/ModalHeader";
+import ChooseResourceModalSearch from "./ChooseResourceModalSearch";
+import { compose, graphql } from "react-apollo";
+import { connect } from "react-redux";
+import withApolloError from "../../../lib/with-apollo-error";
+import { getCollectionsForUser } from "../../../queries/Collection";
+
+const collectionSize = 12;
 
 const TitleContainer = styled.div`
   display: flex;
@@ -15,6 +22,7 @@ const TitleContainer = styled.div`
     margin-right: ${props => props.theme.space[3]}px;
   }
 `;
+
 const Title = ({ chosenCollections }) => (
   <TitleContainer>
     <BodyCard>{`${
@@ -25,7 +33,7 @@ const Title = ({ chosenCollections }) => (
 
 const ActionsContainer = styled.div`
   display: flex;
-  > :first-child {
+  > :not(:last-child) {
     margin-right: ${props => props.theme.space[3]}px;
   }
 `;
@@ -37,8 +45,23 @@ const CloseIcon = () => (
   />
 );
 
-const Actions = ({ handleClose, handleConfirm, chosenCollections }) => (
+const Actions = ({
+  handleClose,
+  handleConfirm,
+  chosenCollections,
+  searchPersonalPublishedCollections,
+  searchPublishedCollections,
+  currentTab,
+  changeTab,
+  userId,
+}) => (
   <ActionsContainer>
+    <ChooseResourceModalSearch
+      type="collection"
+      userId={userId}
+      query={searchPublishedCollections}
+      changeTab={changeTab}
+    />
     <TertiaryButton
       icon={<CloseIcon />}
       onClick={() => handleClose()}
@@ -68,24 +91,29 @@ const ContentContainer = styled.section`
 `;
 
 type Props = {
+  userId: string,
   closeModalAction: () => void,
   confirmModal: (Array<{ id: string, version: string }>) => void,
   chosenCollections: Array<{ id: string, version: string }>,
   allOtherChosenCollections: Array<{ id: string, version: string }>,
+  currentCollectionIdIfUpdating?: string,
+  searchPublishedCollections: any,
+  searchPersonalPublishedCollections: any,
 };
 
 type State = {
   chosenCollections: Array<{ id: string, version: string }>,
+  currentTab: string,
+  changeTab: (index: number) => void,
 };
 
-export default class ChooseCollectionModal extends React.Component<
-  Props,
-  State
-> {
+class ChooseCollectionModal extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props);
     this.state = {
       chosenCollections: this.props.chosenCollections || [],
+      currentTab: "My collections",
+      changeTab: () => {},
     };
   }
 
@@ -110,7 +138,11 @@ export default class ChooseCollectionModal extends React.Component<
     });
 
   render () {
-    const { closeModalAction, confirmModal } = this.props;
+    const {
+      closeModalAction,
+      confirmModal,
+      currentCollectionIdIfUpdating,
+    } = this.props;
 
     return (
       <ContentContainer>
@@ -118,19 +150,66 @@ export default class ChooseCollectionModal extends React.Component<
         <ModalHeader
           actions={
             <Actions
+              userId={this.props.userId}
+              searchPublishedCollections={this.props.searchPublishedCollections}
+              searchPersonalPublishedCollections={
+                this.props.searchPersonalPublishedCollections
+              }
               chosenCollections={this.state.chosenCollections}
               handleConfirm={confirmModal}
               handleClose={() => closeModalAction()}
+              currentTab={this.state.currentTab}
+              changeTab={this.state.changeTab}
             />
           }
           title={<Title chosenCollections={this.state.chosenCollections} />}
         />
         <ChooseCollectionCard
+          userId={this.props.userId}
+          searchPublishedCollections={this.props.searchPublishedCollections}
+          searchPersonalPublishedCollections={
+            this.props.searchPersonalPublishedCollections
+          }
+          currentCollectionIdIfUpdating={currentCollectionIdIfUpdating}
           allOtherChosenCollections={this.props.allOtherChosenCollections}
           chosenCollections={this.state.chosenCollections}
           chooseCollection={this.chooseCollection}
+          passChangeTabFunction={changeTab =>
+            this.setState({ ...this.state, changeTab })
+          }
         />
       </ContentContainer>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  userId: state.app && state.app.user && state.app.user.id,
+});
+
+export default compose(
+  connect(
+    mapStateToProps,
+    {}
+  ),
+  graphql(getCollectionsForUser, {
+    options: () => ({
+      variables: {
+        size: collectionSize, // Because lag and no searchbar
+      },
+    }),
+    name: "searchPublishedCollections",
+  }),
+  graphql(getCollectionsForUser, {
+    options: ({ userId }) => ({
+      variables: {
+        size: collectionSize, // Because lag and no searchbar
+        filter: {
+          ownerIdEquals: userId,
+        },
+      },
+    }),
+    name: "searchPersonalPublishedCollections",
+  }),
+  withApolloError()
+)(ChooseCollectionModal);

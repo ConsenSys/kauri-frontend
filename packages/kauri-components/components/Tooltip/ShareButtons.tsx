@@ -1,57 +1,64 @@
-import styled from '../../lib/styled-components';
+import styled from "../../lib/styled-components";
 import {
-    TwitterShareButton,
-    TwitterIcon,
-    LinkedinShareButton,
-    LinkedinIcon,
-    RedditShareButton,
-  } from "react-share";
+  TwitterShareButton,
+  TwitterIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+  RedditShareButton,
+} from "react-share";
+import analytics from "../../../kauri-web/lib/analytics";
 
-  const iconSize = 30;
+const iconSize = 30;
 
 interface IContainerProps {
-    horizontal?: boolean;
+  horizontal?: boolean;
 }
 const Container = styled.div`
-    display: flex;
-    flex-direction: ${(props: IContainerProps) => props.horizontal ? 'row' : 'column'};
-    align-items: center;
-    & > * {
-        margin-right: 6px;
-        cursor: pointer;
-    }
+  display: flex;
+  flex-direction: ${(props: IContainerProps) =>
+    props.horizontal ? "row" : "column"};
+  align-items: center;
+  & > * {
+    margin-right: 6px;
+    cursor: pointer;
+  }
 `;
-
 
 const HNShareButton = styled.div`
   height: ${iconSize}px;
   width: ${iconSize}px;
+  border-radius: ${iconSize / 2}px;
 `;
 
 const handleHNShareClick = ({
   url,
   title,
+  share,
 }: {
   url: string;
   title: string;
+  share: any;
 }) => () => {
   window.open(
     `https://news.ycombinator.com/submitlink?u=${url}&t=${title}`,
     "_blank",
     "menubar=yes"
   );
+  share();
 };
 
 const HackerNewsShareButton = ({
   url,
   title,
   children,
+  share,
 }: {
   url: string;
   title: string;
   children: React.ReactElement<any>;
+  share: any;
 }) => (
-  <HNShareButton onClick={handleHNShareClick({ url, title })}>
+  <HNShareButton onClick={handleHNShareClick({ url, title, share })}>
     {children}
   </HNShareButton>
 );
@@ -130,22 +137,51 @@ const RedditIcon = () => (
 );
 
 interface IProps {
-    url: string;
-    title: string;
-    horizontal?: boolean;
+  url: string;
+  title: string;
+  horizontal?: boolean;
 }
 
-export const ShareButtons = ({ url, title, horizontal}: IProps) => <Container horizontal={horizontal}>
-    <LinkedinShareButton url={url} title={title}>
-        <LinkedinIcon size={iconSize} round={true} />
+export const ShareButtons = ({ url, title, horizontal }: IProps) => (
+  <Container horizontal={horizontal}>
+    <LinkedinShareButton
+      onShareWindowClose={() => {
+        analytics.track("Share", { category: "generic", platform: "LinkedIn" });
+      }}
+      url={url}
+      title={title}
+    >
+      <LinkedinIcon size={iconSize} round={true} />
     </LinkedinShareButton>
-    <TwitterShareButton url={url} title={title}>
-        <TwitterIcon size={iconSize} round={true} />
+    <TwitterShareButton
+      onShareWindowClose={() => {
+        analytics.track("Share", { category: "generic", platform: "Twitter" });
+      }}
+      url={url}
+      title={title}
+    >
+      <TwitterIcon size={iconSize} round={true} />
     </TwitterShareButton>
-    <RedditShareButton url={url} title={title}>
-        <RedditIcon />
+    <RedditShareButton
+      onShareWindowClose={() => {
+        analytics.track("Share", { category: "generic", platform: "Reddit" });
+      }}
+      url={url}
+      title={title}
+    >
+      <RedditIcon />
     </RedditShareButton>
-    <HackerNewsShareButton url={url} title={title}>
-        <HackerNewsIcon />
+    <HackerNewsShareButton
+      share={() => {
+        analytics.track("Share", {
+          category: "generic",
+          platform: "HackerNews",
+        });
+      }}
+      url={url}
+      title={title}
+    >
+      <HackerNewsIcon />
     </HackerNewsShareButton>
-</Container>
+  </Container>
+);

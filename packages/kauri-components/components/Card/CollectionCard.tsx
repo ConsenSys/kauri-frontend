@@ -20,7 +20,7 @@ import {
 import Date from "../HoverDateLabel";
 
 const DEFAULT_CARD_HEIGHT = 310;
-const DEFAULT_CARD_WIDTH = 290;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 const DEFAULT_CARD_PADDING = theme.space[2];
 
 const withImageURLCss = css`
@@ -492,7 +492,7 @@ const RenderContent: React.SFC<IContentProps> = ({
           asBackground={true}
           overlay={imageURL ? { opacity: 0.7 } : undefined}
           height={250}
-          width={290}
+          width={DEFAULT_CARD_WIDTH}
         />
       )}
       <RenderCardContent
@@ -600,7 +600,6 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
     IToggleState,
     IToggleAction
   >(toggleReducer, toggleInitialState);
-
   return (
     <BaseCard
       imageURL={imageURL}

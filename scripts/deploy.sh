@@ -4,7 +4,7 @@ if [ "${TARGET_ENV}" == "" ] || [ "${REGISTRY_URL}" == "" ]; then
   exit 1
 fi
 
-if [[ "$1" =~ [0-9]\.[0-9]\.[0-9] ]]; then
+if [[ "$1" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
   TAG=$1
   echo "Deploying tag: ${TAG}"
 else

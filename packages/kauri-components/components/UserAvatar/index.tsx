@@ -73,7 +73,7 @@ const Avatar = styled<IAvatarProps, "div">("div")`
   }
 `;
 
-interface IProps {
+export interface IProps {
   color?: string;
   avatar: string | null;
   username: string | null;
