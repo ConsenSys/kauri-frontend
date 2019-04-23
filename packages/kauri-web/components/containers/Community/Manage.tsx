@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import ResourceCategory from '../../../../kauri-components/components/ResourceCategory'
 import DisplayResources from './DisplayResources';
-import ManageModerators from './ManageModerators';
+import ManageMembers from './ManageMembers';
 import { getCommunity_getCommunity_pending, getCommunity_getCommunity_members } from '../../../queries/__generated__/getCommunity';
 
 const Container = styled.div`
@@ -53,7 +53,7 @@ return <Container>
         />
     </Column>
     <Column>
-        {tabIndex === 0 && <ManageModerators />}
+        {tabIndex === 0 && <ManageMembers members={members} />}
         {tabIndex === 1 && <DisplayResources resources={articles} />}
         {tabIndex === 2 && <DisplayResources resources={collections} />}
     </Column>
