@@ -28,6 +28,7 @@ import {
 } from "../../../../kauri-components/components/Typography";
 import { getCollectionTitle } from "./__generated__/getCollectionTitle";
 import styled from "../../../../kauri-components/lib/styled-components";
+import analytics from "../../../lib/analytics";
 
 export const addArticleToCollectionMutation = gql`
   mutation addArticleToCollection(
@@ -143,6 +144,13 @@ export const addArticleToCollectionEpic: Epic<
           }).title
       )
       .do(() => typeof actions.callback === "function" && actions.callback())
+      .do(() => {
+        analytics.track("Add To Collection", {
+          category: "collection_actions",
+          resourceId: "4e1a8de4dece4736bd0b9c33b9225c92",
+          resourceType: actions.payload.resourceId.type,
+        });
+      })
       .switchMap(title =>
         Observable.fromPromise(
           apolloClient.query<getCollectionTitle, getArticleTitleVariables>({

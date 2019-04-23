@@ -3,7 +3,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import cookie from "cookie";
 
-const supportedNetworkIds = [4, 224895];
+// const supportedNetworkIds = [4, 224895];
 const ONE_SECOND = 1000;
 const TWENTY_SECONDS = ONE_SECOND * 20;
 
@@ -50,29 +50,29 @@ const Container = styled.div`
 class ContainerWithLifeCycle extends React.Component<{
   type?: NetworkBannerType,
 }> {
-  componentDidMount() {
+  componentDidMount () {
     if (this.props.type !== "rewardContributor") {
       document.body.style = "overflow: hidden;";
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     document.body.style = "overflow: visible;";
   }
 
-  render() {
+  render () {
     return <Container {...this.props}>{this.props.children}</Container>;
   }
 }
 
-const networkNames = {
-  "1": "Main",
-  "2": "Morden",
-  "3": "Ropsten",
-  "4": "Rinkeby",
-  "42": "Kovan",
-  "224895": "Kauri Dev",
-};
+// const networkNames = {
+//   "1": "Main",
+//   "2": "Morden",
+//   "3": "Ropsten",
+//   "4": "Rinkeby",
+//   "42": "Kovan",
+//   "224895": "Kauri Dev",
+// };
 
 const overlayWithActionsHeaderCss = css`
   top: 98px;
@@ -111,16 +111,16 @@ const Overlay = styled.div`
   }};
 `;
 
-const UnsupportedNetwork = ({ currentNetworkName, type, showBanner }) => (
-  <ContainerWithLifeCycle type={type} showBanner={showBanner} error>
-    <span>
-      {`Please switch to the `}
-      <strong>Rinkeby</strong>
-      {` Test Network.`}
-    </span>
-    <Overlay type={type} />
-  </ContainerWithLifeCycle>
-);
+// const UnsupportedNetwork = ({ currentNetworkName, type, showBanner }) => (
+//   <ContainerWithLifeCycle type={type} showBanner={showBanner} error>
+//     <span>
+//       {"Please switch to the "}
+//       <strong>Rinkeby</strong>
+//       {" Test Network."}
+//     </span>
+//     <Overlay type={type} />
+//   </ContainerWithLifeCycle>
+// );
 
 const MetaMaskLocked = ({ type, showBanner }) => (
   <ContainerWithLifeCycle type={type} showBanner={showBanner} error>
@@ -156,7 +156,7 @@ export default class NetworkBanner extends React.Component<
   interval = null;
   networkInterval = null;
 
-  constructor(props: *) {
+  constructor (props: *) {
     super(props);
     this.state = {
       networkId: null,
@@ -172,7 +172,7 @@ export default class NetworkBanner extends React.Component<
    * Start polling accounts, & network. We poll indefinitely so that we can
    * react to the user changing accounts or networks.
    */
-  componentDidMount() {
+  componentDidMount () {
     this.fetchAccounts();
     this.fetchNetwork();
     this.initAccountsPoll();
@@ -289,15 +289,20 @@ export default class NetworkBanner extends React.Component<
       });
   };
 
-  render() {
+  render () {
     if (!global.window) return null;
 
     const { type, showBanner, loggingOut } = this.props;
-    const { networkId, accountsLoaded, accounts, accountsError } = this.state;
-    const currentNetworkName =
-      typeof networkId === "number" && networkNames[networkId]
-        ? networkNames[networkId]
-        : networkId;
+    const {
+      // networkId,
+      accountsLoaded,
+      accounts,
+      accountsError,
+    } = this.state;
+    // const currentNetworkName =
+    //   typeof networkId === "number" && networkNames[networkId]
+    //     ? networkNames[networkId]
+    //     : networkId;
 
     if (typeof loggingOut === "boolean") {
       return null;
@@ -307,18 +312,18 @@ export default class NetworkBanner extends React.Component<
       return null;
     }
 
-    if (
-      typeof networkId === "number" &&
-      supportedNetworkIds.indexOf(networkId) < 0
-    ) {
-      return (
-        <UnsupportedNetwork
-          showBanner={showBanner}
-          currentNetworkName={currentNetworkName}
-          type={type}
-        />
-      );
-    }
+    // if (
+    //   typeof networkId === "number" &&
+    //   supportedNetworkIds.indexOf(networkId) < 0
+    // ) {
+    //   return (
+    //     <UnsupportedNetwork
+    //       showBanner={showBanner}
+    //       currentNetworkName={currentNetworkName}
+    //       type={type}
+    //     />
+    //   );
+    // }
 
     if (
       Array.isArray(accounts) &&

@@ -4,6 +4,9 @@ import SubmitArticleFormActions from "./SubmitArticleFormActions";
 import SubmitArticleFormHeader from "./SubmitArticleFormHeader";
 import SubmitArticleFormContent from "./SubmitArticleFormContent";
 import { IShowNotificationPayload } from "../../../lib/Module";
+import AlertView from "../../../../kauri-components/components/Modal/AlertView";
+import PublishingSelector, { IOption } from "./PublishingSelector";
+import analytics from "../../../lib/analytics";
 
 import {
   IAttributesPayload,
@@ -38,8 +41,9 @@ interface IProps {
   username: string;
   userId: string;
   userAvatar: string;
-  openModalAction: () => void;
+  openModalAction: (children?: any) => void;
   closeModalAction: () => void;
+  communities: IOption[];
 }
 
 interface ISubmitArticleVariables {
@@ -57,10 +61,92 @@ class SubmitArticleForm extends React.Component<IProps> {
   static Content = SubmitArticleFormContent;
 
   componentDidMount() {
-    const { userId, router, routeChangeAction } = this.props;
+    const {
+      userId,
+      router,
+      routeChangeAction,
+      communities,
+      openModalAction,
+      closeModalAction,
+    } = this.props;
     if (!userId) {
       routeChangeAction(`/login?r=${router.asPath}&redirected=true`);
+    } else {
+      analytics.track("Write Article Start", {
+        category: "generic",
+      });
+      if (
+        communities &&
+        communities.length > 0 &&
+        !window.localStorage.getItem("community-publishing-modal")
+      ) {
+        openModalAction({
+          children: (
+            <AlertView
+              title="Publish to Community"
+              content={
+                <div>
+                  You can publish articles to your personal and also communities
+                  when selecting Publish
+                </div>
+              }
+              confirmButtonAction={() => {
+                window.localStorage.setItem(
+                  "community-publishing-modal",
+                  Date.now().toString()
+                );
+                closeModalAction();
+              }}
+              closeModalAction={() => {
+                window.localStorage.setItem(
+                  "community-publishing-modal",
+                  Date.now().toString()
+                );
+                closeModalAction();
+              }}
+              closeButtonText="Understood"
+              confirmButtonText="Learn More"
+            />
+          ),
+        });
+      }
     }
+  }
+
+  selectDestination() {
+    const {
+      openModalAction,
+      closeModalAction,
+      communities,
+      userId,
+    } = this.props;
+    if (communities && communities.length > 0) {
+      openModalAction({
+        children: (
+          <PublishingSelector
+            userId={userId}
+            closeModalAction={closeModalAction}
+            communities={communities.map(i => {
+              i.type = "COMMUNITY";
+              return i;
+            })}
+            handleSubmit={this.handleSubmit}
+          />
+        ),
+      });
+    } else {
+      this.handleSubmit("submit/update");
+    }
+  }
+
+  validateForm(next: any) {
+    this.props.form.validateFieldsAndScroll(async (formErr: any) => {
+      if (formErr) {
+        return this.showFormError(formErr);
+      } else {
+        next();
+      }
+    });
   }
 
   showFormError = (formErr: any) => {
@@ -85,13 +171,16 @@ class SubmitArticleForm extends React.Component<IProps> {
     });
   };
 
-  handleSubmit = (submissionType: string, updateComment: string) => (
-    e: React.SyntheticEvent<HTMLButtonElement>
-  ) => {
+  handleSubmit = (
+    submissionType: string,
+    updateComment?: string,
+    destination?: IOption
+  ) => (e: React.SyntheticEvent<HTMLButtonElement>) => {
     console.log("*** SUBMITTING ***", updateComment);
     if (e) {
       e.preventDefault();
     }
+    this.props.closeModalAction();
     this.props.form.validateFieldsAndScroll(
       async (
         formErr: any,
@@ -125,6 +214,7 @@ class SubmitArticleForm extends React.Component<IProps> {
         if (!articleData && submissionType === "submit/update") {
           return submitArticleAction({
             attributes,
+            destination,
             selfPublish: true,
             subject,
             tags,
@@ -272,13 +362,14 @@ class SubmitArticleForm extends React.Component<IProps> {
 
     const articleData = this.props.data && this.props.data.getArticle;
 
-    // console.log(this.props.form.getFieldsValue());
-
     return (
       <Form>
         <SubmitArticleForm.Actions
           {...this.props.form}
           handleSubmit={this.handleSubmit}
+          selectDestination={() =>
+            this.validateForm(() => this.selectDestination())
+          }
           routeChangeAction={routeChangeAction}
           text={articleData && articleData.content}
           status={articleData && articleData.status}

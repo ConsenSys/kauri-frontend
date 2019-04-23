@@ -1,7 +1,7 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { SearchFilterInput, ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
+import { SearchFilterInput, ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchAutocompleteArticles
@@ -10,7 +10,7 @@ import { SearchFilterInput, ResourceType, ArticleStatus } from "./../../__genera
 export interface searchAutocompleteArticles_searchAutocomplete_content_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_CommunityDTO {
@@ -29,7 +29,7 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   version: number | null;
 }
 
@@ -56,7 +56,7 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO {
@@ -71,7 +71,7 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO {
@@ -102,8 +102,8 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_comments {
   __typename: "ResponsePage_CommentDTO";
   content: (searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO {
@@ -118,7 +118,7 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
   authorId: string | null;
   dateCreated: any | null;
   datePublished: any | null;
-  status: ArticleStatus | null;
+  status: ArticleStatusInput | null;
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
@@ -140,8 +140,9 @@ export interface searchAutocompleteArticles_searchAutocomplete_content {
 
 export interface searchAutocompleteArticles_searchAutocomplete {
   __typename: "ResponseBreakdownPage_SearchResultDTO";
-  totalElements: any | null;
-  totalPages: number | null;
+  totalElements: any;
+  totalPages: number;
+  isLast: boolean;
   content: (searchAutocompleteArticles_searchAutocomplete_content | null)[] | null;
 }
 

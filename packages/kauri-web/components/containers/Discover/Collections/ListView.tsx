@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import CollectionCard from "../../../../../kauri-components/components/Card/CollectionCard";
+import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
 import {
@@ -10,6 +11,9 @@ import {
   searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO,
   searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO,
 } from "../../../../queries/__generated__/searchAutocompleteCollections";
+import theme from "../../../../../kauri-components/lib/theme-config";
+
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 interface IProps {
   CollectionQuery: {
@@ -27,7 +31,7 @@ export const CollectionsContainer = styled.div`
   flex: 1;
   flex-wrap: wrap;
   padding-bottom: 0;
-  max-width: 1280px;
+  max-width: ${props => props.theme.breakpoints[2]};
   > div {
     margin: 15px;
   }
@@ -59,7 +63,7 @@ class Collections extends Component<IProps> {
           />
         </Helmet>
         {searchAutocomplete ? (
-          <CollectionsContainer>
+          <Masonry>
             {searchAutocomplete &&
               searchAutocomplete.content &&
               searchAutocomplete.content.map(collection => {
@@ -70,10 +74,33 @@ class Collections extends Component<IProps> {
                   collectionResource &&
                   collectionResource.sections &&
                   collectionResource.sections.reduce((current, next) => {
-                    const sectionCount =
-                      (next && next.resourcesId && next.resourcesId.length) ||
-                      0;
-                    current += sectionCount;
+                    if (next && Array.isArray(next.resourcesId)) {
+                      const articlesInSection = next.resourcesId.filter(
+                        sectionResource =>
+                          sectionResource &&
+                          sectionResource.type &&
+                          sectionResource.type.toLowerCase().includes("article")
+                      );
+                      current += articlesInSection.length;
+                    }
+                    return current;
+                  }, 0);
+
+                const collectionCount =
+                  collectionResource &&
+                  collectionResource.sections &&
+                  collectionResource.sections.reduce((current, next) => {
+                    if (next && Array.isArray(next.resourcesId)) {
+                      const collectionsInSection = next.resourcesId.filter(
+                        sectionResource =>
+                          sectionResource &&
+                          sectionResource.type &&
+                          sectionResource.type
+                            .toLowerCase()
+                            .includes("collection")
+                      );
+                      current += collectionsInSection.length;
+                    }
                     return current;
                   }, 0);
 
@@ -102,9 +129,10 @@ class Collections extends Component<IProps> {
                       collectionResource && collectionResource.background
                     }
                     articleCount={String(articleCount)}
+                    collectionCount={String(collectionCount)}
                     date={collectionResource && collectionResource.dateUpdated}
                     cardHeight={310}
-                    cardWidth={290}
+                    cardWidth={DEFAULT_CARD_WIDTH}
                     linkComponent={(
                       childrenProps: React.ReactElement<any>,
                       route: string
@@ -125,7 +153,7 @@ class Collections extends Component<IProps> {
                   />
                 );
               })}
-          </CollectionsContainer>
+          </Masonry>
         ) : (
           <Loading />
         )}

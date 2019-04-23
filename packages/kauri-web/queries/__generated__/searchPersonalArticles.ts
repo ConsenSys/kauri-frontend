@@ -1,7 +1,7 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { ResourceType, ArticleStatus } from "./../../__generated__/globalTypes";
+import { ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchPersonalArticles
@@ -19,7 +19,7 @@ export interface searchPersonalArticles_searchArticles_content_associatedNfts {
 export interface searchPersonalArticles_searchArticles_content_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   version: number | null;
 }
 
@@ -46,7 +46,7 @@ export interface searchPersonalArticles_searchArticles_content_owner_ArticleDTO 
 export interface searchPersonalArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchPersonalArticles_searchArticles_content_owner_PublicUserDTO {
@@ -61,7 +61,7 @@ export interface searchPersonalArticles_searchArticles_content_owner_PublicUserD
 export interface searchPersonalArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchPersonalArticles_searchArticles_content_owner_CommunityDTO {
@@ -92,8 +92,8 @@ export interface searchPersonalArticles_searchArticles_content_comments_content 
 export interface searchPersonalArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
   content: (searchPersonalArticles_searchArticles_content_comments_content | null)[] | null;
-  totalPages: number | null;
-  totalElements: any | null;
+  totalPages: number;
+  totalElements: any;
 }
 
 export interface searchPersonalArticles_searchArticles_content {
@@ -108,7 +108,7 @@ export interface searchPersonalArticles_searchArticles_content {
   authorId: string | null;
   dateCreated: any | null;
   datePublished: any | null;
-  status: ArticleStatus | null;
+  status: ArticleStatusInput | null;
   attributes: any | null;
   contentHash: string | null;
   checkpoint: string | null;
@@ -122,10 +122,10 @@ export interface searchPersonalArticles_searchArticles_content {
 
 export interface searchPersonalArticles_searchArticles {
   __typename: "ResponsePage_ArticleDTO";
-  totalElements: any | null;
-  isLast: boolean | null;
+  totalElements: any;
+  isLast: boolean;
   content: (searchPersonalArticles_searchArticles_content | null)[] | null;
-  totalPages: number | null;
+  totalPages: number;
 }
 
 export interface searchPersonalArticles {
@@ -136,4 +136,5 @@ export interface searchPersonalArticlesVariables {
   userId?: string | null;
   size?: number | null;
   page?: number | null;
+  text?: string | null;
 }

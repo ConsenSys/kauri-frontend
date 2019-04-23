@@ -32,10 +32,14 @@ export const setNavcolorOverrideAction = any;
 
 export interface IDependencies {
   apolloClient: ApolloClient<{}>;
-  apolloSubscriber: <T>(hash: string) => Promise<{ data: { output: T } }>;
+  apolloSubscriber: <T>(
+    hash: string,
+    version?: string,
+    author?: any
+  ) => Promise<{ data: { output: T | any } }>;
   apolloChildHashesSubscriber: <T>(
     childHashes: string[]
-  ) => Array<Promise<{ data: { output: T } }>>;
+  ) => Array<Promise<{ data: { output: T | any } }>>;
   smartContracts: any;
   web3: any;
   fetch: any;
@@ -59,11 +63,21 @@ export type Actions =
 
 export interface IUser {
   id: string;
+  avatar: string | null;
+  username: string | null;
 }
 
-export interface IReduxState {
+interface IReduxState {
   app: {
-    user?: IUser;
     hostName: string;
+    user: {
+      id: string;
+      avatar: string;
+      username: string;
+      communities: Array<{
+        id: string;
+        name: string;
+      }>;
+    };
   };
 }

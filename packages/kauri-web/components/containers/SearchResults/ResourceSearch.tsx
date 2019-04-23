@@ -10,6 +10,7 @@ import { IElementsBreakdown } from "../../../../kauri-components/components/Sear
 import { searchResultsAutocomplete_searchAutocomplete_content } from "../../../queries/__generated__/searchResultsAutocomplete";
 import { IProps as IQueryProps } from "./index";
 import { routeChangeAction } from "../../../lib/Module";
+import analytics from '../../../lib/analytics';
 
 const SearchSVG = () => (
   <div className="certain-category-icon">
@@ -179,6 +180,14 @@ class Complete extends React.Component<
         this.setState({
           ...this.state,
           dataSource,
+        });
+
+        analytics.track("Search", {
+          articles: dataSource.totalElementsBreakdown.ARTICLE,
+          category: "generic",
+          collections: dataSource.totalElementsBreakdown.COLLECTION,
+          communities: dataSource.totalElementsBreakdown.COMMUNITY,
+          keyword: this.state.value,
         });
 
         const newRoute = `/search-results?q=${this.state.value}`;

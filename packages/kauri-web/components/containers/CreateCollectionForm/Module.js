@@ -7,7 +7,7 @@ import {
   composeCollection,
 } from "../../../queries/Collection";
 import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
-import { trackMixpanelAction } from "../Link/Module";
+import analytics from "../../../lib/analytics";
 
 import type { Dependencies } from "../../../lib/Module";
 
@@ -109,7 +109,19 @@ export const composeCollectionEpic = (
             Observable.fromPromise(apolloSubscriber(hash))
           )
           .do(h => console.log(h))
-          .mergeMap(() => apolloClient.resetStore())
+          .do(() => {
+            analytics.track(
+              updating ? "Update Collection" : "Create Collection",
+              {
+                category: "collection_actions",
+                sections: sections.length,
+                resources: sections.reduce(
+                  (all, item) => (all += item.resourcesId.length),
+                  0
+                ),
+              }
+            );
+          })
           .mergeMap(() =>
             Observable.of(
               showNotificationAction({
@@ -124,19 +136,7 @@ export const composeCollectionEpic = (
                 `/collection/${id}/collection-${
                   typeof updating !== "undefined" ? "updated" : "created"
                 }`
-              ),
-              trackMixpanelAction({
-                event: "Offchain",
-                metaData: {
-                  resource: "collection",
-                  resourceID: id,
-                  resourceVersion: "1",
-                  resourceAction:
-                    typeof updating !== "undefined"
-                      ? "update collection"
-                      : "create collection",
-                },
-              })
+              )
             )
           )
           .do(() => callback && callback())

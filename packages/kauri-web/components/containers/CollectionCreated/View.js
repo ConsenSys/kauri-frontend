@@ -38,7 +38,7 @@ const Container = styled.section`
 `;
 
 class CollectionCreated extends React.Component<Props> {
-  render() {
+  render () {
     const {
       data: {
         getCollection: {
@@ -59,7 +59,28 @@ class CollectionCreated extends React.Component<Props> {
     const articleCount =
       sections &&
       sections.reduce((current, next) => {
-        current += next.resources && next.resources.length;
+        if (next && Array.isArray(next.resources)) {
+          const articlesInSection = next.resources.filter(
+            sectionResource =>
+              sectionResource &&
+              sectionResource.__typename.toLowerCase().includes("article")
+          );
+          current += articlesInSection.length;
+        }
+        return current;
+      }, 0);
+
+    const collectionCount =
+      sections &&
+      sections.reduce((current, next) => {
+        if (next && Array.isArray(next.resources)) {
+          const collectionsInSection = next.resources.filter(
+            sectionResource =>
+              sectionResource &&
+              sectionResource.__typename.toLowerCase().includes("collection")
+          );
+          current += collectionsInSection.length;
+        }
         return current;
       }, 0);
 
@@ -80,6 +101,7 @@ class CollectionCreated extends React.Component<Props> {
           userAvatar={owner && owner.avatar}
           imageURL={background}
           articleCount={articleCount}
+          collectionCount={collectionCount}
           linkComponent={(childrenProps, route) => (
             <Link
               toSlug={route && route.includes("collection") && name}

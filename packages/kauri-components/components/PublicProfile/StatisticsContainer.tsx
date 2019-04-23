@@ -1,6 +1,4 @@
 import * as React from "react";
-import * as t from "io-ts";
-import { failure } from "io-ts/lib/PathReporter";
 import styled from "styled-components";
 import StatisticCount from "./StatisticCount";
 
@@ -12,26 +10,17 @@ const StatisticsContainer = styled.section`
   }
 `;
 
-const PageType = t.literal("CreateCollectionPage");
+interface IStatistic {
+  count: number;
+  name: string;
+}
 
-const Statistic = t.type({
-  count: t.number,
-  name: t.string,
-});
+interface IProps {
+  pageType?: "CreateCollectionPage" | "CreateCommunityPage" | "CollectionPage";
+  statistics: IStatistic[];
+}
 
-const Statistics = t.array(Statistic);
-
-const RuntimeProps = t.interface({
-  pageType: t.union([PageType, t.undefined]),
-  statistics: Statistics,
-});
-
-type Props = t.TypeOf<typeof RuntimeProps>;
-
-const Container: React.SFC<Props> = props => {
-  RuntimeProps.decode(props).getOrElseL(errors => {
-    throw new Error(failure(errors).join("\n"));
-  });
+const Container: React.SFC<IProps> = props => {
   const { statistics, pageType } = props;
   return (
     <StatisticsContainer>

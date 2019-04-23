@@ -7,9 +7,7 @@ import EditableHeader from "./EditableHeader";
 import Loading from "../../common/Loading";
 import type { ViewProps, ViewState } from "./types";
 import Published from "./Published/View";
-import Drafts from "./Drafts/View";
-import Awaiting from "./Awaiting/View";
-import Pending from "./Pending/View";
+import Manage from "./Manage";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
   constructor(props: ViewProps) {
@@ -23,7 +21,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       website: "",
       twitter: "",
       github: "",
-      hash: parseInt(this.props.router.asPath.split("#")[1], 10),
     };
   }
 
@@ -39,9 +36,12 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       CollectionQuery,
       DraftsQuery,
       ApprovalsQuery,
+      PendingTransfersQuery,
       routeChangeAction,
       currentUser,
       deleteDraftArticleAction,
+      rejectArticleTransferAction,
+      acceptArticleTransferAction,
       closeModalAction,
       openModalAction,
       isLoggedIn,
@@ -95,7 +95,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
         {isHeaderLoaded && areListsLoaded ? (
           <Tabs
             dark
-            hash={typeof this.state.hash === "number" ? this.state.hash : 0}
             router={this.props.router}
             tabs={[
               {
@@ -109,17 +108,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 })`,
               },
               isOwner && {
-                name: `Drafts (${DraftsQuery.searchArticles.totalElements})`,
-              },
-              isOwner && {
-                name: `Approval needed (${
-                  ApprovalsQuery.searchArticles.totalElements
-                })`,
-              },
-              isOwner && {
-                name: `Submitted updates (${
-                  PendingQuery.searchArticles.totalElements
-                })`,
+                name: "Manage",
               },
             ]}
             panels={[
@@ -137,29 +126,22 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 routeChangeAction={routeChangeAction}
               />,
               isOwner && (
-                <Drafts
-                  data={DraftsQuery}
-                  type="draft"
+                <Manage
+                  approvalsQuery={ApprovalsQuery}
+                  draftsQuery={DraftsQuery}
+                  pendingQuery={PendingQuery}
+                  transfersQuery={PendingTransfersQuery}
+                  type="manage"
                   routeChangeAction={routeChangeAction}
                   deleteDraftArticleAction={deleteDraftArticleAction}
                   isOwner={UserQuery.getUser.id === currentUser}
                   isLoggedIn={!!currentUser}
                   closeModalAction={closeModalAction}
                   openModalAction={openModalAction}
+                  rejectArticleTransferAction={rejectArticleTransferAction}
+                  acceptArticleTransferAction={acceptArticleTransferAction}
                 />
               ),
-              <Awaiting
-                isLoggedIn={!!currentUser}
-                data={ApprovalsQuery}
-                type="pending"
-                routeChangeAction={routeChangeAction}
-              />,
-              <Pending
-                isLoggedIn={!!currentUser}
-                data={PendingQuery}
-                type="toBeApproved"
-                routeChangeAction={routeChangeAction}
-              />,
             ]}
           />
         ) : !isHeaderLoaded ? null : (

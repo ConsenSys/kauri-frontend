@@ -1,3 +1,4 @@
+// @flow
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import anchorme from "anchorme";
@@ -14,6 +15,12 @@ const PublicProfileHeader = styled.div`
   color: white;
   padding: 2.5em ${props => props.theme.padding};
 
+  @media (min-width: 700px) {
+    > div:first-child {
+      margin-right: ${props => props.theme.space[2]}px;
+    }
+  }
+
   @media (max-width: 700px) {
     flex-direction: column;
     align-items: center;
@@ -22,10 +29,16 @@ const PublicProfileHeader = styled.div`
 
 const RightSide = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  @media (min-width: 700px) {
+    > :first-child {
+      margin-bottom: ${props => props.theme.space[3]}px;
+    }
+    margin-right: ${props => props.theme.space[4]}px;
+  }
 
   h3,
   span {
@@ -52,8 +65,6 @@ const DetailsContainer = styled.div`
 `;
 
 const StyledButton = styled(PrimaryButton)`
-  margin-left: ${props => props.theme.space[3]}px;
-  margin-right: ${props => props.theme.space[1]}px;
   align-self: center;
 `;
 
@@ -73,7 +84,7 @@ const Avatar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50px;
+  border-radius: 4px;
   font-size: ${props => props.theme && props.theme.fontSizes[5]}px;
   font-weight: 700;
   margin-right: ${props => props.theme.space[2]}px;
@@ -140,7 +151,13 @@ const ProfileHeader = ({
       <meta name="twitter:image" content={avatar} />
     </Helmet>
     {avatar ? (
-      <UserAvatar borderRadius="4px" height={100} width={100} avatar={avatar}>
+      <UserAvatar
+        hideUsername
+        borderRadius="4px"
+        height={100}
+        width={100}
+        avatar={avatar}
+      >
         {avatar ? "" : (name || id).substring(0, 1).toUpperCase()}
       </UserAvatar>
     ) : (
@@ -205,10 +222,12 @@ const ProfileHeader = ({
           ]}
         />
       )}
+      {id === currentUser && (
+        <StyledButton onClick={() => toggleEditing()}>
+          Edit Profile
+        </StyledButton>
+      )}
     </RightSide>
-    {id === currentUser && (
-      <StyledButton onClick={() => toggleEditing()}>Edit Profile</StyledButton>
-    )}
   </PublicProfileHeader>
 );
 

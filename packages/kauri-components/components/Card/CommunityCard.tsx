@@ -5,9 +5,11 @@ import TextTruncate from "react-text-truncate";
 import styled from "../../lib/styled-components";
 import { Label, BodyCard, H1 } from "../Typography";
 import BaseCard from "../Card/BaseCard";
+import { TagList } from "../Tags";
+import theme from "../../lib/theme-config";
 
 const DEFAULT_CARD_HEIGHT = 310;
-const DEFAULT_CARD_WIDTH = 290;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const Container = styled<{ cardHeight: number | null }, "section">("section")`
   display: flex;
@@ -111,6 +113,7 @@ const RuntimeProps = t.interface({
   communityLogo: t.union([t.null, t.string]),
   communityName: t.string,
   linkComponent: t.union([t.undefined, t.null, t.any]),
+  tags: t.union([t.array(t.union([t.null, t.string])), t.null]),
 });
 
 type Props = t.TypeOf<typeof RuntimeProps>;
@@ -123,6 +126,7 @@ const Component: React.SFC<Props> = props => {
     communityLogo,
     communityDescription,
     communityName,
+    tags,
   } = RuntimeProps.decode(props).getOrElseL(errors => {
     throw new Error(failure(errors).join("\n"));
   });
@@ -146,6 +150,15 @@ const Component: React.SFC<Props> = props => {
             communityDescription={communityDescription}
             communityName={communityName}
             communityLogo={communityLogo}
+          />
+        )}
+        {Array.isArray(tags) && tags.length > 0 && (
+          <TagList
+            align="center"
+            maxTags={3}
+            color="textPrimary"
+            tags={tags}
+            maxChars={40}
           />
         )}
         <Divider />

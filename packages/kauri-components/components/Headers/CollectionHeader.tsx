@@ -9,6 +9,7 @@ import {
 import ShareArticle from "../../../kauri-components/components/Tooltip/ShareArticle";
 import UserAvatar from "../../../kauri-components/components/UserAvatar";
 import PrimaryButton from "../../../kauri-components/components/Button/PrimaryButton";
+import StatisticsContainer from "../../../kauri-components/components/PublicProfile/StatisticsContainer";
 import { TagList } from "../Tags";
 
 const CollectionHeaderSection = styled.section`
@@ -17,19 +18,22 @@ const CollectionHeaderSection = styled.section`
   flex-direction: row;
   z-index: 1;
   padding: ${props => props.theme.space[4] + 40}px
-    ${props => props.theme.padding} ${props => props.theme.space[4]}px;
+    ${props => props.theme.padding} ${props => props.theme.space[3]}px;
   @media (max-width: 500px) {
     flex-direction: column;
   }
 `;
 
-const LeftSide = styled.div`
+const LeftSide = styled<{ tags: any | undefined }, "div">("div")`
   display: flex;
   flex: 3;
   flex-direction: column;
   color: white;
   > :nth-child(2) {
     margin-top: ${props => props.theme.space[1]}px;
+  }
+  > :nth-last-child(2) {
+    margin-bottom: ${props => props.tags && props.theme.space[1]}px;
   }
   > :last-child {
     margin-top: ${props => props.theme.space[2]}px;
@@ -46,6 +50,9 @@ const RightSide = styled.div`
   justify-content: center;
   flex-direction: column;
   > :first-child {
+    margin-bottom: ${props => props.theme.space[3]}px;
+  }
+  > :nth-child(2) {
     margin-bottom: ${props => props.theme.space[1]}px;
   }
   > button:last-child {
@@ -59,6 +66,8 @@ const changeRoute = (
 ) => () => routeChangeAction(`/collection/${id}/update-collection`);
 
 interface IProps {
+  collectionCount: number;
+  articleCount: number;
   description: string;
   id: string;
   imageURL: string | null;
@@ -76,6 +85,8 @@ interface IProps {
 
 const Container: React.SFC<IProps> = props => {
   const {
+    collectionCount,
+    articleCount,
     description,
     id,
     linkComponent,
@@ -92,14 +103,35 @@ const Container: React.SFC<IProps> = props => {
   } = props;
   return (
     <CollectionHeaderSection>
-      <LeftSide>
+      <LeftSide tags={tags}>
         <Label>Collection Updated {moment(updated).fromNow()}</Label>
         <Title1 color="white">{name}</Title1>
         <PageDescription color="white">{description}</PageDescription>
-        {tags && <TagList color={"white"} maxTags={5} tags={tags} />}
+        {tags && (
+          <TagList
+            routeChangeAction={routeChangeAction}
+            color={"white"}
+            maxTags={5}
+            tags={tags}
+          />
+        )}
         <ShareArticle color={"white"} url={url} title={name} />
       </LeftSide>
       <RightSide>
+        <StatisticsContainer
+          pageType="CollectionPage"
+          statistics={[
+            {
+              count: articleCount,
+              name: "Articles",
+            },
+            {
+              count: collectionCount,
+              name: "Collections",
+            },
+          ]}
+        />
+
         <Label color="white">Curator</Label>
         {linkComponent ? (
           linkComponent(

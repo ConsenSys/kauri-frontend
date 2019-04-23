@@ -1,6 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import SearchCategory from "../components/SearchResults/SearchCategory";
+import ResourceCategory from "../components/ResourceCategory";
 import styled from "../lib/styled-components";
 import ResourceRowWithImage from "../components/SearchResults/ResourceRowWithImage";
 
@@ -35,9 +35,9 @@ const linkComponent = (
 ) => <Link href={route}>{childrenProps}</Link>;
 
 storiesOf("SearchResults", module)
-  .add("SearchCategory - active", () => (
+  .add("ResourceCategory - active", () => (
     <Container>
-      <SearchCategory
+      <ResourceCategory
         onClick={() => alert("clicked")}
         active={true}
         category={"Articles"}
@@ -45,9 +45,9 @@ storiesOf("SearchResults", module)
       />
     </Container>
   ))
-  .add("SearchCategory - inactive", () => (
+  .add("ResourceCategory - inactive", () => (
     <Container>
-      <SearchCategory
+      <ResourceCategory
         onClick={() => alert("clicked")}
         active={false}
         category={"Collections"}
@@ -58,7 +58,8 @@ storiesOf("SearchResults", module)
   .add("ResourceRow with image", () => (
     <Container>
       <ResourceRowWithImage
-        resourceType={"USER"}
+        resourceType={"article"}
+        ownerType={"USER"}
         date={"2019-01-14T09:49:25.350Z"}
         title={"One Line Title One Line Title One Line Title One Line Title"}
         id={"1234567890"}
@@ -90,6 +91,7 @@ storiesOf("SearchResults", module)
   .add("ResourceRow without image", () => (
     <Container>
       <ResourceRowWithImage
+        resourceType={"article"}
         date={"2019-01-14T09:49:25.350Z"}
         title={"One Line Title One Line Title One Line Title One Line Title"}
         id={"1234567890"}
@@ -112,7 +114,7 @@ storiesOf("SearchResults", module)
         userAvatar={null}
         linkComponent={linkComponent}
         tags={["testing", "web3", "truffle", "infura", "zeppelinOS"]}
-        resourceType={"USER"}
+        ownerType={"USER"}
         imageURL={null}
       />
     </Container>

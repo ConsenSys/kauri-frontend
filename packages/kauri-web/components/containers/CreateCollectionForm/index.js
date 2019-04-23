@@ -72,8 +72,8 @@ export default compose(
               R.path(["getCollection", "sections"]),
               R.map(section => ({
                 ...section,
-                resourcesId: R.map(({ id, version }) => ({
-                  type: "ARTICLE",
+                resourcesId: R.map(({ id, version, __typename }) => ({
+                  type: __typename.split("DTO")[0],
                   id,
                   version,
                 }))(section.resources),
@@ -121,8 +121,8 @@ export default compose(
           R.path(["sections"]),
           R.map(section => ({
             ...section,
-            resourcesId: R.map(({ id, version }) => ({
-              type: "ARTICLE",
+            resourcesId: R.map(({ id, version, type }) => ({
+              type: type.toUpperCase(),
               id,
               version,
             }))(section.resourcesId),
@@ -136,7 +136,7 @@ export default compose(
         const payload = {
           ...values,
           sections: reassignResourcesToResourcesId(values),
-          id: props.data.getCollection.id,
+          id: props.data.variables.id,
           updating: true,
         };
 

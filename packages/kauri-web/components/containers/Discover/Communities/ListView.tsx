@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import * as t from "io-ts";
-import { failure } from "io-ts/lib/PathReporter";
 import { Helmet } from "react-helmet";
 import CommunityCard from "../../../../../kauri-components/components/Card/CommunityCard";
+import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
 import { searchCommunities_searchCommunities } from "../../../../queries/__generated__/searchCommunities";
@@ -24,23 +23,11 @@ export const CommunitiesContainer = styled.div`
   flex: 1;
   flex-wrap: wrap;
   padding-bottom: 0;
-  max-width: 1280px;
+  max-width: ${props => props.theme.breakpoints[2]};
   > div {
     margin: 15px;
   }
 `;
-
-const Resource = t.interface({
-  type: t.string,
-});
-
-const Community = t.interface({
-  approvedId: t.array(Resource),
-  avatar: t.string,
-  description: t.string,
-  id: t.string,
-  name: t.string,
-});
 
 class Communities extends Component<IProps> {
   render() {
@@ -68,51 +55,49 @@ class Communities extends Component<IProps> {
           />
         </Helmet>
         {searchCommunities ? (
-          <CommunitiesContainer>
+          <Masonry>
             {searchCommunities &&
               searchCommunities.content &&
-              searchCommunities.content.map(undecodedCommunity => {
-                const community = Community.decode(
-                  undecodedCommunity
-                ).getOrElseL(errors => {
-                  throw new Error(failure(errors).join("\n"));
-                });
-
-                return (
-                  <CommunityCard
-                    key={community.id}
-                    communityLogo={community && community.avatar}
-                    communityName={community && community.name}
-                    communityDescription={
-                      community && community.description
-                        ? community.description.split(".")[0]
-                        : ""
-                    }
-                    cardHeight={310}
-                    articles={
-                      (Array.isArray(community && community.approvedId) &&
-                        String(
-                          community &&
-                            community.approvedId &&
-                            community.approvedId.map(
-                              resource =>
-                                resource && resource.type === "ARTICLE"
-                            ).length
-                        )) ||
-                      "0"
-                    }
-                    linkComponent={(childrenProps: React.ReactElement<any>) => (
-                      <Link
-                        useAnchorTag={true}
-                        href={`/community/${community && community.id}`}
-                      >
-                        {childrenProps}
-                      </Link>
-                    )}
-                  />
-                );
-              })}
-          </CommunitiesContainer>
+              searchCommunities.content.map(
+                (community, index) =>
+                  community && (
+                    <CommunityCard
+                      key={index}
+                      communityLogo={community.avatar}
+                      communityName={String(community.name)}
+                      communityDescription={
+                        community.description
+                          ? community.description.split(".")[0]
+                          : ""
+                      }
+                      cardHeight={310}
+                      articles={
+                        (Array.isArray(community.approvedId) &&
+                          String(
+                            community &&
+                              community.approvedId &&
+                              community.approvedId.map(
+                                resource =>
+                                  resource && resource.type === "ARTICLE"
+                              ).length
+                          )) ||
+                        "0"
+                      }
+                      tags={community.tags}
+                      linkComponent={(
+                        childrenProps: React.ReactElement<any>
+                      ) => (
+                        <Link
+                          useAnchorTag={true}
+                          href={`/community/${community && community.id}`}
+                        >
+                          {childrenProps}
+                        </Link>
+                      )}
+                    />
+                  )
+              )}
+          </Masonry>
         ) : (
           <Loading />
         )}

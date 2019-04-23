@@ -13,6 +13,7 @@ import ScrollToTopButton from "../../../../../kauri-components/components/Scroll
 import type { TipArticlePayload } from "../Module";
 import withSchema from "../../../../lib/with-schema";
 import ScrollIndicator from "../../../../../kauri-components/components/ScrollIndicator";
+import analytics from "../../../../lib/analytics";
 
 const ArticleContent = styled.section`
   background: white;
@@ -48,6 +49,9 @@ class ApprovedArticle extends React.Component<Props, State> {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
+    analytics.track("Read Article", {
+      category: "article_actions",
+    });
   }
 
   render () {
@@ -96,6 +100,7 @@ class ApprovedArticle extends React.Component<Props, State> {
             props.data.getArticle.author.id
           }
           hostName={hostName}
+          routeChangeAction={props.routeChangeAction}
         />
         <ApprovedArticle.Content
           text={props.data.getArticle && props.data.getArticle.content}
@@ -122,6 +127,7 @@ class ApprovedArticle extends React.Component<Props, State> {
               : props.data.getArticle.author.avatar
           }
           userId={this.props.userId}
+          author={props.data.getArticle && props.data.getArticle.author}
           authorId={
             props.data.getArticle &&
             props.data.getArticle.author &&
@@ -141,7 +147,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           ])(props)}
         />
         <ApprovedArticle.Footer
-          isLoggedIn={!!props.personalUsername}
+          isLoggedIn={!!props.userId}
           metadata={props.data.getArticle && props.data.getArticle.attributes}
           articleCheckpointed={R.path(["data", "getArticle", "checkpoint"])(
             props

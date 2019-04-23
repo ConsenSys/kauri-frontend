@@ -9,6 +9,7 @@ import { searchAutocomplete } from "../../../queries/Search";
 import { Subject } from "rxjs/Subject";
 import { Subscription } from "rxjs/Subscription";
 import ApolloClient from "apollo-client";
+import analytics from "../../../lib/analytics";
 
 const EmptyData = {
   results: [],
@@ -124,6 +125,13 @@ class NavSearch extends React.Component<IProps, IState> {
             dataSource.totalElementsBreakdown = this.state.dataSource.totalElementsBreakdown; // do not reset tabs if the query did not change
           }
           this.setState({ ...this.state, dataSource });
+          analytics.track("Quick Search", {
+            articles: dataSource.totalElementsBreakdown.ARTICLE,
+            category: "generic",
+            collections: dataSource.totalElementsBreakdown.COLLECTION,
+            communities: dataSource.totalElementsBreakdown.COMMUNITY,
+            keyword: this.state.value,
+          });
         },
         (err: string) => console.log(err)
       );
@@ -157,6 +165,10 @@ class NavSearch extends React.Component<IProps, IState> {
   }
 
   goToAdvancedSearch(search: string) {
+    analytics.track("Quick Search - All Results", {
+      category: "generic",
+      keyword: search,
+    });
     this.props.routeChangeAction(`/search-results?q=${search}`);
   }
 

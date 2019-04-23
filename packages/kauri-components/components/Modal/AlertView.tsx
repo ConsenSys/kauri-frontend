@@ -2,15 +2,17 @@ import * as React from "react";
 import { Title2 } from "../Typography";
 import styled from "../../lib/styled-components";
 import PrimaryButton from "../Button/PrimaryButton";
-import SecondaryButton from "../Button/SecondaryButton";
+import TertiaryButton from "../Button/TertiaryButton";
 
 interface IProps {
   title: string;
   content: React.ReactElement<any>;
   confirmButtonText?: string;
   closeButtonText?: string;
-  confirmButtonAction: (payload: any) => void;
+  confirmButtonAction: any;
   closeModalAction: () => void;
+  hideCloseButton?: boolean;
+  hideConfirmButton?: boolean;
 }
 
 const Container = styled.div`
@@ -35,13 +37,16 @@ const Footer = styled.div`
   flex-direction: row;
   margin-top: auto;
   align-self: center;
+  justify-content: space-between;
+  width: 100%;
   > :first-child {
     margin-right: ${props => props.theme.space[2]}px;
   }
 `;
 
-const handleConfirmAction = (confirmButtonAction: any) => () =>
+const handleConfirmAction = (confirmButtonAction: any) => () => {
   confirmButtonAction();
+}
 
 const AlertViewComponent: React.FunctionComponent<IProps> = props => (
   <Container>
@@ -50,16 +55,15 @@ const AlertViewComponent: React.FunctionComponent<IProps> = props => (
     </TitleContainer>
     {props.content}
     <Footer>
-      <SecondaryButton
+      {!props.hideCloseButton && <TertiaryButton
         color={"textPrimary"}
-        border={"primary"}
         onClick={handleConfirmAction(props.closeModalAction)}
       >
         {props.closeButtonText || "Cancel"}
-      </SecondaryButton>
-      <PrimaryButton onClick={handleConfirmAction(props.confirmButtonAction)}>
+      </TertiaryButton>}
+      {!props.hideConfirmButton && <PrimaryButton onClick={handleConfirmAction(props.confirmButtonAction)}>
         {props.confirmButtonText || "Confirm"}
-      </PrimaryButton>
+      </PrimaryButton>}
     </Footer>
   </Container>
 );

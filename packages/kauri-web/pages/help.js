@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import withData from "../lib/with-data";
 import { routeChangeAction } from "../lib/Module";
 import App from "../layouts/App";
-import Community from "../components/connections/Community/index";
+import Community from "../components/containers/Community";
 import { withRouter } from "next/router";
 
 const ConnectedCommunity = connect(
@@ -18,7 +18,7 @@ class HelpPage extends React.Component {
       <App url={this.props.router}>
         <ConnectedCommunity
           routeChangeAction={this.props.routeChangeAction}
-          category={process.env.KauriCommunityId}
+          communityId={process.env.KauriCommunityId}
         />
       </App>
     );

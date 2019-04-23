@@ -51,7 +51,6 @@ const Component: React.FunctionComponent<IProps> = ({
     <Query<getCollectionsForUser, getCollectionsForUserVariables>
       query={query}
       variables={{ filter: { ownerIdEquals: userId } }}
-      fetchPolicy={"network-only"}
     >
       {props => {
         if (props.loading) {

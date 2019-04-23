@@ -6,7 +6,7 @@
 // ====================================================
 
 export interface getEvent {
-  getEvent: boolean | null;
+  getEvent: boolean;
 }
 
 export interface getEventVariables {

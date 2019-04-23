@@ -25,26 +25,30 @@ export const CheckpointArticlesIcon = () => (
 );
 
 class CTA extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       activated: false,
     };
   }
-  componentDidMount() {
+  componentDidMount () {
     this.loadWeb3();
   }
 
-  async loadWeb3() {
+  async loadWeb3 () {
     const sm = await import("../../../lib/init-smart-contracts");
-    sm.initSmartContracts(window.web3, result => {
+    sm.initSmartContracts(window.web3, (result, err) => {
+      if (err) {
+        console.error(err);
+        this.setState({ activated: true });
+      }
       if (result) {
         this.setState({ activated: true });
       }
     });
   }
 
-  render() {
+  render () {
     if (this.state.activated === false) {
       return <Loading />;
     }

@@ -1,4 +1,4 @@
-import { ContentState, convertToRaw, convertFromHTML } from "draft-js";
+import { ContentState, convertToRaw, convertFromHTML } from "@rej156/draft-js";
 import Showdown from "showdown";
 
 Showdown.extension("highlightjs", function () {
@@ -56,6 +56,7 @@ const contentStateFromHTML = html => {
   let DOMBuilder =
     typeof document === "undefined" ? serverDOMBuilder : undefined;
   const blocksFromHTML = convertFromHTML(html, DOMBuilder);
+  // console.log(html);
   return ContentState.createFromBlockArray(
     blocksFromHTML.contentBlocks,
     blocksFromHTML.entityMap

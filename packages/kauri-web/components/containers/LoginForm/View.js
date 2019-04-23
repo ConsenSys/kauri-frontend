@@ -1,6 +1,5 @@
-// @flow
 import React from "react";
-import styled from "styled-components";
+import styled from "../../../lib/styled-components";
 import { Helmet } from "react-helmet";
 import { menuHeaderHeight } from "../Navbar/View";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
@@ -15,8 +14,7 @@ import type { ShowNotificationPayload } from "../../../lib/Module";
 
 const Container = styled.section`
   display: flex;
-  min-height: calc(100vh - ${menuHeaderHeight}px);
-  justify-content: center;
+  min-height: calc(100vh - ${menuHeaderHeight + 57}px);
   align-items: center;
   background: ${props => props.theme.primaryTextColor};
   color: white;
@@ -25,12 +23,20 @@ const Container = styled.section`
 
 const LoginContainer = styled.div`
   height: ${props => props.height}px;
+  margin-top: ${props => props.theme.space[4]}px;
   width: 360px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   justify-content: space-between;
+  & #mc_embed_signup {
+    width: 400px;
+    color: ${props => props.theme.primaryTextColor};
+    padding: ${props => props.theme.space[2]}px;
+    border-radius: 4px;
+    margin-top: ${props => props.theme.space[2]}px;
+  }
 `;
 
 const Image = styled.img`
@@ -51,11 +57,92 @@ const Web3Unavailable = () => (
       <a href="https://metamask.io" target="_blank">
         https://metamask.io
       </a>
-      <a href="https://metamask.io" target="_blank">
-        <PrimaryButton bg="#F76C20" bgHover="#b24a11">
-          GO TO METAMASK
-        </PrimaryButton>
-      </a>
+      <div>
+        Here for the content? Sign up for a newsletter below and receive the
+        latest Web3 tutorials, project announcements, and articles every 2
+        weeks!
+      </div>
+      <link
+        href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <style
+        type="text/css"
+        dangerouslySetInnerHTML={{
+          __html: `	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }`,
+        }}
+      />
+      <div id="mc_embed_signup">
+        <form
+          action="https://kauri.us17.list-manage.com/subscribe/post?u=e46233ccfd6bb938ab7cbb5a3&amp;id=f49f81a2a9"
+          method="post"
+          id="mc-embedded-subscribe-form"
+          name="mc-embedded-subscribe-form"
+          className="validate"
+          target="_blank"
+          noValidate
+        >
+          <div id="mc_embed_signup_scroll">
+            <div className="indicates-required">
+              <span className="asterisk">*</span> indicates required
+            </div>
+            <div className="mc-field-group">
+              <label htmlFor="mce-EMAIL">
+                Email Address <span className="asterisk">*</span>
+              </label>
+              <input
+                type="email"
+                name="EMAIL"
+                className="required email"
+                id="mce-EMAIL"
+              />
+            </div>
+            <div id="mce-responses" className="clear">
+              <div
+                className="response"
+                id="mce-error-response"
+                style={{ display: "none" }}
+              />
+              <div
+                className="response"
+                id="mce-success-response"
+                style={{ display: "none" }}
+              />
+            </div>
+            <div
+              style={{ position: "absolute", left: "-5000px" }}
+              aria-hidden="true"
+            >
+              <input
+                type="text"
+                name="b_e46233ccfd6bb938ab7cbb5a3_f49f81a2a9"
+                tabIndex="-1"
+                value=""
+              />
+            </div>
+            <div className="clear">
+              <input
+                type="submit"
+                value="Subscribe"
+                name="subscribe"
+                id="mc-embedded-subscribe"
+                className="button"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+      <script
+        type="text/javascript"
+        src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"
+      />
+      <script
+        type="text/javascript"
+        dangerouslySetInnerHTML={{
+          __html: `(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';}(jQuery));var $mcj = jQuery.noConflict(true);`,
+        }}
+      />
     </LoginContainer>
   </Container>
 );
@@ -71,7 +158,7 @@ class LoginForm extends React.Component<{
     }
   };
 
-  render () {
+  render() {
     const { isSubmitting } = this.props;
 
     return (
@@ -101,7 +188,7 @@ type Props = {
 };
 
 class LoginFormContainer extends React.Component<Props> {
-  render () {
+  render() {
     if (global.window && !global.window.web3) {
       return <Web3Unavailable />;
     } else if (global.window && global.window.web3) {

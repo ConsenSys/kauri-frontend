@@ -1,29 +1,60 @@
-import TagName from './TagName';
-import styled from "../../lib/styled-components";
+import TagName, { ITagName } from "./TagName";
+import styled, { css } from "../../lib/styled-components";
 import { Tooltip } from "react-tippy";
 import theme from "../../../kauri-web/lib/theme-config";
 
-const Container = styled.div`
-    display: flex;
-    margin: ${theme.space[1]}px 0 0 0;
-    flex-direction: row;
-    flex-wrap: wrap;
+interface IContainerProps {
+  orientation?: "vertical";
+  align?: string;
+}
+
+const Container = styled<IContainerProps, "div">("div")`
+  display: flex;
+  margin: ${theme.space[1]}px 0 0 0;
+  flex-direction: ${props =>
+    props.orientation === "vertical" ? "column" : "row"};
+  flex-wrap: wrap;
+  justify-content: ${props =>
+    props.align === "center" ? "center" : "flex-start"};
 `;
 
 interface IProps {
-    tags: string[];
-    color: string;
-    maxTags: number;
-    maxChars?: number;
+  orientation?: "vertical";
+  tags: Array<string | null> | null;
+  color: string;
+  maxTags: number;
+  maxChars?: number;
+  align?: string;
+  routeChangeAction?: (route: string) => void;
 }
 
-export const StyledTag = styled(TagName)`
-    &:not(:last-child):after {
-        content: '•';
-        color: ${theme.colors.primary};
-        margin: ${theme.space[1]/2}px;
-        font-weight: ${theme.fontWeight[3]};
-    }
+const firstTagBulletPointCSS = css`
+  &:not(:last-child):after {
+    content: "";
+  }
+  &:before {
+    content: "•";
+    color: ${theme.colors.primary};
+    margin: ${theme.space[1] / 2}px;
+    font-weight: ${theme.fontWeight[3]};
+  }
+`;
+
+export const StyledTag = styled<
+  { orientation?: "vertical"; onClick?: any } & ITagName
+>(props => <TagName {...props} />)`
+  cursor: pointer;
+  transition: 0.3s;
+  &:not(:last-child):after {
+    content: "•";
+    color: ${theme.colors.primary};
+    margin: ${theme.space[1] / 2}px;
+    font-weight: ${theme.fontWeight[3]};
+  }
+  &:hover {
+    color: ${theme.colors.primary};
+  }
+  ${props => props.orientation === "vertical" && firstTagBulletPointCSS};
 `;
 
 const TooltipContainer = styled.section`
@@ -62,37 +93,66 @@ const TooltipArrow = styled.div`
 `;
 
 const TagList = (props: IProps) => {
-    const shownTags: string[] = [];
-    const hiddenTags: string[] = [];
-    props.tags.reduce((counter, item) => {
-        if ((props.maxChars && counter + item.length <= props.maxChars) || (!props.maxChars && shownTags.length <= props.maxTags)) {
-            shownTags.push(item);
-            return counter + item.length;
-        } else {
-            hiddenTags.push(item);
-            return counter;
-        }
-    }, 0)
-    return (
-        <Container>
-            {shownTags.length > 0 && shownTags.map((tag, key) => <StyledTag hiddenTags={hiddenTags.length > 0} color={props.color} key={key}>{tag}</StyledTag>)}
-            {hiddenTags.length > 0 && 
-                <Tooltip
-                    html={
-                        <TooltipContainer>
-                            <TooltipArrow />
-                            {hiddenTags.map((tag, key) => <StyledTag color={props.color} key={key}>{tag}</StyledTag>)}
-                        </TooltipContainer>
-                    }
-                    position="top"
-                    trigger="mouseenter"
-                    unmountHTMLWhenHide={true}
-                >
-                    <StyledTag color={props.color} key="remaining">+{hiddenTags.length}</StyledTag>
-                </Tooltip>
+  const shownTags: string[] = [];
+  const hiddenTags: string[] = [];
+  if (!props.tags) {
+    return null;
+  }
+  props.tags.reduce((counter, item) => {
+    if (item === null) {
+      return counter;
+    }
+    if (
+      (props.maxChars && counter + item.length <= props.maxChars) ||
+      (!props.maxChars && shownTags.length <= props.maxTags)
+    ) {
+      shownTags.push(item);
+      return counter + item.length;
+    } else {
+      hiddenTags.push(item);
+      return counter;
+    }
+  }, 0);
+  return (
+    <Container orientation={props.orientation} align={props.align}>
+      {shownTags.length > 0 &&
+        shownTags.map((tag, key) => (
+          <StyledTag
+            orientation={props.orientation}
+            onClick={() =>
+              props.routeChangeAction &&
+              props.routeChangeAction(`/search-results?q=${tag}`)
             }
-        </Container>
-    );
-}
+            hiddenTags={hiddenTags.length > 0}
+            color={props.color}
+            key={key}
+          >
+            {tag}
+          </StyledTag>
+        ))}
+      {hiddenTags.length > 0 && (
+        <Tooltip
+          html={
+            <TooltipContainer>
+              <TooltipArrow />
+              {hiddenTags.map((tag, key) => (
+                <StyledTag color={props.color} key={key}>
+                  {tag}
+                </StyledTag>
+              ))}
+            </TooltipContainer>
+          }
+          position="top"
+          trigger="mouseenter"
+          unmountHTMLWhenHide={true}
+        >
+          <StyledTag color={props.color} key="remaining">
+            +{hiddenTags.length}
+          </StyledTag>
+        </Tooltip>
+      )}
+    </Container>
+  );
+};
 
 export default TagList;

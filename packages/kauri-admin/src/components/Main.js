@@ -10,6 +10,7 @@ import Faucet from '../pages/Faucet'
 import Migration from '../pages/Migration'
 import Dashboard from '../pages/Dashboard'
 import TransactionReceipt from '../pages/TransactionReceipt'
+import TransferOwnership from '../pages/TransferOwnership'
 import CuratedLists from '../pages/CuratedLists'
 import Collections from '../pages/Collections'
 
@@ -54,6 +55,9 @@ class Main extends Component {
           )} />
           <Route exact path='/collections' render={(props) => (
             <Collections {...this.state} />
+          )} />
+          <Route exact path='/transferOwnership' render={(props) => (
+            <TransferOwnership {...this.state} />
           )} />
           <Route path='/error' component={Error} />
           <Redirect from='*' to='/error' />

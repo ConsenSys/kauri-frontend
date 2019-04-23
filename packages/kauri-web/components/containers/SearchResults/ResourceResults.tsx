@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "../../../lib/styled-components";
 import ContentSection from "../../../../kauri-components/components/Section/ContentSection";
-import SearchCategory from "../../../../kauri-components/components/SearchResults/SearchCategory";
+import ResourceCategory from "../../../../kauri-components/components/ResourceCategory";
 import { IElementsBreakdown } from "../../../../kauri-components/components/Search/QuickSearch";
 import { Title2 } from "../../../../kauri-components/components/Typography";
 import Empty from "../PublicProfile/Empty";
@@ -19,7 +19,7 @@ const CategorySection = styled.section`
 
 const CenterContent = styled.div`
   display: flex;
-  min-width: 1280px;
+  min-width: ${props => props.theme.breakpoints[2]};
   justify-content: center;
 `;
 
@@ -59,7 +59,7 @@ class ResourceResults extends React.Component<IProps> {
               )
               .sort()
               .map(category => (
-                <SearchCategory
+                <ResourceCategory
                   key={category}
                   onClick={() => this.props.setSearchCategory(category)}
                   active={category === this.props.viewedSearchCategory}

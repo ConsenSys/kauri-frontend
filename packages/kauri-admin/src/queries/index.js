@@ -1,6 +1,6 @@
 import { createCollection, composeCollection, removeCollection, searchCollections } from './collection';
 import { searchRequests } from './request';
-import { searchArticles } from './article';
+import { searchArticles, transferArticle, getArticleTransfers, cancelArticleTransfer } from './article';
 import { getAllCuratedList, createCuratedList, editCuratedList, removeCuratedList, addResourceToCuratedList, removeResourceFromCuratedList, addHeaderToCuratedList } from './curatedList';
 
 
@@ -18,6 +18,9 @@ const queries = {
     addResourceToCuratedList: addResourceToCuratedList,
     removeResourceFromCuratedList: removeResourceFromCuratedList,
     addHeaderToCuratedList: addHeaderToCuratedList,
+    transferArticle: transferArticle,
+    getArticleTransfers: getArticleTransfers,
+    cancelArticleTransfer: cancelArticleTransfer,
 }
 
 export default queries;

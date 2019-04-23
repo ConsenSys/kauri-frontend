@@ -44,6 +44,8 @@ const Header = props =>
             name: 'Article Migration', action: () => props.history.push('/migration')
         }, {
             name: 'Topics', action: () => props.history.push('/topics')
+        },{
+            name: 'Transfer Ownership', action: () => props.history.push('/transferOwnership')
         }]} />
     </NavBar>;
 

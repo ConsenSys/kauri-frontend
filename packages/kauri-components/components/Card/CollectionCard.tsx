@@ -5,7 +5,6 @@ import R from "ramda";
 import TextTruncate from "react-text-truncate";
 import { Label, Title2, H4, BodyCard } from "../Typography";
 import theme from "../../lib/theme-config";
-import PrimaryButton from "../Button/PrimaryButton";
 import SecondaryButton from "../Button/SecondaryButton";
 import UserAvatar from "../UserAvatar";
 import Image from "../Image";
@@ -15,12 +14,13 @@ import {
   IToggleAction,
   showDispatch,
   hideDispatch,
+  toggleDispatch,
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
 import Date from "../HoverDateLabel";
 
 const DEFAULT_CARD_HEIGHT = 310;
-const DEFAULT_CARD_WIDTH = 290;
+const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 const DEFAULT_CARD_PADDING = theme.space[2];
 
 const withImageURLCss = css`
@@ -92,16 +92,26 @@ const Content = styled<{}, "div">("div")`
 
 const Footer = styled<IContentStyledComponentProps, "div">("div")`
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  > :not(:last-child) {
+    margin-right: ${props => props.theme.space[1]}px;
+  }
+`;
+
+const Count = styled<IContentStyledComponentProps, "div">("div")`
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  > * {
-    text-transform: uppercase;
-  }
   padding: ${props =>
     typeof props.imageURL === "string" ? props.theme.space[2] + "px" : ""};
   padding-top: ${props =>
     typeof props.imageURL === "string" ? props.theme.space[1] + "px" : ""};
+  > * {
+    text-transform: uppercase;
+  }
 `;
 
 const Divider = styled.div`
@@ -412,49 +422,33 @@ const HoverContainer = styled<{ hasImageURL: boolean }, "div">("div")`
   display: flex;
   height: 100%;
   width: 100%;
-  z-index: 9001;
+  z-index: 2;
   flex-direction: column;
   position: absolute;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
   background: ${props => props.theme.colors.textPrimary};
-  > :first-child {
-    margin-bottom: ${props => props.theme.space[2]}px;
+  > :not(:last-child) {
+    margin-bottom: ${props => props.theme.space[1]}px;
   }
   ${props => !props.hasImageURL && shiftMarginDueToNoImageURLCss};
 `;
 
-interface IHoverActionPayload {
-  id: string;
-}
-
 interface IHoverProps {
-  id: string;
   hasImageURL: boolean;
-  hoverAction: (payload: IHoverActionPayload) => void;
-  viewAction: (payload: IHoverActionPayload) => void;
-  isChosenCollection?: boolean;
+  hoverChildren: React.ReactElement<any>;
+  cancelAction: () => void;
 }
 
-const handleHovereredClick = (id: string, hoverAction: any) => () =>
-  hoverAction({ id });
-const handleViewClick = (id: string, viewAction: any) => () =>
-  viewAction({ id });
-
-const Hover: React.SFC<IHoverProps> = ({
+const Hover: React.FunctionComponent<IHoverProps> = ({
   hasImageURL,
-  hoverAction,
-  viewAction,
-  id,
+  cancelAction,
+  hoverChildren,
 }) => (
   <HoverContainer hasImageURL={hasImageURL}>
-    <PrimaryButton onClick={handleHovereredClick(id, hoverAction)}>
-      Choose Article
-    </PrimaryButton>
-    <SecondaryButton onClick={handleViewClick(id, viewAction)}>
-      View Article
-    </SecondaryButton>
+    {hoverChildren}
+    <SecondaryButton onClick={cancelAction}>Cancel</SecondaryButton>
   </HoverContainer>
 );
 
@@ -498,7 +492,7 @@ const RenderContent: React.SFC<IContentProps> = ({
           asBackground={true}
           overlay={imageURL ? { opacity: 0.7 } : undefined}
           height={250}
-          width={290}
+          width={DEFAULT_CARD_WIDTH}
         />
       )}
       <RenderCardContent
@@ -527,6 +521,7 @@ interface IProps {
   userAvatar: string | null;
   userId: string;
   articleCount: string;
+  collectionCount: string;
   imageURL: string | null;
   cardHeight: number;
   cardWidth?: number;
@@ -534,15 +529,24 @@ interface IProps {
     childrenProps: React.ReactElement<any>,
     route: string
   ) => React.ReactElement<any>;
-  hoverAction?: (payload: IHoverActionPayload) => void;
-  viewAction?: (payload: IHoverActionPayload) => void;
   isChosenCollection?: boolean;
+  triggerHoverChildrenOnFullCardClick?: boolean;
+  hoverChildren?:
+    | null
+    | ((
+        payload: {
+          hideDispatch: () => void;
+          showDispatch: () => void;
+          toggleDispatch: () => void;
+        }
+      ) => React.ReactElement<any>);
 }
 
 interface IRenderFooterProps {
   id: string;
   imageURL: string | null;
   articleCount: string;
+  collectionCount: string;
   linkComponent: (
     childrenProps: React.ReactElement<any>,
     route: string
@@ -553,12 +557,23 @@ const RenderFooter: React.FunctionComponent<IRenderFooterProps> = ({
   id,
   imageURL,
   articleCount,
+  collectionCount,
   linkComponent,
 }) =>
   linkComponent(
     <Footer imageURL={imageURL}>
-      <H4>{articleCount || "0"}</H4>
-      <Label>Articles</Label>
+      {!!Number(articleCount) && (
+        <Count imageURL={imageURL}>
+          <H4>{articleCount}</H4>
+          <Label>{`Article${Number(articleCount) > 1 ? "s" : ""}`}</Label>
+        </Count>
+      )}
+      {!!Number(collectionCount) && (
+        <Count imageURL={imageURL}>
+          <H4>{collectionCount}</H4>
+          <Label>{`Collection${Number(collectionCount) > 1 ? "s" : ""}`}</Label>
+        </Count>
+      )}
     </Footer>,
     `/collection/${id}`
   );
@@ -575,38 +590,40 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
   cardWidth = DEFAULT_CARD_WIDTH,
   cardHeight = DEFAULT_CARD_HEIGHT,
   linkComponent,
-  hoverAction,
-  viewAction,
+  hoverChildren,
   isChosenCollection,
   articleCount,
+  collectionCount,
+  triggerHoverChildrenOnFullCardClick = false,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
     IToggleState,
     IToggleAction
   >(toggleReducer, toggleInitialState);
-
   return (
     <BaseCard
       imageURL={imageURL}
       cardWidth={calculateCardWidth({ cardWidth, imageURL })}
       cardHeight={calculateCardHeight({ cardHeight, cardWidth, imageURL })}
-      handleMouseEnter={showDispatch(dispatch)}
-      handleMouseLeave={hideDispatch(dispatch)}
       isChosenArticle={isChosenCollection}
       toggledOn={toggledOn}
-      hoverAction={hoverAction}
     >
-      {typeof hoverAction === "function" &&
-        typeof viewAction === "function" &&
-        toggledOn === true && (
-          <Hover
-            hasImageURL={Boolean(imageURL)}
-            viewAction={viewAction}
-            hoverAction={hoverAction}
-            id={id}
-          />
-        )}
-      <Container>
+      {!!hoverChildren && toggledOn === true && (
+        <Hover
+          hasImageURL={Boolean(imageURL)}
+          cancelAction={hideDispatch(dispatch)}
+          hoverChildren={hoverChildren({
+            hideDispatch: hideDispatch(dispatch),
+            showDispatch: showDispatch(dispatch),
+            toggleDispatch: toggleDispatch(dispatch),
+          })}
+        />
+      )}
+      <Container
+        onClick={() =>
+          triggerHoverChildrenOnFullCardClick && showDispatch(dispatch)()
+        }
+      >
         <RenderContent
           cardHeight={cardHeight}
           cardWidth={cardWidth}
@@ -626,6 +643,7 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
           imageURL={imageURL}
           linkComponent={linkComponent}
           articleCount={articleCount}
+          collectionCount={collectionCount}
         />
       </Container>
     </BaseCard>

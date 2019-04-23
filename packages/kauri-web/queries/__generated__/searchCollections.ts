@@ -1,7 +1,7 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { CollectionFilterInput, ResourceType } from "./../../__generated__/globalTypes";
+import { CollectionFilterInput, ResourceTypeInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchCollections
@@ -14,7 +14,7 @@ export interface searchCollections_searchCollections_content_owner_ArticleDTO {
 export interface searchCollections_searchCollections_content_owner_PublicUserDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchCollections_searchCollections_content_owner_PublicUserDTO {
@@ -29,7 +29,7 @@ export interface searchCollections_searchCollections_content_owner_PublicUserDTO
 export interface searchCollections_searchCollections_content_owner_CommunityDTO_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchCollections_searchCollections_content_owner_CommunityDTO {
@@ -45,7 +45,7 @@ export type searchCollections_searchCollections_content_owner = searchCollection
 export interface searchCollections_searchCollections_content_sections_resourcesId {
   __typename: "ResourceIdentifier";
   id: string | null;
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface searchCollections_searchCollections_content_sections_resources_CommunityDTO {
@@ -71,7 +71,7 @@ export interface searchCollections_searchCollections_content_sections {
 
 export interface searchCollections_searchCollections_content_resourceIdentifier {
   __typename: "ResourceIdentifier";
-  type: ResourceType | null;
+  type: ResourceTypeInput | null;
   id: string | null;
 }
 

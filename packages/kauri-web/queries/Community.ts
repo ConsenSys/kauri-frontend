@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { UserOwner } from "./User";
 
 export const CommunityOwner = gql`
   fragment CommunityOwner on CommunityDTO {
@@ -11,100 +12,125 @@ export const CommunityOwner = gql`
     }
   }
 `;
-
-export const getCommunity = gql`
-  query getCommunity($id: String) {
-    getCommunity(id: $id) {
+export const Community = gql`
+  fragment Community on CommunityDTO {
+    id
+    dateCreated
+    dateUpdated
+    creatorId
+    creator {
       id
-      dateCreated
-      dateUpdated
-      creatorId
+      username
       name
-      description
-      status
-      website
+    }
+    name
+    description
+    status
+    website
+    avatar
+    social
+    tags
+    attributes
+    members {
+      id
+      name
       avatar
-      social
-      members {
+      role
+    }
+    approvedId {
+      id
+      type
+    }
+    pendingId {
+      id
+      type
+    }
+    approved {
+      ... on ArticleDTO {
+        version
+        title
+        content
+        dateCreated
+        datePublished
+        author {
+          id
+          name
+        }
+        status
+        attributes
+      }
+
+      ... on CollectionDTO {
         id
         name
-        role
-      }
-      approvedId {
-        type
-      }
-      pending {
-        ... on ArticleDTO {
-          id
-          version
-          title
-          content
-          dateCreated
-          datePublished
-          associatedNfts {
-            tokenType
-            contractAddress
-            name
-            image
-            externalUrl
-          }
-          author {
-            id
-            name
-          }
-          status
-          attributes
-          voteResult {
-            sum
-          }
+        description
+        tags
+        background
+        dateUpdated
+        owner {
+          ...UserOwner
+          ...CommunityOwner
         }
-        ... on CollectionDTO {
+      }
+    }
+    pending {
+      ... on ArticleDTO {
+        version
+        title
+        content
+        dateCreated
+        datePublished
+        author {
           id
           name
         }
+        status
+        attributes
       }
-      approved {
-        ... on ArticleDTO {
-          id
-          version
-          title
-          content
-          description
-          dateCreated
-          datePublished
-          associatedNfts {
-            tokenType
-            contractAddress
-            name
-            image
-            externalUrl
-          }
-          author {
-            id
-            name
-          }
-          status
-          attributes
-          voteResult {
-            sum
-          }
-        }
-        ... on CollectionDTO {
-          id
-          name
+
+      ... on CollectionDTO {
+        id
+        name
+        description
+        tags
+        background
+        dateUpdated
+        owner {
+          ...UserOwner
+          ...CommunityOwner
         }
       }
     }
   }
 `;
 
+export const getCommunity = gql`
+  query getCommunity($id: String) {
+    getCommunity(id: $id) {
+      ...Community
+    }
+  }
+
+  ${Community}
+  ${UserOwner}
+  ${CommunityOwner}
+`;
+
 export const getAllCommunities = gql`
   query searchCommunities(
     $size: Int = 12
     $page: Int = 0
-    $filter: SearchFilterInput
+    $filter: CommunityFilterInput
+    $sort: String = "dateUpdated"
+    $dir: DirectionInput = DESC
   ) {
-    searchCommunities(size: $size, page: $page, filter: $filter) {
+    searchCommunities(
+      size: $size
+      page: $page
+      filter: $filter
+      sort: $sort
+      dir: $dir
+    ) {
       content {
         id
         dateCreated
@@ -115,6 +141,7 @@ export const getAllCommunities = gql`
         status
         website
         avatar
+        tags
         social
         approvedId {
           type
@@ -125,24 +152,52 @@ export const getAllCommunities = gql`
   }
 `;
 
-export const searchCommunities = gql`
-  query searchCommunities($filter: CommunityFilterInput) {
-    searchCommunities(size: 12, filter: $filter) {
-      content {
-        id
-        dateCreated
-        dateUpdated
-        creatorId
-        name
-        description
-        status
-        website
-        avatar
-        social
-        approvedId {
-          type
-        }
-      }
+export const createCommunityMutation = gql`
+  mutation createCommunity(
+    $name: String
+    $description: String
+    $avatar: String
+    $website: String
+    $tags: [String]
+    $social: Map_String_StringScalar
+    $attributes: Map_String_StringScalar
+  ) {
+    createCommunity(
+      name: $name
+      description: $description
+      avatar: $avatar
+      website: $website
+      social: $social
+      attributes: $attributes
+      tags: $tags
+    ) {
+      hash
+    }
+  }
+`;
+
+export const updateCommunityMutation = gql`
+  mutation updateCommunity(
+    $id: String
+    $name: String
+    $description: String
+    $avatar: String
+    $website: String
+    $tags: [String]
+    $social: Map_String_StringScalar
+    $attributes: Map_String_StringScalar
+  ) {
+    createCommunity(
+      id: $id
+      name: $name
+      description: $description
+      avatar: $avatar
+      website: $website
+      social: $social
+      attributes: $attributes
+      tags: $tags
+    ) {
+      hash
     }
   }
 `;
