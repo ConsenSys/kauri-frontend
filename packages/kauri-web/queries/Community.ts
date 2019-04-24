@@ -47,11 +47,24 @@ export const Community = gql`
     }
     approved {
       ... on ArticleDTO {
+        id
         version
         title
         content
         dateCreated
         datePublished
+        owner {
+          ...UserOwner
+          ...CommunityOwner
+        }
+        associatedNfts {
+          tokenType
+          contractAddress
+          name
+          image
+          externalUrl
+        }
+        description
         author {
           id
           name
@@ -67,6 +80,21 @@ export const Community = gql`
         tags
         background
         dateUpdated
+        sections {
+          id
+          name
+          description
+          resourcesId {
+            id
+            type
+          }
+          resources {
+            ... on ArticleDTO {
+              id
+              version
+            }
+          }
+        }
         owner {
           ...UserOwner
           ...CommunityOwner
@@ -75,11 +103,24 @@ export const Community = gql`
     }
     pending {
       ... on ArticleDTO {
+        id
         version
         title
         content
         dateCreated
         datePublished
+        owner {
+          ...UserOwner
+          ...CommunityOwner
+        }
+        associatedNfts {
+          tokenType
+          contractAddress
+          name
+          image
+          externalUrl
+        }
+        description
         author {
           id
           name
@@ -95,6 +136,21 @@ export const Community = gql`
         tags
         background
         dateUpdated
+        sections {
+          id
+          name
+          description
+          resourcesId {
+            id
+            type
+          }
+          resources {
+            ... on ArticleDTO {
+              id
+              version
+            }
+          }
+        }
         owner {
           ...UserOwner
           ...CommunityOwner
