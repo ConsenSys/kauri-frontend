@@ -37,6 +37,9 @@ const Component: React.SFC<{}> = _ => (
         {
           name: "Collections",
         },
+        {
+          name: "Manage",
+        },
         // process.env.NODE_ENV !== "production" && {
         //   name: "DEBUG",
         // },
@@ -45,6 +48,7 @@ const Component: React.SFC<{}> = _ => (
         <ContentSection key="home" />,
         <ContentSection key="articles" />,
         <ContentSection key="collections" />,
+        <ContentSection key="manage" />,
         // <ContentSection key="collections">
         //   <DisplayFormikState
         //     touched={props.touched}

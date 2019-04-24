@@ -5,6 +5,7 @@ import {
   IDependencies,
   IAction,
   showNotificationAction,
+  routeChangeAction,
   Actions,
 } from "../../../lib/Module";
 import {
@@ -81,21 +82,20 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
         )
         .do(console.log)
         .do(() => typeof actions.callback === "function" && actions.callback())
-        .mergeMap(({ data: { output: { // id,
-              error } } }) =>
+        .mergeMap(({ data: { output: { id, error } } }) =>
           error
             ? Observable.throw(new Error("Submission error"))
             : Observable.merge(
                 Observable.of(
                   (showNotificationAction as any)({
-                    description: `woo woo`,
-                    message: "Community Created",
-                    notificationType: "success",
+                    description: `You can start adding articles and collections to your community page once the transaction is mined!`,
+                    message: "Creating Community",
+                    notificationType: "info",
                   })
+                ),
+                Observable.of(
+                  routeChangeAction(`/community/${id}/community-created`)
                 )
-                // Observable.of(
-                //   routeChangeAction(`/community/${id}/community-created`)
-                // )
               )
         )
         .do(() => apolloClient.resetStore())

@@ -347,8 +347,7 @@ class Navbar extends React.Component {
                   Create Collection
                 </TooltipItem>
               </Link>
-              {/* <TooltipDivider />
-
+              <TooltipDivider />
               <Link
                 route={
                   userId ? "/create-community" : "/login?r=/create-community"
@@ -361,7 +360,7 @@ class Navbar extends React.Component {
                 >
                   Create Community
                 </TooltipItem>
-              </Link> */}
+              </Link>
               <TooltipDivider />
 
               <Link
