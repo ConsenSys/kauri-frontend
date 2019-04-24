@@ -158,7 +158,7 @@ const colors: IColors = {
 
 const MAIN_BODY_WIDTH = 1242;
 
-const DEFAULT_CARD_WIDTH = 288;
+export const DEFAULT_CARD_WIDTH = 288;
 
 const fontSizes: FontSizes = [11, 13, 14, 16, 18, 20, 22, 28, 32];
 

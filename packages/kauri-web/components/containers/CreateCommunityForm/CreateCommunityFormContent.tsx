@@ -3,6 +3,7 @@ import * as React from "react";
 import styled from "../../../lib/styled-components";
 import ContentSection from "../../../../kauri-components/components/Section/ContentSection";
 import TabsComponent from "../../../../kauri-components/components/Tabs";
+import ManageMembers from "./ManageMembers";
 // import { Label } from "../../../../kauri-components/components/Typography";
 
 const Container = styled.section``;
@@ -21,8 +22,11 @@ const Container = styled.section``;
 //     </div>
 //   </div>
 // );
+interface IProps {
+  openAddMemberModal: () => void;
+}
 
-const Component: React.SFC<{}> = _ => (
+const Component: React.SFC<IProps> = props => (
   <Container>
     <TabsComponent
       padContent={true}
@@ -37,6 +41,9 @@ const Component: React.SFC<{}> = _ => (
         {
           name: "Collections",
         },
+        {
+          name: "Manage",
+        },
         // process.env.NODE_ENV !== "production" && {
         //   name: "DEBUG",
         // },
@@ -45,6 +52,10 @@ const Component: React.SFC<{}> = _ => (
         <ContentSection key="home" />,
         <ContentSection key="articles" />,
         <ContentSection key="collections" />,
+        <ManageMembers
+          openAddMemberModal={props.openAddMemberModal}
+          key="manage"
+        />,
         // <ContentSection key="collections">
         //   <DisplayFormikState
         //     touched={props.touched}

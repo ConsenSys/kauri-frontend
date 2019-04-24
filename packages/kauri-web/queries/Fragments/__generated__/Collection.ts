@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceTypeInput } from "./../../../__generated__/globalTypes";
@@ -9,7 +8,7 @@ import { ResourceTypeInput } from "./../../../__generated__/globalTypes";
 // ====================================================
 
 export interface Collection_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface Collection_owner_PublicUserDTO_resourceIdentifier {
@@ -50,7 +49,7 @@ export interface Collection_sections_resourcesId {
 }
 
 export interface Collection_sections_resources_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface Collection_sections_resources_ArticleDTO {

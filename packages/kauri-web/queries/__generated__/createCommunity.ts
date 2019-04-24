@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -16,6 +15,7 @@ export interface createCommunity {
 }
 
 export interface createCommunityVariables {
+  signature?: string | null;
   name?: string | null;
   description?: string | null;
   avatar?: string | null;
