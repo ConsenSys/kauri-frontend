@@ -26,6 +26,7 @@ interface IProps {
   maxChars?: number;
   align?: string;
   routeChangeAction?: (route: string) => void;
+  resourceType?: string; // card
 }
 
 const firstTagBulletPointCSS = css`
@@ -118,6 +119,7 @@ const TagList = (props: IProps) => {
       {shownTags.length > 0 &&
         shownTags.map((tag, key) => (
           <StyledTag
+            resourceType={props.resourceType}
             orientation={props.orientation}
             onClick={() =>
               props.routeChangeAction &&
