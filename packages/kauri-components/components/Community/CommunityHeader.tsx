@@ -134,8 +134,8 @@ const Container = styled.div`
   background: ${props => props.theme.colors.bgPrimary};
   display: flex;
   flex-direction: row;
-  & .name-website {
-    margin-left: ${props => props.theme.space[3]}px;
+  & .image {
+    margin-right: ${props => props.theme.space[3]}px;
   }
   & .image-name {
     margin-bottom: ${props => props.theme.space[2]}px;
@@ -230,10 +230,10 @@ interface ICommunityMember {
 
 interface IProps {
   id: string;
-  avatar: string;
-  name: string;
-  website: string;
-  description: string;
+  avatar: string | null;
+  name: string | null;
+  website: string | null;
+  description: string | null;
   tags: Array<string | null> | null;
   social: {
     github?: string;
@@ -278,8 +278,15 @@ IProps) => (
       <ContentRow>
         <Column>
           <Row className="image-name">
-            {avatar && <Image width={100} height={100} image={avatar} />}
-            <Column className="name-website">
+            {avatar && (
+              <Image
+                className="image"
+                width={100}
+                height={100}
+                image={avatar}
+              />
+            )}
+            <Column>
               <Title1 color="white">{name}</Title1>
               {website && <BodyCard color="white">{website}</BodyCard>}
             </Column>
