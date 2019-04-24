@@ -8,6 +8,7 @@ module.exports = {
       "./components/**/**/*.tsx",
       "./components/**/**/*.ts",
       "./queries/*.ts",
+      "./queries/Fragments/*.ts",
     ],
   },
 };

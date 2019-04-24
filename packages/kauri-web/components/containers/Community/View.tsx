@@ -42,7 +42,6 @@ class CommunityConnection extends React.Component<IProps> {
           openModalAction={openModalAction}
           closeModalAction={closeModalAction}
         />
-        {console.log(getCommunity.approved)}
         <Tabs
           dark={true}
           tabs={[

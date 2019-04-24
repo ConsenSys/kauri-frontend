@@ -12,7 +12,7 @@ import {
 import {
   Article,
   Article_owner_PublicUserDTO,
-} from "../../../queries/__generated__/Article";
+} from "../../../queries/Fragments/__generated__/Article";
 
 import { ShareButtons } from "../../../../kauri-components/components/Tooltip/ShareButtons";
 

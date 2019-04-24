@@ -162,6 +162,7 @@ export const searchPendingArticles = gql`
       totalElements
     }
   }
+  ${Article}
 `;
 
 export const getTotalArticlesCount = gql`

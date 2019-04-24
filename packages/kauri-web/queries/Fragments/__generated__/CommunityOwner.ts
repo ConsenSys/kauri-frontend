@@ -2,23 +2,22 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { ResourceTypeInput } from "./../../__generated__/globalTypes";
+import { ResourceTypeInput } from "./../../../__generated__/globalTypes";
 
 // ====================================================
-// GraphQL fragment: UserOwner
+// GraphQL fragment: CommunityOwner
 // ====================================================
 
-export interface UserOwner_resourceIdentifier {
+export interface CommunityOwner_resourceIdentifier {
   __typename: "ResourceIdentifier";
   id: string | null;
   type: ResourceTypeInput | null;
 }
 
-export interface UserOwner {
-  __typename: "PublicUserDTO";
+export interface CommunityOwner {
+  __typename: "CommunityDTO";
   id: string | null;
   name: string | null;
-  username: string | null;
   avatar: string | null;
-  resourceIdentifier: UserOwner_resourceIdentifier | null;
+  resourceIdentifier: CommunityOwner_resourceIdentifier | null;
 }

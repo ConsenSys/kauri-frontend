@@ -13,11 +13,11 @@ import {
   Article,
   Article_owner_PublicUserDTO,
   Article_owner_CommunityDTO,
-} from "../../../queries/__generated__/Article";
+} from "../../../queries/Fragments/__generated__/Article";
 import {
   Collection,
   Collection_owner_PublicUserDTO,
-} from "../../../queries/__generated__/Collection";
+} from "../../../queries/Fragments/__generated__/Collection";
 import CollectionCard from "../../../../kauri-components/components/Card/CollectionCard";
 
 const Container = styled.section`

@@ -1,7 +1,6 @@
 import gql from "graphql-tag";
 import { Community } from './Fragments';
 
-
 export const getCommunity = gql`
   query getCommunity($id: String) {
     getCommunity(id: $id) {
