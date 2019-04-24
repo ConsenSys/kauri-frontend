@@ -75,6 +75,7 @@ interface IProps {
   setFieldValue: (field: string, value: any) => void;
   userId: string;
   userAvatar: string | null;
+  openAddMemberModal: () => void;
   username: string | null;
 }
 
@@ -173,7 +174,7 @@ const Component: React.SFC<IProps> = props => (
           userId={props.userId}
           avatar={props.userAvatar}
         />
-        <AddMemberButtonComponent onClick={() => undefined} />
+        <AddMemberButtonComponent onClick={() => props.openAddMemberModal()} />
       </CreateCommunityMembersContainer>
     </RightSide>
   </PrimaryHeaderSection>
