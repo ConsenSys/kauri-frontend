@@ -1,75 +1,5 @@
 import gql from "graphql-tag";
-import { UserOwner } from "./User";
-import { CommunityOwner } from "./Community";
-
-export const Article = gql`
-  fragment Article on ArticleDTO {
-    associatedNfts {
-      tokenType
-      contractAddress
-      name
-      image
-      externalUrl
-    }
-    resourceIdentifier {
-      id
-      type
-    }
-    description
-    id
-    version
-    title
-    content
-    description
-    authorId
-    dateCreated
-    datePublished
-    status
-    attributes
-    contentHash
-    checkpoint
-    tags
-    voteResult {
-      sum
-      count
-      hasVoted
-      quantity
-    }
-    author {
-      id
-      name
-      username
-      avatar
-    }
-    owner {
-      ...UserOwner
-      ...CommunityOwner
-    }
-    comments {
-      content {
-        author {
-          id
-          name
-          username
-          avatar
-        }
-        posted
-        body
-      }
-      totalPages
-      totalElements
-    }
-    resourceIdentifier {
-      id
-      type
-      version
-    }
-    updateComment
-  }
-
-  ${UserOwner}
-  ${CommunityOwner}
-`;
+import { CommunityOwner, UserOwner, Article } from "./Fragments";
 
 export const submitArticle = gql`
   mutation submitArticle(
@@ -232,6 +162,7 @@ export const searchPendingArticles = gql`
       totalElements
     }
   }
+  ${Article}
 `;
 
 export const getTotalArticlesCount = gql`

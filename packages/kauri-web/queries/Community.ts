@@ -1,108 +1,5 @@
 import gql from "graphql-tag";
-import { UserOwner } from "./User";
-
-export const CommunityOwner = gql`
-  fragment CommunityOwner on CommunityDTO {
-    id
-    name
-    avatar
-    resourceIdentifier {
-      id
-      type
-    }
-  }
-`;
-export const Community = gql`
-  fragment Community on CommunityDTO {
-    id
-    dateCreated
-    dateUpdated
-    creatorId
-    creator {
-      id
-      username
-      name
-    }
-    name
-    description
-    status
-    website
-    avatar
-    social
-    tags
-    attributes
-    members {
-      id
-      name
-      avatar
-      role
-    }
-    approvedId {
-      id
-      type
-    }
-    pendingId {
-      id
-      type
-    }
-    approved {
-      ... on ArticleDTO {
-        version
-        title
-        content
-        dateCreated
-        datePublished
-        author {
-          id
-          name
-        }
-        status
-        attributes
-      }
-
-      ... on CollectionDTO {
-        id
-        name
-        description
-        tags
-        background
-        dateUpdated
-        owner {
-          ...UserOwner
-          ...CommunityOwner
-        }
-      }
-    }
-    pending {
-      ... on ArticleDTO {
-        version
-        title
-        content
-        dateCreated
-        datePublished
-        author {
-          id
-          name
-        }
-        status
-        attributes
-      }
-
-      ... on CollectionDTO {
-        id
-        name
-        description
-        tags
-        background
-        dateUpdated
-        owner {
-          ...UserOwner
-          ...CommunityOwner
-        }
-      }
-    }
-  }
-`;
+import { Community } from './Fragments';
 
 export const getCommunity = gql`
   query getCommunity($id: String) {
@@ -110,10 +7,7 @@ export const getCommunity = gql`
       ...Community
     }
   }
-
   ${Community}
-  ${UserOwner}
-  ${CommunityOwner}
 `;
 
 export const getAllCommunities = gql`

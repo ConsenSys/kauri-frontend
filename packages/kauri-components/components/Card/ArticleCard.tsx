@@ -20,7 +20,7 @@ import { TagList } from "../Tags";
 import NFTList from "../Kudos/NFTList";
 import Image from "../Image";
 import Date from "../HoverDateLabel";
-import { Article_associatedNfts } from "../../../kauri-web/queries/__generated__/Article";
+import { Article_associatedNfts } from "../../../kauri-web/queries/Fragments/__generated__/Article";
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;

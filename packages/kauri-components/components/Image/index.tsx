@@ -3,6 +3,7 @@ import { InView } from "react-intersection-observer";
 
 interface ImgProps {
   image: string;
+  className?: string;
   height?: number | string;
   width: number | string;
   mobileHeight?: number | string;

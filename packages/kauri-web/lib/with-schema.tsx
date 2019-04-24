@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import slugify from "slugify";
-import { Article } from "../queries/__generated__/Article";
+import { Article } from "../queries/Fragments/__generated__/Article";
 
 interface IProps {
   hostName: string;
