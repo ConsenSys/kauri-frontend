@@ -332,9 +332,10 @@ IProps) => (
                     Moderators
                   </Label>
                   <Row>
-                    {members.map(i =>
+                    {members.map((i, key) =>
                       i ? (
                         <UserAvatar
+                          key={key}
                           userId={String(i.id)}
                           username={i.name || null}
                           borderRadius="4px"
