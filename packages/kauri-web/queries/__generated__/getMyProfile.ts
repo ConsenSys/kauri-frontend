@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { UserStatusInput } from "./../../__generated__/globalTypes";
@@ -6,6 +7,12 @@ import { UserStatusInput } from "./../../__generated__/globalTypes";
 // ====================================================
 // GraphQL query operation: getMyProfile
 // ====================================================
+
+export interface getMyProfile_getMyProfile_communities {
+  __typename: "CommunityDTO";
+  id: string | null;
+  name: string | null;
+}
 
 export interface getMyProfile_getMyProfile {
   __typename: "UserDTO";
@@ -18,6 +25,7 @@ export interface getMyProfile_getMyProfile {
   avatar: string | null;
   social: any | null;
   status: UserStatusInput | null;
+  communities: (getMyProfile_getMyProfile_communities | null)[] | null;
   subscriptions: any | null;
   dateCreated: any | null;
 }

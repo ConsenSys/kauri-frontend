@@ -1,44 +1,5 @@
 import gql from "graphql-tag";
-import { Article } from "./Article";
-import { UserOwner } from "./User";
-import { CommunityOwner } from "./Community";
-
-export const Collection = gql`
-  fragment Collection on CollectionDTO {
-    id
-    name
-    description
-    tags
-    background
-    dateUpdated
-    owner {
-      ...UserOwner
-      ...CommunityOwner
-    }
-    sections {
-      id
-      name
-      description
-      resourcesId {
-        id
-        type
-      }
-      resources {
-        ... on ArticleDTO {
-          id
-          version
-        }
-      }
-    }
-    resourceIdentifier {
-      type
-      id
-    }
-  }
-
-  ${UserOwner}
-  ${CommunityOwner}
-`;
+import { CommunityOwner, UserOwner, Article, Collection} from "./Fragments";
 
 export const globalCollectionDetails = gql`
   query getCollection($id: String) {
