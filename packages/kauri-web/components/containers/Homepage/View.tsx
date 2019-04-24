@@ -105,7 +105,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                 <meta
                   name="description"
                   content={
-                    "Ethereum Tutorials for Beginners & Advanced | Learn Ethereum | Kauri"
+                    "Blockchain Tutorials for Beginners & Advanced | Learn Blockchain | Learn Ethereum | Kauri"
                   }
                 />
                 <meta
