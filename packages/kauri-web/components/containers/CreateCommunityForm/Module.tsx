@@ -24,6 +24,7 @@ import {
   createCommunityMutation,
   prepareCreateCommunityQuery,
 } from "../../../queries/Community";
+import { ApolloQueryResult } from "apollo-client";
 
 export interface ICreateCommunityAction extends IAction {
   callback: () => void;
@@ -95,7 +96,7 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
         })
       )
         .do(console.log)
-        .mergeMap<any, string>(
+        .mergeMap<ApolloQueryResult<prepareCreateCommunity>, string>(
           ({ data: { prepareCreateCommunity: result } }) =>
             result && personalSign(result.messageHash)
         )
