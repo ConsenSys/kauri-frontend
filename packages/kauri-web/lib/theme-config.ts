@@ -175,6 +175,9 @@ const padContent = `
   @media (min-width: ${breakpoints[2]}) {
     min-width: ${MAIN_BODY_WIDTH}px;
   }
+  @media (max-width: ${breakpoints[2]}) {
+    min-width: 90%;
+  }
 `;
 
 const themeConfig = {

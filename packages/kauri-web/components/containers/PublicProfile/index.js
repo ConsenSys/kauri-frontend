@@ -8,7 +8,7 @@ import {
   searchAwaitingApproval,
   getArticleTransfers,
 } from "../../../queries/Article";
-import { getUserDetails } from "../../../queries/User";
+import { getUserDetails, getOwnProfile } from "../../../queries/User";
 import { getCollectionsForUser } from "../../../queries/Collection";
 import { deleteDraftArticleAction } from "../Article/DeleteDraftArticleModule";
 import {
@@ -53,6 +53,16 @@ export default compose(
   }),
   graphql(getUserDetails, {
     name: "UserQuery",
+    options: ({ userId }) => ({
+      fetchPolicy: "cache-and-network",
+      variables: {
+        userId,
+        page: 0,
+      },
+    }),
+  }),
+  graphql(getOwnProfile, {
+    name: "OwnProfileQuery",
     options: ({ userId }) => ({
       fetchPolicy: "cache-and-network",
       variables: {

@@ -30,6 +30,10 @@ export const getOwnProfile = gql`
       communities {
         id
         name
+        members {
+          id
+          role
+        }
       }
       subscriptions
       dateCreated

@@ -6,7 +6,9 @@ import Drafts from "../Drafts/View";
 import Awaiting from "../Awaiting/View";
 import Pending from "../Pending/View";
 import Transfers from "../../../../../kauri-components/components/Transfers";
+import MyCommunities from "../../../../../kauri-components/components/MyCommunities";
 import styled from "../../../../lib/styled-components";
+import R from "ramda";
 
 const categories = [
   "drafts",
@@ -45,12 +47,20 @@ const Manage: React.FunctionComponent<
     currentCategory: "drafts",
   });
 
+  const communities = R.path(['ownProfile', 'getMyProfile', 'communities'], props)
+const transfers = R.path(['transfersQuery', 'getArticleTransfers', 'content'], props)
+
   if (
-    props.transfersQuery.getArticleTransfers &&
-    props.transfersQuery.getArticleTransfers.content.length > 0 &&
+    (transfers as []).length > 0 &&
     categories.indexOf("pending transfers") === -1
   ) {
     categories.push("pending transfers");
+  }
+  if (
+    (communities as []).length > 0 &&
+    categories.indexOf("communities") === -1
+  ) {
+    categories.push("communities");
   }
 
   return (
@@ -62,10 +72,11 @@ const Manage: React.FunctionComponent<
             active={category === state.currentCategory}
             category={category}
             amount={
-              props[queriesMatch[category]].getArticleTransfers
-                ? props[queriesMatch[category]].getArticleTransfers
-                    .totalElements
-                : props[queriesMatch[category]].searchArticles.totalElements
+              category === 'pending transfers'
+                ? (transfers as []).length
+                : category === 'communities'
+                  ? (communities as []).length
+                   : props[queriesMatch[category]].searchArticles.totalElements
             }
             onClick={() => setState({ currentCategory: category })}
           />
@@ -83,7 +94,13 @@ const Manage: React.FunctionComponent<
       {state.currentCategory === "pending transfers" && (
         <Transfers
           {...props}
-          data={props.transfersQuery.getArticleTransfers.content}
+          data={transfers}
+        />
+      )}
+      {state.currentCategory === "communities" && (
+        <MyCommunities
+          {...props}
+          data={communities}
         />
       )}
     </ManageContentSection>
