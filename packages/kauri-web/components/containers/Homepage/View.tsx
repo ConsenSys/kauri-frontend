@@ -103,8 +103,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
             <HomePageSection>
               <Helmet>
                 <title>
-                  Ethereum Tutorials for Beginners & Advanced | Learn Ethereum -
-                  Kauri
+                  Blockchain Tutorials for Beginners & Advanced | Learn Blockchain | Learn Ethereum - Kauri
                 </title>
                 <meta
                   name="description"
