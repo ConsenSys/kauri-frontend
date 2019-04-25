@@ -1,6 +1,4 @@
 import * as React from "react";
-import * as t from "io-ts";
-import { failure } from "io-ts/lib/PathReporter";
 import TextTruncate from "react-text-truncate";
 import styled from "../../lib/styled-components";
 import { Label, BodyCard, H4, Title2 } from "../Typography";
@@ -127,20 +125,20 @@ const LabelContainer = styled.div`
   margin-bottom: ${props => props.theme.space[2]}px;
 `;
 
-const RuntimeProps = t.interface({
-  articleCount: t.string,
-  cardHeight: t.number,
-  collectionCount: t.string,
-  description: t.string,
-  imageURL: t.union([t.null, t.string]),
-  linkComponent: t.union([t.undefined, t.null, t.any]),
-  logo: t.union([t.null, t.string]),
-  name: t.string,
-});
+interface IProps {
+  articleCount: string;
+  cardHeight: number;
+  collectionCount: string;
+  description: string;
+  imageURL: string | null;
+  linkComponent: (
+    childrenProps: React.ReactElement<any>
+  ) => React.ReactElement<any>;
+  logo: string | null;
+  name: string;
+}
 
-type Props = t.TypeOf<typeof RuntimeProps>;
-
-const Component: React.SFC<Props> = props => {
+const CommunityCard: React.SFC<IProps> = props => {
   const {
     linkComponent,
     cardHeight = DEFAULT_CARD_HEIGHT,
@@ -150,9 +148,7 @@ const Component: React.SFC<Props> = props => {
     description,
     name,
     imageURL,
-  } = RuntimeProps.decode(props).getOrElseL(errors => {
-    throw new Error(failure(errors).join("\n"));
-  });
+  } = props;
 
   return (
     <BaseCard
@@ -193,4 +189,4 @@ const Component: React.SFC<Props> = props => {
   );
 };
 
-export default Component;
+export default CommunityCard;

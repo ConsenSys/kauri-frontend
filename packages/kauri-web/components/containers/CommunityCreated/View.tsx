@@ -48,7 +48,7 @@ const CommunityCreated: React.FunctionComponent<IProps> = props => {
       name,
       avatar,
       attributes,
-      tags,
+      // tags,
     } = props.data.getCommunity;
 
     const articleCount =
@@ -84,15 +84,12 @@ const CommunityCreated: React.FunctionComponent<IProps> = props => {
           logo={avatar}
           articleCount={String(articleCount)}
           collectionCount={String(collectionCount)}
-          linkComponent={(
-            childrenProps: React.ReactElement<any>,
-            route: string
-          ) => (
+          linkComponent={(childrenProps: React.ReactElement<any>) => (
             <Link
-              toSlug={route && route.includes("community") && name}
+              toSlug={name}
               useAnchorTag={true}
               fullWidth={false}
-              href={route}
+              href={`/community/${String(id)}`}
             >
               {childrenProps}
             </Link>

@@ -10,6 +10,27 @@ const Container = styled.div`
   align-items: center;
 `;
 
+const Link = styled.a`
+  text-decoration: none;
+  color: inherit;
+  :hover {
+    color: ${props => props.theme.colors.hoverTextColor} !important;
+    > * {
+      color: ${props => props.theme.colors.hoverTextColor} !important;
+      > * {
+        color: ${props => props.theme.colors.hoverTextColor} !important;
+        > * {
+          color: ${props => props.theme.colors.hoverTextColor} !important;
+        }
+      }
+    }
+  }
+`;
+
+const linkComponent = (childrenProps: React.ReactElement<any>) => (
+  <Link href={"lol"}>{childrenProps}</Link>
+);
+
 storiesOf("CommunityCard", module)
   .addDecorator(story => <Container>{story()}</Container>)
   .add("Community Card No Image", () => (
@@ -17,7 +38,7 @@ storiesOf("CommunityCard", module)
       cardHeight={310}
       logo={null}
       imageURL={null}
-      linkComponent={null}
+      linkComponent={linkComponent}
       name="Loom Network Loom Network Loom Network Loom Network"
       description={`
         The Next-Generation Blockchain Application Platform for Ethereum.
@@ -35,7 +56,7 @@ storiesOf("CommunityCard", module)
       cardHeight={310}
       logo="https://pbs.twimg.com/profile_images/939416633419821057/AgqO1tTQ.jpg"
       imageURL={null}
-      linkComponent={null}
+      linkComponent={linkComponent}
       name="Loom Network"
       description={`
         The Next-Generation Blockchain Application Platform for Ethereum.

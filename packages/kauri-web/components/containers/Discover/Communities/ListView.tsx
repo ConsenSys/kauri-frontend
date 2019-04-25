@@ -63,15 +63,28 @@ class Communities extends Component<IProps> {
                   community && (
                     <CommunityCard
                       key={index}
-                      communityLogo={community.avatar}
-                      communityName={String(community.name)}
-                      communityDescription={
+                      logo={community.avatar}
+                      imageURL={community.avatar}
+                      name={String(community.name)}
+                      description={
                         community.description
                           ? community.description.split(".")[0]
                           : ""
                       }
                       cardHeight={310}
-                      articles={
+                      collectionCount={
+                        (Array.isArray(community.approvedId) &&
+                          String(
+                            community &&
+                              community.approvedId &&
+                              community.approvedId.map(
+                                resource =>
+                                  resource && resource.type === "COLLECTION"
+                              ).length
+                          )) ||
+                        "0"
+                      }
+                      articleCount={
                         (Array.isArray(community.approvedId) &&
                           String(
                             community &&
@@ -83,7 +96,7 @@ class Communities extends Component<IProps> {
                           )) ||
                         "0"
                       }
-                      tags={community.tags}
+                      // tags={community.tags}
                       linkComponent={(
                         childrenProps: React.ReactElement<any>
                       ) => (

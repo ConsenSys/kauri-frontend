@@ -70,8 +70,8 @@ routes
   )
   .add("write-article", "/write-article/:template_id", "write-article")
   .add("article-review", "/article-review/:id/v:version", "article-review")
-  .add("community-created", "/community/:communityId/community-created")
-  .add("community-updated", "/community/:communityId/community-updated")
+  .add("community-created", "/community/:id/community-created")
+  .add("community-updated", "/community/:id/community-updated")
   .add("create-community", "/create-community")
   .add(
     "update-community",
