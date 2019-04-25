@@ -154,6 +154,7 @@ const Component: React.SFC<Props> = props => {
         )}
         {Array.isArray(tags) && tags.length > 0 && (
           <TagList
+            resourceType="card"
             align="center"
             maxTags={3}
             color="textPrimary"
