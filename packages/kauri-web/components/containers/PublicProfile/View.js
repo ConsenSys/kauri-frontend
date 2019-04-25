@@ -36,6 +36,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       CollectionQuery,
       DraftsQuery,
       ApprovalsQuery,
+      OwnProfileQuery,
       PendingTransfersQuery,
       routeChangeAction,
       currentUser,
@@ -127,6 +128,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
               />,
               isOwner && (
                 <Manage
+                  ownProfile={OwnProfileQuery}
                   approvalsQuery={ApprovalsQuery}
                   draftsQuery={DraftsQuery}
                   pendingQuery={PendingQuery}
