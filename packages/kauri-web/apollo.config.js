@@ -2,7 +2,7 @@ module.exports = {
   client: {
     name: "kauri",
     service: {
-      url: "https://api.dev.kauri.io/graphql",
+      url: "https://api.dev2.kauri.io/graphql",
     },
     includes: [
       "./components/**/**/*.tsx",

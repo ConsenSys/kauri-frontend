@@ -208,8 +208,8 @@ export const getAllCommunities = gql`
   }
 `;
 
-export const createCommunityMutation = gql`
-  mutation createCommunity(
+export const prepareCreateCommunityQuery = gql`
+  query prepareCreateCommunity(
     $name: String
     $description: String
     $avatar: String
@@ -218,7 +218,7 @@ export const createCommunityMutation = gql`
     $social: Map_String_StringScalar
     $attributes: Map_String_StringScalar
   ) {
-    createCommunity(
+    prepareCreateCommunity(
       name: $name
       description: $description
       avatar: $avatar
@@ -227,14 +227,14 @@ export const createCommunityMutation = gql`
       attributes: $attributes
       tags: $tags
     ) {
-      hash
+      messageHash
     }
   }
 `;
 
-export const updateCommunityMutation = gql`
-  mutation updateCommunity(
-    $id: String
+export const createCommunityMutation = gql`
+  mutation createCommunity(
+    $signature: String
     $name: String
     $description: String
     $avatar: String
@@ -244,7 +244,7 @@ export const updateCommunityMutation = gql`
     $attributes: Map_String_StringScalar
   ) {
     createCommunity(
-      id: $id
+      signature: $signature
       name: $name
       description: $description
       avatar: $avatar

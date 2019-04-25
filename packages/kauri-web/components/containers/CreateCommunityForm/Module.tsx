@@ -13,18 +13,28 @@ import {
   createCommunityVariables,
 } from "../../../queries/__generated__/createCommunity";
 import {
+  prepareCreateCommunity,
+  prepareCreateCommunityVariables,
+} from "../../../queries/__generated__/prepareCreateCommunity";
+import {
   updateCommunity,
   updateCommunityVariables,
 } from "../../../queries/__generated__/updateCommunity";
 import {
   createCommunityMutation,
-  updateCommunityMutation,
+  prepareCreateCommunityQuery,
 } from "../../../queries/Community";
 
 export interface ICreateCommunityAction extends IAction {
   callback: () => void;
   payload: createCommunityVariables;
   type: "CREATE_COMMUNITY";
+}
+
+interface IPrepareCreateCommunityAction extends IAction {
+  callback: () => void;
+  payload: prepareCreateCommunityVariables;
+  type: "PREPARE_CREATE_COMMUNITY";
 }
 
 export interface IUpdateCommunityAction extends IAction {
@@ -60,22 +70,44 @@ interface ICreateCommunityCommandOutput {
   error: string | undefined;
 }
 
+interface IPrepareCreateCommunityCommandOutput {
+  messageHash: string;
+  error: string | undefined;
+}
+
 type IUpdateCommunityCommandOutput = ICreateCommunityCommandOutput;
 
 export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
   _,
-  { apolloClient, apolloSubscriber }
+  { apolloClient, apolloSubscriber, personalSign }
 ) =>
   action$
     .ofType(CREATE_COMMUNITY)
     .switchMap(actions =>
       Observable.fromPromise(
-        apolloClient.mutate<createCommunity, createCommunityVariables>({
-          mutation: createCommunityMutation,
-          variables: (actions as ICreateCommunityAction).payload,
+        apolloClient.query<
+          prepareCreateCommunity,
+          prepareCreateCommunityVariables
+        >({
+          query: prepareCreateCommunityQuery,
+          variables: (actions as IPrepareCreateCommunityAction).payload,
         })
       )
+        .do(console.log)
+        .mergeMap<any, string>(
+          ({ data: { prepareCreateCommunity: result } }) =>
+            result && personalSign(result.messageHash)
+        )
+        .mergeMap(signature =>
+          apolloClient.mutate<createCommunity, createCommunityVariables>({
+            mutation: createCommunityMutation,
+            variables: {
+              ...(actions as ICreateCommunityAction).payload,
+              signature,
+            },
+          })
+        )
         .do(console.log)
         .mergeMap(({ data: { createCommunity: result } }) =>
           apolloSubscriber<ICreateCommunityCommandOutput>(result.hash)
