@@ -46,6 +46,7 @@ import {
 import { voteEpic } from "../components/containers/Article/ApprovedArticle/VoteModule";
 import {
   createCommunityEpic,
+  communityCreatedEpic,
   // updateCommunityEpic,
 } from "../components/containers/CreateCommunityForm/Module";
 
@@ -96,6 +97,7 @@ const epics = [
   emailSubscribeEpic,
   voteEpic,
   createCommunityEpic,
+  communityCreatedEpic,
   // updateCommunityEpic,
   rejectArticleTransferEpic,
   acceptArticleTransferEpic,

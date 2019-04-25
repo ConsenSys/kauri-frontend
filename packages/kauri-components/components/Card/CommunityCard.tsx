@@ -167,7 +167,7 @@ const CommunityCard: React.SFC<IProps> = props => {
         ) : (
           <CardContent description={description} name={name} logo={logo} />
         )}
-        <Divider />
+        {(!!Number(articleCount) || !!Number(collectionCount)) && <Divider />}
         <Footer>
           {!!Number(articleCount) && (
             <Count imageURL={imageURL}>

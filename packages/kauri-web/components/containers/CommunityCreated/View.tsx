@@ -36,9 +36,28 @@ const Container = styled.section`
   }
 `;
 
+const Row = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+`;
+
 const CommunityCreated: React.FunctionComponent<IProps> = props => {
   const { routeChangeAction, type } = props;
   const copy = type === "updated" ? "updated" : "live";
+  const subtitleCopy =
+    copy === "live" ? (
+      <Row>
+        <BodyCard>
+          Your community will be live soon, once the transaction is mined!
+        </BodyCard>
+        <BodyCard>This usually takes less than 10 seconds.</BodyCard>
+      </Row>
+    ) : (
+      <BodyCard>Your community is now updated</BodyCard>
+    );
 
   if (props.data.getCommunity) {
     const {
@@ -75,7 +94,7 @@ const CommunityCreated: React.FunctionComponent<IProps> = props => {
           <title>{`Community ${copy} - Kauri`}</title>
         </Helmet>
         <Title2>Community</Title2>
-        <BodyCard>{`Your Community is now ${copy}`}</BodyCard>
+        {subtitleCopy}
         <CommunityCard
           cardHeight={310}
           description={String(description)}

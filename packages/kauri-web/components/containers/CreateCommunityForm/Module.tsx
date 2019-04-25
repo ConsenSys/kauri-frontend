@@ -44,7 +44,18 @@ export interface IUpdateCommunityAction extends IAction {
   type: "UPDATE_COMMUNITY";
 }
 
+interface ICommunityCreatedPayload {
+  transactionHash: string;
+}
+
+export interface ICommunityCreatedAction extends IAction {
+  payload: ICommunityCreatedPayload;
+  type: "COMMUNITY_CREATED";
+}
+
 const CREATE_COMMUNITY = "CREATE_COMMUNITY";
+
+const COMMUNITY_CREATED = "COMMUNITY_CREATED";
 
 const UPDATE_COMMUNITY = "UPDATE_COMMUNITY";
 
@@ -55,6 +66,13 @@ export const createCommunityAction = (
   callback,
   payload,
   type: CREATE_COMMUNITY,
+});
+
+const communityCreatedAction = (
+  payload: ICommunityCreatedPayload
+): ICommunityCreatedAction => ({
+  payload,
+  type: COMMUNITY_CREATED,
 });
 
 export const updateCommunityAction = (
@@ -72,6 +90,51 @@ interface ICreateCommunityCommandOutput {
 }
 
 // type IUpdateCommunityCommandOutput = ICreateCommunityCommandOutput;
+
+export const communityCreatedEpic: Epic<Actions, IReduxState, IDependencies> = (
+  action$,
+  _,
+  { apolloSubscriber }
+) =>
+  action$
+    .ofType(COMMUNITY_CREATED)
+    .switchMap((action: ICommunityCreatedAction) =>
+      Observable.fromPromise(
+        apolloSubscriber(action.payload.transactionHash, "GroupCreated")
+      )
+        .do(console.log)
+        .mergeMap(({ data: { output: { error } } }) =>
+          error
+            ? Observable.throw(new Error("Submission error"))
+            : Observable.of(
+                showNotificationAction({
+                  description: `Sidechain transaction is mined! You can start adding articles and collections now!`,
+                  message: "Community Created",
+                  notificationType: "success",
+                })
+              )
+        )
+        .catch(err => {
+          console.error(err);
+          return Observable.of(
+            showNotificationAction({
+              description: "Please try again",
+              message: "Submission error",
+              notificationType: "error",
+            })
+          );
+        })
+    )
+    .catch(err => {
+      console.error(err);
+      return Observable.of(
+        showNotificationAction({
+          description: "Please try again",
+          message: "Submission error",
+          notificationType: "error",
+        })
+      );
+    });
 
 export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
@@ -110,7 +173,7 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
         )
         .do(console.log)
         .do(() => typeof actions.callback === "function" && actions.callback())
-        .mergeMap(({ data: { output: { id, error } } }) =>
+        .mergeMap(({ data: { output: { id, transactionHash, error } } }) =>
           error
             ? Observable.throw(new Error("Submission error"))
             : Observable.merge(
@@ -119,6 +182,11 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                     description: `You can start adding articles and collections to your community page once the transaction is mined!`,
                     message: "Creating Community",
                     notificationType: "info",
+                  })
+                ),
+                Observable.of(
+                  communityCreatedAction({
+                    transactionHash,
                   })
                 ),
                 Observable.of(
