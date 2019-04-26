@@ -1,6 +1,5 @@
 import * as React from "react";
 import ActionsSection, {
-  ActionsContainer,
   MiddleActionsStack,
   RightActionsRow,
 } from "../../../../kauri-components/components/Section/ActionsSection";
@@ -18,35 +17,31 @@ interface IProps {
 }
 
 const Component: React.FunctionComponent<IProps> = props => (
-  <ActionsContainer>
-    <ActionsSection
-      bg={
-        (typeof props.background === "string" && "transparent") || "bgPrimary"
-      }
+  <ActionsSection
+    bg={(typeof props.background === "string" && "transparent") || "bgPrimary"}
+  >
+    <TertiaryButtonComponent
+      icon={<GreenArrow direction={"left"} />}
+      onClick={() => props.goBack()}
     >
+      <span>Go Back</span>
+    </TertiaryButtonComponent>
+
+    <MiddleActionsStack>
       <TertiaryButtonComponent
-        icon={<GreenArrow direction={"left"} />}
-        onClick={() => props.goBack()}
+        icon={<UploadIcon />}
+        handleClick={() => props.setupImageUploader()}
       >
-        <span>Go Back</span>
+        Background Image
       </TertiaryButtonComponent>
+    </MiddleActionsStack>
 
-      <MiddleActionsStack>
-        <TertiaryButtonComponent
-          icon={<UploadIcon />}
-          handleClick={() => props.setupImageUploader()}
-        >
-          Background Image
-        </TertiaryButtonComponent>
-      </MiddleActionsStack>
-
-      <RightActionsRow>
-        <PrimaryButtonComponent type="submit" disabled={props.isSubmitting}>
-          {`${props.id ? "Update" : "Create"} Community`}
-        </PrimaryButtonComponent>
-      </RightActionsRow>
-    </ActionsSection>
-  </ActionsContainer>
+    <RightActionsRow>
+      <PrimaryButtonComponent type="submit" disabled={props.isSubmitting}>
+        {`${props.id ? "Update" : "Create"} Community`}
+      </PrimaryButtonComponent>
+    </RightActionsRow>
+  </ActionsSection>
 );
 
 export default Component;

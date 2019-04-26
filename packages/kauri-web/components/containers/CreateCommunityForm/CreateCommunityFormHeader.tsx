@@ -1,5 +1,7 @@
 import * as React from "react";
+import Stack from "stack-styled";
 import { Field, FieldProps } from "formik";
+import { space } from "styled-system";
 import styled from "../../../lib/styled-components";
 import PrimaryHeaderSection from "../../../../kauri-components/components/Section/PrimaryHeaderSection";
 import { Label } from "../../../../kauri-components/components/Typography";
@@ -21,15 +23,16 @@ const LeftSide = styled.section`
   > *:nth-last-child(2) {
     margin-top: ${props => props.theme.space[2]}px;
   }
-  padding: ${props => props.theme.space[3]}px 0px;
 `;
 
-const RightSide = styled.section`
+const CreateCommunityDetails = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  ${space};
   > :first-child {
-    margin-bottom: ${props => props.theme.space[4]}px;
+    margin-bottom: ${props => props.theme.space[3]}px;
   }
   > :nth-child(2) {
     margin-bottom: ${props => props.theme.space[1]}px;
@@ -39,8 +42,12 @@ const RightSide = styled.section`
 const CreateCommunityMembersContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   > *:not(:last-child) {
     margin-right: ${props => props.theme.space[1]}px;
+  }
+  > *:nth-last-child(2) {
+    width: unset;
   }
 `;
 
@@ -154,26 +161,36 @@ const Component: React.SFC<IProps> = props => (
         />
       </SocialFieldContainer>
     </LeftSide>
-    <RightSide>
-      <StatisticsContainer
-        pageType={"CreateCommunityPage"}
-        statistics={[
-          { name: "Articles", count: 0 },
-          { name: "Collections", count: 0 },
-        ]}
-      />
-      <Label color="white">Moderators</Label>
-      <CreateCommunityMembersContainer>
-        <UserAvatarComponent
-          variant="white"
-          fullWidth={true}
-          username={props.username}
-          userId={props.userId}
-          avatar={props.userAvatar}
+    <Stack
+      gridAutoflow={["row"]}
+      alignItems={["", "center"]}
+      justifyContent={["", "end"]}
+    >
+      <CreateCommunityDetails mr={4}>
+        <StatisticsContainer
+          pageType={"CreateCommunityPage"}
+          statistics={[
+            { name: "Articles", count: 0 },
+            { name: "Collections", count: 0 },
+          ]}
         />
-        <AddMemberButtonComponent onClick={() => props.openAddMemberModal()} />
-      </CreateCommunityMembersContainer>
-    </RightSide>
+        <Label textAlign="center" color="white">
+          Moderators
+        </Label>
+        <CreateCommunityMembersContainer>
+          <UserAvatarComponent
+            fullWidth={true}
+            variant="white"
+            username={props.username}
+            userId={props.userId}
+            avatar={props.userAvatar}
+          />
+          <AddMemberButtonComponent
+            onClick={() => props.openAddMemberModal()}
+          />
+        </CreateCommunityMembersContainer>
+      </CreateCommunityDetails>
+    </Stack>
   </PrimaryHeaderSection>
 );
 
