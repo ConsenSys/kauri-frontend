@@ -9,6 +9,7 @@ import ShareCommunity from "../Tooltip/ShareArticle";
 import UserAvatar from "../UserAvatar";
 // import { Tooltip } from "react-tippy";
 import Modal from "../Modal/View";
+import PrimaryButtonComponent from "../Button/PrimaryButton";
 // import AddToCollectionModalContent from "../AddToCollection/AddToCollectionModalContent";
 
 const TooltipContainer = styled.section`
@@ -153,13 +154,7 @@ const Container = styled.div`
     z-index: 10;
   }
 
-  & .moderators {
-    margin-top: ${props => props.theme.space[3]}px;
-    margin-bottom: ${props => props.theme.space[1]}px;
-  }
-
   & .suggest-content {
-    margin: ${props => props.theme.space[3]}px;
     cursor: pointer;
     display: flex !important;
     align-items: center;
@@ -198,12 +193,25 @@ const Column = styled.div`
   justify-content: center;
 `;
 
+const Moderators = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  > :first-child {
+    margin-bottom: ${props => props.theme.space[1]}px;
+  }
+`;
+
 const RightSide = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
   justify-content: center;
   align-items: center;
+  > *:not(:last-child) {
+    margin-bottom: ${props => props.theme.space[3]}px;
+  }
 `;
 
 const getURL = (value: string, type: string) => {
@@ -244,6 +252,8 @@ interface IProps {
   collections: number;
   background?: string;
   isMember?: boolean;
+  isCreator?: boolean;
+  routeChangeAction?: (route: string) => void;
   openModalAction: (children: any) => void;
   closeModalAction: () => void;
 }
@@ -260,8 +270,10 @@ const CommunityHeader = ({
   articles,
   collections,
   members,
-}: // isMember,
-// openModalAction,
+  isCreator,
+  routeChangeAction,
+}: // openModalAction,
+// isMember,
 // closeModalAction,
 IProps) => (
   <Wrapper>
@@ -319,34 +331,47 @@ IProps) => (
           />
           <Row>
             <RightSide>
-              {members && members.length > 0 && (
-                <>
-                  <Label className="moderators" color="white">
-                    Moderators
-                  </Label>
-                  <Row>
-                    {members.map(i =>
-                      i ? (
-                        <UserAvatar
-                          userId={String(i.id)}
-                          username={i.name || null}
-                          borderRadius="4px"
-                          height={30}
-                          width={30}
-                          avatar={i.avatar || null}
-                          variant="white"
-                          hideUsername={true}
-                        >
-                          {i.avatar
-                            ? ""
-                            : (name || id).substring(0, 1).toUpperCase()}
-                        </UserAvatar>
-                      ) : null
-                    )}
-                  </Row>
-                </>
-              )}
+              <Moderators>
+                {members && members.length > 0 && (
+                  <>
+                    <Label className="moderators" color="white">
+                      Moderators
+                    </Label>
+                    <Row>
+                      {members.map(i =>
+                        i ? (
+                          <UserAvatar
+                            userId={String(i.id)}
+                            username={i.name || null}
+                            borderRadius="4px"
+                            height={30}
+                            width={30}
+                            avatar={i.avatar || null}
+                            variant="white"
+                            hideUsername={true}
+                          >
+                            {i.avatar
+                              ? ""
+                              : (name || id).substring(0, 1).toUpperCase()}
+                          </UserAvatar>
+                        ) : null
+                      )}
+                    </Row>
+                  </>
+                )}
+              </Moderators>
             </RightSide>
+          </Row>
+          <Row>
+            {isCreator && (
+              <PrimaryButtonComponent
+                onClick={() =>
+                  routeChangeAction && routeChangeAction(`/community/${id}`)
+                }
+              >
+                Update Community
+              </PrimaryButtonComponent>
+            )}
           </Row>
           {/* {!isMember && (
           <Tooltip
