@@ -257,3 +257,29 @@ export const createCommunityMutation = gql`
     }
   }
 `;
+
+export const updateCommunityMutation = gql`
+  mutation updateCommunity(
+    $id: String
+    $name: String
+    $description: String
+    $avatar: String
+    $website: String
+    $tags: [String]
+    $social: Map_String_StringScalar
+    $attributes: Map_String_StringScalar
+  ) {
+    editCommunity(
+      id: $id
+      name: $name
+      description: $description
+      avatar: $avatar
+      website: $website
+      tags: $tags
+      social: $social
+      attributes: $attributes
+    ) {
+      hash
+    }
+  }
+`;
