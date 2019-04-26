@@ -135,6 +135,7 @@ const Container = styled.div`
   background: ${props => props.theme.colors.bgPrimary};
   display: flex;
   flex-direction: row;
+  margin-top: -76px;
   & .name-website {
     margin-left: ${props => props.theme.space[3]}px;
   }
@@ -179,7 +180,8 @@ const Row = styled.div`
 `;
 
 const ContentRow = styled(Row)`
-  padding: ${props => props.theme.space[3]}px 0px;
+  padding: ${props => props.theme.space[4] + 40}px 0px
+    ${props => props.theme.space[3]}px;
   ${props => props.theme.padContent};
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     flex-direction: column;

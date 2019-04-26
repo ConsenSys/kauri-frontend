@@ -6,9 +6,9 @@ import Community from "../components/containers/Community";
 import { withRouter } from "next/router";
 
 class CommunityPage extends React.Component {
-  render() {
+  render () {
     return (
-      <App url={this.props.router}>
+      <App url={this.props.router} navcolor="transparent">
         <Community
           communityId={this.props.router && this.props.router.query.communityId}
         />

@@ -80,10 +80,7 @@ interface IProps {
 }
 
 const Component: React.SFC<IProps> = props => (
-  <PrimaryHeaderSection
-    justifyContent={["", "start"]}
-    backgroundURL={props.background}
-  >
+  <PrimaryHeaderSection backgroundURL={props.background}>
     <LeftSide>
       <MainDetails>
         <UploadLogoButtonComponent
