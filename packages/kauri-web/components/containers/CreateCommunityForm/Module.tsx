@@ -233,7 +233,7 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
         })
       )
         .do(console.log)
-        .mergeMap(({ data: { createCommunity: result } }) =>
+        .mergeMap(({ data: { editCommunity: result } }) =>
           apolloSubscriber<IUpdateCommunityCommandOutput>(result.hash)
         )
         .do(console.log)
