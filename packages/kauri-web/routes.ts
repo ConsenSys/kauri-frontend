@@ -56,6 +56,8 @@ routes
     "/community/:id/update-community",
     "create-community"
   )
+  .add("community-created", "/community/:id/community-created")
+  .add("community-updated", "/community/:id/community-updated")
   .add("community-with-slug", "/community/:communityId/:slug", "community")
   .add(
     "update-collection",
@@ -76,6 +78,4 @@ routes
   )
   .add("write-article", "/write-article/:template_id", "write-article")
   .add("article-review", "/article-review/:id/v:version", "article-review")
-  .add("community-created", "/community/:id/community-created")
-  .add("community-updated", "/community/:id/community-updated")
   .add("create-community", "/create-community");
