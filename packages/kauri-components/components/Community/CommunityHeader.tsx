@@ -366,7 +366,8 @@ IProps) => (
             {isCreator && (
               <PrimaryButtonComponent
                 onClick={() =>
-                  routeChangeAction && routeChangeAction(`/community/${id}`)
+                  routeChangeAction &&
+                  routeChangeAction(`/community/${id}/update-community`)
                 }
               >
                 Update Community
