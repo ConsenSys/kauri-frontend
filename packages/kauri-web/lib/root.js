@@ -47,7 +47,7 @@ import { voteEpic } from "../components/containers/Article/ApprovedArticle/VoteM
 import {
   createCommunityEpic,
   communityCreatedEpic,
-  // updateCommunityEpic,
+  updateCommunityEpic,
 } from "../components/containers/CreateCommunityForm/Module";
 
 import {
@@ -98,7 +98,7 @@ const epics = [
   voteEpic,
   createCommunityEpic,
   communityCreatedEpic,
-  // updateCommunityEpic,
+  updateCommunityEpic,
   rejectArticleTransferEpic,
   acceptArticleTransferEpic,
   finaliseArticleTransferEpic,
