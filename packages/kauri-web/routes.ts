@@ -51,6 +51,7 @@ routes
   .add("collection-updated", "/collection/:id/collection-updated")
   .add("collection", "/collection/:collection_id")
   .add("community", "/community/:communityId")
+  .add("community-with-slug", "/community/:communityId/:slug", "community")
   .add(
     "update-collection",
     "/collection/:id/update-collection",
