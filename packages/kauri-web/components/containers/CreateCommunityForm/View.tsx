@@ -70,6 +70,9 @@ const Component: React.SFC<
         goBack={() => props.routeChangeAction(`back`)}
         setupImageUploader={handleBackgroundSetFormField(props.setFieldValue)}
         isSubmitting={props.isSubmitting}
+        background={
+          props.values.attributes && props.values.attributes.background
+        }
       />
 
       <Header

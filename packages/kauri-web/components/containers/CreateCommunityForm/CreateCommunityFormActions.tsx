@@ -14,11 +14,16 @@ interface IProps {
   goBack: () => void;
   setupImageUploader: () => void;
   isSubmitting: boolean;
+  background: null | string;
 }
 
 const Component: React.FunctionComponent<IProps> = props => (
   <ActionsContainer>
-    <ActionsSection>
+    <ActionsSection
+      bg={
+        (typeof props.background === "string" && "transparent") || "bgPrimary"
+      }
+    >
       <TertiaryButtonComponent
         icon={<GreenArrow direction={"left"} />}
         onClick={() => props.goBack()}
