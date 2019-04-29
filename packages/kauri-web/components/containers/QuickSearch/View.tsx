@@ -117,7 +117,6 @@ class NavSearch extends React.Component<IProps, IState> {
       }))
       .subscribe(
         (dataSource: IDataSource) => {
-          delete dataSource.totalElementsBreakdown.COMMUNITY;
           if (dataSource.results.length === 0) {
             dataSource = EmptyData;
           }
