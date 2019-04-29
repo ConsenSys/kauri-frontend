@@ -110,7 +110,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                   content="https://kauri.io"
                 />
                 <meta
-                  property="og:url"
+                  property="og:image"
                   content="https://api.kauri.io:443/ipfs/QmRVCyQ3ng5AWGmjodzXcxg1LK9CRvePmd6ciDXY1mLofY"
                 />
                 <meta
