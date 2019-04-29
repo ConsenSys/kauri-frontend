@@ -26,7 +26,7 @@ class MyApp extends App {
       <Container>
         <Head>
           <title>
-            Blockchain Tutorials for Beginners & Advanced | Learn Blockchain | Learn Ethereum - Kauri
+            Beginner to Advanced Blockchain & Ethereum Tutorials - Kauri
           </title>
           <script
             type="text/javascript"

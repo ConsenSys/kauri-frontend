@@ -125,10 +125,6 @@ const ProfileHeader = ({
       <title>{`Kauri - ${name || (username && `@${username}`) || id}`}</title>
       <meta name="description" content={`${title}`} />
       <meta
-        name="keywords"
-        content={typeof title === "string" && title.split(" ")}
-      />
-      <meta
         property="og:title"
         content={`Kauri - ${name || (username && `@${username}`) || id}`}
       />
