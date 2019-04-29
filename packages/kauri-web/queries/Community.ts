@@ -283,3 +283,14 @@ export const updateCommunityMutation = gql`
     }
   }
 `;
+
+export const curateCommunityResourceMutation = gql`
+  mutation curateCommunityResource(
+    $id: String
+    $resource: ResourceIdentifierInput
+  ) {
+    curateResource(id: $id, resource: $resource) {
+      hash
+    }
+  }
+`;
