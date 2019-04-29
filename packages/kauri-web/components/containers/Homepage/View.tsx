@@ -103,17 +103,21 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
             <HomePageSection>
               <Helmet>
                 <title>
-                  Blockchain Tutorials for Beginners & Advanced | Learn Blockchain | Learn Ethereum - Kauri
+                  Beginner to Advanced Blockchain & Ethereum Tutorials - Kauri
                 </title>
+                <meta
+                  property="og:url"
+                  content="https://kauri.io"
+                />
+                <meta
+                  property="og:url"
+                  content="https://api.kauri.io:443/ipfs/QmRVCyQ3ng5AWGmjodzXcxg1LK9CRvePmd6ciDXY1mLofY"
+                />
                 <meta
                   name="description"
                   content={
                     "Learn Blockchain and Ethereum with Kauri, Articles, Tutorials, Guides, Documentation and Best Practices. Focused on Getting Started, Scaling, Privacy, Storage, Defi, Gaming, UX and much more."
                   }
-                />
-                <meta
-                  name="keywords"
-                  content="ethereum, blockchain, learn to code, developer documentation, learn blockchain, ethereum tutorials, blockchain tutorials"
                 />
               </Helmet>
 
