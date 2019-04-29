@@ -19,7 +19,7 @@ const ArticlesHeader = styled.div`
   padding-bottom: ${props => props.theme.space[3]}px;
 `;
 
-export const searchResultCategories = ["ARTICLE", "COLLECTION"];
+export const searchResultCategories = ["ARTICLE", "COLLECTION", "COMMUNITY"];
 
 interface IState {
   dataSource: IDataSource;
