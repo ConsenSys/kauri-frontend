@@ -111,6 +111,9 @@ class SubmitArticleForm extends React.Component<IProps> {
         });
       }
     }
+    analytics.track("Write Article Start", {
+      category: "generic",
+    });
   }
 
   selectDestination() {

@@ -53,7 +53,7 @@ const NewsletterBanner: React.FunctionComponent = _ => {
             window.location.href = "https://import.kauri.io";
           }}
         >
-          Import from Medium
+          Import Content
         </SecondaryButtonComponent>
       </Content>
     </Container>
