@@ -66,6 +66,7 @@ export default compose(
       };
     },
     validationSchema: Yup.object().shape({
+      avatar: Yup.string().required("Required"),
       description: Yup.string()
         .min(2)
         .required("Required"),
