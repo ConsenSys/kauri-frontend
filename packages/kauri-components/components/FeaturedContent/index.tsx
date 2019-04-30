@@ -147,7 +147,10 @@ const RenderDesktopFeaturedContent: React.FunctionComponent<
                     resource.tags.map(tag => (tag ? tag : ""))) ||
                   []
                 }
-                username={(resource.owner as any).username}
+                username={
+                  (resource.owner as any).username ||
+                  (resource.owner as any).name
+                }
                 userId={(resource.owner as any).id}
                 userAvatar={(resource.owner as any).avatar}
                 date={resource.datePublished}
@@ -179,7 +182,10 @@ const RenderDesktopFeaturedContent: React.FunctionComponent<
                     resource.tags.map(tag => (tag ? tag : ""))) ||
                   []
                 }
-                username={(resource.owner as any).username}
+                username={
+                  (resource.owner as any).username ||
+                  (resource.owner as any).name
+                }
                 userId={(resource.owner as any).id}
                 userAvatar={(resource.owner as any).avatar}
                 date={resource.dateUpdated}

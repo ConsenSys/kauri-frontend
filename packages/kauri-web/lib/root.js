@@ -41,11 +41,12 @@ import { addArticleToCollectionEpic } from "../components/connections/AddToColle
 import {
   verifyEmailEpic,
   resendEmailVerificationEpic,
-  emailSubscribeEpic
+  emailSubscribeEpic,
 } from "../components/containers/EmailVerification/Module";
 import { voteEpic } from "../components/containers/Article/ApprovedArticle/VoteModule";
 import {
   createCommunityEpic,
+  communityCreatedEpic,
   updateCommunityEpic,
 } from "../components/containers/CreateCommunityForm/Module";
 
@@ -96,6 +97,7 @@ const epics = [
   emailSubscribeEpic,
   voteEpic,
   createCommunityEpic,
+  communityCreatedEpic,
   updateCommunityEpic,
   rejectArticleTransferEpic,
   acceptArticleTransferEpic,

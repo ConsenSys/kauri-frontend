@@ -2,6 +2,10 @@ import { connect } from "react-redux";
 import { compose } from "react-apollo";
 import View, { IProps } from "./View";
 import { routeChangeAction, IReduxState } from "../../../lib/Module";
+import {
+  openModalAction,
+  closeModalAction,
+} from "../../../../kauri-components/components/Modal/Module";
 import { createCommunityAction, updateCommunityAction } from "./Module";
 import { withFormik } from "formik";
 import * as Yup from "yup";
@@ -22,7 +26,13 @@ const mapStateToProps = ({ app: { user } }: IReduxState) => ({
 export default compose(
   connect(
     mapStateToProps,
-    { routeChangeAction, createCommunityAction, updateCommunityAction }
+    {
+      closeModalAction,
+      createCommunityAction,
+      openModalAction,
+      routeChangeAction,
+      updateCommunityAction,
+    }
   ),
   withFormik<IProps, IFormValues>({
     handleSubmit: (values, { setSubmitting, props }) => {

@@ -5,6 +5,7 @@ import {
   IDependencies,
   IAction,
   showNotificationAction,
+  routeChangeAction,
   Actions,
 } from "../../../lib/Module";
 import {
@@ -12,18 +13,30 @@ import {
   createCommunityVariables,
 } from "../../../queries/__generated__/createCommunity";
 import {
+  prepareCreateCommunity,
+  prepareCreateCommunityVariables,
+} from "../../../queries/__generated__/prepareCreateCommunity";
+import {
   updateCommunity,
   updateCommunityVariables,
 } from "../../../queries/__generated__/updateCommunity";
 import {
   createCommunityMutation,
   updateCommunityMutation,
+  prepareCreateCommunityQuery,
 } from "../../../queries/Community";
+import { ApolloQueryResult } from "apollo-client";
 
 export interface ICreateCommunityAction extends IAction {
   callback: () => void;
   payload: createCommunityVariables;
   type: "CREATE_COMMUNITY";
+}
+
+interface IPrepareCreateCommunityAction extends IAction {
+  callback: () => void;
+  payload: prepareCreateCommunityVariables;
+  type: "PREPARE_CREATE_COMMUNITY";
 }
 
 export interface IUpdateCommunityAction extends IAction {
@@ -32,7 +45,18 @@ export interface IUpdateCommunityAction extends IAction {
   type: "UPDATE_COMMUNITY";
 }
 
+interface ICommunityCreatedPayload {
+  transactionHash: string;
+}
+
+export interface ICommunityCreatedAction extends IAction {
+  payload: ICommunityCreatedPayload;
+  type: "COMMUNITY_CREATED";
+}
+
 const CREATE_COMMUNITY = "CREATE_COMMUNITY";
+
+const COMMUNITY_CREATED = "COMMUNITY_CREATED";
 
 const UPDATE_COMMUNITY = "UPDATE_COMMUNITY";
 
@@ -43,6 +67,13 @@ export const createCommunityAction = (
   callback,
   payload,
   type: CREATE_COMMUNITY,
+});
+
+const communityCreatedAction = (
+  payload: ICommunityCreatedPayload
+): ICommunityCreatedAction => ({
+  payload,
+  type: COMMUNITY_CREATED,
 });
 
 export const updateCommunityAction = (
@@ -61,41 +92,107 @@ interface ICreateCommunityCommandOutput {
 
 type IUpdateCommunityCommandOutput = ICreateCommunityCommandOutput;
 
+export const communityCreatedEpic: Epic<Actions, IReduxState, IDependencies> = (
+  action$,
+  _,
+  { apolloSubscriber }
+) =>
+  action$
+    .ofType(COMMUNITY_CREATED)
+    .switchMap((action: ICommunityCreatedAction) =>
+      Observable.fromPromise(
+        apolloSubscriber(action.payload.transactionHash, "GroupCreated")
+      )
+        .do(console.log)
+        .mergeMap(({ data: { output: { error } } }) =>
+          error
+            ? Observable.throw(new Error("Submission error"))
+            : Observable.of(
+                showNotificationAction({
+                  description: `Sidechain transaction is mined! You can start adding articles and collections now!`,
+                  message: "Community Created",
+                  notificationType: "success",
+                })
+              )
+        )
+        .catch(err => {
+          console.error(err);
+          return Observable.of(
+            showNotificationAction({
+              description: "Please try again",
+              message: "Submission error",
+              notificationType: "error",
+            })
+          );
+        })
+    )
+    .catch(err => {
+      console.error(err);
+      return Observable.of(
+        showNotificationAction({
+          description: "Please try again",
+          message: "Submission error",
+          notificationType: "error",
+        })
+      );
+    });
+
 export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
   _,
-  { apolloClient, apolloSubscriber }
+  { apolloClient, apolloSubscriber, personalSign }
 ) =>
   action$
     .ofType(CREATE_COMMUNITY)
     .switchMap(actions =>
       Observable.fromPromise(
-        apolloClient.mutate<createCommunity, createCommunityVariables>({
-          mutation: createCommunityMutation,
-          variables: (actions as ICreateCommunityAction).payload,
+        apolloClient.query<
+          prepareCreateCommunity,
+          prepareCreateCommunityVariables
+        >({
+          query: prepareCreateCommunityQuery,
+          variables: (actions as IPrepareCreateCommunityAction).payload,
         })
       )
+        .do(console.log)
+        .mergeMap<ApolloQueryResult<prepareCreateCommunity>, string>(
+          ({ data: { prepareCreateCommunity: result } }) =>
+            result && personalSign(result.messageHash)
+        )
+        .mergeMap(signature =>
+          apolloClient.mutate<createCommunity, createCommunityVariables>({
+            mutation: createCommunityMutation,
+            variables: {
+              ...(actions as ICreateCommunityAction).payload,
+              signature,
+            },
+          })
+        )
         .do(console.log)
         .mergeMap(({ data: { createCommunity: result } }) =>
           apolloSubscriber<ICreateCommunityCommandOutput>(result.hash)
         )
         .do(console.log)
         .do(() => typeof actions.callback === "function" && actions.callback())
-        .mergeMap(({ data: { output: { // id,
-              error } } }) =>
+        .mergeMap(({ data: { output: { id, transactionHash, error } } }) =>
           error
             ? Observable.throw(new Error("Submission error"))
             : Observable.merge(
                 Observable.of(
                   (showNotificationAction as any)({
-                    description: `woo woo`,
-                    message: "Community Created",
-                    notificationType: "success",
+                    description: `You can start adding articles and collections to your community page once the transaction is mined!`,
+                    message: "Creating Community",
+                    notificationType: "info",
                   })
+                ),
+                Observable.of(
+                  communityCreatedAction({
+                    transactionHash,
+                  })
+                ),
+                Observable.of(
+                  routeChangeAction(`/community/${id}/community-created`)
                 )
-                // Observable.of(
-                //   routeChangeAction(`/community/${id}/community-created`)
-                // )
               )
         )
         .do(() => apolloClient.resetStore())
@@ -136,13 +233,12 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
         })
       )
         .do(console.log)
-        .mergeMap(({ data: { createCommunity: result } }) =>
+        .mergeMap(({ data: { editCommunity: result } }) =>
           apolloSubscriber<IUpdateCommunityCommandOutput>(result.hash)
         )
         .do(console.log)
         .do(() => typeof actions.callback === "function" && actions.callback())
-        .mergeMap(({ data: { output: { // id,
-              error } } }) =>
+        .mergeMap(({ data: { output: { id, error } } }) =>
           error
             ? Observable.throw(new Error("Submission error"))
             : Observable.merge(
@@ -152,10 +248,10 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                     message: "Community updated",
                     notificationType: "success",
                   })
+                ),
+                Observable.of(
+                  routeChangeAction(`/community/${id}/community-updated`)
                 )
-                // Observable.of(
-                //   routeChangeAction(`/community/${id}/community-updated`)
-                // )
               )
         )
         .do(() => apolloClient.resetStore())

@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 const fs = require("fs");
 
-fetch("https://api.dev.kauri.io/graphql", {
+fetch("https://api.dev2.kauri.io/graphql", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({

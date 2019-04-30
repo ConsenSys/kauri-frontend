@@ -46,8 +46,33 @@ export const getAllCommunities = gql`
   }
 `;
 
+export const prepareCreateCommunityQuery = gql`
+  query prepareCreateCommunity(
+    $name: String
+    $description: String
+    $avatar: String
+    $website: String
+    $tags: [String]
+    $social: Map_String_StringScalar
+    $attributes: Map_String_StringScalar
+  ) {
+    prepareCreateCommunity(
+      name: $name
+      description: $description
+      avatar: $avatar
+      website: $website
+      social: $social
+      attributes: $attributes
+      tags: $tags
+    ) {
+      messageHash
+    }
+  }
+`;
+
 export const createCommunityMutation = gql`
   mutation createCommunity(
+    $signature: String
     $name: String
     $description: String
     $avatar: String
@@ -57,6 +82,7 @@ export const createCommunityMutation = gql`
     $attributes: Map_String_StringScalar
   ) {
     createCommunity(
+      signature: $signature
       name: $name
       description: $description
       avatar: $avatar
@@ -81,16 +107,27 @@ export const updateCommunityMutation = gql`
     $social: Map_String_StringScalar
     $attributes: Map_String_StringScalar
   ) {
-    createCommunity(
+    editCommunity(
       id: $id
       name: $name
       description: $description
       avatar: $avatar
       website: $website
+      tags: $tags
       social: $social
       attributes: $attributes
-      tags: $tags
     ) {
+      hash
+    }
+  }
+`;
+
+export const curateCommunityResourceMutation = gql`
+  mutation curateCommunityResource(
+    $id: String
+    $resource: ResourceIdentifierInput
+  ) {
+    curateResource(id: $id, resource: $resource) {
       hash
     }
   }
