@@ -15,6 +15,7 @@ const mapStateToProps = (state: IReduxState) => ({
   hostName: state.app && state.app.hostName,
   isLoggedIn: !!(state.app && state.app.user && state.app.user.id),
 });
+
 export default compose(
   connect(
     mapStateToProps,

@@ -1,16 +1,27 @@
-import styled from "../../lib/styled-components";
-import { Title1, BodyCard, PageDescription, Label } from "../Typography";
-import Image from "../Image";
-import { TagList } from "../Tags";
-import SocialWebsiteIcon from "../PublicProfile/SocialWebsiteIcon";
-import Statistics from "../PublicProfile/StatisticsContainer";
+import styled from "../../../../kauri-components/lib/styled-components";
+import {
+  Title1,
+  BodyCard,
+  PageDescription,
+  Label,
+} from "../../../../kauri-components/components/Typography";
+import Image from "../../../../kauri-components/components/Image";
+import { TagList } from "../../../../kauri-components/components/Tags";
+import SocialWebsiteIcon from "../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon";
+import Statistics from "../../../../kauri-components/components/PublicProfile/StatisticsContainer";
 import anchorme from "anchorme";
-import ShareCommunity from "../Tooltip/ShareArticle";
-import UserAvatar from "../UserAvatar";
-// import { Tooltip } from "react-tippy";
-import Modal from "../Modal/View";
-import PrimaryButtonComponent from "../Button/PrimaryButton";
-// import AddToCollectionModalContent from "../AddToCollection/AddToCollectionModalContent";
+import ShareCommunity from "../../../../kauri-components/components/Tooltip/ShareArticle";
+import UserAvatar from "../../../../kauri-components/components/UserAvatar";
+import { Tooltip } from "react-tippy";
+import Modal from "../../../../kauri-components/components/Modal/View";
+import PrimaryButtonComponent from "../../../../kauri-components/components/Button/PrimaryButton";
+import ChooseArticleModal, {
+  IArticle,
+} from "../CreateCollectionForm/ChooseArticleModal";
+import {
+  getCommunity_getCommunity_approved_ArticleDTO,
+  getCommunity_getCommunity_approved_CollectionDTO,
+} from "../../../queries/__generated__/getCommunity";
 
 const TooltipContainer = styled.section`
   display: flex;
@@ -66,22 +77,33 @@ const Divider = styled.div`
   background-color: #d8d8d8;
 `;
 
-export const Content = ({
-  openModalAction,
-  closeModalAction,
-}: {
+interface IContentProps {
+  articles: Pick<IProps, "articles">;
+  collections: Pick<IProps, "collections">;
   openModalAction: any;
   closeModalAction: any;
-}) => (
+}
+
+export const Content: React.FunctionComponent<IContentProps> = ({
+  openModalAction,
+  closeModalAction,
+  articles,
+  collections,
+}: IContentProps) => (
   <TooltipContainer>
     <TooltipArrow />
     <TooltipItem
       onClick={() =>
         openModalAction({
           children: (
-            <Modal isModalOpen={true} closeModalAction={closeModalAction}>
-              <div>Create separate article selection component</div>
-            </Modal>
+            <ChooseArticleModal
+              allOtherChosenArticles={articles}
+              chosenArticles={[]}
+              closeModalAction={closeModalAction}
+              confirmModal={(chosenArticles: IArticle[]) => {
+                console.log(chosenArticles);
+              }}
+            />
           ),
         })
       }
@@ -105,25 +127,25 @@ export const Content = ({
   </TooltipContainer>
 );
 
-// const SuggestIcon = () => {
-//   const injectTags = `
-//     <rect width="16" height="16" fill="url(#pattern0)"/>
-//     <defs>
-//     <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
-//     <use xlink:href="#image0" transform="scale(0.01)"/>
-//     </pattern>
-//     <image id="image0" width="100" height="100" xlink:href="data:image/png;base64,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"/>
-//     </defs>`;
-//   return (
-//     <svg
-//       dangerouslySetInnerHTML={{ __html: injectTags }}
-//       width="16"
-//       height="16"
-//       viewBox="0 0 16 16"
-//       fill="none"
-//     />
-//   );
-// };
+const SuggestIcon = () => {
+  const injectTags = `
+    <rect width="16" height="16" fill="url(#pattern0)"/>
+    <defs>
+    <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+    <use xlink:href="#image0" transform="scale(0.01)"/>
+    </pattern>
+    <image id="image0" width="100" height="100" xlink:href="data:image/png;base64,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"/>
+    </defs>`;
+  return (
+    <svg
+      dangerouslySetInnerHTML={{ __html: injectTags }}
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    />
+  );
+};
 
 const Wrapper = styled.div`
   position: relative;
@@ -180,6 +202,12 @@ const Links = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+const ActionsRow = styled(Row)`
+  > :not(:last-child) {
+    margin-right: ${props => props.theme.space[2]}px;
+  }
 `;
 
 const ContentRow = styled(Row)`
@@ -253,17 +281,21 @@ interface IProps {
     twitter?: string;
   } | null;
   members: Array<ICommunityMember | null> | null;
-  articles: number;
-  collections: number;
+  articleCount: number;
+  collectionCount: number;
   background?: string;
   isMember?: boolean;
   isCreator?: boolean;
   routeChangeAction?: (route: string) => void;
   openModalAction: (children: any) => void;
   closeModalAction: () => void;
+  articles: getCommunity_getCommunity_approved_ArticleDTO[] | null;
+  collections: getCommunity_getCommunity_approved_CollectionDTO[] | null;
 }
 
-const CommunityHeader = ({
+const CommunityHeader: React.FunctionComponent<IProps> = ({
+  articles,
+  collections,
   id,
   avatar,
   name,
@@ -272,15 +304,15 @@ const CommunityHeader = ({
   tags,
   social,
   background,
-  articles,
-  collections,
+  articleCount,
+  collectionCount,
   members,
   isCreator,
   routeChangeAction,
-}: // openModalAction,
-// isMember,
-// closeModalAction,
-IProps) => (
+  openModalAction,
+  isMember,
+  closeModalAction,
+}) => (
   <Wrapper>
     {background && (
       <Image
@@ -337,8 +369,8 @@ IProps) => (
         <RightSide>
           <Statistics
             statistics={[
-              { name: "Articles", count: articles },
-              { name: "Collections", count: collections },
+              { name: "Articles", count: articleCount },
+              { name: "Collections", count: collectionCount },
             ]}
           />
           <Row>
@@ -374,7 +406,7 @@ IProps) => (
               </Moderators>
             </RightSide>
           </Row>
-          <Row>
+          <ActionsRow>
             {isCreator && (
               <PrimaryButtonComponent
                 onClick={() =>
@@ -385,24 +417,26 @@ IProps) => (
                 Update Community
               </PrimaryButtonComponent>
             )}
-          </Row>
-          {/* {!isMember && (
-          <Tooltip
-            className="suggest-content"
-            position="bottom"
-            trigger="mouseenter"
-            html={
-              <Content
-                closeModalAction={closeModalAction}
-                openModalAction={openModalAction}
-              />
-            }
-            interactive={true}
-          >
-            <SuggestIcon />
-            <Label color="white">Suggest Content</Label>
-          </Tooltip>
-        )} */}
+            {isMember && (
+              <Tooltip
+                className="suggest-content"
+                position="bottom"
+                trigger="mouseenter"
+                html={
+                  <Content
+                    articles={articles}
+                    collections={collections}
+                    closeModalAction={closeModalAction}
+                    openModalAction={openModalAction}
+                  />
+                }
+                interactive={true}
+              >
+                <SuggestIcon />
+                <Label color="white">Suggest Content</Label>
+              </Tooltip>
+            )}
+          </ActionsRow>
         </RightSide>
       </ContentRow>
     </Container>

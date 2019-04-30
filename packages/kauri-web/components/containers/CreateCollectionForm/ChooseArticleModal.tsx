@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import styled from "styled-components";
 import R from "ramda";
@@ -12,8 +11,14 @@ import { connect } from "react-redux";
 import { compose, graphql } from "react-apollo";
 import { searchApprovedArticles } from "../../../queries/Article";
 import withApolloError from "../../../lib/with-apollo-error";
+import { IReduxState } from "../../../lib/Module";
 
 const articleSize = 12;
+
+export interface IArticle {
+  id: string;
+  version: string;
+}
 
 const TitleContainer = styled.div`
   display: flex;
@@ -22,7 +27,10 @@ const TitleContainer = styled.div`
     margin-right: ${props => props.theme.space[3]}px;
   }
 `;
-const Title = ({ chosenArticles }) => (
+
+const Title: React.FunctionComponent<{ chosenArticles: IArticle[] }> = ({
+  chosenArticles,
+}) => (
   <TitleContainer>
     <BodyCard>{`${
       Array.isArray(chosenArticles) ? chosenArticles.length : 0
@@ -44,13 +52,11 @@ const CloseIcon = () => (
   />
 );
 
-const Actions = ({
+const Actions: React.FunctionComponent<any> = ({
   handleClose,
   handleConfirm,
   chosenArticles,
-  searchPersonalPublishedArticles,
   searchPublishedArticles,
-  currentTab,
   changeTab,
   userId,
 }) => (
@@ -89,53 +95,55 @@ const ContentContainer = styled.section`
   }
 `;
 
-type Props = {
-  userId: string,
-  closeModalAction: () => void,
-  confirmModal: (Array<{ id: string, version: string }>) => void,
-  chosenArticles: Array<{ id: string, version: string }>,
-  allOtherChosenArticles: Array<{ id: string, version: string }>,
-  searchPublishedArticles: any,
-  searchPersonalPublishedArticles: any,
-};
+interface IProps {
+  userId: string;
+  closeModalAction: () => void;
+  confirmModal: (articles: IArticle[]) => void;
+  chosenArticles: IArticle[];
+  allOtherChosenArticles: Array<{ id: string; version: string }>;
+  searchPublishedArticles: any;
+  searchPersonalPublishedArticles: any;
+}
 
-type State = {
-  chosenArticles: Array<{ id: string, version: string }>,
-  currentTab: string,
-  changeTab: (index: number) => void,
-};
+interface IState {
+  chosenArticles: IArticle[];
+  currentTab: string;
+  changeTab: (index: number) => void;
+}
 
-class ChooseArticleModal extends React.Component<Props, State> {
-  constructor (props: Props) {
+class ChooseArticleModal extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
+      changeTab: () => {
+        return;
+      },
       chosenArticles: this.props.chosenArticles || [],
       currentTab: "My articles",
-      changeTab: () => {},
     };
   }
 
-  chooseArticle = (chosenArticle: { id: string, version: string }) =>
+  chooseArticle = (chosenArticle: { id: string; version: string }) =>
     this.setState({
       chosenArticles: R.find(
         ({ id, version }) =>
           chosenArticle.id === id && chosenArticle.version === version
       )(this.state.chosenArticles)
-        ? R.reduce((current, next) => {
-          if (
-            next.id === chosenArticle.id &&
+        ? R.reduce((current: any, next: IArticle) => {
+            if (
+              next.id === chosenArticle.id &&
               next.version === chosenArticle.version
-          ) {
-            return current;
-          } else {
-            current.push(next);
-            return current;
-          }
-        }, [])(this.state.chosenArticles)
+            ) {
+              return current;
+            } else {
+              current.push(next);
+              return current;
+            }
+          }, [])(this.state.chosenArticles)
         : R.union(this.state.chosenArticles, [chosenArticle]),
     });
 
-  render () {
+  render() {
     const { closeModalAction, confirmModal } = this.props;
 
     return (
@@ -167,7 +175,7 @@ class ChooseArticleModal extends React.Component<Props, State> {
           allOtherChosenArticles={this.props.allOtherChosenArticles}
           chosenArticles={this.state.chosenArticles}
           chooseArticle={this.chooseArticle}
-          passChangeTabFunction={changeTab =>
+          passChangeTabFunction={(changeTab: any) =>
             this.setState({ ...this.state, changeTab })
           }
         />
@@ -176,7 +184,7 @@ class ChooseArticleModal extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: IReduxState) => ({
   userId: state.app && state.app.user && state.app.user.id,
 });
 
@@ -186,21 +194,21 @@ export default compose(
     {}
   ),
   graphql(searchApprovedArticles, {
-    options: ({ userId }) => ({
+    name: "searchPublishedArticles",
+    options: () => ({
       variables: {
         size: articleSize, // Because lag and no searchbar
       },
     }),
-    name: "searchPublishedArticles",
   }),
   graphql(searchApprovedArticles, {
-    options: ({ userId }) => ({
+    name: "searchPersonalPublishedArticles",
+    options: ({ userId }: { userId: string }) => ({
       variables: {
-        size: articleSize, // Because lag and no searchbar
         category: userId,
+        size: articleSize, // Because lag and no searchbar
       },
     }),
-    name: "searchPersonalPublishedArticles",
   }),
   withApolloError()
 )(ChooseArticleModal);

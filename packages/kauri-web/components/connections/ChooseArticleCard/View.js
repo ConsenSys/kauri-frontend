@@ -86,7 +86,7 @@ const ArticlesContent = ({
                   </SecondaryButton>
                 </React.Fragment>
               )}
-              triggerHoverChildrenOnFullCardClick
+              triggerHoverChildrenOnFullCardClick={true}
               isChosenArticle={
                 !!chosenArticles.find(
                   ({ id, version }) =>
@@ -124,7 +124,7 @@ export default props => {
 
   return (
     <Tabs
-      centerTabs
+      centerTabs={true}
       passChangeTabFunction={props.passChangeTabFunction}
       tabs={[
         {

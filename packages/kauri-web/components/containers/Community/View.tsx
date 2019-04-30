@@ -1,6 +1,10 @@
 import React from "react";
-import { getCommunity_getCommunity } from "../../../queries/__generated__/getCommunity";
-import CommunityHeader from "../../../../kauri-components/components/Community/CommunityHeader";
+import {
+  getCommunity_getCommunity,
+  getCommunity_getCommunity_approved_ArticleDTO,
+  getCommunity_getCommunity_approved_CollectionDTO,
+} from "../../../queries/__generated__/getCommunity";
+import CommunityHeader from "./CommunityHeader";
 import Tabs from "../../../../kauri-components/components/Tabs";
 import DisplayResources from "./DisplayResources";
 import Manage from "./Manage";
@@ -52,8 +56,20 @@ class CommunityConnection extends React.Component<IProps> {
           )}
           id={String(getCommunity.id)}
           social={getCommunity.social}
-          articles={(articles && articles.length) || 0}
-          collections={(collections && collections.length) || 0}
+          articles={
+            getCommunity.approved &&
+            (getCommunity.approved.filter(
+              resource => resource && resource.__typename === "ArticleDTO"
+            ) as getCommunity_getCommunity_approved_ArticleDTO[])
+          }
+          collections={
+            getCommunity.approved &&
+            (getCommunity.approved.filter(
+              resource => resource && resource.__typename === "CollectionDTO"
+            ) as getCommunity_getCommunity_approved_CollectionDTO[])
+          }
+          articleCount={(articles && articles.length) || 0}
+          collectionCount={(collections && collections.length) || 0}
           tags={getCommunity.tags}
           members={getCommunity.members}
           isMember={isMember}
