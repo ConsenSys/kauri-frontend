@@ -590,13 +590,13 @@ export default compose(withErrorCatch())(
                   process.env.monolithApi.includes("uat")
                   ? JSON.parse(text)
                       .markdown.replace(
-                        "https://api.beta.kauri.io:443/ipfs/",
+                        /https:\/\/api.beta.kauri.io:443\/ipfs\//g,
                         `https://${
                           process.env.cloudImageId
                         }.cloudimg.io/cdn/n/twebp/https://api.beta.kauri.io:443/ipfs/`
                       )
                       .replace(
-                        "https://api.kauri.io:443/ipfs/",
+                        /https:\/\/api.kauri.io:443\/ipfs\//g,
                         `https://${
                           process.env.cloudImageId
                         }.cloudimg.io/cdn/n/twebp/https://api.beta.kauri.io:443/ipfs/`
