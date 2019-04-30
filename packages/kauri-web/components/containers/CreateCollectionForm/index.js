@@ -35,6 +35,7 @@ const getCollectionField = (field, data) =>
 export default compose(
   connect(
     state => ({
+      communities: state.app.user && state.app.user.communities,
       userId: state.app && state.app.user && state.app.user.id,
       username: state.app && state.app.user && state.app.user.username,
       userAvatar: state.app && state.app.user && state.app.user.avatar,
