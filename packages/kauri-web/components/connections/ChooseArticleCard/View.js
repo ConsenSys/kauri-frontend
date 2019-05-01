@@ -37,7 +37,7 @@ const ArticlesContent = props => {
 
   return articles && articles.content.length > 0 ? (
     <Container>
-      <ChooseArticleContent>
+      <ChooseArticleContent setRef={setRef}>
         {articles.content.map(article => {
           if (allOtherChosenArticles) {
             if (

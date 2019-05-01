@@ -10,6 +10,7 @@ import {
   curateCommunityResources,
   curateCommunityResourcesVariables,
 } from "../../../queries/__generated__/curateCommunityResources";
+import R from "ramda";
 
 interface ICurateCommunityResourcesAction {
   type: "CURATE_COMMUNITY_RESOURCES";
@@ -29,6 +30,12 @@ interface ICurateCommunityResourcesOutput {
   id: string;
   error?: string;
 }
+
+const capitalize = (s: string) =>
+  R.compose(
+    R.toUpper,
+    R.head
+  )(s) + R.tail(s);
 
 export const curateCommunityResourcesEpic: Epic<
   any,
@@ -61,8 +68,13 @@ export const curateCommunityResourcesEpic: Epic<
               )
             : Observable.of(
                 showNotificationAction({
-                  description: "Resources have been proposed to the community",
-                  message: "Resources curated/proposed!",
+                  description: `They have been proposed to the community!`,
+                  message: `${payload.resources &&
+                    capitalize(
+                      (payload.resources[0] as {
+                        type: string;
+                      }).type.toLowerCase()
+                    )}s curated!`,
                   notificationType: "success",
                 })
               )
