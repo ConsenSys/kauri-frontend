@@ -119,8 +119,9 @@ class Complete extends React.Component<IProps, IState> {
           : queryAllCollections(this.props.query.refetch, this.state.value)
       )
       .do(() => this.props.changeTab(1))
-      .map(({ data: { searchCollections: queryResult } }: any) => ({
-        results: queryResult.content,
+      .map(({ data }: any) => ({
+        results:
+          (data.searchCollections && data.searchCollections.content) || [],
       }))
       .subscribe(
         dataSource => {

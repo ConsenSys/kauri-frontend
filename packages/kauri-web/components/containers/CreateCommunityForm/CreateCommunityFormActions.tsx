@@ -7,6 +7,8 @@ import PrimaryButtonComponent from "../../../../kauri-components/components/Butt
 import TertiaryButtonComponent from "../../../../kauri-components/components/Button/TertiaryButton";
 import GreenArrow from "../../common/GreenArrow";
 import UploadIcon from "../../../../kauri-components/components/Icon/UploadIcon";
+import showFormValidationErrors from "../../../lib/show-form-validation-errors";
+import { showNotificationAction as showNotification } from "../../../lib/Module";
 
 interface IProps {
   id: string | undefined;
@@ -14,6 +16,8 @@ interface IProps {
   setupImageUploader: () => void;
   isSubmitting: boolean;
   background: null | string;
+  validateForm: () => Promise<any>;
+  showNotificationAction: typeof showNotification;
 }
 
 const Component: React.FunctionComponent<IProps> = props => (
@@ -37,7 +41,19 @@ const Component: React.FunctionComponent<IProps> = props => (
     </MiddleActionsStack>
 
     <RightActionsRow>
-      <PrimaryButtonComponent type="submit" disabled={props.isSubmitting}>
+      <PrimaryButtonComponent
+        type="submit"
+        disabled={props.isSubmitting}
+        onClick={() =>
+          showFormValidationErrors(
+            props.validateForm,
+            props.showNotificationAction,
+            () => {
+              return;
+            }
+          )
+        }
+      >
         {`${props.id ? "Update" : "Create"} Community`}
       </PrimaryButtonComponent>
     </RightActionsRow>

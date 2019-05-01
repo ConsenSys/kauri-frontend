@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { Community } from './Fragments';
+import { Community } from "./Fragments";
 
 export const getCommunity = gql`
   query getCommunity($id: String) {
@@ -122,12 +122,12 @@ export const updateCommunityMutation = gql`
   }
 `;
 
-export const curateCommunityResourceMutation = gql`
-  mutation curateCommunityResource(
+export const curateCommunityResourcesMutation = gql`
+  mutation curateCommunityResources(
     $id: String
-    $resource: ResourceIdentifierInput
+    $resources: [ResourceIdentifierInput]
   ) {
-    curateResource(id: $id, resource: $resource) {
+    curateResources(id: $id, resources: $resources) {
       hash
     }
   }

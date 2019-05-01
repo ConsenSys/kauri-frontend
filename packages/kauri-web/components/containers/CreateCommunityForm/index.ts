@@ -1,7 +1,11 @@
 import { connect } from "react-redux";
 import { compose } from "react-apollo";
 import View, { IProps } from "./View";
-import { routeChangeAction, IReduxState } from "../../../lib/Module";
+import {
+  routeChangeAction,
+  IReduxState,
+  showNotificationAction,
+} from "../../../lib/Module";
 import {
   openModalAction,
   closeModalAction,
@@ -31,6 +35,7 @@ export default compose(
       createCommunityAction,
       openModalAction,
       routeChangeAction,
+      showNotificationAction,
       updateCommunityAction,
     }
   ),
@@ -72,6 +77,9 @@ export default compose(
         .required("Required"),
       name: Yup.string()
         .min(2)
+        .required("Required"),
+      tags: Yup.array()
+        .min(1)
         .required("Required"),
     }),
   })

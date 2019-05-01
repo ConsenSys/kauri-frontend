@@ -4,7 +4,10 @@ import Actions from "./CreateCommunityFormActions";
 import Header from "./CreateCommunityFormHeader";
 import Content from "./CreateCommunityFormContent";
 import setImageUploader from "../../common/ImageUploader";
-import { routeChangeAction } from "../../../lib/Module";
+import {
+  routeChangeAction,
+  showNotificationAction as showNotification,
+} from "../../../lib/Module";
 import { createCommunityAction, updateCommunityAction } from "./Module";
 import { Form, InjectedFormikProps } from "formik";
 import Helmet from "react-helmet";
@@ -15,11 +18,6 @@ import {
   closeModalAction,
 } from "../../../../kauri-components/components/Modal/Module";
 import AddMemberModal from "./AddMemberModal";
-
-const FormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
 
 export interface IProps {
   id: string | undefined;
@@ -32,6 +30,8 @@ export interface IProps {
   userId: string;
   userAvatar: string | null;
   username: string | null;
+  validateForm: () => Promise<any>;
+  showNotificationAction: typeof showNotification;
 }
 
 const handleBackgroundSetFormField = (setFieldValue: any) => () =>
@@ -72,6 +72,8 @@ const Component: React.SFC<
         </Helmet>
 
         <Actions
+          showNotificationAction={props.showNotificationAction}
+          validateForm={props.validateForm}
           id={props.id}
           goBack={() => props.routeChangeAction(`back`)}
           setupImageUploader={handleBackgroundSetFormField(props.setFieldValue)}

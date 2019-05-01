@@ -5,51 +5,57 @@ import {
   IDependencies,
   showNotificationAction,
 } from "../../../lib/Module";
-import { create } from "../../../lib/init-apollo";
-import { curateCommunityResourceMutation } from "../../../queries/Community";
+import { curateCommunityResourcesMutation } from "../../../queries/Community";
 import {
-  curateCommunityResource,
-  curateCommunityResourceVariables,
-} from "../../../queries/__generated__/curateCommunityResource";
+  curateCommunityResources,
+  curateCommunityResourcesVariables,
+} from "../../../queries/__generated__/curateCommunityResources";
+import R from "ramda";
 
-interface ICurateCommunityResourceAction {
-  type: "CURATE_COMMUNITY_RESOURCE";
-  payload: curateCommunityResourceVariables;
+interface ICurateCommunityResourcesAction {
+  type: "CURATE_COMMUNITY_RESOURCES";
+  payload: curateCommunityResourcesVariables;
 }
 
-const CURATE_COMMUNITY_RESOURCE = "CURATE_COMMUNITY_RESOURCE";
+const CURATE_COMMUNITY_RESOURCES = "CURATE_COMMUNITY_RESOURCES";
 
-export const curateCommunityResourceAction = (
-  payload: curateCommunityResourceVariables
-): ICurateCommunityResourceAction => ({
+export const curateCommunityResourcesAction = (
+  payload: curateCommunityResourcesVariables
+): ICurateCommunityResourcesAction => ({
   payload,
-  type: CURATE_COMMUNITY_RESOURCE,
+  type: CURATE_COMMUNITY_RESOURCES,
 });
 
-interface ICurateCommunityResourceOutput {
+interface ICurateCommunityResourcesOutput {
   id: string;
   error?: string;
 }
 
-export const curateCommunityResourceEpic: Epic<
+const capitalize = (s: string) =>
+  R.compose(
+    R.toUpper,
+    R.head
+  )(s) + R.tail(s);
+
+export const curateCommunityResourcesEpic: Epic<
   any,
   IReduxState,
   IDependencies
 > = (action$, _, { apolloClient, apolloSubscriber }) =>
   action$
-    .ofType(CURATE_COMMUNITY_RESOURCE)
-    .switchMap(({ payload }: ICurateCommunityResourceAction) =>
+    .ofType(CURATE_COMMUNITY_RESOURCES)
+    .switchMap(({ payload }: ICurateCommunityResourcesAction) =>
       Observable.fromPromise(
         apolloClient.mutate<
-          curateCommunityResource,
-          curateCommunityResourceVariables
+          curateCommunityResources,
+          curateCommunityResourcesVariables
         >({
-          mutation: curateCommunityResourceMutation,
+          mutation: curateCommunityResourcesMutation,
           variables: payload,
         })
       )
-        .mergeMap(({ data: { subscribe: { hash } } }) =>
-          apolloSubscriber<ICurateCommunityResourceOutput>(hash)
+        .mergeMap(({ data: { curateResources: { hash } } }) =>
+          apolloSubscriber<ICurateCommunityResourcesOutput>(hash)
         )
         .mergeMap(({ data: { output: { id, error } } }) =>
           error
@@ -62,8 +68,13 @@ export const curateCommunityResourceEpic: Epic<
               )
             : Observable.of(
                 showNotificationAction({
-                  description: "Resource has been proposed to the community",
-                  message: "Resource curated/proposed!",
+                  description: `They have been proposed to the community!`,
+                  message: `${payload.resources &&
+                    capitalize(
+                      (payload.resources[0] as {
+                        type: string;
+                      }).type.toLowerCase()
+                    )}s curated!`,
                   notificationType: "success",
                 })
               )

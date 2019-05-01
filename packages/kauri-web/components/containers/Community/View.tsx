@@ -1,10 +1,11 @@
 import React from "react";
 import { getCommunity_getCommunity } from "../../../queries/__generated__/getCommunity";
-import CommunityHeader from "../../../../kauri-components/components/Community/CommunityHeader";
+import CommunityHeader from "./CommunityHeader";
 import Tabs from "../../../../kauri-components/components/Tabs";
 import DisplayResources from "./DisplayResources";
 import Manage from "./Manage";
 import R from "ramda";
+import { curateCommunityResourcesAction as curateCommunityResources } from "./Module";
 
 interface IProps {
   currentUser: string;
@@ -14,6 +15,7 @@ interface IProps {
   closeModalAction: () => void;
   openModalAction: () => void;
   routeChangeAction: (route: string) => void;
+  curateCommunityResourcesAction: typeof curateCommunityResources;
 }
 
 class CommunityConnection extends React.Component<IProps> {
@@ -28,6 +30,7 @@ class CommunityConnection extends React.Component<IProps> {
       closeModalAction,
       openModalAction,
       routeChangeAction,
+      curateCommunityResourcesAction,
     } = this.props;
     const articles =
       getCommunity.approved &&
@@ -43,6 +46,7 @@ class CommunityConnection extends React.Component<IProps> {
     return (
       <>
         <CommunityHeader
+          id={String(getCommunity.id)}
           avatar={String(getCommunity.avatar)}
           name={String(getCommunity.name)}
           website={String(getCommunity.website)}
@@ -52,8 +56,20 @@ class CommunityConnection extends React.Component<IProps> {
           )}
           id={String(getCommunity.id)}
           social={getCommunity.social}
-          articles={(articles && articles.length) || 0}
-          collections={(collections && collections.length) || 0}
+          articles={
+            getCommunity.approved &&
+            getCommunity.approved.filter(
+              resource => resource && resource.__typename === "ArticleDTO"
+            )
+          }
+          collections={
+            getCommunity.approved &&
+            getCommunity.approved.filter(
+              resource => resource && resource.__typename === "CollectionDTO"
+            )
+          }
+          articleCount={(articles && articles.length) || 0}
+          collectionCount={(collections && collections.length) || 0}
           tags={getCommunity.tags}
           members={getCommunity.members}
           isMember={isMember}
@@ -61,6 +77,7 @@ class CommunityConnection extends React.Component<IProps> {
           openModalAction={openModalAction}
           closeModalAction={closeModalAction}
           routeChangeAction={routeChangeAction}
+          curateCommunityResourcesAction={curateCommunityResourcesAction}
         />
         <Tabs
           dark={true}
