@@ -22,27 +22,38 @@ const Container = styled.div`
   }
 `;
 
-const ArticlesContent = ({
-  chooseArticle,
-  viewArticle,
-  chosenArticles,
-  articles: { content },
-  userId,
-  setRef,
-  allOtherChosenArticles,
-}) =>
-  content.length > 0 ? (
+const ArticlesContent = props => {
+  const {
+    chooseArticle,
+    chosenArticles,
+    articles,
+    userId,
+    setRef,
+    allOtherChosenArticles,
+  } = props;
+  if (!articles) {
+    return null;
+  }
+
+  return articles && articles.content.length > 0 ? (
     <Container>
-      <ChooseArticleContent setRef={setRef}>
-        {content.map(article => {
-          // Don't show chosen articles from other sections
-          if (
-            allOtherChosenArticles.find(({ resourcesId }) =>
-              resourcesId.find(({ id, version }) => id === article.id)
-            )
-          ) {
-            return null;
+      <ChooseArticleContent>
+        {articles.content.map(article => {
+          if (allOtherChosenArticles) {
+            if (
+              allOtherChosenArticles.find(chosenArticle => {
+                if (chosenArticle.resourcesId) {
+                  return chosenArticle.resourcesId.find(
+                    ({ id, version }) => id === article.id
+                  );
+                }
+                return chosenArticle.id === article.id;
+              })
+            ) {
+              return null;
+            }
           }
+
           return (
             <ArticleCard
               key={article.id + article.version}
@@ -86,7 +97,7 @@ const ArticlesContent = ({
                   </SecondaryButton>
                 </React.Fragment>
               )}
-              triggerHoverChildrenOnFullCardClick={true}
+              triggerHoverChildrenOnFullCardClick
               isChosenArticle={
                 !!chosenArticles.find(
                   ({ id, version }) =>
@@ -101,6 +112,7 @@ const ArticlesContent = ({
   ) : (
     <p>You have no published articles!</p>
   );
+};
 
 const PublishedArticles = withPagination(
   ArticlesContent,
@@ -113,18 +125,19 @@ const PersonalPublishedArticles = withPagination(
   "searchPersonalPublishedArticles"
 );
 
-export default props => {
+const ChooseArticleCardComponent = props => {
   if (
     (props.searchPublishedArticles && props.searchPublishedArticles.loading) ||
     (props.searchPersonalPublishedArticles &&
-      props.searchPersonalPublishedArticles.loading)
+      props.searchPersonalPublishedArticles.loading) ||
+    (!props.searchPersonalPublishedArticles || !props.searchPublishedArticles)
   ) {
     return <Loading />;
   }
 
   return (
     <Tabs
-      centerTabs={true}
+      centerTabs
       passChangeTabFunction={props.passChangeTabFunction}
       tabs={[
         {
@@ -148,9 +161,4 @@ export default props => {
   );
 };
 
-//   linkComponent?: (React.Node, string) => React.Node,
-//   pageType?: PageType,
-//   hoverAction?: { id: string, content: string } => void,
-//   viewAction?: { id: string, version: string } => void,
-//   isChosenArticle?: boolean,
-// }
+export default ChooseArticleCardComponent;

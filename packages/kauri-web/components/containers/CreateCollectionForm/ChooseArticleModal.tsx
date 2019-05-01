@@ -12,6 +12,7 @@ import { compose, graphql } from "react-apollo";
 import { searchApprovedArticles } from "../../../queries/Article";
 import withApolloError from "../../../lib/with-apollo-error";
 import { IReduxState } from "../../../lib/Module";
+import withLoading from "../../../lib/with-loading";
 
 const articleSize = 12;
 

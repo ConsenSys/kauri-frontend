@@ -22,6 +22,8 @@ import {
   getCommunity_getCommunity_approved_ArticleDTO,
   getCommunity_getCommunity_approved_CollectionDTO,
 } from "../../../queries/__generated__/getCommunity";
+import { curateCommunityResourcesAction as curateCommunityResources } from "./Module";
+import { ResourceIdentifierInput } from "../../../__generated__/globalTypes";
 
 const TooltipContainer = styled.section`
   display: flex;
@@ -78,38 +80,27 @@ const Divider = styled.div`
 `;
 
 interface IContentProps {
+  id: string;
   articles: Pick<IProps, "articles">;
   collections: Pick<IProps, "collections">;
+  curateCommunityResourcesAction: typeof curateCommunityResources;
+  suggestArticleAction: any;
   openModalAction: any;
   closeModalAction: any;
 }
 
 export const Content: React.FunctionComponent<IContentProps> = ({
+  id,
   openModalAction,
   closeModalAction,
+  suggestArticleAction,
+  curateCommunityResourcesAction,
   articles,
   collections,
 }: IContentProps) => (
   <TooltipContainer>
     <TooltipArrow />
-    <TooltipItem
-      onClick={() =>
-        openModalAction({
-          children: (
-            <ChooseArticleModal
-              allOtherChosenArticles={articles}
-              chosenArticles={[]}
-              closeModalAction={closeModalAction}
-              confirmModal={(chosenArticles: IArticle[]) => {
-                console.log(chosenArticles);
-              }}
-            />
-          ),
-        })
-      }
-    >
-      Suggest Article
-    </TooltipItem>
+    <TooltipItem onClick={suggestArticleAction}>Suggest Article</TooltipItem>
     <Divider />
     <TooltipItem
       onClick={() =>
@@ -291,6 +282,7 @@ interface IProps {
   closeModalAction: () => void;
   articles: getCommunity_getCommunity_approved_ArticleDTO[] | null;
   collections: getCommunity_getCommunity_approved_CollectionDTO[] | null;
+  curateCommunityResourcesAction: typeof curateCommunityResources;
 }
 
 const CommunityHeader: React.FunctionComponent<IProps> = ({
@@ -312,135 +304,169 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
   openModalAction,
   isMember,
   closeModalAction,
-}) => (
-  <Wrapper>
-    {background && (
-      <Image
-        height="100%"
-        width="100%"
-        overlay={{ opacity: 0.5 }}
-        asBackground={true}
-        image={background}
-      />
-    )}
-    <Container>
-      <ContentRow>
-        <Column>
-          <Row className="image-name">
-            {avatar && (
-              <Image
-                className="image"
-                width={100}
-                height={100}
-                image={avatar}
+  curateCommunityResourcesAction,
+}) => {
+  const suggestArticleAction = () =>
+    openModalAction({
+      children: (
+        <ChooseArticleModal
+          allOtherChosenArticles={articles || []}
+          chosenArticles={[]}
+          closeModalAction={closeModalAction}
+          confirmModal={(chosenArticles: IArticle[]) => {
+            curateCommunityResourcesAction({
+              id,
+              resources:
+                chosenArticles &&
+                chosenArticles.map(
+                  article =>
+                    article && {
+                      id: article.id,
+                      type: "ARTICLE",
+                      version: Number(article.version),
+                    }
+                ),
+            });
+          }}
+        />
+      ),
+    });
+
+  return (
+    <Wrapper>
+      {background && (
+        <Image
+          height="100%"
+          width="100%"
+          overlay={{ opacity: 0.5 }}
+          asBackground={true}
+          image={background}
+        />
+      )}
+      <Container>
+        <ContentRow>
+          <Column>
+            <Row className="image-name">
+              {avatar && (
+                <Image
+                  className="image"
+                  width={100}
+                  height={100}
+                  image={avatar}
+                />
+              )}
+              <Column>
+                <Title1 color="white">{name}</Title1>
+                {website && <BodyCard color="white">{website}</BodyCard>}
+              </Column>
+            </Row>
+            <PageDescription className="description" color="white">
+              {description}
+            </PageDescription>
+            <TagList color="white" maxTags={7} tags={tags} />
+            <Links className="links">
+              {social && social.github && (
+                <SocialWebsiteIcon
+                  brand="github"
+                  height={20}
+                  socialURL={getURL(social.github, "github")}
+                />
+              )}
+              {social && social.twitter && (
+                <SocialWebsiteIcon
+                  brand="twitter"
+                  height={20}
+                  socialURL={getURL(social.twitter, "twitter")}
+                />
+              )}
+              <ShareCommunity
+                color={"white"}
+                url={`https://www.kauri.io/community/${id}`}
+                title={`${name} on Kauri`}
               />
-            )}
-            <Column>
-              <Title1 color="white">{name}</Title1>
-              {website && <BodyCard color="white">{website}</BodyCard>}
-            </Column>
-          </Row>
-          <PageDescription className="description" color="white">
-            {description}
-          </PageDescription>
-          <TagList color="white" maxTags={7} tags={tags} />
-          <Links className="links">
-            {social && social.github && (
-              <SocialWebsiteIcon
-                brand="github"
-                height={20}
-                socialURL={getURL(social.github, "github")}
-              />
-            )}
-            {social && social.twitter && (
-              <SocialWebsiteIcon
-                brand="twitter"
-                height={20}
-                socialURL={getURL(social.twitter, "twitter")}
-              />
-            )}
-            <ShareCommunity
-              color={"white"}
-              url={`https://www.kauri.io/community/${id}`}
-              title={`${name} on Kauri`}
+            </Links>
+          </Column>
+          <RightSide>
+            <Statistics
+              statistics={[
+                { name: "Articles", count: articleCount },
+                { name: "Collections", count: collectionCount },
+              ]}
             />
-          </Links>
-        </Column>
-        <RightSide>
-          <Statistics
-            statistics={[
-              { name: "Articles", count: articleCount },
-              { name: "Collections", count: collectionCount },
-            ]}
-          />
-          <Row>
-            <RightSide>
-              <Moderators>
-                {members && members.length > 0 && (
-                  <>
-                    <Label className="moderators" color="white">
-                      Moderators
-                    </Label>
-                    <Row>
-                      {members.map(i =>
-                        i ? (
-                          <UserAvatar
-                            userId={String(i.id)}
-                            username={i.name || null}
-                            borderRadius="4px"
-                            height={30}
-                            width={30}
-                            avatar={i.avatar || null}
-                            variant="white"
-                            hideUsername={true}
-                          >
-                            {i.avatar
-                              ? ""
-                              : (name || id).substring(0, 1).toUpperCase()}
-                          </UserAvatar>
-                        ) : null
-                      )}
-                    </Row>
-                  </>
-                )}
-              </Moderators>
-            </RightSide>
-          </Row>
-          <ActionsRow>
-            {isCreator && (
-              <PrimaryButtonComponent
-                onClick={() =>
-                  routeChangeAction &&
-                  routeChangeAction(`/community/${id}/update-community`)
-                }
-              >
-                Update Community
-              </PrimaryButtonComponent>
-            )}
-            {isMember && (
-              <Tooltip
-                className="suggest-content"
-                position="bottom"
-                trigger="mouseenter"
-                html={
-                  <Content
-                    articles={articles}
-                    collections={collections}
-                    closeModalAction={closeModalAction}
-                    openModalAction={openModalAction}
-                  />
-                }
-                interactive={true}
-              >
-                <SuggestIcon />
-                <Label color="white">Suggest Content</Label>
-              </Tooltip>
-            )}
-          </ActionsRow>
-        </RightSide>
-      </ContentRow>
-    </Container>
-  </Wrapper>
-);
+            <Row>
+              <RightSide>
+                <Moderators>
+                  {members && members.length > 0 && (
+                    <>
+                      <Label className="moderators" color="white">
+                        Moderators
+                      </Label>
+                      <Row>
+                        {members.map(i =>
+                          i ? (
+                            <UserAvatar
+                              userId={String(i.id)}
+                              username={i.name || null}
+                              borderRadius="4px"
+                              height={30}
+                              width={30}
+                              avatar={i.avatar || null}
+                              variant="white"
+                              hideUsername={true}
+                            >
+                              {i.avatar
+                                ? ""
+                                : (name || id).substring(0, 1).toUpperCase()}
+                            </UserAvatar>
+                          ) : null
+                        )}
+                      </Row>
+                    </>
+                  )}
+                </Moderators>
+              </RightSide>
+            </Row>
+            <ActionsRow>
+              {isCreator && (
+                <PrimaryButtonComponent
+                  onClick={() =>
+                    routeChangeAction &&
+                    routeChangeAction(`/community/${id}/update-community`)
+                  }
+                >
+                  Update Community
+                </PrimaryButtonComponent>
+              )}
+              {isMember && (
+                <Tooltip
+                  className="suggest-content"
+                  position="bottom"
+                  trigger="mouseenter"
+                  html={
+                    <Content
+                      curateCommunityResourcesAction={
+                        curateCommunityResourcesAction
+                      }
+                      id={id}
+                      articles={articles}
+                      collections={collections}
+                      suggestArticleAction={suggestArticleAction}
+                      closeModalAction={closeModalAction}
+                      openModalAction={openModalAction}
+                    />
+                  }
+                  interactive={true}
+                >
+                  <SuggestIcon />
+                  <Label color="white">Suggest Content</Label>
+                </Tooltip>
+              )}
+            </ActionsRow>
+          </RightSide>
+        </ContentRow>
+      </Container>
+    </Wrapper>
+  );
+};
 
 export default CommunityHeader;
