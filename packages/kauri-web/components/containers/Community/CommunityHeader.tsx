@@ -370,7 +370,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
               <Column>
                 <Title1 color="white">{name}</Title1>
                 {website && (
-                  <a href={website}>
+                  <a target="_blank" href={website}>
                     <BodyCard color="white">{website}</BodyCard>
                   </a>
                 )}
