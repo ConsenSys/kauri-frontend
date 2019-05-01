@@ -13,17 +13,18 @@ import anchorme from "anchorme";
 import ShareCommunity from "../../../../kauri-components/components/Tooltip/ShareArticle";
 import UserAvatar from "../../../../kauri-components/components/UserAvatar";
 import { Tooltip } from "react-tippy";
-import Modal from "../../../../kauri-components/components/Modal/View";
 import PrimaryButtonComponent from "../../../../kauri-components/components/Button/PrimaryButton";
 import ChooseArticleModal, {
   IArticle,
 } from "../CreateCollectionForm/ChooseArticleModal";
+import ChooseCollectionModal, {
+  ICollection,
+} from "../CreateCollectionForm/ChooseCollectionModal";
 import {
   getCommunity_getCommunity_approved_ArticleDTO,
   getCommunity_getCommunity_approved_CollectionDTO,
 } from "../../../queries/__generated__/getCommunity";
 import { curateCommunityResourcesAction as curateCommunityResources } from "./Module";
-import { ResourceIdentifierInput } from "../../../__generated__/globalTypes";
 
 const TooltipContainer = styled.section`
   display: flex;
@@ -85,34 +86,20 @@ interface IContentProps {
   collections: Pick<IProps, "collections">;
   curateCommunityResourcesAction: typeof curateCommunityResources;
   suggestArticleAction: any;
+  suggestCollectionAction: any;
   openModalAction: any;
   closeModalAction: any;
 }
 
 export const Content: React.FunctionComponent<IContentProps> = ({
-  id,
-  openModalAction,
-  closeModalAction,
   suggestArticleAction,
-  curateCommunityResourcesAction,
-  articles,
-  collections,
+  suggestCollectionAction,
 }: IContentProps) => (
   <TooltipContainer>
     <TooltipArrow />
     <TooltipItem onClick={suggestArticleAction}>Suggest Article</TooltipItem>
     <Divider />
-    <TooltipItem
-      onClick={() =>
-        openModalAction({
-          children: (
-            <Modal isModalOpen={true} closeModalAction={closeModalAction}>
-              <div>Create separate collection selection component</div>
-            </Modal>
-          ),
-        })
-      }
-    >
+    <TooltipItem onClick={suggestCollectionAction}>
       Suggest Collection
     </TooltipItem>
   </TooltipContainer>
@@ -332,6 +319,31 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
       ),
     });
 
+  const suggestCollectionAction = () =>
+    openModalAction({
+      children: (
+        <ChooseCollectionModal
+          allOtherChosenCollections={collections || []}
+          chosenCollections={[]}
+          closeModalAction={closeModalAction}
+          confirmModal={(chosenCollections: ICollection[]) => {
+            curateCommunityResourcesAction({
+              id,
+              resources:
+                chosenCollections &&
+                chosenCollections.map(
+                  article =>
+                    article && {
+                      id: article.id,
+                      type: "COLLECTION",
+                    }
+                ),
+            });
+          }}
+        />
+      ),
+    });
+
   return (
     <Wrapper>
       {background && (
@@ -451,6 +463,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
                       articles={articles}
                       collections={collections}
                       suggestArticleAction={suggestArticleAction}
+                      suggestCollectionAction={suggestCollectionAction}
                       closeModalAction={closeModalAction}
                       openModalAction={openModalAction}
                     />

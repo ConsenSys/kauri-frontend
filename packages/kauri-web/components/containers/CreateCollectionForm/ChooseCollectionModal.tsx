@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import styled from "styled-components";
 import R from "ramda";
@@ -12,6 +11,7 @@ import { compose, graphql } from "react-apollo";
 import { connect } from "react-redux";
 import withApolloError from "../../../lib/with-apollo-error";
 import { getCollectionsForUser } from "../../../queries/Collection";
+import { IReduxState } from "../../../lib/Module";
 
 const collectionSize = 12;
 
@@ -23,7 +23,7 @@ const TitleContainer = styled.div`
   }
 `;
 
-const Title = ({ chosenCollections }) => (
+const Title = ({ chosenCollections }: any) => (
   <TitleContainer>
     <BodyCard>{`${
       Array.isArray(chosenCollections) ? chosenCollections.length : 0
@@ -45,13 +45,11 @@ const CloseIcon = () => (
   />
 );
 
-const Actions = ({
+const Actions: React.FunctionComponent<any> = ({
   handleClose,
   handleConfirm,
   chosenCollections,
-  searchPersonalPublishedCollections,
   searchPublishedCollections,
-  currentTab,
   changeTab,
   userId,
 }) => (
@@ -90,54 +88,56 @@ const ContentContainer = styled.section`
   }
 `;
 
-type Props = {
-  userId: string,
-  closeModalAction: () => void,
-  confirmModal: (Array<{ id: string, version: string }>) => void,
-  chosenCollections: Array<{ id: string, version: string }>,
-  allOtherChosenCollections: Array<{ id: string, version: string }>,
-  currentCollectionIdIfUpdating?: string,
-  searchPublishedCollections: any,
-  searchPersonalPublishedCollections: any,
-};
+interface IProps {
+  userId: string;
+  closeModalAction: () => void;
+  confirmModal: (collections: Array<{ id: string }>) => void;
+  chosenCollections: Array<{ id: string }>;
+  allOtherChosenCollections: Array<{ id: string }>;
+  currentCollectionIdIfUpdating?: string;
+  searchPublishedCollections: any;
+  searchPersonalPublishedCollections: any;
+}
 
-type State = {
-  chosenCollections: Array<{ id: string, version: string }>,
-  currentTab: string,
-  changeTab: (index: number) => void,
-};
+interface IState {
+  chosenCollections: Array<{ id: string }>;
+  currentTab: string;
+  changeTab: (index: number) => void;
+}
 
-class ChooseCollectionModal extends React.Component<Props, State> {
-  constructor (props: Props) {
+export interface ICollection {
+  id: string;
+}
+
+class ChooseCollectionModal extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
+      changeTab: () => {
+        return;
+      },
       chosenCollections: this.props.chosenCollections || [],
       currentTab: "My collections",
-      changeTab: () => {},
     };
   }
 
-  chooseCollection = (chosenCollection: { id: string, version: string }) =>
+  chooseCollection = (chosenCollection: { id: string; version: string }) =>
     this.setState({
-      chosenCollections: R.find(
-        ({ id, version }) =>
-          chosenCollection.id === id && chosenCollection.version === version
-      )(this.state.chosenCollections)
-        ? R.reduce((current, next) => {
-          if (
-            next.id === chosenCollection.id &&
-              next.version === chosenCollection.version
-          ) {
-            return current;
-          } else {
-            current.push(next);
-            return current;
-          }
-        }, [])(this.state.chosenCollections)
+      chosenCollections: R.find(({ id }) => chosenCollection.id === id)(
+        this.state.chosenCollections
+      )
+        ? R.reduce((current: any, next: { id: string }) => {
+            if (next.id === chosenCollection.id) {
+              return current;
+            } else {
+              current.push(next);
+              return current;
+            }
+          }, [])(this.state.chosenCollections)
         : R.union(this.state.chosenCollections, [chosenCollection]),
     });
 
-  render () {
+  render() {
     const {
       closeModalAction,
       confirmModal,
@@ -174,7 +174,7 @@ class ChooseCollectionModal extends React.Component<Props, State> {
           allOtherChosenCollections={this.props.allOtherChosenCollections}
           chosenCollections={this.state.chosenCollections}
           chooseCollection={this.chooseCollection}
-          passChangeTabFunction={changeTab =>
+          passChangeTabFunction={(changeTab: any) =>
             this.setState({ ...this.state, changeTab })
           }
         />
@@ -183,7 +183,7 @@ class ChooseCollectionModal extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: IReduxState) => ({
   userId: state.app && state.app.user && state.app.user.id,
 });
 
@@ -193,23 +193,23 @@ export default compose(
     {}
   ),
   graphql(getCollectionsForUser, {
+    name: "searchPublishedCollections",
     options: () => ({
       variables: {
         size: collectionSize, // Because lag and no searchbar
       },
     }),
-    name: "searchPublishedCollections",
   }),
   graphql(getCollectionsForUser, {
-    options: ({ userId }) => ({
+    name: "searchPersonalPublishedCollections",
+    options: ({ userId }: { userId: string }) => ({
       variables: {
-        size: collectionSize, // Because lag and no searchbar
         filter: {
           ownerIdEquals: userId,
         },
+        size: collectionSize, // Because lag and no searchbar
       },
     }),
-    name: "searchPersonalPublishedCollections",
   }),
   withApolloError()
 )(ChooseCollectionModal);
