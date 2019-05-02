@@ -16,7 +16,6 @@ export interface updateCommunity {
 }
 
 export interface updateCommunityVariables {
-  id?: string | null;
   name?: string | null;
   description?: string | null;
   avatar?: string | null;

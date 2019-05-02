@@ -13,11 +13,7 @@ interface IProps {
   type: string;
   userId: string;
   communities: IOption[];
-  handleSubmit: (
-    submissionType: string,
-    updateComment: undefined,
-    destination: IOption
-  ) => void;
+  handleSubmit: (e: React.SyntheticEvent<HTMLButtonElement>, destination: IOption) => void;
   closeModalAction: () => void;
 }
 
@@ -97,11 +93,7 @@ const PublishingSelector = (props: IProps) => {
         </div>
       }
       closeModalAction={props.closeModalAction}
-      confirmButtonAction={props.handleSubmit(
-        "submit/update",
-        undefined,
-        destination
-      )}
+      confirmButtonAction={(e: React.SyntheticEvent<HTMLButtonElement>) => props.handleSubmit(e, destination)}
     />
   );
 };

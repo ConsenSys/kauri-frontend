@@ -131,7 +131,7 @@ class SubmitArticleForm extends React.Component<IProps> {
               i.type = "COMMUNITY";
               return i;
             })}
-            handleSubmit={this.handleSubmit}
+            handleSubmit={ (e, destination) => this.handleSubmit('submit/update', undefined, destination)(e)}
           />
         ),
       });

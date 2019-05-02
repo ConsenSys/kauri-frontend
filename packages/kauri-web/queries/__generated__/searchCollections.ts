@@ -9,7 +9,7 @@ import { CollectionFilterInput, ResourceTypeInput } from "./../../__generated__/
 // ====================================================
 
 export interface searchCollections_searchCollections_content_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface searchCollections_searchCollections_content_owner_PublicUserDTO_resourceIdentifier {
@@ -50,7 +50,7 @@ export interface searchCollections_searchCollections_content_sections_resourcesI
 }
 
 export interface searchCollections_searchCollections_content_sections_resources_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface searchCollections_searchCollections_content_sections_resources_ArticleDTO {

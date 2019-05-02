@@ -1,6 +1,6 @@
 //@flow
 // const monolithApi = '35.196.21.146:80'
-const monolithApi = 'api.dev.kauri.io'
+const monolithApi = 'api.dev2.kauri.io'
 const monolithExternalApi = monolithApi
 const zaleniumGrid = 'https://zalenium.dev.kauri.io/wd/hub'
 

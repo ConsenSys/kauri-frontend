@@ -15,6 +15,7 @@ import {
   composeCollectionAction,
 } from "./Module";
 import R from "ramda";
+import PublishingSelector from '../../common/PublishingSelector'
 
 export type FormState = {
   name: string,
@@ -111,11 +112,27 @@ export default compose(
       values: FormState,
       { props, setErrors, resetForm, setSubmitting }
     ) => {
-      const logIfDevelopment = value =>
-        process.env.NODE_ENV === "development" && console.log(value);
-      logIfDevelopment(values);
-      logIfDevelopment(props);
-
+      if (props.communities) {
+        props.openModalAction({
+          children: (
+            <PublishingSelector
+              userId={props.userId}
+              type="Articles"
+              closeModalAction={closeModalAction}
+              communities={props.communities.map(i => {
+                i.type = "COMMUNITY";
+                return i;
+              })}
+              handleSubmit={(e, destination) => {
+                values.destination = destination;
+                props.createCollectionAction(values, () => {
+                    setSubmitting(false);
+                  });
+              }}
+            />
+          ),
+        });
+      }
       if (props.data) {
         // BACKEND FIX sections.resources -> sections.resourcesId :(
         const reassignResourcesToResourcesId = R.pipe(
@@ -132,8 +149,6 @@ export default compose(
           R.map(section => R.dissocPath(["__typename"])(section))
         );
 
-        logIfDevelopment(reassignResourcesToResourcesId(values));
-
         const payload = {
           ...values,
           sections: reassignResourcesToResourcesId(values),
@@ -141,15 +156,15 @@ export default compose(
           updating: true,
         };
 
-        logIfDevelopment(payload);
-
-        props.editCollectionAction(payload, () => {
-          setSubmitting(false);
-        });
+        // props.editCollectionAction(payload, () => {
+        //   setSubmitting(false);
+        // });
+        console.log('Editing')
       } else {
-        props.createCollectionAction(values, () => {
-          setSubmitting(false);
-        });
+        // props.createCollectionAction(values, () => {
+        //   setSubmitting(false);
+        // });
+        console.log('Creating')
       }
     },
   })

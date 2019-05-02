@@ -48,12 +48,14 @@ export const createCollection = gql`
     $description: String
     $background: String
     $tags: [String]
+    $owner: ResourceIdentifierInput
   ) {
     createCollection(
       name: $name
       description: $description
       background: $background
       tags: $tags
+      owner: $owner
     ) {
       hash
     }
