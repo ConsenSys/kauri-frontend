@@ -12,7 +12,6 @@ import analytics from "../../../lib/analytics";
 import type { Dependencies } from "../../../lib/Module";
 import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
 import { some } from "fp-ts/lib/Option";
-import { closeModalAction } from "../../../../kauri-components/components/Modal/Module";
 
 
 export type CreateCollectionPayload = {
@@ -193,7 +192,7 @@ export const createCollectionEpic = (
           .mergeMap(({ data: { createCollection: { hash } } }) =>
             apolloSubscriber(hash)
           )
-          .do(() => closeModalAction())
+          .do(h => console.log(h))
           .map(({ data: { output: { id } } }) =>
             composeCollectionAction({ id, sections, tags }, callback)
           );

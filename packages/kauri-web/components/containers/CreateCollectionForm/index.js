@@ -112,13 +112,16 @@ export default compose(
       values: FormState,
       { props, setErrors, resetForm, setSubmitting }
     ) => {
-      if (props.communities) {
+      if (props.communities && !props.data) {
         props.openModalAction({
           children: (
             <PublishingSelector
               userId={props.userId}
               type="Articles"
-              closeModalAction={closeModalAction}
+              closeModalAction={() => {
+                props.closeModalAction()
+                setSubmitting(false);
+              }}
               communities={props.communities.map(i => {
                 i.type = "COMMUNITY";
                 return i;
@@ -126,45 +129,47 @@ export default compose(
               handleSubmit={(e, destination) => {
                 values.destination = destination;
                 props.createCollectionAction(values, () => {
+                    props.closeModalAction();
                     setSubmitting(false);
                   });
               }}
             />
           ),
         });
-      }
-      if (props.data) {
-        // BACKEND FIX sections.resources -> sections.resourcesId :(
-        const reassignResourcesToResourcesId = R.pipe(
-          R.path(["sections"]),
-          R.map(section => ({
-            ...section,
-            resourcesId: R.map(({ id, version, type }) => ({
-              type: type.toUpperCase(),
-              id,
-              version,
-            }))(section.resourcesId),
-          })),
-          R.map(section => R.dissocPath(["resources"])(section)),
-          R.map(section => R.dissocPath(["__typename"])(section))
-        );
-
-        const payload = {
-          ...values,
-          sections: reassignResourcesToResourcesId(values),
-          id: props.data.variables.id,
-          updating: true,
-        };
-
-        // props.editCollectionAction(payload, () => {
-        //   setSubmitting(false);
-        // });
-        console.log('Editing')
       } else {
-        // props.createCollectionAction(values, () => {
-        //   setSubmitting(false);
-        // });
-        console.log('Creating')
+        if (props.data) {
+          // BACKEND FIX sections.resources -> sections.resourcesId :(
+          const reassignResourcesToResourcesId = R.pipe(
+            R.path(["sections"]),
+            R.map(section => ({
+              ...section,
+              resourcesId: R.map(({ id, version, type }) => ({
+                type: type.toUpperCase(),
+                id,
+                version,
+              }))(section.resourcesId),
+            })),
+            R.map(section => R.dissocPath(["resources"])(section)),
+            R.map(section => R.dissocPath(["__typename"])(section))
+          );
+  
+          const payload = {
+            ...values,
+            sections: reassignResourcesToResourcesId(values),
+            id: props.data.variables.id,
+            updating: true,
+          };
+  
+          props.editCollectionAction(payload, () => {
+            setSubmitting(false);
+          });
+          console.log('Editing')
+        } else {
+          props.createCollectionAction(values, () => {
+            setSubmitting(false);
+          });
+          console.log('Creating')
+        }
       }
     },
   })
