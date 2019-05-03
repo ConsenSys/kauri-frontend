@@ -15,6 +15,7 @@ import {
   composeCollectionAction,
 } from "./Module";
 import R from "ramda";
+import PublishingSelector from '../../common/PublishingSelector'
 
 export type FormState = {
   name: string,
@@ -35,6 +36,7 @@ const getCollectionField = (field, data) =>
 export default compose(
   connect(
     state => ({
+      communities: state.app.user && state.app.user.communities,
       userId: state.app && state.app.user && state.app.user.id,
       username: state.app && state.app.user && state.app.user.username,
       userAvatar: state.app && state.app.user && state.app.user.avatar,
@@ -110,45 +112,64 @@ export default compose(
       values: FormState,
       { props, setErrors, resetForm, setSubmitting }
     ) => {
-      const logIfDevelopment = value =>
-        process.env.NODE_ENV === "development" && console.log(value);
-      logIfDevelopment(values);
-      logIfDevelopment(props);
-
-      if (props.data) {
-        // BACKEND FIX sections.resources -> sections.resourcesId :(
-        const reassignResourcesToResourcesId = R.pipe(
-          R.path(["sections"]),
-          R.map(section => ({
-            ...section,
-            resourcesId: R.map(({ id, version, type }) => ({
-              type: type.toUpperCase(),
-              id,
-              version,
-            }))(section.resourcesId),
-          })),
-          R.map(section => R.dissocPath(["resources"])(section)),
-          R.map(section => R.dissocPath(["__typename"])(section))
-        );
-
-        logIfDevelopment(reassignResourcesToResourcesId(values));
-
-        const payload = {
-          ...values,
-          sections: reassignResourcesToResourcesId(values),
-          id: props.data.variables.id,
-          updating: true,
-        };
-
-        logIfDevelopment(payload);
-
-        props.editCollectionAction(payload, () => {
-          setSubmitting(false);
+      if (props.communities && !props.data) {
+        props.openModalAction({
+          children: (
+            <PublishingSelector
+              userId={props.userId}
+              type="Articles"
+              closeModalAction={() => {
+                props.closeModalAction()
+                setSubmitting(false);
+              }}
+              communities={props.communities.map(i => {
+                i.type = "COMMUNITY";
+                return i;
+              })}
+              handleSubmit={(e, destination) => {
+                values.destination = destination;
+                props.createCollectionAction(values, () => {
+                    props.closeModalAction();
+                    setSubmitting(false);
+                  });
+              }}
+            />
+          ),
         });
       } else {
-        props.createCollectionAction(values, () => {
-          setSubmitting(false);
-        });
+        if (props.data) {
+          // BACKEND FIX sections.resources -> sections.resourcesId :(
+          const reassignResourcesToResourcesId = R.pipe(
+            R.path(["sections"]),
+            R.map(section => ({
+              ...section,
+              resourcesId: R.map(({ id, version, type }) => ({
+                type: type.toUpperCase(),
+                id,
+                version,
+              }))(section.resourcesId),
+            })),
+            R.map(section => R.dissocPath(["resources"])(section)),
+            R.map(section => R.dissocPath(["__typename"])(section))
+          );
+  
+          const payload = {
+            ...values,
+            sections: reassignResourcesToResourcesId(values),
+            id: props.data.variables.id,
+            updating: true,
+          };
+  
+          props.editCollectionAction(payload, () => {
+            setSubmitting(false);
+          });
+          console.log('Editing')
+        } else {
+          props.createCollectionAction(values, () => {
+            setSubmitting(false);
+          });
+          console.log('Creating')
+        }
       }
     },
   })

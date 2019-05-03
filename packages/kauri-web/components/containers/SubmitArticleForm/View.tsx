@@ -5,7 +5,7 @@ import SubmitArticleFormHeader from "./SubmitArticleFormHeader";
 import SubmitArticleFormContent from "./SubmitArticleFormContent";
 import { IShowNotificationPayload } from "../../../lib/Module";
 import AlertView from "../../../../kauri-components/components/Modal/AlertView";
-import PublishingSelector, { IOption } from "./PublishingSelector";
+import PublishingSelector, { IOption } from "../../common/PublishingSelector";
 import analytics from "../../../lib/analytics";
 
 import {
@@ -128,12 +128,13 @@ class SubmitArticleForm extends React.Component<IProps> {
         children: (
           <PublishingSelector
             userId={userId}
+            type="Articles"
             closeModalAction={closeModalAction}
             communities={communities.map(i => {
               i.type = "COMMUNITY";
               return i;
             })}
-            handleSubmit={this.handleSubmit}
+            handleSubmit={ (e, destination) => this.handleSubmit('submit/update', undefined, destination)(e)}
           />
         ),
       });

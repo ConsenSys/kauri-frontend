@@ -98,7 +98,6 @@ export const createCommunityMutation = gql`
 
 export const updateCommunityMutation = gql`
   mutation updateCommunity(
-    $id: String
     $name: String
     $description: String
     $avatar: String
@@ -107,8 +106,7 @@ export const updateCommunityMutation = gql`
     $social: Map_String_StringScalar
     $attributes: Map_String_StringScalar
   ) {
-    editCommunity(
-      id: $id
+    createCommunity(
       name: $name
       description: $description
       avatar: $avatar

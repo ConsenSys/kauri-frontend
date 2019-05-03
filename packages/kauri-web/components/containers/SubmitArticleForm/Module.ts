@@ -12,7 +12,7 @@ import {
   IDependencies,
 } from "../../../lib/Module";
 import { publishArticleAction, IOwnerPayload } from "./PublishArticleModule";
-import { IOption } from "./PublishingSelector";
+import { IOption } from "../../common/PublishingSelector";
 import analytics from "../../../lib/analytics";
 
 interface IGetArticleResult {

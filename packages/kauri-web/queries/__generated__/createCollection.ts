@@ -1,5 +1,8 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
+
+import { ResourceIdentifierInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: createCollection
@@ -19,4 +22,5 @@ export interface createCollectionVariables {
   description?: string | null;
   background?: string | null;
   tags?: (string | null)[] | null;
+  owner?: ResourceIdentifierInput | null;
 }

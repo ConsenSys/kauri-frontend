@@ -1,6 +1,6 @@
-import AlertView from "../../../../kauri-components/components/Modal/AlertView";
-import Select from "../../../../kauri-components/components/Select";
-import styled from "../../../lib/styled-components";
+import AlertView from "../../../kauri-components/components/Modal/AlertView";
+import Select from "../../../kauri-components/components/Select";
+import styled from "../../lib/styled-components";
 import React, { useState } from "react";
 
 export interface IOption {
@@ -10,13 +10,10 @@ export interface IOption {
 }
 
 interface IProps {
+  type: string;
   userId: string;
   communities: IOption[];
-  handleSubmit: (
-    submissionType: string,
-    updateComment: undefined,
-    destination: IOption
-  ) => void;
+  handleSubmit: (e: React.SyntheticEvent<HTMLButtonElement>, destination: IOption) => void;
   closeModalAction: () => void;
 }
 
@@ -78,7 +75,7 @@ const Content = ({
 
 const PublishingSelector = (props: IProps) => {
   const options = [
-    { id: props.userId, name: "My Articles", type: "USER" },
+    { id: props.userId, name: `My ${props.type}`, type: "USER" },
     ...props.communities,
   ];
   const [destination, setDestination] = useState(options[0]);
@@ -96,11 +93,10 @@ const PublishingSelector = (props: IProps) => {
         </div>
       }
       closeModalAction={props.closeModalAction}
-      confirmButtonAction={props.handleSubmit(
-        "submit/update",
-        undefined,
-        destination
-      )}
+      confirmButtonAction={(e: React.SyntheticEvent<HTMLButtonElement>) => {
+        props.handleSubmit(e, destination)
+        props.closeModalAction()
+      }}
     />
   );
 };
