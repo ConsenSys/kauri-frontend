@@ -169,11 +169,21 @@ const SearchResults = (props: ISearchResults) => (
             `/search-results?q=${props.value}&default_category=${props.type}`
           );
         }}
-        text={`View all ${props.type}`}
+        text={`View all ${props.type}s`}
       />
     )}
   </ResultsComp>
 );
+
+const mapTypeToName = (key: string, tab: number) => {
+  if (key === "COMMUNITY" && tab === 1) {
+    return `COMMUNITY (${tab})`;
+  } else if (key === "COMMUNITY" && tab > 1) {
+    return `COMMUNITIE (${tab})`;
+  } else {
+    return tab > 1 ? `${key}S (${tab})` : `${key} (${tab})`;
+  }
+};
 
 const Search = (props: IProps) => (
   <>
@@ -184,7 +194,7 @@ const Search = (props: IProps) => (
           dark={false}
           tabs={getTabs(props.breakDown).map(tab => ({
             callback: () => props.fetchByType(tab),
-            name: `${tab} (${props.breakDown[tab]})`,
+            name: `${mapTypeToName(tab, props.breakDown[tab])}`,
           }))}
           panels={getTabs(props.breakDown).map(tab => (
             <SearchResults

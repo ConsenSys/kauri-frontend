@@ -63,7 +63,7 @@ const Tab = styled<ITabProps, "div">("div")`
   cursor: pointer;
   font-weight: 700;
   text-transform: uppercase;
-  font-size: ${props => props.theme.fontSizes[1]}px;
+  font-size: ${props => props.theme.fontSizes[0]}px;
 `;
 
 interface ITab {
