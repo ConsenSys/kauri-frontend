@@ -555,7 +555,7 @@ class TermsOfUse extends Component<Props, State> {
               public/private key cryptography, native cryptographic tokens, like
               Ether (ETH) and Bitcoin (BTC), smart contract based tokens such as
               those that follow the Ethereum Token Standard (
-              <a href="(https://github.com/ethereum/EIPs/issues/20)">
+              <a href="https://github.com/ethereum/EIPs/issues/20">
                 https://github.com/ethereum/EIPs/issues/20
               </a>
               ), and blockchain-based software systems.
