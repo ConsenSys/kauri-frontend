@@ -1,8 +1,21 @@
 Sitemap: https://kauri.io/sitemap
 
+User-agent: Yandex
+    Sitemap: https://kauri.io/sitemap
+    Disallow: /login
+    Disallow: /ipfs
+    Disallow: /contracts
+    Disallow: /build
+    Disallow: /public-profile
+    Disallow: /public-profile/utils
+    Disallow: /competition
+    Host: https://kauri.io
+
 User-agent: *
 Disallow: /login
 Disallow: /ipfs
 Disallow: /contracts
 Disallow: /build
-Disallow: public-profile/utils
+Disallow: /public-profile
+Disallow: /public-profile/utils
+Disallow: /competition
