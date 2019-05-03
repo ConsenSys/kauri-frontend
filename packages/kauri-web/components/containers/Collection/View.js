@@ -112,10 +112,6 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             name="description"
             content={`${description && description.slice(0, 151)}...`}
           />
-          <meta
-            name="keywords"
-            content={Array.isArray(tags) && tags.map(keyword => keyword)}
-          />
           <link rel="canonical" href={url} />
           <meta property="og:title" content={name} />
           <meta property="og:site_name" content="kauri.io" />

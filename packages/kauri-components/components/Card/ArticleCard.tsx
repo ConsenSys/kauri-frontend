@@ -265,7 +265,13 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
         </BodyCard>
       )}
       {Array.isArray(tags) && tags.length > 0 && (
-        <TagList maxTags={3} color="textPrimary" tags={tags} maxChars={40} />
+        <TagList
+          resourceType="card"
+          maxTags={3}
+          color="textPrimary"
+          tags={tags}
+          maxChars={40}
+        />
       )}
       {Array.isArray(nfts) && nfts.length > 0 && (
         <NFTList nftSize={20} nfts={nfts} />

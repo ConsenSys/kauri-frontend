@@ -143,6 +143,7 @@ export const composeCollectionEpic = (
             )
           )
           .do(() => callback && callback())
+          .do(() => apolloClient.resetStore())
           .catch(err => {
             console.error(err);
             return Observable.of(

@@ -1,6 +1,7 @@
 import { ApolloClient } from "apollo-client";
 import { IAddArticleToCollectionAction } from "../components/connections/AddToCollection/Module";
 import IVoteAction from "../components/containers/Article/ApprovedArticle/VoteModule";
+import { ICommunityCreatedAction } from "../components/containers/CreateCommunityForm/Module";
 
 type NotificationType = "success" | "info" | "warning" | "error";
 
@@ -34,8 +35,7 @@ export interface IDependencies {
   apolloClient: ApolloClient<{}>;
   apolloSubscriber: <T>(
     hash: string,
-    version?: string,
-    author?: any
+    filterName?: string
   ) => Promise<{ data: { output: T | any } }>;
   apolloChildHashesSubscriber: <T>(
     childHashes: string[]
@@ -50,7 +50,7 @@ export interface IDependencies {
 }
 
 export interface IAction {
-  callback: () => void | undefined;
+  callback?: () => void | undefined;
   payload?: {};
   type: string;
 }
@@ -59,6 +59,7 @@ export type Actions =
   | IVoteAction
   | IRouteChangeAction
   | IShowNotificationAction
+  | ICommunityCreatedAction
   | IAddArticleToCollectionAction;
 
 export interface IUser {

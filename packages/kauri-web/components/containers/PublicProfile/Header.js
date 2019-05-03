@@ -3,8 +3,8 @@ import React, { Fragment } from "react";
 import styled from "styled-components";
 import anchorme from "anchorme";
 import { PrimaryButton } from "../../../../kauri-components/components/Button";
-import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer.tsx";
-import SocialWebsiteIcon from "../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon.tsx";
+import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer";
+import SocialWebsiteIcon from "../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon";
 import UserAvatar from "../../../../kauri-components/components/UserAvatar";
 import Helmet from "react-helmet";
 import type { HeaderProps } from "./types";
@@ -124,10 +124,6 @@ const ProfileHeader = ({
     <Helmet>
       <title>{`Kauri - ${name || (username && `@${username}`) || id}`}</title>
       <meta name="description" content={`${title}`} />
-      <meta
-        name="keywords"
-        content={typeof title === "string" && title.split(" ")}
-      />
       <meta
         property="og:title"
         content={`Kauri - ${name || (username && `@${username}`) || id}`}

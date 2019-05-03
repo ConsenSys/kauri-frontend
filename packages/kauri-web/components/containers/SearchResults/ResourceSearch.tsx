@@ -10,7 +10,7 @@ import { IElementsBreakdown } from "../../../../kauri-components/components/Sear
 import { searchResultsAutocomplete_searchAutocomplete_content } from "../../../queries/__generated__/searchResultsAutocomplete";
 import { IProps as IQueryProps } from "./index";
 import { routeChangeAction } from "../../../lib/Module";
-import analytics from '../../../lib/analytics';
+import analytics from "../../../lib/analytics";
 
 const SearchSVG = () => (
   <div className="certain-category-icon">

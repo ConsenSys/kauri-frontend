@@ -53,10 +53,6 @@ class Collections extends Component<IProps> {
             name="description"
             content="Discover the best collections of blockchain related articles, tutorials and how-to guides"
           />
-          <meta
-            name="keywords"
-            content="ethereum, blockchain, learn to code, developer documentation"
-          />
           <link
             rel="canonical"
             href={`https://${this.props.hostName}/collections`}

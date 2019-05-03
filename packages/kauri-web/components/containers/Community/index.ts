@@ -3,11 +3,14 @@ import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import { getCommunity } from "../../../queries/Community";
 import withLoading from "../../../lib/with-loading";
-import { openModalAction, closeModalAction } from "../../../../kauri-components/components/Modal/Module";
+import {
+  openModalAction,
+  closeModalAction,
+} from "../../../../kauri-components/components/Modal/Module";
+import { IReduxState, routeChangeAction } from "../../../lib/Module";
+import { curateCommunityResourcesAction } from "./Module";
 
-import { IReduxState } from '../../../lib/Module';
-
-const mapStateToProps = (state:  IReduxState) => ({
+const mapStateToProps = (state: IReduxState) => ({
   currentUser: state.app && state.app.user && state.app.user.id,
   hostName: state.app && state.app.hostName,
   isLoggedIn: !!(state.app && state.app.user && state.app.user.id),
@@ -16,12 +19,17 @@ const mapStateToProps = (state:  IReduxState) => ({
 export default compose(
   connect(
     mapStateToProps,
-    { openModalAction, closeModalAction }
+    {
+      closeModalAction,
+      curateCommunityResourcesAction,
+      openModalAction,
+      routeChangeAction,
+    }
   ),
   graphql(getCommunity, {
-    options: ({ communityId }: {communityId: string}) => ({
+    options: ({ communityId }: { communityId: string }) => ({
       variables: {
-        id: communityId
+        id: communityId,
       },
     }),
   }),

@@ -55,12 +55,18 @@ const CollectionsContent = ({
         {content.map(collection => {
           // Don't show chosen Collections from other sections
           if (
-            allOtherChosenCollections.find(({ resourcesId }) =>
-              resourcesId.find(
-                ({ id, version }) =>
-                  id === collection.id ||
-                  currentCollectionIdIfUpdating === collection.id
-              )
+            allOtherChosenCollections.find(
+              ({ resourcesId, id: collectionId }) => {
+                if (resourcesId) {
+                  return resourcesId.find(
+                    ({ id, version }) =>
+                      id === collection.id ||
+                      currentCollectionIdIfUpdating === collection.id
+                  );
+                } else {
+                  return collectionId === collection.id;
+                }
+              }
             )
           ) {
             return null;

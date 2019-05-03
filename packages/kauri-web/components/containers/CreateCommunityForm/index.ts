@@ -1,7 +1,15 @@
 import { connect } from "react-redux";
 import { compose } from "react-apollo";
 import View, { IProps } from "./View";
-import { routeChangeAction, IReduxState } from "../../../lib/Module";
+import {
+  routeChangeAction,
+  IReduxState,
+  showNotificationAction,
+} from "../../../lib/Module";
+import {
+  openModalAction,
+  closeModalAction,
+} from "../../../../kauri-components/components/Modal/Module";
 import { createCommunityAction, updateCommunityAction } from "./Module";
 import { withFormik } from "formik";
 import * as Yup from "yup";
@@ -22,7 +30,14 @@ const mapStateToProps = ({ app: { user } }: IReduxState) => ({
 export default compose(
   connect(
     mapStateToProps,
-    { routeChangeAction, createCommunityAction, updateCommunityAction }
+    {
+      closeModalAction,
+      createCommunityAction,
+      openModalAction,
+      routeChangeAction,
+      showNotificationAction,
+      updateCommunityAction,
+    }
   ),
   withFormik<IProps, IFormValues>({
     handleSubmit: (values, { setSubmitting, props }) => {
@@ -56,11 +71,15 @@ export default compose(
       };
     },
     validationSchema: Yup.object().shape({
+      avatar: Yup.string().required("Required"),
       description: Yup.string()
         .min(2)
         .required("Required"),
       name: Yup.string()
         .min(2)
+        .required("Required"),
+      tags: Yup.array()
+        .min(1)
         .required("Required"),
     }),
   })

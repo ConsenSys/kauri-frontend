@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import styled from "../../lib/styled-components";
 import Stack from "stack-styled";
 import theme from "../../lib/theme-config";
@@ -7,25 +7,31 @@ const columnWidth = `${theme.DEFAULT_CARD_WIDTH}px`;
 
 export const Content = styled.section`
   display: flex;
-  flex-diretion: column;
+  flex-direction: column;
   overflow-y: auto;
   width: 100%;
   height: 100%;
 `;
 
-type Props = {
-  children: React.Node,
-};
+interface IProps {
+  setRef: any;
+}
 
-export default ({ children, setRef }: Props) => (
-  <Content ref={ref => setRef && setRef(ref)}>
+const ChooseArticleContent: React.FunctionComponent<IProps> = ({
+  children,
+  setRef,
+}) => (
+  <Content ref={(ref: any) => setRef && setRef(ref)}>
     <Stack
+      gridAutoFlow={[""]}
+      alignItems={[""]}
       justifyContent={["", "center"]}
-      width={"100%"}
-      gap={"30px"}
+      gap={30}
       gridTemplateColumns={`${columnWidth} ${columnWidth} ${columnWidth}`}
     >
       {children}
     </Stack>
   </Content>
 );
+
+export default ChooseArticleContent;

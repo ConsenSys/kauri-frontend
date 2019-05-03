@@ -6,6 +6,7 @@ const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const paddingCSS = css`
   padding-top: ${props => props.theme.paddingTop};
+  padding-bottom: ${props => props.theme.paddingTop};
   ${props => props.theme.padContent};
 `;
 
