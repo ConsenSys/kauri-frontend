@@ -147,7 +147,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
           <Image
             height="100%"
             width="100%"
-            overlay={{ opacity: 0.5 }}
+            overlay={{ opacity: 0.8 }}
             asBackground
             image={bg}
           />
