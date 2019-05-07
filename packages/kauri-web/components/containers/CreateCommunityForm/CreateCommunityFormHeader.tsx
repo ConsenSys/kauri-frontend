@@ -25,7 +25,10 @@ const LeftSide = styled.section`
   }
 `;
 
-const CreateCommunityDetails = styled.div`
+interface ICreateCommunityDetails {
+  mr: number;
+}
+const CreateCommunityDetails = styled('div')<ICreateCommunityDetails>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -162,9 +165,10 @@ const Component: React.SFC<IProps> = props => (
       </SocialFieldContainer>
     </LeftSide>
     <Stack
-      gridAutoflow={["row"]}
+      gridAutoFlow={["row"]}
       alignItems={["", "center"]}
       justifyContent={["", "end"]}
+      gap={0}
     >
       <CreateCommunityDetails mr={4}>
         <StatisticsContainer

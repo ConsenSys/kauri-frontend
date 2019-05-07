@@ -158,7 +158,6 @@ const withPagination = (
 
     render() {
       const setChildRef = (childRef: HTMLElement) => (this.childRef = childRef);
-      console.log(this.props);
 
       return (
         <div>

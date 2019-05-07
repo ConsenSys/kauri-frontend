@@ -82,8 +82,8 @@ const Divider = styled.div`
 
 interface IContentProps {
   id: string;
-  articles: Pick<IProps, "articles">;
-  collections: Pick<IProps, "collections">;
+  articles: Array<getCommunity_getCommunity_approved_ArticleDTO | null> | null;
+  collections: Array<getCommunity_getCommunity_approved_CollectionDTO | null> | null;
   curateCommunityResourcesAction: typeof curateCommunityResources;
   suggestArticleAction: any;
   suggestCollectionAction: any;
@@ -267,8 +267,8 @@ interface IProps {
   routeChangeAction?: (route: string) => void;
   openModalAction: (children: any) => void;
   closeModalAction: () => void;
-  articles: getCommunity_getCommunity_approved_ArticleDTO[] | null;
-  collections: getCommunity_getCommunity_approved_CollectionDTO[] | null;
+  articles: Array<getCommunity_getCommunity_approved_ArticleDTO | null> | null;
+  collections: Array<getCommunity_getCommunity_approved_CollectionDTO | null> | null;
   curateCommunityResourcesAction: typeof curateCommunityResources;
 }
 
