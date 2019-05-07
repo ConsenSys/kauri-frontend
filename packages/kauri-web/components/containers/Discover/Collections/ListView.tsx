@@ -48,7 +48,7 @@ class Collections extends Component<IProps> {
     return (
       <Fragment>
         <Helmet>
-          <title>Kauri - Discover Collections</title>
+          <title>Beginner to Advanced Blockchain & Ethereum Tutorials | Collections - Kauri</title>
           <meta
             name="description"
             content="Discover the best collections of blockchain related articles, tutorials and how-to guides"
