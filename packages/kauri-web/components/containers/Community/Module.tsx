@@ -1,5 +1,6 @@
 import { Epic } from "redux-observable";
 import { Observable } from "rxjs/Observable";
+import R from "ramda";
 import {
   IReduxState,
   IDependencies,
@@ -10,7 +11,11 @@ import {
   curateCommunityResources,
   curateCommunityResourcesVariables,
 } from "../../../queries/__generated__/curateCommunityResources";
-import R from "ramda";
+import { approveResourceMutation } from "../../../queries/Community";
+import {
+  approveResource,
+  approveResourceVariables,
+} from "../../../queries/__generated__/approveResource";
 
 interface ICurateCommunityResourcesAction {
   type: "CURATE_COMMUNITY_RESOURCES";

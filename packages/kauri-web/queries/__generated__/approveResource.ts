@@ -4,19 +4,19 @@
 import { ResourceIdentifierInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: addComment
+// GraphQL mutation operation: approveResource
 // ====================================================
 
-export interface addComment_addComment {
+export interface approveResource_approveResource {
   __typename: "MutationResponse";
   hash: string | null;
 }
 
-export interface addComment {
-  addComment: addComment_addComment | null;
+export interface approveResource {
+  approveResource: approveResource_approveResource | null;
 }
 
-export interface addCommentVariables {
-  parent?: ResourceIdentifierInput | null;
-  body?: string | null;
+export interface approveResourceVariables {
+  id?: string | null;
+  resource?: ResourceIdentifierInput | null;
 }
