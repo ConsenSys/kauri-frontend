@@ -14,6 +14,7 @@ type Props = {
   data: {
     getCollection?: CollectionDTO,
   },
+  proposedCommunityId?: string,
   openModalAction: any,
   routeChangeAction: string => void,
   hostName: string,
@@ -156,6 +157,8 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             id={id}
             name={name}
             description={description || ""}
+            approveArticleAction={this.props.approveArticleAction}
+            proposedCommunityId={this.props.proposedCommunityId}
             articleCount={sections
               .map(({ resources }) => resources)
               .reduce((current, next) => {

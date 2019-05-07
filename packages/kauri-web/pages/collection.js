@@ -6,10 +6,13 @@ import Collection from "../components/containers/Collection";
 import { withRouter } from "next/router";
 
 class CollectionPage extends React.Component {
-  render() {
+  render () {
     return (
       <App url={this.props.router} navcolor="transparent">
-        <Collection id={this.props.router.query.collection_id} />
+        <Collection
+          proposedCommunityId={this.props.router.query["proposed-community-id"]}
+          id={this.props.router.query.collection_id}
+        />
       </App>
     );
   }

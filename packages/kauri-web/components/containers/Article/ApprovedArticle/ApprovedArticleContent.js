@@ -172,7 +172,7 @@ export default ({
   nfts: INFT[],
   approveResourceAction: (payload: {
     id: string,
-    resource: { id: string, type: string },
+    resource: { id: string, type: string, version: number },
   }) => void,
   relatedArticles: ArticleDTO[],
   resourceType: "USER" | "COMMUNITY",
@@ -299,11 +299,11 @@ export default ({
               handleClick={() =>
                 approveResourceAction({
                   id: proposedCommunityId,
-                  resource: { type: "ARTICLE", id },
+                  resource: { type: "ARTICLE", id, version },
                 })
               }
             >
-              Accept community proposed article
+              Approve community proposed article
             </TertiaryButton>
           )}
           {status === "DRAFT" && userId === authorId && (
