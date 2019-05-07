@@ -12,14 +12,14 @@ setConfig({
   pureRender: true, // RHL will not change render method
 });
 
-export const menuHeaderHeight = 76;
+export const menuHeaderHeight = 57;
 export const footerHeight = 57;
 
 const Layout = styled.div``;
 
 const StyledContent = styled.div`
   padding-top: 0px;
-  min-height: calc(100vh - ${menuHeaderHeight + footerHeight}px);
+  min-height: calc(100vh - ${menuHeaderHeight}px);
   background: #f7f7f7;
 `;
 

@@ -57,7 +57,7 @@ export const curateCommunityResourcesEpic: Epic<
         .mergeMap(({ data: { curateResources: { hash } } }) =>
           apolloSubscriber<ICurateCommunityResourcesOutput>(hash)
         )
-        .mergeMap(({ data: { output: { id, error } } }) =>
+        .mergeMap(({ data: { output: { error } } }) =>
           error
             ? Observable.of(
                 showNotificationAction({
