@@ -1,12 +1,16 @@
 import React from "react";
-import { getCommunity_getCommunity, getCommunity_getCommunity_approved_CollectionDTO, getCommunity_getCommunity_approved_ArticleDTO } from "../../../queries/__generated__/getCommunity";
+import {
+  getCommunity_getCommunity,
+  getCommunity_getCommunity_approved_CollectionDTO,
+  getCommunity_getCommunity_approved_ArticleDTO,
+} from "../../../queries/__generated__/getCommunity";
 import CommunityHeader from "./CommunityHeader";
 import Tabs from "../../../../kauri-components/components/Tabs";
 import DisplayResources from "./DisplayResources";
 import Manage from "./Manage";
 import R from "ramda";
 import { curateCommunityResourcesAction as curateCommunityResources } from "./Module";
-import EmptyCollections from './EmptyStates/Collections';
+import EmptyCollections from "./EmptyStates/Collections";
 
 interface IProps {
   currentUser: string;
@@ -58,13 +62,15 @@ class CommunityConnection extends React.Component<IProps> {
           social={getCommunity.social}
           articles={
             getCommunity.approved &&
-            getCommunity.approved.filter(
+            (getCommunity.approved.filter(
               resource => resource && resource.__typename === "ArticleDTO"
-            ) as getCommunity_getCommunity_approved_ArticleDTO[]
+            ) as getCommunity_getCommunity_approved_ArticleDTO[])
           }
           collections={
             getCommunity.approved &&
-            getCommunity.approved.filter(resource => resource && resource.__typename === "CollectionDTO") as getCommunity_getCommunity_approved_CollectionDTO[]
+            (getCommunity.approved.filter(
+              resource => resource && resource.__typename === "CollectionDTO"
+            ) as getCommunity_getCommunity_approved_CollectionDTO[])
           }
           articleCount={(articles && articles.length) || 0}
           collectionCount={(collections && collections.length) || 0}
@@ -88,8 +94,13 @@ class CommunityConnection extends React.Component<IProps> {
           panels={[
             <DisplayResources key="home" resources={getCommunity.approved} />,
             <DisplayResources key="articles" resources={articles} />,
-            collections && collections.length > 0 ? <DisplayResources key="collections" resources={collections} /> : <EmptyCollections />,
+            collections && collections.length > 0 ? (
+              <DisplayResources key="collections" resources={collections} />
+            ) : (
+              <EmptyCollections />
+            ),
             <Manage
+              communityId={String(getCommunity.id)}
               key="manage"
               members={getCommunity.members}
               pending={getCommunity.pending}

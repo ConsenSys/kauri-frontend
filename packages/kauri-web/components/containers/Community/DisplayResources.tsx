@@ -9,7 +9,7 @@ import Masonry from "../../../../kauri-components/components/Layout/Masonry";
 
 interface IProps {
   resources: any;
-  communityId: string;
+  communityId?: string;
 }
 
 const DisplayResources = ({ resources, communityId }: IProps) => (
@@ -61,7 +61,11 @@ const DisplayResources = ({ resources, communityId }: IProps) => (
               ) => (
                 <Link
                   useAnchorTag={true}
-                  href={`${route}?proposed-community-id=${communityId}`}
+                  href={
+                    communityId
+                      ? `${route}?proposed-community-id=${communityId}`
+                      : route
+                  }
                 >
                   {childrenProps}
                 </Link>
@@ -115,7 +119,11 @@ const DisplayResources = ({ resources, communityId }: IProps) => (
               ) => (
                 <Link
                   useAnchorTag={true}
-                  href={`${route}?proposed-community-id=${communityId}`}
+                  href={
+                    communityId
+                      ? `${route}?proposed-community-id=${communityId}`
+                      : route
+                  }
                 >
                   {childrenProps}
                 </Link>
