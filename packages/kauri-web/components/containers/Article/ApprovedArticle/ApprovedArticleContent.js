@@ -137,6 +137,7 @@ export default ({
   authorId,
   userAvatar,
   routeChangeAction,
+  approveResourceAction,
   id,
   version,
   subject,
@@ -149,6 +150,7 @@ export default ({
   deleteDraftArticleAction,
   nfts,
   relatedArticles,
+  proposedCommunityId,
 }: {
   author: {
     id: string,
@@ -168,10 +170,15 @@ export default ({
   address?: string,
   hostName: string,
   nfts: INFT[],
+  approveResourceAction: (payload: {
+    id: string,
+    resource: { id: string, type: string },
+  }) => void,
   relatedArticles: ArticleDTO[],
   resourceType: "USER" | "COMMUNITY",
   openModalAction: ({ children: React.ReactNode }) => void,
   closeModalAction: () => void,
+  proposedCommunityId?: string,
   deleteDraftArticleAction: ({ id: string, version: number }) => void,
 }) => {
   let editorState =
@@ -285,6 +292,20 @@ export default ({
           >
             {`Update ${status === "DRAFT" ? "draft" : "article"}`}
           </TertiaryButton>
+          {typeof proposedCommunityId === "string" && (
+            <TertiaryButton
+              color={"textPrimary"}
+              icon={<UpdateArticleSvgIcon />}
+              handleClick={() =>
+                approveResourceAction({
+                  id: proposedCommunityId,
+                  resource: { type: "ARTICLE", id },
+                })
+              }
+            >
+              Accept community proposed article
+            </TertiaryButton>
+          )}
           {status === "DRAFT" && userId === authorId && (
             <TertiaryButton
               color={"textPrimary"}

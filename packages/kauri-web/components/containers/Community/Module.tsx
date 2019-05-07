@@ -6,12 +6,14 @@ import {
   IDependencies,
   showNotificationAction,
 } from "../../../lib/Module";
-import { curateCommunityResourcesMutation } from "../../../queries/Community";
+import {
+  curateCommunityResourcesMutation,
+  approveResourceMutation,
+} from "../../../queries/Community";
 import {
   curateCommunityResources,
   curateCommunityResourcesVariables,
 } from "../../../queries/__generated__/curateCommunityResources";
-import { approveResourceMutation } from "../../../queries/Community";
 import {
   approveResource,
   approveResourceVariables,
