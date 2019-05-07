@@ -48,10 +48,10 @@ class CommunityConnection extends React.Component<IProps> {
       <>
         <CommunityHeader
           id={String(getCommunity.id)}
-          avatar={String(getCommunity.avatar)}
-          name={String(getCommunity.name)}
-          website={String(getCommunity.website)}
-          description={String(getCommunity.description)}
+          avatar={getCommunity.avatar}
+          name={getCommunity.name}
+          website={getCommunity.website}
+          description={getCommunity.description}
           background={String(
             getCommunity.attributes && getCommunity.attributes.background
           )}
