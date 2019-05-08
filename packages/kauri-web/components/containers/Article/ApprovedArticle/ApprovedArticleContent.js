@@ -213,7 +213,7 @@ export default ({
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type="outline">
-        {/* <Outline
+        <Outline
           nfts={nfts}
           linkComponent={children => (
             <Link
@@ -236,7 +236,7 @@ export default ({
           userAvatar={userAvatar}
           text={ownerId ? "OWNER" : "AUTHOR"}
           routeChangeAction={routeChangeAction}
-        /> */}
+        />
         {ownerId !== authorId &&
           (status === "PENDING" || status === "IN_REVIEW") && (
           <AuthorContainer>
