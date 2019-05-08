@@ -16,9 +16,11 @@ const Container = styled<IContainerProps, "div">("div")`
   flex-wrap: wrap;
   justify-content: ${props =>
     props.align === "center" ? "center" : "flex-start"};
+  align-items: center;
 `;
 
 interface IProps {
+  className?: string;
   orientation?: "vertical";
   tags: Array<string | null> | null;
   color: string;
@@ -115,7 +117,11 @@ const TagList = (props: IProps) => {
     }
   }, 0);
   return (
-    <Container orientation={props.orientation} align={props.align}>
+    <Container
+      className={props.className}
+      orientation={props.orientation}
+      align={props.align}
+    >
       {shownTags.length > 0 &&
         shownTags.map((tag, key) => (
           <StyledTag

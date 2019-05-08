@@ -1,6 +1,5 @@
 import * as React from "react";
 import styled, { css } from "../../lib/styled-components";
-import R from "ramda";
 import TextTruncate from "react-text-truncate";
 import BaseCard from "./BaseCard";
 import { H1, BodyCard } from "../Typography";
@@ -17,14 +16,10 @@ import {
   toggleInitialState,
 } from "../../../kauri-web/lib/use-toggle";
 import { TagList } from "../Tags";
-import NFTList from "../Kudos/NFTList";
 import Image from "../Image";
 import Date from "../HoverDateLabel";
-import { Article_associatedNfts } from "../../../kauri-web/queries/__generated__/Article";
 
-const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
-const DEFAULT_CARD_PADDING = theme.space[2];
 
 const withImageURLPaddingCss = css`
   padding: ${props => props.theme.space[2]}px;
@@ -53,6 +48,11 @@ const Content = styled<{ imageURL: string | null }, "div">("div")`
   }
   > h1 {
     word-break: break-word;
+    margin: 0;
+    line-height: 22px;
+  }
+  & .taglist {
+    margin-top: 0px;
   }
   ${props => typeof props.imageURL === "string" && withImageURLPaddingCss};
 `;
@@ -99,99 +99,6 @@ const MoreOptionsIcon: React.FunctionComponent<{}> = () => (
   </svg>
 );
 
-const titleLineHeight = R.cond([
-  [
-    ({ cardHeight, imageURL }) =>
-      cardHeight <= DEFAULT_CARD_HEIGHT && typeof imageURL !== "string",
-    R.always(2),
-  ],
-  [
-    ({ cardHeight, imageURL }) =>
-      cardHeight > DEFAULT_CARD_HEIGHT && typeof imageURL !== "string",
-    R.always(3),
-  ],
-  [({ imageURL }) => typeof imageURL === "string", R.always(2)],
-]);
-
-const contentLineHeight = R.cond([
-  [
-    ({ cardWidth, imageURL }) =>
-      cardWidth > DEFAULT_CARD_WIDTH && typeof imageURL !== "string",
-    R.always(4),
-  ],
-  [
-    ({ cardHeight, imageURL }) =>
-      cardHeight <= DEFAULT_CARD_HEIGHT && typeof imageURL !== "string",
-    R.always(4),
-  ],
-  [
-    ({ cardHeight, imageURL }) =>
-      cardHeight > DEFAULT_CARD_HEIGHT && typeof imageURL !== "string",
-    R.always(5),
-  ],
-  [({ imageURL }) => typeof imageURL === "string", R.always(3)],
-]);
-
-const calculateCardHeight = R.cond([
-  [
-    ({ cardHeight, cardWidth, imageURL }) =>
-      typeof imageURL !== "string" &&
-      cardHeight > DEFAULT_CARD_HEIGHT &&
-      cardWidth > DEFAULT_CARD_WIDTH,
-    ({ cardHeight }) => cardHeight - DEFAULT_CARD_PADDING * 2,
-  ],
-  [
-    ({ cardHeight, cardWidth, imageURL }) =>
-      typeof imageURL !== "string" &&
-      cardHeight === DEFAULT_CARD_HEIGHT &&
-      cardWidth > DEFAULT_CARD_WIDTH,
-    R.always(DEFAULT_CARD_HEIGHT - DEFAULT_CARD_PADDING * 2),
-  ],
-  [
-    ({ cardHeight, imageURL }) =>
-      typeof imageURL === "string" && cardHeight > DEFAULT_CARD_HEIGHT,
-    ({ cardHeight }) => cardHeight,
-  ],
-  [
-    ({ cardHeight, imageURL }) =>
-      typeof imageURL === "string" && cardHeight === DEFAULT_CARD_HEIGHT,
-    R.always(DEFAULT_CARD_HEIGHT),
-  ],
-  [
-    ({ cardHeight, imageURL }) =>
-      typeof imageURL !== "string" && cardHeight > DEFAULT_CARD_HEIGHT,
-    ({ cardHeight }) => cardHeight,
-  ],
-  [
-    ({ cardHeight, imageURL }) =>
-      typeof imageURL !== "string" && cardHeight === DEFAULT_CARD_HEIGHT,
-    R.always(DEFAULT_CARD_HEIGHT),
-  ],
-]);
-
-const calculateCardWidth = R.cond([
-  [
-    ({ cardWidth, imageURL }) =>
-      typeof imageURL === "string" && cardWidth > DEFAULT_CARD_WIDTH,
-    ({ cardWidth }) => cardWidth,
-  ],
-  [
-    ({ cardWidth, imageURL }) =>
-      typeof imageURL === "string" && cardWidth === DEFAULT_CARD_WIDTH,
-    R.always(DEFAULT_CARD_WIDTH),
-  ],
-  [
-    ({ cardWidth, imageURL }) =>
-      typeof imageURL !== "string" && cardWidth > DEFAULT_CARD_WIDTH,
-    ({ cardWidth }) => cardWidth,
-  ],
-  [
-    ({ cardWidth, imageURL }) =>
-      typeof imageURL !== "string" && cardWidth === DEFAULT_CARD_WIDTH,
-    R.always(DEFAULT_CARD_WIDTH),
-  ],
-]);
-
 const Header = styled.div`
   display: flex;
   > :first-child {
@@ -214,31 +121,25 @@ const MoreOptions = styled<{ hasImageURL: boolean }, "div">("div")`
 interface ICardContentProps {
   title: string;
   description: string | null;
-  cardHeight: number;
-  cardWidth: number;
   imageURL: string | null;
   date: string;
   status: undefined | "PUBLISHED" | "DRAFT";
   tags?: string[];
-  nfts: Array<Article_associatedNfts | null> | null;
 }
 
 const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
   title,
   description,
-  cardHeight,
-  cardWidth,
   imageURL,
   date,
   status,
   tags,
-  nfts,
 }) => (
   <React.Fragment>
     {typeof imageURL === "string" && (
       <Image
-        width={cardWidth}
-        height={cardHeight < 420 ? 116 : 170}
+        width={288}
+        height={130}
         image={imageURL}
         borderTopLeftRadius="4px"
         borderTopRightRadius="4px"
@@ -249,16 +150,12 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
         <Date status={status} date={date} />
       </Header>
       <H1>
-        <TextTruncate
-          line={titleLineHeight({ cardHeight, imageURL })}
-          truncateText="…"
-          text={title}
-        />
+        <TextTruncate line={2} truncateText="…" text={title} />
       </H1>
-      {cardHeight >= DEFAULT_CARD_HEIGHT && !imageURL && (
+      {!imageURL && (
         <BodyCard>
           <TextTruncate
-            line={contentLineHeight({ cardHeight, cardWidth, imageURL })}
+            line={imageURL ? 2 : 6}
             truncateText="…"
             text={description || ""}
           />
@@ -266,15 +163,13 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
       )}
       {Array.isArray(tags) && tags.length > 0 && (
         <TagList
+          className="taglist"
           resourceType="card"
           maxTags={3}
+          maxChars={25}
           color="textPrimary"
           tags={tags}
-          maxChars={40}
         />
-      )}
-      {Array.isArray(nfts) && nfts.length > 0 && (
-        <NFTList nftSize={20} nfts={nfts} />
       )}
     </Content>
   </React.Fragment>
@@ -375,7 +270,6 @@ interface IProps {
   status?: "PUBLISHED" | "DRAFT";
   isLoggedIn: boolean;
   tags?: string[];
-  nfts: Array<Article_associatedNfts | null> | null;
   triggerHoverChildrenOnFullCardClick?: boolean;
 }
 
@@ -388,8 +282,6 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   userId,
   userAvatar,
   imageURL,
-  cardWidth = DEFAULT_CARD_WIDTH,
-  cardHeight = DEFAULT_CARD_HEIGHT,
   linkComponent,
   isChosenArticle,
   resourceType,
@@ -397,7 +289,6 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   isLoggedIn,
   hoverChildren,
   tags,
-  nfts,
   destination,
   description,
   triggerHoverChildrenOnFullCardClick = false,
@@ -410,8 +301,8 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   return (
     <BaseCard
       imageURL={imageURL}
-      cardWidth={calculateCardWidth({ cardWidth, imageURL })}
-      cardHeight={calculateCardHeight({ cardHeight, cardWidth, imageURL })}
+      cardWidth={288}
+      cardHeight={310}
       isChosenArticle={isChosenArticle}
       toggledOn={toggledOn}
     >
@@ -444,13 +335,10 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
           <RenderCardContent
             title={title}
             description={description}
-            cardHeight={cardHeight}
-            cardWidth={cardWidth}
             imageURL={imageURL}
             date={date}
             status={status}
             tags={tags}
-            nfts={nfts}
           />,
           destination === "review"
             ? `/article-review/${id}/v${version}`
@@ -463,7 +351,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
               imageURL={imageURL}
               username={username}
               userId={userId}
-              cardWidth={calculateCardWidth({ cardWidth, imageURL })}
+              cardWidth={288}
               userAvatar={userAvatar}
             />,
             resourceType === "COMMUNITY"
