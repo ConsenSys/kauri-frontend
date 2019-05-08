@@ -65,7 +65,7 @@ const ResultComp = styled.div`
 
 const SearchComp = styled.div`
   background: white;
-  max-width: 400px;
+  max-width: 430px;
   padding-bottom: ${props => props.theme.space[1]}px;
   border-radius: 4px;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.11);
@@ -175,6 +175,16 @@ const SearchResults = (props: ISearchResults) => (
   </ResultsComp>
 );
 
+const mapTypeToName = (key: string, tab: number) => {
+  if (key === "COMMUNITY" && tab === 1) {
+    return `COMMUNITY (${tab})`;
+  } else if (key === "COMMUNITY" && tab > 1) {
+    return `COMMUNITIE (${tab})`;
+  } else {
+    return tab > 1 ? `${key}S (${tab})` : `${key} (${tab})`;
+  }
+};
+
 const Search = (props: IProps) => (
   <>
     {props.breakDown && props.results && props.results.length > 0 && (
@@ -184,7 +194,7 @@ const Search = (props: IProps) => (
           dark={false}
           tabs={getTabs(props.breakDown).map(tab => ({
             callback: () => props.fetchByType(tab),
-            name: `${tab} (${props.breakDown[tab]})`,
+            name: `${mapTypeToName(tab, props.breakDown[tab])}`,
           }))}
           panels={getTabs(props.breakDown).map(tab => (
             <SearchResults
