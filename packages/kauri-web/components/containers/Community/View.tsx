@@ -4,6 +4,7 @@ import {
   getCommunity_getCommunity_approved_CollectionDTO,
   getCommunity_getCommunity_approved_ArticleDTO,
 } from "../../../queries/__generated__/getCommunity";
+import { getCommunityAndPendingArticles_searchArticles } from "../../../queries/__generated__/getCommunityAndPendingArticles";
 import CommunityHeader from "./CommunityHeader";
 import Tabs from "../../../../kauri-components/components/Tabs";
 import DisplayResources from "./DisplayResources";
@@ -11,12 +12,12 @@ import Manage from "./Manage";
 import R from "ramda";
 import { curateCommunityResourcesAction as curateCommunityResources } from "./Module";
 import EmptyCollections from "./EmptyStates/Collections";
-import DisplaySubmittedUpdates from "./DisplaySubmittedUpdates";
 
 interface IProps {
   currentUser: string;
   data: {
     getCommunity: getCommunity_getCommunity;
+    searchArticles: getCommunityAndPendingArticles_searchArticles;
   };
   closeModalAction: () => void;
   openModalAction: () => void;
@@ -105,6 +106,11 @@ class CommunityConnection extends React.Component<IProps> {
               key="manage"
               members={getCommunity.members}
               pending={getCommunity.pending}
+              pendingUpdates={
+                this.props.data &&
+                this.props.data.searchArticles &&
+                this.props.data.searchArticles.content
+              }
             />,
           ]}
         />

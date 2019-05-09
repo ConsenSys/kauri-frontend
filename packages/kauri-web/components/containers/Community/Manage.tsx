@@ -2,13 +2,14 @@ import React, { useState } from "react";
 
 import styled from "styled-components";
 import ResourceCategory from "../../../../kauri-components/components/ResourceCategory";
-import DisplayResources from "./DisplayResources";
+import DisplayResources, {
+  DisplayPendingArticleResources,
+} from "./DisplayResources";
 import ManageMembers from "./ManageMembers";
 import {
   getCommunity_getCommunity_pending,
   getCommunity_getCommunity_members,
 } from "../../../queries/__generated__/getCommunity";
-import DisplaySubmittedUpdates from "./DisplaySubmittedUpdates";
 
 const Container = styled.div`
   display: flex;
@@ -29,11 +30,12 @@ const Column = styled.div`
 
 interface IProps {
   communityId: string;
+  pendingUpdates: any;
   pending: Array<getCommunity_getCommunity_pending | null> | null;
   members: Array<getCommunity_getCommunity_members | null> | null;
 }
 
-const Manage = ({ pending, members, communityId }: IProps) => {
+const Manage = ({ pending, members, communityId, pendingUpdates }: IProps) => {
   const [tabIndex, setTabIndex] = useState(0);
   const pendingArticles =
     pending && pending.filter(i => i && i.__typename === "ArticleDTO");
@@ -64,7 +66,7 @@ const Manage = ({ pending, members, communityId }: IProps) => {
         <ResourceCategory
           active={tabIndex === 3}
           category="Pending Updates"
-          amount={0}
+          amount={(pendingUpdates && pendingUpdates.length) || 0}
           onClick={() => setTabIndex(3)}
         />
       </Column>
@@ -82,7 +84,12 @@ const Manage = ({ pending, members, communityId }: IProps) => {
             resources={pendingCollections}
           />
         )}
-        {tabIndex === 3 && <DisplaySubmittedUpdates id={communityId} />}
+        {tabIndex === 3 && (
+          <DisplayPendingArticleResources
+            communityId={communityId}
+            resources={pendingUpdates}
+          />
+        )}
       </Column>
     </Container>
   );

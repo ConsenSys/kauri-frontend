@@ -356,7 +356,7 @@ interface IProps {
   imageURL: string | null;
   cardHeight: number;
   cardWidth?: number;
-  destination?: "review";
+  destination?: "review" | null;
   linkComponent: (
     childrenProps: React.ReactElement<any>,
     route: string

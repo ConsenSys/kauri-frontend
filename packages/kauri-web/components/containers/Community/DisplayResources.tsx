@@ -6,14 +6,18 @@ import {
   Community_approved_ArticleDTO,
 } from "../../../queries/Fragments/__generated__/Community";
 import Masonry from "../../../../kauri-components/components/Layout/Masonry";
+import styled from "../../../lib/styled-components";
+
+const Container = styled.div`
+  margin-left: ${props => props.theme.space[3]}px;
+`;
 
 interface IProps {
   resources?: any;
-  data?: any; // data.getCommunityContent
   communityId?: string;
 }
 
-const RenderResources = communityId => (
+const RenderResources = (communityId: string, destination?: string) => (
   i: Community_approved_ArticleDTO | Community_approved_CollectionDTO
 ) => {
   const owner =
@@ -45,8 +49,9 @@ const RenderResources = communityId => (
         id={String(i.id)}
         version={Number(i.version)}
         description={i.description}
-        date={i.datePublished}
+        date={i.datePublished || i.dateCreated}
         title={String(i.title)}
+        destination={destination ? "review" : null}
         imageURL={i.attributes && i.attributes.background}
         cardHeight={310}
         cardWidth={288}
@@ -63,7 +68,9 @@ const RenderResources = communityId => (
           <Link
             useAnchorTag={true}
             href={
-              communityId
+              destination
+                ? `${route}`
+                : communityId
                 ? `${route}?proposed-community-id=${communityId}`
                 : route
             }
@@ -121,7 +128,9 @@ const RenderResources = communityId => (
           <Link
             useAnchorTag={true}
             href={
-              communityId
+              destination
+                ? `${route}`
+                : communityId
                 ? `${route}?proposed-community-id=${communityId}`
                 : route
             }
@@ -136,17 +145,27 @@ const RenderResources = communityId => (
   }
 };
 
-const DisplayResources = ({ resources, communityId, data }: IProps) => (
-  <Masonry>
-    {Array.isArray(resources)
-      ? resources.map(RenderResources(communityId))
-      : Array.isArray(
-          data && data.getCommunityContent && data.getCommunityContent.content
-        ) &&
-        data &&
-        data.getCommunityContent &&
-        data.getCommunityContent.content.map(RenderResources(communityId))}
-  </Masonry>
-);
+const DisplayResources = ({ resources, communityId }: IProps) => {
+  return (
+    <Masonry>
+      {Array.isArray(resources) &&
+        resources.map(RenderResources(String(communityId)))}
+    </Masonry>
+  );
+};
+
+export const DisplayPendingArticleResources = ({
+  resources,
+  communityId,
+}: IProps) => {
+  return (
+    <Container>
+      <Masonry withPadding={false}>
+        {Array.isArray(resources) &&
+          resources.map(RenderResources(String(communityId), "review"))}
+      </Masonry>
+    </Container>
+  );
+};
 
 export default DisplayResources;

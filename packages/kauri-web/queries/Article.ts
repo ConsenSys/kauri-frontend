@@ -367,13 +367,13 @@ export const searchPending = gql`
 `;
 
 export const searchAwaitingApproval = gql`
-  query searchArticles($size: Int = 666, $page: Int = 0, $owners: [String]) {
+  query searchArticles($size: Int = 666, $page: Int = 0, $author: String) {
     searchArticles(
       size: $size
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { ownerIdIn: $owners, statusIn: [PENDING] }
+      filter: { authorIdEquals: $author, statusIn: [PENDING] }
     ) {
       totalElements
       isLast

@@ -114,7 +114,7 @@ export interface searchArticles {
 }
 
 export interface searchArticlesVariables {
-  userId?: string | null;
   size?: number | null;
   page?: number | null;
+  author?: string | null;
 }

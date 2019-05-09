@@ -104,7 +104,7 @@ export default compose(
       fetchPolicy: "cache-and-network",
       variables: {
         page: 0,
-        owners: communities.concat(userId),
+        author: userId,
       },
     }),
   }),

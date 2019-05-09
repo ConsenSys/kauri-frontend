@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { Community } from "./Fragments";
+import { Community, UserOwner, CommunityOwner } from "./Fragments";
 
 export const getCommunity = gql`
   query getCommunity($id: String) {
@@ -8,6 +8,74 @@ export const getCommunity = gql`
     }
   }
   ${Community}
+`;
+
+export const getCommunityAndPendingArticles = gql`
+  query getCommunityAndPendingArticles(
+    $id: String
+    $size: Int = 8
+    $page: Int = 0
+  ) {
+    getCommunity(id: $id) {
+      ...Community
+    }
+    searchArticles(
+      size: $size
+      page: $page
+      sort: "dateCreated"
+      dir: DESC
+      filter: { ownerIdEquals: $id, statusIn: [PENDING] }
+    ) {
+      totalElements
+      isLast
+      content {
+        id
+        version
+        title
+        description
+        tags
+        dateCreated
+        datePublished
+        author {
+          id
+          name
+          username
+          avatar
+        }
+        owner {
+          ...UserOwner
+          ...CommunityOwner
+        }
+        status
+        attributes
+        contentHash
+        checkpoint
+        voteResult {
+          sum
+        }
+        comments {
+          content {
+            posted
+            author {
+              id
+              name
+            }
+            body
+          }
+          totalPages
+          totalElements
+        }
+        resourceIdentifier {
+          type
+          id
+          version
+        }
+      }
+    }
+  }
+  ${Community}
+  ${UserOwner}
+  ${CommunityOwner}
 `;
 
 export const getAllCommunities = gql`
