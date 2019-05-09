@@ -138,3 +138,31 @@ export const approveResourceMutation = gql`
     }
   }
 `;
+
+export const getCommunityArticleContent = gql`
+  query getCommunityContent(
+    $id: String
+    $page: Int = 0
+    $size: Int = 12
+    $filter: CommunityResourceFilterInput
+  ) {
+    getCommunityContent(id: $id, page: $page, size: $size, filter: $filter) {
+      content {
+        id
+        type
+        resource {
+          ... on ArticleDTO {
+            id
+            title
+          }
+          ... on CollectionDTO {
+            id
+            name
+          }
+        }
+      }
+      totalPages
+      totalElements
+    }
+  }
+`;

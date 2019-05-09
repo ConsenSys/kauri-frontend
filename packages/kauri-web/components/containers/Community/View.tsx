@@ -11,6 +11,7 @@ import Manage from "./Manage";
 import R from "ramda";
 import { curateCommunityResourcesAction as curateCommunityResources } from "./Module";
 import EmptyCollections from "./EmptyStates/Collections";
+import DisplaySubmittedUpdates from "./DisplaySubmittedUpdates";
 
 interface IProps {
   currentUser: string;

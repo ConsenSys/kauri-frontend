@@ -8,6 +8,7 @@ import {
   getCommunity_getCommunity_pending,
   getCommunity_getCommunity_members,
 } from "../../../queries/__generated__/getCommunity";
+import DisplaySubmittedUpdates from "./DisplaySubmittedUpdates";
 
 const Container = styled.div`
   display: flex;
@@ -60,6 +61,12 @@ const Manage = ({ pending, members, communityId }: IProps) => {
           amount={pendingCollections ? pendingCollections.length : 0}
           onClick={() => setTabIndex(2)}
         />
+        <ResourceCategory
+          active={tabIndex === 3}
+          category="Pending Updates"
+          amount={0}
+          onClick={() => setTabIndex(3)}
+        />
       </Column>
       <Column>
         {tabIndex === 0 && <ManageMembers members={members} />}
@@ -75,6 +82,7 @@ const Manage = ({ pending, members, communityId }: IProps) => {
             resources={pendingCollections}
           />
         )}
+        {tabIndex === 3 && <DisplaySubmittedUpdates id={communityId} />}
       </Column>
     </Container>
   );
