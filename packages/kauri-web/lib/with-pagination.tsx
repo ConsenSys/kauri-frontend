@@ -9,6 +9,7 @@ interface IState {
 }
 
 type PaginationDataQuery =
+  | "getCommunityContent"
   | "searchCommunities"
   | "searchAutocompleteCollections"
   | "searchArticles"
