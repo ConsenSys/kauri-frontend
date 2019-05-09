@@ -99,6 +99,7 @@ const TagWrap = styled<{ type?: string }, "span">("span")`
 `;
 
 interface IProps {
+  communities: Array<{ id: string; name: string }>;
   routeChangeAction: (route: string) => void;
   title: string;
   attributes?: {
@@ -181,7 +182,7 @@ const DiffTagList = (props: { oldTags: string[]; newTags: string[] }) => {
   }
 };
 
-const Header = (props: IProps) => (
+const Header: React.FunctionComponent<IProps> = props => (
   <Container bgUpdated={props.bgUpdated}>
     {props.attributes && props.attributes.background && (
       <Image
@@ -203,41 +204,43 @@ const Header = (props: IProps) => (
             <Label color="white">The background has been updated</Label>
           ) : null}
         </BGNotice>
-        {props.owner === props.currentUser && props.status === "PENDING" && (
-          <Buttons>
-            <SecondaryButton
-              onClick={() =>
-                props.openModalAction({
-                  children: (
-                    <RejectArticleModal
-                      closeModalAction={() => props.closeModalAction()}
-                      confirmModal={cause =>
-                        props.rejectArticleAction({
-                          cause,
-                          id: props.id,
-                          version: parseInt(props.proposedVersion, 10),
-                        })
-                      }
-                    />
-                  ),
-                })
-              }
-              text="Reject Changes"
-            />
-            <PrimaryButton
-              onClick={() =>
-                props.approveArticleAction({
-                  author: props.author.id,
-                  contentHash: props.contentHash,
-                  dateCreated: props.date,
-                  id: props.id,
-                  version: parseInt(props.proposedVersion, 10),
-                })
-              }
-              text="Approve Changes"
-            />
-          </Buttons>
-        )}
+        {(props.owner === props.currentUser ||
+          props.communities.find(({ id }) => id === props.owner)) &&
+          props.status === "PENDING" && (
+            <Buttons>
+              <SecondaryButton
+                onClick={() =>
+                  props.openModalAction({
+                    children: (
+                      <RejectArticleModal
+                        closeModalAction={() => props.closeModalAction()}
+                        confirmModal={cause =>
+                          props.rejectArticleAction({
+                            cause,
+                            id: props.id,
+                            version: parseInt(props.proposedVersion, 10),
+                          })
+                        }
+                      />
+                    ),
+                  })
+                }
+                text="Reject Changes"
+              />
+              <PrimaryButton
+                onClick={() =>
+                  props.approveArticleAction({
+                    author: props.author.id,
+                    contentHash: props.contentHash,
+                    dateCreated: props.date,
+                    id: props.id,
+                    version: parseInt(props.proposedVersion, 10),
+                  })
+                }
+                text="Approve Changes"
+              />
+            </Buttons>
+          )}
       </Actions>
       <Left>
         <Label color="white">

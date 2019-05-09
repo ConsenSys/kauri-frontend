@@ -306,13 +306,13 @@ export const addComment = gql`
 `;
 
 export const searchPending = gql`
-  query searchArticles($userId: String, $size: Int = 8, $page: Int = 0) {
+  query searchArticles($size: Int = 8, $page: Int = 0, $owners: [String]) {
     searchArticles(
       size: $size
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { authorIdEquals: $userId, statusIn: [PENDING] }
+      filter: { ownerIdIn: $owners, statusIn: [PENDING] }
     ) {
       totalElements
       isLast
@@ -367,13 +367,13 @@ export const searchPending = gql`
 `;
 
 export const searchAwaitingApproval = gql`
-  query searchArticles($userId: String, $size: Int = 666, $page: Int = 0) {
+  query searchArticles($size: Int = 666, $page: Int = 0, $owners: [String]) {
     searchArticles(
       size: $size
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { ownerIdEquals: $userId, statusIn: [PENDING] }
+      filter: { ownerIdIn: $owners, statusIn: [PENDING] }
     ) {
       totalElements
       isLast
