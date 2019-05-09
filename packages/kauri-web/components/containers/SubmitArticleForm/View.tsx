@@ -134,7 +134,9 @@ class SubmitArticleForm extends React.Component<IProps> {
               i.type = "COMMUNITY";
               return i;
             })}
-            handleSubmit={ (e, destination) => this.handleSubmit('submit/update', undefined, destination)(e)}
+            handleSubmit={(e, destination) =>
+              this.handleSubmit("submit/update", undefined, destination)(e)
+            }
           />
         ),
       });
@@ -383,6 +385,7 @@ class SubmitArticleForm extends React.Component<IProps> {
           openModalAction={this.props.openModalAction}
           closeModalAction={this.props.closeModalAction}
           showNotificationAction={this.props.showNotificationAction}
+          communities={this.props.communities.map(({ id }) => id)}
         />
         <SubmitArticleForm.Header
           {...this.props.form}

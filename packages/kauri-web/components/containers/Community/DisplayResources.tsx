@@ -17,9 +17,10 @@ interface IProps {
   communityId?: string;
 }
 
-const RenderResources = (communityId: string, destination?: string) => (
+const RenderResources = (communityId?: string, destination?: string) => (
   i: Community_approved_ArticleDTO | Community_approved_CollectionDTO
 ) => {
+  console.log("comm", communityId);
   const owner =
     i.owner && i.owner.__typename === "PublicUserDTO"
       ? {
@@ -70,7 +71,7 @@ const RenderResources = (communityId: string, destination?: string) => (
             href={
               destination
                 ? `${route}`
-                : communityId
+                : typeof communityId === "string"
                 ? `${route}?proposed-community-id=${communityId}`
                 : route
             }
@@ -130,7 +131,7 @@ const RenderResources = (communityId: string, destination?: string) => (
             href={
               destination
                 ? `${route}`
-                : communityId
+                : typeof communityId === "string"
                 ? `${route}?proposed-community-id=${communityId}`
                 : route
             }
@@ -148,21 +149,17 @@ const RenderResources = (communityId: string, destination?: string) => (
 const DisplayResources = ({ resources, communityId }: IProps) => {
   return (
     <Masonry>
-      {Array.isArray(resources) &&
-        resources.map(RenderResources(String(communityId)))}
+      {Array.isArray(resources) && resources.map(RenderResources(communityId))}
     </Masonry>
   );
 };
 
-export const DisplayPendingArticleResources = ({
-  resources,
-  communityId,
-}: IProps) => {
+export const DisplayPendingArticleResources = ({ resources }: IProps) => {
   return (
     <Container>
       <Masonry withPadding={false}>
         {Array.isArray(resources) &&
-          resources.map(RenderResources(String(communityId), "review"))}
+          resources.map(RenderResources(undefined, "review"))}
       </Masonry>
     </Container>
   );

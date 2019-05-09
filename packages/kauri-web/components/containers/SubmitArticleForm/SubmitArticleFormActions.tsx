@@ -55,6 +55,7 @@ interface IProps {
   setFieldsValue: ({ text }: { text: string }) => void;
   showNotificationAction: (payload: IShowNotificationPayload) => void;
   selectDestination: () => void;
+  communities: string[];
 }
 
 const setupImageUploader = (setFieldsValue: any, getFieldDecorator: any) => {
@@ -62,8 +63,16 @@ const setupImageUploader = (setFieldsValue: any, getFieldDecorator: any) => {
   TriggerImageUploader(setFieldsValue, "attributes");
 };
 
-const isOwner = (status: string, owner: string, userId: string) =>
-  !status || !owner || owner === userId;
+const isOwner = (
+  status: string,
+  owner: string,
+  userId: string,
+  communities: string[] | null
+) =>
+  (Array.isArray(communities) && communities.includes(owner)) ||
+  !status ||
+  !owner ||
+  owner === userId;
 
 export default ({
   routeChangeAction,
@@ -77,6 +86,7 @@ export default ({
   openModalAction,
   showNotificationAction,
   selectDestination,
+  communities,
 }: IProps) => (
   <SubmitArticleFormActions>
     <ActionsSection
@@ -110,7 +120,7 @@ export default ({
         <SecondaryButton onClick={handleSubmit("draft")}>
           Save draft
         </SecondaryButton>
-        {isOwner(status, owner, userId) ? (
+        {isOwner(status, owner, userId, communities) ? (
           <PrimaryButton onClick={selectDestination}>
             Publish Article
           </PrimaryButton>
