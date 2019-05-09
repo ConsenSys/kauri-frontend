@@ -52,29 +52,7 @@ const HeaderContainer = styled(ContentContainer)`
   }
 `;
 
-class CollectionPage extends Component<Props, { trianglify: string }> {
-  state = {
-    trianglify: "",
-  };
-
-  componentDidMount () {
-    const trianglify = require("trianglify");
-    const trianglifyBg = trianglify({
-      width: 1920,
-      height: 400,
-      cell_size: 60,
-      variance: 1,
-      x_colors: ["#0BA986", "#1E3D3B", "#1E2428"],
-    });
-
-    const generatedSvgString = new XMLSerializer().serializeToString(
-      trianglifyBg.svg()
-    );
-    const trianglifyBgString =
-      "data:image/svg+xml;base64," + window.btoa(generatedSvgString);
-    this.setState({ trianglifyBg: trianglifyBgString });
-  }
-
+class CollectionPage extends Component<Props, {}> {
   render () {
     if (!this.props.data || !this.props.data.getCollection) return null;
 
@@ -89,7 +67,6 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       sections,
     } = this.props.data.getCollection;
     const { userId, routeChangeAction, hostName, openModalAction } = this.props;
-    const bg = (background && background) || this.state.trianglifyBg;
     const url = `https://${hostName.replace(/api\./g, "")}/collection/${
       this.props.id
     }/${slugify(name, {
@@ -126,7 +103,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             content={`${description && description.substring(0, 100)}...`}
           />
           <meta property="og:type" content="article" />
-          <meta property="og:image" content={bg} />
+          <meta property="og:image" content={background ? background : 'https://kauri.io/static/images/logo.png'} />
           <meta name="twitter:card" content="summary" />
           <meta
             name="twitter:site"
@@ -140,7 +117,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             content={`${description && description.substring(0, 100)}...`}
           />
           <meta name="twitter:creator" content="@kauri_io" />
-          <meta name="twitter:image" content={bg} />
+          <meta name="twitter:image" content={background ? background : 'https://kauri.io/static/images/logo.png'} />
         </Helmet>
         <ScrollToTopOnMount />
         <HeaderContainer>
@@ -149,10 +126,10 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             width="100%"
             overlay={{ opacity: 0.8 }}
             asBackground
-            image={bg}
+            image={background}
           />
           <CollectionHeader
-            imageURL={typeof bg === "string" ? bg : null}
+            imageURL={typeof background === "string" ? background : null}
             id={id}
             name={name}
             description={description || ""}
