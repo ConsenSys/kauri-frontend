@@ -20,7 +20,6 @@ interface IProps {
 const RenderResources = (communityId?: string, destination?: string) => (
   i: Community_approved_ArticleDTO | Community_approved_CollectionDTO
 ) => {
-  console.log("comm", communityId);
   const owner =
     i.owner && i.owner.__typename === "PublicUserDTO"
       ? {
