@@ -21,14 +21,14 @@ const DisplayResources = ({ resources, communityId }: IProps) => (
             ? {
                 avatar: i.owner.avatar,
                 id: i.owner.id || "not_found",
-                type: "User",
+                type: "USER",
                 username: i.owner.username,
               }
             : i.owner && i.owner.__typename === "CommunityDTO"
             ? {
                 avatar: i.owner.avatar,
                 id: i.owner.id || "not_found",
-                type: "Community",
+                type: "COMMUNITY",
                 username: i.owner.name,
               }
             : {
@@ -37,6 +37,7 @@ const DisplayResources = ({ resources, communityId }: IProps) => (
 
                 username: "",
               };
+
         if (i.__typename === "ArticleDTO") {
           return (
             <ArticleCard

@@ -12,6 +12,7 @@ import {
 import {
   Article,
   Article_owner_PublicUserDTO,
+  Article_owner_CommunityDTO,
 } from "../../../queries/Fragments/__generated__/Article";
 
 import { ShareButtons } from "../../../../kauri-components/components/Tooltip/ShareButtons";
@@ -107,7 +108,11 @@ class ArticleApproved extends React.Component<IProps> {
           <ArticleCard
             key={String(article.id)}
             nfts={article.associatedNfts}
-            resourceType={"USER"}
+            resourceType={
+              article.owner && article.owner.__typename === "CommunityDTO"
+                ? "COMMUNITY"
+                : "USER"
+            }
             id={String(article.id)}
             version={Number(article.version)}
             date={article.datePublished || article.dateCreated}
@@ -116,6 +121,8 @@ class ArticleApproved extends React.Component<IProps> {
             username={
               (article.owner &&
                 (article.owner as Article_owner_PublicUserDTO).username) ||
+              (article.owner &&
+                (article.owner as Article_owner_CommunityDTO).name) ||
               (article.author && article.author.username)
             }
             userId={R.defaultTo("")(
