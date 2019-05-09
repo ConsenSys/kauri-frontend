@@ -198,6 +198,7 @@ class SubmitArticleForm extends React.Component<IProps> {
           editArticleAction,
           draftArticleAction,
           userId,
+          communities,
         } = this.props;
 
         if (formErr) {
@@ -252,8 +253,9 @@ class SubmitArticleForm extends React.Component<IProps> {
               });
               // OWNER'S UPDATE
             } else if (
-              owner &&
-              userId === owner.id &&
+              ((owner && userId === owner.id) ||
+                (Array.isArray(communities) &&
+                  communities.includes(owner.id))) &&
               submissionType === "submit/update"
             ) {
               return submitArticleVersionAction({

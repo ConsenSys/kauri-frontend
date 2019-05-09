@@ -10,6 +10,7 @@ import {
   showNotificationAction,
   routeChangeAction,
   IDependencies,
+  IReduxState,
 } from "../../../lib/Module";
 import { publishArticleAction, IOwnerPayload } from "./PublishArticleModule";
 import { IOption } from "../../common/PublishingSelector";
@@ -209,9 +210,9 @@ export const submitArticleEpic: Epic<any, {}, IDependencies> = (
           })
     );
 
-export const submitArticleVersionEpic: Epic<any, {}, IDependencies> = (
+export const submitArticleVersionEpic: Epic<any, IReduxState, IDependencies> = (
   action$,
-  _,
+  { getState },
   { apolloClient, apolloSubscriber }: IDependencies
 ) =>
   action$
@@ -283,7 +284,12 @@ export const submitArticleVersionEpic: Epic<any, {}, IDependencies> = (
                       }/article-${
                         typeof selfPublish === "undefined"
                           ? "drafted"
-                          : getArticle.owner.id === getArticle.authorId
+                          : getArticle.owner.id === getArticle.authorId ||
+                            getState()
+                              .app.user.communities.map(
+                                ({ id: communityId }) => communityId
+                              )
+                              .includes(getArticle.owner.id)
                           ? "published"
                           : "proposed"
                       }`
@@ -294,13 +300,23 @@ export const submitArticleVersionEpic: Epic<any, {}, IDependencies> = (
                       description:
                         typeof selfPublish === "undefined"
                           ? "Your article has now been drafted to be updated or published in the future"
-                          : getArticle.owner.id === getArticle.authorId
+                          : getArticle.owner.id === getArticle.authorId ||
+                            getState()
+                              .app.user.communities.map(
+                                ({ id: communityId }) => communityId
+                              )
+                              .includes(getArticle.owner.id)
                           ? "Your personal article has now been published!"
                           : "Waiting for it to be reviewed!",
                       message: `Article ${
                         typeof selfPublish === "undefined"
                           ? "drafted"
-                          : getArticle.owner.id === getArticle.authorId
+                          : getArticle.owner.id === getArticle.authorId ||
+                            getState()
+                              .app.user.communities.map(
+                                ({ id: communityId }) => communityId
+                              )
+                              .includes(getArticle.owner.id)
                           ? "published"
                           : "proposed"
                       }`,
