@@ -30,6 +30,7 @@ interface IProps {
   userId: string;
   id: string;
   version: string;
+  communities: Array<{ id: string; name: string }>;
   CurrentArticle: any;
   ProposedUpdate: any;
   routeChangeAction: (route: string) => void;
@@ -57,7 +58,7 @@ interface IProps {
 
 class ArticleReviewView extends React.Component<IProps, {}> {
   render() {
-    const { CurrentArticle, ProposedUpdate } = this.props;
+    const { CurrentArticle, ProposedUpdate, communities } = this.props;
     if (!CurrentArticle.getArticle || !ProposedUpdate.getArticle) {
       return <Loading />;
     }
@@ -112,6 +113,7 @@ class ArticleReviewView extends React.Component<IProps, {}> {
           contentHash={proposed.contentHash}
           author={proposed.author}
           owner={current.owner}
+          communities={communities}
           currentUser={this.props.userId}
           status={proposed.status}
         />

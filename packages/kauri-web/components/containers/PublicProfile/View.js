@@ -34,7 +34,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       ArticlesQuery,
       CollectionQuery,
       DraftsQuery,
-      ApprovalsQuery,
       OwnProfileQuery,
       PendingTransfersQuery,
       routeChangeAction,
@@ -53,9 +52,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       typeof ArticlesQuery.searchArticles === "object" &&
       typeof CollectionQuery.searchCollections === "object";
 
-    const areListsLoaded =
-      typeof DraftsQuery.searchArticles === "object" &&
-      typeof ApprovalsQuery.searchArticles === "object";
+    const areListsLoaded = typeof DraftsQuery.searchArticles === "object";
 
     const isEditing = this.state.isEditing;
     const isOwner = UserQuery.getUser && UserQuery.getUser.id === currentUser;
@@ -129,7 +126,6 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                 <Manage
                   userId={this.props.userId}
                   ownProfile={OwnProfileQuery}
-                  approvalsQuery={ApprovalsQuery}
                   draftsQuery={DraftsQuery}
                   transfersQuery={PendingTransfersQuery}
                   type="manage"

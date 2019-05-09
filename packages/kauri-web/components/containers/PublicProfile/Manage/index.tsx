@@ -18,7 +18,6 @@ const categories = [
 ];
 
 const queriesMatch: { [key: string]: string } = {
-  "awaiting approval": "approvalsQuery",
   drafts: "draftsQuery",
   "pending transfers": "transfersQuery",
 };
@@ -95,7 +94,12 @@ const Manage: React.FunctionComponent<
         <Drafts {...props} data={props.draftsQuery} />
       )}
       {state.currentCategory === "awaiting approval" && (
-        <Awaiting {...props} data={props.approvalsQuery} />
+        <Awaiting
+          {...props}
+          communities={
+            Array.isArray(communities) && communities.map(({ id }) => id)
+          }
+        />
       )}
       {state.currentCategory === "submitted updates" && (
         <Pending

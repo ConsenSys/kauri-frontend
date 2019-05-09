@@ -5,6 +5,7 @@ import { getArticle } from "../../../queries/Article";
 import {
   routeChangeAction,
   setNavcolorOverrideAction,
+  IReduxState,
 } from "../../../lib/Module";
 import withLoading from "../../../lib/with-loading";
 import View from "./View";
@@ -13,17 +14,11 @@ import {
   openModalAction,
 } from "../../../../kauri-components/components/Modal/Module";
 
-interface IState {
-  app: {
-    hostName: string;
-    user: { id: string };
-  };
-}
-
 const mapStateToProps = (
-  state: IState,
+  state: IReduxState,
   props: { id: string; version: string }
 ) => ({
+  communities: state.app && state.app.user && state.app.user.communities,
   id: props.id,
   userId: state.app && state.app.user && state.app.user.id,
   version: props.version,

@@ -95,16 +95,6 @@ export default compose(
       },
     }),
   }),
-  graphql(searchAwaitingApproval, {
-    name: "ApprovalsQuery",
-    options: ({ userId }) => ({
-      fetchPolicy: "cache-and-network",
-      variables: {
-        page: 0,
-        userId,
-      },
-    }),
-  }),
   graphql(getArticleTransfers, {
     name: "PendingTransfersQuery",
     options: ({ userId }) => ({
