@@ -153,12 +153,21 @@ const DisplayResources = ({ resources, communityId }: IProps) => {
   );
 };
 
-export const DisplayPendingArticleResources = ({ resources }: IProps) => {
+export const DisplayManagedResources = ({
+  resources,
+  communityId,
+  review,
+}: IProps & { review?: boolean }) => {
   return (
     <Container>
       <Masonry withPadding={false}>
         {Array.isArray(resources) &&
-          resources.map(RenderResources(undefined, "review"))}
+          resources.map(
+            RenderResources(
+              communityId || undefined,
+              review ? "review" : undefined
+            )
+          )}
       </Masonry>
     </Container>
   );
