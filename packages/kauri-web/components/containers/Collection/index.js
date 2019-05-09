@@ -6,6 +6,7 @@ import { routeChangeAction } from "../../../lib/Module";
 import withLoading from "../../../lib/with-loading";
 import withApolloError from "../../../lib/with-apollo-error";
 import { openModalAction } from "../../../../kauri-components/components/Modal/Module";
+import { approveResourceAction } from "../Community/Module";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -17,7 +18,7 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connect(
     mapStateToProps,
-    { routeChangeAction, openModalAction }
+    { routeChangeAction, openModalAction, approveResourceAction }
   ),
   graphql(globalCollectionDetails, {
     options: ({ id }) => ({

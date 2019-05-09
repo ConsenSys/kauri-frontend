@@ -1,8 +1,8 @@
+// @flow
 import React from "react";
 import ApprovedArticle from "./ApprovedArticle/View";
 import R from "ramda";
 import Loading from "../../common/Loading";
-import Helmet from "react-helmet";
 
 import type { AddCommentPayload } from "../AddCommentForm/Module";
 
@@ -18,6 +18,7 @@ type ArticleProps = {
   personalUsername: ?string,
   publishArticleAction: any => void,
   hostName: string,
+  proposedCommunityId?: string,
 };
 
 class Article extends React.Component<ArticleProps> {
@@ -35,7 +36,7 @@ class Article extends React.Component<ArticleProps> {
 
   rejectArticle = cause => {
     const articleData = this.props.data && this.props.data.getArticle;
-    const { id, version, contentHash, author, dateCreated } = articleData;
+    const { id, version } = articleData;
     return this.props.rejectArticleAction({ id, version, cause });
   };
 
@@ -108,10 +109,10 @@ class Article extends React.Component<ArticleProps> {
     }
   };
 
-  render() {
-    if (R.path(["data", "getArticle", "status"])(this.props))
+  render () {
+    if (R.path(["data", "getArticle", "status"])(this.props)) {
       return <ApprovedArticle {...this.props} />;
-    else return <Loading />;
+    } else return <Loading />;
   }
 }
 

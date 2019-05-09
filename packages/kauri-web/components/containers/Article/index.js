@@ -21,6 +21,7 @@ import {
   closeModalAction,
   openModalAction,
 } from "../../../../kauri-components/components/Modal/Module";
+import { approveResourceAction } from "../Community/Module";
 import View from "./View";
 
 const mapStateToProps = (state, ownProps) => ({
@@ -43,6 +44,7 @@ export default compose(
       tipArticleAction,
       addCommentAction,
       publishArticleAction,
+      approveResourceAction,
       openModalAction,
       closeModalAction,
       setNavcolorOverrideAction,

@@ -130,3 +130,11 @@ export const curateCommunityResourcesMutation = gql`
     }
   }
 `;
+
+export const approveResourceMutation = gql`
+  mutation approveResource($id: String, $resource: ResourceIdentifierInput) {
+    approveResource(id: $id, resource: $resource) {
+      hash
+    }
+  }
+`;

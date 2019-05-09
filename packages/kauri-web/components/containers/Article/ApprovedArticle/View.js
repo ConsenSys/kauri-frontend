@@ -29,6 +29,7 @@ type Props =
       address?: string,
       data: { getArticle: ArticleDTO },
       openModalAction: ({ children: React.ReactNode }) => void,
+      proposedCommunityId?: string,
     }
   | any;
 
@@ -208,6 +209,7 @@ class ApprovedArticle extends React.Component<Props, State> {
             "content",
           ])(props)}
           routeChangeAction={props.routeChangeAction}
+          proposedCommunityId={props.proposedCommunityId}
         />
         <ApprovedArticle.Comments
           id={props.data.getArticle && props.data.getArticle.id}

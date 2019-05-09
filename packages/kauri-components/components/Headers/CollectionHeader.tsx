@@ -66,6 +66,7 @@ const changeRoute = (
 ) => () => routeChangeAction(`/collection/${id}/update-collection`);
 
 interface IProps {
+  proposedCommunityId?: string | null;
   collectionCount: number;
   articleCount: number;
   description: string;
@@ -81,6 +82,7 @@ interface IProps {
   userAvatar: string | null;
   userId: string;
   username: string | null;
+  approveResourceAction?: any;
 }
 
 const Container: React.SFC<IProps> = props => {
@@ -100,6 +102,8 @@ const Container: React.SFC<IProps> = props => {
     routeChangeAction,
     imageURL,
     tags,
+    proposedCommunityId,
+    approveResourceAction,
   } = props;
   return (
     <CollectionHeaderSection>
@@ -161,6 +165,19 @@ const Container: React.SFC<IProps> = props => {
             Update Collection
           </PrimaryButton>
         ) : null}
+        {proposedCommunityId && (
+          <PrimaryButton
+            onClick={() =>
+              approveResourceAction &&
+              approveResourceAction({
+                id: proposedCommunityId,
+                resource: { type: "COLLECTION", id } as any,
+              })
+            }
+          >
+            Approve community proposed collection
+          </PrimaryButton>
+        )}
       </RightSide>
     </CollectionHeaderSection>
   );
