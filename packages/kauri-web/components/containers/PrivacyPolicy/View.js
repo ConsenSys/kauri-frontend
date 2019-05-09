@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { ActionBadge } from '../../common/ActionBadge'
 import GreenArrow from '../../common/GreenArrow'
+import { Helmet } from "react-helmet";
 
 const ActionsHeader = styled.section`
   display: flex;
@@ -33,6 +34,17 @@ class PrivacyPolicy extends Component<Props, State> {
 
     return (
       <section>
+        <Helmet>
+          <title>Beginner to Advanced Blockchain & Ethereum Tutorials | Privacy - Kauri</title>
+          <meta
+            name="description"
+            content="Discover the best blockchain related articles, tutorials and how-to guides"
+          />
+          <link
+            rel="canonical"
+            href={`https://kauri.io/privacy-policy`}
+          />
+        </Helmet>
         <ActionsHeader>
           <ActionBadge onClick={() => routeChangeAction('back')}>
             <GreenArrow direction='left' />
