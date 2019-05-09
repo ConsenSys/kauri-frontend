@@ -35,6 +35,7 @@ export type ViewState = {
 };
 
 export type ViewProps = {
+  userId?: string,
   saveUserDetailsAction: () => void,
   currentUser?: string,
   deleteDraftArticleAction: (
@@ -54,11 +55,6 @@ export type ViewProps = {
       content: Array<ArticleDTO>,
     },
   },
-  PendingQuery: {
-    searchArticles: {
-      content: Array<ArticleDTO>,
-    },
-  },
   ApprovalsQuery: {
     searchArticles: {
       content: Array<ArticleDTO>,
@@ -71,6 +67,7 @@ export type ViewProps = {
   },
   UserQuery: {
     getUser: {
+      communities: { id: string, name: string }[],
       id: string,
       avatar: string,
       username: string,

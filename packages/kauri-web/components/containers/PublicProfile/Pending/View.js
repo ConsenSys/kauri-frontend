@@ -2,13 +2,16 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
+import withLoading from "../../../../lib/with-loading";
+import withApolloError from "../../../../lib/with-apollo-error";
 import { Link } from "../../../../routes";
 import CheckpointArticles from "../../CheckpointArticles";
 import withPagination from "../../../../lib/with-pagination";
 import PublicProfileEmptyState from "../../../../../kauri-components/components/PublicProfileEmptyState";
 import { BodyCard } from "../../../../../kauri-components/components/Typography";
-
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
+import { searchPending } from "../../../../queries/Article";
+import { graphql, compose } from "react-apollo";
 
 import type { ArticlesProps } from "../types";
 
@@ -31,6 +34,7 @@ const Articles = ({
   isLoggedIn,
 }: ArticlesProps) => {
   const articles = data.searchArticles && data.searchArticles.content;
+
   return articles.length > 0 ? (
     <Fragment>
       {typeof type === "string" && type === "published" && isOwner && (
@@ -90,4 +94,16 @@ const Articles = ({
   );
 };
 
-export default withPagination(Articles, "searchArticles");
+export default compose(
+  graphql(searchPending, {
+    options: ({ userId, communities }) => ({
+      fetchPolicy: "cache-and-network",
+      variables: {
+        page: 0,
+        owners: communities.concat(userId),
+      },
+    }),
+  }),
+  withLoading(),
+  withApolloError()
+)(withPagination(Articles, "searchArticles"));

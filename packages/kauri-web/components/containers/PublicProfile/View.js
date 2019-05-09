@@ -10,7 +10,7 @@ import Published from "./Published/View";
 import Manage from "./Manage";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor(props: ViewProps) {
+  constructor (props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -24,13 +24,12 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     };
   }
 
-  toggleEditing() {
+  toggleEditing () {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render() {
+  render () {
     const {
-      PendingQuery,
       UserQuery,
       ArticlesQuery,
       CollectionQuery,
@@ -56,11 +55,11 @@ class PublicProfile extends Component<ViewProps, ViewState> {
 
     const areListsLoaded =
       typeof DraftsQuery.searchArticles === "object" &&
-      typeof PendingQuery.searchArticles === "object" &&
       typeof ApprovalsQuery.searchArticles === "object";
 
     const isEditing = this.state.isEditing;
     const isOwner = UserQuery.getUser && UserQuery.getUser.id === currentUser;
+
     return (
       <React.Fragment>
         {!isHeaderLoaded ? (
@@ -128,10 +127,10 @@ class PublicProfile extends Component<ViewProps, ViewState> {
               />,
               isOwner && (
                 <Manage
+                  userId={this.props.userId}
                   ownProfile={OwnProfileQuery}
                   approvalsQuery={ApprovalsQuery}
                   draftsQuery={DraftsQuery}
-                  pendingQuery={PendingQuery}
                   transfersQuery={PendingTransfersQuery}
                   type="manage"
                   routeChangeAction={routeChangeAction}

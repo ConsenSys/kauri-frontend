@@ -21,7 +21,6 @@ const queriesMatch: { [key: string]: string } = {
   "awaiting approval": "approvalsQuery",
   drafts: "draftsQuery",
   "pending transfers": "transfersQuery",
-  "submitted updates": "pendingQuery",
 };
 
 const ManageContentSection = styled.section`
@@ -47,8 +46,14 @@ const Manage: React.FunctionComponent<
     currentCategory: "drafts",
   });
 
-  const communities = R.path(['ownProfile', 'getMyProfile', 'communities'], props)
-const transfers = R.path(['transfersQuery', 'getArticleTransfers', 'content'], props)
+  const communities = R.path(
+    ["ownProfile", "getMyProfile", "communities"],
+    props
+  );
+  const transfers = R.path(
+    ["transfersQuery", "getArticleTransfers", "content"],
+    props
+  );
 
   if (
     (transfers as []).length > 0 &&
@@ -72,11 +77,15 @@ const transfers = R.path(['transfersQuery', 'getArticleTransfers', 'content'], p
             active={category === state.currentCategory}
             category={category}
             amount={
-              category === 'pending transfers'
+              category === "pending transfers"
                 ? (transfers as []).length
-                : category === 'communities'
-                  ? (communities as []).length
-                   : props[queriesMatch[category]].searchArticles.totalElements
+                : category === "communities"
+                ? (communities as []).length
+                : (props[queriesMatch[category]] &&
+                    props[queriesMatch[category]].searchArticles &&
+                    props[queriesMatch[category]].searchArticles
+                      .totalElements) ||
+                  0
             }
             onClick={() => setState({ currentCategory: category })}
           />
@@ -89,19 +98,18 @@ const transfers = R.path(['transfersQuery', 'getArticleTransfers', 'content'], p
         <Awaiting {...props} data={props.approvalsQuery} />
       )}
       {state.currentCategory === "submitted updates" && (
-        <Pending {...props} data={props.pendingQuery} />
+        <Pending
+          {...props}
+          communities={
+            Array.isArray(communities) && communities.map(({ id }) => id)
+          }
+        />
       )}
       {state.currentCategory === "pending transfers" && (
-        <Transfers
-          {...props}
-          data={transfers}
-        />
+        <Transfers {...props} data={transfers} />
       )}
       {state.currentCategory === "communities" && (
-        <MyCommunities
-          {...props}
-          data={communities}
-        />
+        <MyCommunities {...props} data={communities} />
       )}
     </ManageContentSection>
   );
