@@ -26,7 +26,7 @@ interface IProps {
   maxChars?: number;
   align?: string;
   routeChangeAction?: (route: string) => void;
-  resourceType?: string; // card
+  resourceType?: string; // card, relatedArticles
 }
 
 const firstTagBulletPointCSS = css`
@@ -39,6 +39,11 @@ const firstTagBulletPointCSS = css`
     margin: ${theme.space[1] / 2}px;
     font-weight: ${theme.fontWeight[3]};
   }
+`;
+
+const RelatedArticleTagCSS = css`
+  font-size: ${props => props.theme.fontSizes[0]}px;
+  font-weight: ${props => props.theme.fontWeight[1]};
 `;
 
 export const StyledTag = styled<
@@ -55,6 +60,7 @@ export const StyledTag = styled<
   &:hover {
     color: ${theme.colors.primary};
   }
+  ${props => props.resourceType === "relatedArticles" && RelatedArticleTagCSS};
   ${props => props.orientation === "vertical" && firstTagBulletPointCSS};
 `;
 
