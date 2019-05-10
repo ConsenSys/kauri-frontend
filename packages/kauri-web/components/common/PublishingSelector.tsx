@@ -81,7 +81,7 @@ const PublishingSelector = (props: IProps) => {
   const [destination, setDestination] = useState(options[0]);
   return (
     <AlertView
-      title="Publish Article"
+      title="Publish"
       content={
         <div>
           <Select
