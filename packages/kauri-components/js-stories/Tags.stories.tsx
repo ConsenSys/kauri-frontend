@@ -53,7 +53,6 @@ storiesOf("Tags", module)
     <TagList
       resourceType={"relatedArticles"}
       color="textPrimary"
-      orientation={"vertical"}
       tags={["Ethereun", "Web3"]}
       maxTags={5}
     />
