@@ -7,6 +7,7 @@ import { IShowNotificationPayload } from "../../../lib/Module";
 import AlertView from "../../../../kauri-components/components/Modal/AlertView";
 import PublishingSelector, { IOption } from "../../common/PublishingSelector";
 import analytics from "../../../lib/analytics";
+import R from "ramda";
 
 import {
   IAttributesPayload,
@@ -122,9 +123,22 @@ class SubmitArticleForm extends React.Component<IProps> {
       closeModalAction,
       communities,
       userId,
+      data,
     } = this.props;
-    if (communities && communities.length > 0) {
-      openModalAction({
+
+    // Updating article from a community I am in
+    if (
+      Number(R.path(["getArticle", "version"])(data)) >= 1 &&
+      Array.isArray(communities) &&
+      communities
+        .map(({ id }) => id)
+        .includes(R.path<string>(["getArticle", "owner", "id"])(data))
+    ) {
+      return this.handleSubmit("submit/update")(null);
+    }
+    // Submitting fresh article and I potentially want to choose a community?
+    else if (communities && communities.length > 0) {
+      return openModalAction({
         children: (
           <PublishingSelector
             userId={userId}
@@ -141,7 +155,7 @@ class SubmitArticleForm extends React.Component<IProps> {
         ),
       });
     } else {
-      this.handleSubmit("submit/update");
+      return this.handleSubmit("submit/update")(null);
     }
   }
 
@@ -181,7 +195,7 @@ class SubmitArticleForm extends React.Component<IProps> {
     submissionType: string,
     updateComment?: string,
     destination?: IOption
-  ) => (e: React.SyntheticEvent<HTMLButtonElement>) => {
+  ) => (e: React.SyntheticEvent<HTMLButtonElement> | null) => {
     console.log("*** SUBMITTING ***", updateComment);
     if (e) {
       e.preventDefault();
