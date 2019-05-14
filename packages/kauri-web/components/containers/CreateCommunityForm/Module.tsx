@@ -50,7 +50,7 @@ interface IPrepareCreateCommunityAction extends IAction {
   type: "PREPARE_CREATE_COMMUNITY";
 }
 
-interface IInvitationsPayload {
+export interface IInvitationsPayload {
   payload: {
     invitations: Array<{ email: string; role: CommunityPermissionInput }>;
   };
@@ -272,6 +272,7 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
           variables: (actions as IUpdateCommunityAction).payload,
         })
       )
+        .do(() => console.log(actions.payload))
         .do(console.log)
         .mergeMap(({ data: { editCommunity: result } }) =>
           apolloSubscriber<IUpdateCommunityCommandOutput>(result.hash)
@@ -290,11 +291,11 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
               >(
                 (actions as IInvitationsPayload).payload.invitations.map(
                   invitation =>
-                    apolloClient.mutate<
+                    apolloClient.query<
                       prepareSendInvitation,
                       prepareSendInvitationVariables
                     >({
-                      mutation: prepareSendInvitationQuery,
+                      query: prepareSendInvitationQuery,
                       variables: {
                         id: (actions as IUpdateCommunityAction).payload.id,
                         invitation,
@@ -310,7 +311,9 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                   )
                 )
                 .combineAll<any, string[]>()
-                .do(console.log)
+                .do(signedSignatures =>
+                  console.log("signedSignatures combined", signedSignatures)
+                )
                 .mergeMap<string[], any>(signedSignatures =>
                   signedSignatures.map((signedSignature, invitationIndex) =>
                     Observable.fromPromise<{
@@ -335,20 +338,27 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                     )
                   )
                 )
-                .do(console.log)
-                .mergeMap(
-                  (
-                    sendInvitationsCommandOutputs: [
-                      ISendInvitationCommandOutput
-                    ]
-                  ) =>
-                    sendInvitationsCommandOutputs.map(
-                      (result: ISendInvitationCommandOutput) =>
+                .combineAll<
+                  any,
+                  [{ data: { sendInvitation: ISendInvitationCommandOutput } }]
+                >()
+                .do(sendInvitationCommandOutput =>
+                  console.log(
+                    "ISendInvitationCommandOutput combined",
+                    sendInvitationCommandOutput
+                  )
+                )
+                .mergeMap(sendInvitationsCommandOutputs =>
+                  sendInvitationsCommandOutputs.map(
+                    ({ data: { sendInvitation: result } }) =>
+                      Observable.fromPromise(
                         apolloSubscriber<ISendInvitationCommandOutput>(
                           result.hash
                         )
-                    )
+                      )
+                  )
                 )
+                .combineAll()
                 .do(console.log)
                 .mergeMap(() =>
                   Observable.merge(

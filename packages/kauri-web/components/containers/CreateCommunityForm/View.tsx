@@ -8,7 +8,11 @@ import {
   routeChangeAction,
   showNotificationAction as showNotification,
 } from "../../../lib/Module";
-import { createCommunityAction, updateCommunityAction } from "./Module";
+import {
+  createCommunityAction,
+  updateCommunityAction,
+  IInvitationsPayload,
+} from "./Module";
 import { Form, InjectedFormikProps } from "formik";
 import Helmet from "react-helmet";
 import { IFormValues } from "./index";
@@ -56,8 +60,11 @@ const Component: React.SFC<
     props.openModalAction({
       children: (
         <AddMemberModal
-          confirmButtonAction={(invitations: any) => {
-            props.setFieldValue("invitations", invitations);
+          confirmButtonAction={(invitation: any) => {
+            props.setFieldValue(
+              "invitations",
+              (props.values as any).invitations.concat(invitation)
+            );
             props.closeModalAction();
           }}
           closeModalAction={props.closeModalAction}
