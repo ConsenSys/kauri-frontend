@@ -2,7 +2,6 @@ import TagName, { ITagName } from "./TagName";
 import styled, { css } from "../../lib/styled-components";
 import { Tooltip } from "react-tippy";
 import theme from "../../../kauri-web/lib/theme-config";
-import themeConfig from "../../../kauri-web/lib/theme-config";
 
 interface IContainerProps {
   orientation?: "vertical";
@@ -41,7 +40,6 @@ const firstTagBulletPointCSS = css`
     font-weight: ${theme.fontWeight[3]};
   }
 `;
-
 
 const RelatedArticleTagCSS = css`
   font-size: ${theme.fontSizes[0]}px;
@@ -146,7 +144,11 @@ const TagList = (props: IProps) => {
             <TooltipContainer>
               <TooltipArrow />
               {hiddenTags.map((tag, key) => (
-                <StyledTag resourceType={props.resourceType} color={props.color} key={key}>
+                <StyledTag
+                  resourceType={props.resourceType}
+                  color={props.color}
+                  key={key}
+                >
                   {tag}
                 </StyledTag>
               ))}
@@ -156,7 +158,11 @@ const TagList = (props: IProps) => {
           trigger="mouseenter"
           unmountHTMLWhenHide={true}
         >
-          <StyledTag resourceType={props.resourceType} color={props.color} key="remaining">
+          <StyledTag
+            resourceType={props.resourceType}
+            color={props.color}
+            key="remaining"
+          >
             +{hiddenTags.length}
           </StyledTag>
         </Tooltip>

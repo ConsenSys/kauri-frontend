@@ -25,6 +25,7 @@ import {
   getCommunity_getCommunity_approved_CollectionDTO,
 } from "../../../queries/__generated__/getCommunity";
 import { curateCommunityResourcesAction as curateCommunityResources } from "./Module";
+import { ResourceTypeInput } from "../../../__generated__/globalTypes";
 
 const TooltipContainer = styled.section`
   display: flex;
@@ -309,7 +310,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
                   article =>
                     article && {
                       id: article.id,
-                      type: "ARTICLE",
+                      type: "ARTICLE" as ResourceTypeInput,
                       version: Number(article.version),
                     }
                 ),
@@ -335,7 +336,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
                   article =>
                     article && {
                       id: article.id,
-                      type: "COLLECTION",
+                      type: "COLLECTION" as ResourceTypeInput,
                     }
                 ),
             });
