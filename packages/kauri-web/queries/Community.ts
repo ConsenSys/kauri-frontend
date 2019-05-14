@@ -238,3 +238,24 @@ export const getCommunityArticleContent = gql`
     }
   }
 `;
+
+export const prepareSendInvitationQuery = gql`
+  query prepareSendInvitation($id: String, $invitation: InvitationInput) {
+    prepareSendInvitation(id: $id, invitation: $invitation) {
+      messageHash
+      attributes
+    }
+  }
+`;
+
+export const sendInvitationMutation = gql`
+  mutation sendInvitation(
+    $signature: String
+    $id: String
+    $invitation: InvitationInput
+  ) {
+    sendInvitation(signature: $signature, id: $id, invitation: $invitation) {
+      hash
+    }
+  }
+`;

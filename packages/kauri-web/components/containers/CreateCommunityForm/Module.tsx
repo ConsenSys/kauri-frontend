@@ -21,11 +21,22 @@ import {
   updateCommunityVariables,
 } from "../../../queries/__generated__/updateCommunity";
 import {
+  prepareSendInvitation,
+  prepareSendInvitationVariables,
+} from "../../../queries/__generated__/prepareSendInvitation";
+import {
+  sendInvitation,
+  sendInvitationVariables,
+} from "../../../queries/__generated__/sendInvitation";
+import {
   createCommunityMutation,
   updateCommunityMutation,
   prepareCreateCommunityQuery,
+  prepareSendInvitationQuery,
+  sendInvitationMutation,
 } from "../../../queries/Community";
 import { ApolloQueryResult } from "apollo-client";
+import { CommunityPermissionInput } from "../../../__generated__/globalTypes";
 
 export interface ICreateCommunityAction extends IAction {
   callback: () => void;
@@ -39,13 +50,23 @@ interface IPrepareCreateCommunityAction extends IAction {
   type: "PREPARE_CREATE_COMMUNITY";
 }
 
+interface IInvitationsPayload {
+  payload: {
+    invitations: Array<{ email: string; role: CommunityPermissionInput }>;
+  };
+}
+
 export interface IUpdateCommunityAction extends IAction {
   callback: () => void;
-  payload: updateCommunityVariables;
+  payload: updateCommunityVariables & IInvitationsPayload;
   type: "UPDATE_COMMUNITY";
 }
 
 interface ICommunityCreatedPayload {
+  transactionHash: string;
+}
+
+interface ICommunityUpdatedPayload {
   transactionHash: string;
 }
 
@@ -54,9 +75,15 @@ export interface ICommunityCreatedAction extends IAction {
   type: "COMMUNITY_CREATED";
 }
 
+export interface ICommunityUpdatedAction extends IAction {
+  payload: {};
+  type: "COMMUNITY_UPDATED";
+}
+
 const CREATE_COMMUNITY = "CREATE_COMMUNITY";
 
 const COMMUNITY_CREATED = "COMMUNITY_CREATED";
+const COMMUNITY_UPDATED = "COMMUNITY_UPDATED";
 
 const UPDATE_COMMUNITY = "UPDATE_COMMUNITY";
 
@@ -76,8 +103,13 @@ const communityCreatedAction = (
   type: COMMUNITY_CREATED,
 });
 
+const communityUpdatedAction = (): ICommunityUpdatedAction => ({
+  payload: {},
+  type: COMMUNITY_UPDATED,
+});
+
 export const updateCommunityAction = (
-  payload: updateCommunityVariables,
+  payload: updateCommunityVariables & IInvitationsPayload,
   callback: () => void
 ): IUpdateCommunityAction => ({
   callback,
@@ -88,6 +120,14 @@ export const updateCommunityAction = (
 interface ICreateCommunityCommandOutput {
   id: string;
   error: string | undefined;
+}
+
+interface IPrepareSendInvitationCommandOutput {
+  messageHash: string;
+}
+
+interface ISendInvitationCommandOutput {
+  hash: string;
 }
 
 type IUpdateCommunityCommandOutput = ICreateCommunityCommandOutput;
@@ -221,7 +261,7 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
 export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
   _,
-  { apolloClient, apolloSubscriber }
+  { apolloClient, apolloSubscriber, personalSign }
 ) =>
   action$
     .ofType(UPDATE_COMMUNITY)
@@ -237,34 +277,131 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
           apolloSubscriber<IUpdateCommunityCommandOutput>(result.hash)
         )
         .do(console.log)
-        .do(() => typeof actions.callback === "function" && actions.callback())
-        .mergeMap(({ data: { output: { id, error } } }) =>
-          error
-            ? Observable.throw(new Error("Submission error"))
+        .switchMap(() =>
+          (actions as IInvitationsPayload).payload.invitations.length
+            ? Observable.forkJoin<
+                [
+                  {
+                    data: {
+                      prepareSendInvitation: IPrepareSendInvitationCommandOutput;
+                    };
+                  }
+                ]
+              >(
+                (actions as IInvitationsPayload).payload.invitations.map(
+                  invitation =>
+                    apolloClient.mutate<
+                      prepareSendInvitation,
+                      prepareSendInvitationVariables
+                    >({
+                      mutation: prepareSendInvitationQuery,
+                      variables: {
+                        id: (actions as IUpdateCommunityAction).payload.id,
+                        invitation,
+                      },
+                    })
+                )
+              )
+                .do(console.log)
+                .mergeMap(prepareSendInvitationsResults =>
+                  prepareSendInvitationsResults.map(
+                    ({ data: { prepareSendInvitation: result } }) =>
+                      Observable.fromPromise(personalSign(result.messageHash))
+                  )
+                )
+                .combineAll<any, string[]>()
+                .do(console.log)
+                .mergeMap<string[], any>(signedSignatures =>
+                  signedSignatures.map((signedSignature, invitationIndex) =>
+                    Observable.fromPromise<{
+                      data: { sendInvitation: ISendInvitationCommandOutput };
+                    }>(
+                      apolloClient.mutate<
+                        sendInvitation,
+                        sendInvitationVariables
+                      >({
+                        mutation: sendInvitationMutation,
+                        variables: {
+                          id: (actions as IUpdateCommunityAction).payload.id,
+                          invitation: {
+                            email: (actions as IInvitationsPayload).payload
+                              .invitations[invitationIndex].email,
+                            role: (actions as IInvitationsPayload).payload
+                              .invitations[invitationIndex].role,
+                          },
+                          signature: signedSignature,
+                        },
+                      })
+                    )
+                  )
+                )
+                .do(console.log)
+                .mergeMap(
+                  (
+                    sendInvitationsCommandOutputs: [
+                      ISendInvitationCommandOutput
+                    ]
+                  ) =>
+                    sendInvitationsCommandOutputs.map(
+                      (result: ISendInvitationCommandOutput) =>
+                        apolloSubscriber<ISendInvitationCommandOutput>(
+                          result.hash
+                        )
+                    )
+                )
+                .do(console.log)
+                .mergeMap(() =>
+                  Observable.merge(
+                    Observable.of(
+                      showNotificationAction({
+                        description: `woo woo`,
+                        message: "Community updated",
+                        notificationType: "success",
+                      })
+                    ),
+                    Observable.of(communityUpdatedAction()),
+                    Observable.of(
+                      routeChangeAction(
+                        `/community/${
+                          (actions as IUpdateCommunityAction).payload.id
+                        }/community-updated`
+                      )
+                    )
+                  )
+                )
+                .do(() => apolloClient.resetStore())
+                .do(
+                  () =>
+                    typeof actions.callback === "function" && actions.callback()
+                )
+                .catch(err => {
+                  console.error(err);
+                  return Observable.of(
+                    showNotificationAction({
+                      description: "Please try again",
+                      message: "Submission error",
+                      notificationType: "error",
+                    })
+                  );
+                })
             : Observable.merge(
                 Observable.of(
-                  (showNotificationAction as any)({
+                  showNotificationAction({
                     description: `woo woo`,
                     message: "Community updated",
                     notificationType: "success",
                   })
                 ),
+                Observable.of(communityUpdatedAction()),
                 Observable.of(
-                  routeChangeAction(`/community/${id}/community-updated`)
+                  routeChangeAction(
+                    `/community/${
+                      (actions as IUpdateCommunityAction).payload.id
+                    }/community-updated`
+                  )
                 )
               )
         )
-        .do(() => apolloClient.resetStore())
-        .catch(err => {
-          console.error(err);
-          return Observable.of(
-            showNotificationAction({
-              description: "Please try again",
-              message: "Submission error",
-              notificationType: "error",
-            })
-          );
-        })
     )
     .catch(err => {
       console.error(err);
