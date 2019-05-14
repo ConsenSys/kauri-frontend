@@ -5,7 +5,7 @@ import AddMemberModalContent from "../../../../kauri-components/components/Creat
 interface IProps {
   closeModalAction: () => void;
   confirmButtonAction: (
-    emailAddress: string,
+    payload: { emailAddress: string; role: string },
     closeModalAction: () => void
   ) => void;
 }
@@ -13,30 +13,47 @@ interface IProps {
 interface IState {
   currentStep: number;
   emailAddress: string;
+  role: string;
 }
 
 const AddMemberModal: React.FunctionComponent<IProps> = props => {
-  const [{ currentStep, emailAddress }, setState] = React.useState<IState>({
+  const [state, setState] = React.useState<IState>({
     currentStep: 1,
     emailAddress: "",
+    role: "",
   });
+
+  const { currentStep, emailAddress, role } = state;
+
+  const roles = [
+    { value: "ADMIN", label: "ADMIN" },
+    { value: "CURATOR", label: "MODERATOR" },
+  ];
 
   return (
     <AlertViewComponent
       closeModalAction={() => props.closeModalAction()}
       confirmButtonAction={() => {
-        props.confirmButtonAction(emailAddress, props.closeModalAction);
+        props.confirmButtonAction(
+          { emailAddress, role },
+          props.closeModalAction
+        );
       }}
       content={
         <AddMemberModalContent
+          handleRoleChange={(chosenRole: string) =>
+            setState({ ...state, role: chosenRole })
+          }
+          roles={roles}
           currentStep={currentStep}
           emailAddress={emailAddress}
-          handleChange={({ target: { value } }) =>
-            setState({ currentStep, emailAddress: value })
+          role={role}
+          handleEmailChange={({ target: { value } }) =>
+            setState({ currentStep, emailAddress: value, role })
           }
         />
       }
-      title={"Add Member to Community"}
+      title={"Invite New Moderator"}
     />
   );
 };

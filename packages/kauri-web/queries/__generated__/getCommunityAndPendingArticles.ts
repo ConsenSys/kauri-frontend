@@ -568,5 +568,4 @@ export interface getCommunityAndPendingArticlesVariables {
   id?: string | null;
   size?: number | null;
   page?: number | null;
-  owners?: (string | null)[] | null;
 }
