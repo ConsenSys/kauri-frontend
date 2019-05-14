@@ -5,25 +5,25 @@ import AddMemberModalContent from "../../../../kauri-components/components/Creat
 interface IProps {
   closeModalAction: () => void;
   confirmButtonAction: (
-    payload: { emailAddress: string; role: string },
+    payload: { email: string; role: string },
     closeModalAction: () => void
   ) => void;
 }
 
 interface IState {
   currentStep: number;
-  emailAddress: string;
+  email: string;
   role: string;
 }
 
 const AddMemberModal: React.FunctionComponent<IProps> = props => {
   const [state, setState] = React.useState<IState>({
     currentStep: 1,
-    emailAddress: "",
+    email: "",
     role: "",
   });
 
-  const { currentStep, emailAddress, role } = state;
+  const { currentStep, email, role } = state;
 
   const roles = [
     { value: "ADMIN", label: "ADMIN" },
@@ -34,10 +34,7 @@ const AddMemberModal: React.FunctionComponent<IProps> = props => {
     <AlertViewComponent
       closeModalAction={() => props.closeModalAction()}
       confirmButtonAction={() => {
-        props.confirmButtonAction(
-          { emailAddress, role },
-          props.closeModalAction
-        );
+        props.confirmButtonAction({ email, role }, props.closeModalAction);
       }}
       content={
         <AddMemberModalContent
@@ -46,10 +43,10 @@ const AddMemberModal: React.FunctionComponent<IProps> = props => {
           }
           roles={roles}
           currentStep={currentStep}
-          emailAddress={emailAddress}
+          email={email}
           role={role}
           handleEmailChange={({ target: { value } }) =>
-            setState({ currentStep, emailAddress: value, role })
+            setState({ currentStep, email: value, role })
           }
         />
       }

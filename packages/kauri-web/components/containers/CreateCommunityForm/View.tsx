@@ -56,9 +56,10 @@ const Component: React.SFC<
     props.openModalAction({
       children: (
         <AddMemberModal
-          confirmButtonAction={(invitations: any) =>
-            props.setFieldValue("invitations", invitations)
-          }
+          confirmButtonAction={(invitations: any) => {
+            props.setFieldValue("invitations", invitations);
+            props.closeModalAction();
+          }}
           closeModalAction={props.closeModalAction}
         />
       ),

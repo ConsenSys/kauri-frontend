@@ -17,7 +17,7 @@ export const AddMemberSection = styled.section`
 interface IProps {
   handleEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
   handleRoleChange: (role: string) => any;
-  emailAddress: string;
+  email: string;
   currentStep: number;
   role: string;
   roles: Array<{ value: string; label: string }>;
@@ -26,6 +26,7 @@ const { Fragment } = React;
 
 const StepOneContainer = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -63,7 +64,7 @@ const ChooseRoleOptions: React.FunctionComponent<{
 const AddMemberModalContent: React.FunctionComponent<IProps> = ({
   handleEmailChange,
   handleRoleChange,
-  emailAddress,
+  email,
   currentStep,
   role,
   roles,
@@ -78,7 +79,7 @@ const AddMemberModalContent: React.FunctionComponent<IProps> = ({
           </BodyCard>
           <Input
             onChange={handleEmailChange}
-            value={emailAddress}
+            value={email}
             placeHolder="EMAIL ADDRESS"
             textAlign="center"
             color="textPrimary"
