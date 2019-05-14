@@ -148,7 +148,7 @@ export const createCommunityMutation = gql`
     $tags: [String]
     $social: Map_String_StringScalar
     $attributes: Map_String_StringScalar
-    $invitations: InvitationInput[]
+    $invitations: [InvitationInput]
   ) {
     createCommunity(
       signature: $signature
@@ -159,7 +159,7 @@ export const createCommunityMutation = gql`
       social: $social
       attributes: $attributes
       tags: $tags
-      $invitations: InvitationInput[]
+      invitations: $invitations
     ) {
       hash
     }
