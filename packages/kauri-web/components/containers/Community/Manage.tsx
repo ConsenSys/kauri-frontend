@@ -83,7 +83,7 @@ const Manage = ({ pending, members, communityId, pendingUpdates }: IProps) => {
           />
         )}
         {tabIndex === 3 && (
-          <DisplayManagedResources review={true} esources={pendingUpdates} />
+          <DisplayManagedResources review={true} resources={pendingUpdates} />
         )}
       </Column>
     </Container>

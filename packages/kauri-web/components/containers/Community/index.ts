@@ -1,10 +1,7 @@
 import View from "./View";
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
-import {
-  getCommunity,
-  getCommunityAndPendingArticles,
-} from "../../../queries/Community";
+import { getCommunityAndPendingArticles } from "../../../queries/Community";
 import withLoading from "../../../lib/with-loading";
 import {
   openModalAction,
