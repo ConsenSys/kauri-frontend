@@ -148,6 +148,7 @@ export const createCommunityMutation = gql`
     $tags: [String]
     $social: Map_String_StringScalar
     $attributes: Map_String_StringScalar
+    $invitations: [InvitationInput]
   ) {
     createCommunity(
       signature: $signature
@@ -158,6 +159,7 @@ export const createCommunityMutation = gql`
       social: $social
       attributes: $attributes
       tags: $tags
+      invitations: $invitations
     ) {
       hash
     }
@@ -166,6 +168,7 @@ export const createCommunityMutation = gql`
 
 export const updateCommunityMutation = gql`
   mutation updateCommunity(
+    $id: String
     $name: String
     $description: String
     $avatar: String
@@ -174,7 +177,8 @@ export const updateCommunityMutation = gql`
     $social: Map_String_StringScalar
     $attributes: Map_String_StringScalar
   ) {
-    createCommunity(
+    editCommunity(
+      id: $id
       name: $name
       description: $description
       avatar: $avatar
@@ -231,6 +235,27 @@ export const getCommunityArticleContent = gql`
       }
       totalPages
       totalElements
+    }
+  }
+`;
+
+export const prepareSendInvitationQuery = gql`
+  query prepareSendInvitation($id: String, $invitation: InvitationInput) {
+    prepareSendInvitation(id: $id, invitation: $invitation) {
+      messageHash
+      attributes
+    }
+  }
+`;
+
+export const sendInvitationMutation = gql`
+  mutation sendInvitation(
+    $signature: String
+    $id: String
+    $invitation: InvitationInput
+  ) {
+    sendInvitation(signature: $signature, id: $id, invitation: $invitation) {
+      hash
     }
   }
 `;

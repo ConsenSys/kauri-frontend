@@ -2,6 +2,25 @@ import * as React from "react";
 import { Tooltip } from "react-tippy";
 import styled from "../../lib/styled-components";
 import { Label } from "../Typography";
+import theme from "../../lib/theme-config";
+
+export const TooltipContainer = styled.div`
+  display: flex;
+  width: 300px;
+  padding: ${theme.space[2]}px;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+  border-radius: 4px;
+  > div:not(:last-child) {
+    margin-bottom: ${theme.space[2]}px;
+  }
+  > * {
+    cursor: pointer;
+  }
+`;
 
 const DownArrowIcon = () => (
   <svg

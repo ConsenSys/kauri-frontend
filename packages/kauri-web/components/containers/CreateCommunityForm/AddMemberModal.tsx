@@ -5,38 +5,59 @@ import AddMemberModalContent from "../../../../kauri-components/components/Creat
 interface IProps {
   closeModalAction: () => void;
   confirmButtonAction: (
-    emailAddress: string,
+    payload: { email: string; role: string },
     closeModalAction: () => void
   ) => void;
 }
 
 interface IState {
   currentStep: number;
-  emailAddress: string;
+  email: string;
+  role: string;
 }
 
 const AddMemberModal: React.FunctionComponent<IProps> = props => {
-  const [{ currentStep, emailAddress }, setState] = React.useState<IState>({
+  const [state, setState] = React.useState<IState>({
     currentStep: 1,
-    emailAddress: "",
+    email: "",
+    role: "",
   });
+
+  const { currentStep, email, role } = state;
+
+  const roles = [
+    { value: "ADMIN", label: "ADMIN" },
+    { value: "CURATOR", label: "MODERATOR" },
+  ];
+
+  const chosenRole = roles.filter(
+    hardcodedRoles => hardcodedRoles.value === state.role
+  ).length
+    ? roles.filter(hardcodedRoles => hardcodedRoles.value === state.role)[0]
+        .label
+    : role;
 
   return (
     <AlertViewComponent
       closeModalAction={() => props.closeModalAction()}
       confirmButtonAction={() => {
-        props.confirmButtonAction(emailAddress, props.closeModalAction);
+        props.confirmButtonAction({ email, role }, props.closeModalAction);
       }}
       content={
         <AddMemberModalContent
+          handleRoleChange={(chosenRole: string) =>
+            setState({ ...state, role: chosenRole })
+          }
+          roles={roles}
           currentStep={currentStep}
-          emailAddress={emailAddress}
-          handleChange={({ target: { value } }) =>
-            setState({ currentStep, emailAddress: value })
+          email={email}
+          role={chosenRole}
+          handleEmailChange={({ target: { value } }) =>
+            setState({ currentStep, email: value, role })
           }
         />
       }
-      title={"Add Member to Community"}
+      title={"Invite New Moderator"}
     />
   );
 };

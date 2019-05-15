@@ -10,10 +10,15 @@ import {
   openModalAction,
   closeModalAction,
 } from "../../../../kauri-components/components/Modal/Module";
-import { createCommunityAction, updateCommunityAction } from "./Module";
+import {
+  createCommunityAction,
+  updateCommunityAction,
+  IInvitationsPayload,
+} from "./Module";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import { updateCommunityVariables } from "../../../queries/__generated__/updateCommunity";
+import { CommunityPermissionInput } from "../../../__generated__/globalTypes";
 
 export interface ICommunityAttributes {
   background: undefined | string;
@@ -42,9 +47,11 @@ export default compose(
   withFormik<IProps, IFormValues>({
     handleSubmit: (values, { setSubmitting, props }) => {
       console.info(JSON.stringify(values, null, 2));
+      // console.info(values.invitations);
       setSubmitting(true);
       if (props.id) {
-        props.updateCommunityAction(values, () => {
+        // TODO: Update Epic to call prepareSendInvitation mutation
+        props.updateCommunityAction(values as any, () => {
           setSubmitting(false);
         });
       } else {
@@ -57,7 +64,7 @@ export default compose(
       if (id && data) {
         const { getCommunity } = data;
         if (getCommunity) {
-          return getCommunity;
+          return { ...getCommunity, invitations: [] };
         }
       }
       return {
@@ -65,6 +72,7 @@ export default compose(
         avatar: null,
         description: "",
         id: null,
+        invitations: [],
         name: "",
         social: {},
         website: "",
