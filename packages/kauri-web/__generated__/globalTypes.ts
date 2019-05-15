@@ -55,44 +55,44 @@ export enum UserStatusInput {
 }
 
 export interface ArticleFilterInput {
-  versionIn?: (number | null)[] | null;
+  dateCreatedLessThan?: any | null;
   versionGreaterThan?: number | null;
   latestVersion?: boolean | null;
   dateCreatedGreaterThan?: any | null;
-  checkpointEquals?: string | null;
   authorIdEquals?: string | null;
-  dateCreatedLessThan?: any | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
   ownerIdEquals?: string | null;
+  statusIn?: (ArticleStatusInput | null)[] | null;
   fullText?: string | null;
-  idEquals?: string | null;
   containsTag?: string | null;
+  idEquals?: string | null;
+  checkpointEquals?: string | null;
+  versionIn?: (number | null)[] | null;
   ownerIdIn?: (string | null)[] | null;
 }
 
 export interface CollectionFilterInput {
-  descriptionContains?: string | null;
-  resourcesCountGreaterThan?: number | null;
-  dateUpdatedLessThan?: any | null;
-  containingArticleId?: string | null;
-  nameContains?: string | null;
-  fullText?: string | null;
-  ownerIdEquals?: string | null;
-  dateUpdatedGreaterThan?: any | null;
   dateCreatedGreaterThan?: any | null;
+  nameContains?: string | null;
+  ownerIdEquals?: string | null;
   dateCreatedLessThan?: any | null;
+  resourcesCountGreaterThan?: number | null;
+  containingArticleId?: string | null;
+  dateUpdatedLessThan?: any | null;
+  descriptionContains?: string | null;
+  fullText?: string | null;
+  dateUpdatedGreaterThan?: any | null;
 }
 
 export interface CommunityFilterInput {
-  dateCreatedGreaterThan?: any | null;
+  nameContain?: string | null;
+  dateUpdatedLessThan?: any | null;
+  statusIn?: (CommunityStatusInput | null)[] | null;
   dateUpdatedGreaterThan?: any | null;
   membersIncludes?: string | null;
-  statusIn?: (CommunityStatusInput | null)[] | null;
-  dateUpdatedLessThan?: any | null;
-  dateCreatedLessThan?: any | null;
-  nameContain?: string | null;
-  nameContains?: string | null;
   fullText?: string | null;
+  dateCreatedLessThan?: any | null;
+  dateCreatedGreaterThan?: any | null;
+  nameContains?: string | null;
 }
 
 export interface CommunityResourceFilterInput {
@@ -101,29 +101,29 @@ export interface CommunityResourceFilterInput {
 }
 
 export interface InvitationInput {
-  secret?: string | null;
-  email?: string | null;
   role?: CommunityPermissionInput | null;
+  email?: string | null;
+  secret?: string | null;
 }
 
 export interface ResourceIdentifierInput {
+  id?: string | null;
   type?: ResourceTypeInput | null;
   version?: number | null;
-  id?: string | null;
 }
 
 export interface SearchFilterInput {
-  mustNotContainTag?: (string | null)[] | null;
-  type?: ResourceTypeInput | null;
-  mustNotIncludeUserId?: (string | null)[] | null;
   mustContainTag?: (string | null)[] | null;
+  mustNotContainTag?: (string | null)[] | null;
   mustIncludeUserId?: (string | null)[] | null;
+  mustNotIncludeUserId?: (string | null)[] | null;
+  type?: ResourceTypeInput | null;
 }
 
 export interface SectionDTOInput {
+  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   name?: string | null;
   id?: string | null;
-  resourcesId?: (ResourceIdentifierInput | null)[] | null;
   description?: string | null;
 }
 

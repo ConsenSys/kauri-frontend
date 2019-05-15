@@ -259,3 +259,19 @@ export const sendInvitationMutation = gql`
     }
   }
 `;
+
+export const prepareAcceptInvitationQuery = gql`
+  query prepareAcceptInvitation($id: String, $secret: String) {
+    prepareAcceptInvitation(id: $id, secret: $secret) {
+      messageHash
+    }
+  }
+`;
+
+export const acceptInvitationMutation = gql`
+  mutation acceptInvitation($signature: String, $id: String, $secret: String) {
+    acceptInvitation(signature: $signature, id: $id, secret: $secret) {
+      hash
+    }
+  }
+`;
