@@ -70,10 +70,6 @@ interface ICommunityCreatedPayload {
   transactionHash: string;
 }
 
-interface ICommunityUpdatedPayload {
-  transactionHash: string;
-}
-
 export interface ICommunityCreatedAction extends IAction {
   payload: ICommunityCreatedPayload;
   type: "COMMUNITY_CREATED";
@@ -126,14 +122,14 @@ interface ICreateCommunityCommandOutput {
   error: string | undefined;
 }
 
-interface IPrepareSendInvitationQueryResult {
+export interface IPrepareSendInvitationQueryResult {
   messageHash: string;
   attributes: {
     secret: string;
   };
 }
 
-interface ISendInvitationCommandOutput {
+export interface ISendInvitationCommandOutput {
   hash: string;
 }
 
@@ -317,7 +313,6 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                       { data: { prepareSendInvitation: result } },
                       invitationIndex
                     ) =>
-                      // TODO:  Add secret in mutation via switchMap
                       Observable.fromPromise<string>(
                         personalSign(result.messageHash)
                       )
