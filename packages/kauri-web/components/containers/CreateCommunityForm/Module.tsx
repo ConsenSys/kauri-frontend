@@ -52,7 +52,11 @@ interface IPrepareCreateCommunityAction extends IAction {
 
 export interface IInvitationsPayload {
   payload: {
-    invitations: Array<{ email: string; role: CommunityPermissionInput }>;
+    invitations: Array<{
+      email: string;
+      role: CommunityPermissionInput;
+      secret: string;
+    }>;
   };
 }
 
@@ -122,8 +126,11 @@ interface ICreateCommunityCommandOutput {
   error: string | undefined;
 }
 
-interface IPrepareSendInvitationCommandOutput {
+interface IPrepareSendInvitationQueryResult {
   messageHash: string;
+  attributes: {
+    secret: string;
+  };
 }
 
 interface ISendInvitationCommandOutput {
@@ -284,7 +291,7 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                 [
                   {
                     data: {
-                      prepareSendInvitation: IPrepareSendInvitationCommandOutput;
+                      prepareSendInvitation: IPrepareSendInvitationQueryResult;
                     };
                   }
                 ]
@@ -306,60 +313,48 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                 .do(console.log)
                 .mergeMap(prepareSendInvitationsResults =>
                   prepareSendInvitationsResults.map(
-                    ({ data: { prepareSendInvitation: result } }) =>
-                      Observable.fromPromise(personalSign(result.messageHash))
-                  )
-                )
-                .combineAll<any, string[]>()
-                .do(signedSignatures =>
-                  console.log("signedSignatures combined", signedSignatures)
-                )
-                .mergeMap<string[], any>(signedSignatures =>
-                  signedSignatures.map((signedSignature, invitationIndex) =>
-                    Observable.fromPromise<{
-                      data: { sendInvitation: ISendInvitationCommandOutput };
-                    }>(
-                      apolloClient.mutate<
-                        sendInvitation,
-                        sendInvitationVariables
-                      >({
-                        mutation: sendInvitationMutation,
-                        variables: {
-                          id: (actions as IUpdateCommunityAction).payload.id,
-                          invitation: {
-                            email: (actions as IInvitationsPayload).payload
-                              .invitations[invitationIndex].email,
-                            role: (actions as IInvitationsPayload).payload
-                              .invitations[invitationIndex].role,
-                          },
-                          signature: signedSignature,
-                        },
-                      })
-                    )
-                  )
-                )
-                .combineAll<
-                  any,
-                  [{ data: { sendInvitation: ISendInvitationCommandOutput } }]
-                >()
-                .do(sendInvitationCommandOutput =>
-                  console.log(
-                    "ISendInvitationCommandOutput combined",
-                    sendInvitationCommandOutput
-                  )
-                )
-                .mergeMap(sendInvitationsCommandOutputs =>
-                  sendInvitationsCommandOutputs.map(
-                    ({ data: { sendInvitation: result } }) =>
-                      Observable.fromPromise(
-                        apolloSubscriber<ISendInvitationCommandOutput>(
-                          result.hash
-                        )
+                    (
+                      { data: { prepareSendInvitation: result } },
+                      invitationIndex
+                    ) =>
+                      // TODO:  Add secret in mutation via switchMap
+                      Observable.fromPromise<string>(
+                        personalSign(result.messageHash)
                       )
+                        .mergeMap(signedSignature =>
+                          apolloClient.mutate<
+                            sendInvitation,
+                            sendInvitationVariables
+                          >({
+                            mutation: sendInvitationMutation,
+                            variables: {
+                              id: (actions as IUpdateCommunityAction).payload
+                                .id,
+                              invitation: {
+                                email: (actions as IInvitationsPayload).payload
+                                  .invitations[invitationIndex].email,
+                                role: (actions as IInvitationsPayload).payload
+                                  .invitations[invitationIndex].role,
+                                secret: result.attributes.secret,
+                              },
+                              signature: signedSignature,
+                            },
+                          })
+                        )
+                        .mergeMap(
+                          ({
+                            data: { sendInvitation: sendInvitationResult },
+                          }: any) =>
+                            apolloSubscriber<ISendInvitationCommandOutput>(
+                              sendInvitationResult.hash
+                            )
+                        )
                   )
                 )
                 .combineAll()
-                .do(console.log)
+                .do(signedSignatures =>
+                  console.log("signedSignatures combined", signedSignatures)
+                )
                 .mergeMap(() =>
                   Observable.merge(
                     Observable.of(

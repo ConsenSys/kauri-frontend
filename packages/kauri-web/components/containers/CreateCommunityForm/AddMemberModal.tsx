@@ -30,6 +30,13 @@ const AddMemberModal: React.FunctionComponent<IProps> = props => {
     { value: "CURATOR", label: "MODERATOR" },
   ];
 
+  const chosenRole = roles.filter(
+    hardcodedRoles => hardcodedRoles.value === state.role
+  ).length
+    ? roles.filter(hardcodedRoles => hardcodedRoles.value === state.role)[0]
+        .label
+    : role;
+
   return (
     <AlertViewComponent
       closeModalAction={() => props.closeModalAction()}
@@ -44,7 +51,7 @@ const AddMemberModal: React.FunctionComponent<IProps> = props => {
           roles={roles}
           currentStep={currentStep}
           email={email}
-          role={role}
+          role={chosenRole}
           handleEmailChange={({ target: { value } }) =>
             setState({ currentStep, email: value, role })
           }
