@@ -275,3 +275,27 @@ export const acceptInvitationMutation = gql`
     }
   }
 `;
+
+export const prepareRevokeInvitationQuery = gql`
+  query prepareRevokeInvitation($id: String, $invitationId: String) {
+    prepareRevokeInvitation(id: $id, invitationId: $invitationId) {
+      messageHash
+    }
+  }
+`;
+
+export const revokeInvitationMutation = gql`
+  mutation revokeInvitation(
+    $signature: String
+    $id: String
+    $invitationId: String
+  ) {
+    revokeInvitation(
+      signature: $signature
+      id: $id
+      invitationId: $invitationId
+    ) {
+      hash
+    }
+  }
+`;
