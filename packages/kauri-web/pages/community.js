@@ -10,6 +10,7 @@ class CommunityPage extends React.Component {
     return (
       <App url={this.props.router} navcolor="transparent">
         <Community
+          secret={this.props.router && this.props.router.query.secret}
           communityId={this.props.router && this.props.router.query.communityId}
         />
       </App>

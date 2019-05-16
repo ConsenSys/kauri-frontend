@@ -78,4 +78,9 @@ routes
   )
   .add("write-article", "/write-article/:template_id", "write-article")
   .add("article-review", "/article-review/:id/v:version", "article-review")
-  .add("create-community", "/create-community");
+  .add("create-community", "/create-community")
+  .add(
+    "accept-community-invite",
+    "/community/:communityId/approve", // ?secret=xyz
+    "community"
+  );

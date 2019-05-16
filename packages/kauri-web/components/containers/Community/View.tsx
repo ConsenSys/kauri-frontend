@@ -15,6 +15,7 @@ import EmptyCollections from "./EmptyStates/Collections";
 
 interface IProps {
   currentUser: string;
+  secret: null | string;
   data: {
     getCommunity: getCommunity_getCommunity;
     searchArticles: getCommunityAndPendingArticles_searchArticles;
@@ -32,6 +33,7 @@ class CommunityConnection extends React.Component<IProps> {
     }
 
     const {
+      secret,
       data: { getCommunity },
       currentUser,
       closeModalAction,
