@@ -8,7 +8,10 @@ import {
   closeModalAction,
 } from "../../../../kauri-components/components/Modal/Module";
 import { IReduxState, routeChangeAction } from "../../../lib/Module";
-import { curateCommunityResourcesAction } from "./Module";
+import {
+  curateCommunityResourcesAction,
+  acceptCommunityInvitationAction,
+} from "./Module";
 
 const mapStateToProps = (state: IReduxState) => ({
   currentUser: state.app && state.app.user && state.app.user.id,
@@ -20,6 +23,7 @@ export default compose(
   connect(
     mapStateToProps,
     {
+      acceptCommunityInvitationAction,
       closeModalAction,
       curateCommunityResourcesAction,
       openModalAction,

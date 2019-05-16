@@ -24,7 +24,10 @@ import {
   getCommunity_getCommunity_approved_ArticleDTO,
   getCommunity_getCommunity_approved_CollectionDTO,
 } from "../../../queries/__generated__/getCommunity";
-import { curateCommunityResourcesAction as curateCommunityResources } from "./Module";
+import {
+  curateCommunityResourcesAction as curateCommunityResources,
+  acceptCommunityInvitationAction as acceptCommunityInvitation,
+} from "./Module";
 import { ResourceTypeInput } from "../../../__generated__/globalTypes";
 
 const TooltipContainer = styled.section`
@@ -271,6 +274,8 @@ interface IProps {
   articles: Array<getCommunity_getCommunity_approved_ArticleDTO | null> | null;
   collections: Array<getCommunity_getCommunity_approved_CollectionDTO | null> | null;
   curateCommunityResourcesAction: typeof curateCommunityResources;
+  acceptCommunityInvitationAction: typeof acceptCommunityInvitation;
+  secret: null | string;
 }
 
 const CommunityHeader: React.FunctionComponent<IProps> = ({

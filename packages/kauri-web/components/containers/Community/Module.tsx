@@ -325,6 +325,7 @@ export const acceptCommunityInvitationEpic: Epic<
                   notificationType: "success",
                 })
               ),
+              Observable.of(routeChangeAction(`/community/${payload.id}`)),
               Observable.of(invitationAcceptedAction())
             )
           )
