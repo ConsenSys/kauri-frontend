@@ -198,45 +198,74 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
         })
       )
         .do(console.log)
-        .mergeMap<ApolloQueryResult<prepareCreateCommunity>, string>(
-          ({ data: { prepareCreateCommunity: result } }) =>
-            result && personalSign(result.messageHash)
-        )
-        .mergeMap(signature =>
-          apolloClient.mutate<createCommunity, createCommunityVariables>({
-            mutation: createCommunityMutation,
-            variables: {
-              ...(actions as ICreateCommunityAction).payload,
-              signature,
-            },
-          })
-        )
-        .do(console.log)
-        .mergeMap(({ data: { createCommunity: result } }) =>
-          apolloSubscriber<ICreateCommunityCommandOutput>(result.hash)
-        )
-        .do(console.log)
-        .do(() => typeof actions.callback === "function" && actions.callback())
-        .mergeMap(({ data: { output: { id, transactionHash, error } } }) =>
-          error
-            ? Observable.throw(new Error("Submission error"))
-            : Observable.merge(
-                Observable.of(
-                  (showNotificationAction as any)({
-                    description: `You can start adding articles and collections to your community page once the transaction is mined!`,
-                    message: "Creating Community",
-                    notificationType: "info",
-                  })
-                ),
-                Observable.of(
-                  communityCreatedAction({
-                    transactionHash,
-                  })
-                ),
-                Observable.of(
-                  routeChangeAction(`/community/${id}/community-created`)
-                )
+        .switchMap<ApolloQueryResult<prepareCreateCommunity>, any>(
+          ({
+            data: { prepareCreateCommunity: prepareCreateCommunityResult },
+          }) =>
+            Observable.fromPromise<string>(
+              prepareCreateCommunityResult &&
+                personalSign(prepareCreateCommunityResult.messageHash)
+            )
+              .mergeMap(signature =>
+                apolloClient.mutate<createCommunity, createCommunityVariables>({
+                  mutation: createCommunityMutation,
+                  variables: {
+                    ...(actions as ICreateCommunityAction).payload,
+                    invitations:
+                      prepareCreateCommunityResult &&
+                      prepareCreateCommunityResult.attributes.invitations,
+                    signature,
+                  },
+                })
               )
+              .do(console.log)
+              .mergeMap(({ data: { createCommunity: result } }) =>
+                apolloSubscriber<ICreateCommunityCommandOutput>(result.hash)
+              )
+              .do(console.log)
+              .do(
+                () =>
+                  typeof actions.callback === "function" && actions.callback()
+              )
+              .mergeMap(
+                ({
+                  data: {
+                    output: { id, transactionHash, error },
+                  },
+                }) =>
+                  error
+                    ? Observable.throw(new Error("Submission error"))
+                    : Observable.merge(
+                        Observable.of(
+                          (showNotificationAction as any)({
+                            description: `You can start adding articles and collections to your community page once the transaction is mined!`,
+                            message: "Creating Community",
+                            notificationType: "info",
+                          })
+                        ),
+                        Observable.of(
+                          communityCreatedAction({
+                            transactionHash,
+                          })
+                        ),
+                        Observable.of(
+                          routeChangeAction(
+                            `/community/${id}/community-created`
+                          )
+                        )
+                      )
+              )
+              .do(() => apolloClient.resetStore())
+              .catch(err => {
+                console.error(err);
+                return Observable.of(
+                  showNotificationAction({
+                    description: "Please try again",
+                    message: "Submission error",
+                    notificationType: "error",
+                  })
+                );
+              })
         )
         .do(() => apolloClient.resetStore())
         .catch(err => {
