@@ -123,6 +123,7 @@ export const prepareCreateCommunityQuery = gql`
     $tags: [String]
     $social: Map_String_StringScalar
     $attributes: Map_String_StringScalar
+    $invitations: [InvitationInput]
   ) {
     prepareCreateCommunity(
       name: $name
@@ -132,8 +133,10 @@ export const prepareCreateCommunityQuery = gql`
       social: $social
       attributes: $attributes
       tags: $tags
+      invitations: $invitations
     ) {
       messageHash
+      attributes
     }
   }
 `;
