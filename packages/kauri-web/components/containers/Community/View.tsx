@@ -10,34 +10,66 @@ import Tabs from "../../../../kauri-components/components/Tabs";
 import DisplayResources from "./DisplayResources";
 import Manage from "./Manage";
 import R from "ramda";
-import { curateCommunityResourcesAction as curateCommunityResources } from "./Module";
+import {
+  curateCommunityResourcesAction as curateCommunityResources,
+  acceptCommunityInvitationAction as acceptCommunityInvitation,
+} from "./Module";
 import EmptyCollections from "./EmptyStates/Collections";
+import AlertViewComponent from "../../../../kauri-components/components/Modal/AlertView";
+import AcceptCommunityInvitationModalContent from "../../../../kauri-components/components/Community/AcceptCommunityInvitationModalContent";
 
 interface IProps {
+  acceptCommunityInvitationAction: typeof acceptCommunityInvitation;
   currentUser: string;
+  secret: null | string;
+  communityId: string;
   data: {
     getCommunity: getCommunity_getCommunity;
     searchArticles: getCommunityAndPendingArticles_searchArticles;
   };
   closeModalAction: () => void;
-  openModalAction: () => void;
+  openModalAction: (payload: { children: any }) => void;
   routeChangeAction: (route: string) => void;
   curateCommunityResourcesAction: typeof curateCommunityResources;
 }
 
 class CommunityConnection extends React.Component<IProps> {
+  componentDidMount() {
+    if (typeof this.props.secret === "string") {
+      // AcceptCommunityInviteModal
+      this.props.openModalAction({
+        children: (
+          <AlertViewComponent
+            closeModalAction={this.props.closeModalAction}
+            confirmButtonAction={() =>
+              this.props.acceptCommunityInvitationAction({
+                id: this.props.communityId,
+                secret: this.props.secret,
+              })
+            }
+            confirmButtonText={"Accept"}
+            content={<AcceptCommunityInvitationModalContent />}
+            title={"Accept Invitation To Join Community"}
+          />
+        ),
+      });
+    }
+  }
+
   render() {
     if (!this.props.data || !this.props.data.getCommunity) {
       return null;
     }
 
     const {
+      secret,
       data: { getCommunity },
       currentUser,
       closeModalAction,
       openModalAction,
       routeChangeAction,
       curateCommunityResourcesAction,
+      acceptCommunityInvitationAction,
     } = this.props;
     const articles =
       getCommunity.approved &&
@@ -53,6 +85,8 @@ class CommunityConnection extends React.Component<IProps> {
     return (
       <>
         <CommunityHeader
+          secret={secret}
+          acceptCommunityInvitationAction={acceptCommunityInvitationAction}
           id={String(getCommunity.id)}
           avatar={getCommunity.avatar}
           name={getCommunity.name}

@@ -42,6 +42,7 @@ import {
 } from "../../../queries/__generated__/acceptInvitation";
 
 import { ISendInvitationCommandOutput } from "../CreateCommunityForm/Module";
+import { closeModalAction } from "../../../../kauri-components/components/Modal/Module";
 
 interface ICurateCommunityResourcesAction {
   type: "CURATE_COMMUNITY_RESOURCES";
@@ -316,6 +317,7 @@ export const acceptCommunityInvitationEpic: Epic<
           .do(() => apolloClient.resetStore())
           .mergeMap(() =>
             Observable.merge(
+              Observable.of(closeModalAction()),
               Observable.of(
                 showNotificationAction({
                   description: `You are now a member of the community!`,
@@ -323,6 +325,7 @@ export const acceptCommunityInvitationEpic: Epic<
                   notificationType: "success",
                 })
               ),
+              Observable.of(routeChangeAction(`/community/${payload.id}`)),
               Observable.of(invitationAcceptedAction())
             )
           )
