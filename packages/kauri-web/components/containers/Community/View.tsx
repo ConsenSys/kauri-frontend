@@ -53,6 +53,8 @@ class CommunityConnection extends React.Component<IProps> {
           />
         ),
       });
+    } else {
+      this.props.closeModalAction()
     }
   }
 
