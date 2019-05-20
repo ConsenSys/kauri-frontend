@@ -29,7 +29,8 @@ export const CommunityOwner = gql`
       id
       type
     }
-  }`;
+  }
+`;
 
 export const Article = gql`
   fragment Article on ArticleDTO {
@@ -161,6 +162,7 @@ export const Community = gql`
       username
       avatar
       role
+      status
     }
     approvedId {
       id

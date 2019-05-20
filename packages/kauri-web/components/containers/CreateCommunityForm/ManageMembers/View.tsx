@@ -9,9 +9,10 @@ interface IProps {
 }
 
 const ManageMembers: React.FunctionComponent<IProps> = props => {
+  console.log(props.members);
   return props.members &&
     Array.isArray(props.members) &&
-    props.members.length > 1 ? (
+    props.members.length === 1 ? (
     <MembersPanel
       openAddMemberModal={() => props.openAddMemberModal()}
       members={props.members}
