@@ -1,7 +1,7 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { CommunityStatusInput, CommunityPermissionInput, ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
+import { CommunityStatusInput, CommunityPermissionInput, UserStatusInput, ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCommunityAndPendingArticles
@@ -21,6 +21,7 @@ export interface getCommunityAndPendingArticles_getCommunity_members {
   username: string | null;
   avatar: string | null;
   role: CommunityPermissionInput | null;
+  status: UserStatusInput | null;
 }
 
 export interface getCommunityAndPendingArticles_getCommunity_approvedId {

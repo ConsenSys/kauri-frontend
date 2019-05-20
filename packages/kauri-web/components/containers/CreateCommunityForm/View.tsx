@@ -8,11 +8,7 @@ import {
   routeChangeAction,
   showNotificationAction as showNotification,
 } from "../../../lib/Module";
-import {
-  createCommunityAction,
-  updateCommunityAction,
-  IInvitationsPayload,
-} from "./Module";
+import { createCommunityAction, updateCommunityAction } from "./Module";
 import { Form, InjectedFormikProps } from "formik";
 import Helmet from "react-helmet";
 import { IFormValues } from "./index";
@@ -24,7 +20,7 @@ import {
 import AddMemberModal from "./AddMemberModal";
 
 export interface IProps {
-  id: string | undefined;
+  id: string | null;
   routeChangeAction: typeof routeChangeAction;
   createCommunityAction: typeof createCommunityAction;
   updateCommunityAction: typeof updateCommunityAction;

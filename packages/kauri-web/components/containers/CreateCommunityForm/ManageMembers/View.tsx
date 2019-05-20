@@ -1,67 +1,53 @@
 import * as React from "react";
-import ContentSection from "../../../../../kauri-components/components/Section/ContentSection";
-import styled from "../../../../lib/styled-components";
-import ResourceCategory from "../../../../../kauri-components/components/ResourceCategory";
 import ManageMemberEmptyState from "../../../../../kauri-components/components/Community/ManageMemberEmptyState";
 import { getCommunity_getCommunity_members } from "../../../../queries/__generated__/getCommunity";
 import MembersPanel from "./MembersPanel";
+import InviteMembersPanel from "./InviteMembersPanel";
+import styled from "../../../../lib/styled-components";
 
-const CategorySection = styled.section`
+interface IProps {
+  invitations: Array<{
+    email: string;
+    role: string;
+  } | null> | null;
+  members: Array<getCommunity_getCommunity_members | null> | null;
+  openAddMemberModal: () => void;
+  removeMemberAction: () => void;
+  revokeInvitationAction: () => void;
+  id: string | null;
+  data: {
+    getCommunityInvitations: { content: any };
+  };
+}
+
+const ManageMembersContainer = styled.section`
   display: flex;
   flex-direction: column;
-  > div:not(:last-child) {
-    margin-bottom: ${props => props.theme.space[1]}px;
+  > :first-child {
+    margin-bottom: ${props => props.theme.space[3]}px;
   }
 `;
 
-type Category = "manage moderators" | "approve article" | "approve collection";
-
-interface IState {
-  category: Category;
-}
-
-const categories: Category[] = [
-  "manage moderators",
-  "approve article",
-  "approve collection",
-];
-
-interface IProps {
-  members: Array<getCommunity_getCommunity_members | null> | null;
-  openAddMemberModal: () => void;
-}
-
-const ManageMembers: React.SFC<IProps> = props => {
-  const [state, setState] = React.useState<IState>({
-    category: "manage moderators",
-  });
-
-  return (
-    <ContentSection gridAutoFlow={["", "column"]}>
-      <CategorySection>
-        {categories.map((category: Category) => (
-          <ResourceCategory
-            key={category}
-            onClick={() => setState({ category })}
-            active={category === state.category}
-            category={category}
-            amount={0}
-          />
-        ))}
-      </CategorySection>
-      {props.members &&
-      Array.isArray(props.members) &&
-      props.members.length > 0 ? (
-        <MembersPanel
-          openAddMemberModal={() => props.openAddMemberModal()}
-          members={props.members}
-        />
-      ) : (
-        <ManageMemberEmptyState
-          handleClick={() => props.openAddMemberModal()}
-        />
-      )}
-    </ContentSection>
+const ManageMembers: React.FunctionComponent<IProps> = props => {
+  // console.log(props.members);
+  return props.members &&
+    Array.isArray(props.members) &&
+    props.members.length === 1 ? (
+    <ManageMembersContainer>
+      <MembersPanel
+        removeMemberAction={props.removeMemberAction}
+        openAddMemberModal={() => props.openAddMemberModal()}
+        members={props.members}
+      />
+      <InviteMembersPanel
+        revokeInvitationAction={props.revokeInvitationAction}
+        invitations={
+          props.data.getCommunityInvitations.content || props.invitations
+        }
+      />
+    </ManageMembersContainer>
+  ) : (
+    <ManageMemberEmptyState handleClick={() => props.openAddMemberModal()} />
   );
 };
 

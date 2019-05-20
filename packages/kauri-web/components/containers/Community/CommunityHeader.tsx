@@ -29,6 +29,7 @@ import {
   acceptCommunityInvitationAction as acceptCommunityInvitation,
 } from "./Module";
 import { ResourceTypeInput } from "../../../__generated__/globalTypes";
+import AddMemberButtonComponent from "../../../../kauri-components/components/Button/AddMemberButton";
 
 const TooltipContainer = styled.section`
   display: flex;
@@ -276,6 +277,7 @@ interface IProps {
   curateCommunityResourcesAction: typeof curateCommunityResources;
   acceptCommunityInvitationAction: typeof acceptCommunityInvitation;
   secret: null | string;
+  openAddMemberModal: () => void;
 }
 
 const CommunityHeader: React.FunctionComponent<IProps> = ({
@@ -298,6 +300,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
   isMember,
   closeModalAction,
   curateCommunityResourcesAction,
+  openAddMemberModal,
 }) => {
   const suggestArticleAction = () =>
     openModalAction({
@@ -441,6 +444,11 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
                                 : (name || id).substring(0, 1).toUpperCase()}
                             </UserAvatar>
                           ) : null
+                        )}
+                        {isCreator && (
+                          <AddMemberButtonComponent
+                            onClick={() => openAddMemberModal()}
+                          />
                         )}
                       </Row>
                     </>

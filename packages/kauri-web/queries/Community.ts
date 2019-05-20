@@ -302,3 +302,34 @@ export const revokeInvitationMutation = gql`
     }
   }
 `;
+
+export const getCommunityInvitationsQuery = gql`
+  query getCommunityInvitations(
+    $id: String
+    $page: Int = 0
+    $size: Int = 500
+    $sort: String
+    $dir: DirectionInput
+  ) {
+    getCommunityInvitations(
+      id: $id
+      page: $page
+      size: $size
+      sort: $sort
+      dir: $dir
+    ) {
+      totalElements
+      totalPages
+      content {
+        invitationId
+        communityId
+        dateCreated
+        dateExpiration
+        dateClosed
+        status
+        recipientEmail
+        recipientRole
+      }
+    }
+  }
+`;

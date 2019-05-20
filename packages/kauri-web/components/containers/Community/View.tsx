@@ -13,10 +13,12 @@ import R from "ramda";
 import {
   curateCommunityResourcesAction as curateCommunityResources,
   acceptCommunityInvitationAction as acceptCommunityInvitation,
+  sendCommunityInvitationAction as sendCommunityInvitation,
 } from "./Module";
 import EmptyCollections from "./EmptyStates/Collections";
 import AlertViewComponent from "../../../../kauri-components/components/Modal/AlertView";
 import AcceptCommunityInvitationModalContent from "../../../../kauri-components/components/Community/AcceptCommunityInvitationModalContent";
+import AddMemberModal from "../CreateCommunityForm/AddMemberModal";
 
 interface IProps {
   acceptCommunityInvitationAction: typeof acceptCommunityInvitation;
@@ -31,6 +33,7 @@ interface IProps {
   openModalAction: (payload: { children: any }) => void;
   routeChangeAction: (route: string) => void;
   curateCommunityResourcesAction: typeof curateCommunityResources;
+  sendCommunityInvitationAction: typeof sendCommunityInvitation;
 }
 
 class CommunityConnection extends React.Component<IProps> {
@@ -54,7 +57,7 @@ class CommunityConnection extends React.Component<IProps> {
         ),
       });
     } else {
-      this.props.closeModalAction()
+      this.props.closeModalAction();
     }
   }
 
@@ -83,6 +86,22 @@ class CommunityConnection extends React.Component<IProps> {
     const isMember =
       isCreator ||
       R.any(R.propEq("id", currentUser), getCommunity.members || []);
+
+    const openAddMemberModal = () =>
+      this.props.openModalAction({
+        children: (
+          <AddMemberModal
+            confirmButtonAction={(invitation: any) => {
+              this.props.sendCommunityInvitationAction({
+                id: getCommunity.id,
+                invitation,
+              });
+              this.props.closeModalAction();
+            }}
+            closeModalAction={this.props.closeModalAction}
+          />
+        ),
+      });
 
     return (
       <>
@@ -120,6 +139,7 @@ class CommunityConnection extends React.Component<IProps> {
           closeModalAction={closeModalAction}
           routeChangeAction={routeChangeAction}
           curateCommunityResourcesAction={curateCommunityResourcesAction}
+          openAddMemberModal={openAddMemberModal}
         />
         <Tabs
           dark={true}
@@ -130,14 +150,27 @@ class CommunityConnection extends React.Component<IProps> {
             isCreator || isMember ? { name: "Manage Community" } : null,
           ]}
           panels={[
-            <DisplayResources key="home" resources={getCommunity.approved} />,
-            <DisplayResources key="articles" resources={articles} />,
+            <DisplayResources
+              key="home"
+              resources={getCommunity.approved}
+              communityId={getCommunity.id}
+            />,
+            <DisplayResources
+              key="articles"
+              resources={articles}
+              communityId={getCommunity.id}
+            />,
             collections && collections.length > 0 ? (
-              <DisplayResources key="collections" resources={collections} />
+              <DisplayResources
+                key="collections"
+                resources={collections}
+                communityId={getCommunity.id}
+              />
             ) : (
               <EmptyCollections />
             ),
             <Manage
+              openAddMemberModal={openAddMemberModal}
               communityId={String(getCommunity.id)}
               key="manage"
               members={getCommunity.members}

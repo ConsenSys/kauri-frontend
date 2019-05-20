@@ -11,7 +11,7 @@ import showFormValidationErrors from "../../../lib/show-form-validation-errors";
 import { showNotificationAction as showNotification } from "../../../lib/Module";
 
 interface IProps {
-  id: string | undefined;
+  id: string | null;
   goBack: () => void;
   setupImageUploader: () => void;
   isSubmitting: boolean;

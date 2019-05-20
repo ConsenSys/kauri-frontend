@@ -10,15 +10,10 @@ import {
   openModalAction,
   closeModalAction,
 } from "../../../../kauri-components/components/Modal/Module";
-import {
-  createCommunityAction,
-  updateCommunityAction,
-  IInvitationsPayload,
-} from "./Module";
+import { createCommunityAction, updateCommunityAction } from "./Module";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import { updateCommunityVariables } from "../../../queries/__generated__/updateCommunity";
-import { CommunityPermissionInput } from "../../../__generated__/globalTypes";
 
 export interface ICommunityAttributes {
   background: undefined | string;
