@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-
 import styled from "styled-components";
 import ResourceCategory from "../../../../kauri-components/components/ResourceCategory";
+import ManageMembers from "../CreateCommunityForm/ManageMembers";
 import { DisplayManagedResources } from "./DisplayResources";
-import ManageModerators from "./ManageModerators";
 import {
   getCommunity_getCommunity_pending,
   getCommunity_getCommunity_members,
@@ -13,6 +12,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
+  > :first-child {
+    margin-right: ${props => props.theme.space[3]}px;
+  }
 `;
 
 const Column = styled.div`
@@ -31,9 +33,16 @@ interface IProps {
   pendingUpdates: any;
   pending: Array<getCommunity_getCommunity_pending | null> | null;
   members: Array<getCommunity_getCommunity_members | null> | null;
+  openAddMemberModal: () => void;
 }
 
-const Manage = ({ pending, members, communityId, pendingUpdates }: IProps) => {
+const Manage: React.FunctionComponent<IProps> = ({
+  pending,
+  members,
+  communityId,
+  pendingUpdates,
+  openAddMemberModal,
+}) => {
   const [tabIndex, setTabIndex] = useState(0);
   const pendingArticles =
     pending && pending.filter(i => i && i.__typename === "ArticleDTO");
@@ -69,7 +78,12 @@ const Manage = ({ pending, members, communityId, pendingUpdates }: IProps) => {
         />
       </Column>
       <Column>
-        {tabIndex === 0 && <ManageModerators members={members} />}
+        {tabIndex === 0 && (
+          <ManageMembers
+            openAddMemberModal={openAddMemberModal}
+            members={members}
+          />
+        )}
         {tabIndex === 1 && (
           <DisplayManagedResources
             communityId={communityId}

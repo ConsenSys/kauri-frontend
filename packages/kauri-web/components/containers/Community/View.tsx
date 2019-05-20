@@ -158,6 +158,7 @@ class CommunityConnection extends React.Component<IProps> {
               <EmptyCollections />
             ),
             <Manage
+              openAddMemberModal={openAddMemberModal}
               communityId={String(getCommunity.id)}
               key="manage"
               members={getCommunity.members}
