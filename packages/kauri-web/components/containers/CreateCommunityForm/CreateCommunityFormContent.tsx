@@ -24,6 +24,7 @@ const Container = styled.section``;
 // );
 interface IProps {
   openAddMemberModal: () => void;
+  id: string | null;
 }
 
 const Component: React.SFC<IProps> = props => (
@@ -52,10 +53,7 @@ const Component: React.SFC<IProps> = props => (
         <ContentSection key="home" />,
         <ContentSection key="articles" />,
         <ContentSection key="collections" />,
-        <ManageMembers
-          openAddMemberModal={props.openAddMemberModal}
-          key="manage"
-        />,
+        <ManageMembers id={props.id} key="manage" />,
         // <ContentSection key="collections">
         //   <DisplayFormikState
         //     touched={props.touched}

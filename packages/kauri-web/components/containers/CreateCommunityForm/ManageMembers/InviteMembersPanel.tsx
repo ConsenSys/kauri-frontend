@@ -1,12 +1,10 @@
 import React, { Fragment } from "react";
-import { getCommunity_getCommunity_members } from "../../../../queries/__generated__/getCommunity";
 import styled from "../../../../lib/styled-components";
 import {
   Title2,
   BodyCard,
   Label,
 } from "../../../../../kauri-components/components/Typography";
-import PrimaryButtonComponent from "../../../../../kauri-components/components/Button/PrimaryButton";
 
 const Header = styled.div`
   padding-top: ${props => props.theme.space[2]}px;
@@ -14,13 +12,6 @@ const Header = styled.div`
   padding-left: ${props => props.theme.space[2]}px;
   padding-right: ${props => props.theme.space[2]}px;
   border-bottom: 2px solid ${props => props.theme.divider};
-`;
-
-const Footer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: ${props => props.theme.space[3]}px;
 `;
 
 const Content = styled.div``;
@@ -33,21 +24,21 @@ const Section = styled.section`
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.106912);
 `;
 
-const RemoveMemberIconContainer = styled.div`
+const RevokeInvitationIconContainer = styled.div`
   cursor: pointer;
 `;
 
-const RemoveMemberIcon: React.FunctionComponent<{
-  removeMemberAction: () => void;
-}> = ({ removeMemberAction }) => (
-  <RemoveMemberIconContainer>
+const RevokeInvitationIcon: React.FunctionComponent<{
+  revokeInvitationAction: () => void;
+}> = ({ revokeInvitationAction }) => (
+  <RevokeInvitationIconContainer>
     <svg
       width="20"
       height="20"
       viewBox="0 0 20 20"
       fill="none"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      onClick={() => removeMemberAction()}
+      onClick={() => revokeInvitationAction()}
     >
       <rect width="20" height="20" fill="url(#pattern0)" />
       <defs>
@@ -67,7 +58,7 @@ const RemoveMemberIcon: React.FunctionComponent<{
         />
       </defs>
     </svg>
-  </RemoveMemberIconContainer>
+  </RevokeInvitationIconContainer>
 );
 
 const MemberContainer = styled.section`
@@ -92,65 +83,78 @@ const Divider = styled.div`
   height: 2px;
 `;
 
-const MemberRow: React.FunctionComponent<{
-  member: any;
-  removeMemberAction: any;
-}> = ({ member, removeMemberAction }) => (
+interface IInvitation {
+  invitationId: string;
+  communityId: string;
+  dateCreated: string;
+  dateExpiration: string;
+  dateClosed: string;
+  status: string;
+  recipientEmail: string;
+  recipientRole: string;
+}
+
+const InvitationRow: React.FunctionComponent<{
+  invitation: IInvitation;
+  revokeInvitationAction: any;
+}> = ({ invitation, revokeInvitationAction }) => (
   <MemberContainer>
-    <Label>{String(member.status).replace("_", " ")}</Label>
-    <BodyCard>{String(member.username || member.name || member.id)}</BodyCard>
-    {member.status === "CREATED" && (
+    <Label>{String(invitation.status).replace("_", " ")}</Label>
+    <BodyCard>{String(invitation.recipientEmail)}</BodyCard>
+    {invitation.status === "PENDING" && (
       <Label color="primary" hoverColor="hoverTextColor">
         RESEND
       </Label>
     )}
-    <RemoveMemberIcon removeMemberAction={removeMemberAction} />
+    {invitation.status === "PENDING" && (
+      <RevokeInvitationIcon revokeInvitationAction={revokeInvitationAction} />
+    )}
   </MemberContainer>
 );
 
 interface IProps {
-  members: Array<getCommunity_getCommunity_members | null> | null;
-  openAddMemberModal: () => void;
-  removeMemberAction: any | null; // TODO
+  invitations: Array<IInvitation | null> | null;
+  revokeInvitationAction: any | null; // TODO
 }
 
-const MembersPanel: React.SFC<IProps> = props => {
+const invitationsPanel: React.SFC<IProps> = props => {
   return (
     <Section>
       <Header>
-        <Title2>Moderators</Title2>
+        <Title2>Invited</Title2>
         <BodyCard>
-          The active moderators and admins of this community are displayed
-          below.{" "}
+          The following users have been invited to join as moderators. If listed
+          as “Pending”, they have yet to accept or reject the invitation.
         </BodyCard>
       </Header>
       <Content>
-        {props.members &&
-          Array.isArray(props.members) &&
-          props.members.map(
-            member =>
-              member &&
-              props.members && (
-                <Fragment>
-                  <MemberRow
-                    removeMemberAction={() =>
-                      props.removeMemberAction &&
-                      props.removeMemberAction({ id: member.id })
-                    }
-                    member={member}
-                  />
-                  <Divider />
-                </Fragment>
-              )
-          )}
+        {props.invitations &&
+          Array.isArray(props.invitations) &&
+          props.invitations
+            .filter(
+              invitation => invitation && invitation.status !== "ACCEPTED"
+            )
+            .map(
+              invitation =>
+                invitation &&
+                props.invitations && (
+                  <Fragment>
+                    <InvitationRow
+                      revokeInvitationAction={() =>
+                        props.revokeInvitationAction &&
+                        props.revokeInvitationAction({
+                          id: invitation.invitationId,
+                        })
+                      }
+                      invitation={invitation}
+                    />
+                    <Divider />
+                  </Fragment>
+                )
+            )}
       </Content>
-      <Footer>
-        <PrimaryButtonComponent onClick={() => props.openAddMemberModal()}>
-          Invite Member
-        </PrimaryButtonComponent>
-      </Footer>
     </Section>
   );
 };
 
-export default MembersPanel;
+export default invitationsPanel;

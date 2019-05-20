@@ -80,6 +80,7 @@ const Manage: React.FunctionComponent<IProps> = ({
       <Column>
         {tabIndex === 0 && (
           <ManageMembers
+            id={communityId}
             openAddMemberModal={openAddMemberModal}
             members={members}
           />
