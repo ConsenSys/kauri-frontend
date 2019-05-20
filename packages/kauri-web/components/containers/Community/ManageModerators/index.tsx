@@ -25,21 +25,13 @@ interface IProps {
 const ManageModerators = ({ members }: IProps) => (
   <Container>
     <Title2>Moderators</Title2>
-    <BodyCard>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nunc velit,
-      mattis nec orci non, scelerisque interdum libero. Morbi aliquet, massa
-      vitae maximus malesuada
-    </BodyCard>
-    {members &&
-      members.map(
-        (member, key) =>
-          member && (
-            <div key={key}>
-              {member.name} - {member.role}
-            </div>
-          )
-      )}
-    <PrimaryButton text="Add moderator" />
+    {members && Array.isArray(members) && members.length === 1 && (
+      <BodyCard>
+        Moderators can add articles and collections to the community, as well as
+        edit and remove existing ones.
+      </BodyCard>
+    )}
+    <PrimaryButton text="Invite Moderator" />
   </Container>
 );
 
