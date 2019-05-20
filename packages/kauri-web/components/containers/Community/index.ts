@@ -11,6 +11,7 @@ import { IReduxState, routeChangeAction } from "../../../lib/Module";
 import {
   curateCommunityResourcesAction,
   acceptCommunityInvitationAction,
+  sendCommunityInvitationAction,
 } from "./Module";
 
 const mapStateToProps = (state: IReduxState) => ({
@@ -28,6 +29,7 @@ export default compose(
       curateCommunityResourcesAction,
       openModalAction,
       routeChangeAction,
+      sendCommunityInvitationAction,
     }
   ),
   graphql(getCommunityAndPendingArticles, {

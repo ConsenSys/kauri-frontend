@@ -272,7 +272,8 @@ export const sendCommunityInvitationEpic: Epic<
               Observable.of(invitationSentAction()),
               Observable.of(
                 routeChangeAction(`/community/${payload.id}/community-updated`)
-              )
+              ),
+              Observable.of(closeModalAction())
             )
           )
       )
