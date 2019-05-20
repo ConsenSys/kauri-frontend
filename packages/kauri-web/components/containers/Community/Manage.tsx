@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ResourceCategory from "../../../../kauri-components/components/ResourceCategory";
 import { DisplayManagedResources } from "./DisplayResources";
-import ManageMembers from "./ManageMembers";
+import ManageModerators from "./ManageModerators";
 import {
   getCommunity_getCommunity_pending,
   getCommunity_getCommunity_members,
@@ -69,7 +69,7 @@ const Manage = ({ pending, members, communityId, pendingUpdates }: IProps) => {
         />
       </Column>
       <Column>
-        {tabIndex === 0 && <ManageMembers members={members} />}
+        {tabIndex === 0 && <ManageModerators members={members} />}
         {tabIndex === 1 && (
           <DisplayManagedResources
             communityId={communityId}
