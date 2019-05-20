@@ -101,7 +101,7 @@ const InvitationRow: React.FunctionComponent<{
   <MemberContainer>
     <Label>{String(invitation.status).replace("_", " ")}</Label>
     <BodyCard>{String(invitation.recipientEmail)}</BodyCard>
-    {invitation.status === "PENDING" && (
+    {invitation.status === "PENDING" && ( // TODO
       <Label color="primary" hoverColor="hoverTextColor">
         RESEND
       </Label>
