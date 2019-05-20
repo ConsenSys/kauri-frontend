@@ -3,7 +3,7 @@ import * as React from "react";
 import styled from "../../../lib/styled-components";
 import ContentSection from "../../../../kauri-components/components/Section/ContentSection";
 import TabsComponent from "../../../../kauri-components/components/Tabs";
-import ManageMembers from "./ManageMembers";
+import Manage from "../Community/Manage";
 // import { Label } from "../../../../kauri-components/components/Typography";
 
 const Container = styled.section``;
@@ -53,7 +53,15 @@ const Component: React.SFC<IProps> = props => (
         <ContentSection key="home" />,
         <ContentSection key="articles" />,
         <ContentSection key="collections" />,
-        <ManageMembers id={props.id} key="manage" />,
+        <Manage
+          pageType={"CreateCommunityForm"}
+          openAddMemberModal={props.openAddMemberModal}
+          members={null}
+          pending={null}
+          pendingUpdates={null}
+          communityId={props.id}
+          key="manage"
+        />,
         // <ContentSection key="collections">
         //   <DisplayFormikState
         //     touched={props.touched}

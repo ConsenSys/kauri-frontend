@@ -14,10 +14,10 @@ const Container = styled.div`
 
 interface IProps {
   resources?: any;
-  communityId?: string;
+  communityId: string | null;
 }
 
-const RenderResources = (communityId?: string, destination?: string) => (
+const RenderResources = (communityId: string | null, destination?: string) => (
   i: Community_approved_ArticleDTO | Community_approved_CollectionDTO
 ) => {
   const owner =
@@ -163,10 +163,7 @@ export const DisplayManagedResources = ({
       <Masonry withPadding={false}>
         {Array.isArray(resources) &&
           resources.map(
-            RenderResources(
-              communityId || undefined,
-              review ? "review" : undefined
-            )
+            RenderResources(communityId, review ? "review" : undefined)
           )}
       </Masonry>
     </Container>

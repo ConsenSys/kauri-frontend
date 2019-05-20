@@ -24,11 +24,11 @@ export default compose(
   ),
   graphql(getCommunityInvitationsQuery, {
     options: ({ id }: { id: string | null }) => ({
-      skip: !id,
       variables: {
         id,
       },
     }),
+    skip: ({ id }: { id: string | null }) => !id,
   }),
   withLoading(),
   withApolloError()

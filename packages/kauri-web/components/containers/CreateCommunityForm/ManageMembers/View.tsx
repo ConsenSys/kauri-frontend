@@ -6,6 +6,10 @@ import InviteMembersPanel from "./InviteMembersPanel";
 import styled from "../../../../lib/styled-components";
 
 interface IProps {
+  invitations: Array<{
+    email: string;
+    role: string;
+  } | null> | null;
   members: Array<getCommunity_getCommunity_members | null> | null;
   openAddMemberModal: () => void;
   removeMemberAction: () => void;
@@ -37,7 +41,9 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
       />
       <InviteMembersPanel
         revokeInvitationAction={props.revokeInvitationAction}
-        invitations={props.data.getCommunityInvitations.content}
+        invitations={
+          props.data.getCommunityInvitations.content || props.invitations
+        }
       />
     </ManageMembersContainer>
   ) : (

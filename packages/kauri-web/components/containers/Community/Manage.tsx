@@ -29,11 +29,12 @@ const Column = styled.div`
 `;
 
 interface IProps {
-  communityId: string;
+  communityId: string | null;
   pendingUpdates: any;
   pending: Array<getCommunity_getCommunity_pending | null> | null;
   members: Array<getCommunity_getCommunity_members | null> | null;
   openAddMemberModal: () => void;
+  pageType?: string; // CreateCommunityForm
 }
 
 const Manage: React.FunctionComponent<IProps> = ({
@@ -42,6 +43,7 @@ const Manage: React.FunctionComponent<IProps> = ({
   communityId,
   pendingUpdates,
   openAddMemberModal,
+  pageType,
 }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const pendingArticles =
@@ -58,24 +60,30 @@ const Manage: React.FunctionComponent<IProps> = ({
           amount={members ? members.length : 0}
           onClick={() => setTabIndex(0)}
         />
-        <ResourceCategory
-          active={tabIndex === 1}
-          category="Articles for approval"
-          amount={pendingArticles ? pendingArticles.length : 0}
-          onClick={() => setTabIndex(1)}
-        />
-        <ResourceCategory
-          active={tabIndex === 2}
-          category="Collections for approval"
-          amount={pendingCollections ? pendingCollections.length : 0}
-          onClick={() => setTabIndex(2)}
-        />
-        <ResourceCategory
-          active={tabIndex === 3}
-          category="Pending Updates"
-          amount={(pendingUpdates && pendingUpdates.length) || 0}
-          onClick={() => setTabIndex(3)}
-        />
+        {pageType !== "CreateCommunityForm" && (
+          <ResourceCategory
+            active={tabIndex === 1}
+            category="Articles for approval"
+            amount={pendingArticles ? pendingArticles.length : 0}
+            onClick={() => setTabIndex(1)}
+          />
+        )}
+        {pageType !== "CreateCommunityForm" && (
+          <ResourceCategory
+            active={tabIndex === 2}
+            category="Collections for approval"
+            amount={pendingCollections ? pendingCollections.length : 0}
+            onClick={() => setTabIndex(2)}
+          />
+        )}
+        {pageType !== "CreateCommunityForm" && (
+          <ResourceCategory
+            active={tabIndex === 3}
+            category="Pending Updates"
+            amount={(pendingUpdates && pendingUpdates.length) || 0}
+            onClick={() => setTabIndex(3)}
+          />
+        )}
       </Column>
       <Column>
         {tabIndex === 0 && (
@@ -85,20 +93,24 @@ const Manage: React.FunctionComponent<IProps> = ({
             members={members}
           />
         )}
-        {tabIndex === 1 && (
+        {tabIndex === 1 && pageType !== "CreateCommunityForm" && (
           <DisplayManagedResources
             communityId={communityId}
             resources={pendingArticles}
           />
         )}
-        {tabIndex === 2 && (
+        {tabIndex === 2 && pageType !== "CreateCommunityForm" && (
           <DisplayManagedResources
             communityId={communityId}
             resources={pendingCollections}
           />
         )}
-        {tabIndex === 3 && (
-          <DisplayManagedResources review={true} resources={pendingUpdates} />
+        {tabIndex === 3 && pageType !== "CreateCommunityForm" && (
+          <DisplayManagedResources
+            communityId={communityId}
+            review={true}
+            resources={pendingUpdates}
+          />
         )}
       </Column>
     </Container>

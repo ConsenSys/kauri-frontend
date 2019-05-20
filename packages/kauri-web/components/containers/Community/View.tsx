@@ -150,10 +150,22 @@ class CommunityConnection extends React.Component<IProps> {
             isCreator || isMember ? { name: "Manage Community" } : null,
           ]}
           panels={[
-            <DisplayResources key="home" resources={getCommunity.approved} />,
-            <DisplayResources key="articles" resources={articles} />,
+            <DisplayResources
+              key="home"
+              resources={getCommunity.approved}
+              communityId={getCommunity.id}
+            />,
+            <DisplayResources
+              key="articles"
+              resources={articles}
+              communityId={getCommunity.id}
+            />,
             collections && collections.length > 0 ? (
-              <DisplayResources key="collections" resources={collections} />
+              <DisplayResources
+                key="collections"
+                resources={collections}
+                communityId={getCommunity.id}
+              />
             ) : (
               <EmptyCollections />
             ),
