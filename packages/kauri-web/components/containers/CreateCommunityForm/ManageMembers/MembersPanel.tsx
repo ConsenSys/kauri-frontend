@@ -144,7 +144,10 @@ const MembersPanel: React.SFC<IProps> = props => {
           )}
       </Content>
       <Footer>
-        <PrimaryButtonComponent onClick={() => props.openAddMemberModal()}>
+        <PrimaryButtonComponent
+          type={"button"}
+          onClick={() => props.openAddMemberModal()}
+        >
           Invite Member
         </PrimaryButtonComponent>
       </Footer>

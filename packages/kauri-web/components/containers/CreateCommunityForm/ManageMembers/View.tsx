@@ -9,7 +9,7 @@ import styled from "../../../../lib/styled-components";
 const ManageMembersContainer = styled.section`
   display: flex;
   flex-direction: column;
-  > :first-child {
+  > :not(:last-child) {
     margin-bottom: ${props => props.theme.space[3]}px;
   }
 `;
@@ -22,7 +22,7 @@ interface IProps {
   revokeInvitationAction: () => void;
   cancelInvitation: (payload: { index: number }) => void;
   id: string | null;
-  data: {
+  data?: {
     getCommunityInvitations: { content: any };
   };
 }
@@ -41,14 +41,15 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
                 members={props.members}
               />
             )}
-          {(props.data.getCommunityInvitations.content ||
+          {((props.data && props.data.getCommunityInvitations.content) ||
             (props.invitations &&
               Array.isArray(props.invitations) &&
               props.invitations.length >= 1)) && (
             <InviteMembersPanel
               revokeInvitationAction={props.revokeInvitationAction}
               invitations={
-                props.data.getCommunityInvitations.content || props.invitations
+                (props.data && props.data.getCommunityInvitations.content) ||
+                props.invitations
               }
             />
           )}
@@ -63,11 +64,11 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
     }
   }
   if (
-    props.data.getCommunityInvitations.content ||
+    (props.data && props.data.getCommunityInvitations.content) ||
     Array.isArray(props.invitations)
   ) {
     if (
-      props.data.getCommunityInvitations.content ||
+      (props.data && props.data.getCommunityInvitations.content) ||
       (Array.isArray(props.invitations) && props.invitations.length >= 1)
     ) {
       return (
@@ -81,14 +82,15 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
                 members={props.members}
               />
             )}
-          {(props.data.getCommunityInvitations.content ||
+          {((props.data && props.data.getCommunityInvitations.content) ||
             (props.invitations &&
               Array.isArray(props.invitations) &&
               props.invitations.length >= 1)) && (
             <InviteMembersPanel
               revokeInvitationAction={props.revokeInvitationAction}
               invitations={
-                props.data.getCommunityInvitations.content || props.invitations
+                (props.data && props.data.getCommunityInvitations.content) ||
+                props.invitations
               }
             />
           )}
@@ -115,7 +117,8 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
       <InviteMembersPanel
         revokeInvitationAction={props.revokeInvitationAction}
         invitations={
-          props.data.getCommunityInvitations.content || props.invitations
+          (props.data && props.data.getCommunityInvitations.content) ||
+          props.invitations
         }
       />
     </ManageMembersContainer>
