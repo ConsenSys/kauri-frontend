@@ -4,6 +4,7 @@ import styled from "../../../lib/styled-components";
 import ContentSection from "../../../../kauri-components/components/Section/ContentSection";
 import TabsComponent from "../../../../kauri-components/components/Tabs";
 import Manage from "../Community/Manage";
+import { IInvitation } from "./ManageMembers/FormInviteMembersPanel";
 // import { Label } from "../../../../kauri-components/components/Typography";
 
 const Container = styled.section``;
@@ -25,6 +26,8 @@ const Container = styled.section``;
 interface IProps {
   openAddMemberModal: () => void;
   id: string | null;
+  cancelInvitation: (payload: { index: number }) => void;
+  formInvitations: IInvitation[] | null | undefined;
 }
 
 const Component: React.SFC<IProps> = props => (
@@ -61,6 +64,8 @@ const Component: React.SFC<IProps> = props => (
           pendingUpdates={null}
           communityId={props.id}
           key="manage"
+          formInvitations={props.formInvitations}
+          cancelInvitation={props.cancelInvitation}
         />,
         // <ContentSection key="collections">
         //   <DisplayFormikState

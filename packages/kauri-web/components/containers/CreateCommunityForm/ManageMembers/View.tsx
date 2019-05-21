@@ -3,22 +3,8 @@ import ManageMemberEmptyState from "../../../../../kauri-components/components/C
 import { getCommunity_getCommunity_members } from "../../../../queries/__generated__/getCommunity";
 import MembersPanel from "./MembersPanel";
 import InviteMembersPanel from "./InviteMembersPanel";
+import FormInviteMembersPanel, { IInvitation } from "./FormInviteMembersPanel";
 import styled from "../../../../lib/styled-components";
-
-interface IProps {
-  invitations: Array<{
-    email: string;
-    role: string;
-  } | null> | null;
-  members: Array<getCommunity_getCommunity_members | null> | null;
-  openAddMemberModal: () => void;
-  removeMemberAction: () => void;
-  revokeInvitationAction: () => void;
-  id: string | null;
-  data: {
-    getCommunityInvitations: { content: any };
-  };
-}
 
 const ManageMembersContainer = styled.section`
   display: flex;
@@ -27,12 +13,59 @@ const ManageMembersContainer = styled.section`
     margin-bottom: ${props => props.theme.space[3]}px;
   }
 `;
+interface IProps {
+  invitations: IInvitation[] | null;
+  formInvitations?: IInvitation[] | null;
+  members: Array<getCommunity_getCommunity_members | null> | null;
+  openAddMemberModal: () => void;
+  removeMemberAction: () => void;
+  revokeInvitationAction: () => void;
+  cancelInvitation: (payload: { index: number }) => void;
+  id: string | null;
+  data: {
+    getCommunityInvitations: { content: any };
+  };
+}
 
 const ManageMembers: React.FunctionComponent<IProps> = props => {
+  if (Array.isArray(props.formInvitations)) {
+    if (props.formInvitations.length >= 1) {
+      return (
+        <ManageMembersContainer>
+          {props.members &&
+            Array.isArray(props.members) &&
+            props.members.length >= 1 && (
+              <MembersPanel
+                removeMemberAction={props.removeMemberAction}
+                openAddMemberModal={() => props.openAddMemberModal()}
+                members={props.members}
+              />
+            )}
+          {props.members &&
+            Array.isArray(props.members) &&
+            props.members.length >= 1 && (
+              <InviteMembersPanel
+                revokeInvitationAction={props.revokeInvitationAction}
+                invitations={
+                  props.data.getCommunityInvitations.content ||
+                  props.invitations
+                }
+              />
+            )}
+          {props.formInvitations && (
+            <FormInviteMembersPanel
+              cancelInvitation={props.cancelInvitation}
+              formInvitations={props.formInvitations}
+            />
+          )}
+        </ManageMembersContainer>
+      );
+    }
+  }
   // console.log(props.members);
   return props.members &&
     Array.isArray(props.members) &&
-    props.members.length === 1 ? (
+    props.members.length >= 1 ? (
     <ManageMembersContainer>
       <MembersPanel
         removeMemberAction={props.removeMemberAction}

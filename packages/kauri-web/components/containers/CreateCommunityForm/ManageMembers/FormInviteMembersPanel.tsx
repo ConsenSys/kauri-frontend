@@ -5,6 +5,7 @@ import {
   BodyCard,
   Label,
 } from "../../../../../kauri-components/components/Typography";
+import { CommunityPermissionInput } from "../../../../__generated__/globalTypes";
 
 const Header = styled.div`
   padding-top: ${props => props.theme.space[2]}px;
@@ -28,9 +29,9 @@ const RevokeInvitationIconContainer = styled.div`
   cursor: pointer;
 `;
 
-const RevokeInvitationIcon: React.FunctionComponent<{
-  revokeInvitationAction: () => void;
-}> = ({ revokeInvitationAction }) => (
+const CancelInvitationIcon: React.FunctionComponent<{
+  cancelInvitation: () => void;
+}> = ({ cancelInvitation }) => (
   <RevokeInvitationIconContainer>
     <svg
       width="20"
@@ -38,7 +39,7 @@ const RevokeInvitationIcon: React.FunctionComponent<{
       viewBox="0 0 20 20"
       fill="none"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      onClick={() => revokeInvitationAction()}
+      onClick={() => cancelInvitation()}
     >
       <rect width="20" height="20" fill="url(#pattern0)" />
       <defs>
@@ -83,78 +84,61 @@ const Divider = styled.div`
   height: 2px;
 `;
 
-interface IInvitation {
-  invitationId: string;
-  communityId: string;
-  dateCreated: string;
-  dateExpiration: string;
-  dateClosed: string;
-  status: string;
-  recipientEmail: string;
-  recipientRole: string;
+export interface IInvitation {
+  email: string;
+  role: CommunityPermissionInput;
 }
 
-const InvitationRow: React.FunctionComponent<{
+const FormInvitationRow: React.FunctionComponent<{
   invitation: IInvitation;
-  revokeInvitationAction: any;
-}> = ({ invitation, revokeInvitationAction }) => (
+  cancelInvitation: any;
+}> = ({ invitation, cancelInvitation }) => (
   <MemberContainer>
-    <Label>{String(invitation.status).replace("_", " ")}</Label>
-    <BodyCard>{String(invitation.recipientEmail)}</BodyCard>
-    {invitation.status === "PENDING" && ( // TODO
-      <Label color="primary" hoverColor="hoverTextColor">
-        RESEND
-      </Label>
-    )}
-    {invitation.status === "PENDING" && (
-      <RevokeInvitationIcon revokeInvitationAction={revokeInvitationAction} />
-    )}
+    <Label>{"About To Invite"}</Label>
+    <BodyCard>{String(invitation.email)}</BodyCard>
+    <CancelInvitationIcon cancelInvitation={cancelInvitation} />
   </MemberContainer>
 );
 
 interface IProps {
-  invitations: Array<IInvitation | null> | null;
-  revokeInvitationAction: any | null; // TODO
+  formInvitations: IInvitation[] | null;
+  cancelInvitation: any | null; // TODO
 }
 
-const invitationsPanel: React.SFC<IProps> = props => {
+const FormInviteMembersPanel: React.SFC<IProps> = props => {
   return (
     <Section>
       <Header>
-        <Title2>Invited</Title2>
+        <Title2>About To Invite</Title2>
         <BodyCard>
-          The following users have been invited to join as members. If listed as
-          “Pending”, they have yet to accept or reject the invitation.
+          The following users will be invited to join as members once you
+          create/update the community.
         </BodyCard>
       </Header>
       <Content>
-        {props.invitations &&
-          Array.isArray(props.invitations) &&
-          props.invitations
-            .filter(
-              invitation => invitation && invitation.status !== "ACCEPTED"
-            )
-            .map(
-              invitation =>
-                invitation &&
-                props.invitations && (
-                  <Fragment>
-                    <InvitationRow
-                      revokeInvitationAction={() =>
-                        props.revokeInvitationAction &&
-                        props.revokeInvitationAction({
-                          id: invitation.invitationId,
-                        })
-                      }
-                      invitation={invitation}
-                    />
-                    <Divider />
-                  </Fragment>
-                )
-            )}
+        {props.formInvitations &&
+          Array.isArray(props.formInvitations) &&
+          props.formInvitations.map(
+            (invitation, index) =>
+              invitation &&
+              props.formInvitations && (
+                <Fragment>
+                  <FormInvitationRow
+                    cancelInvitation={() =>
+                      props.cancelInvitation &&
+                      props.cancelInvitation({
+                        index,
+                      })
+                    }
+                    invitation={invitation}
+                  />
+                  <Divider />
+                </Fragment>
+              )
+          )}
       </Content>
     </Section>
   );
 };
 
-export default invitationsPanel;
+export default FormInviteMembersPanel;

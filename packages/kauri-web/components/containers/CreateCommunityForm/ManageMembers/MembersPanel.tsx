@@ -97,7 +97,7 @@ const MemberRow: React.FunctionComponent<{
   removeMemberAction: any;
 }> = ({ member, removeMemberAction }) => (
   <MemberContainer>
-    <Label>{String(member.status).replace("_", " ")}</Label>
+    <Label>{String(member.role).replace("_", " ")}</Label>
     <BodyCard>{String(member.username || member.name || member.id)}</BodyCard>
     {member.status === "CREATED" && (
       <Label color="primary" hoverColor="hoverTextColor">
@@ -120,8 +120,7 @@ const MembersPanel: React.SFC<IProps> = props => {
       <Header>
         <Title2>Moderators</Title2>
         <BodyCard>
-          The active moderators and admins of this community are displayed
-          below.{" "}
+          The active members of this community are displayed below.{" "}
         </BodyCard>
       </Header>
       <Content>
