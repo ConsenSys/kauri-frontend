@@ -41,18 +41,58 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
                 members={props.members}
               />
             )}
+          {(props.data.getCommunityInvitations.content ||
+            (props.invitations &&
+              Array.isArray(props.invitations) &&
+              props.invitations.length >= 1)) && (
+            <InviteMembersPanel
+              revokeInvitationAction={props.revokeInvitationAction}
+              invitations={
+                props.data.getCommunityInvitations.content || props.invitations
+              }
+            />
+          )}
+          {props.formInvitations.length >= 1 && (
+            <FormInviteMembersPanel
+              cancelInvitation={props.cancelInvitation}
+              formInvitations={props.formInvitations}
+            />
+          )}
+        </ManageMembersContainer>
+      );
+    }
+  }
+  if (
+    props.data.getCommunityInvitations.content ||
+    Array.isArray(props.invitations)
+  ) {
+    if (
+      props.data.getCommunityInvitations.content ||
+      (Array.isArray(props.invitations) && props.invitations.length >= 1)
+    ) {
+      return (
+        <ManageMembersContainer>
           {props.members &&
             Array.isArray(props.members) &&
             props.members.length >= 1 && (
-              <InviteMembersPanel
-                revokeInvitationAction={props.revokeInvitationAction}
-                invitations={
-                  props.data.getCommunityInvitations.content ||
-                  props.invitations
-                }
+              <MembersPanel
+                removeMemberAction={props.removeMemberAction}
+                openAddMemberModal={() => props.openAddMemberModal()}
+                members={props.members}
               />
             )}
-          {props.formInvitations && (
+          {(props.data.getCommunityInvitations.content ||
+            (props.invitations &&
+              Array.isArray(props.invitations) &&
+              props.invitations.length >= 1)) && (
+            <InviteMembersPanel
+              revokeInvitationAction={props.revokeInvitationAction}
+              invitations={
+                props.data.getCommunityInvitations.content || props.invitations
+              }
+            />
+          )}
+          {props.formInvitations && props.formInvitations.length >= 1 && (
             <FormInviteMembersPanel
               cancelInvitation={props.cancelInvitation}
               formInvitations={props.formInvitations}
