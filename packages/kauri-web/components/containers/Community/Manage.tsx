@@ -7,6 +7,7 @@ import {
   getCommunity_getCommunity_pending,
   getCommunity_getCommunity_members,
 } from "../../../queries/__generated__/getCommunity";
+import { IInvitation } from "../CreateCommunityForm/ManageMembers/FormInviteMembersPanel";
 
 const Container = styled.div`
   display: flex;
@@ -29,12 +30,14 @@ const Column = styled.div`
 `;
 
 interface IProps {
+  cancelInvitation?: (payload: { index: number }) => void;
   communityId: string | null;
   pendingUpdates: any;
   pending: Array<getCommunity_getCommunity_pending | null> | null;
   members: Array<getCommunity_getCommunity_members | null> | null;
   openAddMemberModal: () => void;
   pageType?: string; // CreateCommunityForm
+  formInvitations?: IInvitation[] | null | undefined;
 }
 
 const Manage: React.FunctionComponent<IProps> = ({
@@ -44,6 +47,8 @@ const Manage: React.FunctionComponent<IProps> = ({
   pendingUpdates,
   openAddMemberModal,
   pageType,
+  cancelInvitation,
+  formInvitations,
 }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const pendingArticles =
@@ -91,6 +96,8 @@ const Manage: React.FunctionComponent<IProps> = ({
             id={communityId}
             openAddMemberModal={openAddMemberModal}
             members={members}
+            cancelInvitation={cancelInvitation}
+            formInvitations={formInvitations}
           />
         )}
         {tabIndex === 1 && pageType !== "CreateCommunityForm" && (

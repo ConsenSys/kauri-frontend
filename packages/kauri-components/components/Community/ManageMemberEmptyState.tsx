@@ -23,7 +23,7 @@ const ManageMemberEmptyState: React.SFC<{
       }
       title="Moderators"
       primaryButton={
-        <PrimaryButtonComponent onClick={handleClick}>
+        <PrimaryButtonComponent type={"button"} onClick={handleClick}>
           Invite Member
         </PrimaryButtonComponent>
       }

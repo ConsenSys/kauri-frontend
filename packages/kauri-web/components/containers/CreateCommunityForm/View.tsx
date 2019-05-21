@@ -18,6 +18,7 @@ import {
   closeModalAction,
 } from "../../../../kauri-components/components/Modal/Module";
 import AddMemberModal from "./AddMemberModal";
+import R from "ramda";
 
 export interface IProps {
   id: string | null;
@@ -67,6 +68,15 @@ const Component: React.SFC<
         />
       ),
     });
+
+  const cancelInvitation = ({ index }: { index: number }) =>
+    props.setFieldValue(
+      "invitations",
+      (props.values.invitations &&
+        R.remove(index, 1, props.values.invitations)) ||
+        []
+    );
+
   return (
     <Section>
       <Form>
@@ -104,7 +114,12 @@ const Component: React.SFC<
           setFieldValue={props.setFieldValue}
         />
 
-        <Content {...props} openAddMemberModal={openAddMemberModal} />
+        <Content
+          {...props}
+          openAddMemberModal={openAddMemberModal}
+          cancelInvitation={cancelInvitation}
+          formInvitations={props.values.invitations}
+        />
       </Form>
     </Section>
   );

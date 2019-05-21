@@ -14,12 +14,15 @@ import { createCommunityAction, updateCommunityAction } from "./Module";
 import { withFormik } from "formik";
 import * as Yup from "yup";
 import { updateCommunityVariables } from "../../../queries/__generated__/updateCommunity";
+import { IInvitation } from "./ManageMembers/FormInviteMembersPanel";
 
 export interface ICommunityAttributes {
   background: undefined | string;
 }
 
-export type IFormValues = updateCommunityVariables;
+export type IFormValues = updateCommunityVariables & {
+  invitations?: IInvitation[];
+};
 
 const mapStateToProps = ({ app: { user } }: IReduxState) => ({
   userAvatar: user && user.avatar,
