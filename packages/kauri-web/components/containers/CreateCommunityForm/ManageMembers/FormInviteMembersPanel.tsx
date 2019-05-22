@@ -102,7 +102,7 @@ const FormInvitationRow: React.FunctionComponent<{
 
 interface IProps {
   formInvitations: IInvitation[] | null;
-  cancelInvitation: any | null; // TODO
+  cancelInvitation: any | null;
 }
 
 const FormInviteMembersPanel: React.SFC<IProps> = props => {

@@ -15,6 +15,8 @@ import {
   sendInvitationMutation,
   prepareAcceptInvitationQuery,
   acceptInvitationMutation,
+  prepareRevokeInvitationQuery,
+  revokeInvitationMutation,
 } from "../../../queries/Community";
 import {
   curateCommunityResources,
@@ -40,6 +42,14 @@ import {
   acceptInvitation,
   acceptInvitationVariables,
 } from "../../../queries/__generated__/acceptInvitation";
+import {
+  prepareRevokeInvitation,
+  prepareRevokeInvitationVariables,
+} from "../../../queries/__generated__/prepareRevokeInvitation";
+import {
+  revokeInvitation,
+  revokeInvitationVariables,
+} from "../../../queries/__generated__/revokeInvitation";
 
 import { ISendInvitationCommandOutput } from "../CreateCommunityForm/Module";
 import { closeModalAction } from "../../../../kauri-components/components/Modal/Module";
@@ -59,12 +69,21 @@ interface ISendCommunityInvitationAction {
   payload: sendInvitationVariables;
 }
 
+interface IRevokeInvitationAction {
+  type: "REVOKE_INVITATION";
+  payload: revokeInvitationVariables;
+}
+
 interface IInvitationSentAction {
   type: "INVITATION_SENT";
 }
 
 interface IInvitationAcceptedAction {
   type: "INVITATION_ACCEPTED";
+}
+
+interface IInvitationRevokedAction {
+  type: "INVITATION_REVOKED";
 }
 
 interface IAcceptCommunityInvitationAction {
@@ -78,6 +97,12 @@ const SEND_COMMUNITY_INVITATION = "SEND_COMMUNITY_INVITATION";
 const INVITATION_SENT = "INVITATION_SENT";
 const ACCEPT_COMMUNITY_INVITATION = "ACCEPT_COMMUNITY_INVITATION";
 const INVITATION_ACCEPTED = "INVITATION_ACCEPTED";
+const REVOKE_INVITATION = "REVOKE_INVITATION";
+const INVITATION_REVOKED = "INVITATION_REVOKED";
+
+export const invitationRevokedAction = (): IInvitationRevokedAction => ({
+  type: INVITATION_REVOKED,
+});
 
 export const curateCommunityResourcesAction = (
   payload: curateCommunityResourcesVariables
@@ -115,6 +140,13 @@ export const acceptCommunityInvitationAction = (
   type: ACCEPT_COMMUNITY_INVITATION,
 });
 
+export const revokeInvitationAction = (
+  payload: prepareRevokeInvitationVariables
+): IRevokeInvitationAction => ({
+  payload,
+  type: REVOKE_INVITATION,
+});
+
 interface ICurateCommunityResourcesCommandOutput {
   id: string;
   error?: string;
@@ -125,6 +157,10 @@ interface IAcceptInvitationCommandOutput {
 }
 
 type IApproveResourceCommandOutput = ICurateCommunityResourcesCommandOutput;
+
+interface IRevokeInvitationCommandOutput {
+  hash: string;
+}
 
 interface ICurateCommunityResourcesCommandOutput {
   messageHash: string;
@@ -325,6 +361,59 @@ export const acceptCommunityInvitationEpic: Epic<
               ),
               Observable.of(routeChangeAction(`/community/${payload.id}`)),
               Observable.of(invitationAcceptedAction())
+            )
+          )
+      )
+    );
+
+export const revokeInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
+  action$,
+  _,
+  { apolloClient, apolloSubscriber, personalSign }
+) =>
+  action$
+    .ofType(REVOKE_INVITATION)
+    .switchMap(({ payload }: IRevokeInvitationAction) =>
+      Observable.fromPromise(
+        apolloClient.query<
+          prepareRevokeInvitation,
+          prepareRevokeInvitationVariables
+        >({
+          query: prepareRevokeInvitationQuery,
+          variables: payload,
+        })
+      ).mergeMap(({ data: { prepareRevokeInvitation: result } }) =>
+        Observable.fromPromise<string>(
+          personalSign(result && result.messageHash)
+        )
+          .mergeMap(signature =>
+            apolloClient.mutate<revokeInvitation, revokeInvitationVariables>({
+              mutation: revokeInvitationMutation,
+              variables: {
+                id: (payload && payload.id) || "",
+                invitationId: (payload && payload.invitationId) || "",
+                signature,
+              },
+            })
+          )
+          .mergeMap(
+            ({ data: { revokeInvitation: revokeInvitationResult } }: any) =>
+              apolloSubscriber<IRevokeInvitationCommandOutput>(
+                revokeInvitationResult.hash
+              )
+          )
+          .do(() => apolloClient.resetStore())
+          .mergeMap(() =>
+            Observable.merge(
+              Observable.of(closeModalAction()),
+              Observable.of(
+                showNotificationAction({
+                  description: `That invitation to the community has been successfully revoked`,
+                  message: "Invitation Revoked",
+                  notificationType: "success",
+                })
+              ),
+              Observable.of(invitationRevokedAction())
             )
           )
       )
