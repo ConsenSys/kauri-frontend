@@ -113,7 +113,7 @@ const MoreOptions = styled<{ hasImageURL: boolean }, "div">("div")`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: ${props => (props.hasImageURL ? "180" : "10")}px;
+  top: ${props => (props.hasImageURL ? "145" : "10")}px;
   right: 15px;
   z-index: 5;
 `;

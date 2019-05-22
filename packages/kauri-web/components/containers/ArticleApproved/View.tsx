@@ -106,7 +106,6 @@ class ArticleApproved extends React.Component<IProps> {
           </DescriptionContainer>
           <ArticleCard
             key={String(article.id)}
-            nfts={article.associatedNfts}
             resourceType={"USER"}
             id={String(article.id)}
             version={Number(article.version)}
