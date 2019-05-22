@@ -14,6 +14,7 @@ interface IProps {
   }
   closeModalAction: () => void;
   openModalAction: () => void;
+  hostName: string;
 }
 
 class CommunityConnection extends React.Component<IProps> {
@@ -38,7 +39,7 @@ class CommunityConnection extends React.Component<IProps> {
             />
             <link
               rel="canonical"
-              href={`https://${this.props.hostName}/community/${process.env.KauriCommunityId}`}
+              href={`https://${this.props.hostName && this.props.hostName.replace('api.', '')}/community/${process.env.KauriCommunityId}`}
             />
            </Helmet>
           )}
