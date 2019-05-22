@@ -28,11 +28,14 @@ export const getOwnProfile = gql`
       social
       status
       communities {
-        id
-        name
-        members {
+        role
+        community {
           id
-          role
+          name
+          members {
+            id
+            role
+          }
         }
       }
       subscriptions

@@ -10,6 +10,7 @@ import moment from "moment";
 import theme from "../../../../kauri-components/lib/theme-config";
 import GreenArrow from "../../common/GreenArrow";
 import RejectArticleModal from "./RejectArticleModal";
+import { ICommunities } from "../../../lib/Module";
 
 const Container = styled<{ bgUpdated: boolean }, "div">("div")`
   background: ${props => props.theme.bgPrimary};
@@ -99,7 +100,7 @@ const TagWrap = styled<{ type?: string }, "span">("span")`
 `;
 
 interface IProps {
-  communities: Array<{ id: string; name: string }>;
+  communities: ICommunities;
   routeChangeAction: (route: string) => void;
   title: string;
   attributes?: {
@@ -205,7 +206,9 @@ const Header: React.FunctionComponent<IProps> = props => (
           ) : null}
         </BGNotice>
         {(props.owner === props.currentUser ||
-          props.communities.find(({ id }) => id === props.owner)) &&
+          props.communities.find(
+            ({ community }) => community.id === props.owner
+          )) &&
           props.status === "PENDING" && (
             <Buttons>
               <SecondaryButton

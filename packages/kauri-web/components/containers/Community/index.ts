@@ -14,36 +14,10 @@ import {
   sendCommunityInvitationAction,
 } from "./Module";
 
-const mapStateToProps = (
-  state: IReduxState,
-  ownProps: { communityId: string }
-) => {
-  let isCommunityAdmin = false;
-
-  if (
-    state.app &&
-    state.app.user &&
-    state.app.user.communities.find(({ id }) => id === ownProps.communityId)
-  ) {
-    const currentViewedCommunityUserIsMemberOf = state.app.user.communities.find(
-      ({ id }) => id === ownProps.communityId
-    );
-    if (currentViewedCommunityUserIsMemberOf) {
-      const currentUserCommunityDetails = currentViewedCommunityUserIsMemberOf.members.find(
-        member => member.id === state.app.user.id
-      );
-      if (currentUserCommunityDetails) {
-        if (currentUserCommunityDetails.role === "ADMIN") {
-          isCommunityAdmin = true;
-        }
-      }
-    }
-  }
-
+const mapStateToProps = (state: IReduxState) => {
   return {
     currentUser: state.app && state.app.user && state.app.user.id,
     hostName: state.app && state.app.hostName,
-    isCommunityAdmin,
     isLoggedIn: !!(state.app && state.app.user && state.app.user.id),
   };
 };
