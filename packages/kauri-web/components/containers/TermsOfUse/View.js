@@ -141,7 +141,7 @@ class TermsOfUse extends Component<Props, State> {
                   information you submit is truthful and accurate; <b>(b)</b>{" "}
                   you will maintain the accuracy of such information. You may
                   delete your Account at any time, for any reason, by contacting
-                  the kauri team at <a href="info@kauri.io">info@kauri.io</a>.
+                  the kauri team at <a href="mailto:info@kauri.io">info@kauri.io</a>.
                   Company may suspend or terminate your access to the Site in
                   accordance with Section 12.
                   <p>
