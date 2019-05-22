@@ -333,3 +333,19 @@ export const getCommunityInvitationsQuery = gql`
     }
   }
 `;
+
+export const prepareRemoveMemberQuery = gql`
+  query prepareRemoveMember($id: String, $account: String) {
+    prepareRemoveMember(id: $id, account: $account) {
+      messageHash
+    }
+  }
+`;
+
+export const removeMemberMutation = gql`
+  mutation removeMember($signature: String, $id: String, $account: String) {
+    removeMember(signature: $signature, id: $id, account: $account) {
+      hash
+    }
+  }
+`;

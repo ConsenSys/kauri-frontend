@@ -55,6 +55,7 @@ import {
   sendCommunityInvitationEpic,
   acceptCommunityInvitationEpic,
   revokeInvitationEpic,
+  removeMemberEpic,
 } from "../components/containers/Community/Module";
 import {
   rejectArticleTransferEpic,
@@ -113,6 +114,7 @@ const epics = [
   sendCommunityInvitationEpic,
   acceptCommunityInvitationEpic,
   revokeInvitationEpic,
+  removeMemberEpic,
 ];
 
 export const rootEpic = combineEpics(...epics);

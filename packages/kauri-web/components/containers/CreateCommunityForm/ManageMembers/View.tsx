@@ -5,7 +5,10 @@ import MembersPanel from "./MembersPanel";
 import InviteMembersPanel from "./InviteMembersPanel";
 import FormInviteMembersPanel, { IInvitation } from "./FormInviteMembersPanel";
 import styled from "../../../../lib/styled-components";
-import { revokeInvitationAction as revokeInvitation } from "../../Community/Module";
+import {
+  revokeInvitationAction as revokeInvitation,
+  removeMemberAction as removeMember,
+} from "../../Community/Module";
 
 const ManageMembersContainer = styled.section`
   display: flex;
@@ -19,7 +22,7 @@ interface IProps {
   formInvitations?: IInvitation[] | null;
   members: Array<getCommunity_getCommunity_members | null> | null;
   openAddMemberModal: () => void;
-  removeMemberAction: () => void;
+  removeMemberAction: typeof removeMember;
   revokeInvitationAction: typeof revokeInvitation;
   cancelInvitation: (payload: { index: number }) => void;
   id: string | null;
