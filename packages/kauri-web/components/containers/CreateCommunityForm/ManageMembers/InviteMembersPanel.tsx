@@ -102,11 +102,14 @@ const InvitationRow: React.FunctionComponent<{
   <MemberContainer>
     <Label>{String(invitation.status).replace("_", " ")}</Label>
     <BodyCard>{String(invitation.recipientEmail)}</BodyCard>
-    {invitation.status === "PENDING" && ( // TODO
+    {
+      // TODO: Waiting for backend
+      /* {invitation.status === "PENDING" && (
       <Label color="primary" hoverColor="hoverTextColor">
         RESEND
       </Label>
-    )}
+    )} */
+    }
     {invitation.status === "PENDING" && (
       <RevokeInvitationIcon revokeInvitationAction={revokeInvitationAction} />
     )}

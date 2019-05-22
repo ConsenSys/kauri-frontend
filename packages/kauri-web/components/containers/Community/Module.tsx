@@ -17,6 +17,8 @@ import {
   acceptInvitationMutation,
   prepareRevokeInvitationQuery,
   revokeInvitationMutation,
+  prepareRemoveMemberQuery,
+  removeMemberMutation,
 } from "../../../queries/Community";
 import {
   curateCommunityResources,
@@ -50,6 +52,14 @@ import {
   revokeInvitation,
   revokeInvitationVariables,
 } from "../../../queries/__generated__/revokeInvitation";
+import {
+  prepareRemoveMember,
+  prepareRemoveMemberVariables,
+} from "../../../queries/__generated__/prepareRemoveMember";
+import {
+  removeMember,
+  removeMemberVariables,
+} from "../../../queries/__generated__/removeMember";
 
 import { ISendInvitationCommandOutput } from "../CreateCommunityForm/Module";
 import { closeModalAction } from "../../../../kauri-components/components/Modal/Module";
@@ -57,6 +67,11 @@ import { closeModalAction } from "../../../../kauri-components/components/Modal/
 interface ICurateCommunityResourcesAction {
   type: "CURATE_COMMUNITY_RESOURCES";
   payload: curateCommunityResourcesVariables;
+}
+
+interface IRemoveMemberAction {
+  type: "REMOVE_MEMBER";
+  payload: prepareRemoveMemberVariables;
 }
 
 interface IApproveResourceAction {
@@ -86,6 +101,10 @@ interface IInvitationRevokedAction {
   type: "INVITATION_REVOKED";
 }
 
+interface IMemberRemovedAction {
+  type: "MEMBER_REMOVED";
+}
+
 interface IAcceptCommunityInvitationAction {
   type: "ACCEPT_COMMUNITY_INVITATION";
   payload: prepareAcceptInvitationVariables;
@@ -99,9 +118,22 @@ const ACCEPT_COMMUNITY_INVITATION = "ACCEPT_COMMUNITY_INVITATION";
 const INVITATION_ACCEPTED = "INVITATION_ACCEPTED";
 const REVOKE_INVITATION = "REVOKE_INVITATION";
 const INVITATION_REVOKED = "INVITATION_REVOKED";
+const REMOVE_MEMBER = "REMOVE_MEMBER";
+const MEMBER_REMOVED = "MEMBER_REMOVED";
 
 export const invitationRevokedAction = (): IInvitationRevokedAction => ({
   type: INVITATION_REVOKED,
+});
+
+export const memberRemovedAction = (): IMemberRemovedAction => ({
+  type: MEMBER_REMOVED,
+});
+
+export const removeMemberAction = (
+  payload: removeMemberVariables
+): IRemoveMemberAction => ({
+  payload,
+  type: REMOVE_MEMBER,
 });
 
 export const curateCommunityResourcesAction = (
@@ -156,8 +188,6 @@ interface IAcceptInvitationCommandOutput {
   hash: string;
 }
 
-type IApproveResourceCommandOutput = ICurateCommunityResourcesCommandOutput;
-
 interface IRevokeInvitationCommandOutput {
   hash: string;
 }
@@ -166,6 +196,12 @@ interface ICurateCommunityResourcesCommandOutput {
   messageHash: string;
   secret: string;
 }
+
+interface IRemoveMemberCommandOutput {
+  hash: string;
+}
+
+type IApproveResourceCommandOutput = ICurateCommunityResourcesCommandOutput;
 
 const capitalize = (s: string) =>
   R.compose(
@@ -418,3 +454,46 @@ export const revokeInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
           )
       )
     );
+
+export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
+  action$,
+  _,
+  { apolloClient, apolloSubscriber, personalSign }
+) =>
+  action$.ofType(REMOVE_MEMBER).switchMap(({ payload }: IRemoveMemberAction) =>
+    Observable.fromPromise(
+      apolloClient.query<prepareRemoveMember, prepareRemoveMemberVariables>({
+        query: prepareRemoveMemberQuery,
+        variables: payload,
+      })
+    ).mergeMap(({ data: { prepareRemoveMember: result } }) =>
+      Observable.fromPromise<string>(personalSign(result && result.messageHash))
+        .mergeMap(signature =>
+          apolloClient.mutate<removeMember, removeMemberVariables>({
+            mutation: removeMemberMutation,
+            variables: {
+              account: (payload && payload.account) || "",
+              id: (payload && payload.id) || "",
+              signature,
+            },
+          })
+        )
+        .mergeMap(({ data: { removeMember: removeMemberResult } }: any) =>
+          apolloSubscriber<IRemoveMemberCommandOutput>(removeMemberResult.hash)
+        )
+        .do(() => apolloClient.resetStore())
+        .mergeMap(() =>
+          Observable.merge(
+            Observable.of(closeModalAction()),
+            Observable.of(
+              showNotificationAction({
+                description: `That user has been successfully removed from the community`,
+                message: "Member removed",
+                notificationType: "success",
+              })
+            ),
+            Observable.of(memberRemovedAction())
+          )
+        )
+    )
+  );

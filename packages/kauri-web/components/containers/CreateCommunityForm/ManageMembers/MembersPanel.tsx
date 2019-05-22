@@ -7,6 +7,7 @@ import {
   Label,
 } from "../../../../../kauri-components/components/Typography";
 import PrimaryButtonComponent from "../../../../../kauri-components/components/Button/PrimaryButton";
+import { removeMemberAction as removeMember } from "../../Community/Module";
 
 const Header = styled.div`
   padding-top: ${props => props.theme.space[2]}px;
@@ -94,24 +95,20 @@ const Divider = styled.div`
 
 const MemberRow: React.FunctionComponent<{
   member: any;
-  removeMemberAction: any;
+  removeMemberAction: () => void;
 }> = ({ member, removeMemberAction }) => (
   <MemberContainer>
     <Label>{String(member.role).replace("_", " ")}</Label>
     <BodyCard>{String(member.username || member.name || member.id)}</BodyCard>
-    {member.status === "CREATED" && (
-      <Label color="primary" hoverColor="hoverTextColor">
-        RESEND
-      </Label>
-    )}
     <RemoveMemberIcon removeMemberAction={removeMemberAction} />
   </MemberContainer>
 );
 
 interface IProps {
+  id: string | null;
   members: Array<getCommunity_getCommunity_members | null> | null;
   openAddMemberModal: () => void;
-  removeMemberAction: any | null; // TODO
+  removeMemberAction: typeof removeMember | null; // TODO
 }
 
 const MembersPanel: React.SFC<IProps> = props => {
@@ -134,7 +131,10 @@ const MembersPanel: React.SFC<IProps> = props => {
                   <MemberRow
                     removeMemberAction={() =>
                       props.removeMemberAction &&
-                      props.removeMemberAction({ id: member.id })
+                      props.removeMemberAction({
+                        account: member.id,
+                        id: props.id,
+                      })
                     }
                     member={member}
                   />
