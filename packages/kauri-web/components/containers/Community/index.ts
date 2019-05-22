@@ -14,11 +14,13 @@ import {
   sendCommunityInvitationAction,
 } from "./Module";
 
-const mapStateToProps = (state: IReduxState) => ({
-  currentUser: state.app && state.app.user && state.app.user.id,
-  hostName: state.app && state.app.hostName,
-  isLoggedIn: !!(state.app && state.app.user && state.app.user.id),
-});
+const mapStateToProps = (state: IReduxState) => {
+  return {
+    currentUser: state.app && state.app.user && state.app.user.id,
+    hostName: state.app && state.app.hostName,
+    isLoggedIn: !!(state.app && state.app.user && state.app.user.id),
+  };
+};
 
 export default compose(
   connect(

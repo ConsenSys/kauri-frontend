@@ -6,6 +6,7 @@ import { Label } from "../../../../kauri-components/components/Typography";
 import ScrollIndicator from "../../../../kauri-components/components/ScrollIndicator";
 import Loading from "../../common/Loading";
 import theme from "../../../../kauri-components/lib/theme-config";
+import { ICommunities } from "../../../lib/Module";
 
 const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
@@ -30,7 +31,7 @@ interface IProps {
   userId: string;
   id: string;
   version: string;
-  communities: Array<{ id: string; name: string }>;
+  communities: ICommunities;
   CurrentArticle: any;
   ProposedUpdate: any;
   routeChangeAction: (route: string) => void;

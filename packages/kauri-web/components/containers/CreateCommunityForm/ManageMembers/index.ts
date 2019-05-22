@@ -11,7 +11,16 @@ import {
   removeMemberAction,
 } from "../../Community/Module";
 
-const mapStateToProps = ({ app: { user } }: IReduxState) => ({
+const mapStateToProps = (
+  { app: { user } }: IReduxState,
+  ownProps: { id: string }
+) => ({
+  isCommunityAdmin:
+    user &&
+    user.communities.find(({ community }) => community.id === ownProps.id) &&
+    (user.communities.find(
+      ({ community }) => community.id === ownProps.id
+    ) as any).role === "ADMIN",
   userAvatar: user && user.avatar,
   userId: user && user.id,
   username: user && user.username,

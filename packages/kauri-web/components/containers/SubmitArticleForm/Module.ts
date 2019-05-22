@@ -287,7 +287,7 @@ export const submitArticleVersionEpic: Epic<any, IReduxState, IDependencies> = (
                           : getArticle.owner.id === getArticle.authorId ||
                             getState()
                               .app.user.communities.map(
-                                ({ id: communityId }) => communityId
+                                ({ community }) => community.id
                               )
                               .includes(getArticle.owner.id)
                           ? "published"
@@ -303,7 +303,7 @@ export const submitArticleVersionEpic: Epic<any, IReduxState, IDependencies> = (
                           : getArticle.owner.id === getArticle.authorId ||
                             getState()
                               .app.user.communities.map(
-                                ({ id: communityId }) => communityId
+                                ({ community }) => community.id
                               )
                               .includes(getArticle.owner.id)
                           ? "Your personal article has now been published!"
@@ -314,7 +314,7 @@ export const submitArticleVersionEpic: Epic<any, IReduxState, IDependencies> = (
                           : getArticle.owner.id === getArticle.authorId ||
                             getState()
                               .app.user.communities.map(
-                                ({ id: communityId }) => communityId
+                                ({ community }) => community.id
                               )
                               .includes(getArticle.owner.id)
                           ? "published"

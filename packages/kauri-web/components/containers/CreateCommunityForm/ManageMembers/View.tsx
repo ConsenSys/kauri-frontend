@@ -29,6 +29,7 @@ interface IProps {
   data?: {
     getCommunityInvitations: { content: any };
   };
+  isCommunityAdmin: boolean;
 }
 
 const ManageMembers: React.FunctionComponent<IProps> = props => {
@@ -40,6 +41,7 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
             Array.isArray(props.members) &&
             props.members.length >= 1 && (
               <MembersPanel
+                isCommunityAdmin={props.isCommunityAdmin}
                 id={props.id}
                 removeMemberAction={props.removeMemberAction}
                 openAddMemberModal={() => props.openAddMemberModal()}

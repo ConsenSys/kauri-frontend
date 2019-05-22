@@ -150,7 +150,7 @@ export const publishArticleEpic: Epic<any, IReduxState, IDependencies> = (
               !owner ||
                 (owner && owner.id === contributor) ||
                 getState().app.user.communities.map(
-                  ({ id: communityId }) => communityId
+                  ({ community }) => community.id
                 )
                 ? "Publish Article"
                 : "Propose Article Update",
@@ -174,9 +174,7 @@ export const publishArticleEpic: Epic<any, IReduxState, IDependencies> = (
                     !owner ||
                     (owner && owner.id === contributor) ||
                     getState()
-                      .app.user.communities.map(
-                        ({ id: communityId }) => communityId
-                      )
+                      .app.user.communities.map(({ community }) => community.id)
                       .includes(owner.id)
                       ? "article-published"
                       : "article-proposed"

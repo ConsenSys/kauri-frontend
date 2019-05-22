@@ -68,6 +68,20 @@ export interface IUser {
   username: string | null;
 }
 
+export interface ICommunity {
+  role: string;
+  community: {
+    id: string;
+    name: string;
+    members: Array<{
+      id: string;
+      role: string;
+    }>;
+  };
+}
+
+export type ICommunities = ICommunity[];
+
 interface IReduxState {
   app: {
     hostName: string;
@@ -75,10 +89,7 @@ interface IReduxState {
       id: string;
       avatar: string;
       username: string;
-      communities: Array<{
-        id: string;
-        name: string;
-      }>;
+      communities: ICommunity[];
     };
   };
 }
