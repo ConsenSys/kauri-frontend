@@ -48,7 +48,6 @@ export default compose(
       // console.info(values.invitations);
       setSubmitting(true);
       if (props.id) {
-        // TODO: Update Epic to call prepareSendInvitation mutation
         props.updateCommunityAction(values as any, () => {
           setSubmitting(false);
         });
