@@ -40,6 +40,7 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
             Array.isArray(props.members) &&
             props.members.length >= 1 && (
               <MembersPanel
+                id={props.id}
                 removeMemberAction={props.removeMemberAction}
                 openAddMemberModal={() => props.openAddMemberModal()}
                 members={props.members}
@@ -82,6 +83,7 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
             Array.isArray(props.members) &&
             props.members.length >= 1 && (
               <MembersPanel
+                id={props.id}
                 removeMemberAction={props.removeMemberAction}
                 openAddMemberModal={() => props.openAddMemberModal()}
                 members={props.members}
@@ -92,6 +94,7 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
               Array.isArray(props.invitations) &&
               props.invitations.length >= 1)) && (
             <InviteMembersPanel
+              id={props.id}
               revokeInvitationAction={props.revokeInvitationAction}
               invitations={
                 (props.data && props.data.getCommunityInvitations.content) ||
@@ -115,11 +118,13 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
     props.members.length >= 1 ? (
     <ManageMembersContainer>
       <MembersPanel
+        id={props.id}
         removeMemberAction={props.removeMemberAction}
         openAddMemberModal={() => props.openAddMemberModal()}
         members={props.members}
       />
       <InviteMembersPanel
+        id={props.id}
         revokeInvitationAction={props.revokeInvitationAction}
         invitations={
           (props.data && props.data.getCommunityInvitations.content) ||
