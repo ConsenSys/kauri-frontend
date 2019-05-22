@@ -34,6 +34,7 @@ interface IProps {
   routeChangeAction: (route: string) => void;
   curateCommunityResourcesAction: typeof curateCommunityResources;
   sendCommunityInvitationAction: typeof sendCommunityInvitation;
+  isCommunityAdmin: boolean;
 }
 
 class CommunityConnection extends React.Component<IProps> {
@@ -75,6 +76,7 @@ class CommunityConnection extends React.Component<IProps> {
       routeChangeAction,
       curateCommunityResourcesAction,
       acceptCommunityInvitationAction,
+      isCommunityAdmin,
     } = this.props;
     const articles =
       getCommunity.approved &&

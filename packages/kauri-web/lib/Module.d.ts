@@ -78,6 +78,10 @@ interface IReduxState {
       communities: Array<{
         id: string;
         name: string;
+        members: Array<{
+          id: string;
+          role: string;
+        }>;
       }>;
     };
   };
