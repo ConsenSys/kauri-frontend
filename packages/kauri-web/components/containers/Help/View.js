@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { Helmet } from 'react-helmet
 import { TopicsHeader as CategoryHeader } from '../Topics/TopicsHeader'
 import CategoryTab from '../TopicHome/CategoryTab/View'
 
