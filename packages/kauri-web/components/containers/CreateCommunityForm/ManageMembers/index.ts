@@ -6,6 +6,7 @@ import View from "./View";
 import { getCommunityInvitationsQuery } from "../../../../queries/Community";
 import withLoading from "../../../../lib/with-loading";
 import withApolloError from "../../../../lib/with-apollo-error";
+import { revokeInvitationAction } from "../../Community/Module";
 
 const mapStateToProps = ({ app: { user } }: IReduxState) => ({
   userAvatar: user && user.avatar,
@@ -19,7 +20,7 @@ export default compose(
     {
       openModalAction,
       // removeMemberAction // TODO
-      // revokeInvitationAction // TODO
+      revokeInvitationAction,
     }
   ),
   graphql(getCommunityInvitationsQuery, {

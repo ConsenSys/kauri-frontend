@@ -5,6 +5,7 @@ import {
   BodyCard,
   Label,
 } from "../../../../../kauri-components/components/Typography";
+import { revokeInvitationAction as revokeInvitation } from "../../Community/Module";
 
 const Header = styled.div`
   padding-top: ${props => props.theme.space[2]}px;
@@ -114,7 +115,8 @@ const InvitationRow: React.FunctionComponent<{
 
 interface IProps {
   invitations: Array<IInvitation | null> | null;
-  revokeInvitationAction: any | null; // TODO
+  revokeInvitationAction: typeof revokeInvitation;
+  id: string | null;
 }
 
 const invitationsPanel: React.SFC<IProps> = props => {
@@ -143,7 +145,8 @@ const invitationsPanel: React.SFC<IProps> = props => {
                       revokeInvitationAction={() =>
                         props.revokeInvitationAction &&
                         props.revokeInvitationAction({
-                          id: invitation.invitationId,
+                          id: props.id,
+                          invitationId: invitation.invitationId,
                         })
                       }
                       invitation={invitation}
