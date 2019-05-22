@@ -31,7 +31,7 @@ class Help extends Component<Props, State> {
           />
           <link
             rel="canonical"
-            href={`https://${this.props.hostName}/collections`}
+            href={`https://${this.props.hostName}/community/${process.env.KauriCommunityId}`}
           />
         </Helmet>
         <CategoryTab.Container chosenCategory={category} categoryTab>
