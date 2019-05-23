@@ -76,7 +76,7 @@ const Comment = ({ body, posted, authorId, author }: CommentDTO) => (
       />
     </Link>
     <BodyCard>
-    <DescriptionRow fullText record={{ text: JSON.stringify({ markdown: body }) }} />
+    <DescriptionRow fullText type="article comment" record={{ text: JSON.stringify({ markdown: body }) }} />
     </BodyCard>
     <MetaDetails>
       <Label>{moment(posted).fromNow()}</Label>
