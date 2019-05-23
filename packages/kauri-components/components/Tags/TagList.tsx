@@ -16,7 +16,8 @@ const Container = styled<IContainerProps, "div">("div")`
   flex-wrap: wrap;
   justify-content: ${props =>
     props.align === "center" ? "center" : "flex-start"};
-  align-items: center;
+  align-items: ${props =>
+    props.orientation === "vertical" ? "flex-start" : "center"};
 `;
 
 interface IProps {
