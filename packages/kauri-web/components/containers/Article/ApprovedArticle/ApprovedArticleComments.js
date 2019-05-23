@@ -9,6 +9,7 @@ import {
 import UserAvatar from "../../../../../kauri-components/components/UserAvatar";
 import CommentArticleForm from "../CommentArticleForm";
 import Link from "../../Link";
+import DescriptionRow from "../../../common/DescriptionRow";
 
 const ApprovedArticleCommentsSection = styled.section`
   display: flex;
@@ -74,7 +75,9 @@ const Comment = ({ body, posted, authorId, author }: CommentDTO) => (
         avatar={author.avatar}
       />
     </Link>
-    <BodyCard>{body}</BodyCard>
+    <BodyCard>
+    <DescriptionRow fullText record={{ text: JSON.stringify({ markdown: body }) }} />
+    </BodyCard>
     <MetaDetails>
       <Label>{moment(posted).fromNow()}</Label>
       {/* <CTA>Reply</CTA> */}
