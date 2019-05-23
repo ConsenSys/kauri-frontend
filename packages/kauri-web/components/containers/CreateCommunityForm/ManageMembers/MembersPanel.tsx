@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, forwardRef, useState } from "react";
 import { getCommunity_getCommunity_members } from "../../../../queries/__generated__/getCommunity";
 import styled from "../../../../lib/styled-components";
 import {
@@ -8,6 +8,12 @@ import {
 } from "../../../../../kauri-components/components/Typography";
 import PrimaryButtonComponent from "../../../../../kauri-components/components/Button/PrimaryButton";
 import { removeMemberAction as removeMember } from "../../Community/Module";
+import Tooltip from "@tippy.js/react";
+import {
+  TooltipContainer,
+  TooltipArrowAtTop,
+} from "../../../../../kauri-components/components/Select";
+import theme from "../../../../../kauri-components/lib/theme-config";
 
 const Header = styled.div`
   padding-top: ${props => props.theme.space[2]}px;
@@ -89,31 +95,75 @@ const MemberContainer = styled.section`
 
 const Divider = styled.div`
   width: 100%;
-  background-color: ${props => props.theme.colors.divider};
+  background-color: ${theme.colors.divider};
   height: 2px;
 `;
+
+const ThisWillWork = forwardRef((props, ref) => {
+  return (
+    <Label
+      ref={ref}
+      innerRef={ref}
+      color="primary"
+      hoverColor="hoverTextColor"
+      onClick={() => {
+        console.log("clicked");
+      }}
+    >
+      Change Role
+    </Label>
+  );
+});
 
 const MemberRow: React.FunctionComponent<{
   member: any;
   userId: string;
   removeMemberAction: () => void;
   isCommunityAdmin: boolean;
-}> = ({ member, removeMemberAction, isCommunityAdmin, userId }) => (
-  <MemberContainer>
-    <Label>{String(member.role).replace("_", " ")}</Label>
-    <BodyCard>{String(member.username || member.name || member.id)}</BodyCard>
-    {isCommunityAdmin && member.id !== userId && (
-      <Label
-        onClick={() => alert("// TODO")}
-        color="primary"
-        hoverColor="hoverTextColor"
-      >
-        Change Role
-      </Label>
-    )}
-    <RemoveMemberIcon removeMemberAction={removeMemberAction} />
-  </MemberContainer>
-);
+}> = ({ member, removeMemberAction, isCommunityAdmin, userId }) => {
+  return (
+    <MemberContainer>
+      <Label>{String(member.role).replace("_", " ")}</Label>
+      <BodyCard>{String(member.username || member.name || member.id)}</BodyCard>
+      {/* TODO change boolean condition on below */}
+      {isCommunityAdmin && member.id === userId && (
+        <Tooltip
+          enabled={true}
+          animation="fade"
+          distance={7}
+          hideOnClick={false}
+          content={
+            <Fragment>
+              <Label
+                color={"primary"}
+                hoverColor="hoverTextColor"
+                onClick={() => {
+                  console.log(isCommunityAdmin);
+                }}
+              >
+                {"ADMIN"}
+              </Label>
+              <Divider />
+              <Label
+                color={"primary"}
+                hoverColor="hoverTextColor"
+                onClick={() => {}}
+              >
+                {"MODERATOR"}
+              </Label>
+            </Fragment>
+          }
+          arrow={true}
+          trigger="click"
+          interactive={true}
+        >
+          <ThisWillWork />
+        </Tooltip>
+      )}
+      <RemoveMemberIcon removeMemberAction={removeMemberAction} />
+    </MemberContainer>
+  );
+};
 
 interface IProps {
   id: string | null;
