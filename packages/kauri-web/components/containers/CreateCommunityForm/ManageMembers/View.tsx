@@ -18,6 +18,7 @@ const ManageMembersContainer = styled.section`
   }
 `;
 interface IProps {
+  userId: string;
   invitations: IInvitation[] | null;
   formInvitations?: IInvitation[] | null;
   members: Array<getCommunity_getCommunity_members | null> | null;
@@ -33,6 +34,7 @@ interface IProps {
 }
 
 const ManageMembers: React.FunctionComponent<IProps> = props => {
+  console.log(props.isCommunityAdmin);
   if (Array.isArray(props.formInvitations)) {
     if (props.formInvitations.length >= 1) {
       return (
@@ -41,6 +43,7 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
             Array.isArray(props.members) &&
             props.members.length >= 1 && (
               <MembersPanel
+                userId={props.userId}
                 isCommunityAdmin={props.isCommunityAdmin}
                 id={props.id}
                 removeMemberAction={props.removeMemberAction}
@@ -85,6 +88,8 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
             Array.isArray(props.members) &&
             props.members.length >= 1 && (
               <MembersPanel
+                userId={props.userId}
+                isCommunityAdmin={props.isCommunityAdmin}
                 id={props.id}
                 removeMemberAction={props.removeMemberAction}
                 openAddMemberModal={() => props.openAddMemberModal()}
@@ -120,6 +125,8 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
     props.members.length >= 1 ? (
     <ManageMembersContainer>
       <MembersPanel
+        userId={props.userId}
+        isCommunityAdmin={props.isCommunityAdmin}
         id={props.id}
         removeMemberAction={props.removeMemberAction}
         openAddMemberModal={() => props.openAddMemberModal()}

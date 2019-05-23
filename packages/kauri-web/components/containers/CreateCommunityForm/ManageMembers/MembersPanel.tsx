@@ -95,19 +95,20 @@ const Divider = styled.div`
 
 const MemberRow: React.FunctionComponent<{
   member: any;
+  userId: string;
   removeMemberAction: () => void;
   isCommunityAdmin: boolean;
-}> = ({ member, removeMemberAction, isCommunityAdmin }) => (
+}> = ({ member, removeMemberAction, isCommunityAdmin, userId }) => (
   <MemberContainer>
     <Label>{String(member.role).replace("_", " ")}</Label>
     <BodyCard>{String(member.username || member.name || member.id)}</BodyCard>
-    {isCommunityAdmin && (
+    {isCommunityAdmin && member.id !== userId && (
       <Label
         onClick={() => alert("// TODO")}
         color="primary"
         hoverColor="hoverTextColor"
       >
-        Change Role // TODO
+        Change Role
       </Label>
     )}
     <RemoveMemberIcon removeMemberAction={removeMemberAction} />
@@ -120,6 +121,7 @@ interface IProps {
   openAddMemberModal: () => void;
   removeMemberAction: typeof removeMember | null; // TODO
   isCommunityAdmin: boolean;
+  userId: string;
 }
 
 const MembersPanel: React.SFC<IProps> = props => {
@@ -140,6 +142,7 @@ const MembersPanel: React.SFC<IProps> = props => {
               props.members && (
                 <Fragment>
                   <MemberRow
+                    userId={props.userId}
                     removeMemberAction={() =>
                       props.removeMemberAction &&
                       props.removeMemberAction({
