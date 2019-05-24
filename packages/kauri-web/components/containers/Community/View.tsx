@@ -5,6 +5,7 @@ import Tabs from '../../../../kauri-components/components/Tabs';
 import DisplayResources from './DisplayResources';
 import Manage from './Manage';
 import R from 'ramda';
+import { Helmet } from 'react-helmet';
 
 interface IProps {
   currentUser: string;
@@ -13,6 +14,7 @@ interface IProps {
   }
   closeModalAction: () => void;
   openModalAction: () => void;
+  hostName: string;
 }
 
 class CommunityConnection extends React.Component<IProps> {
@@ -26,7 +28,21 @@ class CommunityConnection extends React.Component<IProps> {
     const collections = getCommunity.approved && getCommunity.approved.filter( i => i && i.__typename === 'CollectionDTO');
     const isCreator = getCommunity.creatorId === currentUser
     const isMember = isCreator || R.any(R.propEq('id', currentUser), getCommunity.members || [])
-      return <>
+      return (
+        <>
+          {(process.env.KauriCommunityId === this.props.data.getCommunity.id) && (
+           <Helmet>
+            <title>Beginner to Advanced Blockchain & Ethereum Tutorials | Help - Kauri</title>
+            <meta
+              name="description"
+              content="Discover the best blockchain related articles, tutorials and how-to guides"
+            />
+            <link
+              rel="canonical"
+              href={`https://${this.props.hostName && this.props.hostName.replace('api.', '')}/community/${process.env.KauriCommunityId}`}
+            />
+           </Helmet>
+          )}
           <CommunityHeader
           avatar={String(getCommunity.avatar)}
           name={String(getCommunity.name)}
@@ -58,6 +74,7 @@ class CommunityConnection extends React.Component<IProps> {
         ]}
       />
       </>
+    )
   }
 }
 

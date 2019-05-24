@@ -1,6 +1,6 @@
 {
   "name": "kauri-web",
-  "version": "1.12.6",
+  "version": "1.12.7",
   "author": {
     "name": "Eric Juta"
   },
@@ -112,7 +112,6 @@
     "styled-system": "^4.1.0",
     "subscriptions-transport-ws": "^0.9.14",
     "superagent": "^3.8.2",
-    "trianglify": "^1.2.0",
     "truffle-contract": "^3.0.1",
     "uppy": "^0.24.4",
     "url": "^0.11.0",

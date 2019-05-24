@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { Helmet } from 'react-helmet
 import { TopicsHeader as CategoryHeader } from '../Topics/TopicsHeader'
 import CategoryTab from '../TopicHome/CategoryTab/View'
 
@@ -23,6 +24,17 @@ class Help extends Component<Props, State> {
 
     return (
       <section>
+        <Helmet>
+          <title>Beginner to Advanced Blockchain & Ethereum Tutorials | Help - Kauri</title>
+          <meta
+            name="description"
+            content="Discover the best blockchain related articles, tutorials and how-to guides"
+          />
+          <link
+            rel="canonical"
+            href={`https://${this.props.hostName}/community/${process.env.KauriCommunityId}`}
+          />
+        </Helmet>
         <CategoryTab.Container chosenCategory={category} categoryTab>
           <CategoryHeader.Indicators>
             <CategoryTab.IndicatorContainer>

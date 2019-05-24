@@ -38,7 +38,10 @@ class Articles extends Component<IProps> {
     return (
       <Fragment>
         <Helmet>
-          <title>Beginner to Advanced Blockchain & Ethereum Tutorials | Articles - Kauri</title>
+          <title>
+            Beginner to Advanced Blockchain & Ethereum Tutorials | Articles -
+            Kauri
+          </title>
           <meta
             name="description"
             content="Discover the best blockchain related articles, tutorials and how-to guides"
@@ -101,7 +104,6 @@ class Articles extends Component<IProps> {
                     article.attributes &&
                     article.attributes.background
                   }
-                  nfts={article.associatedNfts}
                   isLoggedIn={isLoggedIn}
                   linkComponent={(
                     childrenProps: React.ReactElement<any>,
