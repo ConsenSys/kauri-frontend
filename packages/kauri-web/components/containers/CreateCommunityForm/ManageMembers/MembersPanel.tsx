@@ -7,8 +7,12 @@ import {
   Label,
 } from "../../../../../kauri-components/components/Typography";
 import PrimaryButtonComponent from "../../../../../kauri-components/components/Button/PrimaryButton";
-import { removeMemberAction as removeMember } from "../../Community/Module";
+import {
+  removeMemberAction as removeMember,
+  changeMemberRoleAction as changeMemberRole,
+} from "../../Community/Module";
 import theme from "../../../../../kauri-components/lib/theme-config";
+import { prepareChangeMemberRoleVariables } from "../../../../queries/__generated__/prepareChangeMemberRole";
 
 const Header = styled.div`
   padding-top: ${props => props.theme.space[2]}px;
@@ -135,7 +139,9 @@ interface IProps {
   removeMemberAction: typeof removeMember | null;
   isCommunityAdmin: boolean;
   userId: string;
-  openChangeMemberRoleModal: typeof changeRole;
+  openChangeMemberRoleModal: (
+    payload: prepareChangeMemberRoleVariables
+  ) => void;
 }
 
 const MembersPanel: React.SFC<IProps> = props => {

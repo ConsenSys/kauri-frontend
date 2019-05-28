@@ -8,8 +8,12 @@ import styled from "../../../../lib/styled-components";
 import {
   revokeInvitationAction as revokeInvitation,
   removeMemberAction as removeMember,
+  changeMemberRoleAction as changeMemberRole,
 } from "../../Community/Module";
+import { prepareChangeMemberRoleVariables } from "../../../../queries/__generated__/prepareChangeMemberRole";
 import { openModalAction as openModal } from "../../../../../kauri-components/components/Modal/Module";
+import AlertViewComponent from "../../../../../kauri-components/components/Modal/AlertView";
+import ChangeMemberRoleModalContent from "./ChangeMemberRoleModalContent";
 
 const ManageMembersContainer = styled.section`
   display: flex;
@@ -24,6 +28,7 @@ interface IProps {
   formInvitations?: IInvitation[] | null;
   members: Array<getCommunity_getCommunity_members | null> | null;
   openAddMemberModal: () => void;
+  closeModalAction: () => void;
   removeMemberAction: typeof removeMember;
   revokeInvitationAction: typeof revokeInvitation;
   cancelInvitation: (payload: { index: number }) => void;
@@ -33,12 +38,36 @@ interface IProps {
   };
   isCommunityAdmin: boolean;
   openModalAction: typeof openModal;
+  changeMemberRoleAction: typeof changeMemberRole;
 }
 
 const ManageMembers: React.FunctionComponent<IProps> = props => {
-  const openChangeMemberRoleModal = () =>
+  const [state, setState] = React.useState<{ role: string | null }>({
+    role: null,
+  });
+
+  const openChangeMemberRoleModal = (
+    payload: prepareChangeMemberRoleVariables
+  ) =>
     props.openModalAction({
-      children: <p>hello world</p>,
+      children: (
+        <AlertViewComponent
+          closeModalAction={() => props.closeModalAction()}
+          confirmButtonAction={() => {
+            props.changeMemberRoleAction({
+              ...payload,
+              role: state.role as any,
+            });
+          }}
+          content={
+            <ChangeMemberRoleModalContent
+              role={state.role}
+              handleMemberRoleChange={(role: string) => setState({ role })}
+            />
+          }
+          title={"Change Member Role"}
+        />
+      ),
     });
 
   if (Array.isArray(props.formInvitations)) {
@@ -49,6 +78,7 @@ const ManageMembers: React.FunctionComponent<IProps> = props => {
             Array.isArray(props.members) &&
             props.members.length >= 1 && (
               <MembersPanel
+                openChangeMemberRoleModal={openChangeMemberRoleModal}
                 userId={props.userId}
                 isCommunityAdmin={props.isCommunityAdmin}
                 id={props.id}

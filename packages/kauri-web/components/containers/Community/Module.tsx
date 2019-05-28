@@ -204,6 +204,13 @@ export const revokeInvitationAction = (
   type: REVOKE_INVITATION,
 });
 
+export const changeMemberRoleAction = (
+  payload: prepareChangeMemberRoleVariables
+): IChangeMemberRoleAction => ({
+  payload,
+  type: CHANGE_MEMBER_ROLE,
+});
+
 interface ICurateCommunityResourcesCommandOutput {
   id: string;
   error?: string;
