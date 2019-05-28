@@ -9,6 +9,7 @@ import {
   revokeInvitationAction as revokeInvitation,
   removeMemberAction as removeMember,
 } from "../../Community/Module";
+import { openModalAction as openModal } from "../../../../../kauri-components/components/Modal/Module";
 
 const ManageMembersContainer = styled.section`
   display: flex;
@@ -31,10 +32,15 @@ interface IProps {
     getCommunityInvitations: { content: any };
   };
   isCommunityAdmin: boolean;
+  openModalAction: typeof openModal;
 }
 
 const ManageMembers: React.FunctionComponent<IProps> = props => {
-  console.log(props.isCommunityAdmin);
+  const openChangeMemberRoleModal = () =>
+    props.openModalAction({
+      children: <p>hello world</p>,
+    });
+
   if (Array.isArray(props.formInvitations)) {
     if (props.formInvitations.length >= 1) {
       return (

@@ -94,12 +94,21 @@ const Divider = styled.div`
   height: 2px;
 `;
 
-const MemberRow: React.FunctionComponent<{
+interface IMemberRowProps {
   member: any;
   userId: string;
   removeMemberAction: () => void;
   isCommunityAdmin: boolean;
-}> = ({ member, removeMemberAction, isCommunityAdmin, userId }) => {
+  openChangeMemberRoleModal: () => void;
+}
+
+const MemberRow: React.FunctionComponent<IMemberRowProps> = ({
+  member,
+  removeMemberAction,
+  isCommunityAdmin,
+  userId,
+  openChangeMemberRoleModal,
+}) => {
   return (
     <MemberContainer>
       <Label>{String(member.role).replace("_", " ")}</Label>
@@ -109,9 +118,7 @@ const MemberRow: React.FunctionComponent<{
         <Label
           color="primary"
           hoverColor="hoverTextColor"
-          onClick={() => {
-            console.log("clicked");
-          }}
+          onClick={() => openChangeMemberRoleModal()}
         >
           Change Role
         </Label>
@@ -125,9 +132,10 @@ interface IProps {
   id: string | null;
   members: Array<getCommunity_getCommunity_members | null> | null;
   openAddMemberModal: () => void;
-  removeMemberAction: typeof removeMember | null; // TODO
+  removeMemberAction: typeof removeMember | null;
   isCommunityAdmin: boolean;
   userId: string;
+  openChangeMemberRoleModal: typeof changeRole;
 }
 
 const MembersPanel: React.SFC<IProps> = props => {
@@ -148,6 +156,12 @@ const MembersPanel: React.SFC<IProps> = props => {
               props.members && (
                 <Fragment>
                   <MemberRow
+                    openChangeMemberRoleModal={() =>
+                      props.openChangeMemberRoleModal({
+                        account: member.id,
+                        id: props.id,
+                      })
+                    }
                     userId={props.userId}
                     removeMemberAction={() =>
                       props.removeMemberAction &&
