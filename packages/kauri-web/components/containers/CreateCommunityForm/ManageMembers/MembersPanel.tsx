@@ -1,4 +1,4 @@
-import React, { Fragment, forwardRef, useState } from "react";
+import React, { Fragment } from "react";
 import { getCommunity_getCommunity_members } from "../../../../queries/__generated__/getCommunity";
 import styled from "../../../../lib/styled-components";
 import {
@@ -8,11 +8,6 @@ import {
 } from "../../../../../kauri-components/components/Typography";
 import PrimaryButtonComponent from "../../../../../kauri-components/components/Button/PrimaryButton";
 import { removeMemberAction as removeMember } from "../../Community/Module";
-import Tooltip from "@tippy.js/react";
-import {
-  TooltipContainer,
-  TooltipArrowAtTop,
-} from "../../../../../kauri-components/components/Select";
 import theme from "../../../../../kauri-components/lib/theme-config";
 
 const Header = styled.div`
@@ -99,22 +94,6 @@ const Divider = styled.div`
   height: 2px;
 `;
 
-const ThisWillWork = forwardRef((props, ref) => {
-  return (
-    <Label
-      ref={ref}
-      innerRef={ref}
-      color="primary"
-      hoverColor="hoverTextColor"
-      onClick={() => {
-        console.log("clicked");
-      }}
-    >
-      Change Role
-    </Label>
-  );
-});
-
 const MemberRow: React.FunctionComponent<{
   member: any;
   userId: string;
@@ -127,38 +106,15 @@ const MemberRow: React.FunctionComponent<{
       <BodyCard>{String(member.username || member.name || member.id)}</BodyCard>
       {/* TODO change boolean condition on below */}
       {isCommunityAdmin && member.id === userId && (
-        <Tooltip
-          enabled={true}
-          animation="fade"
-          distance={7}
-          hideOnClick={false}
-          content={
-            <Fragment>
-              <Label
-                color={"primary"}
-                hoverColor="hoverTextColor"
-                onClick={() => {
-                  console.log(isCommunityAdmin);
-                }}
-              >
-                {"ADMIN"}
-              </Label>
-              <Divider />
-              <Label
-                color={"primary"}
-                hoverColor="hoverTextColor"
-                onClick={() => {}}
-              >
-                {"MODERATOR"}
-              </Label>
-            </Fragment>
-          }
-          arrow={true}
-          trigger="click"
-          interactive={true}
+        <Label
+          color="primary"
+          hoverColor="hoverTextColor"
+          onClick={() => {
+            console.log("clicked");
+          }}
         >
-          <ThisWillWork />
-        </Tooltip>
+          Change Role
+        </Label>
       )}
       <RemoveMemberIcon removeMemberAction={removeMemberAction} />
     </MemberContainer>
