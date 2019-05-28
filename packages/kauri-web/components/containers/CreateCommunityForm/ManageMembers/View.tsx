@@ -41,145 +41,153 @@ interface IProps {
   changeMemberRoleAction: typeof changeMemberRole;
 }
 
-const ManageMembers: React.FunctionComponent<IProps> = props => {
-  const [state, setState] = React.useState<{ role: string | null }>({
-    role: null,
-  });
+interface IRole {
+  role: string | null;
+}
 
-  const openChangeMemberRoleModal = (
-    payload: prepareChangeMemberRoleVariables
-  ) =>
-    props.openModalAction({
+class ManageMembers extends React.Component<IProps, IRole> {
+  state = {
+    role: null,
+  };
+
+  openChangeMemberRoleModal = (payload: prepareChangeMemberRoleVariables) => {
+    this.props.openModalAction({
       children: (
         <AlertViewComponent
-          closeModalAction={() => props.closeModalAction()}
+          closeModalAction={() => this.props.closeModalAction()}
           confirmButtonAction={() => {
-            props.changeMemberRoleAction({
+            this.props.changeMemberRoleAction({
               ...payload,
-              role: state.role as any,
+              role: this.state.role as any,
             });
           }}
           content={
             <ChangeMemberRoleModalContent
-              role={state.role}
-              handleMemberRoleChange={(role: string) => setState({ role })}
+              handleMemberRoleChange={(role: string) => this.setState({ role })}
             />
           }
           title={"Change Member Role"}
         />
       ),
     });
+  };
 
-  if (Array.isArray(props.formInvitations)) {
-    if (props.formInvitations.length >= 1) {
-      return (
-        <ManageMembersContainer>
-          {props.members &&
-            Array.isArray(props.members) &&
-            props.members.length >= 1 && (
-              <MembersPanel
-                openChangeMemberRoleModal={openChangeMemberRoleModal}
-                userId={props.userId}
-                isCommunityAdmin={props.isCommunityAdmin}
+  render() {
+    const props = this.props;
+
+    if (Array.isArray(props.formInvitations)) {
+      if (props.formInvitations.length >= 1) {
+        return (
+          <ManageMembersContainer>
+            {props.members &&
+              Array.isArray(props.members) &&
+              props.members.length >= 1 && (
+                <MembersPanel
+                  openChangeMemberRoleModal={this.openChangeMemberRoleModal}
+                  userId={props.userId}
+                  isCommunityAdmin={props.isCommunityAdmin}
+                  id={props.id}
+                  removeMemberAction={props.removeMemberAction}
+                  openAddMemberModal={() => props.openAddMemberModal()}
+                  members={props.members}
+                />
+              )}
+            {((props.data && props.data.getCommunityInvitations.content) ||
+              (props.invitations &&
+                Array.isArray(props.invitations) &&
+                props.invitations.length >= 1)) && (
+              <InviteMembersPanel
                 id={props.id}
-                removeMemberAction={props.removeMemberAction}
-                openAddMemberModal={() => props.openAddMemberModal()}
-                members={props.members}
+                revokeInvitationAction={props.revokeInvitationAction}
+                invitations={
+                  (props.data && props.data.getCommunityInvitations.content) ||
+                  props.invitations
+                }
               />
             )}
-          {((props.data && props.data.getCommunityInvitations.content) ||
-            (props.invitations &&
-              Array.isArray(props.invitations) &&
-              props.invitations.length >= 1)) && (
-            <InviteMembersPanel
-              id={props.id}
-              revokeInvitationAction={props.revokeInvitationAction}
-              invitations={
-                (props.data && props.data.getCommunityInvitations.content) ||
-                props.invitations
-              }
-            />
-          )}
-          {props.formInvitations.length >= 1 && (
-            <FormInviteMembersPanel
-              cancelInvitation={props.cancelInvitation}
-              formInvitations={props.formInvitations}
-            />
-          )}
-        </ManageMembersContainer>
-      );
+            {props.formInvitations.length >= 1 && (
+              <FormInviteMembersPanel
+                cancelInvitation={props.cancelInvitation}
+                formInvitations={props.formInvitations}
+              />
+            )}
+          </ManageMembersContainer>
+        );
+      }
     }
-  }
-  if (
-    (props.data && props.data.getCommunityInvitations.content) ||
-    Array.isArray(props.invitations)
-  ) {
     if (
       (props.data && props.data.getCommunityInvitations.content) ||
-      (Array.isArray(props.invitations) && props.invitations.length >= 1)
+      Array.isArray(props.invitations)
     ) {
-      return (
-        <ManageMembersContainer>
-          {props.members &&
-            Array.isArray(props.members) &&
-            props.members.length >= 1 && (
-              <MembersPanel
-                userId={props.userId}
-                isCommunityAdmin={props.isCommunityAdmin}
+      if (
+        (props.data && props.data.getCommunityInvitations.content) ||
+        (Array.isArray(props.invitations) && props.invitations.length >= 1)
+      ) {
+        return (
+          <ManageMembersContainer>
+            {props.members &&
+              Array.isArray(props.members) &&
+              props.members.length >= 1 && (
+                <MembersPanel
+                  openChangeMemberRoleModal={this.openChangeMemberRoleModal}
+                  userId={props.userId}
+                  isCommunityAdmin={props.isCommunityAdmin}
+                  id={props.id}
+                  removeMemberAction={props.removeMemberAction}
+                  openAddMemberModal={() => props.openAddMemberModal()}
+                  members={props.members}
+                />
+              )}
+            {((props.data && props.data.getCommunityInvitations.content) ||
+              (props.invitations &&
+                Array.isArray(props.invitations) &&
+                props.invitations.length >= 1)) && (
+              <InviteMembersPanel
                 id={props.id}
-                removeMemberAction={props.removeMemberAction}
-                openAddMemberModal={() => props.openAddMemberModal()}
-                members={props.members}
+                revokeInvitationAction={props.revokeInvitationAction}
+                invitations={
+                  (props.data && props.data.getCommunityInvitations.content) ||
+                  props.invitations
+                }
               />
             )}
-          {((props.data && props.data.getCommunityInvitations.content) ||
-            (props.invitations &&
-              Array.isArray(props.invitations) &&
-              props.invitations.length >= 1)) && (
-            <InviteMembersPanel
-              id={props.id}
-              revokeInvitationAction={props.revokeInvitationAction}
-              invitations={
-                (props.data && props.data.getCommunityInvitations.content) ||
-                props.invitations
-              }
-            />
-          )}
-          {props.formInvitations && props.formInvitations.length >= 1 && (
-            <FormInviteMembersPanel
-              cancelInvitation={props.cancelInvitation}
-              formInvitations={props.formInvitations}
-            />
-          )}
-        </ManageMembersContainer>
-      );
+            {props.formInvitations && props.formInvitations.length >= 1 && (
+              <FormInviteMembersPanel
+                cancelInvitation={props.cancelInvitation}
+                formInvitations={props.formInvitations}
+              />
+            )}
+          </ManageMembersContainer>
+        );
+      }
     }
+    // console.log(props.members);
+    return props.members &&
+      Array.isArray(props.members) &&
+      props.members.length >= 1 ? (
+      <ManageMembersContainer>
+        <MembersPanel
+          openChangeMemberRoleModal={this.openChangeMemberRoleModal}
+          userId={props.userId}
+          isCommunityAdmin={props.isCommunityAdmin}
+          id={props.id}
+          removeMemberAction={props.removeMemberAction}
+          openAddMemberModal={() => props.openAddMemberModal()}
+          members={props.members}
+        />
+        <InviteMembersPanel
+          id={props.id}
+          revokeInvitationAction={props.revokeInvitationAction}
+          invitations={
+            (props.data && props.data.getCommunityInvitations.content) ||
+            props.invitations
+          }
+        />
+      </ManageMembersContainer>
+    ) : (
+      <ManageMemberEmptyState handleClick={() => props.openAddMemberModal()} />
+    );
   }
-  // console.log(props.members);
-  return props.members &&
-    Array.isArray(props.members) &&
-    props.members.length >= 1 ? (
-    <ManageMembersContainer>
-      <MembersPanel
-        userId={props.userId}
-        isCommunityAdmin={props.isCommunityAdmin}
-        id={props.id}
-        removeMemberAction={props.removeMemberAction}
-        openAddMemberModal={() => props.openAddMemberModal()}
-        members={props.members}
-      />
-      <InviteMembersPanel
-        id={props.id}
-        revokeInvitationAction={props.revokeInvitationAction}
-        invitations={
-          (props.data && props.data.getCommunityInvitations.content) ||
-          props.invitations
-        }
-      />
-    </ManageMembersContainer>
-  ) : (
-    <ManageMemberEmptyState handleClick={() => props.openAddMemberModal()} />
-  );
-};
+}
 
 export default ManageMembers;

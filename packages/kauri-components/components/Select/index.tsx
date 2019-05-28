@@ -127,7 +127,7 @@ const Select = styled.div`
 interface IProps {
   placeHolder: string;
   children: React.ReactElement<any>;
-  value: string | null;
+  value: string | null | undefined;
 }
 
 export default ({ children, placeHolder, value }: IProps) => {

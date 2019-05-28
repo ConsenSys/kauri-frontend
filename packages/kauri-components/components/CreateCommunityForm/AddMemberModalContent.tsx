@@ -41,7 +41,7 @@ const StepOneContainer = styled.div`
   }
 `;
 
-const ChooseRoleOptions: React.FunctionComponent<{
+export const ChooseRoleOptions: React.FunctionComponent<{
   roles: Array<{ value: string; label: string }>;
   handleRoleChange: (role: string) => void;
 }> = ({ roles, handleRoleChange }) => (
@@ -51,10 +51,10 @@ const ChooseRoleOptions: React.FunctionComponent<{
         <Label onClick={() => handleRoleChange(role.value)}>{role.label}</Label>
       ) : (
         <Fragment>
-          <Label onClick={() => handleRoleChange(role.value)}>
+          <Label key={role.value} onClick={() => handleRoleChange(role.value)}>
             {role.label}
           </Label>
-          <Divider />
+          <Divider key={`${role.value}-divider`} />
         </Fragment>
       )
     )}

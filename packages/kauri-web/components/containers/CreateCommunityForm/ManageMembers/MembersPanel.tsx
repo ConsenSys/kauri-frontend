@@ -79,8 +79,7 @@ const RemoveMemberIcon: React.FunctionComponent<{
 const MemberContainer = styled.section`
   display: flex;
   flex-direction: row;
-  padding: ${props => props.theme.space[3]}px ${props => props.theme.space[2]}px;
-  padding-bottom: ${props => props.theme.space[2]}px;
+  padding: ${props => props.theme.space[2]}px ${props => props.theme.space[2]}px;
   > :first-child {
     margin-right: ${props => props.theme.space[4]}px;
   }
@@ -117,8 +116,7 @@ const MemberRow: React.FunctionComponent<IMemberRowProps> = ({
     <MemberContainer>
       <Label>{String(member.role).replace("_", " ")}</Label>
       <BodyCard>{String(member.username || member.name || member.id)}</BodyCard>
-      {/* TODO change boolean condition on below */}
-      {isCommunityAdmin && member.id === userId && (
+      {isCommunityAdmin && member.id !== userId && (
         <Label
           color="primary"
           hoverColor="hoverTextColor"
@@ -127,7 +125,9 @@ const MemberRow: React.FunctionComponent<IMemberRowProps> = ({
           Change Role
         </Label>
       )}
-      <RemoveMemberIcon removeMemberAction={removeMemberAction} />
+      {isCommunityAdmin && member.id !== userId && (
+        <RemoveMemberIcon removeMemberAction={removeMemberAction} />
+      )}
     </MemberContainer>
   );
 };
