@@ -1,7 +1,10 @@
 import { connect } from "react-redux";
 import { compose, graphql } from "react-apollo";
 import { IReduxState } from "../../../../lib/Module";
-import { openModalAction } from "../../../../../kauri-components/components/Modal/Module";
+import {
+  openModalAction,
+  closeModalAction,
+} from "../../../../../kauri-components/components/Modal/Module";
 import View from "./View";
 import { getCommunityInvitationsQuery } from "../../../../queries/Community";
 import withLoading from "../../../../lib/with-loading";
@@ -9,6 +12,7 @@ import withApolloError from "../../../../lib/with-apollo-error";
 import {
   revokeInvitationAction,
   removeMemberAction,
+  changeMemberRoleAction,
 } from "../../Community/Module";
 
 const mapStateToProps = (
@@ -30,6 +34,8 @@ export default compose(
   connect(
     mapStateToProps,
     {
+      changeMemberRoleAction,
+      closeModalAction,
       openModalAction,
       removeMemberAction,
       revokeInvitationAction,

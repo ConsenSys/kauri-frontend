@@ -349,3 +349,33 @@ export const removeMemberMutation = gql`
     }
   }
 `;
+
+export const prepareChangeMemberRoleQuery = gql`
+  query prepareChangeMemberRole(
+    $id: String
+    $account: String
+    $role: CommunityPermissionInput
+  ) {
+    prepareChangeMemberRole(id: $id, account: $account, role: $role) {
+      messageHash
+    }
+  }
+`;
+
+export const changeMemberRoleMutation = gql`
+  mutation changeMemberRole(
+    $signature: String
+    $id: String
+    $account: String
+    $role: CommunityPermissionInput
+  ) {
+    changeMemberRole(
+      signature: $signature
+      id: $id
+      account: $account
+      role: $role
+    ) {
+      hash
+    }
+  }
+`;
