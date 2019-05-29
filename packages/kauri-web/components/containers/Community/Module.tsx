@@ -20,6 +20,8 @@ import {
   revokeInvitationMutation,
   prepareRemoveMemberQuery,
   removeMemberMutation,
+  changeMemberRoleMutation,
+  prepareChangeMemberRoleQuery,
 } from "../../../queries/Community";
 import {
   curateCommunityResources,
@@ -67,6 +69,14 @@ import {
   removeMember,
   removeMemberVariables,
 } from "../../../queries/__generated__/removeMember";
+import {
+  prepareChangeMemberRole,
+  prepareChangeMemberRoleVariables,
+} from "../../../queries/__generated__/prepareChangeMemberRole";
+import {
+  changeMemberRole,
+  changeMemberRoleVariables,
+} from "../../../queries/__generated__/changeMemberRole";
 
 import { ISendInvitationCommandOutput } from "../CreateCommunityForm/Module";
 import { closeModalAction } from "../../../../kauri-components/components/Modal/Module";
@@ -122,6 +132,15 @@ interface IAcceptCommunityInvitationAction {
   payload: prepareAcceptInvitationVariables;
 }
 
+interface IMemberRoleChangedAction {
+  type: "MEMBER_ROLE_CHANGED";
+}
+
+interface IChangeMemberRoleAction {
+  type: "CHANGE_MEMBER_ROLE";
+  payload: prepareChangeMemberRoleVariables;
+}
+
 const CURATE_COMMUNITY_RESOURCES = "CURATE_COMMUNITY_RESOURCES";
 const APPROVE_RESOURCE = "APPROVE_RESOURCE";
 const REMOVE_RESOURCE = "REMOVE_RESOURCE";
@@ -133,6 +152,8 @@ const REVOKE_INVITATION = "REVOKE_INVITATION";
 const INVITATION_REVOKED = "INVITATION_REVOKED";
 const REMOVE_MEMBER = "REMOVE_MEMBER";
 const MEMBER_REMOVED = "MEMBER_REMOVED";
+const CHANGE_MEMBER_ROLE = "CHANGE_MEMBER_ROLE";
+const MEMBER_ROLE_CHANGED = "MEMBER_ROLE_CHANGED";
 
 export const invitationRevokedAction = (): IInvitationRevokedAction => ({
   type: INVITATION_REVOKED,
@@ -147,6 +168,10 @@ export const removeResourceAction = (
 
 export const memberRemovedAction = (): IMemberRemovedAction => ({
   type: MEMBER_REMOVED,
+});
+
+export const memberRoleChangedAction = (): IMemberRoleChangedAction => ({
+  type: MEMBER_ROLE_CHANGED,
 });
 
 export const removeMemberAction = (
@@ -199,6 +224,13 @@ export const revokeInvitationAction = (
   type: REVOKE_INVITATION,
 });
 
+export const changeMemberRoleAction = (
+  payload: prepareChangeMemberRoleVariables
+): IChangeMemberRoleAction => ({
+  payload,
+  type: CHANGE_MEMBER_ROLE,
+});
+
 interface ICurateCommunityResourcesCommandOutput {
   id: string;
   error?: string;
@@ -222,6 +254,10 @@ interface IRemoveResourceCommandOutput {
 }
 
 interface IRemoveMemberCommandOutput {
+  hash: string;
+}
+
+interface IChangeMemberRoleCommandOutput {
   hash: string;
 }
 
@@ -521,6 +557,60 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
         )
     )
   );
+
+export const changeMemberRoleEpic: Epic<Actions, IReduxState, IDependencies> = (
+  action$,
+  _,
+  { apolloClient, apolloSubscriber, personalSign }
+) =>
+  action$
+    .ofType(CHANGE_MEMBER_ROLE)
+    .switchMap(({ payload }: IChangeMemberRoleAction) =>
+      Observable.fromPromise(
+        apolloClient.query<
+          prepareChangeMemberRole,
+          prepareChangeMemberRoleVariables
+        >({
+          query: prepareChangeMemberRoleQuery,
+          variables: payload,
+        })
+      ).mergeMap(({ data: { prepareChangeMemberRole: result } }) =>
+        Observable.fromPromise<string>(
+          personalSign(result && result.messageHash)
+        )
+          .mergeMap(signature =>
+            apolloClient.mutate<changeMemberRole, changeMemberRoleVariables>({
+              mutation: changeMemberRoleMutation,
+              variables: {
+                account: (payload && payload.account) || "",
+                id: (payload && payload.id) || "",
+                role: (payload && (payload.role as any)) || "",
+                signature,
+              },
+            })
+          )
+          .mergeMap(
+            ({ data: { changeMemberRole: changeMemberRoleResult } }: any) =>
+              apolloSubscriber<IChangeMemberRoleCommandOutput>(
+                changeMemberRoleResult.hash
+              )
+          )
+          .do(() => apolloClient.resetStore())
+          .mergeMap(() =>
+            Observable.merge(
+              Observable.of(closeModalAction()),
+              Observable.of(
+                showNotificationAction({
+                  description: `That user has had their role changed within the community`,
+                  message: "Member role changed",
+                  notificationType: "success",
+                })
+              ),
+              Observable.of(memberRoleChangedAction())
+            )
+          )
+      )
+    );
 
 export const removeResourceEpic: Epic<any, IReduxState, IDependencies> = (
   action$,

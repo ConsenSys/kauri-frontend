@@ -29,7 +29,7 @@ const typographySpecifications: ITypography[] = [
     as: "h1",
     fontSize: 20,
     fontWeight: "bold",
-    lineHeight: "24px"
+    lineHeight: "24px",
   },
   {
     as: "h2",
@@ -87,7 +87,9 @@ const typographySpecifications: ITypography[] = [
   {
     component:
       // Because Nelson
-      styled<{ color: string; textAlign: string }, "span">("span")`
+      styled<{ color: string; textAlign: string; hoverColor?: string }, "span">(
+        "span"
+      )`
         font-size: 11px;
         font-weight: bold;
         text-transform: uppercase;
@@ -95,6 +97,10 @@ const typographySpecifications: ITypography[] = [
           typeof props.color === "string" && props.theme.colors[props.color]};
         text-align: ${props =>
           typeof props.textAlign === "string" && props.textAlign};
+        ${props => props.hoverColor && "cursor: pointer;"}
+        ${props =>
+          props.hoverColor &&
+          `:hover { color: ${props.theme.colors[props.hoverColor]}; }`}
       `,
     name: "Label",
   },

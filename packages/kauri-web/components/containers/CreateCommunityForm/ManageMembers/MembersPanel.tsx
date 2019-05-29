@@ -8,6 +8,8 @@ import {
 } from "../../../../../kauri-components/components/Typography";
 import PrimaryButtonComponent from "../../../../../kauri-components/components/Button/PrimaryButton";
 import { removeMemberAction as removeMember } from "../../Community/Module";
+import theme from "../../../../../kauri-components/lib/theme-config";
+import { prepareChangeMemberRoleVariables } from "../../../../queries/__generated__/prepareChangeMemberRole";
 
 const Header = styled.div`
   padding-top: ${props => props.theme.space[2]}px;
@@ -74,8 +76,7 @@ const RemoveMemberIcon: React.FunctionComponent<{
 const MemberContainer = styled.section`
   display: flex;
   flex-direction: row;
-  padding: ${props => props.theme.space[3]}px ${props => props.theme.space[2]}px;
-  padding-bottom: ${props => props.theme.space[2]}px;
+  padding: ${props => props.theme.space[2]}px ${props => props.theme.space[2]}px;
   > :first-child {
     margin-right: ${props => props.theme.space[4]}px;
   }
@@ -89,37 +90,55 @@ const MemberContainer = styled.section`
 
 const Divider = styled.div`
   width: 100%;
-  background-color: ${props => props.theme.colors.divider};
+  background-color: ${theme.colors.divider};
   height: 2px;
 `;
 
-const MemberRow: React.FunctionComponent<{
+interface IMemberRowProps {
   member: any;
+  userId: string;
   removeMemberAction: () => void;
   isCommunityAdmin: boolean;
-}> = ({ member, removeMemberAction, isCommunityAdmin }) => (
-  <MemberContainer>
-    <Label>{String(member.role).replace("_", " ")}</Label>
-    <BodyCard>{String(member.username || member.name || member.id)}</BodyCard>
-    {isCommunityAdmin && (
-      <Label
-        onClick={() => alert("// TODO")}
-        color="primary"
-        hoverColor="hoverTextColor"
-      >
-        Change Role // TODO
-      </Label>
-    )}
-    <RemoveMemberIcon removeMemberAction={removeMemberAction} />
-  </MemberContainer>
-);
+  openChangeMemberRoleModal: () => void;
+}
+
+const MemberRow: React.FunctionComponent<IMemberRowProps> = ({
+  member,
+  removeMemberAction,
+  isCommunityAdmin,
+  userId,
+  openChangeMemberRoleModal,
+}) => {
+  return (
+    <MemberContainer>
+      <Label>{String(member.role).replace("_", " ")}</Label>
+      <BodyCard>{String(member.username || member.name || member.id)}</BodyCard>
+      {isCommunityAdmin && member.id !== userId && (
+        <Label
+          color="primary"
+          hoverColor="hoverTextColor"
+          onClick={() => openChangeMemberRoleModal()}
+        >
+          Change Role
+        </Label>
+      )}
+      {isCommunityAdmin && member.id !== userId && (
+        <RemoveMemberIcon removeMemberAction={removeMemberAction} />
+      )}
+    </MemberContainer>
+  );
+};
 
 interface IProps {
   id: string | null;
   members: Array<getCommunity_getCommunity_members | null> | null;
   openAddMemberModal: () => void;
-  removeMemberAction: typeof removeMember | null; // TODO
+  removeMemberAction: typeof removeMember | null;
   isCommunityAdmin: boolean;
+  userId: string;
+  openChangeMemberRoleModal: (
+    payload: prepareChangeMemberRoleVariables
+  ) => void;
 }
 
 const MembersPanel: React.SFC<IProps> = props => {
@@ -140,6 +159,13 @@ const MembersPanel: React.SFC<IProps> = props => {
               props.members && (
                 <Fragment>
                   <MemberRow
+                    openChangeMemberRoleModal={() =>
+                      props.openChangeMemberRoleModal({
+                        account: member.id,
+                        id: props.id,
+                      })
+                    }
+                    userId={props.userId}
                     removeMemberAction={() =>
                       props.removeMemberAction &&
                       props.removeMemberAction({

@@ -10,6 +10,16 @@ interface IProps {
   ) => void;
 }
 
+export interface IRole {
+  value: string;
+  label: string;
+}
+
+export const roles: IRole[] = [
+  { value: "ADMIN", label: "ADMIN" },
+  { value: "CURATOR", label: "MODERATOR" },
+];
+
 interface IState {
   currentStep: number;
   email: string;
@@ -24,11 +34,6 @@ const AddMemberModal: React.FunctionComponent<IProps> = props => {
   });
 
   const { currentStep, email, role } = state;
-
-  const roles = [
-    { value: "ADMIN", label: "ADMIN" },
-    { value: "CURATOR", label: "MODERATOR" },
-  ];
 
   const chosenRole = roles.filter(
     hardcodedRoles => hardcodedRoles.value === state.role
