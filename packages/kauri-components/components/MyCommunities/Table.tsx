@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Label } from "../Typography";
-import { ICommunity, IMember } from "./index";
 import { Link } from "../../../kauri-web/routes";
 import R from "ramda";
+import { ICommunity } from "./index";
 
 interface ICell {
   bold?: boolean;
@@ -50,20 +50,20 @@ const Line = styled.div`
   background: ${props => props.theme.colors.disabledBackgroundColor};
 `;
 
-const Table = (props: IProps) => (
+const Table: React.FunctionComponent<IProps> = props => (
   <Container>
     <Line />
     {props.data &&
-      props.data.map(community => (
+      props.data.map(({ community }) => (
         <Row key={community.id}>
           <Cell flex={0}>
             <Label>
-              {R.path(
-                ["role"],
-                R.find((member: IMember) => member.id === props.userId)(
-                  community.members
-                )
-              )}
+              {R.pipe(
+                R.find<{ id: string; role: string }>(
+                  member => member.id === props.userId
+                ),
+                R.path(["role"])
+              )(community.members)}
             </Label>
           </Cell>
           <Cell flex={4}>
