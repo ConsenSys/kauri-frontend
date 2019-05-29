@@ -387,3 +387,15 @@ export const changeMemberRoleMutation = gql`
     }
   }
 `;
+
+export const resendInvitationMutation = gql`
+  mutation resendInvitation(
+    $id: String
+    $invitationId: String
+    $email: String
+  ) {
+    resendInvitation(id: $id, invationId: $invitationId, email: $email) {
+      hash
+    }
+  }
+`;

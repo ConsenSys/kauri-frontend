@@ -22,6 +22,7 @@ import {
   removeMemberMutation,
   changeMemberRoleMutation,
   prepareChangeMemberRoleQuery,
+  resendInvitationMutation,
 } from "../../../queries/Community";
 import {
   curateCommunityResources,
@@ -77,6 +78,10 @@ import {
   changeMemberRole,
   changeMemberRoleVariables,
 } from "../../../queries/__generated__/changeMemberRole";
+import {
+  resendInvitation,
+  resendInvitationVariables,
+} from "../../../queries/__generated__/resendInvitation";
 
 import { ISendInvitationCommandOutput } from "../CreateCommunityForm/Module";
 import { closeModalAction } from "../../../../kauri-components/components/Modal/Module";
@@ -141,6 +146,11 @@ interface IChangeMemberRoleAction {
   payload: prepareChangeMemberRoleVariables;
 }
 
+interface IResendInvitationAction {
+  type: "RESEND_INVITATION";
+  payload: resendInvitationVariables;
+}
+
 const CURATE_COMMUNITY_RESOURCES = "CURATE_COMMUNITY_RESOURCES";
 const APPROVE_RESOURCE = "APPROVE_RESOURCE";
 const REMOVE_RESOURCE = "REMOVE_RESOURCE";
@@ -154,6 +164,8 @@ const REMOVE_MEMBER = "REMOVE_MEMBER";
 const MEMBER_REMOVED = "MEMBER_REMOVED";
 const CHANGE_MEMBER_ROLE = "CHANGE_MEMBER_ROLE";
 const MEMBER_ROLE_CHANGED = "MEMBER_ROLE_CHANGED";
+const RESEND_INVITATION = "RESEND_INVITATION";
+const INVITATION_RESENT = "INVITATION_RESENT";
 
 export const invitationRevokedAction = (): IInvitationRevokedAction => ({
   type: INVITATION_REVOKED,
@@ -172,6 +184,13 @@ export const memberRemovedAction = (): IMemberRemovedAction => ({
 
 export const memberRoleChangedAction = (): IMemberRoleChangedAction => ({
   type: MEMBER_ROLE_CHANGED,
+});
+
+export const resendInvitationAction = (
+  payload: resendInvitationVariables
+): IResendInvitationAction => ({
+  payload,
+  type: RESEND_INVITATION,
 });
 
 export const removeMemberAction = (
@@ -208,6 +227,10 @@ export const invitationSentAction = (): IInvitationSentAction => ({
 
 export const invitationAcceptedAction = (): IInvitationAcceptedAction => ({
   type: INVITATION_ACCEPTED,
+});
+
+export const invitationResentAction = (): IInvitationResentAction => ({
+  type: INVITATION_RESENT,
 });
 
 export const acceptCommunityInvitationAction = (
@@ -262,6 +285,8 @@ interface IChangeMemberRoleCommandOutput {
 }
 
 type IApproveResourceCommandOutput = ICurateCommunityResourcesCommandOutput;
+
+type IResendInvitationCommandOutput = IRevokeInvitationCommandOutput;
 
 const capitalize = (s: string) =>
   R.compose(
@@ -610,6 +635,42 @@ export const changeMemberRoleEpic: Epic<Actions, IReduxState, IDependencies> = (
             )
           )
       )
+    );
+
+export const resendInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
+  action$,
+  _,
+  { apolloClient, apolloSubscriber }
+) =>
+  action$
+    .ofType(RESEND_INVITATION)
+    .switchMap(({ payload }: IResendInvitationAction) =>
+      Observable.fromPromise(
+        apolloClient.mutate<resendInvitation, resendInvitationVariables>({
+          mutation: resendInvitationMutation,
+          variables: payload,
+        })
+      )
+        .mergeMap(
+          ({ data: { resendInvitation: resendInvitationResult } }: any) =>
+            apolloSubscriber<IResendInvitationCommandOutput>(
+              resendInvitationResult.hash
+            )
+        )
+        .do(() => apolloClient.resetStore())
+        .mergeMap(() =>
+          Observable.merge(
+            Observable.of(closeModalAction()),
+            Observable.of(
+              showNotificationAction({
+                description: `Another email invitation has been sent to that user to join the community`,
+                message: "Email resent",
+                notificationType: "success",
+              })
+            ),
+            Observable.of(invitationResentAction())
+          )
+        )
     );
 
 export const removeResourceEpic: Epic<any, IReduxState, IDependencies> = (
