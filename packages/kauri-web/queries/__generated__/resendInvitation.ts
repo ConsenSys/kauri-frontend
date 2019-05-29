@@ -2,20 +2,20 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: revokeInvitation
+// GraphQL mutation operation: resendInvitation
 // ====================================================
 
-export interface revokeInvitation_revokeInvitation {
+export interface resendInvitation_resendInvitation {
   __typename: "MutationResponse";
   hash: string | null;
 }
 
-export interface revokeInvitation {
-  revokeInvitation: revokeInvitation_revokeInvitation | null;
+export interface resendInvitation {
+  resendInvitation: resendInvitation_resendInvitation | null;
 }
 
-export interface revokeInvitationVariables {
-  signature?: string | null;
+export interface resendInvitationVariables {
   id?: string | null;
   invitationId?: string | null;
+  email?: string | null;
 }

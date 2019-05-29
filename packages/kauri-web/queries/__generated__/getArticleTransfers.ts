@@ -1,12 +1,7 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import {
-  DirectionInput,
-  ResourceTypeInput,
-  ArticleStatusInput,
-} from "./../../__generated__/globalTypes";
+import { DirectionInput, ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getArticleTransfers
@@ -45,16 +40,7 @@ export interface getArticleTransfers_getArticleTransfers_content_article_author 
 }
 
 export interface getArticleTransfers_getArticleTransfers_content_article_owner_ArticleDTO {
-  __typename:
-    | "ArticleDTO"
-    | "CommentDTO"
-    | "CommunityInvitationDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CuratedListDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface getArticleTransfers_getArticleTransfers_content_article_owner_PublicUserDTO_resourceIdentifier {
@@ -86,10 +72,7 @@ export interface getArticleTransfers_getArticleTransfers_content_article_owner_C
   resourceIdentifier: getArticleTransfers_getArticleTransfers_content_article_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type getArticleTransfers_getArticleTransfers_content_article_owner =
-  | getArticleTransfers_getArticleTransfers_content_article_owner_ArticleDTO
-  | getArticleTransfers_getArticleTransfers_content_article_owner_PublicUserDTO
-  | getArticleTransfers_getArticleTransfers_content_article_owner_CommunityDTO;
+export type getArticleTransfers_getArticleTransfers_content_article_owner = getArticleTransfers_getArticleTransfers_content_article_owner_ArticleDTO | getArticleTransfers_getArticleTransfers_content_article_owner_PublicUserDTO | getArticleTransfers_getArticleTransfers_content_article_owner_CommunityDTO;
 
 export interface getArticleTransfers_getArticleTransfers_content_article_comments_content_author {
   __typename: "PublicUserDTO";
@@ -108,18 +91,14 @@ export interface getArticleTransfers_getArticleTransfers_content_article_comment
 
 export interface getArticleTransfers_getArticleTransfers_content_article_comments {
   __typename: "ResponsePage_CommentDTO";
-  content:
-    | (getArticleTransfers_getArticleTransfers_content_article_comments_content | null)[]
-    | null;
+  content: (getArticleTransfers_getArticleTransfers_content_article_comments_content | null)[] | null;
   totalPages: number;
   totalElements: any;
 }
 
 export interface getArticleTransfers_getArticleTransfers_content_article {
   __typename: "ArticleDTO";
-  associatedNfts:
-    | (getArticleTransfers_getArticleTransfers_content_article_associatedNfts | null)[]
-    | null;
+  associatedNfts: (getArticleTransfers_getArticleTransfers_content_article_associatedNfts | null)[] | null;
   resourceIdentifier: getArticleTransfers_getArticleTransfers_content_article_resourceIdentifier | null;
   description: string | null;
   id: string | null;

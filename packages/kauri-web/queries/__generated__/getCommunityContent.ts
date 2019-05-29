@@ -1,27 +1,14 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import {
-  CommunityResourceFilterInput,
-  ResourceTypeInput,
-} from "./../../__generated__/globalTypes";
+import { CommunityResourceFilterInput, ResourceTypeInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCommunityContent
 // ====================================================
 
 export interface getCommunityContent_getCommunityContent_content_resource_CommunityDTO {
-  __typename:
-    | "CommunityDTO"
-    | "PublicUserDTO"
-    | "CommentDTO"
-    | "CommunityInvitationDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CuratedListDTO"
-    | "SearchResultDTO"
-    | "UserDTO";
+  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
 }
 
 export interface getCommunityContent_getCommunityContent_content_resource_ArticleDTO {
@@ -36,10 +23,7 @@ export interface getCommunityContent_getCommunityContent_content_resource_Collec
   name: string | null;
 }
 
-export type getCommunityContent_getCommunityContent_content_resource =
-  | getCommunityContent_getCommunityContent_content_resource_CommunityDTO
-  | getCommunityContent_getCommunityContent_content_resource_ArticleDTO
-  | getCommunityContent_getCommunityContent_content_resource_CollectionDTO;
+export type getCommunityContent_getCommunityContent_content_resource = getCommunityContent_getCommunityContent_content_resource_CommunityDTO | getCommunityContent_getCommunityContent_content_resource_ArticleDTO | getCommunityContent_getCommunityContent_content_resource_CollectionDTO;
 
 export interface getCommunityContent_getCommunityContent_content {
   __typename: "ResourceIdentifier";
