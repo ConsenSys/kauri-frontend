@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 //==============================================================
@@ -64,7 +63,6 @@ export enum UserStatusInput {
 }
 
 export interface ArticleFilterInput {
-<<<<<<< HEAD
   authorIdEquals?: string | null;
   dateCreatedLessThan?: any | null;
   ownerIdIn?: (string | null)[] | null;
@@ -102,45 +100,6 @@ export interface CommunityFilterInput {
   statusIn?: (CommunityStatusInput | null)[] | null;
   nameContain?: string | null;
   dateUpdatedGreaterThan?: any | null;
-=======
-  dateCreatedLessThan?: any | null;
-  fullText?: string | null;
-  ownerIdIn?: (string | null)[] | null;
-  dateCreatedGreaterThan?: any | null;
-  latestVersion?: boolean | null;
-  authorIdEquals?: string | null;
-  checkpointEquals?: string | null;
-  versionGreaterThan?: number | null;
-  versionIn?: (number | null)[] | null;
-  statusIn?: (ArticleStatusInput | null)[] | null;
-  containsTag?: string | null;
-  idEquals?: string | null;
-  ownerIdEquals?: string | null;
-}
-
-export interface CollectionFilterInput {
-  dateCreatedLessThan?: any | null;
-  descriptionContains?: string | null;
-  nameContains?: string | null;
-  resourcesCountGreaterThan?: number | null;
-  dateUpdatedGreaterThan?: any | null;
-  containingArticleId?: string | null;
-  ownerIdEquals?: string | null;
-  fullText?: string | null;
-  dateCreatedGreaterThan?: any | null;
-  dateUpdatedLessThan?: any | null;
-}
-
-export interface CommunityFilterInput {
-  nameContain?: string | null;
-  statusIn?: (CommunityStatusInput | null)[] | null;
-  fullText?: string | null;
-  nameContains?: string | null;
-  dateCreatedLessThan?: any | null;
-  membersIncludes?: string | null;
-  dateUpdatedGreaterThan?: any | null;
-  dateUpdatedLessThan?: any | null;
->>>>>>> resend invitation epic
   dateCreatedGreaterThan?: any | null;
 }
 
@@ -150,25 +109,18 @@ export interface CommunityResourceFilterInput {
 }
 
 export interface InvitationInput {
-<<<<<<< HEAD
   secret?: string | null;
   role?: CommunityPermissionInput | null;
   email?: string | null;
-=======
-  role?: CommunityPermissionInput | null;
-  email?: string | null;
-  secret?: string | null;
->>>>>>> resend invitation epic
 }
 
 export interface ResourceIdentifierInput {
-  id?: string | null;
   type?: ResourceTypeInput | null;
   version?: number | null;
+  id?: string | null;
 }
 
 export interface SearchFilterInput {
-<<<<<<< HEAD
   mustNotIncludeUserId?: (string | null)[] | null;
   dateUpdatedLessThan?: any | null;
   mustContainTag?: (string | null)[] | null;
@@ -177,27 +129,12 @@ export interface SearchFilterInput {
   dateUpdatedGreaterThan?: any | null;
   types?: (ResourceTypeInput | null)[] | null;
   mustIncludeUserId?: (string | null)[] | null;
-=======
-  type?: ResourceTypeInput | null;
-  mustContainTag?: (string | null)[] | null;
-  dateCreatedLessThan?: any | null;
-  mustNotIncludeUserId?: (string | null)[] | null;
-  dateUpdatedGreaterThan?: any | null;
-  mustIncludeUserId?: (string | null)[] | null;
-  dateUpdatedLessThan?: any | null;
-  types?: (ResourceTypeInput | null)[] | null;
->>>>>>> resend invitation epic
   dateCreatedGreaterThan?: any | null;
   mustNotContainTag?: (string | null)[] | null;
 }
 
 export interface SectionDTOInput {
   description?: string | null;
-<<<<<<< HEAD
-=======
-  name?: string | null;
-  id?: string | null;
->>>>>>> resend invitation epic
   resourcesId?: (ResourceIdentifierInput | null)[] | null;
   id?: string | null;
   name?: string | null;

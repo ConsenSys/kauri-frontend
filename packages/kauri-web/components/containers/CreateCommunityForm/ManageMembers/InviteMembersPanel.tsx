@@ -5,7 +5,10 @@ import {
   BodyCard,
   Label,
 } from "../../../../../kauri-components/components/Typography";
-import { revokeInvitationAction as revokeInvitation } from "../../Community/Module";
+import {
+  revokeInvitationAction as revokeInvitation,
+  resendInvitationAction as resendInvitation,
+} from "../../Community/Module";
 
 const Header = styled.div`
   padding-top: ${props => props.theme.space[2]}px;
@@ -98,18 +101,20 @@ interface IInvitation {
 const InvitationRow: React.FunctionComponent<{
   invitation: IInvitation;
   revokeInvitationAction: any;
-}> = ({ invitation, revokeInvitationAction }) => (
+  resendInvitation: () => void;
+}> = ({ invitation, revokeInvitationAction, resendInvitation }) => (
   <MemberContainer>
     <Label>{String(invitation.status).replace("_", " ")}</Label>
     <BodyCard>{String(invitation.recipientEmail)}</BodyCard>
-    {
-      // TODO: Waiting for backend
-      /* {invitation.status === "PENDING" && (
-      <Label color="primary" hoverColor="hoverTextColor">
+    {invitation.status === "PENDING" && (
+      <Label
+        color="primary"
+        hoverColor="hoverTextColor"
+        onClick={() => resendInvitation()}
+      >
         RESEND
       </Label>
-    )} */
-    }
+    )}
     {invitation.status === "PENDING" && (
       <RevokeInvitationIcon revokeInvitationAction={revokeInvitationAction} />
     )}
@@ -119,6 +124,7 @@ const InvitationRow: React.FunctionComponent<{
 interface IProps {
   invitations: Array<IInvitation | null> | null;
   revokeInvitationAction: typeof revokeInvitation;
+  resendInvitationAction: typeof resendInvitation;
   id: string | null;
 }
 
@@ -145,6 +151,14 @@ const invitationsPanel: React.SFC<IProps> = props => {
                 props.invitations && (
                   <Fragment>
                     <InvitationRow
+                      resendInvitation={() =>
+                        props.resendInvitationAction &&
+                        props.resendInvitationAction({
+                          email: invitation.recipientEmail,
+                          id: props.id,
+                          invitationId: invitation.invitationId,
+                        })
+                      }
                       revokeInvitationAction={() =>
                         props.revokeInvitationAction &&
                         props.revokeInvitationAction({
