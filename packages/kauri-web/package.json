@@ -34,6 +34,7 @@
     "watch-types": "tsc --watch"
   },
   "dependencies": {
+    "@material-ui/core": "^4.0.1",
     "@quentin-sommer/react-useragent": "^2.0.0",
     "@rej156/draft-js": "0.10.8",
     "@rej156/react-mde": "5.7.0",
@@ -81,11 +82,11 @@
     "next": "8.1.0",
     "next-routes": "^1.4.2",
     "ramda": "^0.25.0",
-    "react": "16.8.0-alpha.0",
+    "react": "^16.8.6",
     "react-apollo": "^2.5.3",
     "react-beautiful-dnd": "^10.0.4",
     "react-diff-viewer": "^1.0.4",
-    "react-dom": "16.8.0-alpha.0",
+    "react-dom": "^16.8.6",
     "react-fast-highlight": "^2.2.0",
     "react-ga": "^2.5.6",
     "react-helmet": "^5.2.0",
@@ -218,9 +219,7 @@
     "xmlhttprequest": "^1.8.0"
   },
   "resolutions": {
-    "babel-plugin-react-require": "3.0.0",
-    "react": "16.8.0-alpha.0",
-    "react-dom": "16.8.0-alpha.0"
+    "babel-plugin-react-require": "3.0.0"
   },
   "optionalDependencies": {
     "fsevents": "^1.2.4"

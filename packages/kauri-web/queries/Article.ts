@@ -506,10 +506,49 @@ export const relatedArticles = gql`
           id
           type
         }
-        tags
-        name
-        description
-        score
+        resource {
+          ... on ArticleDTO {
+            id
+            version
+            title
+            description
+            authorId
+            dateCreated
+            datePublished
+            status
+            attributes
+            contentHash
+            checkpoint
+            tags
+            voteResult {
+              sum
+            }
+          }
+
+          ... on CollectionDTO {
+            id
+            name
+            description
+            tags
+            background
+            dateUpdated
+            resourceIdentifier {
+              type
+              id
+            }
+          }
+          ... on CommunityDTO {
+            id
+            dateCreated
+            dateUpdated
+            creatorId
+            name
+            description
+            website
+            avatar
+            social
+          }
+        }
       }
     }
   }
