@@ -45,8 +45,8 @@ const AddMemberModal: React.FunctionComponent<IProps> = props => {
       }}
       content={
         <AddMemberModalContent
-          handleRoleChange={(chosenRole: string) =>
-            setState({ ...state, role: chosenRole })
+          handleRoleChange={(selectedRole: string) =>
+            setState({ ...state, role: selectedRole })
           }
           roles={roles}
           currentStep={currentStep}

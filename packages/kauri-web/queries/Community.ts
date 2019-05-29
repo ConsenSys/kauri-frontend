@@ -214,6 +214,14 @@ export const approveResourceMutation = gql`
   }
 `;
 
+export const removeResourceMutation = gql`
+  mutation removeResource($id: String, $resource: ResourceIdentifierInput) {
+    removeResource(id: $id, resource: $resource) {
+      hash
+    }
+  }
+`;
+
 export const getCommunityArticleContent = gql`
   query getCommunityContent(
     $id: String

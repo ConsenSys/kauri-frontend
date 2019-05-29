@@ -1,7 +1,14 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { CommunityStatusInput, CommunityPermissionInput, UserStatusInput, ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
+import {
+  CommunityStatusInput,
+  CommunityPermissionInput,
+  UserStatusInput,
+  ResourceTypeInput,
+  ArticleStatusInput,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCommunity
@@ -37,7 +44,16 @@ export interface getCommunity_getCommunity_pendingId {
 }
 
 export interface getCommunity_getCommunity_approved_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface getCommunity_getCommunity_approved_ArticleDTO_associatedNfts {
@@ -73,7 +89,16 @@ export interface getCommunity_getCommunity_approved_ArticleDTO_author {
 }
 
 export interface getCommunity_getCommunity_approved_ArticleDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface getCommunity_getCommunity_approved_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -105,7 +130,10 @@ export interface getCommunity_getCommunity_approved_ArticleDTO_owner_CommunityDT
   resourceIdentifier: getCommunity_getCommunity_approved_ArticleDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type getCommunity_getCommunity_approved_ArticleDTO_owner = getCommunity_getCommunity_approved_ArticleDTO_owner_ArticleDTO | getCommunity_getCommunity_approved_ArticleDTO_owner_PublicUserDTO | getCommunity_getCommunity_approved_ArticleDTO_owner_CommunityDTO;
+export type getCommunity_getCommunity_approved_ArticleDTO_owner =
+  | getCommunity_getCommunity_approved_ArticleDTO_owner_ArticleDTO
+  | getCommunity_getCommunity_approved_ArticleDTO_owner_PublicUserDTO
+  | getCommunity_getCommunity_approved_ArticleDTO_owner_CommunityDTO;
 
 export interface getCommunity_getCommunity_approved_ArticleDTO_comments_content_author {
   __typename: "PublicUserDTO";
@@ -124,14 +152,18 @@ export interface getCommunity_getCommunity_approved_ArticleDTO_comments_content 
 
 export interface getCommunity_getCommunity_approved_ArticleDTO_comments {
   __typename: "ResponsePage_CommentDTO";
-  content: (getCommunity_getCommunity_approved_ArticleDTO_comments_content | null)[] | null;
+  content:
+    | (getCommunity_getCommunity_approved_ArticleDTO_comments_content | null)[]
+    | null;
   totalPages: number;
   totalElements: any;
 }
 
 export interface getCommunity_getCommunity_approved_ArticleDTO {
   __typename: "ArticleDTO";
-  associatedNfts: (getCommunity_getCommunity_approved_ArticleDTO_associatedNfts | null)[] | null;
+  associatedNfts:
+    | (getCommunity_getCommunity_approved_ArticleDTO_associatedNfts | null)[]
+    | null;
   resourceIdentifier: getCommunity_getCommunity_approved_ArticleDTO_resourceIdentifier | null;
   description: string | null;
   id: string | null;
@@ -154,7 +186,16 @@ export interface getCommunity_getCommunity_approved_ArticleDTO {
 }
 
 export interface getCommunity_getCommunity_approved_CollectionDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface getCommunity_getCommunity_approved_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -186,7 +227,10 @@ export interface getCommunity_getCommunity_approved_CollectionDTO_owner_Communit
   resourceIdentifier: getCommunity_getCommunity_approved_CollectionDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type getCommunity_getCommunity_approved_CollectionDTO_owner = getCommunity_getCommunity_approved_CollectionDTO_owner_ArticleDTO | getCommunity_getCommunity_approved_CollectionDTO_owner_PublicUserDTO | getCommunity_getCommunity_approved_CollectionDTO_owner_CommunityDTO;
+export type getCommunity_getCommunity_approved_CollectionDTO_owner =
+  | getCommunity_getCommunity_approved_CollectionDTO_owner_ArticleDTO
+  | getCommunity_getCommunity_approved_CollectionDTO_owner_PublicUserDTO
+  | getCommunity_getCommunity_approved_CollectionDTO_owner_CommunityDTO;
 
 export interface getCommunity_getCommunity_approved_CollectionDTO_sections_resourcesId {
   __typename: "ResourceIdentifier";
@@ -195,7 +239,17 @@ export interface getCommunity_getCommunity_approved_CollectionDTO_sections_resou
 }
 
 export interface getCommunity_getCommunity_approved_CollectionDTO_sections_resources_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface getCommunity_getCommunity_approved_CollectionDTO_sections_resources_ArticleDTO {
@@ -204,15 +258,21 @@ export interface getCommunity_getCommunity_approved_CollectionDTO_sections_resou
   version: number | null;
 }
 
-export type getCommunity_getCommunity_approved_CollectionDTO_sections_resources = getCommunity_getCommunity_approved_CollectionDTO_sections_resources_CommunityDTO | getCommunity_getCommunity_approved_CollectionDTO_sections_resources_ArticleDTO;
+export type getCommunity_getCommunity_approved_CollectionDTO_sections_resources =
+  | getCommunity_getCommunity_approved_CollectionDTO_sections_resources_CommunityDTO
+  | getCommunity_getCommunity_approved_CollectionDTO_sections_resources_ArticleDTO;
 
 export interface getCommunity_getCommunity_approved_CollectionDTO_sections {
   __typename: "SectionDTO";
   id: string | null;
   name: string | null;
   description: string | null;
-  resourcesId: (getCommunity_getCommunity_approved_CollectionDTO_sections_resourcesId | null)[] | null;
-  resources: (getCommunity_getCommunity_approved_CollectionDTO_sections_resources | null)[] | null;
+  resourcesId:
+    | (getCommunity_getCommunity_approved_CollectionDTO_sections_resourcesId | null)[]
+    | null;
+  resources:
+    | (getCommunity_getCommunity_approved_CollectionDTO_sections_resources | null)[]
+    | null;
 }
 
 export interface getCommunity_getCommunity_approved_CollectionDTO_resourceIdentifier {
@@ -230,14 +290,28 @@ export interface getCommunity_getCommunity_approved_CollectionDTO {
   background: string | null;
   dateUpdated: any | null;
   owner: getCommunity_getCommunity_approved_CollectionDTO_owner | null;
-  sections: (getCommunity_getCommunity_approved_CollectionDTO_sections | null)[] | null;
+  sections:
+    | (getCommunity_getCommunity_approved_CollectionDTO_sections | null)[]
+    | null;
   resourceIdentifier: getCommunity_getCommunity_approved_CollectionDTO_resourceIdentifier | null;
 }
 
-export type getCommunity_getCommunity_approved = getCommunity_getCommunity_approved_CommunityDTO | getCommunity_getCommunity_approved_ArticleDTO | getCommunity_getCommunity_approved_CollectionDTO;
+export type getCommunity_getCommunity_approved =
+  | getCommunity_getCommunity_approved_CommunityDTO
+  | getCommunity_getCommunity_approved_ArticleDTO
+  | getCommunity_getCommunity_approved_CollectionDTO;
 
 export interface getCommunity_getCommunity_pending_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface getCommunity_getCommunity_pending_ArticleDTO_associatedNfts {
@@ -273,7 +347,16 @@ export interface getCommunity_getCommunity_pending_ArticleDTO_author {
 }
 
 export interface getCommunity_getCommunity_pending_ArticleDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface getCommunity_getCommunity_pending_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -305,7 +388,10 @@ export interface getCommunity_getCommunity_pending_ArticleDTO_owner_CommunityDTO
   resourceIdentifier: getCommunity_getCommunity_pending_ArticleDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type getCommunity_getCommunity_pending_ArticleDTO_owner = getCommunity_getCommunity_pending_ArticleDTO_owner_ArticleDTO | getCommunity_getCommunity_pending_ArticleDTO_owner_PublicUserDTO | getCommunity_getCommunity_pending_ArticleDTO_owner_CommunityDTO;
+export type getCommunity_getCommunity_pending_ArticleDTO_owner =
+  | getCommunity_getCommunity_pending_ArticleDTO_owner_ArticleDTO
+  | getCommunity_getCommunity_pending_ArticleDTO_owner_PublicUserDTO
+  | getCommunity_getCommunity_pending_ArticleDTO_owner_CommunityDTO;
 
 export interface getCommunity_getCommunity_pending_ArticleDTO_comments_content_author {
   __typename: "PublicUserDTO";
@@ -324,14 +410,18 @@ export interface getCommunity_getCommunity_pending_ArticleDTO_comments_content {
 
 export interface getCommunity_getCommunity_pending_ArticleDTO_comments {
   __typename: "ResponsePage_CommentDTO";
-  content: (getCommunity_getCommunity_pending_ArticleDTO_comments_content | null)[] | null;
+  content:
+    | (getCommunity_getCommunity_pending_ArticleDTO_comments_content | null)[]
+    | null;
   totalPages: number;
   totalElements: any;
 }
 
 export interface getCommunity_getCommunity_pending_ArticleDTO {
   __typename: "ArticleDTO";
-  associatedNfts: (getCommunity_getCommunity_pending_ArticleDTO_associatedNfts | null)[] | null;
+  associatedNfts:
+    | (getCommunity_getCommunity_pending_ArticleDTO_associatedNfts | null)[]
+    | null;
   resourceIdentifier: getCommunity_getCommunity_pending_ArticleDTO_resourceIdentifier | null;
   description: string | null;
   id: string | null;
@@ -354,7 +444,16 @@ export interface getCommunity_getCommunity_pending_ArticleDTO {
 }
 
 export interface getCommunity_getCommunity_pending_CollectionDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface getCommunity_getCommunity_pending_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -386,7 +485,10 @@ export interface getCommunity_getCommunity_pending_CollectionDTO_owner_Community
   resourceIdentifier: getCommunity_getCommunity_pending_CollectionDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type getCommunity_getCommunity_pending_CollectionDTO_owner = getCommunity_getCommunity_pending_CollectionDTO_owner_ArticleDTO | getCommunity_getCommunity_pending_CollectionDTO_owner_PublicUserDTO | getCommunity_getCommunity_pending_CollectionDTO_owner_CommunityDTO;
+export type getCommunity_getCommunity_pending_CollectionDTO_owner =
+  | getCommunity_getCommunity_pending_CollectionDTO_owner_ArticleDTO
+  | getCommunity_getCommunity_pending_CollectionDTO_owner_PublicUserDTO
+  | getCommunity_getCommunity_pending_CollectionDTO_owner_CommunityDTO;
 
 export interface getCommunity_getCommunity_pending_CollectionDTO_sections_resourcesId {
   __typename: "ResourceIdentifier";
@@ -395,7 +497,17 @@ export interface getCommunity_getCommunity_pending_CollectionDTO_sections_resour
 }
 
 export interface getCommunity_getCommunity_pending_CollectionDTO_sections_resources_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CuratedListDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO";
 }
 
 export interface getCommunity_getCommunity_pending_CollectionDTO_sections_resources_ArticleDTO {
@@ -404,15 +516,21 @@ export interface getCommunity_getCommunity_pending_CollectionDTO_sections_resour
   version: number | null;
 }
 
-export type getCommunity_getCommunity_pending_CollectionDTO_sections_resources = getCommunity_getCommunity_pending_CollectionDTO_sections_resources_CommunityDTO | getCommunity_getCommunity_pending_CollectionDTO_sections_resources_ArticleDTO;
+export type getCommunity_getCommunity_pending_CollectionDTO_sections_resources =
+  | getCommunity_getCommunity_pending_CollectionDTO_sections_resources_CommunityDTO
+  | getCommunity_getCommunity_pending_CollectionDTO_sections_resources_ArticleDTO;
 
 export interface getCommunity_getCommunity_pending_CollectionDTO_sections {
   __typename: "SectionDTO";
   id: string | null;
   name: string | null;
   description: string | null;
-  resourcesId: (getCommunity_getCommunity_pending_CollectionDTO_sections_resourcesId | null)[] | null;
-  resources: (getCommunity_getCommunity_pending_CollectionDTO_sections_resources | null)[] | null;
+  resourcesId:
+    | (getCommunity_getCommunity_pending_CollectionDTO_sections_resourcesId | null)[]
+    | null;
+  resources:
+    | (getCommunity_getCommunity_pending_CollectionDTO_sections_resources | null)[]
+    | null;
 }
 
 export interface getCommunity_getCommunity_pending_CollectionDTO_resourceIdentifier {
@@ -430,11 +548,16 @@ export interface getCommunity_getCommunity_pending_CollectionDTO {
   background: string | null;
   dateUpdated: any | null;
   owner: getCommunity_getCommunity_pending_CollectionDTO_owner | null;
-  sections: (getCommunity_getCommunity_pending_CollectionDTO_sections | null)[] | null;
+  sections:
+    | (getCommunity_getCommunity_pending_CollectionDTO_sections | null)[]
+    | null;
   resourceIdentifier: getCommunity_getCommunity_pending_CollectionDTO_resourceIdentifier | null;
 }
 
-export type getCommunity_getCommunity_pending = getCommunity_getCommunity_pending_CommunityDTO | getCommunity_getCommunity_pending_ArticleDTO | getCommunity_getCommunity_pending_CollectionDTO;
+export type getCommunity_getCommunity_pending =
+  | getCommunity_getCommunity_pending_CommunityDTO
+  | getCommunity_getCommunity_pending_ArticleDTO
+  | getCommunity_getCommunity_pending_CollectionDTO;
 
 export interface getCommunity_getCommunity {
   __typename: "CommunityDTO";

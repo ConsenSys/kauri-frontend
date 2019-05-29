@@ -102,18 +102,21 @@ const Manage: React.FunctionComponent<IProps> = ({
         )}
         {tabIndex === 1 && pageType !== "CreateCommunityForm" && (
           <DisplayManagedResources
+            isMember={false}
             communityId={communityId}
             resources={pendingArticles}
           />
         )}
         {tabIndex === 2 && pageType !== "CreateCommunityForm" && (
           <DisplayManagedResources
+            isMember={false}
             communityId={communityId}
             resources={pendingCollections}
           />
         )}
         {tabIndex === 3 && pageType !== "CreateCommunityForm" && (
           <DisplayManagedResources
+            isMember={false}
             communityId={communityId}
             review={true}
             resources={pendingUpdates}

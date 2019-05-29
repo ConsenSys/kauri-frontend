@@ -19,6 +19,7 @@ import EmptyCollections from "./EmptyStates/Collections";
 import AlertViewComponent from "../../../../kauri-components/components/Modal/AlertView";
 import AcceptCommunityInvitationModalContent from "../../../../kauri-components/components/Community/AcceptCommunityInvitationModalContent";
 import AddMemberModal from "../CreateCommunityForm/AddMemberModal";
+import { removeResourceVariables } from "../../../queries/__generated__/removeResource";
 
 interface IProps {
   acceptCommunityInvitationAction: typeof acceptCommunityInvitation;
@@ -32,6 +33,7 @@ interface IProps {
   closeModalAction: () => void;
   openModalAction: (payload: { children: any }) => void;
   routeChangeAction: (route: string) => void;
+  removeResourceAction: (payload: removeResourceVariables) => void;
   curateCommunityResourcesAction: typeof curateCommunityResources;
   sendCommunityInvitationAction: typeof sendCommunityInvitation;
 }
@@ -75,6 +77,7 @@ class CommunityConnection extends React.Component<IProps> {
       routeChangeAction,
       curateCommunityResourcesAction,
       acceptCommunityInvitationAction,
+      removeResourceAction,
     } = this.props;
     const articles =
       getCommunity.approved &&
@@ -151,17 +154,29 @@ class CommunityConnection extends React.Component<IProps> {
           ]}
           panels={[
             <DisplayResources
+              removeResourceAction={removeResourceAction}
+              openModalAction={openModalAction}
+              closeModalAction={closeModalAction}
+              isMember={isMember}
               key="home"
               resources={getCommunity.approved}
               communityId={getCommunity.id}
             />,
             <DisplayResources
+              removeResourceAction={removeResourceAction}
+              openModalAction={openModalAction}
+              closeModalAction={closeModalAction}
+              isMember={isMember}
               key="articles"
               resources={articles}
               communityId={getCommunity.id}
             />,
             collections && collections.length > 0 ? (
               <DisplayResources
+                removeResourceAction={removeResourceAction}
+                openModalAction={openModalAction}
+                closeModalAction={closeModalAction}
+                isMember={isMember}
                 key="collections"
                 resources={collections}
                 communityId={getCommunity.id}
