@@ -151,6 +151,10 @@ interface IResendInvitationAction {
   payload: resendInvitationVariables;
 }
 
+interface IInvitationResentAction {
+  type: "INVITATION_RESENT";
+}
+
 const CURATE_COMMUNITY_RESOURCES = "CURATE_COMMUNITY_RESOURCES";
 const APPROVE_RESOURCE = "APPROVE_RESOURCE";
 const REMOVE_RESOURCE = "REMOVE_RESOURCE";

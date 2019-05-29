@@ -101,8 +101,8 @@ interface IInvitation {
 const InvitationRow: React.FunctionComponent<{
   invitation: IInvitation;
   revokeInvitationAction: any;
-  resendInvitation: () => void;
-}> = ({ invitation, revokeInvitationAction, resendInvitation }) => (
+  resendInvitationAction: () => void;
+}> = ({ invitation, revokeInvitationAction, resendInvitationAction }) => (
   <MemberContainer>
     <Label>{String(invitation.status).replace("_", " ")}</Label>
     <BodyCard>{String(invitation.recipientEmail)}</BodyCard>
@@ -110,7 +110,7 @@ const InvitationRow: React.FunctionComponent<{
       <Label
         color="primary"
         hoverColor="hoverTextColor"
-        onClick={() => resendInvitation()}
+        onClick={() => resendInvitationAction()}
       >
         RESEND
       </Label>
@@ -151,7 +151,7 @@ const invitationsPanel: React.SFC<IProps> = props => {
                 props.invitations && (
                   <Fragment>
                     <InvitationRow
-                      resendInvitation={() =>
+                      resendInvitationAction={() =>
                         props.resendInvitationAction &&
                         props.resendInvitationAction({
                           email: invitation.recipientEmail,

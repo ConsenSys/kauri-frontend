@@ -39,8 +39,8 @@ export default compose(
       closeModalAction,
       openModalAction,
       removeMemberAction,
-      revokeInvitationAction,
       resendInvitationAction,
+      revokeInvitationAction,
     }
   ),
   graphql(getCommunityInvitationsQuery, {
