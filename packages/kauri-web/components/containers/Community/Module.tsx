@@ -11,6 +11,7 @@ import {
 import {
   curateCommunityResourcesMutation,
   approveResourceMutation,
+  removeResourceMutation,
   prepareSendInvitationQuery,
   sendInvitationMutation,
   prepareAcceptInvitationQuery,
@@ -30,6 +31,12 @@ import {
   approveResource,
   approveResourceVariables,
 } from "../../../queries/__generated__/approveResource";
+
+import {
+  removeResource,
+  removeResourceVariables,
+} from "../../../queries/__generated__/removeResource";
+
 import {
   sendInvitation,
   sendInvitationVariables,
@@ -89,6 +96,11 @@ interface IApproveResourceAction {
   payload: approveResourceVariables;
 }
 
+interface IRemoveResourceAction {
+  type: "REMOVE_RESOURCE";
+  payload: removeResourceVariables;
+}
+
 interface ISendCommunityInvitationAction {
   type: "SEND_COMMUNITY_INVITATION";
   payload: sendInvitationVariables;
@@ -131,6 +143,7 @@ interface IChangeMemberRoleAction {
 
 const CURATE_COMMUNITY_RESOURCES = "CURATE_COMMUNITY_RESOURCES";
 const APPROVE_RESOURCE = "APPROVE_RESOURCE";
+const REMOVE_RESOURCE = "REMOVE_RESOURCE";
 const SEND_COMMUNITY_INVITATION = "SEND_COMMUNITY_INVITATION";
 const INVITATION_SENT = "INVITATION_SENT";
 const ACCEPT_COMMUNITY_INVITATION = "ACCEPT_COMMUNITY_INVITATION";
@@ -144,6 +157,13 @@ const MEMBER_ROLE_CHANGED = "MEMBER_ROLE_CHANGED";
 
 export const invitationRevokedAction = (): IInvitationRevokedAction => ({
   type: INVITATION_REVOKED,
+});
+
+export const removeResourceAction = (
+  payload: removeResourceVariables
+): IRemoveResourceAction => ({
+  payload,
+  type: REMOVE_RESOURCE,
 });
 
 export const memberRemovedAction = (): IMemberRemovedAction => ({
@@ -227,6 +247,10 @@ interface IRevokeInvitationCommandOutput {
 interface ICurateCommunityResourcesCommandOutput {
   messageHash: string;
   secret: string;
+}
+
+interface IRemoveResourceCommandOutput {
+  hash: string;
 }
 
 interface IRemoveMemberCommandOutput {
@@ -586,4 +610,47 @@ export const changeMemberRoleEpic: Epic<Actions, IReduxState, IDependencies> = (
             )
           )
       )
+    );
+
+export const removeResourceEpic: Epic<any, IReduxState, IDependencies> = (
+  action$,
+  _,
+  { apolloClient, apolloSubscriber }
+) =>
+  action$
+    .ofType(REMOVE_RESOURCE)
+    .switchMap(({ payload }: IRemoveResourceAction) =>
+      Observable.fromPromise(
+        apolloClient.mutate<removeResource, removeResourceVariables>({
+          mutation: removeResourceMutation,
+          variables: payload,
+        })
+      )
+        .mergeMap(({ data: { removeResource: { hash } } }) =>
+          apolloSubscriber<IRemoveResourceCommandOutput>(hash)
+        )
+        .mergeMap(({ data: { output: { error } } }) =>
+          error
+            ? Observable.merge(
+                Observable.of(closeModalAction()),
+                Observable.of(
+                  showNotificationAction({
+                    description: `There was an error removing the selected item, please try again.`,
+                    message: "Error",
+                    notificationType: "error",
+                  })
+                )
+              )
+            : Observable.merge(
+                Observable.of(closeModalAction()),
+                Observable.of(
+                  showNotificationAction({
+                    description: `Your selected resource was successfully removed from this community!`,
+                    message: "Resource Removed",
+                    notificationType: "success",
+                  })
+                )
+              )
+        )
+        .do(() => apolloClient.resetStore())
     );

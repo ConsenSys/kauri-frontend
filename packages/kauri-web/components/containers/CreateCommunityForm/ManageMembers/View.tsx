@@ -189,5 +189,28 @@ class ManageMembers extends React.Component<IProps, IRole> {
     );
   }
 }
+// return props.members &&
+//   Array.isArray(props.members) &&
+//   props.members.length >= 1 ? (
+//   <ManageMembersContainer>
+//     <MembersPanel
+//       isCommunityAdmin={props.isCommunityAdmin}
+//       id={props.id}
+//       removeMemberAction={props.removeMemberAction}
+//       openAddMemberModal={() => props.openAddMemberModal()}
+//       members={props.members}
+//     />
+//     <InviteMembersPanel
+//       id={props.id}
+//       revokeInvitationAction={props.revokeInvitationAction}
+//       invitations={
+//         (props.data && props.data.getCommunityInvitations.content) ||
+//         props.invitations
+//       }
+//     />
+//   </ManageMembersContainer>
+// ) : (
+//   <ManageMemberEmptyState handleClick={() => props.openAddMemberModal()} />
+// );
 
 export default ManageMembers;

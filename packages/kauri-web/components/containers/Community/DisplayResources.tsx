@@ -7,6 +7,10 @@ import {
 } from "../../../queries/Fragments/__generated__/Community";
 import Masonry from "../../../../kauri-components/components/Layout/Masonry";
 import styled from "../../../lib/styled-components";
+import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
+import AlertView from "../../../../kauri-components/components/Modal/AlertView";
+import { BodyCard } from "../../../../kauri-components/components/Typography";
+import { removeResourceVariables } from "../../../queries/__generated__/removeResource";
 
 const Container = styled.div`
   margin-left: ${props => props.theme.space[3]}px;
@@ -15,11 +19,20 @@ const Container = styled.div`
 interface IProps {
   resources?: any;
   communityId: string | null;
+  isMember: boolean;
+  closeModalAction?: () => void;
+  openModalAction?: (payload: { children: any }) => void;
+  removeResourceAction?: (payload: removeResourceVariables) => void;
 }
 
-const RenderResources = (communityId: string | null, destination?: string) => (
-  i: Community_approved_ArticleDTO | Community_approved_CollectionDTO
-) => {
+const RenderResources = (
+  isMember: boolean,
+  communityId: string | null,
+  destination?: string,
+  openModalAction?: (payload: { children: any }) => void,
+  closeModalAction?: () => void,
+  removeResourceAction?: (payload: removeResourceVariables) => void
+) => (i: Community_approved_ArticleDTO | Community_approved_CollectionDTO) => {
   const owner =
     i.owner && i.owner.__typename === "PublicUserDTO"
       ? {
@@ -58,9 +71,49 @@ const RenderResources = (communityId: string | null, destination?: string) => (
         username={owner.username}
         userId={owner.id}
         userAvatar={owner.avatar}
-        isLoggedIn={false}
+        isLoggedIn={isMember}
         nfts={i.associatedNfts}
         resourceType={owner.type as "USER" | "COMMUNITY"}
+        hoverChildren={() => (
+          <PrimaryButton
+            onClick={() =>
+              openModalAction &&
+              closeModalAction &&
+              removeResourceAction &&
+              openModalAction({
+                children: (
+                  <AlertView
+                    closeModalAction={() => closeModalAction()}
+                    confirmButtonAction={() =>
+                      removeResourceAction({
+                        id: communityId,
+                        resource: {
+                          id: String(
+                            i.resourceIdentifier && i.resourceIdentifier.id
+                          ),
+                          type:
+                            i.resourceIdentifier && i.resourceIdentifier.type,
+                        },
+                      })
+                    }
+                    content={
+                      <div>
+                        <BodyCard>
+                          If this article is removed, it will no longer appear
+                          in this community, or on the home page. This cannot be
+                          undone.
+                        </BodyCard>
+                      </div>
+                    }
+                    title={"Are you sure?"}
+                  />
+                ),
+              })
+            }
+          >
+            Remove Article
+          </PrimaryButton>
+        )}
         linkComponent={(
           childrenProps: React.ReactElement<any>,
           route: string
@@ -121,6 +174,47 @@ const RenderResources = (communityId: string | null, destination?: string) => (
         articleCount={counter ? counter.articles.toString() : "0"}
         collectionCount={counter ? counter.collections.toString() : "0"}
         cardHeight={310}
+        triggerHoverChildrenOnFullCardClick={isMember}
+        hoverChildren={() => (
+          <PrimaryButton
+            onClick={() =>
+              openModalAction &&
+              closeModalAction &&
+              removeResourceAction &&
+              openModalAction({
+                children: (
+                  <AlertView
+                    closeModalAction={() => closeModalAction()}
+                    confirmButtonAction={() =>
+                      removeResourceAction({
+                        id: communityId,
+                        resource: {
+                          id: String(
+                            i.resourceIdentifier && i.resourceIdentifier.id
+                          ),
+                          type:
+                            i.resourceIdentifier && i.resourceIdentifier.type,
+                        },
+                      })
+                    }
+                    content={
+                      <div>
+                        <BodyCard>
+                          If this collection is removed, it will no longer
+                          appear in this community, or on the home page. This
+                          cannot be undone.
+                        </BodyCard>
+                      </div>
+                    }
+                    title={"Are you sure?"}
+                  />
+                ),
+              })
+            }
+          >
+            Remove Collection
+          </PrimaryButton>
+        )}
         linkComponent={(
           childrenProps: React.ReactElement<any>,
           route: string
@@ -145,10 +239,27 @@ const RenderResources = (communityId: string | null, destination?: string) => (
   }
 };
 
-const DisplayResources = ({ resources, communityId }: IProps) => {
+const DisplayResources = ({
+  resources,
+  communityId,
+  isMember,
+  openModalAction,
+  closeModalAction,
+  removeResourceAction,
+}: IProps) => {
   return (
     <Masonry>
-      {Array.isArray(resources) && resources.map(RenderResources(communityId))}
+      {Array.isArray(resources) &&
+        resources.map(
+          RenderResources(
+            isMember,
+            communityId,
+            undefined,
+            openModalAction,
+            closeModalAction,
+            removeResourceAction
+          )
+        )}
     </Masonry>
   );
 };
@@ -157,13 +268,24 @@ export const DisplayManagedResources = ({
   resources,
   communityId,
   review,
+  isMember,
+  openModalAction,
+  closeModalAction,
+  removeResourceAction,
 }: IProps & { review?: boolean }) => {
   return (
     <Container>
       <Masonry withPadding={false}>
         {Array.isArray(resources) &&
           resources.map(
-            RenderResources(communityId, review ? "review" : undefined)
+            RenderResources(
+              isMember,
+              communityId,
+              review ? "review" : undefined,
+              openModalAction,
+              closeModalAction,
+              removeResourceAction
+            )
           )}
       </Masonry>
     </Container>

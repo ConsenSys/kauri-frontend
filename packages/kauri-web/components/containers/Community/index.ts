@@ -12,6 +12,7 @@ import {
   curateCommunityResourcesAction,
   acceptCommunityInvitationAction,
   sendCommunityInvitationAction,
+  removeResourceAction,
 } from "./Module";
 
 const mapStateToProps = (state: IReduxState) => {
@@ -30,6 +31,7 @@ export default compose(
       closeModalAction,
       curateCommunityResourcesAction,
       openModalAction,
+      removeResourceAction,
       routeChangeAction,
       sendCommunityInvitationAction,
     }

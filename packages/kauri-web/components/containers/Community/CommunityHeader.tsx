@@ -430,6 +430,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
                         {members.map(i =>
                           i ? (
                             <UserAvatar
+                              key={String(i.id)}
                               userId={String(i.id)}
                               username={i.name || null}
                               borderRadius="4px"

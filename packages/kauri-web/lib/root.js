@@ -56,6 +56,7 @@ import {
   acceptCommunityInvitationEpic,
   revokeInvitationEpic,
   removeMemberEpic,
+  removeResourceEpic,
   changeMemberRoleEpic,
 } from "../components/containers/Community/Module";
 import {
@@ -116,6 +117,7 @@ const epics = [
   acceptCommunityInvitationEpic,
   revokeInvitationEpic,
   removeMemberEpic,
+  removeResourceEpic,
   changeMemberRoleEpic,
 ];
 

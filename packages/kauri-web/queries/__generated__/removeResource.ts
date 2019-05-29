@@ -5,19 +5,19 @@
 import { ResourceIdentifierInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: curateCommunityResources
+// GraphQL mutation operation: removeResource
 // ====================================================
 
-export interface curateCommunityResources_curateResources {
+export interface removeResource_removeResource {
   __typename: "MutationResponse";
   hash: string | null;
 }
 
-export interface curateCommunityResources {
-  curateResources: curateCommunityResources_curateResources | null;
+export interface removeResource {
+  removeResource: removeResource_removeResource | null;
 }
 
-export interface curateCommunityResourcesVariables {
+export interface removeResourceVariables {
   id?: string | null;
-  resources?: (ResourceIdentifierInput | null)[] | null;
+  resource?: ResourceIdentifierInput | null;
 }
