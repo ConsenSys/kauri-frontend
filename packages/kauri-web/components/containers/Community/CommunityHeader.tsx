@@ -468,7 +468,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
                   Update Community
                 </PrimaryButtonComponent>
               )}
-              {isMember && (
+              {/* {isMember && (
                 <Tooltip
                   className="suggest-content"
                   position="bottom"
@@ -492,6 +492,11 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
                   <SuggestIcon />
                   <Label color="white">Suggest Content</Label>
                 </Tooltip>
+              )} */}
+              {isMember && (
+                <PrimaryButtonComponent onClick={() => alert("lol")}>
+                  Add Content
+                </PrimaryButtonComponent>
               )}
             </ActionsRow>
           </RightSide>
