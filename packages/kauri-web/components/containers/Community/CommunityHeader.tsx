@@ -17,9 +17,6 @@ import PrimaryButtonComponent from "../../../../kauri-components/components/Butt
 import ChooseArticleModal, {
   IArticle,
 } from "../CreateCollectionForm/ChooseArticleModal";
-import ChooseCollectionModal, {
-  ICollection,
-} from "../CreateCollectionForm/ChooseCollectionModal";
 import {
   getCommunity_getCommunity_approved_ArticleDTO,
   getCommunity_getCommunity_approved_CollectionDTO,
@@ -27,8 +24,8 @@ import {
 import {
   curateCommunityResourcesAction as curateCommunityResources,
   acceptCommunityInvitationAction as acceptCommunityInvitation,
+  transferArticleToCommunityAction as transferArticleToCommunity,
 } from "./Module";
-import { ResourceTypeInput } from "../../../__generated__/globalTypes";
 import AddMemberButtonComponent from "../../../../kauri-components/components/Button/AddMemberButton";
 
 const TooltipContainer = styled.section`
