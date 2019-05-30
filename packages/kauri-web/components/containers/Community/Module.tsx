@@ -93,7 +93,6 @@ import { ISendInvitationCommandOutput } from "../CreateCommunityForm/Module";
 import { closeModalAction } from "../../../../kauri-components/components/Modal/Module";
 import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
 import { finaliseArticleTransfer } from "../../../queries/Article";
-import { IFinaliseArticleTransferAction } from "../PublicProfile/Manage/TransferModule";
 
 interface ICurateCommunityResourcesAction {
   type: "CURATE_COMMUNITY_RESOURCES";
@@ -781,14 +780,14 @@ export const transferArticleToCommunityEpic: Epic<
         .switchMap(
           ({
             data: {
-              output: { id, version, contentHash, contributor, dateCreated },
+              output: { id, version, hash, articleAuthor, dateCreated },
             },
           }) => {
             const signatureToSign = generatePublishArticleHash(
               id,
               version,
-              contentHash,
-              contributor,
+              hash,
+              articleAuthor,
               dateCreated
             );
 
@@ -807,11 +806,11 @@ export const transferArticleToCommunityEpic: Epic<
               .flatMap(
                 ({
                   data: {
-                    finaliseArticleTransfer: { hash },
+                    finaliseArticleTransfer: { hash: resultHash },
                   },
                 }: {
                   data: { finaliseArticleTransfer: { hash: string } };
-                }) => apolloSubscriber(hash)
+                }) => apolloSubscriber(resultHash)
               )
               .do(() => apolloClient.resetStore())
               .do(() =>

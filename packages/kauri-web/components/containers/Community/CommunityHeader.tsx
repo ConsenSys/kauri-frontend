@@ -12,7 +12,7 @@ import Statistics from "../../../../kauri-components/components/PublicProfile/St
 import anchorme from "anchorme";
 import ShareCommunity from "../../../../kauri-components/components/Tooltip/ShareArticle";
 import UserAvatar from "../../../../kauri-components/components/UserAvatar";
-import { Tooltip } from "react-tippy";
+// import { Tooltip } from "react-tippy";
 import PrimaryButtonComponent from "../../../../kauri-components/components/Button/PrimaryButton";
 import ChooseArticleModal, {
   IArticle,
@@ -22,7 +22,7 @@ import {
   getCommunity_getCommunity_approved_CollectionDTO,
 } from "../../../queries/__generated__/getCommunity";
 import {
-  curateCommunityResourcesAction as curateCommunityResources,
+  // curateCommunityResourcesAction as curateCommunityResources,
   acceptCommunityInvitationAction as acceptCommunityInvitation,
   transferArticleToCommunityAction as transferArticleToCommunity,
 } from "./Module";
@@ -75,23 +75,23 @@ const TooltipItem = styled.div`
   }
 `;
 
-const Divider = styled.div`
-  height: 2px;
-  width: 80%;
-  margin: auto;
-  background-color: #d8d8d8;
-`;
+// const Divider = styled.div`
+//   height: 2px;
+//   width: 80%;
+//   margin: auto;
+//   background-color: #d8d8d8;
+// `;
 
-interface IContentProps {
-  id: string;
-  articles: Array<getCommunity_getCommunity_approved_ArticleDTO | null> | null;
-  collections: Array<getCommunity_getCommunity_approved_CollectionDTO | null> | null;
-  curateCommunityResourcesAction: typeof curateCommunityResources;
-  suggestArticleAction: any;
-  suggestCollectionAction: any;
-  openModalAction: any;
-  closeModalAction: any;
-}
+// interface IContentProps {
+//   id: string;
+//   articles: Array<getCommunity_getCommunity_approved_ArticleDTO | null> | null;
+//   collections: Array<getCommunity_getCommunity_approved_CollectionDTO | null> | null;
+//   curateCommunityResourcesAction: typeof curateCommunityResources;
+//   suggestArticleAction: any;
+//   suggestCollectionAction: any;
+//   openModalAction: any;
+//   closeModalAction: any;
+// }
 
 // export const SuggestContent: React.FunctionComponent<IContentProps> = ({
 //   suggestArticleAction,
@@ -112,7 +112,7 @@ interface IAddContentProps {
 }
 export const AddCommunityContent: React.FunctionComponent<IAddContentProps> = ({
   addCommunityArticleAction,
-}: IContentProps) => (
+}) => (
   <TooltipContainer>
     <TooltipArrow />
     <TooltipItem onClick={addCommunityArticleAction}>Add Article</TooltipItem>
@@ -284,7 +284,7 @@ interface IProps {
   articles: Array<getCommunity_getCommunity_approved_ArticleDTO | null> | null;
   collections: Array<getCommunity_getCommunity_approved_CollectionDTO | null> | null;
   // curateCommunityResourcesAction: typeof curateCommunityResources;
-  transferArticleToCommunityAction: typeof transferArticleToCommunity; // TODO
+  transferArticleToCommunityAction: typeof transferArticleToCommunity;
   acceptCommunityInvitationAction: typeof acceptCommunityInvitation;
   secret: null | string;
   openAddMemberModal: () => void;
@@ -372,12 +372,12 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
           allOtherChosenArticles={articles || []}
           chosenArticles={[]}
           closeModalAction={closeModalAction}
-          confirmModal={(chosenArticle: IArticle) => {
+          confirmModal={(chosenArticles: IArticle[]) => {
             transferArticleToCommunityAction({
-              id: chosenArticle.id,
+              id: chosenArticles[0].id,
               recipient: {
                 id,
-                type: "COMMUNITY",
+                type: "COMMUNITY" as any,
               },
             });
           }}
@@ -526,21 +526,24 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
                 </Tooltip>
               )} */}
               {isMember && (
-                <Tooltip
-                  className="add-content"
-                  position="bottom"
-                  trigger="mouseenter"
-                  html={
-                    <AddCommunityContent
-                      addCommunityArticleAction={addCommunityArticleAction}
-                    />
-                  }
-                  interactive={true}
+                // <Tooltip
+                //   className="add-content"
+                //   position="bottom"
+                //   trigger="mouseenter"
+                //   html={
+                //     <AddCommunityContent
+                //       addCommunityArticleAction={addCommunityArticleAction}
+                //     />
+                //   }
+                //   interactive={true}
+                // >
+                <PrimaryButtonComponent
+                  bgHover={"primary"}
+                  onClick={() => addCommunityArticleAction()}
                 >
-                  <PrimaryButtonComponent bgHover={"primary"}>
-                    Add Content
-                  </PrimaryButtonComponent>
-                </Tooltip>
+                  Add Content
+                </PrimaryButtonComponent>
+                // </Tooltip>
               )}
             </ActionsRow>
           </RightSide>
