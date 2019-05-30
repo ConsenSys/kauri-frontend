@@ -8,6 +8,7 @@ import {
   Actions,
   routeChangeAction,
 } from "../../../lib/Module";
+import analytics from "../../../lib/analytics";
 import {
   curateCommunityResourcesMutation,
   approveResourceMutation,
@@ -23,6 +24,7 @@ import {
   changeMemberRoleMutation,
   prepareChangeMemberRoleQuery,
   resendInvitationMutation,
+  initiateArticleTransferMutation,
 } from "../../../queries/Community";
 import {
   curateCommunityResources,
@@ -82,9 +84,15 @@ import {
   resendInvitation,
   resendInvitationVariables,
 } from "../../../queries/__generated__/resendInvitation";
+import {
+  initiateArticleTransfer,
+  initiateArticleTransferVariables,
+} from "../../../queries/__generated__/initiateArticleTransfer";
 
 import { ISendInvitationCommandOutput } from "../CreateCommunityForm/Module";
 import { closeModalAction } from "../../../../kauri-components/components/Modal/Module";
+import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
+import { finaliseArticleTransfer } from "../../../queries/Article";
 
 interface ICurateCommunityResourcesAction {
   type: "CURATE_COMMUNITY_RESOURCES";
@@ -94,6 +102,11 @@ interface ICurateCommunityResourcesAction {
 interface IRemoveMemberAction {
   type: "REMOVE_MEMBER";
   payload: prepareRemoveMemberVariables;
+}
+
+interface ITransferArticleToCommunityAction {
+  type: "TRANSFER_ARTICLE_TO_COMMUNITY";
+  payload: initiateArticleTransferVariables;
 }
 
 interface IApproveResourceAction {
@@ -130,6 +143,10 @@ interface IInvitationRevokedAction {
 
 interface IMemberRemovedAction {
   type: "MEMBER_REMOVED";
+}
+
+interface IArticleTransferredToCommunityAction {
+  type: "ARTICLE_TRANSFERRED_TO_COMMUNITY";
 }
 
 interface IAcceptCommunityInvitationAction {
@@ -170,6 +187,8 @@ const CHANGE_MEMBER_ROLE = "CHANGE_MEMBER_ROLE";
 const MEMBER_ROLE_CHANGED = "MEMBER_ROLE_CHANGED";
 const RESEND_INVITATION = "RESEND_INVITATION";
 const INVITATION_RESENT = "INVITATION_RESENT";
+const TRANSFER_ARTICLE_TO_COMMUNITY = "TRANSFER_ARTICLE_TO_COMMUNITY";
+const ARTICLE_TRANSFERRED_TO_COMMUNITY = "ARTICLE_TRANSFERRED_TO_COMMUNITY";
 
 export const invitationRevokedAction = (): IInvitationRevokedAction => ({
   type: INVITATION_REVOKED,
@@ -188,6 +207,10 @@ export const memberRemovedAction = (): IMemberRemovedAction => ({
 
 export const memberRoleChangedAction = (): IMemberRoleChangedAction => ({
   type: MEMBER_ROLE_CHANGED,
+});
+
+export const articleTransferredToCommunityAction = (): IArticleTransferredToCommunityAction => ({
+  type: ARTICLE_TRANSFERRED_TO_COMMUNITY,
 });
 
 export const resendInvitationAction = (
@@ -223,6 +246,13 @@ export const sendCommunityInvitationAction = (
 ): ISendCommunityInvitationAction => ({
   payload,
   type: SEND_COMMUNITY_INVITATION,
+});
+
+export const transferArticleToCommunityAction = (
+  payload: initiateArticleTransferVariables
+): ITransferArticleToCommunityAction => ({
+  payload,
+  type: TRANSFER_ARTICLE_TO_COMMUNITY,
 });
 
 export const invitationSentAction = (): IInvitationSentAction => ({
@@ -291,6 +321,13 @@ interface IChangeMemberRoleCommandOutput {
 type IApproveResourceCommandOutput = ICurateCommunityResourcesCommandOutput;
 
 type IResendInvitationCommandOutput = IRevokeInvitationCommandOutput;
+
+interface IInitiateArticleTransferCommandOutput {
+  hash: string;
+  version: string;
+  articleAuthor: string;
+  dateCreated: string;
+}
 
 const capitalize = (s: string) =>
   R.compose(
@@ -718,4 +755,94 @@ export const removeResourceEpic: Epic<any, IReduxState, IDependencies> = (
               )
         )
         .do(() => apolloClient.resetStore())
+    );
+
+export const transferArticleToCommunityEpic: Epic<
+  any,
+  IReduxState,
+  IDependencies
+> = (action$, _, { apolloClient, apolloSubscriber, personalSign }) =>
+  action$
+    .ofType(TRANSFER_ARTICLE_TO_COMMUNITY)
+    .switchMap(({ payload }: ITransferArticleToCommunityAction) =>
+      Observable.fromPromise(
+        apolloClient.mutate<
+          initiateArticleTransfer,
+          initiateArticleTransferVariables
+        >({
+          mutation: initiateArticleTransferMutation,
+          variables: payload,
+        })
+      )
+        .mergeMap(({ data: { initiateArticleTransfer: { hash } } }) =>
+          apolloSubscriber<IInitiateArticleTransferCommandOutput>(hash)
+        )
+        .switchMap(
+          ({
+            data: {
+              output: { id, version, hash, articleAuthor, dateCreated },
+            },
+          }) => {
+            const signatureToSign = generatePublishArticleHash(
+              id,
+              version,
+              hash,
+              articleAuthor,
+              dateCreated
+            );
+
+            return Observable.fromPromise(personalSign(signatureToSign))
+              .mergeMap(signature =>
+                Observable.fromPromise(
+                  apolloClient.mutate({
+                    mutation: finaliseArticleTransfer,
+                    variables: {
+                      id,
+                      signature,
+                    },
+                  })
+                )
+              )
+              .flatMap(
+                ({
+                  data: {
+                    finaliseArticleTransfer: { hash: resultHash },
+                  },
+                }: {
+                  data: { finaliseArticleTransfer: { hash: string } };
+                }) => apolloSubscriber(resultHash)
+              )
+              .do(() => apolloClient.resetStore())
+              .do(() =>
+                analytics.track("Article Transfer Finalised", {
+                  category: "article_actions",
+                })
+              )
+              .mergeMap(({ data: { output: { error } } }) =>
+                error
+                  ? Observable.merge(
+                      Observable.of(closeModalAction()),
+                      Observable.of(
+                        showNotificationAction({
+                          description: `There was an error transferring the article, please try again.`,
+                          message: "Error",
+                          notificationType: "error",
+                        })
+                      )
+                    )
+                  : Observable.merge(
+                      Observable.of(articleTransferredToCommunityAction()),
+                      Observable.of(closeModalAction()),
+                      Observable.of(
+                        showNotificationAction({
+                          description: `Your selected article was successfully transferred to the community!`,
+                          message: "Article Transferred",
+                          notificationType: "success",
+                        })
+                      )
+                    )
+              )
+              .do(() => apolloClient.resetStore());
+          }
+        )
     );

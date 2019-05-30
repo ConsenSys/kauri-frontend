@@ -13,6 +13,7 @@ import {
   acceptCommunityInvitationAction,
   sendCommunityInvitationAction,
   removeResourceAction,
+  transferArticleToCommunityAction,
 } from "./Module";
 
 const mapStateToProps = (state: IReduxState) => {
@@ -34,6 +35,7 @@ export default compose(
       removeResourceAction,
       routeChangeAction,
       sendCommunityInvitationAction,
+      transferArticleToCommunityAction,
     }
   ),
   graphql(getCommunityAndPendingArticles, {

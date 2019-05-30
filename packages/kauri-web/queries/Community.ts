@@ -399,3 +399,14 @@ export const resendInvitationMutation = gql`
     }
   }
 `;
+
+export const initiateArticleTransferMutation = gql`
+  mutation initiateArticleTransfer(
+    $id: String
+    $recipient: ResourceIdentifierInput
+  ) {
+    initiateArticleTransfer(id: $id, recipient: $recipient) {
+      hash
+    }
+  }
+`;

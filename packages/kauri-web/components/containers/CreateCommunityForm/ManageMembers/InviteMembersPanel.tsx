@@ -128,7 +128,13 @@ interface IProps {
   id: string | null;
 }
 
-const invitationsPanel: React.SFC<IProps> = props => {
+const InvitationsPanel: React.SFC<IProps> = props => {
+  if (
+    !props.invitations ||
+    (Array.isArray(props.invitations) && !props.invitations.length)
+  ) {
+    return null;
+  }
   return (
     <Section>
       <Header>
@@ -177,4 +183,4 @@ const invitationsPanel: React.SFC<IProps> = props => {
   );
 };
 
-export default invitationsPanel;
+export default InvitationsPanel;

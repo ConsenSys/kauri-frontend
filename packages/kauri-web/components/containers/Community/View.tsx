@@ -14,6 +14,7 @@ import {
   curateCommunityResourcesAction as curateCommunityResources,
   acceptCommunityInvitationAction as acceptCommunityInvitation,
   sendCommunityInvitationAction as sendCommunityInvitation,
+  transferArticleToCommunityAction as transferArticleToCommunity,
 } from "./Module";
 import EmptyCollections from "./EmptyStates/Collections";
 import AlertViewComponent from "../../../../kauri-components/components/Modal/AlertView";
@@ -36,6 +37,7 @@ interface IProps {
   removeResourceAction: (payload: removeResourceVariables) => void;
   curateCommunityResourcesAction: typeof curateCommunityResources;
   sendCommunityInvitationAction: typeof sendCommunityInvitation;
+  transferArticleToCommunityAction: typeof transferArticleToCommunity;
 }
 
 class CommunityConnection extends React.Component<IProps> {
@@ -75,9 +77,10 @@ class CommunityConnection extends React.Component<IProps> {
       closeModalAction,
       openModalAction,
       routeChangeAction,
-      curateCommunityResourcesAction,
+      // curateCommunityResourcesAction,
       acceptCommunityInvitationAction,
       removeResourceAction,
+      transferArticleToCommunityAction,
     } = this.props;
     const articles =
       getCommunity.approved &&
@@ -109,6 +112,7 @@ class CommunityConnection extends React.Component<IProps> {
     return (
       <>
         <CommunityHeader
+          transferArticleToCommunityAction={transferArticleToCommunityAction}
           secret={secret}
           acceptCommunityInvitationAction={acceptCommunityInvitationAction}
           id={String(getCommunity.id)}
@@ -141,7 +145,7 @@ class CommunityConnection extends React.Component<IProps> {
           openModalAction={openModalAction}
           closeModalAction={closeModalAction}
           routeChangeAction={routeChangeAction}
-          curateCommunityResourcesAction={curateCommunityResourcesAction}
+          // curateCommunityResourcesAction={curateCommunityResourcesAction}
           openAddMemberModal={openAddMemberModal}
         />
         <Tabs
