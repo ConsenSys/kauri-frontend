@@ -8,6 +8,7 @@ import {
   Actions,
   routeChangeAction,
 } from "../../../lib/Module";
+import analytics from "../../../lib/analytics";
 import {
   curateCommunityResourcesMutation,
   approveResourceMutation,
@@ -85,6 +86,9 @@ import {
 
 import { ISendInvitationCommandOutput } from "../CreateCommunityForm/Module";
 import { closeModalAction } from "../../../../kauri-components/components/Modal/Module";
+import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
+import { finaliseArticleTransfer } from "../../../queries/Article";
+import { IFinaliseArticleTransferAction } from "../PublicProfile/Manage/TransferModule";
 
 interface ICurateCommunityResourcesAction {
   type: "CURATE_COMMUNITY_RESOURCES";
@@ -718,4 +722,90 @@ export const removeResourceEpic: Epic<any, IReduxState, IDependencies> = (
               )
         )
         .do(() => apolloClient.resetStore())
+    );
+
+export const transferArticleToCommunityEpic: Epic<
+  any,
+  IReduxState,
+  IDependencies
+> = (action$, _, { apolloClient, apolloSubscriber, personalSign }) =>
+  action$
+    .ofType(TRANSFER_ARTICLE_TO_COMMUNITY)
+    .switchMap(({ payload }: ITransferArticleToCommunityAction) =>
+      Observable.fromPromise(
+        apolloClient.mutate<
+          initiateArticleTransfer,
+          initiateArticleTransferVariables
+        >({
+          mutation: initiateArticleTransferMutation,
+          variables: payload,
+        })
+      )
+        .mergeMap(({ data: { initiateArticleTransfer: { hash } } }) =>
+          apolloSubscriber<IInitiateArticleTransferCommandOutput>(hash)
+        )
+        .switchMap(
+          ({
+            payload: { id, version, contentHash, contributor, dateCreated },
+          }: IFinaliseArticleTransferAction) => {
+            const signatureToSign = generatePublishArticleHash(
+              id,
+              version,
+              contentHash,
+              contributor,
+              dateCreated
+            );
+            return Observable.fromPromise(personalSign(signatureToSign))
+              .mergeMap(signature =>
+                Observable.fromPromise(
+                  apolloClient.mutate({
+                    mutation: finaliseArticleTransfer,
+                    variables: {
+                      id,
+                      signature,
+                    },
+                  })
+                )
+              )
+              .flatMap(
+                ({
+                  data: {
+                    finaliseArticleTransfer: { hash },
+                  },
+                }: {
+                  data: { finaliseArticleTransfer: { hash: string } };
+                }) => apolloSubscriber(hash)
+              )
+              .do(() => apolloClient.resetStore())
+              .do(() =>
+                analytics.track("Article Transfer Finalised", {
+                  category: "article_actions",
+                })
+              )
+              .mergeMap(({ data: { output: { error } } }) =>
+                error
+                  ? Observable.merge(
+                      Observable.of(closeModalAction()),
+                      Observable.of(
+                        showNotificationAction({
+                          description: `There was an error transferring the article, please try again.`,
+                          message: "Error",
+                          notificationType: "error",
+                        })
+                      )
+                    )
+                  : Observable.merge(
+                      Observable.of(closeModalAction()),
+                      Observable.of(
+                        showNotificationAction({
+                          description: `Your selected article was successfully transferred to the community!`,
+                          message: "Article Transferred",
+                          notificationType: "success",
+                        })
+                      )
+                    )
+              )
+              .do(() => apolloClient.resetStore());
+          }
+        )
     );

@@ -287,7 +287,7 @@ interface IProps {
   articles: Array<getCommunity_getCommunity_approved_ArticleDTO | null> | null;
   collections: Array<getCommunity_getCommunity_approved_CollectionDTO | null> | null;
   // curateCommunityResourcesAction: typeof curateCommunityResources;
-  transferArticleAction: typeof transferArticle; // TODO
+  transferArticleToCommunityAction: typeof transferArticleToCommunity; // TODO
   acceptCommunityInvitationAction: typeof acceptCommunityInvitation;
   secret: null | string;
   openAddMemberModal: () => void;
@@ -314,7 +314,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
   closeModalAction,
   // curateCommunityResourcesAction,
   openAddMemberModal,
-  transferArticleAction,
+  transferArticleToCommunityAction,
 }) => {
   // const suggestArticleAction = () =>
   //   openModalAction({
@@ -376,7 +376,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
           chosenArticles={[]}
           closeModalAction={closeModalAction}
           confirmModal={(chosenArticle: IArticle) => {
-            transferArticleAction({
+            transferArticleToCommunityAction({
               id: chosenArticle.id,
               recipient: {
                 id,
