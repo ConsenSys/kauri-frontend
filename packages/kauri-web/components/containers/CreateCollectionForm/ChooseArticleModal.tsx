@@ -28,13 +28,14 @@ const TitleContainer = styled.div`
   }
 `;
 
-const Title: React.FunctionComponent<{ chosenArticles: IArticle[] }> = ({
-  chosenArticles,
-}) => (
+const Title: React.FunctionComponent<{
+  chosenArticles: IArticle[];
+  limit: number | undefined;
+}> = ({ chosenArticles, limit }) => (
   <TitleContainer>
     <BodyCard>{`${
       Array.isArray(chosenArticles) ? chosenArticles.length : 0
-    } Selected`}</BodyCard>
+    } Selected ${limit && `: Max (${limit})`}`}</BodyCard>
   </TitleContainer>
 );
 
@@ -96,6 +97,7 @@ const ContentContainer = styled.section`
 `;
 
 interface IProps {
+  limit?: number;
   userId: string;
   closeModalAction: () => void;
   confirmModal: (articles: IArticle[]) => void;
@@ -123,7 +125,26 @@ class ChooseArticleModal extends React.Component<IProps, IState> {
     };
   }
 
-  chooseArticle = (chosenArticle: { id: string; version: string }) =>
+  chooseArticle = (chosenArticle: { id: string; version: string }) => {
+    if (
+      this.props.limit &&
+      this.state.chosenArticles.length >= this.props.limit
+    ) {
+      if (
+        R.find(
+          ({ id, version }) =>
+            chosenArticle.id === id && chosenArticle.version === version
+        )(this.state.chosenArticles)
+      ) {
+        return this.setState({
+          chosenArticles: R.filter<IArticle>(
+            ({ id, version }) =>
+              id !== chosenArticle.id && version !== chosenArticle.version
+          )(this.state.chosenArticles),
+        });
+      }
+      return;
+    }
     this.setState({
       chosenArticles: R.find(
         ({ id, version }) =>
@@ -142,6 +163,7 @@ class ChooseArticleModal extends React.Component<IProps, IState> {
           }, [])(this.state.chosenArticles)
         : R.union(this.state.chosenArticles, [chosenArticle]),
     });
+  };
 
   render() {
     const { closeModalAction, confirmModal } = this.props;
@@ -164,7 +186,12 @@ class ChooseArticleModal extends React.Component<IProps, IState> {
               currentTab={this.state.currentTab}
             />
           }
-          title={<Title chosenArticles={this.state.chosenArticles} />}
+          title={
+            <Title
+              limit={this.props.limit}
+              chosenArticles={this.state.chosenArticles}
+            />
+          }
         />
         <ChooseArticleCard
           userId={this.props.userId}
