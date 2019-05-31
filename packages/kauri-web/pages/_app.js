@@ -2,6 +2,20 @@ import App, { Container } from "next/app";
 import Head from "next/head";
 import React from "react";
 import analytics from "../lib/analytics";
+import { ThemeProvider } from "@material-ui/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { createMuiTheme } from "@material-ui/core/styles";
+
+const theme = createMuiTheme({
+  palette: {
+    background: {
+      default: "#f5f5f5",
+      main: "#efefef",
+    },
+    contrastThreshold: 3,
+    tonalOffset: 0.2,
+  },
+});
 
 class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
@@ -41,7 +55,10 @@ class MyApp extends App {
             }}
           />
         </Head>
-        <Component {...pageProps} />
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
       </Container>
     );
   }

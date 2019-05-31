@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.0.1",
+    "@material-ui/icons": "^4.0.1",
     "@quentin-sommer/react-useragent": "^2.0.0",
     "@rej156/draft-js": "0.10.8",
     "@rej156/react-mde": "5.7.0",

@@ -92,22 +92,22 @@ const Article = ({
       container={true}
       justify="center"
       alignItems="flex-start"
-      spacing={0}
+      spacing={2}
     >
       {searchMoreLikeThis &&
         searchMoreLikeThis.content &&
         searchMoreLikeThis.content.map((card: any) => (
-          <ButtonBase
-            className={classes.cardAction}
-            onClick={() => {
-              router.push(
-                `/a/${slugify(card.resource.title, {
-                  lower: true,
-                })}/${card.resource.id}`
-              );
-            }}
-          >
-            <Card className={classes.card} key={card.resource.id}>
+          <Card className={classes.card} key={card.resource.id}>
+            <ButtonBase
+              className={classes.cardAction}
+              onClick={() => {
+                router.push(
+                  `/a/${slugify(card.resource.title, {
+                    lower: true,
+                  })}/${card.resource.id}`
+                );
+              }}
+            >
               <CardActionArea>
                 {card.resource.attributes.background && (
                   <CardMedia
@@ -143,8 +143,8 @@ const Article = ({
                   </Typography>
                 </CardContent>
               </CardActionArea>
-            </Card>
-          </ButtonBase>
+            </ButtonBase>
+          </Card>
         ))}
     </Grid>
   </div>

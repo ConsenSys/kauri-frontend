@@ -3,6 +3,7 @@ import Document, { Head, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 import Helmet from "react-helmet";
 // NOTE: GLOBAL/EXTERNAL CSS/LESS FILES ARE NOW IMPORTED IN WITH-DATA.jS
+import { ServerStyleSheets } from "@material-ui/styles";
 
 const config = require("../config").default;
 
@@ -20,11 +21,21 @@ if (isProduction) {
 export default class MyDocument extends Document {
   static async getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet();
-    const page = renderPage(App => props => <App {...props} />);
     const styleTags = sheet.getStyleElement();
+    const sheets = new ServerStyleSheets();
+    const originalRenderPage = renderPage;
+
+    renderPage = () =>
+      originalRenderPage({
+        enhanceApp: App => props => sheets.collect(<App {...props} />),
+      });
+
+    const page = renderPage();
+
     return {
       ...page,
       styleTags,
+      styles: <React.Fragment>{sheets.getStyleElement()}</React.Fragment>,
       helmet: Helmet.renderStatic(),
     };
   }
@@ -77,7 +88,7 @@ export default class MyDocument extends Document {
           />
           <meta
             name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1"
+            content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
           />
           {this.props.styleTags}
         </Head>
