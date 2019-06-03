@@ -312,6 +312,7 @@ interface IRemoveResourceCommandOutput {
 
 interface IRemoveMemberCommandOutput {
   hash: string;
+  error?: string;
 }
 
 interface IChangeMemberRoleCommandOutput {
@@ -583,7 +584,7 @@ export const revokeInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
 
 export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
-  _,
+  { getState },
   { apolloClient, apolloSubscriber, personalSign }
 ) =>
   action$.ofType(REMOVE_MEMBER).switchMap(({ payload }: IRemoveMemberAction) =>
@@ -604,23 +605,57 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
             },
           })
         )
-        .mergeMap(({ data: { removeMember: removeMemberResult } }: any) =>
+        .mergeMap(({ data: { removeMember: removeMemberResult } }) =>
           apolloSubscriber<IRemoveMemberCommandOutput>(removeMemberResult.hash)
         )
-        .do(() => apolloClient.resetStore())
-        .mergeMap(() =>
-          Observable.merge(
-            Observable.of(closeModalAction()),
-            Observable.of(
-              showNotificationAction({
-                description: `That user has been successfully removed from the community`,
-                message: "Member removed",
-                notificationType: "success",
-              })
-            ),
-            Observable.of(memberRemovedAction())
-          )
+        .mergeMap(
+          ({
+            data: {
+              output: { error },
+            },
+          }: {
+            data: { output: IRemoveMemberCommandOutput };
+          }) => {
+            if (error) {
+              console.log(error);
+              if (error.includes("cannot be removed")) {
+                return Observable.merge(
+                  Observable.of(closeModalAction()),
+                  Observable.of(
+                    showNotificationAction({
+                      description: `You cannot leave the community`,
+                      message:
+                        "You are the last remaining admin of the community!",
+                      notificationType: "error",
+                    })
+                  )
+                );
+              }
+              return Observable.merge(
+                Observable.of(closeModalAction()),
+                Observable.of(
+                  showNotificationAction({
+                    description: `Please try again`,
+                    message: "Something went wrong",
+                    notificationType: "error",
+                  })
+                )
+              );
+            }
+            return Observable.merge(
+              Observable.of(closeModalAction()),
+              Observable.of(
+                showNotificationAction({
+                  description: `That user has been successfully removed from the community`,
+                  message: "Member removed",
+                  notificationType: "success",
+                })
+              ),
+              Observable.of(memberRemovedAction())
+            );
+          }
         )
+        .do(() => apolloClient.resetStore())
     )
   );
 
