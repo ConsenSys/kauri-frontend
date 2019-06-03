@@ -119,7 +119,8 @@
     "typescript": "latest"
   },
   "resolutions": {
-    "babel-plugin-react-require": "3.0.0"
+    "babel-plugin-react-require": "3.0.0",
+    "fstream": "^1.0.12"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
