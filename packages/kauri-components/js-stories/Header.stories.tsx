@@ -53,6 +53,7 @@ const Actions = () => (
 storiesOf("Headers", module)
   .add("Collection Header", () => (
     <CollectionHeader
+      isMemberOfCommunityOwner={true}
       articleCount={4}
       collectionCount={0}
       tags={["lol", "lol2", "hey"]}

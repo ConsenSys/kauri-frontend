@@ -35,7 +35,9 @@ const Title: React.FunctionComponent<{
   <TitleContainer>
     <BodyCard>{`${
       Array.isArray(chosenArticles) ? chosenArticles.length : 0
-    } Selected ${limit && `: Max (${limit})`}`}</BodyCard>
+    } Selected ${
+      typeof limit === "number" ? `: Max (${limit})` : ""
+    }`}</BodyCard>
   </TitleContainer>
 );
 

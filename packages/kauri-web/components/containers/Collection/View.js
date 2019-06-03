@@ -10,6 +10,18 @@ import ScrollToTopOnMount from "../../../../kauri-components/components/ScrollTo
 import { Link } from "../../../routes";
 import Image from "../../../../kauri-components/components/Image";
 
+type ICommunity = {
+  role: string,
+  community: {
+    id: string,
+    name: string,
+    members: Array<{
+      id: string,
+      role: string,
+    }>,
+  },
+};
+
 type Props = {
   data: {
     getCollection?: CollectionDTO,
@@ -19,6 +31,7 @@ type Props = {
   routeChangeAction: string => void,
   hostName: string,
   userId?: string,
+  communities?: ICommunity[],
 };
 
 export const Overlay = styled.div`
@@ -105,6 +118,15 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       "type",
     ])(this.props);
 
+    const isMemberOfCommunityOwner = Boolean(
+      resourceType === "COMMUNITY" &&
+        Array.isArray(this.props.communities) &&
+        this.props.communities.find(
+          ({ community }) =>
+            community.id === this.props.data.getCollection.owner.id
+        )
+    );
+
     return (
       <>
         <Helmet>
@@ -153,6 +175,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             image={bg}
           />
           <CollectionHeader
+            isMemberOfCommunityOwner={isMemberOfCommunityOwner}
             imageURL={typeof bg === "string" ? bg : null}
             id={id}
             name={name}

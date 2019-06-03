@@ -1,4 +1,5 @@
 // @flow
+import React from "react";
 import { connect } from "react-redux";
 import { compose } from "recompose";
 import { withFormik } from "formik";
@@ -15,7 +16,7 @@ import {
   composeCollectionAction,
 } from "./Module";
 import R from "ramda";
-import PublishingSelector from '../../common/PublishingSelector'
+import PublishingSelector from "../../common/PublishingSelector";
 
 export type FormState = {
   name: string,
@@ -119,19 +120,19 @@ export default compose(
               userId={props.userId}
               type="Articles"
               closeModalAction={() => {
-                props.closeModalAction()
+                props.closeModalAction();
                 setSubmitting(false);
               }}
-              communities={props.communities.map(i => {
-                i.type = "COMMUNITY";
-                return i;
-              })}
+              communities={props.communities.map(({ community }) => ({
+                ...community,
+                type: "COMMUNITY",
+              }))}
               handleSubmit={(e, destination) => {
                 values.destination = destination;
                 props.createCollectionAction(values, () => {
-                    props.closeModalAction();
-                    setSubmitting(false);
-                  });
+                  props.closeModalAction();
+                  setSubmitting(false);
+                });
               }}
             />
           ),
@@ -152,23 +153,23 @@ export default compose(
             R.map(section => R.dissocPath(["resources"])(section)),
             R.map(section => R.dissocPath(["__typename"])(section))
           );
-  
+
           const payload = {
             ...values,
             sections: reassignResourcesToResourcesId(values),
             id: props.data.variables.id,
             updating: true,
           };
-  
+
           props.editCollectionAction(payload, () => {
             setSubmitting(false);
           });
-          console.log('Editing')
+          console.log("Editing");
         } else {
           props.createCollectionAction(values, () => {
             setSubmitting(false);
           });
-          console.log('Creating')
+          console.log("Creating");
         }
       }
     },
