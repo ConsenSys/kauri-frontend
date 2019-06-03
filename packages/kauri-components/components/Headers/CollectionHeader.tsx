@@ -83,6 +83,7 @@ interface IProps {
   userId: string;
   username: string | null;
   approveResourceAction?: any;
+  isMemberOfCommunityOwner: boolean;
 }
 
 const Container: React.SFC<IProps> = props => {
@@ -104,6 +105,7 @@ const Container: React.SFC<IProps> = props => {
     tags,
     proposedCommunityId,
     approveResourceAction,
+    isMemberOfCommunityOwner,
   } = props;
   return (
     <CollectionHeaderSection>
@@ -160,7 +162,7 @@ const Container: React.SFC<IProps> = props => {
             userId={ownerId}
           />
         )}
-        {userId === ownerId ? (
+        {userId === ownerId || isMemberOfCommunityOwner ? (
           <PrimaryButton onClick={changeRoute(routeChangeAction, id)}>
             Update Collection
           </PrimaryButton>

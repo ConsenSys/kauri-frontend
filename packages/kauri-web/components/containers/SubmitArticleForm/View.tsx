@@ -44,7 +44,7 @@ interface IProps {
   userAvatar: string;
   openModalAction: (children?: any) => void;
   closeModalAction: () => void;
-  communities: IOption[];
+  communities: Array<{ community: IOption }>;
 }
 
 interface ISubmitArticleVariables {
@@ -131,8 +131,8 @@ class SubmitArticleForm extends React.Component<IProps> {
       Number(R.path(["getArticle", "version"])(data)) >= 1 &&
       Array.isArray(communities) &&
       communities
-        .map(({ id }) => id)
-        .includes(R.path<string>(["getArticle", "owner", "id"])(data))
+        .map(({ community }) => community.id)
+        .includes(R.path<string>(["getArticle", "owner", "id"])(data) || "")
     ) {
       return this.handleSubmit("submit/update")(null);
     }
@@ -144,10 +144,10 @@ class SubmitArticleForm extends React.Component<IProps> {
             userId={userId}
             type="Articles"
             closeModalAction={closeModalAction}
-            communities={communities.map(i => {
-              i.type = "COMMUNITY";
-              return i;
-            })}
+            communities={communities.map(({ community }) => ({
+              ...community,
+              type: "COMMUNITY",
+            }))}
             handleSubmit={(e, destination) =>
               this.handleSubmit("submit/update", undefined, destination)(e)
             }
@@ -401,7 +401,9 @@ class SubmitArticleForm extends React.Component<IProps> {
           openModalAction={this.props.openModalAction}
           closeModalAction={this.props.closeModalAction}
           showNotificationAction={this.props.showNotificationAction}
-          communities={this.props.communities.map(({ id }) => id)}
+          communities={this.props.communities.map(
+            ({ community }) => community.id
+          )}
         />
         <SubmitArticleForm.Header
           {...this.props.form}

@@ -13,7 +13,6 @@ import type { Dependencies } from "../../../lib/Module";
 import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
 import { some } from "fp-ts/lib/Option";
 
-
 export type CreateCollectionPayload = {
   name: string,
   background: ?string,
@@ -185,8 +184,8 @@ export const createCollectionEpic = (
               tags,
               owner: {
                 type: destination.type,
-                id: destination.id            
-              }
+                id: destination.id,
+              },
             },
           })
         )
