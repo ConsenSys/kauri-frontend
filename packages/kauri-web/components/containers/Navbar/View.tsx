@@ -657,7 +657,7 @@ function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar color="inherit" position="static">
+      <AppBar position="fixed" color="inherit">
         <Toolbar>
           <IconButton
             edge="start"

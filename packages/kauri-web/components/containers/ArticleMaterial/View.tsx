@@ -19,7 +19,12 @@ const Content = styled.div`
   & img {
     max-width: 100%;
     border-radius: 4px;
-    margin: 8px 0px;
+    margin: 8px auto;
+  }
+
+  & p {
+    display: flex;
+    flex-direction: column;
   }
 
   pre {
@@ -41,6 +46,9 @@ const styles = (theme: Theme) =>
     },
     container: {
       color: "white",
+    },
+    item: {
+      padding: theme.spacing(2),
     },
     media: {
       height: 140,
@@ -72,18 +80,18 @@ const Article = ({
 }: IProps) => (
   <div>
     <Header attributes={attributes} title={title} />
-    <Grid container={true} justify="center" spacing={3}>
-      <Grid item={true} xs={true}>
+    <Grid container={true} justify="center">
+      <Grid className={classes.item} item={true} xs={true}>
         <Outline markdown={JSON.parse(content).markdown} />
       </Grid>
-      <Grid item={true} xs={6}>
+      <Grid className={classes.item} item={true} xs={6}>
         <Content
           dangerouslySetInnerHTML={{
             __html: converter.makeHtml(JSON.parse(content).markdown),
           }}
         />
       </Grid>
-      <Grid item={true} xs={true}>
+      <Grid className={classes.item} item={true} xs={true}>
         Related
       </Grid>
     </Grid>
@@ -92,7 +100,6 @@ const Article = ({
       container={true}
       justify="center"
       alignItems="flex-start"
-      spacing={2}
     >
       {searchMoreLikeThis &&
         searchMoreLikeThis.content &&
