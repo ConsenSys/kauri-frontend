@@ -206,9 +206,10 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
               }, 0)}
             updated={dateCreated}
             username={
-              owner.__typename === "CommunityDTO"
+              owner &&
+              (owner.__typename === "CommunityDTO"
                 ? owner.name
-                : owner && owner.username
+                : owner.username)
             }
             ownerId={owner.id}
             userId={userId || ""}
