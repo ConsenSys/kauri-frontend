@@ -125,6 +125,15 @@ const MemberRow: React.FunctionComponent<IMemberRowProps> = ({
       {isCommunityAdmin && member.id !== userId && (
         <RemoveMemberIcon removeMemberAction={removeMemberAction} />
       )}
+      {member.id === userId && (
+        <Label
+          color="primary"
+          hoverColor="hoverTextColor"
+          onClick={() => removeMemberAction()}
+        >
+          Leave Community
+        </Label>
+      )}
     </MemberContainer>
   );
 };
