@@ -15,7 +15,7 @@ import {
   getArticleTitle,
   getArticleTitleVariables,
 } from "../../containers/Article/__generated__/getArticleTitle";
-import { getArticleTitleQuery } from "../../containers/Article/DeleteDraftArticleModule";
+import { getArticleTitleQuery } from "../../containers/ArticleDraft/DeleteDraftArticleModule";
 import { addArticleToCollection } from "./__generated__/addArticleToCollection";
 import AlertViewComponent from "../../../../kauri-components/components/Modal/AlertView";
 import {
