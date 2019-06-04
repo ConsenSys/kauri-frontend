@@ -1,19 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import slugify from "slugify";
 import moment from "moment";
 import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from "../../common/Legacy/CreateRequestSecondaryHeader";
-import ShareArticle from "../../../../kauri-components/components/Tooltip/ShareArticle";
 import { TagList } from "../../../../kauri-components/components/Tags";
-import { Link } from "../../../routes";
 import {
   Label,
-  H5,
   Title1,
 } from "../../../../kauri-components/components/Typography";
-import UserAvatar from "../../../../kauri-components/components/UserAvatar";
 import theme from "../../../lib/theme-config";
-import userIdTrim from "../../../lib/userid-trim";
 import Image from "../../../../kauri-components/components/Image";
 
 const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
@@ -58,29 +52,6 @@ export const PullRight = styled.div`
   z-index: 9;
 `;
 
-const MobileShareContainer = styled.div`
-  display: none;
-  > * {
-    color: white;
-    > * {
-      color: white;
-    }
-  }
-  @media (max-width: 500px) {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    > :first-child {
-      margin-bottom: ${props => props.theme.space[2]}px;
-    }
-    > *:nth-child(2),
-    *:nth-child(3) {
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-`;
-
 interface IProps {
   id: string;
   datePublished: string;
@@ -88,7 +59,6 @@ interface IProps {
   title: string;
   attributes: any;
   status: string;
-  hostName: string;
   tags: Array<string | null>;
   ownerId: string;
   authorId: string;
@@ -98,18 +68,11 @@ interface IProps {
 }
 
 export default ({
-  id,
   datePublished,
   dateCreated,
   title,
   attributes,
-  status,
-  hostName,
   tags,
-  ownerId,
-  authorId,
-  userAvatar,
-  username,
   routeChangeAction,
 }: IProps) => (
   <ApproveArticleHeader type="article" theme={theme}>
@@ -124,7 +87,7 @@ export default ({
     )}
     <InfoContainer>
       <Label color="white">
-        {`POSTED ${moment(datePublished || dateCreated).format(
+        {`CREATED ${moment(datePublished || dateCreated).format(
           "DD MMM YYYY HH:mm"
         )}`}
       </Label>
@@ -137,41 +100,6 @@ export default ({
           tags={tags}
         />
       )}
-      <MobileShareContainer>
-        <ShareArticle
-          color="white"
-          url={`${hostName.replace(/api\./g, "")}/article/${id}/${slugify(
-            title,
-            {
-              lower: true,
-            }
-          )}?utm_campaign=read`}
-          title={title}
-        />
-        <Label>{ownerId ? "OWNER" : "AUTHOR"}</Label>
-        <Link useAnchorTag={true} route={`/public-profile/${ownerId || authorId}`}>
-          <UserAvatar
-            variant={"white"}
-            fullWidth={true}
-            imageURL={
-              attributes && attributes.background && attributes.background
-            }
-            username={username}
-            userId={
-              (ownerId && userIdTrim(ownerId)) ||
-              (authorId && userIdTrim(authorId))
-            }
-            avatar={userAvatar}
-          />
-        </Link>
-      </MobileShareContainer>
     </InfoContainer>
-    {status !== "PUBLISHED" && (
-      <PullRight>
-        <H5 color="white">
-          {`STATUS ${typeof status === "string" && status.replace(/_/g, " ")}`}
-        </H5>
-      </PullRight>
-    )}
   </ApproveArticleHeader>
 );
