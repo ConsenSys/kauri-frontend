@@ -7,6 +7,10 @@ import { routeChangeAction, IReduxState } from "../../../lib/Module";
 import withLoading from "../../../lib/with-loading";
 import withApolloError from "../../../lib/with-apollo-error";
 import View from "./View";
+import {
+  closeModalAction,
+  openModalAction,
+} from "../../../../kauri-components/components/Modal/Module";
 
 const mapStateToProps = (state: IReduxState) => ({
   hostName: state.app && state.app.hostName,
@@ -18,7 +22,9 @@ export default compose(
   connect(
     mapStateToProps,
     {
+      closeModalAction,
       deleteDraftArticleAction,
+      openModalAction,
       publishArticleAction,
       routeChangeAction,
     }

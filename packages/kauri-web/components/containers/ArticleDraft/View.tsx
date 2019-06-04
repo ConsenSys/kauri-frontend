@@ -5,10 +5,36 @@ interface IProps {
   data: {
     getArticle: any;
   };
+  deleteDraftArticleAction: (
+    { id, version }: { id: string; version: number }
+  ) => void;
+  closeModalAction: any;
+  openModalAction: any;
+  publishArticleAction: any;
+  userId: string;
+  routeChangeAction: (route: string) => void;
 }
-export default ({ data: { getArticle } }: IProps) => (
+export default ({
+  data: { getArticle },
+  deleteDraftArticleAction,
+  closeModalAction,
+  publishArticleAction,
+  openModalAction,
+  userId,
+  routeChangeAction,
+}: IProps) => (
   <>
-    <DraftArticleHeader {...getArticle} />
-    <DraftArticleContent {...getArticle} />
+    <DraftArticleHeader
+      {...getArticle}
+      userId={userId}
+      routeChangeAction={routeChangeAction}
+    />
+    <DraftArticleContent
+      {...getArticle}
+      closeModalAction={closeModalAction}
+      openModalAction={openModalAction}
+      deleteDraftArticleAction={deleteDraftArticleAction}
+      publishArticleAction={publishArticleAction}
+    />
   </>
 );

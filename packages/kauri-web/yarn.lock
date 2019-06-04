@@ -7217,7 +7217,12 @@ highlight.js@^9.0.0:
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.13.1.tgz#054586d53a6863311168488a0f58d6c505ce641e"
   integrity sha512-Sc28JNQNDzaH6PORtRLMvif9RSn1mYuOoX3omVjnb0+HbpPygU2ALBI0R/wsiqCb4/fcp07Gdo8g+fhtFrQl6A==
 
-highlightjs-solidity@^1.0.5:
+highlight.js@^9.15.8:
+  version "9.15.8"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.15.8.tgz#f344fda123f36f1a65490e932cf90569e4999971"
+  integrity sha512-RrapkKQWwE+wKdF73VsOa2RQdIoO3mxwJ4P8mhbI6KYJUraUHRKM5w5zQQKXNk0xNL4UVRdulV9SBJcmzJNzVA==
+
+highlightjs-solidity@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/highlightjs-solidity/-/highlightjs-solidity-1.0.6.tgz#59394d8a2c57013580d5bfbb62f7df98386ae7ac"
   integrity sha512-NzdwI5gX+8H3z/YEXk01dKOY0QuffhNkUZw9umHUCXlzKB+1n2SexTTZpSGAmZYetHT/bccCm+3QqBULtTLmdA==
@@ -12366,7 +12371,7 @@ react-fast-compare@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-1.0.0.tgz#813a039155e49b43ceffe99528fe5e9d97a6c938"
   integrity sha512-dcQpdWr62flXQJuM8/bVEY5/10ad2SYBUafp8H4q4WHR3fTA/MMlp8mpzX12I0CCoEJc1P6QdiMg7U+7lFS6Rw==
 
-react-fast-highlight@^2.2.0:
+react-fast-highlight@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/react-fast-highlight/-/react-fast-highlight-2.2.2.tgz#ae9b91433e2809387321143c341ceec13d00a615"
   integrity sha512-WLuzCT0/B3fE3mzYR1D7Ht/xMXkfPgdVUcZUPHpw4D60uq7gzmFJ+Sut25n10rxFOa+ZlL/gTKWdy9iEU4aBtg==

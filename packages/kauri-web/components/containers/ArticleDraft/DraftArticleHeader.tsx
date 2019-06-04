@@ -1,21 +1,29 @@
-import React from "react";
-import styled from "styled-components";
+import styled from "../../../lib/styled-components";
 import moment from "moment";
-import { CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader } from "../../common/Legacy/CreateRequestSecondaryHeader";
 import { TagList } from "../../../../kauri-components/components/Tags";
 import {
   Label,
   Title1,
 } from "../../../../kauri-components/components/Typography";
-import theme from "../../../lib/theme-config";
 import Image from "../../../../kauri-components/components/Image";
+import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
+import SecondaryButton from "../../../../kauri-components/components/Button/SecondaryButton";
 
-const ApproveArticleHeader = styled(ApprovedArticleSecondaryHeader)`
+const HeaderContainer = styled.div`
   display: flex;
+  flex-direction: row;
+  width: 100%;
   position: relative;
-  padding: 0;
+  align-items: center;
+  height: 260px;
   margin-top: -76px;
-  height: inherit;
+  background: ${props => props.theme.colors.bgPrimary};
+  padding: 0 ${props => props.theme.padding};
+
+  & > button {
+    margin-left: ${props => props.theme.space[2]}px;
+  }
+
   @media (max-width: 700px) {
     max-height: 90vh;
   }
@@ -30,8 +38,6 @@ const InfoContainer = styled.div`
   min-height: 100px;
   flex-direction: column;
   align-self: center;
-  padding: ${props => props.theme.space[4] + 40}px
-    ${props => props.theme.padding} ${props => props.theme.space[4]}px;
   z-index: 9;
   > *:not(:last-child) {
     margin-bottom: ${props => props.theme.space[1]}px;
@@ -58,24 +64,35 @@ interface IProps {
   dateCreated: string;
   title: string;
   attributes: any;
-  status: string;
   tags: Array<string | null>;
   ownerId: string;
   authorId: string;
   userAvatar: string;
   username: string;
   routeChangeAction: (route: string) => void;
+  publishArticleAction: any;
+  version: string;
+  owner: string;
+  contentHash: string;
+  userId: string;
 }
 
 export default ({
+  id,
+  version,
+  contentHash,
+  owner,
+  authorId,
   datePublished,
   dateCreated,
   title,
   attributes,
   tags,
   routeChangeAction,
+  publishArticleAction,
+  userId,
 }: IProps) => (
-  <ApproveArticleHeader type="article" theme={theme}>
+  <HeaderContainer>
     {attributes && attributes.background && (
       <Image
         asBackground={true}
@@ -101,5 +118,30 @@ export default ({
         />
       )}
     </InfoContainer>
-  </ApproveArticleHeader>
+    <SecondaryButton
+      onClick={() =>
+        userId
+          ? routeChangeAction(`/article/${id}/v${version}/update-article`)
+          : routeChangeAction(
+              `/login?r=/article/${id}/v${version}/update-article`
+            )
+      }
+      text="Update Draft"
+    />
+    <PrimaryButton
+      onClick={() => () => {
+        const publishArticlePayload = {
+          contentHash,
+          contributor: authorId,
+          dateCreated,
+          id,
+          owner,
+          version,
+        };
+        console.log("publishArticlePayload, ", publishArticlePayload);
+        publishArticleAction(publishArticlePayload);
+      }}
+      text="Publish Article"
+    />
+  </HeaderContainer>
 );

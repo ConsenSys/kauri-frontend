@@ -1,7 +1,7 @@
 import React from "react";
 import { definer } from "highlightjs-solidity";
-import hljs from "highlight.js/lib/highlight";
-import BareHighlight from "react-fast-highlight/lib/BareHighlight";
+import hljs from "highlight.js";
+import { Highlight } from "react-fast-highlight";
 
 const highlightjsLanguages = [
   "javascript",
@@ -55,13 +55,13 @@ hljs.registerLanguage(
   require("highlight.js/lib/languages/typescript")
 );
 
-export default ({ children }) => (
-  <BareHighlight
+export default ({ children }: any) => (
+  <Highlight
     languages={highlightjsLanguages.concat("solidity")}
     highlightjs={hljs}
   >
     {children}
-  </BareHighlight>
+  </Highlight>
 );
 
 export { hljs, highlightjsLanguages };
