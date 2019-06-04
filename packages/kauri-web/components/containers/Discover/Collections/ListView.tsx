@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import CollectionCard from "../../../../../kauri-components/components/Card/CollectionCard";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 import { Link } from "../../../../routes";
@@ -47,7 +47,7 @@ class Collections extends Component<IProps> {
 
     return (
       <Fragment>
-        <Helmet>
+        <Head>
           <title>Kauri - Discover Collections</title>
           <meta
             name="description"
@@ -57,7 +57,7 @@ class Collections extends Component<IProps> {
             rel="canonical"
             href={`https://${this.props.hostName}/collections`}
           />
-        </Helmet>
+        </Head>
         {searchAutocomplete ? (
           <Masonry>
             {searchAutocomplete &&

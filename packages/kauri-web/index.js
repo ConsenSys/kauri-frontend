@@ -3,7 +3,6 @@ require("@babel/register")({
 });
 const express = require("express");
 const compression = require("compression");
-const helmet = require("helmet");
 const next = require("next");
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -49,7 +48,6 @@ app.prepare().then(() => {
   );
 
   server.use(favicon(path.join(__dirname, "static", "favicon", "favicon.ico")));
-  server.use(helmet());
   server.use(compression());
   server.use(handler);
 

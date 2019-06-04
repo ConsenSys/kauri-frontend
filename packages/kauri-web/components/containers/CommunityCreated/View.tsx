@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import CommunityCard from "../../../../kauri-components/components/Card/CommunityCard";
 import { Link } from "../../../routes";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import {
   Title2,
@@ -90,9 +90,9 @@ const CommunityCreated: React.FunctionComponent<IProps> = props => {
 
     return (
       <Container>
-        <Helmet>
+        <Head>
           <title>{`Community ${copy} - Kauri`}</title>
-        </Helmet>
+        </Head>
         <Title2>Community</Title2>
         {subtitleCopy}
         <CommunityCard

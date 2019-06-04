@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import R from "ramda";
 import styled from "../../../lib/styled-components";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
@@ -98,9 +98,9 @@ class ArticleApproved extends React.Component<IProps> {
 
       return (
         <Container>
-          <Helmet>
+          <Head>
             <title>{`Kauri - Article ${capitalize(type)}`}</title>
-          </Helmet>
+          </Head>
           <Title1 color="white">{capitalize(type)}</Title1>
           <DescriptionContainer>
             <BodyCard color="white">{`The article ${subjectCopy}`}</BodyCard>

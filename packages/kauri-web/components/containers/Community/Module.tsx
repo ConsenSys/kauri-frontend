@@ -584,7 +584,7 @@ export const revokeInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
 
 export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
-  { getState },
+  {},
   { apolloClient, apolloSubscriber, personalSign }
 ) =>
   action$.ofType(REMOVE_MEMBER).switchMap(({ payload }: IRemoveMemberAction) =>
