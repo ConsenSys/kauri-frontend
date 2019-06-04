@@ -28,13 +28,13 @@ export default ({
       {...getArticle}
       userId={userId}
       routeChangeAction={routeChangeAction}
+      publishArticleAction={publishArticleAction}
     />
     <DraftArticleContent
       {...getArticle}
       closeModalAction={closeModalAction}
       openModalAction={openModalAction}
       deleteDraftArticleAction={deleteDraftArticleAction}
-      publishArticleAction={publishArticleAction}
     />
   </>
 );

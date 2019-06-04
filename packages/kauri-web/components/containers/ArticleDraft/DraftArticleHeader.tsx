@@ -25,10 +25,16 @@ const HeaderContainer = styled.div`
   }
 
   @media (max-width: 700px) {
-    max-height: 90vh;
+    padding: ${props => props.theme.space[3]}px;
+    & button {
+      display: none;
+    }
   }
   @media (min-width: 700px) {
-    max-height: 300px;
+    padding: ${props => props.theme.space[4]}px;
+  }
+  @media (min-width: 1280px) {
+    padding: ${props => `${props.theme.space[4]}px ${props.theme.padding}`};
   }
 `;
 
@@ -129,7 +135,7 @@ export default ({
       text="Update Draft"
     />
     <PrimaryButton
-      onClick={() => () => {
+      onClick={() => {
         const publishArticlePayload = {
           contentHash,
           contributor: authorId,
@@ -138,7 +144,6 @@ export default ({
           owner,
           version,
         };
-        console.log("publishArticlePayload, ", publishArticlePayload);
         publishArticleAction(publishArticlePayload);
       }}
       text="Publish Article"

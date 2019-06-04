@@ -21,7 +21,7 @@ routes
     "article-drafted",
     "/article/:article_id/v:article_version/article-drafted"
   )
-  .add("draft", "/draft/:id/:version")
+  .add("draft", "/draft/:id/:version/:slug")
   .add(
     "article-draft-deleted",
     "/article/:article_id/v:article_version/article-draft-deleted"

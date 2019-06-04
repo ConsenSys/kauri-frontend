@@ -7,16 +7,26 @@ import { useEffect } from "react";
 import { hljs } from "../../../lib/hljs";
 
 const ContentContainer = styled.div`
-  padding: ${props => `${props.theme.space[4]}px ${props.theme.padding}`};
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  @media (max-width: 700px) {
+    padding: ${props => props.theme.space[3]}px;
+    & button {
+      display: none;
+    }
+  }
+  @media (min-width: 700px) {
+    padding: ${props => props.theme.space[4]}px;
+  }
+  @media (min-width: 1280px) {
+    padding: ${props => `${props.theme.space[4]}px ${props.theme.padding}`};
+  }
 `;
 
 const Content = styled.div`
   max-width: 930px;
   width: 100%;
-  margin-right: ${props => props.theme.space[2]}px;
   & img {
     max-width: 100%;
   }

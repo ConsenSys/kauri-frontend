@@ -65,7 +65,7 @@ const Articles = ({
               <Link
                 toSlug={route && route.includes("article") && article.title}
                 useAnchorTag
-                href={route}
+                href={`/draft/${article.id}/${article.version}`}
               >
                 {childrenProps}
               </Link>
