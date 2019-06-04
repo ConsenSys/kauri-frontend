@@ -1,4 +1,5 @@
 import DraftArticleHeader from "./DraftArticleHeader";
+import DraftArticleContent from "./DraftArticleContent";
 
 interface IProps {
   data: {
@@ -8,5 +9,6 @@ interface IProps {
 export default ({ data: { getArticle } }: IProps) => (
   <>
     <DraftArticleHeader {...getArticle} />
+    <DraftArticleContent {...getArticle} />
   </>
 );
