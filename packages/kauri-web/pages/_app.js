@@ -16,7 +16,7 @@ class MyApp extends App {
 
   constructor(props) {
     super(props);
-    analytics.init();
+    process.browser && analytics.init();
   }
 
   render() {
