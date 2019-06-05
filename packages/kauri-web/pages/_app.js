@@ -25,9 +25,6 @@ class MyApp extends App {
     return (
       <Container>
         <Head>
-          <title>
-            Beginner to Advanced Blockchain & Ethereum Tutorials - Kauri
-          </title>
           <script
             type="text/javascript"
             src="//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js"

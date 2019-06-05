@@ -162,6 +162,7 @@ class CommunityConnection extends React.Component<IProps> {
               openModalAction={openModalAction}
               closeModalAction={closeModalAction}
               isMember={isMember}
+              type="home"
               key="home"
               resources={getCommunity.approved}
               communityId={getCommunity.id}
@@ -172,6 +173,7 @@ class CommunityConnection extends React.Component<IProps> {
               closeModalAction={closeModalAction}
               isMember={isMember}
               key="articles"
+              type="articles"
               resources={articles}
               communityId={getCommunity.id}
             />,
@@ -181,6 +183,7 @@ class CommunityConnection extends React.Component<IProps> {
                 openModalAction={openModalAction}
                 closeModalAction={closeModalAction}
                 isMember={isMember}
+                type="collections"
                 key="collections"
                 resources={collections}
                 communityId={getCommunity.id}

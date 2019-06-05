@@ -11,12 +11,15 @@ import PrimaryButton from "../../../../kauri-components/components/Button/Primar
 import AlertView from "../../../../kauri-components/components/Modal/AlertView";
 import { BodyCard } from "../../../../kauri-components/components/Typography";
 import { removeResourceVariables } from "../../../queries/__generated__/removeResource";
+import ArticlesEmptyState from "./EmptyStates/Articles";
+import CollectionsEmptyState from "./EmptyStates/Collections";
 
 const Container = styled.div`
   margin-left: ${props => props.theme.space[3]}px;
 `;
 
 interface IProps {
+  type?: string;
   resources?: any;
   communityId: string | null;
   isMember: boolean;
@@ -24,6 +27,18 @@ interface IProps {
   openModalAction?: (payload: { children: any }) => void;
   removeResourceAction?: (payload: removeResourceVariables) => void;
 }
+
+const RenderEmptyState: React.FunctionComponent<{ type: string }> = ({
+  type,
+}) => {
+  if (type === "articles") {
+    return <ArticlesEmptyState />;
+  }
+  if (type === "collections") {
+    return <CollectionsEmptyState />;
+  }
+  return null;
+};
 
 const RenderResources = (
   isMember: boolean,
@@ -246,20 +261,29 @@ const DisplayResources = ({
   openModalAction,
   closeModalAction,
   removeResourceAction,
+  type,
 }: IProps) => {
+  if (
+    Array.isArray(resources) &&
+    resources.length === 0 &&
+    typeof type === "string"
+  ) {
+    return <RenderEmptyState type={type} />;
+  }
   return (
     <Masonry>
-      {Array.isArray(resources) &&
-        resources.map(
-          RenderResources(
-            isMember,
-            communityId,
-            undefined,
-            openModalAction,
-            closeModalAction,
-            removeResourceAction
+      {Array.isArray(resources) && resources.length
+        ? resources.map(
+            RenderResources(
+              isMember,
+              communityId,
+              undefined,
+              openModalAction,
+              closeModalAction,
+              removeResourceAction
+            )
           )
-        )}
+        : null}
     </Masonry>
   );
 };
@@ -276,17 +300,18 @@ export const DisplayManagedResources = ({
   return (
     <Container>
       <Masonry withPadding={false}>
-        {Array.isArray(resources) &&
-          resources.map(
-            RenderResources(
-              isMember,
-              communityId,
-              review ? "review" : undefined,
-              openModalAction,
-              closeModalAction,
-              removeResourceAction
+        {Array.isArray(resources) && resources.length
+          ? resources.map(
+              RenderResources(
+                isMember,
+                communityId,
+                review ? "review" : undefined,
+                openModalAction,
+                closeModalAction,
+                removeResourceAction
+              )
             )
-          )}
+          : null}
       </Masonry>
     </Container>
   );

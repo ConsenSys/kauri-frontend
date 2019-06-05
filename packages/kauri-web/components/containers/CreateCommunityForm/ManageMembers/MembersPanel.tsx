@@ -88,6 +88,17 @@ const MemberContainer = styled.section`
   }
 `;
 
+const MemberContent = styled.div`
+  display: flex;
+  width: 100%;
+  > :not(:last-child) {
+    margin-right: ${props => props.theme.space[3]}px;
+  }
+  > :first-child {
+    margin-right: auto;
+  }
+`;
+
 const Divider = styled.div`
   width: 100%;
   background-color: ${theme.colors.divider};
@@ -112,28 +123,32 @@ const MemberRow: React.FunctionComponent<IMemberRowProps> = ({
   return (
     <MemberContainer>
       <Label>{String(member.role).replace("_", " ")}</Label>
-      <BodyCard>{String(member.username || member.name || member.id)}</BodyCard>
-      {isCommunityAdmin && member.id !== userId && (
-        <Label
-          color="primary"
-          hoverColor="hoverTextColor"
-          onClick={() => openChangeMemberRoleModal()}
-        >
-          Change Role
-        </Label>
-      )}
-      {isCommunityAdmin && member.id !== userId && (
-        <RemoveMemberIcon removeMemberAction={removeMemberAction} />
-      )}
-      {member.id === userId && (
-        <Label
-          color="primary"
-          hoverColor="hoverTextColor"
-          onClick={() => removeMemberAction()}
-        >
-          Leave Community
-        </Label>
-      )}
+      <MemberContent>
+        <BodyCard>
+          {String(member.username || member.name || member.id)}
+        </BodyCard>
+        {isCommunityAdmin && member.id !== userId && (
+          <Label
+            color="primary"
+            hoverColor="hoverTextColor"
+            onClick={() => openChangeMemberRoleModal()}
+          >
+            Change Role
+          </Label>
+        )}
+        {isCommunityAdmin && member.id !== userId && (
+          <RemoveMemberIcon removeMemberAction={removeMemberAction} />
+        )}
+        {member.id === userId && (
+          <Label
+            color="primary"
+            hoverColor="hoverTextColor"
+            onClick={() => removeMemberAction()}
+          >
+            Leave Community
+          </Label>
+        )}
+      </MemberContent>
     </MemberContainer>
   );
 };
