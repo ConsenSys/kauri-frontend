@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "../../../lib/styled-components";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import { menuHeaderHeight } from "../Navbar/View";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import {
@@ -194,9 +194,9 @@ class LoginFormContainer extends React.Component<Props> {
     } else if (global.window && global.window.web3) {
       return (
         <Container>
-          <Helmet>
+          <Head>
             <title>Kauri - Login</title>
-          </Helmet>
+          </Head>
           <LoginForm {...this.props} type="register" />
         </Container>
       );

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import CollectionCard from "../../../../../kauri-components/components/Card/CollectionCard";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 import { Link } from "../../../../routes";
@@ -47,8 +47,11 @@ class Collections extends Component<IProps> {
 
     return (
       <Fragment>
-        <Helmet>
-          <title>Beginner to Advanced Blockchain & Ethereum Tutorials | Collections - Kauri</title>
+        <Head>
+          <title>
+            Beginner to Advanced Blockchain & Ethereum Tutorials | Collections -
+            Kauri
+          </title>
           <meta
             name="description"
             content="Discover the best collections of blockchain related articles, tutorials and how-to guides"
@@ -57,7 +60,7 @@ class Collections extends Component<IProps> {
             rel="canonical"
             href={`https://${this.props.hostName}/collections`}
           />
-        </Helmet>
+        </Head>
         {searchAutocomplete ? (
           <Masonry>
             {searchAutocomplete &&

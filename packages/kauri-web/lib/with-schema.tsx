@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import slugify from "slugify";
 import { Article } from "../queries/__generated__/Article";
 
@@ -92,7 +92,7 @@ const withSchema = (WrappedComponent: React.ComponentClass) => {
 
       return (
         <>
-          <Helmet>
+          <Head>
             <script type="application/ld+json">{schemaString}</script>
             <title>{title} - Kauri</title>
             <meta name="description" content={String(description)} />
@@ -138,7 +138,7 @@ const withSchema = (WrappedComponent: React.ComponentClass) => {
                 "https://kauri.io/static/images/logo.png"
               }
             />
-          </Helmet>
+          </Head>
           <WrappedComponent {...this.props} />
         </>
       );

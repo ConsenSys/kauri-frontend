@@ -7,7 +7,7 @@ import setImageUploader from "../../common/ImageUploader";
 import { routeChangeAction } from "../../../lib/Module";
 import { createCommunityAction, updateCommunityAction } from "./Module";
 import { InjectedFormikProps } from "formik";
-import Helmet from "react-helmet";
+import Head from "next/head";
 import { IFormValues } from "./index";
 import { getCommunity } from "../../../queries/__generated__/getCommunity";
 
@@ -41,12 +41,12 @@ const Component: React.SFC<
   InjectedFormikProps<IProps, IFormValues>
 > = props => (
   <FormContainer onSubmit={props.handleSubmit}>
-    <Helmet>
+    <Head>
       <link
         rel="stylesheet"
         href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
       />
-    </Helmet>
+    </Head>
 
     <Actions
       id={props.id}

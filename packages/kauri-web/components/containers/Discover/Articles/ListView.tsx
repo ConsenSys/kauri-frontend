@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
@@ -37,7 +37,7 @@ class Articles extends Component<IProps> {
 
     return (
       <Fragment>
-        <Helmet>
+        <Head>
           <title>
             Beginner to Advanced Blockchain & Ethereum Tutorials | Articles -
             Kauri
@@ -50,7 +50,7 @@ class Articles extends Component<IProps> {
             rel="canonical"
             href={`https://${this.props.hostName}/articles`}
           />
-        </Helmet>
+        </Head>
         {searchAutocomplete &&
         searchAutocomplete.content &&
         searchAutocomplete.content.length > 0 ? (

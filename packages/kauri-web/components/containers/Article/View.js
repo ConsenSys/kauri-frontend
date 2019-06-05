@@ -2,7 +2,7 @@ import React from "react";
 import ApprovedArticle from "./ApprovedArticle/View";
 import R from "ramda";
 import Loading from "../../common/Loading";
-import Helmet from "react-helmet";
+import Head from "next/head";
 
 import type { AddCommentPayload } from "../AddCommentForm/Module";
 
@@ -62,7 +62,7 @@ class Article extends React.Component<ArticleProps> {
       ) {
         const preApproveArticlePayload: AddCommentPayload = {
           id: this.props.data.getArticle.id,
-          comment: `I've reviewed your article, and everything looks good. 	
+          comment: `I've reviewed your article, and everything looks good.
           Please "Submit for publishing" and it will be published soon!`,
         };
         this.props.addCommentAction(preApproveArticlePayload, () =>
