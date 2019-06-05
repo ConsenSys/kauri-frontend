@@ -1,12 +1,12 @@
 import * as React from "react";
-// import { Field } from "formik";
 import styled from "../../../lib/styled-components";
-import ContentSection from "../../../../kauri-components/components/Section/ContentSection";
 import TabsComponent from "../../../../kauri-components/components/Tabs";
 import Manage from "../Community/Manage";
 import { IInvitation } from "./ManageMembers/FormInviteMembersPanel";
 import { getCommunity } from "../../../queries/__generated__/getCommunity";
-// import { Label } from "../../../../kauri-components/components/Typography";
+import HomeContentSectionEmptyState from "./ContentSectionEmptyStates/HomeContentSectionEmptyState";
+import ArticlesContentSectionEmptyState from "./ContentSectionEmptyStates/ArticlesContentSectionEmptyState";
+import CollectionsContentSectionEmptyState from "./ContentSectionEmptyStates/CollectionsContentSectionEmptyState";
 
 const Container = styled.section``;
 
@@ -55,9 +55,9 @@ const Component: React.SFC<IProps> = props => (
         // },
       ]}
       panels={[
-        <ContentSection key="home" />,
-        <ContentSection key="articles" />,
-        <ContentSection key="collections" />,
+        <HomeContentSectionEmptyState key="home" />,
+        <ArticlesContentSectionEmptyState key="articles" />,
+        <CollectionsContentSectionEmptyState key="collections" />,
         <Manage
           pageType={"CreateCommunityForm"}
           openAddMemberModal={props.openAddMemberModal}

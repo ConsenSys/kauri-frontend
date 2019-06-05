@@ -637,7 +637,10 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
           userId={userId}
           username={username}
         />
-        {typeof imageURL !== "string" && <Divider />}
+        {typeof imageURL !== "string" &&
+        (Number(articleCount) || Number(collectionCount)) ? (
+          <Divider />
+        ) : null}
         <RenderFooter
           id={id}
           imageURL={imageURL}

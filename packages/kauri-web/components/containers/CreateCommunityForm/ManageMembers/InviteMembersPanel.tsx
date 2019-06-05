@@ -65,7 +65,7 @@ const RevokeInvitationIcon: React.FunctionComponent<{
   </RevokeInvitationIconContainer>
 );
 
-const MemberContainer = styled.section`
+const InviteMemberContainer = styled.section`
   display: flex;
   flex-direction: row;
   padding: ${props => props.theme.space[3]}px ${props => props.theme.space[2]}px;
@@ -73,11 +73,16 @@ const MemberContainer = styled.section`
   > :first-child {
     margin-right: ${props => props.theme.space[4]}px;
   }
-  > :nth-child(2) {
-    margin-right: auto;
+`;
+
+const InviteMemberContent = styled.div`
+  display: flex;
+  width: 100%;
+  > :not(:last-child) {
+    margin-right: ${props => props.theme.space[3]}px;
   }
-  > :last-child {
-    margin-left: ${props => props.theme.space[3]}px;
+  > :first-child {
+    margin-right: auto;
   }
 `;
 
@@ -103,22 +108,24 @@ const InvitationRow: React.FunctionComponent<{
   revokeInvitationAction: any;
   resendInvitationAction: () => void;
 }> = ({ invitation, revokeInvitationAction, resendInvitationAction }) => (
-  <MemberContainer>
+  <InviteMemberContainer>
     <Label>{String(invitation.status).replace("_", " ")}</Label>
-    <BodyCard>{String(invitation.recipientEmail)}</BodyCard>
-    {invitation.status === "PENDING" && (
-      <Label
-        color="primary"
-        hoverColor="hoverTextColor"
-        onClick={() => resendInvitationAction()}
-      >
-        RESEND
-      </Label>
-    )}
-    {invitation.status === "PENDING" && (
-      <RevokeInvitationIcon revokeInvitationAction={revokeInvitationAction} />
-    )}
-  </MemberContainer>
+    <InviteMemberContent>
+      <BodyCard>{String(invitation.recipientEmail)}</BodyCard>
+      {invitation.status === "PENDING" && (
+        <Label
+          color="primary"
+          hoverColor="hoverTextColor"
+          onClick={() => resendInvitationAction()}
+        >
+          RESEND
+        </Label>
+      )}
+      {invitation.status === "PENDING" && (
+        <RevokeInvitationIcon revokeInvitationAction={revokeInvitationAction} />
+      )}
+    </InviteMemberContent>
+  </InviteMemberContainer>
 );
 
 interface IProps {
