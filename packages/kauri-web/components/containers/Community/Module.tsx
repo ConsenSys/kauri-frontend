@@ -876,8 +876,7 @@ export const transferArticleToCommunityEpic: Epic<
                         })
                       )
                     )
-              )
-              .do(() => apolloClient.resetStore());
+              );
           }
         )
     );
