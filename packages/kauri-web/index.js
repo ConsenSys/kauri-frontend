@@ -13,6 +13,7 @@ const { parse } = require("url");
 const url = require("url");
 const request = require("request");
 const routes = require("./routes");
+const helmet = require("helmet");
 
 const handler = routes.getRequestHandler(app);
 const path = require("path");
@@ -48,6 +49,7 @@ app.prepare().then(() => {
   );
 
   server.use(favicon(path.join(__dirname, "static", "favicon", "favicon.ico")));
+  server.use(helmet());
   server.use(compression());
   server.use(handler);
 
