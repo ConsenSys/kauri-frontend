@@ -16,7 +16,8 @@
     "member-access": [true, "no-public"],
     "no-var-requires": false,
     "jsx-no-lambda": false,
-    "no-console": false
+    "no-console": false,
+    "no-namespace": false
   },
   "rulesDirectory": []
 }

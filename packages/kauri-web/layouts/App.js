@@ -1,6 +1,6 @@
 import { setConfig } from "react-hot-loader";
 import React from "react";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import { connect } from "react-redux";
 import styled from "../lib/styled-components";
 import Navbar from "../components/containers/Navbar";
@@ -50,9 +50,9 @@ export default connect(mapStateToProps)(
     isModalOpen,
   }) => (
     <Layout className="layout">
-      <Helmet>
+      <Head>
         <body className={isModalOpen ? "overflow-hidden" : null} />
-      </Helmet>
+      </Head>
       <Modal />
       <StyledHeader navcolor={navcolorOverride || navcolor}>
         <Navbar

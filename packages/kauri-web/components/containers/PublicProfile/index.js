@@ -10,7 +10,7 @@ import {
 } from "../../../queries/Article";
 import { getUserDetails, getOwnProfile } from "../../../queries/User";
 import { getCollectionsForUser } from "../../../queries/Collection";
-import { deleteDraftArticleAction } from "../Article/DeleteDraftArticleModule";
+import { deleteDraftArticleAction } from "../ArticleDraft/DeleteDraftArticleModule";
 import {
   closeModalAction,
   openModalAction,

@@ -1,21 +1,11 @@
 import React from "react";
 import Document, { Head, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
-import Helmet from "react-helmet";
 // NOTE: GLOBAL/EXTERNAL CSS/LESS FILES ARE NOW IMPORTED IN WITH-DATA.jS
 
 const config = require("../config").default;
 
 const isProduction = process.env.NODE_ENV !== "development";
-
-const scripts = [];
-if (isProduction) {
-  // HotJar
-  scripts.push({
-    crossOrigin: "anonymous",
-    innerHTML: config.hotJarTrackingCode,
-  });
-}
 
 export default class MyDocument extends Document {
   static async getInitialProps({ renderPage }) {
@@ -25,46 +15,38 @@ export default class MyDocument extends Document {
     return {
       ...page,
       styleTags,
-      helmet: Helmet.renderStatic(),
     };
-  }
-
-  // should render on <html>
-  get helmetHtmlAttrComponents() {
-    return this.props.helmet.htmlAttributes.toComponent();
-  }
-
-  // should render on <body>
-  get helmetBodyAttrComponents() {
-    return this.props.helmet.bodyAttributes.toComponent();
-  }
-
-  // should render on <head>
-  get helmetHeadComponents() {
-    return Object.keys(this.props.helmet)
-      .filter(
-        el =>
-          el !== "htmlAttributes" && el !== "bodyAttributes" && el !== "title"
-      )
-      .map(el => this.props.helmet[el].toComponent());
-  }
-
-  get helmetJsx() {
-    return (
-      <Helmet
-        htmlAttributes={{ lang: "en" }}
-        meta={[{ charSet: "utf8" }]}
-        script={scripts}
-      />
-    );
   }
 
   render() {
     return (
-      <html {...this.helmetHtmlAttrComponents}>
+      <html lang="en">
         <Head>
-          {this.helmetJsx}
-          {this.helmetHeadComponents}
+          {isProduction && (
+            <script>
+              `$
+              {(function(h, o, t, j, a, r) {
+                h.hj =
+                  h.hj ||
+                  function() {
+                    (h.hj.q = h.hj.q || []).push(arguments);
+                  };
+                h._hjSettings = { hjid: 734967, hjsv: 6 };
+                a = o.getElementsByTagName("head")[0];
+                r = o.createElement("script");
+                r.async = 1;
+                r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+                a.appendChild(r);
+              })(
+                window,
+                document,
+                "https://static.hotjar.com/c/hotjar-",
+                ".js?sv="
+              )}
+              `
+            </script>
+          )}
+          <meta charSet="UTF-8" />
           <link rel="icon" href="/favicon.ico" />
           <link
             rel="stylesheet"

@@ -5,14 +5,10 @@ import {
   approveArticleAction,
   rejectArticleAction,
 } from "./Module";
-import { deleteDraftArticleAction } from "./DeleteDraftArticleModule";
+import { deleteDraftArticleAction } from "../ArticleDraft/DeleteDraftArticleModule";
 import { publishArticleAction } from "../SubmitArticleForm/PublishArticleModule";
 import { getArticle, relatedArticles } from "../../../queries/Article";
-import {
-  toggleModalAction,
-  routeChangeAction,
-  setNavcolorOverrideAction,
-} from "../../../lib/Module";
+import { toggleModalAction, routeChangeAction } from "../../../lib/Module";
 import { addCommentAction } from "../AddCommentForm/Module";
 import withLoading from "../../../lib/with-loading";
 import withApolloError from "../../../lib/with-apollo-error";
@@ -47,7 +43,6 @@ export default compose(
       approveResourceAction,
       openModalAction,
       closeModalAction,
-      setNavcolorOverrideAction,
       deleteDraftArticleAction,
     }
   ),

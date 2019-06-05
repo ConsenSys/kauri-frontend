@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import slugify from "slugify";
 import R from "ramda";
 import CollectionHeader from "../../../../kauri-components/components/Headers/CollectionHeader";
@@ -71,7 +71,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     trianglify: "",
   };
 
-  componentDidMount () {
+  componentDidMount() {
     const trianglify = require("trianglify");
     const trianglifyBg = trianglify({
       width: 1920,
@@ -89,7 +89,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
     this.setState({ trianglifyBg: trianglifyBgString });
   }
 
-  render () {
+  render() {
     if (!this.props.data || !this.props.data.getCollection) return null;
 
     const {
@@ -129,7 +129,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
 
     return (
       <>
-        <Helmet>
+        <Head>
           <title>{name} - Kauri</title>
           <meta
             name="description"
@@ -164,7 +164,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
           />
           <meta name="twitter:creator" content="@kauri_io" />
           <meta name="twitter:image" content={bg} />
-        </Helmet>
+        </Head>
         <ScrollToTopOnMount />
         <HeaderContainer>
           <Image

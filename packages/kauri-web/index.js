@@ -3,7 +3,6 @@ require("@babel/register")({
 });
 const express = require("express");
 const compression = require("compression");
-const helmet = require("helmet");
 const next = require("next");
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -14,6 +13,7 @@ const { parse } = require("url");
 const url = require("url");
 const request = require("request");
 const routes = require("./routes");
+const helmet = require("helmet");
 
 const handler = routes.getRequestHandler(app);
 const path = require("path");

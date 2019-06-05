@@ -70,23 +70,11 @@ const nextConfig = {
     );
 
     const { highlightjsLanguages } = require("./lib/hljs");
-    if (!RegExp.escape) {
-      RegExp.escape = function (value) {
-        return value.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
-      };
-    }
+
     config.plugins.push(
-      // new webpack.IgnorePlugin(/^\/lib\/languages\/*$/, /highlight\.js$/),
-      // new webpack.IgnorePlugin(/^\.\/lib\/languages$/, /highlight\.js$/),
       new webpack.ContextReplacementPlugin(
         /highlight\.js\/lib\/languages$/,
-        new RegExp(
-          `^./(${highlightjsLanguages
-            .map(function (val) {
-              return RegExp.escape(val);
-            })
-            .join("|")})$`
-        )
+        new RegExp(`^./(${highlightjsLanguages.join("|")})$`)
       ),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin(processedConfig)
