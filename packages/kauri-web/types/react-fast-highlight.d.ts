@@ -1,5 +1,7 @@
-export = Highlight;
-declare function Highlight(hljs: any): void;
-declare namespace Highlight {
-  function Highlight(hljs: any): any;
+declare module "react-fast-highlight/lib/BareHighlight" {
+  function BareHighlight(): any;
+  namespace BareHighlight {
+
+  }
+  export = BareHighlight;
 }
