@@ -22,7 +22,7 @@ export default class MyDocument extends Document {
     return (
       <html lang="en">
         <Head>
-          {isProduction && (
+          {isProduction && process.browser && (
             <script>
               `$
               {(function(h, o, t, j, a, r) {
