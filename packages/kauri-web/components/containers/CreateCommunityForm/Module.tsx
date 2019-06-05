@@ -383,7 +383,7 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                   Observable.merge(
                     Observable.of(
                       showNotificationAction({
-                        description: `woo woo`,
+                        description: `The community's details have been updated!`,
                         message: "Community updated",
                         notificationType: "success",
                       })
@@ -416,7 +416,7 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
             : Observable.merge(
                 Observable.of(
                   showNotificationAction({
-                    description: `woo woo`,
+                    description: `The community's details have been updated!`,
                     message: "Community updated",
                     notificationType: "success",
                   })
