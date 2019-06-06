@@ -125,7 +125,7 @@ class TabsComponent extends React.Component<IProps, IState> {
     } = this.props;
 
     return (
-      <TabContainer minWidth={minWidth}>
+      <TabContainer className="tabs" minWidth={minWidth}>
         <Tabs
           dark={dark}
           bg={bg}
