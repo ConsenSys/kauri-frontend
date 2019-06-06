@@ -34,7 +34,6 @@ class Articles extends Component<IProps> {
 
     const { searchAutocomplete } = this.props.ArticlesQuery;
     const { isLoggedIn, openModalAction } = this.props;
-
     return (
       <Fragment>
         <Head>
