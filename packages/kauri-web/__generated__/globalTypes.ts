@@ -114,8 +114,8 @@ export interface CommunityFilterInput {
 }
 
 export interface CommunityResourceFilterInput {
-  resourceTypeEquals?: ResourceTypeInput | null;
   statusEquals?: CommunityResourceStatusInput | null;
+  resourceTypeEquals?: ResourceTypeInput | null;
 }
 
 export interface InvitationInput {
