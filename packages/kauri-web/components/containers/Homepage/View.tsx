@@ -22,7 +22,7 @@ import CuratedCategory, {
 } from "../../../../kauri-components/components/CuratedCategory";
 import { Link } from "../../../routes";
 import { IShowNotificationPayload } from "../../../lib/Module";
-import Helmet from "react-helmet";
+import Head from "next/head";
 // import mockData from "./mock";
 
 const HomePageSection = styled.section`
@@ -101,14 +101,11 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
 
           return (
             <HomePageSection>
-              <Helmet>
+              <Head>
                 <title>
                   Beginner to Advanced Blockchain & Ethereum Tutorials - Kauri
                 </title>
-                <meta
-                  property="og:url"
-                  content="https://kauri.io"
-                />
+                <meta property="og:url" content="https://kauri.io" />
                 <meta
                   property="og:image"
                   content="https://api.kauri.io:443/ipfs/QmRVCyQ3ng5AWGmjodzXcxg1LK9CRvePmd6ciDXY1mLofY"
@@ -119,11 +116,8 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                     "Learn Blockchain and Ethereum with Kauri, Articles, Tutorials, Guides, Documentation and Best Practices. Focused on Getting Started, Scaling, Privacy, Storage, Defi, Gaming, UX and much more."
                   }
                 />
-                <link
-                  rel="canonical"
-                  href={`https://kauri.io`}
-                />
-              </Helmet>
+                <link rel="canonical" href={`https://kauri.io`} />
+              </Head>
 
               {!props.isLoggedIn && (
                 <SignupBanner

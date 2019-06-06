@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import CuratedList from "../../../../kauri-components/components/CuratedLists";
 import DiscoverSearch from "../Discover/Articles/DiscoverSearch";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import { Link } from "../../../routes";
 
 type Props = {
@@ -67,11 +67,11 @@ class Homepage extends Component<Props> {
 
     return (
       <ContentContainer>
-        <Helmet>
+        <Head>
           <title>Kauri - {pageTitle}</title>
           <meta name="description" content={pageTitle} />
           <link rel="canonical" href={`https://${this.props.hostName}`} />
-        </Helmet>
+        </Head>
         <HomePageHeader>
           <KauriTitle>{pageTitle}</KauriTitle>
           <KauriDescription>

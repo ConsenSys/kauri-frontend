@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import slugify from "slugify";
 import R from "ramda";
 import CollectionHeader from "../../../../kauri-components/components/Headers/CollectionHeader";
@@ -53,7 +53,7 @@ const HeaderContainer = styled(ContentContainer)`
 `;
 
 class CollectionPage extends Component<Props, {}> {
-  render () {
+  render() {
     if (!this.props.data || !this.props.data.getCollection) return null;
 
     const {
@@ -83,7 +83,7 @@ class CollectionPage extends Component<Props, {}> {
 
     return (
       <>
-        <Helmet>
+        <Head>
           <title>{name} - Kauri</title>
           <meta
             name="description"
@@ -103,7 +103,14 @@ class CollectionPage extends Component<Props, {}> {
             content={`${description && description.substring(0, 100)}...`}
           />
           <meta property="og:type" content="article" />
-          <meta property="og:image" content={background ? background : 'https://kauri.io/static/images/logo.png'} />
+          <meta
+            property="og:image"
+            content={
+              background
+                ? background
+                : "https://kauri.io/static/images/logo.png"
+            }
+          />
           <meta name="twitter:card" content="summary" />
           <meta
             name="twitter:site"
@@ -117,8 +124,15 @@ class CollectionPage extends Component<Props, {}> {
             content={`${description && description.substring(0, 100)}...`}
           />
           <meta name="twitter:creator" content="@kauri_io" />
-          <meta name="twitter:image" content={background ? background : 'https://kauri.io/static/images/logo.png'} />
-        </Helmet>
+          <meta
+            name="twitter:image"
+            content={
+              background
+                ? background
+                : "https://kauri.io/static/images/logo.png"
+            }
+          />
+        </Head>
         <ScrollToTopOnMount />
         <HeaderContainer>
           <Image

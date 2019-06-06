@@ -4,7 +4,7 @@ import styled from "styled-components";
 import moment from "moment";
 import CollectionCard from "../../../../kauri-components/components/Card/CollectionCard";
 import { Link } from "../../../routes";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import {
   Title2,
@@ -38,7 +38,7 @@ const Container = styled.section`
 `;
 
 class CollectionCreated extends React.Component<Props> {
-  render () {
+  render() {
     const {
       data: {
         getCollection: {
@@ -86,9 +86,9 @@ class CollectionCreated extends React.Component<Props> {
 
     return (
       <Container>
-        <Helmet>
+        <Head>
           <title>{`Collection ${copy} - Kauri`}</title>
-        </Helmet>
+        </Head>
         <Title2>Collection</Title2>
         <BodyCard>{`Your collection is now ${copy}`}</BodyCard>
         <CollectionCard

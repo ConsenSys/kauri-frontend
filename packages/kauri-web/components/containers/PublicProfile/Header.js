@@ -6,7 +6,7 @@ import { PrimaryButton } from "../../../../kauri-components/components/Button";
 import StatisticsContainer from "../../../../kauri-components/components/PublicProfile/StatisticsContainer";
 import SocialWebsiteIcon from "../../../../kauri-components/components/PublicProfile/SocialWebsiteIcon";
 import UserAvatar from "../../../../kauri-components/components/UserAvatar";
-import Helmet from "react-helmet";
+import Head from "next/head";
 import type { HeaderProps } from "./types";
 
 const PublicProfileHeader = styled.div`
@@ -121,7 +121,7 @@ const ProfileHeader = ({
   hostName,
 }: HeaderProps) => (
   <PublicProfileHeader>
-    <Helmet>
+    <Head>
       <title>{`Kauri - ${name || (username && `@${username}`) || id}`}</title>
       <meta name="description" content={`${title}`} />
       <meta
@@ -135,7 +135,7 @@ const ProfileHeader = ({
       />
       <meta property="og:description" content={`${title}`} />
       <meta property="og:type" content="public profile" />
-      { avatar && <meta property="og:image" content={avatar} />}
+      {avatar && <meta property="og:image" content={avatar} />}
       <meta name="twitter:card" content="summary" />
       <meta
         name="twitter:site"
@@ -144,8 +144,11 @@ const ProfileHeader = ({
       <meta name="twitter:title" content={name} />
       <meta name="twitter:description" content={title} />
       <meta name="twitter:creator" content="@kauri_io" />
-      <meta name="twitter:image" content={avatar ? avatar : 'https://kauri.io/static/images/logo.png'} />
-    </Helmet>
+      <meta
+        name="twitter:image"
+        content={avatar ? avatar : "https://kauri.io/static/images/logo.png"}
+      />
+    </Head>
     {avatar ? (
       <UserAvatar
         hideUsername

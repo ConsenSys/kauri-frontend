@@ -1,6 +1,6 @@
 {
   "name": "kauri-web",
-  "version": "1.12.7",
+  "version": "1.12.8",
   "author": {
     "name": "Eric Juta"
   },
@@ -35,8 +35,8 @@
   },
   "dependencies": {
     "@quentin-sommer/react-useragent": "^2.0.0",
-    "@rej156/react-mde": "5.7.0",
     "@rej156/draft-js": "0.10.8",
+    "@rej156/react-mde": "5.7.0",
     "anchorme": "^1.1.2",
     "antd": "3.2.1",
     "apollo-cache-inmemory": "^1.5.1",
@@ -88,7 +88,6 @@
     "react-dom": "16.8.0-alpha.0",
     "react-fast-highlight": "^2.2.0",
     "react-ga": "^2.5.6",
-    "react-helmet": "^5.2.0",
     "react-hot-loader": "^4.5.1",
     "react-intersection-observer": "^6.4.2",
     "react-redux": "^5.0.6",
