@@ -1,4 +1,4 @@
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { connect } from "react-redux";
 import {
   tipArticleAction,
@@ -29,6 +29,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 export default compose(
+  withApollo,
   connect(
     mapStateToProps,
     {

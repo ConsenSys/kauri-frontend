@@ -21,8 +21,11 @@ import AlertViewComponent from "../../../../kauri-components/components/Modal/Al
 import AcceptCommunityInvitationModalContent from "../../../../kauri-components/components/Community/AcceptCommunityInvitationModalContent";
 import AddMemberModal from "../CreateCommunityForm/AddMemberModal";
 import { removeResourceVariables } from "../../../queries/__generated__/removeResource";
+import { recordView } from "../../../queries/Utils";
+import ApolloClient from "apollo-client";
 
 interface IProps {
+  client: ApolloClient<{}>;
   acceptCommunityInvitationAction: typeof acceptCommunityInvitation;
   currentUser: string;
   secret: null | string;
@@ -42,6 +45,14 @@ interface IProps {
 
 class CommunityConnection extends React.Component<IProps> {
   componentDidMount() {
+    this.props.client.mutate({
+      fetchPolicy: "no-cache",
+      mutation: recordView,
+      variables: {
+        id: this.props.communityId,
+        type: "COMMUNITY",
+      },
+    });
     if (typeof this.props.secret === "string") {
       // AcceptCommunityInviteModal
       this.props.openModalAction({

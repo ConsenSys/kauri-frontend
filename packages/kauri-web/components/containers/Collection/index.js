@@ -1,5 +1,5 @@
 import Collection from "./View.js";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { globalCollectionDetails } from "../../../queries/Collection";
 import { connect } from "react-redux";
 import { routeChangeAction } from "../../../lib/Module";
@@ -17,6 +17,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default compose(
+  withApollo,
   connect(
     mapStateToProps,
     { routeChangeAction, openModalAction, approveResourceAction }

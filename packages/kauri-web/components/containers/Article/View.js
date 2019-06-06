@@ -3,8 +3,8 @@ import React from "react";
 import ApprovedArticle from "./ApprovedArticle/View";
 import R from "ramda";
 import Loading from "../../common/Loading";
-
 import type { AddCommentPayload } from "../AddCommentForm/Module";
+import { recordView } from "../../../queries/Utils";
 
 type ArticleProps = {
   id: string,
@@ -109,7 +109,17 @@ class Article extends React.Component<ArticleProps> {
     }
   };
 
-  render () {
+  componentDidMount() {
+    this.props.client.mutate({
+      fetchPolicy: "no-cache",
+      mutation: recordView,
+      variables: {
+        type: "ARTICLE",
+        id: this.props.id,
+      },
+    });
+  }
+  render() {
     if (R.path(["data", "getArticle", "status"])(this.props)) {
       return <ApprovedArticle {...this.props} />;
     } else return <Loading />;
