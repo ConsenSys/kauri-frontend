@@ -8,6 +8,9 @@ const ContentContainer = styled.section`
   display: flex;
   align-items: center;
   flex-direction: column;
+  & .tabs {
+    margin-top: -50px;
+  }
 `;
 
 const ArticleDiscover = () => (
