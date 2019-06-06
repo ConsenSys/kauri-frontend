@@ -17,6 +17,12 @@ export interface ICommunity {
 }
 
 interface IProps {
+  removeMemberAction: (
+    payload: {
+      id?: string | null;
+      account?: string | null;
+    }
+  ) => void;
   routeChangeAction: (route: string) => void;
   data: ICommunity[];
   ownProfile: {
@@ -52,13 +58,17 @@ const NoCommunities: React.FunctionComponent<
 );
 
 const MyCommunities: React.FunctionComponent<IProps> = props =>
-  Array.isArray(props.data) && !props.data.length ? (
+  Array.isArray(props.data) && props.data.length ? (
     <Container>
       <H3>Communities</H3>
       <BodyCard>
         The communities you manage and moderate are displayed below;
       </BodyCard>
-      <Table userId={props.ownProfile.getMyProfile.id} data={props.data} />
+      <Table
+        removeMemberAction={props.removeMemberAction}
+        userId={props.ownProfile.getMyProfile.id}
+        data={props.data}
+      />
     </Container>
   ) : (
     <NoCommunities routeChangeAction={props.routeChangeAction} />

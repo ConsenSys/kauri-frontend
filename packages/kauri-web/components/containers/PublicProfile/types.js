@@ -35,6 +35,11 @@ export type ViewState = {
 };
 
 export type ViewProps = {
+  removeMemberAction: (payload: {
+    signature?: string | null,
+    id?: string | null,
+    account?: string | null,
+  }) => void,
   userId?: string,
   saveUserDetailsAction: () => void,
   currentUser?: string,

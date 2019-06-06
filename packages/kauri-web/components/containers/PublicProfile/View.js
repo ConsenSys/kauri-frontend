@@ -45,6 +45,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       openModalAction,
       isLoggedIn,
       hostName,
+      removeMemberAction,
     } = this.props;
 
     const isHeaderLoaded =
@@ -129,6 +130,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                   draftsQuery={DraftsQuery}
                   transfersQuery={PendingTransfersQuery}
                   type="manage"
+                  removeMemberAction={removeMemberAction}
                   routeChangeAction={routeChangeAction}
                   deleteDraftArticleAction={deleteDraftArticleAction}
                   isOwner={UserQuery.getUser.id === currentUser}

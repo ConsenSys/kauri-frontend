@@ -11,6 +11,12 @@ interface ICell {
 }
 
 interface IProps {
+  removeMemberAction: (
+    payload: {
+      id?: string | null;
+      account?: string | null;
+    }
+  ) => void;
   userId: string;
   data: ICommunity[];
 }
@@ -68,6 +74,19 @@ const Table: React.FunctionComponent<IProps> = props => (
           </Cell>
           <Cell flex={4}>
             <Label>{community.name}</Label>
+          </Cell>
+          <Cell flex={0} hoverable={true}>
+            <Label
+              onClick={() =>
+                props.removeMemberAction({
+                  account: props.userId,
+                  id: community.id,
+                })
+              }
+              hoverColor={"hoverTextColor"}
+            >
+              Leave Community
+            </Label>
           </Cell>
           <Cell flex={0} hoverable={true}>
             <Link href={`/community/${community.id}`}>
