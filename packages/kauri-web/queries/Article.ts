@@ -457,14 +457,14 @@ export const globalSearchApprovedArticles = gql`
     $size: Int = 12
     $query: String
     $filter: SearchFilterInput
+    $parameter: SearchParameterInput
   ) {
     searchAutocomplete(
       page: $page
       size: $size
       query: $query
       filter: $filter
-      dir: "desc"
-      sort: "dateUpdated"
+      parameter: $parameter
     ) {
       totalElements
       totalPages

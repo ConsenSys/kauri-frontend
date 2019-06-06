@@ -4,6 +4,7 @@
 
 import {
   SearchFilterInput,
+  SearchParameterInput,
   ResourceTypeInput,
   ArticleStatusInput,
 } from "./../../__generated__/globalTypes";
@@ -190,4 +191,5 @@ export interface searchAutocompleteArticlesVariables {
   size?: number | null;
   query?: string | null;
   filter?: SearchFilterInput | null;
+  parameter?: SearchParameterInput | null;
 }
