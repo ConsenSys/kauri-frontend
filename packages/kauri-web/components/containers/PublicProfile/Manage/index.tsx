@@ -17,11 +17,6 @@ const categories = [
   // "communities",
 ];
 
-const queriesMatch: { [key: string]: string } = {
-  drafts: "draftsQuery",
-  "pending transfers": "transfersQuery",
-};
-
 const ManageContentSection = styled.section`
   display: flex;
   flex-direction: row;
