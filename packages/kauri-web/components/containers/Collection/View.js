@@ -9,6 +9,7 @@ import CollectionSection from "./CollectionSection";
 import ScrollToTopOnMount from "../../../../kauri-components/components/ScrollToTopOnMount";
 import { Link } from "../../../routes";
 import Image from "../../../../kauri-components/components/Image";
+import { recordView } from "../../../queries/Utils";
 
 type ICommunity = {
   role: string,
@@ -66,27 +67,18 @@ const HeaderContainer = styled(ContentContainer)`
   }
 `;
 
-class CollectionPage extends Component<Props, { trianglify: string }> {
-  state = {
-    trianglify: "",
-  };
-
+class CollectionPage extends Component<Props> {
   componentDidMount() {
-    const trianglify = require("trianglify");
-    const trianglifyBg = trianglify({
-      width: 1920,
-      height: 400,
-      cell_size: 60,
-      variance: 1,
-      x_colors: ["#0BA986", "#1E3D3B", "#1E2428"],
+    this.props.client.mutate({
+      fetchPolicy: "no-cache",
+      mutation: recordView,
+      variables: {
+        resourceId: {
+          type: "COLLECTION",
+          id: this.props.data.getCollection.id,
+        },
+      },
     });
-
-    const generatedSvgString = new XMLSerializer().serializeToString(
-      trianglifyBg.svg()
-    );
-    const trianglifyBgString =
-      "data:image/svg+xml;base64," + window.btoa(generatedSvgString);
-    this.setState({ trianglifyBg: trianglifyBgString });
   }
 
   render() {
@@ -103,7 +95,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       sections,
     } = this.props.data.getCollection;
     const { userId, routeChangeAction, hostName, openModalAction } = this.props;
-    const bg = (background && background) || this.state.trianglifyBg;
+    const bg = background && background;
     const url = `https://${hostName.replace(/api\./g, "")}/collection/${
       this.props.id
     }/${slugify(name, {

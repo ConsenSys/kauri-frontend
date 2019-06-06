@@ -1,6 +1,6 @@
 import View from "./View";
 import { connect } from "react-redux";
-import { graphql, compose } from "react-apollo";
+import { graphql, compose, withApollo } from "react-apollo";
 import { getCommunityAndPendingArticles } from "../../../queries/Community";
 import withLoading from "../../../lib/with-loading";
 import {
@@ -25,6 +25,7 @@ const mapStateToProps = (state: IReduxState) => {
 };
 
 export default compose(
+  withApollo,
   connect(
     mapStateToProps,
     {

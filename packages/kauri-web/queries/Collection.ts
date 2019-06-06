@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { CommunityOwner, UserOwner, Article, Collection} from "./Fragments";
+import { CommunityOwner, UserOwner, Article, Collection } from "./Fragments";
 
 export const globalCollectionDetails = gql`
   query getCollection($id: String) {
@@ -96,12 +96,14 @@ export const getLatestCollections = gql`
     $size: Int = 12
     $query: String
     $filter: SearchFilterInput
+    $parameter: SearchParameterInput
   ) {
     searchAutocomplete(
       page: $page
       size: $size
       query: $query
       filter: $filter
+      parameter: $parameter
     ) {
       totalElements
       totalPages
