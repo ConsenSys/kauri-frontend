@@ -58,7 +58,6 @@ const Articles = ({
             }
             id={article.id}
             version={article.version}
-            cardHeight={420}
             imageURL={article.attributes && article.attributes.background}
             nfts={article.associatedNfts}
             linkComponent={(childrenProps, route) => (
