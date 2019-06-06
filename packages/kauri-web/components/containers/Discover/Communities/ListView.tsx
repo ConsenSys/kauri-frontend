@@ -40,7 +40,10 @@ class Communities extends Component<IProps> {
     return (
       <Fragment>
         <Head>
-          <title>Kauri - Discover Communities</title>
+          <title>
+            Beginner to Advanced Blockchain & Ethereum Tutorials | Communities -
+            Kauri
+          </title>
           <meta
             name="description"
             content="Discover the best collections of blockchain related articles, tutorials and how-to guides"

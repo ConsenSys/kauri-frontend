@@ -38,7 +38,10 @@ class Articles extends Component<IProps> {
     return (
       <Fragment>
         <Head>
-          <title>Kauri - Discover Articles</title>
+          <title>
+            Beginner to Advanced Blockchain & Ethereum Tutorials | Articles -
+            Kauri
+          </title>
           <meta
             name="description"
             content="Discover the best blockchain related articles, tutorials and how-to guides"
