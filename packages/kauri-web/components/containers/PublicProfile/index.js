@@ -22,6 +22,7 @@ import {
   rejectArticleTransferAction,
   acceptArticleTransferAction,
 } from "./Manage/TransferModule";
+import { removeMemberAction } from "../Community/Module";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -39,6 +40,7 @@ export default compose(
       openModalAction,
       rejectArticleTransferAction,
       acceptArticleTransferAction,
+      removeMemberAction,
     }
   ),
   graphql(searchPersonalArticles, {

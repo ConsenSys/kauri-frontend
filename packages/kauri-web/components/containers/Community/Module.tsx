@@ -463,7 +463,7 @@ export const sendCommunityInvitationEpic: Epic<
                 showNotificationAction({
                   description: `The invitation ${payload.invitation &&
                     payload.invitation
-                      .email} for to join the community has been sent!`,
+                      .email} for to join the community has been sent! You can view and manage all moderators from the Manage tab.`,
                   message: "Invitation Sent",
                   notificationType: "success",
                 })

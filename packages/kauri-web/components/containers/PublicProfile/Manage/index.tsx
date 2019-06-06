@@ -75,17 +75,7 @@ const Manage: React.FunctionComponent<
             key={category}
             active={category === state.currentCategory}
             category={category}
-            amount={
-              category === "pending transfers"
-                ? (transfers as []).length
-                : category === "communities"
-                ? (communities as []).length
-                : (props[queriesMatch[category]] &&
-                    props[queriesMatch[category]].searchArticles &&
-                    props[queriesMatch[category]].searchArticles
-                      .totalElements) ||
-                  0
-            }
+            amount={null}
             onClick={() => setState({ currentCategory: category })}
           />
         ))}
