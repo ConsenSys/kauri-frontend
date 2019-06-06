@@ -67,14 +67,16 @@ const HeaderContainer = styled(ContentContainer)`
   }
 `;
 
-class CollectionPage extends Component<Props, { trianglify: string }> {
+class CollectionPage extends Component<Props> {
   componentDidMount() {
     this.props.client.mutate({
       fetchPolicy: "no-cache",
       mutation: recordView,
       variables: {
-        type: "COLLECTION",
-        id: this.props.id,
+        resourceId: {
+          type: "COLLECTION",
+          id: this.props.data.getCollection.id,
+        },
       },
     });
   }
@@ -93,7 +95,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       sections,
     } = this.props.data.getCollection;
     const { userId, routeChangeAction, hostName, openModalAction } = this.props;
-    const bg = (background && background) || this.state.trianglifyBg;
+    const bg = background && background;
     const url = `https://${hostName.replace(/api\./g, "")}/collection/${
       this.props.id
     }/${slugify(name, {

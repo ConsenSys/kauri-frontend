@@ -49,8 +49,10 @@ class CommunityConnection extends React.Component<IProps> {
       fetchPolicy: "no-cache",
       mutation: recordView,
       variables: {
-        id: this.props.communityId,
-        type: "COMMUNITY",
+        resourceId: {
+          id: this.props.communityId,
+          type: "COMMUNITY",
+        },
       },
     });
     if (typeof this.props.secret === "string") {

@@ -114,8 +114,10 @@ class Article extends React.Component<ArticleProps> {
       fetchPolicy: "no-cache",
       mutation: recordView,
       variables: {
-        type: "ARTICLE",
-        id: this.props.id,
+        resourceId: {
+          type: "ARTICLE",
+          id: this.props.id,
+        },
       },
     });
   }
