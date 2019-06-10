@@ -26,6 +26,9 @@ const ArticleDiscover = () => (
           name: "Trending / Hot 🔥",
         },
         {
+          name: "Most Popular",
+        },
+        {
           name: "Last Posted",
         },
         {
@@ -37,6 +40,7 @@ const ArticleDiscover = () => (
       ]}
       panels={[
         <List key="hot" scoringMode="TRENDING" />,
+        <List key="popular" scoringMode="MOST_POPULAR" />,
         <List key="posted" scoringMode="LAST_POSTED" />,
         <List key="updated" scoringMode="LAST_UPDATED" />,
         <List key="random" scoringMode="RANDOM" />,

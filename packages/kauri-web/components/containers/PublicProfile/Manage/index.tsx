@@ -82,7 +82,8 @@ const Manage: React.FunctionComponent<
         <Awaiting
           {...props}
           communities={
-            Array.isArray(communities) && communities.map(({ id }) => id)
+            Array.isArray(communities) &&
+            communities.map(({ community: { id } }) => id)
           }
         />
       )}
@@ -90,7 +91,8 @@ const Manage: React.FunctionComponent<
         <Pending
           {...props}
           communities={
-            Array.isArray(communities) && communities.map(({ id }) => id)
+            Array.isArray(communities) &&
+            communities.map(({ community: { id } }) => id)
           }
         />
       )}
