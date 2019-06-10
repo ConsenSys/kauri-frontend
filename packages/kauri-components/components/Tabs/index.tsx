@@ -101,6 +101,14 @@ class TabsComponent extends React.Component<IProps, IState> {
     if (this.props.passChangeTabFunction) {
       this.props.passChangeTabFunction(this.changeTab.bind(this));
     }
+    // Context - homepage tab is null for communities if empty and not admin soo
+    if (
+      Array.isArray(this.props.tabs) &&
+      this.props.tabs.length &&
+      !this.props.tabs[0]
+    ) {
+      this.changeTab(1);
+    }
   }
 
   public changeTab(index: number) {
