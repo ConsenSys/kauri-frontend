@@ -24,9 +24,8 @@ const HomepageResources: React.FunctionComponent<IProps> = ({
     {Array.isArray(homepage) && homepage.length && (
       <CommunityHomepageContent homepage={homepage} />
     )}
-    {Array.isArray(homepage) && !homepage.length && isCommunityAdmin && (
-      <CommunityHomepageEmptyState />
-    )}
+    {((Array.isArray(homepage) && !homepage.length) || !homepage) &&
+      isCommunityAdmin && <CommunityHomepageEmptyState />}
   </Container>
 );
 

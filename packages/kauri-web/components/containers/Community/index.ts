@@ -25,12 +25,12 @@ const mapStateToProps = (state: IReduxState, ownProps: any) => {
       state.app.user &&
       state.app &&
       state.app.user.communities.find(
-        ({ community }) => community.id === ownProps.id
+        ({ community }) => community.id === ownProps.communityId
       ) &&
       (
         state.app &&
         (state.app.user.communities.find(
-          ({ community }) => community.id === ownProps.id
+          ({ community }) => community.id === ownProps.communityId
         ) as any)
       ).role === "ADMIN",
     isLoggedIn: !!(state.app && state.app.user && state.app.user.id),
