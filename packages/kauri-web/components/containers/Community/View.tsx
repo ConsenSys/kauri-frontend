@@ -24,6 +24,7 @@ import { removeResourceVariables } from "../../../queries/__generated__/removeRe
 import { recordView } from "../../../queries/Utils";
 import ApolloClient from "apollo-client";
 import HomepageResources from "./HomepageResources";
+import { routeChangeAction as routeChange } from "../../../lib/Module";
 
 interface IProps {
   client: ApolloClient<{}>;
@@ -38,7 +39,7 @@ interface IProps {
   };
   closeModalAction: () => void;
   openModalAction: (payload: { children: any }) => void;
-  routeChangeAction: (route: string) => void;
+  routeChangeAction: typeof routeChange;
   removeResourceAction: (payload: removeResourceVariables) => void;
   curateCommunityResourcesAction: typeof curateCommunityResources;
   sendCommunityInvitationAction: typeof sendCommunityInvitation;
@@ -177,6 +178,8 @@ class CommunityConnection extends React.Component<IProps> {
           ]}
           panels={[
             <HomepageResources
+              routeChangeAction={routeChangeAction}
+              id={String(getCommunity.id)}
               homepage={homepage}
               isCommunityAdmin={isCommunityAdmin}
               key="home"

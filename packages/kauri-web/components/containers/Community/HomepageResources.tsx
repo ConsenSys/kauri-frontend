@@ -2,12 +2,13 @@ import * as React from "react";
 import styled from "../../../lib/styled-components";
 import { getCommunity_getCommunity_homepage } from "../../../queries/__generated__/getCommunity";
 import CommunityHomepageEmptyState from "./EmptyStates/Homepage";
-
-const Container = styled.section``;
+import { routeChangeAction as routeChange } from "../../../lib/Module";
 
 interface IProps {
   isCommunityAdmin: boolean;
   homepage: Array<getCommunity_getCommunity_homepage | null> | null;
+  id: string;
+  routeChangeAction: typeof routeChange;
 }
 
 const CommunityHomepageContent: React.FunctionComponent<
@@ -18,15 +19,24 @@ const CommunityHomepageContent: React.FunctionComponent<
 
 const HomepageResources: React.FunctionComponent<IProps> = ({
   homepage,
+  id,
   isCommunityAdmin,
-}) => (
-  <Container>
-    {Array.isArray(homepage) && homepage.length && (
-      <CommunityHomepageContent homepage={homepage} />
-    )}
-    {((Array.isArray(homepage) && !homepage.length) || !homepage) &&
-      isCommunityAdmin && <CommunityHomepageEmptyState />}
-  </Container>
-);
+  routeChangeAction,
+}) => {
+  if (Array.isArray(homepage) && homepage.length) {
+    return <CommunityHomepageContent homepage={homepage} />;
+  } else if (
+    ((Array.isArray(homepage) && !homepage.length) || !homepage) &&
+    isCommunityAdmin
+  ) {
+    return (
+      <CommunityHomepageEmptyState
+        routeChangeAction={routeChangeAction}
+        id={id}
+      />
+    );
+  }
+  return null;
+};
 
 export default HomepageResources;
