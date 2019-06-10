@@ -179,6 +179,7 @@ export const updateCommunityMutation = gql`
     $tags: [String]
     $social: Map_String_StringScalar
     $attributes: Map_String_StringScalar
+    $homepage: [SectionDTOInput]
   ) {
     editCommunity(
       id: $id
@@ -189,6 +190,7 @@ export const updateCommunityMutation = gql`
       tags: $tags
       social: $social
       attributes: $attributes
+      homepage: $homepage
     ) {
       hash
     }

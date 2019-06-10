@@ -68,6 +68,7 @@ export default compose(
         attributes: undefined,
         avatar: null,
         description: "",
+        homepage: null,
         id: null,
         invitations: [],
         name: "",

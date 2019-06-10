@@ -72,43 +72,43 @@ export enum UserStatusInput {
 }
 
 export interface ArticleFilterInput {
-  statusIn?: (ArticleStatusInput | null)[] | null;
-  latestVersion?: boolean | null;
   dateCreatedGreaterThan?: any | null;
-  authorIdEquals?: string | null;
-  versionIn?: (number | null)[] | null;
-  containsTag?: string | null;
-  fullText?: string | null;
-  idEquals?: string | null;
-  checkpointEquals?: string | null;
-  versionGreaterThan?: number | null;
-  dateCreatedLessThan?: any | null;
   ownerIdEquals?: string | null;
+  idEquals?: string | null;
+  statusIn?: (ArticleStatusInput | null)[] | null;
+  versionGreaterThan?: number | null;
   ownerIdIn?: (string | null)[] | null;
+  authorIdEquals?: string | null;
+  checkpointEquals?: string | null;
+  fullText?: string | null;
+  dateCreatedLessThan?: any | null;
+  containsTag?: string | null;
+  versionIn?: (number | null)[] | null;
+  latestVersion?: boolean | null;
 }
 
 export interface CollectionFilterInput {
-  dateCreatedGreaterThan?: any | null;
-  dateUpdatedLessThan?: any | null;
-  ownerIdEquals?: string | null;
-  containingArticleId?: string | null;
-  dateUpdatedGreaterThan?: any | null;
-  descriptionContains?: string | null;
-  nameContains?: string | null;
   dateCreatedLessThan?: any | null;
+  containingArticleId?: string | null;
+  dateUpdatedLessThan?: any | null;
   fullText?: string | null;
   resourcesCountGreaterThan?: number | null;
+  descriptionContains?: string | null;
+  dateCreatedGreaterThan?: any | null;
+  dateUpdatedGreaterThan?: any | null;
+  ownerIdEquals?: string | null;
+  nameContains?: string | null;
 }
 
 export interface CommunityFilterInput {
-  dateCreatedLessThan?: any | null;
-  dateUpdatedGreaterThan?: any | null;
   membersIncludes?: string | null;
-  fullText?: string | null;
-  nameContains?: string | null;
   dateUpdatedLessThan?: any | null;
-  statusIn?: (CommunityStatusInput | null)[] | null;
+  dateCreatedLessThan?: any | null;
+  fullText?: string | null;
   nameContain?: string | null;
+  dateUpdatedGreaterThan?: any | null;
+  statusIn?: (CommunityStatusInput | null)[] | null;
+  nameContains?: string | null;
   dateCreatedGreaterThan?: any | null;
 }
 
@@ -124,36 +124,36 @@ export interface InvitationInput {
 }
 
 export interface ResourceIdentifierInput {
-  id?: string | null;
-  type?: ResourceTypeInput | null;
   version?: number | null;
+  type?: ResourceTypeInput | null;
+  id?: string | null;
 }
 
 export interface SearchFilterInput {
   dateCreatedLessThan?: any | null;
-  dateUpdatedLessThan?: any | null;
-  mustNotIncludeUserId?: (string | null)[] | null;
-  mustIncludeUserId?: (string | null)[] | null;
-  mustNotContainTag?: (string | null)[] | null;
-  type?: ResourceTypeInput | null;
-  mustContainTag?: (string | null)[] | null;
   types?: (ResourceTypeInput | null)[] | null;
+  type?: ResourceTypeInput | null;
   dateCreatedGreaterThan?: any | null;
+  mustContainTag?: (string | null)[] | null;
+  mustNotIncludeUserId?: (string | null)[] | null;
+  mustNotContainTag?: (string | null)[] | null;
   dateUpdatedGreaterThan?: any | null;
+  mustIncludeUserId?: (string | null)[] | null;
+  dateUpdatedLessThan?: any | null;
 }
 
 export interface SearchParameterInput {
   scoringMode?: ScoringModeInput | null;
-  highlightPostTag?: string | null;
-  highlightPreTag?: string | null;
   highlightEnable?: boolean | null;
+  highlightPreTag?: string | null;
+  highlightPostTag?: string | null;
 }
 
 export interface SectionDTOInput {
   description?: string | null;
+  name?: string | null;
   resourcesId?: (ResourceIdentifierInput | null)[] | null;
   id?: string | null;
-  name?: string | null;
 }
 
 //==============================================================
