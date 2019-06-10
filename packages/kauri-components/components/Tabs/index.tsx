@@ -34,6 +34,7 @@ const Tabs = styled<ITabsProps, "div">("div")`
   display: flex;
   flex-direction: row;
   align-items: center;
+  overflow: hidden;
   background-color: ${props =>
     props.dark ? props.theme && props.theme.bg[props.bg] : "transparent"};
   ${props =>
@@ -41,7 +42,7 @@ const Tabs = styled<ITabsProps, "div">("div")`
     `padding: 0px calc((100vw - ${props.theme.breakpoints[2]}) / 2)`};
   ${props => props.centerTabs && "justify-content: center"};
   > :not(:last-child) {
-    margin-right: ${props => props.theme && props.theme.space[2]}px;
+    margin-right: ${props => props.theme && props.theme.space[1]}px;
   }
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     padding: 0px ${props => props.theme.space[1]}px;
