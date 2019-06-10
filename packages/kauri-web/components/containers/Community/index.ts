@@ -16,10 +16,23 @@ import {
   transferArticleToCommunityAction,
 } from "./Module";
 
-const mapStateToProps = (state: IReduxState) => {
+const mapStateToProps = (state: IReduxState, ownProps: any) => {
   return {
     currentUser: state.app && state.app.user && state.app.user.id,
     hostName: state.app && state.app.hostName,
+    isCommunityAdmin:
+      state.app &&
+      state.app.user &&
+      state.app &&
+      state.app.user.communities.find(
+        ({ community }) => community.id === ownProps.id
+      ) &&
+      (
+        state.app &&
+        (state.app.user.communities.find(
+          ({ community }) => community.id === ownProps.id
+        ) as any)
+      ).role === "ADMIN",
     isLoggedIn: !!(state.app && state.app.user && state.app.user.id),
   };
 };

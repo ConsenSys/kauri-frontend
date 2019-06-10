@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceTypeInput } from "./../../../__generated__/globalTypes";
@@ -9,16 +8,7 @@ import { ResourceTypeInput } from "./../../../__generated__/globalTypes";
 // ====================================================
 
 export interface Collection_owner_ArticleDTO {
-  __typename:
-    | "ArticleDTO"
-    | "CommentDTO"
-    | "CommunityInvitationDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO"
-    | "CuratedListDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
 }
 
 export interface Collection_owner_PublicUserDTO_resourceIdentifier {
@@ -50,10 +40,7 @@ export interface Collection_owner_CommunityDTO {
   resourceIdentifier: Collection_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type Collection_owner =
-  | Collection_owner_ArticleDTO
-  | Collection_owner_PublicUserDTO
-  | Collection_owner_CommunityDTO;
+export type Collection_owner = Collection_owner_ArticleDTO | Collection_owner_PublicUserDTO | Collection_owner_CommunityDTO;
 
 export interface Collection_sections_resourcesId {
   __typename: "ResourceIdentifier";
@@ -62,17 +49,7 @@ export interface Collection_sections_resourcesId {
 }
 
 export interface Collection_sections_resources_CommunityDTO {
-  __typename:
-    | "CommunityDTO"
-    | "PublicUserDTO"
-    | "CommentDTO"
-    | "CommunityInvitationDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO"
-    | "CuratedListDTO";
+  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
 }
 
 export interface Collection_sections_resources_ArticleDTO {
@@ -81,9 +58,7 @@ export interface Collection_sections_resources_ArticleDTO {
   version: number | null;
 }
 
-export type Collection_sections_resources =
-  | Collection_sections_resources_CommunityDTO
-  | Collection_sections_resources_ArticleDTO;
+export type Collection_sections_resources = Collection_sections_resources_CommunityDTO | Collection_sections_resources_ArticleDTO;
 
 export interface Collection_sections {
   __typename: "SectionDTO";

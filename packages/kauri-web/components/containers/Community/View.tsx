@@ -23,11 +23,13 @@ import AddMemberModal from "../CreateCommunityForm/AddMemberModal";
 import { removeResourceVariables } from "../../../queries/__generated__/removeResource";
 import { recordView } from "../../../queries/Utils";
 import ApolloClient from "apollo-client";
+import HomepageResources from "./HomepageResources";
 
 interface IProps {
   client: ApolloClient<{}>;
   acceptCommunityInvitationAction: typeof acceptCommunityInvitation;
   currentUser: string;
+  isCommunityAdmin: boolean;
   secret: null | string;
   communityId: string;
   data: {
@@ -94,6 +96,7 @@ class CommunityConnection extends React.Component<IProps> {
       acceptCommunityInvitationAction,
       removeResourceAction,
       transferArticleToCommunityAction,
+      isCommunityAdmin,
     } = this.props;
     const articles =
       getCommunity.approved &&
@@ -105,6 +108,7 @@ class CommunityConnection extends React.Component<IProps> {
     const isMember =
       isCreator ||
       R.any(R.propEq("id", currentUser), getCommunity.members || []);
+    const homepage = getCommunity.homepage;
 
     const openAddMemberModal = () =>
       this.props.openModalAction({
@@ -164,21 +168,18 @@ class CommunityConnection extends React.Component<IProps> {
         <Tabs
           dark={true}
           tabs={[
-            { name: `Home` },
+            (Array.isArray(homepage) && homepage.length) || isCommunityAdmin
+              ? { name: "Home" }
+              : null,
             { name: `Articles (${articles && articles.length})` },
             { name: `Collections (${collections && collections.length})` },
             isCreator || isMember ? { name: "Manage Community" } : null,
           ]}
           panels={[
-            <DisplayResources
-              removeResourceAction={removeResourceAction}
-              openModalAction={openModalAction}
-              closeModalAction={closeModalAction}
-              isMember={isMember}
-              type="home"
+            <HomepageResources
+              homepage={homepage}
+              isCommunityAdmin={isCommunityAdmin}
               key="home"
-              resources={getCommunity.approved}
-              communityId={getCommunity.id}
             />,
             <DisplayResources
               removeResourceAction={removeResourceAction}
