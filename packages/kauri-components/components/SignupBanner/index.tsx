@@ -65,7 +65,7 @@ const SignupBanner: React.FunctionComponent<IProps> = props => (
           border="white"
           color="white"
         >{`Learn more`}</SecondaryButtonComponent>,
-        `/about`
+        `/help`
       )}
     </ViewContainer>
   </SignupBannerStack>
