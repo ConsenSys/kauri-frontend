@@ -30,6 +30,7 @@ interface IProps {
   cancelInvitation: (payload: { index: number }) => void;
   formInvitations: IInvitation[] | null | undefined;
   data: getCommunity | null;
+  isCommunityAdmin: boolean;
 }
 
 const Component: React.SFC<IProps> = props => (
@@ -55,7 +56,17 @@ const Component: React.SFC<IProps> = props => (
         // },
       ]}
       panels={[
-        <HomeContentSectionEmptyState key="home" />,
+        props.data &&
+        props.data.getCommunity &&
+        props.data.getCommunity.homepage &&
+        props.data.getCommunity.homepage.length ? (
+          <p>Homepage content goes here</p>
+        ) : (
+          <HomeContentSectionEmptyState
+            key="home"
+            isCommunityAdmin={props.isCommunityAdmin}
+          />
+        ),
         <ArticlesContentSectionEmptyState key="articles" />,
         <CollectionsContentSectionEmptyState key="collections" />,
         <Manage
