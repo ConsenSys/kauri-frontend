@@ -7,6 +7,12 @@ import { getCommunity } from "../../../queries/__generated__/getCommunity";
 import HomeContentSectionEmptyState from "./ContentSectionEmptyStates/HomeContentSectionEmptyState";
 import ArticlesContentSectionEmptyState from "./ContentSectionEmptyStates/ArticlesContentSectionEmptyState";
 import CollectionsContentSectionEmptyState from "./ContentSectionEmptyStates/CollectionsContentSectionEmptyState";
+import { IFormValues } from "./index";
+import HomepageContentField from "./HomepageTab/HomepageContentField";
+import {
+  openModalAction,
+  closeModalAction,
+} from "../../../../kauri-components/components/Modal/Module";
 
 const Container = styled.section``;
 
@@ -30,6 +36,11 @@ interface IProps {
   cancelInvitation: (payload: { index: number }) => void;
   formInvitations: IInvitation[] | null | undefined;
   data: getCommunity | null;
+  isCommunityAdmin: boolean;
+  setFieldValue: (field: string, value: any) => void;
+  values: IFormValues;
+  openModalAction: typeof openModalAction;
+  closeModalAction: typeof closeModalAction;
 }
 
 const Component: React.SFC<IProps> = props => (
@@ -55,7 +66,16 @@ const Component: React.SFC<IProps> = props => (
         // },
       ]}
       panels={[
-        <HomeContentSectionEmptyState key="home" />,
+        props.isCommunityAdmin ? (
+          <HomepageContentField
+            id={String(props.id)}
+            openModalAction={props.openModalAction}
+            closeModalAction={props.closeModalAction}
+            values={props.values}
+          />
+        ) : (
+          <HomeContentSectionEmptyState key="home" />
+        ),
         <ArticlesContentSectionEmptyState key="articles" />,
         <CollectionsContentSectionEmptyState key="collections" />,
         <Manage

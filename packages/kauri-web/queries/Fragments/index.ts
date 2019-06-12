@@ -156,6 +156,76 @@ export const Community = gql`
     social
     tags
     attributes
+    homepage {
+      name
+      description
+      resourcesId {
+        id
+        type
+      }
+      resources {
+        ... on ArticleDTO {
+          resourceIdentifier {
+            type
+            id
+          }
+          id
+          version
+          title
+          content
+          description
+          dateCreated
+          datePublished
+          author {
+            id
+            name
+            username
+            avatar
+          }
+          owner {
+            ...UserOwner
+            ...CommunityOwner
+          }
+
+          status
+          attributes
+          voteResult {
+            sum
+          }
+        }
+        ... on CollectionDTO {
+          id
+          name
+          description
+          background
+          dateUpdated
+          resourceIdentifier {
+            type
+            id
+          }
+          owner {
+            ...UserOwner
+            ...CommunityOwner
+          }
+          sections {
+            name
+            description
+            resourcesId {
+              id
+              type
+            }
+          }
+        }
+        ... on CommunityDTO {
+          id
+          name
+          resourceIdentifier {
+            type
+            id
+          }
+        }
+      }
+    }
     members {
       id
       name

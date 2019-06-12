@@ -97,7 +97,7 @@ class Articles extends Component<IProps> {
                   userAvatar={(owner && owner.avatar) || null}
                   id={article.id || ""}
                   version={article.version || 1}
-                  cardHeight={420}
+                  cardHeight={310}
                   imageURL={
                     article &&
                     article.attributes &&

@@ -8,7 +8,7 @@ export const EmptyStateContainer = styled.section`
   align-items: center;
 `;
 
-export default () => (
+const HomeContentSectionEmptyState: React.FunctionComponent = () => (
   <ContentSection justifyContent={["", "column"]}>
     <EmptyStateContainer>
       <BodyCard>
@@ -17,3 +17,5 @@ export default () => (
     </EmptyStateContainer>
   </ContentSection>
 );
+
+export default HomeContentSectionEmptyState;

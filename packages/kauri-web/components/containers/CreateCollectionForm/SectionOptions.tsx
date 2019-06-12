@@ -1,6 +1,4 @@
-// @flow
-import * as React from "react";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import theme from "../../../lib/theme-config";
 import AddOptions from "../../../../kauri-components/components/AddOptions";
@@ -27,28 +25,29 @@ const Label = styled.span`
   font-size: 11px;
   font-weight: bold;
   text-transform: uppercase;
-  color: ${theme.colors["primary"]};
+  color: ${theme.colors.primary};
 `;
 
 const Divider = styled.div`
   display: flex;
   height: 2px;
   width: 100%;
-  background-color: ${theme.colors["divider"]};
+  background-color: ${theme.colors.divider};
   margin-top: ${theme.space[2]}px;
   margin-bottom: ${theme.space[2]}px;
   cursor: default;
 `;
-type Props = {
-  currentSectionIndex: number,
-  previousSectionHasArticles: boolean,
-  addNewSection: () => void,
-  removeSection: () => void,
-  chooseArticle: () => void,
-  chooseCollection: () => void,
-};
 
-const Content = (props: Props) => (
+interface IProps {
+  currentSectionIndex: number;
+  previousSectionHasArticles: boolean;
+  addNewSection: () => void;
+  removeSection: () => void;
+  chooseArticle: () => void;
+  chooseCollection: () => void;
+}
+
+const Content: React.FunctionComponent<IProps> = props => (
   <TooltipContainer>
     <Label onClick={props.chooseArticle}>Add Article To Section</Label>
     <Divider />
@@ -68,8 +67,10 @@ const Content = (props: Props) => (
   </TooltipContainer>
 );
 
-export default (props: Props) => (
+const SectionOptions: React.FunctionComponent<IProps> = props => (
   <AddOptions>
     <Content {...props} />
   </AddOptions>
 );
+
+export default SectionOptions;

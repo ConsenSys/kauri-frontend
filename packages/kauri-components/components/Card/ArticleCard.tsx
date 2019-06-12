@@ -375,7 +375,7 @@ interface IProps {
   status?: "PUBLISHED" | "DRAFT";
   isLoggedIn: boolean;
   tags?: string[];
-  nfts: Array<Article_associatedNfts | null> | null;
+  nfts?: Array<Article_associatedNfts | null> | null;
   triggerHoverChildrenOnFullCardClick?: boolean;
 }
 
@@ -397,7 +397,6 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   isLoggedIn,
   hoverChildren,
   tags,
-  nfts,
   destination,
   description,
   triggerHoverChildrenOnFullCardClick = false,
@@ -450,7 +449,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             date={date}
             status={status}
             tags={tags}
-            nfts={nfts}
+            nfts={null}
           />,
           destination === "review"
             ? `/article-review/${id}/v${version}`

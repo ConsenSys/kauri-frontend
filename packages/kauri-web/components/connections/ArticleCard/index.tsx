@@ -1,23 +1,32 @@
 import React from "react";
-import moment from "moment";
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import { getArticle } from "../../../queries/Article";
 import withLoading from "../../../lib/with-loading";
 import withApolloError from "../../../lib/with-apollo-error";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
+import { IReduxState } from "../../../lib/Module";
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: IReduxState) => ({
   hostName: state.app && state.app.hostName,
   isLoggedIn: !!(state.app && state.app.user && state.app.user.id),
 });
 
-const View = ({
+interface IProps {
+  isLoggedIn: boolean;
+  data: { getArticle: any };
+}
+
+const View: React.FunctionComponent<IProps> = ({
   isLoggedIn,
   data: { getArticle: article },
-  cardHeight = 400,
 }) => (
   <ArticleCard
+    cardHeight={310}
+    resourceType={
+      getArticle.owner &&
+      getArticle.owner.__typename.split("DTO")[0].toLowerCase()
+    }
     linkComponent={children => children}
     key={article.id + article.version}
     id={article.id}
@@ -29,7 +38,6 @@ const View = ({
     userAvatar={article.owner && article.owner.avatar}
     userId={article.owner && article.owner.id}
     imageURL={article.attributes && article.attributes.background}
-    cardHeight={420}
     isLoggedIn={isLoggedIn}
   />
 );
@@ -40,7 +48,7 @@ export default compose(
     {}
   ),
   graphql(getArticle, {
-    options: ({ id, version }) => ({
+    options: ({ id, version }: any) => ({
       variables: {
         id,
         version,

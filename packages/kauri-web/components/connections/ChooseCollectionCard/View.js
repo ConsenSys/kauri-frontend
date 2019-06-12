@@ -43,16 +43,16 @@ const CollectionsContent = ({
   chooseCollection,
   viewCollection,
   chosenCollections,
-  collections: { content },
+  collections,
   userId,
   setRef,
   allOtherChosenCollections,
   currentCollectionIdIfUpdating,
 }) =>
-  content.length > 0 ? (
+  collections && collections.content && collections.content.length > 0 ? (
     <Container>
       <ChooseCollectionContent setRef={setRef}>
-        {content.map(collection => {
+        {collections.content.map(collection => {
           // Don't show chosen Collections from other sections
           if (
             allOtherChosenCollections.find(

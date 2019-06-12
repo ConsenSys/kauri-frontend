@@ -1,5 +1,11 @@
 import gql from "graphql-tag";
-import { Community, UserOwner, CommunityOwner } from "./Fragments";
+import {
+  Community,
+  UserOwner,
+  CommunityOwner,
+  Article,
+  Collection,
+} from "./Fragments";
 
 export const getCommunity = gql`
   query getCommunity($id: String) {
@@ -179,6 +185,7 @@ export const updateCommunityMutation = gql`
     $tags: [String]
     $social: Map_String_StringScalar
     $attributes: Map_String_StringScalar
+    $homepage: [SectionDTOInput]
   ) {
     editCommunity(
       id: $id
@@ -189,6 +196,7 @@ export const updateCommunityMutation = gql`
       tags: $tags
       social: $social
       attributes: $attributes
+      homepage: $homepage
     ) {
       hash
     }
@@ -409,4 +417,33 @@ export const initiateArticleTransferMutation = gql`
       hash
     }
   }
+`;
+
+export const getCommunityContentQuery = gql`
+  query getCommunityContent(
+    $id: String
+    $page: Int = 0
+    $size: Int
+    $filter: CommunityResourceFilterInput
+  ) {
+    getCommunityContent(id: $id, page: $page, size: $size, filter: $filter) {
+      content {
+        id
+        type
+        resource {
+          ... on ArticleDTO {
+            ...Article
+          }
+          ... on CollectionDTO {
+            ...Collection
+          }
+        }
+      }
+      totalPages
+      totalElements
+    }
+  }
+
+  ${Article}
+  ${Collection}
 `;

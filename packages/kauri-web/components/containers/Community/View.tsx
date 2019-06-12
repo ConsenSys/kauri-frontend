@@ -23,11 +23,15 @@ import AddMemberModal from "../CreateCommunityForm/AddMemberModal";
 import { removeResourceVariables } from "../../../queries/__generated__/removeResource";
 import { recordView } from "../../../queries/Utils";
 import ApolloClient from "apollo-client";
+import HomepageResources from "./HomepageResources";
+import { routeChangeAction as routeChange } from "../../../lib/Module";
+import { openModalAction as openModal } from "../../../../kauri-components/components/Modal/Module";
 
 interface IProps {
   client: ApolloClient<{}>;
   acceptCommunityInvitationAction: typeof acceptCommunityInvitation;
   currentUser: string;
+  isCommunityAdmin: boolean;
   secret: null | string;
   communityId: string;
   data: {
@@ -35,8 +39,8 @@ interface IProps {
     searchArticles: getCommunityAndPendingArticles_searchArticles;
   };
   closeModalAction: () => void;
-  openModalAction: (payload: { children: any }) => void;
-  routeChangeAction: (route: string) => void;
+  openModalAction: typeof openModal;
+  routeChangeAction: typeof routeChange;
   removeResourceAction: (payload: removeResourceVariables) => void;
   curateCommunityResourcesAction: typeof curateCommunityResources;
   sendCommunityInvitationAction: typeof sendCommunityInvitation;
@@ -94,6 +98,7 @@ class CommunityConnection extends React.Component<IProps> {
       acceptCommunityInvitationAction,
       removeResourceAction,
       transferArticleToCommunityAction,
+      isCommunityAdmin,
     } = this.props;
     const articles =
       getCommunity.approved &&
@@ -105,6 +110,7 @@ class CommunityConnection extends React.Component<IProps> {
     const isMember =
       isCreator ||
       R.any(R.propEq("id", currentUser), getCommunity.members || []);
+    const homepage = getCommunity.homepage;
 
     const openAddMemberModal = () =>
       this.props.openModalAction({
@@ -164,21 +170,23 @@ class CommunityConnection extends React.Component<IProps> {
         <Tabs
           dark={true}
           tabs={[
-            { name: `Home` },
+            (Array.isArray(homepage) && homepage.length) || isCommunityAdmin
+              ? { name: "Home" }
+              : null,
             { name: `Articles (${articles && articles.length})` },
             { name: `Collections (${collections && collections.length})` },
             isCreator || isMember ? { name: "Manage Community" } : null,
           ]}
           panels={[
-            <DisplayResources
-              removeResourceAction={removeResourceAction}
-              openModalAction={openModalAction}
-              closeModalAction={closeModalAction}
-              isMember={isMember}
-              type="home"
+            <HomepageResources
+              routeChangeAction={routeChangeAction}
+              id={String(getCommunity.id)}
+              homepage={homepage}
+              isCommunityAdmin={isCommunityAdmin}
               key="home"
-              resources={getCommunity.approved}
-              communityId={getCommunity.id}
+              isLoggedIn={!!currentUser}
+              userId={currentUser}
+              openModalAction={openModalAction}
             />,
             <DisplayResources
               removeResourceAction={removeResourceAction}

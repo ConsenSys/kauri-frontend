@@ -58,25 +58,25 @@ export default compose(
         // Prefill article in section 1 and create first collection
         typeof query === "object" && typeof query.articleId === "string"
           ? [
-            {
-              name: "",
-              description: undefined,
-              resourcesId: [
-                {
-                  type: "ARTICLE",
-                  id: query.articleId,
-                  version: query.version,
-                },
-              ],
-            },
-          ] // Updating a collection, prefill data
+              {
+                name: "",
+                description: undefined,
+                resourcesId: [
+                  {
+                    type: "ARTICLE",
+                    id: query.articleId,
+                    version: query.version,
+                  },
+                ],
+              },
+            ] // Updating a collection, prefill data
           : R.path(["getCollection", "sections"])(data)
-            ? R.pipe(
+          ? R.pipe(
               R.path(["getCollection", "sections"]),
               R.map(section => ({
                 ...section,
                 resourcesId: R.map(({ id, version, __typename }) => ({
-                  type: __typename.split("DTO")[0],
+                  type: __typename.split("DTO")[0].toUpperCase(),
                   id,
                   version,
                 }))(section.resources),
@@ -84,7 +84,7 @@ export default compose(
               R.map(section => R.dissocPath(["resources"])(section)),
               R.map(section => R.dissocPath(["__typename"])(section))
             )(data)
-            : [emptySection];
+          : [emptySection];
       // Empty section, fresh collection
 
       return {

@@ -33,6 +33,7 @@ export interface IProps {
   username: string | null;
   validateForm: () => Promise<any>;
   showNotificationAction: typeof showNotification;
+  isCommunityAdmin: boolean;
 }
 
 const handleBackgroundSetFormField = (setFieldValue: any) => () =>
@@ -113,12 +114,13 @@ const Component: React.SFC<
           uploadLogo={handleAvatarSetFormField(props.setFieldValue)}
           setFieldValue={props.setFieldValue}
         />
-
         <Content
           {...props}
           openAddMemberModal={openAddMemberModal}
           cancelInvitation={cancelInvitation}
           formInvitations={props.values.invitations}
+          isCommunityAdmin={props.isCommunityAdmin}
+          setFieldValue={props.setFieldValue}
         />
       </Form>
     </Section>
