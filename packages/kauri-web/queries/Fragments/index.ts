@@ -159,6 +159,10 @@ export const Community = gql`
     homepage {
       name
       description
+      resourcesId {
+        id
+        type
+      }
       resources {
         ... on ArticleDTO {
           resourceIdentifier {

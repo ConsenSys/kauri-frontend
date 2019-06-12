@@ -13,6 +13,7 @@ import {
 import { createCommunityAction, updateCommunityAction } from "./Module";
 import { withFormik } from "formik";
 import * as Yup from "yup";
+import R from "ramda";
 import { updateCommunityVariables } from "../../../queries/__generated__/updateCommunity";
 import { IInvitation } from "./ManageMembers/FormInviteMembersPanel";
 
@@ -36,6 +37,15 @@ const mapStateToProps = ({ app: { user } }: IReduxState, ownProps: any) => ({
   username: user && user.username,
 });
 
+const getCommunityField = (field: string, data: any) =>
+  R.path(["getCommunity", field], data);
+
+export const emptySection = {
+  description: undefined,
+  name: "",
+  resourcesId: [],
+};
+
 export default compose(
   connect(
     mapStateToProps,
@@ -54,7 +64,61 @@ export default compose(
       // console.info(values.invitations);
       setSubmitting(true);
       if (props.id) {
-        props.updateCommunityAction(values as any, () => {
+        /*
+
+          // BACKEND FIX sections.resources -> sections.resourcesId :(
+          const reassignResourcesToResourcesId = R.pipe(
+            R.path(["sections"]),
+            R.map(section => ({
+              ...section,
+              resourcesId: R.map(({ id, version, type }) => ({
+                type: type.toUpperCase(),
+                id,
+                version,
+              }))(section.resourcesId),
+            })),
+            R.map(section => R.dissocPath(["resources"])(section)),
+            R.map(section => R.dissocPath(["__typename"])(section))
+          );
+
+          const payload = {
+            ...values,
+            sections: reassignResourcesToResourcesId(values),
+            id: props.data.variables.id,
+            updating: true,
+          };
+
+          props.editCollectionAction(payload, () => {
+            setSubmitting(false);
+          });
+
+*/
+
+        const reassignResourcesToResourcesId = R.pipe(
+          R.path<
+            [{ resourcesId: [{ id: string; version: number; type: string }] }]
+          >(["homepage"]),
+          R.defaultTo([]),
+          R.map(section => ({
+            ...section,
+            resources: R.map(({ id, version, type }) => ({
+              id,
+              type: type.toUpperCase(),
+              version,
+            }))(section.resourcesId),
+          })),
+          R.map(section => R.dissocPath(["resources"])(section)),
+          R.map(section => R.dissocPath(["__typename"])(section))
+        );
+
+        const payload = {
+          ...values,
+          homepage: reassignResourcesToResourcesId(values),
+          id: props.id,
+          updating: true,
+        };
+
+        props.updateCommunityAction(payload as any, () => {
           setSubmitting(false);
         });
       } else {
@@ -64,17 +128,34 @@ export default compose(
       }
     },
     mapPropsToValues: ({ data, id }) => {
+      const homepage = R.path(["getCommunity", "homepage"])(data)
+        ? R.pipe(
+            R.path<[any]>(["getCommunity", "homepage"]),
+            R.defaultTo([]),
+            R.map(section => ({
+              ...section,
+              resourcesId: R.map(({ id: resourceId, version, __typename }) => ({
+                id: resourceId,
+                type: __typename.split("DTO")[0],
+                version,
+              }))(section.resources),
+            })),
+            R.map(section => R.dissocPath(["resources"])(section)),
+            R.map(section => R.dissocPath(["__typename"])(section))
+          )(data)
+        : [emptySection];
+
       if (id && data) {
         const { getCommunity } = data;
         if (getCommunity) {
-          return { ...getCommunity, invitations: [] };
+          return { ...getCommunity, invitations: [], homepage };
         }
       }
       return {
         attributes: undefined,
         avatar: null,
         description: "",
-        homepage: null,
+        homepage,
         id: null,
         invitations: [],
         name: "",

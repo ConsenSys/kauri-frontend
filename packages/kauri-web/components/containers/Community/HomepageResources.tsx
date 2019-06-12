@@ -14,7 +14,7 @@ interface IProps {
 const CommunityHomepageContent: React.FunctionComponent<
   Pick<IProps, "homepage">
 > = ({ homepage }) => (
-  <p>Show homepage content here: {JSON.stringify(homepage, null, 2)}</p>
+  <p>Show homepage content here: {JSON.stringify(homepage)}</p>
 );
 
 const HomepageResources: React.FunctionComponent<IProps> = ({

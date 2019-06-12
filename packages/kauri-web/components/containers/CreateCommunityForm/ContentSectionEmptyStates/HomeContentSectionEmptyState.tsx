@@ -8,15 +8,14 @@ export const EmptyStateContainer = styled.section`
   align-items: center;
 `;
 
-export default (props: { isCommunityAdmin: boolean }) =>
-  props.isCommunityAdmin ? (
-    <p>Show homepage manipulation shit here</p>
-  ) : (
-    <ContentSection justifyContent={["", "column"]}>
-      <EmptyStateContainer>
-        <BodyCard>
-          All of the community's articles and collections will be shown here!
-        </BodyCard>
-      </EmptyStateContainer>
-    </ContentSection>
-  );
+const HomeContentSectionEmptyState: React.FunctionComponent = () => (
+  <ContentSection justifyContent={["", "column"]}>
+    <EmptyStateContainer>
+      <BodyCard>
+        All of the community's articles and collections will be shown here!
+      </BodyCard>
+    </EmptyStateContainer>
+  </ContentSection>
+);
+
+export default HomeContentSectionEmptyState;

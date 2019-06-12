@@ -375,7 +375,7 @@ interface IProps {
   status?: "PUBLISHED" | "DRAFT";
   isLoggedIn: boolean;
   tags?: string[];
-  nfts: Array<Article_associatedNfts | null> | null;
+  nfts?: Array<Article_associatedNfts | null> | null;
   triggerHoverChildrenOnFullCardClick?: boolean;
 }
 

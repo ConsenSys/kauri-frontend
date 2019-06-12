@@ -114,13 +114,13 @@ const Component: React.SFC<
           uploadLogo={handleAvatarSetFormField(props.setFieldValue)}
           setFieldValue={props.setFieldValue}
         />
-
         <Content
           {...props}
           openAddMemberModal={openAddMemberModal}
           cancelInvitation={cancelInvitation}
           formInvitations={props.values.invitations}
           isCommunityAdmin={props.isCommunityAdmin}
+          setFieldValue={props.setFieldValue}
         />
       </Form>
     </Section>
