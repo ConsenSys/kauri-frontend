@@ -4,14 +4,14 @@ import R from "ramda";
 import { BodyCard } from "../../../../../kauri-components/components/Typography";
 import PrimaryButton from "../../../../../kauri-components/components/Button/PrimaryButton";
 import TertiaryButton from "../../../../../kauri-components/components/Button/TertiaryButton";
-import ChooseCollectionCard from "../../../connections/ChooseCollectionCard/View";
+import ChooseCommunityCollectionCard from "../../../connections/ChooseCommunityCollectionCard/View";
 import ModalHeader from "../../../../../kauri-components/components/Headers/ModalHeader";
 import ChooseResourceModalSearch from "../../CreateCollectionForm/ChooseResourceModalSearch";
 import { connect } from "react-redux";
 import { compose, graphql } from "react-apollo";
 import withApolloError from "../../../../lib/with-apollo-error";
 import { IReduxState } from "../../../../lib/Module";
-import { getCollectionsForUser } from "../../../../queries/Collection";
+import { getCommunityContentQuery } from "../../../../queries/Community";
 
 const collectionSize = 12;
 
@@ -49,17 +49,8 @@ const Actions: React.FunctionComponent<any> = ({
   handleClose,
   handleConfirm,
   chosenCollections,
-  searchPublishedCollections,
-  changeTab,
-  userId,
 }) => (
   <ActionsContainer>
-    <ChooseResourceModalSearch
-      type="collection"
-      userId={userId}
-      query={searchPublishedCollections}
-      changeTab={changeTab}
-    />
     <TertiaryButton
       icon={<CloseIcon />}
       onClick={() => handleClose()}
@@ -95,8 +86,7 @@ interface IProps {
   chosenCollections: Array<{ id: string }>;
   allOtherChosenCollections: Array<{ id: string }>;
   currentCollectionIdIfUpdating?: string;
-  searchPublishedCollections: any;
-  searchPersonalPublishedCollections: any;
+  searchCommunityPublishedCollections: any;
 }
 
 interface IState {
@@ -117,7 +107,7 @@ class ChooseCollectionModal extends React.Component<IProps, IState> {
         return;
       },
       chosenCollections: this.props.chosenCollections || [],
-      currentTab: "My collections",
+      currentTab: "Community collections",
     };
   }
 
@@ -151,9 +141,8 @@ class ChooseCollectionModal extends React.Component<IProps, IState> {
           actions={
             <Actions
               userId={this.props.userId}
-              searchPublishedCollections={this.props.searchPublishedCollections}
-              searchPersonalPublishedCollections={
-                this.props.searchPersonalPublishedCollections
+              searchCommunityPublishedCollections={
+                this.props.searchCommunityPublishedCollections
               }
               chosenCollections={this.state.chosenCollections}
               handleConfirm={confirmModal}
@@ -164,11 +153,10 @@ class ChooseCollectionModal extends React.Component<IProps, IState> {
           }
           title={<Title chosenCollections={this.state.chosenCollections} />}
         />
-        <ChooseCollectionCard
+        <ChooseCommunityCollectionCard
           userId={this.props.userId}
-          searchPublishedCollections={this.props.searchPublishedCollections}
-          searchPersonalPublishedCollections={
-            this.props.searchPersonalPublishedCollections
+          searchCommunityPublishedCollections={
+            this.props.searchCommunityPublishedCollections
           }
           currentCollectionIdIfUpdating={currentCollectionIdIfUpdating}
           allOtherChosenCollections={this.props.allOtherChosenCollections}
@@ -192,21 +180,15 @@ export default compose(
     mapStateToProps,
     {}
   ),
-  graphql(getCollectionsForUser, {
-    name: "searchPublishedCollections",
-    options: () => ({
-      variables: {
-        size: collectionSize, // Because lag and no searchbar
-      },
-    }),
-  }),
-  graphql(getCollectionsForUser, {
-    name: "searchPersonalPublishedCollections",
-    options: ({ userId }: { userId: string }) => ({
+  graphql(getCommunityContentQuery, {
+    name: "searchCommunityPublishedCollections",
+    options: ({ id }: { id: string }) => ({
       variables: {
         filter: {
-          ownerIdEquals: userId,
+          resourceTypeEquals: "COLLECTION",
+          statusEquals: "APPROVED",
         },
+        id,
         size: collectionSize, // Because lag and no searchbar
       },
     }),

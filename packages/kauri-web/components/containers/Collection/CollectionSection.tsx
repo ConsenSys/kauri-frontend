@@ -127,7 +127,7 @@ const CollectionSection: React.SFC<IProps> = props => {
                     </Link>
                   )}
                   resourceType={"USER"}
-                  cardHeight={420}
+                  cardHeight={310}
                   isLoggedIn={isLoggedIn}
                   hoverChildren={
                     isOwnedByCurrentUser

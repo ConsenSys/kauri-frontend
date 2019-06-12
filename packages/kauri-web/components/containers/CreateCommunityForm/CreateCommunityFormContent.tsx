@@ -68,7 +68,7 @@ const Component: React.SFC<IProps> = props => (
       panels={[
         props.isCommunityAdmin ? (
           <HomepageContentField
-            id={props.id}
+            id={String(props.id)}
             openModalAction={props.openModalAction}
             closeModalAction={props.closeModalAction}
             values={props.values}

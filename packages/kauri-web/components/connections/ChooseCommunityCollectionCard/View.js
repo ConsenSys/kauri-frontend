@@ -52,7 +52,7 @@ const CollectionsContent = ({
   collections && collections.content && collections.content.length > 0 ? (
     <Container>
       <ChooseCollectionContent setRef={setRef}>
-        {collections.content.map(collection => {
+        {collections.content.map(({ resource: collection }) => {
           // Don't show chosen Collections from other sections
           if (
             allOtherChosenCollections.find(
@@ -155,26 +155,19 @@ const CollectionsContent = ({
       </ChooseCollectionContent>
     </Container>
   ) : (
-    <p>You have no published collections!</p>
+    <p>You have no community collections!</p>
   );
 
-const PublishedCollections = withPagination(
+const CommunityPublishedCollections = withPagination(
   CollectionsContent,
-  "searchCollections",
-  "searchPublishedCollections"
-);
-const PersonalPublishedCollections = withPagination(
-  CollectionsContent,
-  "searchCollections",
-  "searchPersonalPublishedCollections"
+  "getCommunityContent",
+  "searchCommunityPublishedCollections"
 );
 
 export default props => {
   if (
-    (props.searchPublishedCollections &&
-      props.searchPublishedCollections.loading) ||
-    (props.searchPersonalPublishedCollections &&
-      props.searchPersonalPublishedCollections.loading)
+    props.searchCommunityPublishedCollections &&
+    props.searchCommunityPublishedCollections.loading
   ) {
     return <Loading />;
   }
@@ -183,17 +176,13 @@ export default props => {
     <Tabs
       centerTabs
       passChangeTabFunction={props.passChangeTabFunction}
-      tabs={[{ name: "My Collections" }, { name: "All Collections" }]}
+      tabs={[{ name: "Community Collections" }]}
       panels={[
-        <PersonalPublishedCollections
+        <CommunityPublishedCollections
           {...props}
           collections={
-            props.searchPersonalPublishedCollections.searchCollections
+            props.searchCommunityPublishedCollections.getCommunityContent
           }
-        />,
-        <PublishedCollections
-          {...props}
-          collections={props.searchPublishedCollections.searchCollections}
         />,
       ]}
     />

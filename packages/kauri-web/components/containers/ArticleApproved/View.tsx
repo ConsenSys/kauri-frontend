@@ -135,7 +135,7 @@ class ArticleApproved extends React.Component<IProps> {
               (article.author && article.author.avatar)
             }
             imageURL={article.attributes && article.attributes.background}
-            cardHeight={420}
+            cardHeight={310}
             isLoggedIn={isLoggedIn}
             linkComponent={(childrenProps, route) => (
               <Link

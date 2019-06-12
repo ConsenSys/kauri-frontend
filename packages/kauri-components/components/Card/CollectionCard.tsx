@@ -366,7 +366,7 @@ const calculateCardHeight = R.cond([
       typeof imageURL !== "string" &&
       cardHeight === DEFAULT_CARD_HEIGHT &&
       cardWidth > DEFAULT_CARD_WIDTH,
-    R.always(420),
+    R.always(310),
   ],
   [
     ({ cardHeight, imageURL }) =>
