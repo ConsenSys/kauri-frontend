@@ -183,6 +183,9 @@ class CommunityConnection extends React.Component<IProps> {
               homepage={homepage}
               isCommunityAdmin={isCommunityAdmin}
               key="home"
+              isLoggedIn={!!currentUser}
+              userId={currentUser}
+              openModalAction={openModalAction}
             />,
             <DisplayResources
               removeResourceAction={removeResourceAction}

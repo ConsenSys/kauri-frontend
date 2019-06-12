@@ -136,7 +136,7 @@ export default compose(
               ...section,
               resourcesId: R.map(({ id: resourceId, version, __typename }) => ({
                 id: resourceId,
-                type: __typename.split("DTO")[0],
+                type: __typename.split("DTO")[0].toUpperCase(),
                 version,
               }))(section.resources),
             })),

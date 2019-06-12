@@ -57,7 +57,7 @@ interface IProps {
   openModalAction: any;
 }
 
-const Component: React.SFC<IProps> = props => {
+const CollectionSection: React.SFC<IProps> = props => {
   const {
     name,
     description,
@@ -239,4 +239,4 @@ const Component: React.SFC<IProps> = props => {
   return <Empty />;
 };
 
-export default Component;
+export default CollectionSection;
