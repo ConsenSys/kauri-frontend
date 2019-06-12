@@ -137,7 +137,7 @@ const renderResourceSection = (
       icon={<RemoveIcon />}
       onClick={() =>
         arrayHelpers.form.setFieldValue(
-          `sections[${index}][${mappingKey}]`,
+          `homepage[${index}][${mappingKey}]`,
           Array.isArray(section[mappingKey]) &&
             (!resourceIndex
               ? section[mappingKey].length > 1
@@ -233,17 +233,18 @@ const HomepageContentField: React.FunctionComponent<IProps> = ({
                       ) {
                         return;
                       }
+
                       const sourceResource = R.path<IResourceIdentifier>([
                         "homepage",
                         index,
-                        "resources",
+                        "resourcesId",
                         source.index,
                       ])(values);
 
                       const destinationResource = R.path<IResourceIdentifier>([
                         "homepage",
                         index,
-                        "resources",
+                        "resourcesId",
                         destination.index,
                       ])(values);
 
@@ -252,12 +253,12 @@ const HomepageContentField: React.FunctionComponent<IProps> = ({
                       // console.log(sourceResource);
 
                       arrayHelpers.form.setFieldValue(
-                        `homepage[${index}].resources[${destination.index}]`,
+                        `homepage[${index}].resourcesId[${destination.index}]`,
                         sourceResource
                       );
 
                       arrayHelpers.form.setFieldValue(
-                        `homepage[${index}].resources[${source.index}]`,
+                        `homepage[${index}].resourcesId[${source.index}]`,
                         destinationResource
                       );
                     }}
