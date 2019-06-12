@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 import { compose, graphql } from "react-apollo";
 import { IReduxState } from "../../../../lib/Module";
-import R from "ramda";
 import {
   openModalAction,
   closeModalAction,

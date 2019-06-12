@@ -37,9 +37,6 @@ const mapStateToProps = ({ app: { user } }: IReduxState, ownProps: any) => ({
   username: user && user.username,
 });
 
-const getCommunityField = (field: string, data: any) =>
-  R.path(["getCommunity", field], data);
-
 export const emptySection = {
   description: undefined,
   name: "",

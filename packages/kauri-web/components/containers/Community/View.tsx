@@ -25,7 +25,7 @@ import { recordView } from "../../../queries/Utils";
 import ApolloClient from "apollo-client";
 import HomepageResources from "./HomepageResources";
 import { routeChangeAction as routeChange } from "../../../lib/Module";
-import { openModalAction } from "../../../../kauri-components/components/Modal/Module";
+import { openModalAction as openModal } from "../../../../kauri-components/components/Modal/Module";
 
 interface IProps {
   client: ApolloClient<{}>;
@@ -39,7 +39,7 @@ interface IProps {
     searchArticles: getCommunityAndPendingArticles_searchArticles;
   };
   closeModalAction: () => void;
-  openModalAction: typeof openModalAction;
+  openModalAction: typeof openModal;
   routeChangeAction: typeof routeChange;
   removeResourceAction: (payload: removeResourceVariables) => void;
   curateCommunityResourcesAction: typeof curateCommunityResources;

@@ -6,7 +6,6 @@ import PrimaryButton from "../../../../../kauri-components/components/Button/Pri
 import TertiaryButton from "../../../../../kauri-components/components/Button/TertiaryButton";
 import ChooseCommunityCollectionCard from "../../../connections/ChooseCommunityCollectionCard/View";
 import ModalHeader from "../../../../../kauri-components/components/Headers/ModalHeader";
-import ChooseResourceModalSearch from "../../CreateCollectionForm/ChooseResourceModalSearch";
 import { connect } from "react-redux";
 import { compose, graphql } from "react-apollo";
 import withApolloError from "../../../../lib/with-apollo-error";
