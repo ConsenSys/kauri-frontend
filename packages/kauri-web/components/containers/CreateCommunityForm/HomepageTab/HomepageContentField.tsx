@@ -15,8 +15,8 @@ import {
   openModalAction as openModal,
   closeModalAction as closeModal,
 } from "../../../../../kauri-components/components/Modal/Module";
-import ChooseArticleModal from "../../../../components/containers/CreateCollectionForm/ChooseArticleModal";
-import ChooseCollectionModal from "../../../../components/containers/CreateCollectionForm/ChooseCollectionModal";
+import ChooseCommunityArticleModal from "./ChooseCommunityArticleModal";
+import ChooseCommunityCollectionModal from "./ChooseCommunityCollectionModal";
 
 const Section = styled<SpaceProps, "section">("section")`
   display: flex;
@@ -173,9 +173,11 @@ interface IProps {
   values: IFormValues;
   openModalAction: typeof openModal;
   closeModalAction: typeof closeModal;
+  id: string;
 }
 
 const HomepageContentField: React.FunctionComponent<IProps> = ({
+  id,
   values,
   openModalAction,
   closeModalAction,
@@ -307,7 +309,9 @@ const HomepageContentField: React.FunctionComponent<IProps> = ({
                     chooseArticle={() =>
                       openModalAction({
                         children: (
-                          <ChooseArticleModal
+                          // TODO: CHANGE TO CHOOSEARTICLEMODAL COMPONENT BECAUSE PHASE 2 :-1:
+                          <ChooseCommunityArticleModal
+                            id={id}
                             allOtherChosenArticles={
                               values.homepage &&
                               values.homepage.filter(
@@ -381,7 +385,9 @@ const HomepageContentField: React.FunctionComponent<IProps> = ({
                     chooseCollection={() =>
                       openModalAction({
                         children: (
-                          <ChooseCollectionModal
+                          // TODO: CHANGE TO CHOOSECOLLECTIONMODAL COMPONENT BECAUSE PHASE 2 :-1:
+                          <ChooseCommunityCollectionModal
+                            id={id}
                             currentCollectionIdIfUpdating={"1337"}
                             allOtherChosenCollections={
                               values.homepage &&
