@@ -23,10 +23,10 @@ const ArticleDiscover = () => (
       centerTabs={true}
       tabs={[
         {
-          name: "Trending / Hot 🔥",
+          name: "Trending",
         },
         {
-          name: "Most Popular",
+          name: "Popular",
         },
         {
           name: "Last Posted",

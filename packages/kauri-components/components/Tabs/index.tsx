@@ -17,6 +17,7 @@ const TabContainer = styled.div`
   flex-direction: column;
   overflow-y: auto;
   min-width: ${(props: ITabContainerProps) => props.minWidth};
+  padding-bottom: ${props => props.theme.space[2]}px;
 `;
 
 interface ITabsProps {
