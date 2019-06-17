@@ -479,54 +479,68 @@ export const acceptCommunityInvitationEpic: Epic<
   Actions,
   IReduxState,
   IDependencies
-> = (action$, _, { apolloClient, apolloSubscriber, personalSign }) =>
+> = (action$, { getState }, { apolloClient, apolloSubscriber, personalSign }) =>
   action$
     .ofType(ACCEPT_COMMUNITY_INVITATION)
     .switchMap(({ payload }: IAcceptCommunityInvitationAction) =>
-      Observable.fromPromise(
-        apolloClient.query<
-          prepareAcceptInvitation,
-          prepareAcceptInvitationVariables
-        >({
-          query: prepareAcceptInvitationQuery,
-          variables: payload,
-        })
-      ).mergeMap(({ data: { prepareAcceptInvitation: result } }) =>
-        Observable.fromPromise<string>(
-          personalSign(result && result.messageHash)
-        )
-          .mergeMap(signature =>
-            apolloClient.mutate<acceptInvitation, acceptInvitationVariables>({
-              mutation: acceptInvitationMutation,
-              variables: {
-                id: (payload && payload.id) || "",
-                secret: (payload && payload.secret) || "",
-                signature,
-              },
+      getState().app && getState().app.user && getState().app.user.id
+        ? Observable.fromPromise(
+            apolloClient.query<
+              prepareAcceptInvitation,
+              prepareAcceptInvitationVariables
+            >({
+              query: prepareAcceptInvitationQuery,
+              variables: payload,
             })
-          )
-          .mergeMap(
-            ({ data: { acceptInvitation: acceptInvitationResult } }: any) =>
-              apolloSubscriber<IAcceptInvitationCommandOutput>(
-                acceptInvitationResult.hash
+          ).mergeMap(({ data: { prepareAcceptInvitation: result } }) =>
+            Observable.fromPromise<string>(
+              personalSign(result && result.messageHash)
+            )
+              .mergeMap(signature =>
+                apolloClient.mutate<
+                  acceptInvitation,
+                  acceptInvitationVariables
+                >({
+                  mutation: acceptInvitationMutation,
+                  variables: {
+                    id: (payload && payload.id) || "",
+                    secret: (payload && payload.secret) || "",
+                    signature,
+                  },
+                })
+              )
+              .mergeMap(
+                ({ data: { acceptInvitation: acceptInvitationResult } }: any) =>
+                  apolloSubscriber<IAcceptInvitationCommandOutput>(
+                    acceptInvitationResult.hash
+                  )
+              )
+              .do(() => apolloClient.resetStore())
+              .mergeMap(() =>
+                Observable.merge(
+                  Observable.of(closeModalAction()),
+                  Observable.of(
+                    showNotificationAction({
+                      description: `You are now a member of the community!`,
+                      message: "Invitation Accepted",
+                      notificationType: "success",
+                    })
+                  ),
+                  Observable.of(routeChangeAction(`/community/${payload.id}`)),
+                  Observable.of(invitationAcceptedAction())
+                )
               )
           )
-          .do(() => apolloClient.resetStore())
-          .mergeMap(() =>
-            Observable.merge(
-              Observable.of(closeModalAction()),
-              Observable.of(
-                showNotificationAction({
-                  description: `You are now a member of the community!`,
-                  message: "Invitation Accepted",
-                  notificationType: "success",
-                })
-              ),
-              Observable.of(routeChangeAction(`/community/${payload.id}`)),
-              Observable.of(invitationAcceptedAction())
+        : Observable.merge(
+            Observable.of(closeModalAction()),
+            Observable.of(
+              routeChangeAction(
+                `/login?r=/community/${payload.id}/approve?secret=${
+                  payload.secret
+                }`
+              )
             )
           )
-      )
     );
 
 export const revokeInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
