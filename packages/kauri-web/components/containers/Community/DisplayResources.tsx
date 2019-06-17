@@ -69,7 +69,6 @@ const RenderResources = (
 
           username: "",
         };
-
   if (i.__typename === "ArticleDTO") {
     return (
       <ArticleCard
@@ -138,7 +137,7 @@ const RenderResources = (
             href={
               destination
                 ? `${route}`
-                : typeof communityId === "string"
+                : destination === "review"
                 ? `${route}?proposed-community-id=${communityId}`
                 : route
             }
