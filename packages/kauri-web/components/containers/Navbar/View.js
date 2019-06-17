@@ -170,9 +170,9 @@ const Avatar = styled.div`
       : props.theme.colors["textPrimary"]};
   > * {
     color: ${props =>
-    props.variant === "white"
-      ? props.theme.colors["textPrimary"]
-      : props.theme.colors[props.color]};
+      props.variant === "white"
+        ? props.theme.colors["textPrimary"]
+        : props.theme.colors[props.color]};
     text-transform: uppercase;
     line-height: 10px;
   }
@@ -212,7 +212,7 @@ const eraseCookieFromAllPaths = name => {
 };
 
 class Logo extends React.Component {
-  render () {
+  render() {
     return (
       <LogoWrapper>
         <LogoImage
@@ -225,7 +225,7 @@ class Logo extends React.Component {
 }
 
 class Navbar extends React.Component {
-  render () {
+  render() {
     const {
       userId,
       router,
@@ -348,7 +348,7 @@ class Navbar extends React.Component {
                 </TooltipItem>
               </Link>
               <TooltipDivider />
-              <Link
+              {/* <Link
                 route={
                   userId ? "/create-community" : "/login?r=/create-community"
                 }
@@ -361,7 +361,7 @@ class Navbar extends React.Component {
                   Create Community
                 </TooltipItem>
               </Link>
-              <TooltipDivider />
+              <TooltipDivider /> */}
 
               <Link
                 callback={() =>
@@ -373,8 +373,8 @@ class Navbar extends React.Component {
                   userId
                     ? `https://import.${config.getApiURL().replace("api.", "")}`
                     : `/login?r=https://import.${config
-                      .getApiURL()
-                      .replace("api.", "")}`
+                        .getApiURL()
+                        .replace("api.", "")}`
                 }
               >
                 <TooltipItem
@@ -414,8 +414,8 @@ class Navbar extends React.Component {
                       {user.username
                         ? user.username.charAt(0)
                         : typeof user.id === "string"
-                          ? user.id.charAt(0)
-                          : "Anonymous"}
+                        ? user.id.charAt(0)
+                        : "Anonymous"}
                     </H6>
                   )}
                 </Avatar>
