@@ -122,6 +122,12 @@ export const publishArticleEpic: Epic<any, IReduxState, IDependencies> = (
             }
           : null;
 
+        const canPublish =
+          !articleOwner ||
+          (articleOwner && articleOwner.id === contributor) ||
+          getState().app.user.communities.map(({ community }) => community.id)
+            .length > 0;
+
         return Observable.fromPromise(personalSign(signatureToSign))
           .mergeMap(signature =>
             Observable.fromPromise<ApolloQueryResult<publishArticle>>(
@@ -147,13 +153,7 @@ export const publishArticleEpic: Epic<any, IReduxState, IDependencies> = (
           .do(() => apolloClient.resetStore())
           .do(() => {
             analytics.track(
-              !owner ||
-                (owner && owner.id === contributor) ||
-                getState().app.user.communities.map(
-                  ({ community }) => community.id
-                )
-                ? "Publish Article"
-                : "Propose Article Update",
+              canPublish ? "Publish Article" : "Propose Article Update",
               {
                 category: "article_actions",
               }
@@ -163,8 +163,12 @@ export const publishArticleEpic: Epic<any, IReduxState, IDependencies> = (
             Observable.merge(
               Observable.of(
                 showNotificationAction({
-                  description: `Your article has been submitted for review or published if it's a personal article!`,
-                  message: "Article submitted",
+                  description: canPublish
+                    ? `Your article has been published.`
+                    : `Your article has been submitted for review.`,
+                  message: canPublish
+                    ? "Article Published"
+                    : "Article submitted",
                   notificationType: "success",
                 })
               ),
