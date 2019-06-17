@@ -174,7 +174,7 @@ export const submitArticleEpic: Epic<any, {}, IDependencies> = (
                     dateCreated: getArticle.dateCreated,
                     id: getArticle.id,
                     owner:
-                      destination.__typename === "CommunityDTO"
+                      destination && destination.__typename === "CommunityDTO"
                         ? { type: "COMMUNITY", id: destination.id }
                         : getArticle.owner,
                     version: getArticle.version,

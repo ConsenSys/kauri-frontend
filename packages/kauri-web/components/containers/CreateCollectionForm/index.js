@@ -118,7 +118,7 @@ export default compose(
           children: (
             <PublishingSelector
               userId={props.userId}
-              type="Articles"
+              type="Collections"
               closeModalAction={() => {
                 props.closeModalAction();
                 setSubmitting(false);
