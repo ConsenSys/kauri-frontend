@@ -188,47 +188,47 @@ const RenderResources = (
         articleCount={counter ? counter.articles.toString() : "0"}
         collectionCount={counter ? counter.collections.toString() : "0"}
         cardHeight={310}
-        triggerHoverChildrenOnFullCardClick={isMember}
-        hoverChildren={() => (
-          <PrimaryButton
-            onClick={() =>
-              openModalAction &&
-              closeModalAction &&
-              removeResourceAction &&
-              openModalAction({
-                children: (
-                  <AlertView
-                    closeModalAction={() => closeModalAction()}
-                    confirmButtonAction={() =>
-                      removeResourceAction({
-                        id: communityId,
-                        resource: {
-                          id: String(
-                            i.resourceIdentifier && i.resourceIdentifier.id
-                          ),
-                          type:
-                            i.resourceIdentifier && i.resourceIdentifier.type,
-                        },
-                      })
-                    }
-                    content={
-                      <div>
-                        <BodyCard>
-                          If this collection is removed, it will no longer
-                          appear in this community, or on the home page. This
-                          cannot be undone.
-                        </BodyCard>
-                      </div>
-                    }
-                    title={"Are you sure?"}
-                  />
-                ),
-              })
-            }
-          >
-            Remove Collection
-          </PrimaryButton>
-        )}
+        // triggerHoverChildrenOnFullCardClick={isMember}
+        // hoverChildren={() => (
+        //   <PrimaryButton
+        //     onClick={() =>
+        //       openModalAction &&
+        //       closeModalAction &&
+        //       removeResourceAction &&
+        //       openModalAction({
+        //         children: (
+        //           <AlertView
+        //             closeModalAction={() => closeModalAction()}
+        //             confirmButtonAction={() =>
+        //               removeResourceAction({
+        //                 id: communityId,
+        //                 resource: {
+        //                   id: String(
+        //                     i.resourceIdentifier && i.resourceIdentifier.id
+        //                   ),
+        //                   type:
+        //                     i.resourceIdentifier && i.resourceIdentifier.type,
+        //                 },
+        //               })
+        //             }
+        //             content={
+        //               <div>
+        //                 <BodyCard>
+        //                   If this collection is removed, it will no longer
+        //                   appear in this community, or on the home page. This
+        //                   cannot be undone.
+        //                 </BodyCard>
+        //               </div>
+        //             }
+        //             title={"Are you sure?"}
+        //           />
+        //         ),
+        //       })
+        //     }
+        //   >
+        //     Remove Collection
+        //   </PrimaryButton>
+        // )}
         linkComponent={(
           childrenProps: React.ReactElement<any>,
           route: string
