@@ -278,6 +278,7 @@ interface IProps {
   background?: string;
   isMember?: boolean;
   isCreator?: boolean;
+  isCommunityAdmin?: boolean;
   routeChangeAction?: (route: string) => void;
   openModalAction: (children: any) => void;
   closeModalAction: () => void;
@@ -304,10 +305,11 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
   articleCount,
   collectionCount,
   members,
-  isCreator,
+  // isCreator,
   routeChangeAction,
   openModalAction,
   isMember,
+  isCommunityAdmin,
   closeModalAction,
   // curateCommunityResourcesAction,
   openAddMemberModal,
@@ -478,7 +480,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
                             </UserAvatar>
                           ) : null
                         )}
-                        {isCreator && (
+                        {isCommunityAdmin && (
                           <AddMemberButtonComponent
                             onClick={() => openAddMemberModal()}
                           />
@@ -490,7 +492,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
               </RightSide>
             </Row>
             <ActionsRow>
-              {isCreator && (
+              {isCommunityAdmin && (
                 <PrimaryButtonComponent
                   onClick={() =>
                     routeChangeAction &&
