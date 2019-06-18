@@ -238,7 +238,7 @@ const RenderResources = (
             href={
               destination
                 ? `${route}`
-                : typeof communityId === "string"
+                : typeof communityId === "string" && destination === "review"
                 ? `${route}?proposed-community-id=${communityId}`
                 : route
             }
