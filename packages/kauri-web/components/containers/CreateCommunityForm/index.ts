@@ -161,7 +161,9 @@ export default compose(
       };
     },
     validationSchema: Yup.object().shape({
-      avatar: Yup.string().required("Required"),
+      avatar: Yup.string().typeError(
+        "Please upload a .png or .jpeg file as a logo in order to continue"
+      ),
       description: Yup.string()
         .min(2)
         .required("Required"),
