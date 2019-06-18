@@ -61,7 +61,6 @@ class Articles extends Component<IProps> {
               if (!article) {
                 return <></>;
               }
-              const resourceType = article.resourceIdentifier;
               const owner =
                 R.path<
                   searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO
@@ -120,9 +119,12 @@ class Articles extends Component<IProps> {
                     </Link>
                   )}
                   resourceType={
-                    (typeof resourceType === "string" &&
-                      (resourceType as "USER" | "COMMUNITY")) ||
-                    "USER"
+                    owner &&
+                    owner.resourceIdentifier &&
+                    owner.resourceIdentifier.type &&
+                    owner.resourceIdentifier.type.toLowerCase() === "community"
+                      ? "COMMUNITY"
+                      : "USER"
                   }
                   hoverChildren={() => (
                     <PrimaryButton
