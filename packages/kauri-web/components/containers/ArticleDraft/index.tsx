@@ -12,11 +12,14 @@ import {
   openModalAction,
 } from "../../../../kauri-components/components/Modal/Module";
 
-const mapStateToProps = (state: IReduxState) => ({
-  hostName: state.app && state.app.hostName,
-  personalUsername: state.app && state.app.user && state.app.user.username,
-  userId: state.app && state.app.user && state.app.user.id,
-});
+const mapStateToProps = (state: IReduxState) => {
+  return {
+    communities: state.app.user && state.app.user.communities,
+    hostName: state.app && state.app.hostName,
+    personalUsername: state.app && state.app.user && state.app.user.username,
+    userId: state.app && state.app.user && state.app.user.id,
+  };
+};
 
 export default compose(
   connect(

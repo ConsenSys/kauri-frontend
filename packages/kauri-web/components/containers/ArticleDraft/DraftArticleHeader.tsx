@@ -8,6 +8,7 @@ import {
 import Image from "../../../../kauri-components/components/Image";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import SecondaryButton from "../../../../kauri-components/components/Button/SecondaryButton";
+import PublishingSelector, { IOption } from "../../common/PublishingSelector";
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -81,6 +82,9 @@ interface IProps {
   owner: string;
   contentHash: string;
   userId: string;
+  communities: Array<{ community: IOption }>;
+  openModalAction: (children?: any) => void;
+  closeModalAction: () => void;
 }
 
 export default ({
@@ -96,57 +100,91 @@ export default ({
   tags,
   routeChangeAction,
   publishArticleAction,
+  openModalAction,
+  closeModalAction,
+  communities,
   userId,
-}: IProps) => (
-  <HeaderContainer>
-    {attributes && attributes.background && (
-      <Image
-        asBackground={true}
-        height="100%"
-        width="100%"
-        overlay={attributes.background && { opacity: 0.8 }}
-        image={attributes.background}
-      />
-    )}
-    <InfoContainer>
-      <Label color="white">
-        {`CREATED ${moment(datePublished || dateCreated).format(
-          "DD MMM YYYY HH:mm"
-        )}`}
-      </Label>
-      <Title1 color="white">{title}</Title1>
-      {tags && (
-        <TagList
-          routeChangeAction={routeChangeAction}
-          color={"white"}
-          maxTags={7}
-          tags={tags}
+}: IProps) => {
+  const publishArticle = (destination: IOption | string) => {
+    const publishArticlePayload = {
+      contentHash,
+      contributor: authorId,
+      dateCreated,
+      id,
+      owner:
+        typeof destination === "string"
+          ? destination
+          : {
+              id: destination.id,
+              type: destination.type,
+            },
+      version,
+    };
+    publishArticleAction(publishArticlePayload);
+  };
+
+  const showSelector = () => {
+    openModalAction({
+      children: (
+        <PublishingSelector
+          userId={userId}
+          type="Articles"
+          closeModalAction={closeModalAction}
+          communities={communities.map(({ community }) => ({
+            ...community,
+            type: "COMMUNITY",
+          }))}
+          handleSubmit={destination => publishArticle(destination)}
+        />
+      ),
+    });
+  };
+
+  return (
+    <HeaderContainer>
+      {attributes && attributes.background && (
+        <Image
+          asBackground={true}
+          height="100%"
+          width="100%"
+          overlay={attributes.background && { opacity: 0.8 }}
+          image={attributes.background}
         />
       )}
-    </InfoContainer>
-    <SecondaryButton
-      onClick={() =>
-        userId
-          ? routeChangeAction(`/article/${id}/v${version}/update-article`)
-          : routeChangeAction(
-              `/login?r=/article/${id}/v${version}/update-article`
-            )
-      }
-      text="Update Draft"
-    />
-    <PrimaryButton
-      onClick={() => {
-        const publishArticlePayload = {
-          contentHash,
-          contributor: authorId,
-          dateCreated,
-          id,
-          owner,
-          version,
-        };
-        publishArticleAction(publishArticlePayload);
-      }}
-      text="Publish Article"
-    />
-  </HeaderContainer>
-);
+      <InfoContainer>
+        <Label color="white">
+          {`CREATED ${moment(datePublished || dateCreated).format(
+            "DD MMM YYYY HH:mm"
+          )}`}
+        </Label>
+        <Title1 color="white">{title}</Title1>
+        {tags && (
+          <TagList
+            routeChangeAction={routeChangeAction}
+            color={"white"}
+            maxTags={7}
+            tags={tags}
+          />
+        )}
+      </InfoContainer>
+      <SecondaryButton
+        onClick={() =>
+          userId
+            ? routeChangeAction(`/article/${id}/v${version}/update-article`)
+            : routeChangeAction(
+                `/login?r=/article/${id}/v${version}/update-article`
+              )
+        }
+        text="Update Draft"
+      />
+      <PrimaryButton
+        onClick={() =>
+          communities && communities.length > 0
+            ? showSelector()
+            : publishArticle(owner)
+        }
+        text="Publish Article"
+      />
+    </HeaderContainer>
+  );
+};
