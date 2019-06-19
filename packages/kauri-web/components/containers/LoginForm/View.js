@@ -163,7 +163,8 @@ class LoginForm extends React.Component<{
       <LoginContainer>
         <Title2 color="white">Web3 Sign in</Title2>
         <BodyArticle color="white">
-          Sign in using Web3 enabled browser.(MetaMask, Status, Brave)
+          Sign in using Web3 enabled provider. (MetaMask, Status, Coinbase
+          Wallet)
         </BodyArticle>
         <PrimaryButton
           disabled={isSubmitting}
