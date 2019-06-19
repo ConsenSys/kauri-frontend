@@ -530,6 +530,20 @@ export const acceptCommunityInvitationEpic: Epic<
                   Observable.of(invitationAcceptedAction())
                 )
               )
+              .catch(err => {
+                console.error(err);
+                return Observable.merge(
+                  Observable.of(closeModalAction()),
+                  Observable.of(
+                    showNotificationAction({
+                      description:
+                        "Please try again or you may already be a member of the community!",
+                      message: "Submission error",
+                      notificationType: "error",
+                    })
+                  )
+                );
+              })
           )
         : Observable.merge(
             Observable.of(closeModalAction()),
@@ -541,7 +555,21 @@ export const acceptCommunityInvitationEpic: Epic<
               )
             )
           )
-    );
+    )
+    .catch(err => {
+      console.error(err);
+      return Observable.merge(
+        Observable.of(closeModalAction()),
+        Observable.of(
+          showNotificationAction({
+            description:
+              "Please try again or you may already be a member of the community!",
+            message: "Submission error",
+            notificationType: "error",
+          })
+        )
+      );
+    });
 
 export const revokeInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
