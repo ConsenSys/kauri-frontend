@@ -51,7 +51,7 @@ const CommunityCreated: React.FunctionComponent<IProps> = props => {
     copy === "live" ? (
       <Row>
         <BodyCard>
-          Your community will be live soon, once the transaction is mined!
+          Your community will be live soon, we are just creating it!
         </BodyCard>
         <BodyCard>This usually takes less than 10 seconds.</BodyCard>
       </Row>
