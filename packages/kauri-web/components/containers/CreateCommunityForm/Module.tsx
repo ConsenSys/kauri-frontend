@@ -429,7 +429,7 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                     }/community-updated`
                   )
                 )
-              )
+              ).do(() => apolloClient.resetStore())
         )
     )
     .catch(err => {
