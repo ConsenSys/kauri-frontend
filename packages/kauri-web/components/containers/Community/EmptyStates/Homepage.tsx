@@ -16,6 +16,9 @@ const Container = styled.div`
     margin-bottom: ${props => props.theme.space[2]}px;
   }
   cursor: pointer;
+  > :last-child {
+    margin-top: ${props => props.theme.space[1]}px;
+  }
 `;
 
 const OpacityOverlay = styled.div`
@@ -62,7 +65,8 @@ const CommunityHomepageEmptyState: React.FunctionComponent<IProps> = props => (
         <div />
       </AddOptions>
     </OpacityOverlay>
-    <BodyCard>Kendall to git commit here empty state copy :)</BodyCard>
+    <BodyCard>Create a home page for your community by selecting the "Update Community" button! You can organize articles and collections into sections to help readers navigate the content.</BodyCard>
+    <BodyCard>While there is no home page set, users and moderators will see the "Articles" tab by default.</</BodyCard>
   </Container>
 );
 
