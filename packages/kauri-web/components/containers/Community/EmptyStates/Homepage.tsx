@@ -65,8 +65,15 @@ const CommunityHomepageEmptyState: React.FunctionComponent<IProps> = props => (
         <div />
       </AddOptions>
     </OpacityOverlay>
-    <BodyCard>Create a home page for your community by selecting the "Update Community" button! You can organize articles and collections into sections to help readers navigate the content.</BodyCard>
-    <BodyCard>While there is no home page set, users and moderators will see the "Articles" tab by default.</</BodyCard>
+    <BodyCard>
+      Create a home page for your community by selecting the "Update Community"
+      button! You can organize articles and collections into sections to help
+      readers navigate the content.
+    </BodyCard>
+    <BodyCard>
+      While there is no home page set, users and moderators will see the
+      "Articles" tab by default.
+    </BodyCard>
   </Container>
 );
 
