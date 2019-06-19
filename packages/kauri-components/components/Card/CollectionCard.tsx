@@ -46,6 +46,34 @@ const Container = styled.div`
   flex: 1;
 `;
 
+const MoreOptionsIcon: React.FunctionComponent<{}> = () => (
+  <svg
+    width="23"
+    height="5"
+    viewBox="0 0 23 5"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g opacity="0.6">
+      <circle cx="20.5" cy="2.5" r="2.5" fill="#1E2428" />
+      <circle cx="11.5" cy="2.5" r="2.5" fill="#1E2428" />
+      <circle cx="2.5" cy="2.5" r="2.5" fill="#1E2428" />
+    </g>
+  </svg>
+);
+
+const MoreOptions = styled<{ hasImageURL: boolean }, "div">("div")`
+  display: flex;
+  height: 20px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: ${props => (props.hasImageURL ? "135" : "10")}px;
+  right: 15px;
+  z-index: 5;
+`;
+
 const Mask = styled.div`
   display: flex;
   flex-direction: column;
@@ -530,6 +558,8 @@ interface IProps {
     route: string
   ) => React.ReactElement<any>;
   isChosenCollection?: boolean;
+  isLoggedIn?: boolean;
+  canAccessHoverChildren?: boolean;
   triggerHoverChildrenOnFullCardClick?: boolean;
   hoverChildren?:
     | null
@@ -595,6 +625,8 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
   articleCount,
   collectionCount,
   triggerHoverChildrenOnFullCardClick = false,
+  isLoggedIn,
+  canAccessHoverChildren,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
     IToggleState,
@@ -624,6 +656,14 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
           triggerHoverChildrenOnFullCardClick && showDispatch(dispatch)()
         }
       >
+        {isLoggedIn && !!hoverChildren && canAccessHoverChildren && (
+          <MoreOptions
+            hasImageURL={!!imageURL}
+            onClick={toggleDispatch(dispatch)}
+          >
+            <MoreOptionsIcon />
+          </MoreOptions>
+        )}
         <RenderContent
           cardHeight={cardHeight}
           cardWidth={cardWidth}
