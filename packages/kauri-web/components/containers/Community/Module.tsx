@@ -515,7 +515,6 @@ export const acceptCommunityInvitationEpic: Epic<
                     acceptInvitationResult.hash
                   )
               )
-              .do(() => apolloClient.resetStore())
               .mergeMap(() =>
                 Observable.merge(
                   Observable.of(closeModalAction()),
@@ -530,6 +529,7 @@ export const acceptCommunityInvitationEpic: Epic<
                   Observable.of(invitationAcceptedAction())
                 )
               )
+              .do(() => apolloClient.resetStore())
               .catch(err => {
                 console.error(err);
                 return Observable.merge(
