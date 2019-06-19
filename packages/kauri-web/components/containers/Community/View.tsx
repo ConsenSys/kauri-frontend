@@ -161,6 +161,7 @@ class CommunityConnection extends React.Component<IProps> {
           members={getCommunity.members}
           isMember={isMember}
           isCreator={isCreator}
+          isCommunityAdmin={isCommunityAdmin}
           openModalAction={openModalAction}
           closeModalAction={closeModalAction}
           routeChangeAction={routeChangeAction}

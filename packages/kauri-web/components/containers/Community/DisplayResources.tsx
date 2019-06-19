@@ -188,7 +188,7 @@ const RenderResources = (
         articleCount={counter ? counter.articles.toString() : "0"}
         collectionCount={counter ? counter.collections.toString() : "0"}
         cardHeight={310}
-        triggerHoverChildrenOnFullCardClick={isMember}
+        canAccessHoverChildren={isMember}
         hoverChildren={() => (
           <PrimaryButton
             onClick={() =>
@@ -238,7 +238,7 @@ const RenderResources = (
             href={
               destination
                 ? `${route}`
-                : typeof communityId === "string"
+                : typeof communityId === "string" && destination === "review"
                 ? `${route}?proposed-community-id=${communityId}`
                 : route
             }
