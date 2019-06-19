@@ -625,7 +625,6 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
   articleCount,
   collectionCount,
   triggerHoverChildrenOnFullCardClick = false,
-  isLoggedIn,
   canAccessHoverChildren,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
@@ -656,7 +655,7 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
           triggerHoverChildrenOnFullCardClick && showDispatch(dispatch)()
         }
       >
-        {isLoggedIn && !!hoverChildren && canAccessHoverChildren && (
+        {!!hoverChildren && canAccessHoverChildren && (
           <MoreOptions
             hasImageURL={!!imageURL}
             onClick={toggleDispatch(dispatch)}
