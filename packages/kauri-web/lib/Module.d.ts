@@ -90,6 +90,7 @@ interface IReduxState {
       avatar: string;
       username: string;
       communities: ICommunity[];
+      status: string; // [NOT_REGISTERED|CREATED]EMAIL_VERIFIED]
     };
   };
 }
