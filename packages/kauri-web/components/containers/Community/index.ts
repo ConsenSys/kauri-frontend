@@ -7,7 +7,11 @@ import {
   openModalAction,
   closeModalAction,
 } from "../../../../kauri-components/components/Modal/Module";
-import { IReduxState, routeChangeAction } from "../../../lib/Module";
+import {
+  IReduxState,
+  routeChangeAction,
+  showNotificationAction,
+} from "../../../lib/Module";
 import {
   curateCommunityResourcesAction,
   acceptCommunityInvitationAction,
@@ -49,6 +53,7 @@ export default compose(
       removeResourceAction,
       routeChangeAction,
       sendCommunityInvitationAction,
+      showNotificationAction,
       transferArticleToCommunityAction,
     }
   ),
