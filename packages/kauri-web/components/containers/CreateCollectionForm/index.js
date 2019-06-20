@@ -127,7 +127,7 @@ export default compose(
                 ...community,
                 type: "COMMUNITY",
               }))}
-              handleSubmit={(e, destination) => {
+              handleSubmit={destination => {
                 values.destination = destination;
                 props.createCollectionAction(values, () => {
                   props.closeModalAction();
