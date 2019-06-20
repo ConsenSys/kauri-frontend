@@ -270,7 +270,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
           maxTags={3}
           color="textPrimary"
           tags={tags}
-          maxChars={40}
+          maxChars={30}
         />
       )}
       {Array.isArray(nfts) && nfts.length > 0 && (
