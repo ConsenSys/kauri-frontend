@@ -152,7 +152,7 @@ export const communityCreatedEpic: Epic<Actions, IReduxState, IDependencies> = (
             ? Observable.throw(new Error("Submission error"))
             : Observable.of(
                 showNotificationAction({
-                  description: `Sidechain transaction is mined! You can start adding articles and collections now!`,
+                  description: `Your community has been created! You can start adding articles and collections now!`,
                   message: "Community Created",
                   notificationType: "success",
                 })
@@ -238,7 +238,7 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                     : Observable.merge(
                         Observable.of(
                           (showNotificationAction as any)({
-                            description: `You can start adding articles and collections to your community page once the transaction is mined!`,
+                            description: `Your community is being created! Once this is completed (within a few minutes), you will be able to add articles and collections`,
                             message: "Creating Community",
                             notificationType: "info",
                           })
@@ -429,7 +429,7 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                     }/community-updated`
                   )
                 )
-              )
+              ).do(() => apolloClient.resetStore())
         )
     )
     .catch(err => {

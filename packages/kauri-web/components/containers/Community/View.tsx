@@ -59,7 +59,18 @@ class CommunityConnection extends React.Component<IProps> {
         },
       },
     });
-    if (typeof this.props.secret === "string") {
+
+    const {
+      data: { getCommunity },
+      currentUser,
+    } = this.props;
+    const isCreator = getCommunity.creatorId === currentUser;
+
+    const isMember =
+      isCreator ||
+      R.any(R.propEq("id", currentUser), getCommunity.members || []);
+
+    if (typeof this.props.secret === "string" && !isMember) {
       // AcceptCommunityInviteModal
       this.props.openModalAction({
         children: (
