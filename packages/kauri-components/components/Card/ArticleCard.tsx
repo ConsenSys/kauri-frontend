@@ -282,6 +282,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
 
 interface IPublicProfileProps {
   username: string | null;
+  name?: string | null;
   userId: string;
   cardWidth: number;
   userAvatar: string | null;
@@ -294,12 +295,14 @@ const RenderPublicProfile: React.FunctionComponent<IPublicProfileProps> = ({
   cardWidth,
   userAvatar,
   imageURL,
+  name,
 }) => (
   <UserAvatar
     imageURL={imageURL}
     cardType="ARTICLE"
     fullWidth={cardWidth > DEFAULT_CARD_WIDTH}
     username={username}
+    name={name}
     userId={userId}
     avatar={userAvatar}
   />
@@ -351,6 +354,7 @@ interface IProps {
   date: string;
   title: string;
   username: string | null;
+  name?: string | null;
   userId: string;
   userAvatar: string | null;
   imageURL: string | null;
@@ -385,6 +389,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   date,
   title,
   username,
+  name,
   userId,
   userAvatar,
   imageURL,
@@ -461,6 +466,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             <RenderPublicProfile
               imageURL={imageURL}
               username={username}
+              name={name}
               userId={userId}
               cardWidth={calculateCardWidth({ cardWidth, imageURL })}
               userAvatar={userAvatar}

@@ -82,12 +82,14 @@ const RenderResources = (
         imageURL={i.attributes && i.attributes.background}
         cardHeight={310}
         cardWidth={288}
-        username={owner.username}
-        userId={owner.id}
-        userAvatar={owner.avatar}
+        username={i.author && i.author.username}
+        name={i.author && i.author.name}
+        userId={String(i.author && i.author.id)}
+        userAvatar={i.author && i.author.avatar}
         isLoggedIn={isMember}
         nfts={i.associatedNfts}
-        resourceType={owner.type as "USER" | "COMMUNITY"}
+        // resourceType={owner.type as "USER" | "COMMUNITY"}
+        resourceType="USER"
         hoverChildren={() => (
           <PrimaryButton
             onClick={() =>

@@ -224,7 +224,7 @@ export default ({
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type="outline">
         <Outline
-          name={owner.name}
+          name={author.name}
           nfts={nfts}
           linkComponent={children => (
             <Link
@@ -239,13 +239,14 @@ export default ({
             </Link>
           )}
           headings={outlineHeadings || []}
-          username={username}
+          username={author.username}
           userId={
-            (ownerId && userIdTrim(ownerId)) ||
-            (authorId && userIdTrim(authorId))
+            // (ownerId && userIdTrim(ownerId)) ||
+            authorId && userIdTrim(authorId)
           }
-          userAvatar={userAvatar}
-          text={ownerId ? "OWNER" : "AUTHOR"}
+          userAvatar={author.avatar}
+          // text={ownerId ? "OWNER" : "AUTHOR"}
+          text="AUTHOR"
           routeChangeAction={routeChangeAction}
         />
         {ownerId !== authorId &&
