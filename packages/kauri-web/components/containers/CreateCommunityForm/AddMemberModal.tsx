@@ -1,6 +1,8 @@
 import React from "react";
 import AlertViewComponent from "../../../../kauri-components/components/Modal/AlertView";
 import AddMemberModalContent from "../../../../kauri-components/components/CreateCommunityForm/AddMemberModalContent";
+import { showNotificationAction as showNotification } from "../../../lib/Module";
+import * as Yup from "yup";
 
 interface IProps {
   closeModalAction: () => void;
@@ -8,6 +10,7 @@ interface IProps {
     payload: { email: string; role: string },
     closeModalAction: () => void
   ) => void;
+  showNotificationAction: typeof showNotification;
 }
 
 export interface IRole {
@@ -46,7 +49,27 @@ const AddMemberModal: React.FunctionComponent<IProps> = props => {
     <AlertViewComponent
       closeModalAction={() => props.closeModalAction()}
       confirmButtonAction={() => {
-        props.confirmButtonAction({ email, role }, props.closeModalAction);
+        const emailCheck = Yup.string().email();
+        const validEmail = emailCheck.isValidSync(email);
+        if (typeof email === "string" && !validEmail) {
+          return props.showNotificationAction({
+            description:
+              "Please enter a valid email address to send the member invitation to!",
+            message: "Email required",
+            notificationType: "error",
+          });
+        }
+        if (typeof chosenRole === "string" && !chosenRole.length) {
+          return props.showNotificationAction({
+            description: "Please choose a role for the new proposed member!",
+            message: "Role required",
+            notificationType: "error",
+          });
+        }
+        return props.confirmButtonAction(
+          { email, role },
+          props.closeModalAction
+        );
       }}
       content={
         <AddMemberModalContent

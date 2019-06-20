@@ -58,6 +58,7 @@ const Component: React.SFC<
     props.openModalAction({
       children: (
         <AddMemberModal
+          showNotificationAction={props.showNotificationAction}
           confirmButtonAction={(invitation: any) => {
             props.setFieldValue(
               "invitations",

@@ -24,7 +24,10 @@ import { removeResourceVariables } from "../../../queries/__generated__/removeRe
 import { recordView } from "../../../queries/Utils";
 import ApolloClient from "apollo-client";
 import HomepageResources from "./HomepageResources";
-import { routeChangeAction as routeChange } from "../../../lib/Module";
+import {
+  routeChangeAction as routeChange,
+  showNotificationAction as showNotification,
+} from "../../../lib/Module";
 import { openModalAction as openModal } from "../../../../kauri-components/components/Modal/Module";
 
 interface IProps {
@@ -45,6 +48,7 @@ interface IProps {
   curateCommunityResourcesAction: typeof curateCommunityResources;
   sendCommunityInvitationAction: typeof sendCommunityInvitation;
   transferArticleToCommunityAction: typeof transferArticleToCommunity;
+  showNotificationAction: typeof showNotification;
 }
 
 class CommunityConnection extends React.Component<IProps> {
@@ -127,6 +131,7 @@ class CommunityConnection extends React.Component<IProps> {
       this.props.openModalAction({
         children: (
           <AddMemberModal
+            showNotificationAction={this.props.showNotificationAction}
             confirmButtonAction={(invitation: any) => {
               this.props.sendCommunityInvitationAction({
                 id: getCommunity.id,
