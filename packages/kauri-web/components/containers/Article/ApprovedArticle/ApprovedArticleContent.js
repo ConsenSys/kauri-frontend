@@ -144,6 +144,7 @@ export default ({
   status,
   address,
   hostName,
+  owner,
   resourceType,
   openModalAction,
   closeModalAction,
@@ -156,10 +157,12 @@ export default ({
     id: string,
     avatar: string | null,
     username: string | null,
+    name: string | null,
   },
   text?: string,
   username?: ?string,
   userAvatar?: ?string,
+  owner: any,
   ownerId?: ?string,
   authorId: string,
   routeChangeAction: string => void,
@@ -221,6 +224,7 @@ export default ({
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type="outline">
         <Outline
+          name={owner.name}
           nfts={nfts}
           linkComponent={children => (
             <Link
@@ -253,6 +257,7 @@ export default ({
                   userId={author.id}
                   avatar={author.avatar}
                   username={author.username}
+                  name={author.name}
                 />
               </Link>
               <Divider />

@@ -86,6 +86,7 @@ export interface IProps {
   width?: number;
   hideUsername?: boolean;
   borderRadius?: string;
+  name?: string | null | undefined;
 }
 
 const UserAvatarComponent: React.SFC<IProps> = props => (
@@ -131,13 +132,7 @@ const UserAvatarComponent: React.SFC<IProps> = props => (
     </Avatar>
     {!props.hideUsername && (
       <H5>
-        {props.username
-          ? props.username
-          : typeof props.userId === "string"
-          ? props.userId.length > 15
-            ? userIdTrim(props.userId)
-            : props.userId
-          : "Anonymous"}
+        {props.name || props.username || props.userId && userIdTrim(props.userId) || "Anonymous"}
       </H5>
     )}
   </Container>
