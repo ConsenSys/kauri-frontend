@@ -515,19 +515,34 @@ export const acceptCommunityInvitationEpic: Epic<
                     acceptInvitationResult.hash
                   )
               )
-              .mergeMap(() =>
-                Observable.merge(
-                  Observable.of(closeModalAction()),
-                  Observable.of(
-                    showNotificationAction({
-                      description: `You are now a member of the community!`,
-                      message: "Invitation Accepted",
-                      notificationType: "success",
-                    })
-                  ),
-                  Observable.of(routeChangeAction(`/community/${payload.id}`)),
-                  Observable.of(invitationAcceptedAction())
-                )
+              .mergeMap(({ data: { output: { error } } }) =>
+                typeof error === "string" &&
+                error.includes("associated to another member")
+                  ? Observable.merge(
+                      Observable.of(closeModalAction()),
+                      Observable.of(
+                        showNotificationAction({
+                          description:
+                            "This email invite is already associated with another member of the community!",
+                          message: "Submission error",
+                          notificationType: "error",
+                        })
+                      )
+                    )
+                  : Observable.merge(
+                      Observable.of(closeModalAction()),
+                      Observable.of(
+                        showNotificationAction({
+                          description: `You are now a member of the community!`,
+                          message: "Invitation Accepted",
+                          notificationType: "success",
+                        })
+                      ),
+                      Observable.of(
+                        routeChangeAction(`/community/${payload.id}`)
+                      ),
+                      Observable.of(invitationAcceptedAction())
+                    )
               )
               .do(() => apolloClient.resetStore())
               .catch(err => {
