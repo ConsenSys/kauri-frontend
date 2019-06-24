@@ -68,6 +68,28 @@ const View: React.FunctionComponent<IProps> = ({ data }) => {
       return current;
     }, 0);
 
+  const owner =
+    collection.owner && collection.owner.__typename === "PublicUserDTO"
+      ? {
+          avatar: collection.owner.avatar,
+          id: collection.owner.id || "not_found",
+          type: "USER",
+          username: collection.owner.username,
+        }
+      : collection.owner && collection.owner.__typename === "CommunityDTO"
+      ? {
+          avatar: collection.owner.avatar,
+          id: collection.owner.id || "not_found",
+          type: "COMMUNITY",
+          username: collection.owner.name,
+        }
+      : {
+          avatar: "",
+          id: "",
+
+          username: "",
+        };
+
   return (
     <CollectionCard
       cardHeight={310}
@@ -83,6 +105,7 @@ const View: React.FunctionComponent<IProps> = ({ data }) => {
       username={collection.owner && collection.owner.name}
       userAvatar={collection.owner && collection.owner.avatar}
       imageURL={collection.background}
+      resourceType={owner.type || "USER"}
     />
   );
 };
