@@ -144,6 +144,11 @@ class CommunityConnection extends React.Component<IProps> {
         ),
       });
 
+    const firstCommunityHomepageSectionResources = R.path<any[]>([
+      0,
+      "resources",
+    ])(homepage);
+
     return (
       <>
         <CommunityHeader
@@ -187,7 +192,11 @@ class CommunityConnection extends React.Component<IProps> {
         <Tabs
           dark={true}
           tabs={[
-            (Array.isArray(homepage) && homepage.length) || isCommunityAdmin
+            (Array.isArray(homepage) &&
+              homepage.length &&
+              firstCommunityHomepageSectionResources &&
+              firstCommunityHomepageSectionResources.length) ||
+            isCommunityAdmin
               ? { name: "Home" }
               : null,
             { name: `Articles (${articles && articles.length})` },
