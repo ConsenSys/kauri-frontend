@@ -9,6 +9,7 @@ import { hljs } from "../../../lib/hljs";
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
+  flex: 1;
   align-items: flex-start;
   @media (max-width: 700px) {
     padding: ${props => props.theme.space[3]}px;

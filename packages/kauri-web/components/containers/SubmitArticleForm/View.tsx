@@ -127,13 +127,7 @@ class SubmitArticleForm extends React.Component<IProps> {
     } = this.props;
 
     // Updating article from a community I am in
-    if (
-      Number(R.path(["getArticle", "version"])(data)) >= 1 &&
-      Array.isArray(communities) &&
-      communities
-        .map(({ community }) => community.id)
-        .includes(R.path<string>(["getArticle", "owner", "id"])(data) || "")
-    ) {
+    if (Number(R.path(["getArticle", "version"])(data)) >= 1) {
       return this.handleSubmit("submit/update")(null);
     }
     // Submitting fresh article and I potentially want to choose a community?
