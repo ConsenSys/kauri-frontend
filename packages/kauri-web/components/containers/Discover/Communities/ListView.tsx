@@ -76,7 +76,7 @@ class Communities extends Component<IProps> {
                           String(
                             community &&
                               community.approvedId &&
-                              community.approvedId.map(
+                              community.approvedId.filter(
                                 resource =>
                                   resource && resource.type === "COLLECTION"
                               ).length
@@ -88,7 +88,7 @@ class Communities extends Component<IProps> {
                           String(
                             community &&
                               community.approvedId &&
-                              community.approvedId.map(
+                              community.approvedId.filter(
                                 resource =>
                                   resource && resource.type === "ARTICLE"
                               ).length
