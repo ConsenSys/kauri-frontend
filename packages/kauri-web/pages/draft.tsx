@@ -8,7 +8,7 @@ import { withRouter } from "next/router";
 class ArticleDraftPage extends React.Component<{ router: any }> {
   render() {
     return (
-      <App confirmationPage={true} url={this.props.router}>
+      <App url={this.props.router} headerOffset={true}>
         <ArticleDraft
           id={this.props.router.query.id}
           version={this.props.router.query.version}

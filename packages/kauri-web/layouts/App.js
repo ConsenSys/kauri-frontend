@@ -18,7 +18,11 @@ const Layout = styled.div``;
 
 const StyledContent = styled.div`
   padding-top: 0px;
-  min-height: calc(100vh - ${menuHeaderHeight + footerHeight}px);
+  min-height: calc(
+    100vh -
+      ${props =>
+        props.headerOffset ? footerHeight : menuHeaderHeight + footerHeight}px
+  );
   background: #f7f7f7;
 `;
 
@@ -47,6 +51,7 @@ export default connect(mapStateToProps)(
     navcolor,
     navcolorOverride,
     isModalOpen,
+    headerOffset,
   }) => (
     <Layout className="layout">
       <Head>
@@ -60,7 +65,7 @@ export default connect(mapStateToProps)(
           navcolor={navcolor}
         />
       </StyledHeader>
-      <StyledContent>{children}</StyledContent>
+      <StyledContent headerOffset={headerOffset}>{children}</StyledContent>
       <StyledFooter />
     </Layout>
   )
