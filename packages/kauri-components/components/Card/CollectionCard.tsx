@@ -275,6 +275,7 @@ interface IActualContentProps {
   userId: string;
   userAvatar: string | null;
   date: string;
+  resourceType: string;
 }
 
 const RenderActualContent: React.SFC<IActualContentProps> = ({
@@ -289,6 +290,7 @@ const RenderActualContent: React.SFC<IActualContentProps> = ({
   userId,
   userAvatar,
   date,
+  resourceType,
 }) => (
   <React.Fragment>
     {linkComponent(
@@ -311,7 +313,9 @@ const RenderActualContent: React.SFC<IActualContentProps> = ({
         imageURL={imageURL}
         userAvatar={userAvatar}
       />,
-      `/public-profile/${userId}`
+      resourceType === "COMMUNITY"
+        ? `/community/${userId}`
+        : `/public-profile/${userId}`
     )}
     <Date status="PUBLISHED" date={date} />
   </React.Fragment>
@@ -332,6 +336,7 @@ interface ICardContentProps {
   userId: string;
   userAvatar: string | null;
   date: string;
+  resourceType: string;
 }
 
 const RenderCardContent: React.SFC<ICardContentProps> = ({
@@ -346,6 +351,7 @@ const RenderCardContent: React.SFC<ICardContentProps> = ({
   userId,
   userAvatar,
   date,
+  resourceType,
 }) =>
   typeof imageURL === "string" ? (
     <Mask>
@@ -361,6 +367,7 @@ const RenderCardContent: React.SFC<ICardContentProps> = ({
         userAvatar={userAvatar}
         userId={userId}
         username={username}
+        resourceType={resourceType}
       />
     </Mask>
   ) : (
@@ -377,6 +384,7 @@ const RenderCardContent: React.SFC<ICardContentProps> = ({
         userAvatar={userAvatar}
         userId={userId}
         username={username}
+        resourceType={resourceType}
       />
     </React.Fragment>
   );
@@ -495,6 +503,7 @@ interface IContentProps {
   userId: string;
   userAvatar: string | null;
   date: string;
+  resourceType: string;
 }
 
 const RenderContent: React.SFC<IContentProps> = ({
@@ -509,6 +518,7 @@ const RenderContent: React.SFC<IContentProps> = ({
   userId,
   userAvatar,
   date,
+  resourceType,
 }) => (
   <React.Fragment>
     <Content>
@@ -535,6 +545,7 @@ const RenderContent: React.SFC<IContentProps> = ({
         userAvatar={userAvatar}
         userId={userId}
         username={username}
+        resourceType={resourceType}
       />
     </Content>
   </React.Fragment>
@@ -570,6 +581,7 @@ interface IProps {
           toggleDispatch: () => void;
         }
       ) => React.ReactElement<any>);
+  resourceType: string; // USER | COMMUNITY
 }
 
 interface IRenderFooterProps {
@@ -626,6 +638,7 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
   collectionCount,
   triggerHoverChildrenOnFullCardClick = false,
   canAccessHoverChildren,
+  resourceType,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
     IToggleState,
@@ -675,6 +688,7 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
           userAvatar={userAvatar}
           userId={userId}
           username={username}
+          resourceType={resourceType}
         />
         {typeof imageURL !== "string" &&
         (Number(articleCount) || Number(collectionCount)) ? (

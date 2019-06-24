@@ -108,6 +108,32 @@ class Collections extends Component<IProps> {
                   (collectionResource.owner as
                     | searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO
                     | searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO);
+
+                const owner =
+                  collectionResource &&
+                  collectionResource.owner &&
+                  collectionResource.owner.__typename === "PublicUserDTO"
+                    ? {
+                        avatar: collectionResource.owner.avatar,
+                        id: collectionResource.owner.id || "not_found",
+                        type: "USER",
+                        username: collectionResource.owner.username,
+                      }
+                    : collectionResource &&
+                      collectionResource.owner &&
+                      collectionResource.owner.__typename === "CommunityDTO"
+                    ? {
+                        avatar: collectionResource.owner.avatar,
+                        id: collectionResource.owner.id || "not_found",
+                        type: "COMMUNITY",
+                        username: collectionResource.owner.name,
+                      }
+                    : {
+                        avatar: "",
+                        id: "",
+                        username: "",
+                      };
+
                 return (
                   <CollectionCard
                     key={String(collectionResource && collectionResource.id)}
@@ -149,6 +175,7 @@ class Collections extends Component<IProps> {
                         {childrenProps}
                       </Link>
                     )}
+                    resourceType={owner.type || "USER"}
                   />
                 );
               })}

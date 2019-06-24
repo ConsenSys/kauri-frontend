@@ -191,6 +191,7 @@ const RenderResources = (
         collectionCount={counter ? counter.collections.toString() : "0"}
         cardHeight={310}
         canAccessHoverChildren={isMember}
+        resourceType={owner.type || "USER"}
         hoverChildren={() => (
           <PrimaryButton
             onClick={() =>
