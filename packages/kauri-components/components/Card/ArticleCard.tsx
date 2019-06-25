@@ -21,6 +21,7 @@ import NFTList from "../Kudos/NFTList";
 import Image from "../Image";
 import Date from "../HoverDateLabel";
 import { Article_associatedNfts } from "../../../kauri-web/queries/Fragments/__generated__/Article";
+import slugify from "slugify";
 
 const DEFAULT_CARD_HEIGHT = 310;
 const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
@@ -411,6 +412,8 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
     IToggleAction
   >(toggleReducer, toggleInitialState);
 
+  const slug = slugify(title, { lower: true })
+
   return (
     <BaseCard
       imageURL={imageURL}
@@ -458,7 +461,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
           />,
           destination === "review"
             ? `/article-review/${id}/v${version}`
-            : `/article/${id}/v${version}`
+            : `/${slug}/${id}/a`
         )}
         <Divider imageURL={imageURL} />
         <Footer imageURL={imageURL}>

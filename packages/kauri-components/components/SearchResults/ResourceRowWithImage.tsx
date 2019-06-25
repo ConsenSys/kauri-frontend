@@ -7,6 +7,7 @@ import { Label, H1, BodyCard } from "../Typography";
 import TagList from "../Tags/TagList";
 import Image from "../../../kauri-components/components/Image";
 import theme from "../../lib/theme-config";
+import slugify from "slugify"
 
 const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
@@ -68,6 +69,7 @@ export interface IProps {
 }
 
 const ResourceRowWithImage: React.SFC<IProps> = props => {
+  const slug = slugify(props.title, { lower: true })
   return (
     <ResourceRow key={props.key}>
       {props.imageURL &&
@@ -81,7 +83,7 @@ const ResourceRowWithImage: React.SFC<IProps> = props => {
             ? `/collection/${props.id}`
             : props.resourceType === "community"
             ? `/community/${props.id}`
-            : `/article/${props.id}/v${props.version}`
+            : `/${slug}/${props.id}/a`
         )}
       <Container>
         {props.linkComponent(
@@ -111,7 +113,7 @@ const ResourceRowWithImage: React.SFC<IProps> = props => {
             ? `/collection/${props.id}`
             : props.resourceType === "community"
             ? `/community/${props.id}`
-            : `/article/${props.id}/v${props.version}`
+            : `/${slug}/${props.id}/a`
         )}
         <Divider />
         <Footer>

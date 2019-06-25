@@ -1,6 +1,7 @@
 import { Label, H3 } from "../Typography";
 import styled from "../../lib/styled-components";
 import { TagList } from "../Tags";
+import slugify from "slugify"
 
 interface IProps {
   relatedArticles: Array<{
@@ -37,8 +38,9 @@ const Related = (props: IProps) =>
   props.relatedArticles ? (
     <RelatedArticlesContainer>
       <Label>Related Articles</Label>
-      {props.relatedArticles.map((i, key) =>
-        props.linkComponent(
+      {props.relatedArticles.map((i, key) => {
+        const slug = slugify(i.name, {lower: true})
+        return props.linkComponent(
           <Article>
             <H3>{i.name}</H3>
             {i.tags && i.tags.length > 0 && (
@@ -50,9 +52,9 @@ const Related = (props: IProps) =>
               />
             )}
           </Article>,
-          `/article/${i.resourceIdentifier.id}`,
+          `/${slug}/${i.resourceIdentifier.id}/a`,
           key
-        )
+        )}
       )}
     </RelatedArticlesContainer>
   ) : null;

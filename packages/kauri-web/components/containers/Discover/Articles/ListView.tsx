@@ -22,7 +22,6 @@ interface IProps {
   hostName: string;
   isLoggedIn: boolean;
   openModalAction: (payload: { children: React.ReactElement<any> }) => void;
-  routeChangeAction(route: string): void;
 }
 
 class Articles extends Component<IProps> {
@@ -108,13 +107,7 @@ class Articles extends Component<IProps> {
                     childrenProps: React.ReactElement<any>,
                     route: string
                   ) => (
-                    <Link
-                      toSlug={
-                        route && route.includes("article") && article.title
-                      }
-                      useAnchorTag={true}
-                      href={route}
-                    >
+                    <Link useAnchorTag={true} href={route}>
                       {childrenProps}
                     </Link>
                   )}

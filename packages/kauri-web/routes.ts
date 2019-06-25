@@ -72,7 +72,7 @@ routes
     "/article/:article_id/:slug",
     "view-article-version"
   )
-  .add("view-article-material-ui", "/a/:slug/:article_id", "article-v2")
+  .add("view-article-material-ui", "/:slug/:article_id/a", "article-v2")
   .add(
     "view-article-version-with-slug",
     "/article/:article_id/v:article_version/:slug",

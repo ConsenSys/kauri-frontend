@@ -5,6 +5,7 @@ import Tabs from "../Tabs";
 import PrimaryButton from "../Button/PrimaryButton";
 import Truncate from "react-truncate-html";
 import analytics from "../../../kauri-web/lib/analytics";
+import slugify from "slugify"
 
 export interface IResult {
   description: string;
@@ -91,9 +92,10 @@ const getTabs = (breakdown: IElementsBreakdown) =>
     .sort((a, b) => breakdown[b] - breakdown[a]);
 
 const getRoute = (element: IResult) => {
+  const slug = slugify(element.name, {lower: true})
   switch (element.resourceIdentifier.type) {
     case "ARTICLE":
-      return `/article/${element.resourceIdentifier.id}`;
+      return `/${slug}/${element.resourceIdentifier.id}/a`;
     case "COLLECTION":
       return `/collection/${element.resourceIdentifier.id}`;
     case "COMMUNITY":

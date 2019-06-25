@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Label } from "../Typography";
 import { ITransfer } from "./index";
 import { Link } from "../../../kauri-web/routes";
+import slugify from "slugify"
 
 interface ICell {
   bold?: boolean;
@@ -50,7 +51,8 @@ const Line = styled.div`
   background: ${props => props.theme.colors.disabledBackgroundColor};
 `;
 
-const Table = (props: IProps) => (
+const Table = (props: IProps) => {
+  return (
   <Container>
     <Row>
       <Cell bold={true}>
@@ -66,7 +68,9 @@ const Table = (props: IProps) => (
     </Row>
     <Line />
     {props.data &&
-      props.data.map(i => (
+      props.data.map(i => {
+        const slug = slugify(i.article.title, {lower: true})
+        return (
         <Row key={i.id}>
           <Cell>
             <Label>Pending</Label>
@@ -81,7 +85,7 @@ const Table = (props: IProps) => (
             </Link>
           </Cell>
           <Cell flex={3} hoverable={true}>
-            <Link href={`/article/${i.article.id}`}>
+            <Link href={`/${slug}/${i.article.id}/a`}>
               <Label>{i.article.title}</Label>
             </Link>
           </Cell>
@@ -98,8 +102,8 @@ const Table = (props: IProps) => (
             </Label>
           </Cell>
         </Row>
-      ))}
+      )})}
   </Container>
-);
+)};
 
 export default Table;

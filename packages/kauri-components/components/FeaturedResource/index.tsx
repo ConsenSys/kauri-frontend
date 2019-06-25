@@ -7,6 +7,7 @@ import { Label, Title2, BodyCard } from "../Typography";
 import TagList from "../Tags/TagList";
 import SecondaryButtonComponent from "../Button/SecondaryButton";
 import TextTruncate from "react-text-truncate";
+import slugify from "slugify"
 
 const ContentSection = styled.div`
   display: flex;
@@ -68,7 +69,9 @@ interface IProps {
 
 const FeaturedResource: React.FunctionComponent<
   IProps & UserAvatarComponentProps
-> = props => (
+> = props => {
+  const slug = slugify(props.title, {lower: true})
+  return (
   <FeaturedResourceContainer>
     <ContentSection>
       <ResourceDetailsContainer>
@@ -87,7 +90,7 @@ const FeaturedResource: React.FunctionComponent<
             </BodyCard>
           </React.Fragment>,
           props.resourceType === "article"
-            ? `/article/${props.id}/v${props.version}`
+            ? `/${slug}/${props.id}/a`
             : props.resourceType === "collection"
             ? `/collection/${props.id}`
             : `/community/${props.id}`
@@ -111,7 +114,7 @@ const FeaturedResource: React.FunctionComponent<
             color="textPrimary"
           >{`View ${props.resourceType}`}</SecondaryButtonComponent>,
           props.resourceType === "article"
-            ? `/article/${props.id}/v${props.version}`
+            ? `/${slug}/${props.id}/a`
             : props.resourceType === "collection"
             ? `/collection/${props.id}`
             : `/community/${props.id}`
@@ -119,6 +122,6 @@ const FeaturedResource: React.FunctionComponent<
       </ViewContainer>
     </ContentSection>
   </FeaturedResourceContainer>
-);
+)};
 
 export default FeaturedResource;
