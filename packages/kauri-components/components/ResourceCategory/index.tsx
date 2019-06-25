@@ -28,7 +28,7 @@ const Container = styled<{ active: boolean }, "div">("div")`
 interface IProps {
   active: boolean;
   category: string;
-  amount: number;
+  amount: number | null;
   onClick: any;
 }
 

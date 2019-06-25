@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import { EditorState, convertFromRaw } from "draft-js";
 import { Link } from "../../../../routes";
 import slugify from "slugify";
@@ -102,7 +102,7 @@ const DeleteDraftArticleSvgIcon = () => (
   </svg>
 );
 
-const ApprovedArticleHelmet = ({ blocks, contentState }) => {
+const ApprovedArticleHead = ({ blocks, contentState }) => {
   if (!blocks) return;
 
   let description = blocks.filter(({ text }) => text.length >= 40);
@@ -121,10 +121,10 @@ const ApprovedArticleHelmet = ({ blocks, contentState }) => {
   if (image) image = image.data.src;
 
   return (
-    <Helmet>
+    <Head>
       <meta name="description" content={description} />
       {image && <meta name="image" content={image} />}
-    </Helmet>
+    </Head>
   );
 };
 
@@ -144,6 +144,7 @@ export default ({
   status,
   address,
   hostName,
+  owner,
   resourceType,
   openModalAction,
   closeModalAction,
@@ -156,10 +157,12 @@ export default ({
     id: string,
     avatar: string | null,
     username: string | null,
+    name: string | null,
   },
   text?: string,
   username?: ?string,
   userAvatar?: ?string,
+  owner: any,
   ownerId?: ?string,
   authorId: string,
   routeChangeAction: string => void,
@@ -205,9 +208,9 @@ export default ({
     (editorState.markdown
       ? contentState.getBlocksAsArray().map(block => block.toJS())
       : editorState
-        .getCurrentContent()
-        .getBlocksAsArray()
-        .map(block => block.toJS()));
+          .getCurrentContent()
+          .getBlocksAsArray()
+          .map(block => block.toJS()));
 
   const outlineHeadings = blocks
     .filter(({ type }) => type.includes("header-two"))
@@ -215,12 +218,13 @@ export default ({
 
   return (
     <SubmitArticleFormContent>
-      <ApprovedArticleHelmet contentState={contentState} blocks={blocks} />
+      <ApprovedArticleHead contentState={contentState} blocks={blocks} />
       <SubmitArticleFormContainer type="approved article">
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type="outline">
         <Outline
+          name={author.name}
           nfts={nfts}
           linkComponent={children => (
             <Link
@@ -235,29 +239,31 @@ export default ({
             </Link>
           )}
           headings={outlineHeadings || []}
-          username={username}
+          username={author.username}
           userId={
-            (ownerId && userIdTrim(ownerId)) ||
-            (authorId && userIdTrim(authorId))
+            // (ownerId && userIdTrim(ownerId)) ||
+            authorId && userIdTrim(authorId)
           }
-          userAvatar={userAvatar}
-          text={ownerId ? "OWNER" : "AUTHOR"}
+          userAvatar={author.avatar}
+          // text={ownerId ? "OWNER" : "AUTHOR"}
+          text="AUTHOR"
           routeChangeAction={routeChangeAction}
         />
         {ownerId !== authorId &&
           (status === "PENDING" || status === "IN_REVIEW") && (
-          <AuthorContainer>
-            <Label>{"AUTHOR"}</Label>
-            <Link useAnchorTag href={`/public-profile/${authorId}`}>
-              <UserAvatarComponent
-                userId={author.id}
-                avatar={author.avatar}
-                username={author.username}
-              />
-            </Link>
-            <Divider />
-          </AuthorContainer>
-        )}
+            <AuthorContainer>
+              <Label>{"AUTHOR"}</Label>
+              <Link useAnchorTag href={`/public-profile/${authorId}`}>
+                <UserAvatarComponent
+                  userId={author.id}
+                  avatar={author.avatar}
+                  username={author.username}
+                  name={author.name}
+                />
+              </Link>
+              <Divider />
+            </AuthorContainer>
+          )}
         <ActionsContainer>
           {status !== "DRAFT" && (
             <TertiaryButton
@@ -266,13 +272,13 @@ export default ({
               handleClick={() =>
                 userId
                   ? openModalAction({
-                    children: (
-                      <AddToCollectionConnection
-                        articleId={id}
-                        version={version}
-                      />
-                    ),
-                  })
+                      children: (
+                        <AddToCollectionConnection
+                          articleId={id}
+                          version={version}
+                        />
+                      ),
+                    })
                   : routeChangeAction(`/login?r=/article/${id}/v${version}`)
               }
             >
@@ -286,8 +292,8 @@ export default ({
               userId
                 ? routeChangeAction(`/article/${id}/v${version}/update-article`)
                 : routeChangeAction(
-                  `/login?r=/article/${id}/v${version}/update-article`
-                )
+                    `/login?r=/article/${id}/v${version}/update-article`
+                  )
             }
           >
             {`Update ${status === "DRAFT" ? "draft" : "article"}`}

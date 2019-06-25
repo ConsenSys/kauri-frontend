@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceTypeInput } from "./../../__generated__/globalTypes";
@@ -38,9 +37,9 @@ export interface HomepageComponentFragment_Featured_content_resource_PublicUserD
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_ArticleDTO {
@@ -50,10 +49,10 @@ export interface HomepageComponentFragment_Featured_content_resource_CollectionD
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -104,10 +103,10 @@ export interface HomepageComponentFragment_Featured_content_resource_CollectionD
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CollectionDTO_sections_resources_ArticleDTO {
@@ -184,10 +183,10 @@ export interface HomepageComponentFragment_Featured_content_resource_ArticleDTO_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -272,9 +271,9 @@ export interface HomepageComponentFragment_Featured_content_resource_CommunityDT
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_Featured_content_resource_CommunityDTO_approved_ArticleDTO {
@@ -387,9 +386,9 @@ export interface HomepageComponentFragment_Promo_content_resource_PublicUserDTO 
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_ArticleDTO {
@@ -399,10 +398,10 @@ export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -453,10 +452,10 @@ export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CollectionDTO_sections_resources_ArticleDTO {
@@ -533,10 +532,10 @@ export interface HomepageComponentFragment_Promo_content_resource_ArticleDTO_own
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -621,9 +620,9 @@ export interface HomepageComponentFragment_Promo_content_resource_CommunityDTO_a
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_Promo_content_resource_CommunityDTO_approved_ArticleDTO {
@@ -692,9 +691,9 @@ export interface HomepageComponentFragment_LatestContent_content_PublicUserDTO {
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_ArticleDTO {
@@ -704,10 +703,10 @@ export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_o
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -758,10 +757,10 @@ export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_s
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CollectionDTO_sections_resources_ArticleDTO {
@@ -838,10 +837,10 @@ export interface HomepageComponentFragment_LatestContent_content_ArticleDTO_owne
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_LatestContent_content_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -926,9 +925,9 @@ export interface HomepageComponentFragment_LatestContent_content_CommunityDTO_ap
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomepageComponentFragment_LatestContent_content_CommunityDTO_approved_ArticleDTO {

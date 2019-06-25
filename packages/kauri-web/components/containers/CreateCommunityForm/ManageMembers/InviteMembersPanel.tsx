@@ -5,7 +5,10 @@ import {
   BodyCard,
   Label,
 } from "../../../../../kauri-components/components/Typography";
-import { revokeInvitationAction as revokeInvitation } from "../../Community/Module";
+import {
+  revokeInvitationAction as revokeInvitation,
+  resendInvitationAction as resendInvitation,
+} from "../../Community/Module";
 
 const Header = styled.div`
   padding-top: ${props => props.theme.space[2]}px;
@@ -62,7 +65,7 @@ const RevokeInvitationIcon: React.FunctionComponent<{
   </RevokeInvitationIconContainer>
 );
 
-const MemberContainer = styled.section`
+const InviteMemberContainer = styled.section`
   display: flex;
   flex-direction: row;
   padding: ${props => props.theme.space[3]}px ${props => props.theme.space[2]}px;
@@ -70,11 +73,16 @@ const MemberContainer = styled.section`
   > :first-child {
     margin-right: ${props => props.theme.space[4]}px;
   }
-  > :nth-child(2) {
-    margin-right: auto;
+`;
+
+const InviteMemberContent = styled.div`
+  display: flex;
+  width: 100%;
+  > :not(:last-child) {
+    margin-right: ${props => props.theme.space[3]}px;
   }
-  > :last-child {
-    margin-left: ${props => props.theme.space[3]}px;
+  > :first-child {
+    margin-right: auto;
   }
 `;
 
@@ -98,31 +106,42 @@ interface IInvitation {
 const InvitationRow: React.FunctionComponent<{
   invitation: IInvitation;
   revokeInvitationAction: any;
-}> = ({ invitation, revokeInvitationAction }) => (
-  <MemberContainer>
+  resendInvitationAction: () => void;
+}> = ({ invitation, revokeInvitationAction, resendInvitationAction }) => (
+  <InviteMemberContainer>
     <Label>{String(invitation.status).replace("_", " ")}</Label>
-    <BodyCard>{String(invitation.recipientEmail)}</BodyCard>
-    {
-      // TODO: Waiting for backend
-      /* {invitation.status === "PENDING" && (
-      <Label color="primary" hoverColor="hoverTextColor">
-        RESEND
-      </Label>
-    )} */
-    }
-    {invitation.status === "PENDING" && (
-      <RevokeInvitationIcon revokeInvitationAction={revokeInvitationAction} />
-    )}
-  </MemberContainer>
+    <InviteMemberContent>
+      <BodyCard>{String(invitation.recipientEmail)}</BodyCard>
+      {invitation.status === "PENDING" && (
+        <Label
+          color="primary"
+          hoverColor="hoverTextColor"
+          onClick={() => resendInvitationAction()}
+        >
+          RESEND
+        </Label>
+      )}
+      {invitation.status === "PENDING" && (
+        <RevokeInvitationIcon revokeInvitationAction={revokeInvitationAction} />
+      )}
+    </InviteMemberContent>
+  </InviteMemberContainer>
 );
 
 interface IProps {
   invitations: Array<IInvitation | null> | null;
   revokeInvitationAction: typeof revokeInvitation;
+  resendInvitationAction: typeof resendInvitation;
   id: string | null;
 }
 
-const invitationsPanel: React.SFC<IProps> = props => {
+const InvitationsPanel: React.SFC<IProps> = props => {
+  if (
+    !props.invitations ||
+    (Array.isArray(props.invitations) && !props.invitations.length)
+  ) {
+    return null;
+  }
   return (
     <Section>
       <Header>
@@ -145,6 +164,14 @@ const invitationsPanel: React.SFC<IProps> = props => {
                 props.invitations && (
                   <Fragment>
                     <InvitationRow
+                      resendInvitationAction={() =>
+                        props.resendInvitationAction &&
+                        props.resendInvitationAction({
+                          email: invitation.recipientEmail,
+                          id: props.id,
+                          invitationId: invitation.invitationId,
+                        })
+                      }
                       revokeInvitationAction={() =>
                         props.revokeInvitationAction &&
                         props.revokeInvitationAction({
@@ -163,4 +190,4 @@ const invitationsPanel: React.SFC<IProps> = props => {
   );
 };
 
-export default invitationsPanel;
+export default InvitationsPanel;

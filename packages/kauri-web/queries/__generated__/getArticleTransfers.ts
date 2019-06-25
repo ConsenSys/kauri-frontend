@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import {
@@ -51,10 +50,10 @@ export interface getArticleTransfers_getArticleTransfers_content_article_owner_A
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface getArticleTransfers_getArticleTransfers_content_article_owner_PublicUserDTO_resourceIdentifier {

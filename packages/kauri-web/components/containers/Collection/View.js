@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import slugify from "slugify";
 import R from "ramda";
 import CollectionHeader from "../../../../kauri-components/components/Headers/CollectionHeader";
@@ -9,6 +9,19 @@ import CollectionSection from "./CollectionSection";
 import ScrollToTopOnMount from "../../../../kauri-components/components/ScrollToTopOnMount";
 import { Link } from "../../../routes";
 import Image from "../../../../kauri-components/components/Image";
+import { recordView } from "../../../queries/Utils";
+
+type ICommunity = {
+  role: string,
+  community: {
+    id: string,
+    name: string,
+    members: Array<{
+      id: string,
+      role: string,
+    }>,
+  },
+};
 
 type Props = {
   data: {
@@ -19,6 +32,7 @@ type Props = {
   routeChangeAction: string => void,
   hostName: string,
   userId?: string,
+  communities?: ICommunity[],
 };
 
 export const Overlay = styled.div`
@@ -53,30 +67,21 @@ const HeaderContainer = styled(ContentContainer)`
   }
 `;
 
-class CollectionPage extends Component<Props, { trianglify: string }> {
-  state = {
-    trianglify: "",
-  };
-
-  componentDidMount () {
-    const trianglify = require("trianglify");
-    const trianglifyBg = trianglify({
-      width: 1920,
-      height: 400,
-      cell_size: 60,
-      variance: 1,
-      x_colors: ["#0BA986", "#1E3D3B", "#1E2428"],
+class CollectionPage extends Component<Props> {
+  componentDidMount() {
+    this.props.client.mutate({
+      fetchPolicy: "no-cache",
+      mutation: recordView,
+      variables: {
+        resourceId: {
+          type: "COLLECTION",
+          id: this.props.data.getCollection.id,
+        },
+      },
     });
-
-    const generatedSvgString = new XMLSerializer().serializeToString(
-      trianglifyBg.svg()
-    );
-    const trianglifyBgString =
-      "data:image/svg+xml;base64," + window.btoa(generatedSvgString);
-    this.setState({ trianglifyBg: trianglifyBgString });
   }
 
-  render () {
+  render() {
     if (!this.props.data || !this.props.data.getCollection) return null;
 
     const {
@@ -90,7 +95,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       sections,
     } = this.props.data.getCollection;
     const { userId, routeChangeAction, hostName, openModalAction } = this.props;
-    const bg = (background && background) || this.state.trianglifyBg;
+    const bg = background && background;
     const url = `https://${hostName.replace(/api\./g, "")}/collection/${
       this.props.id
     }/${slugify(name, {
@@ -105,9 +110,18 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
       "type",
     ])(this.props);
 
+    const isMemberOfCommunityOwner = Boolean(
+      resourceType === "COMMUNITY" &&
+        Array.isArray(this.props.communities) &&
+        this.props.communities.find(
+          ({ community }) =>
+            community.id === this.props.data.getCollection.owner.id
+        )
+    );
+
     return (
       <>
-        <Helmet>
+        <Head>
           <title>{name} - Kauri</title>
           <meta
             name="description"
@@ -142,7 +156,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
           />
           <meta name="twitter:creator" content="@kauri_io" />
           <meta name="twitter:image" content={bg} />
-        </Helmet>
+        </Head>
         <ScrollToTopOnMount />
         <HeaderContainer>
           <Image
@@ -153,6 +167,7 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
             image={bg}
           />
           <CollectionHeader
+            isMemberOfCommunityOwner={isMemberOfCommunityOwner}
             imageURL={typeof bg === "string" ? bg : null}
             id={id}
             name={name}
@@ -182,7 +197,12 @@ class CollectionPage extends Component<Props, { trianglify: string }> {
                 return current;
               }, 0)}
             updated={dateCreated}
-            username={owner && owner.username}
+            username={
+              owner &&
+              (owner.__typename === "CommunityDTO"
+                ? owner.name
+                : owner.username)
+            }
             ownerId={owner.id}
             userId={userId || ""}
             userAvatar={owner && owner.avatar}

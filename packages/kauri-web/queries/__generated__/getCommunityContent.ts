@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import {
@@ -19,9 +18,9 @@ export interface getCommunityContent_getCommunityContent_content_resource_Commun
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface getCommunityContent_getCommunityContent_content_resource_ArticleDTO {

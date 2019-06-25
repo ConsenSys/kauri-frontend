@@ -14,16 +14,27 @@ import {
   curateCommunityResourcesAction as curateCommunityResources,
   acceptCommunityInvitationAction as acceptCommunityInvitation,
   sendCommunityInvitationAction as sendCommunityInvitation,
+  transferArticleToCommunityAction as transferArticleToCommunity,
 } from "./Module";
 import EmptyCollections from "./EmptyStates/Collections";
 import AlertViewComponent from "../../../../kauri-components/components/Modal/AlertView";
 import AcceptCommunityInvitationModalContent from "../../../../kauri-components/components/Community/AcceptCommunityInvitationModalContent";
 import AddMemberModal from "../CreateCommunityForm/AddMemberModal";
 import { removeResourceVariables } from "../../../queries/__generated__/removeResource";
+import { recordView } from "../../../queries/Utils";
+import ApolloClient from "apollo-client";
+import HomepageResources from "./HomepageResources";
+import {
+  routeChangeAction as routeChange,
+  showNotificationAction as showNotification,
+} from "../../../lib/Module";
+import { openModalAction as openModal } from "../../../../kauri-components/components/Modal/Module";
 
 interface IProps {
+  client: ApolloClient<{}>;
   acceptCommunityInvitationAction: typeof acceptCommunityInvitation;
   currentUser: string;
+  isCommunityAdmin: boolean;
   secret: null | string;
   communityId: string;
   data: {
@@ -31,16 +42,39 @@ interface IProps {
     searchArticles: getCommunityAndPendingArticles_searchArticles;
   };
   closeModalAction: () => void;
-  openModalAction: (payload: { children: any }) => void;
-  routeChangeAction: (route: string) => void;
+  openModalAction: typeof openModal;
+  routeChangeAction: typeof routeChange;
   removeResourceAction: (payload: removeResourceVariables) => void;
   curateCommunityResourcesAction: typeof curateCommunityResources;
   sendCommunityInvitationAction: typeof sendCommunityInvitation;
+  transferArticleToCommunityAction: typeof transferArticleToCommunity;
+  showNotificationAction: typeof showNotification;
 }
 
 class CommunityConnection extends React.Component<IProps> {
   componentDidMount() {
-    if (typeof this.props.secret === "string") {
+    this.props.client.mutate({
+      fetchPolicy: "no-cache",
+      mutation: recordView,
+      variables: {
+        resourceId: {
+          id: this.props.communityId,
+          type: "COMMUNITY",
+        },
+      },
+    });
+
+    const {
+      data: { getCommunity },
+      currentUser,
+    } = this.props;
+    const isCreator = getCommunity.creatorId === currentUser;
+
+    const isMember =
+      isCreator ||
+      R.any(R.propEq("id", currentUser), getCommunity.members || []);
+
+    if (typeof this.props.secret === "string" && !isMember) {
       // AcceptCommunityInviteModal
       this.props.openModalAction({
         children: (
@@ -75,9 +109,11 @@ class CommunityConnection extends React.Component<IProps> {
       closeModalAction,
       openModalAction,
       routeChangeAction,
-      curateCommunityResourcesAction,
+      // curateCommunityResourcesAction,
       acceptCommunityInvitationAction,
       removeResourceAction,
+      transferArticleToCommunityAction,
+      isCommunityAdmin,
     } = this.props;
     const articles =
       getCommunity.approved &&
@@ -89,11 +125,13 @@ class CommunityConnection extends React.Component<IProps> {
     const isMember =
       isCreator ||
       R.any(R.propEq("id", currentUser), getCommunity.members || []);
+    const homepage = getCommunity.homepage;
 
     const openAddMemberModal = () =>
       this.props.openModalAction({
         children: (
           <AddMemberModal
+            showNotificationAction={this.props.showNotificationAction}
             confirmButtonAction={(invitation: any) => {
               this.props.sendCommunityInvitationAction({
                 id: getCommunity.id,
@@ -106,9 +144,15 @@ class CommunityConnection extends React.Component<IProps> {
         ),
       });
 
+    const firstCommunityHomepageSectionResources = R.path<any[]>([
+      0,
+      "resources",
+    ])(homepage);
+
     return (
       <>
         <CommunityHeader
+          transferArticleToCommunityAction={transferArticleToCommunityAction}
           secret={secret}
           acceptCommunityInvitationAction={acceptCommunityInvitationAction}
           id={String(getCommunity.id)}
@@ -138,29 +182,37 @@ class CommunityConnection extends React.Component<IProps> {
           members={getCommunity.members}
           isMember={isMember}
           isCreator={isCreator}
+          isCommunityAdmin={isCommunityAdmin}
           openModalAction={openModalAction}
           closeModalAction={closeModalAction}
           routeChangeAction={routeChangeAction}
-          curateCommunityResourcesAction={curateCommunityResourcesAction}
+          // curateCommunityResourcesAction={curateCommunityResourcesAction}
           openAddMemberModal={openAddMemberModal}
         />
         <Tabs
           dark={true}
           tabs={[
-            { name: `Home` },
+            (Array.isArray(homepage) &&
+              homepage.length &&
+              firstCommunityHomepageSectionResources &&
+              firstCommunityHomepageSectionResources.length) ||
+            isCommunityAdmin
+              ? { name: "Home" }
+              : null,
             { name: `Articles (${articles && articles.length})` },
             { name: `Collections (${collections && collections.length})` },
             isCreator || isMember ? { name: "Manage Community" } : null,
           ]}
           panels={[
-            <DisplayResources
-              removeResourceAction={removeResourceAction}
-              openModalAction={openModalAction}
-              closeModalAction={closeModalAction}
-              isMember={isMember}
+            <HomepageResources
+              routeChangeAction={routeChangeAction}
+              id={String(getCommunity.id)}
+              homepage={homepage}
+              isCommunityAdmin={isCommunityAdmin}
               key="home"
-              resources={getCommunity.approved}
-              communityId={getCommunity.id}
+              isLoggedIn={!!currentUser}
+              userId={currentUser}
+              openModalAction={openModalAction}
             />,
             <DisplayResources
               removeResourceAction={removeResourceAction}
@@ -168,6 +220,7 @@ class CommunityConnection extends React.Component<IProps> {
               closeModalAction={closeModalAction}
               isMember={isMember}
               key="articles"
+              type="articles"
               resources={articles}
               communityId={getCommunity.id}
             />,
@@ -177,6 +230,7 @@ class CommunityConnection extends React.Component<IProps> {
                 openModalAction={openModalAction}
                 closeModalAction={closeModalAction}
                 isMember={isMember}
+                type="collections"
                 key="collections"
                 resources={collections}
                 communityId={getCommunity.id}

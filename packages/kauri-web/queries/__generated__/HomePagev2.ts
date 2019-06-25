@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceTypeInput } from "./../../__generated__/globalTypes";
@@ -40,9 +39,9 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_conte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_content_resource_CollectionDTO_owner_ArticleDTO {
@@ -52,10 +51,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_conte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_content_resource_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -106,10 +105,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_conte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_content_resource_CollectionDTO_sections_resources_ArticleDTO {
@@ -186,10 +185,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_conte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_content_resource_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -274,9 +273,9 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_conte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_content_resource_CommunityDTO_approved_ArticleDTO {
@@ -397,9 +396,9 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Promo_content_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Promo_content_resource_CollectionDTO_owner_ArticleDTO {
@@ -409,10 +408,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Promo_content_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Promo_content_resource_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -463,10 +462,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Promo_content_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Promo_content_resource_CollectionDTO_sections_resources_ArticleDTO {
@@ -543,10 +542,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Promo_content_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Promo_content_resource_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -631,9 +630,9 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Promo_content_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_Promo_content_resource_CommunityDTO_approved_ArticleDTO {
@@ -704,9 +703,9 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_LatestContent_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_LatestContent_content_CollectionDTO_owner_ArticleDTO {
@@ -716,10 +715,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_LatestContent_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_LatestContent_content_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -770,10 +769,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_LatestContent_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_LatestContent_content_CollectionDTO_sections_resources_ArticleDTO {
@@ -850,10 +849,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_LatestContent_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_LatestContent_content_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -938,9 +937,9 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_main_LatestContent_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_main_LatestContent_content_CommunityDTO_approved_ArticleDTO {
@@ -1055,9 +1054,9 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Featured_co
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Featured_content_resource_CollectionDTO_owner_ArticleDTO {
@@ -1067,10 +1066,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Featured_co
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Featured_content_resource_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -1121,10 +1120,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Featured_co
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Featured_content_resource_CollectionDTO_sections_resources_ArticleDTO {
@@ -1201,10 +1200,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Featured_co
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Featured_content_resource_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -1289,9 +1288,9 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Featured_co
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Featured_content_resource_CommunityDTO_approved_ArticleDTO {
@@ -1412,9 +1411,9 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Promo_conte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Promo_content_resource_CollectionDTO_owner_ArticleDTO {
@@ -1424,10 +1423,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Promo_conte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Promo_content_resource_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -1478,10 +1477,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Promo_conte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Promo_content_resource_CollectionDTO_sections_resources_ArticleDTO {
@@ -1558,10 +1557,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Promo_conte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Promo_content_resource_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -1646,9 +1645,9 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Promo_conte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_Promo_content_resource_CommunityDTO_approved_ArticleDTO {
@@ -1719,9 +1718,9 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_LatestConte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_LatestContent_content_CollectionDTO_owner_ArticleDTO {
@@ -1731,10 +1730,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_LatestConte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_LatestContent_content_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -1785,10 +1784,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_LatestConte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_LatestContent_content_CollectionDTO_sections_resources_ArticleDTO {
@@ -1865,10 +1864,10 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_LatestConte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_LatestContent_content_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -1953,9 +1952,9 @@ export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_LatestConte
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface HomePageV2_getLatestHomepageDescriptor_rows_sidebar_LatestContent_content_CommunityDTO_approved_ArticleDTO {

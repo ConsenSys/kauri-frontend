@@ -64,7 +64,6 @@ const Articles = ({
             }
             id={article.id}
             version={article.version}
-            cardHeight={420}
             imageURL={article.attributes && article.attributes.background}
             nfts={article.associatedNfts}
             destination={"review"}
@@ -104,7 +103,7 @@ export default compose(
       fetchPolicy: "cache-and-network",
       variables: {
         page: 0,
-        author: userId,
+        owners: communities.concat(userId),
       },
     }),
   }),

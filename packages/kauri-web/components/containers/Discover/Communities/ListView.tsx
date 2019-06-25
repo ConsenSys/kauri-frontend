@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import CommunityCard from "../../../../../kauri-components/components/Card/CommunityCard";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 import { Link } from "../../../../routes";
@@ -39,8 +39,11 @@ class Communities extends Component<IProps> {
 
     return (
       <Fragment>
-        <Helmet>
-          <title>Kauri - Discover Communities</title>
+        <Head>
+          <title>
+            Beginner to Advanced Blockchain & Ethereum Tutorials | Communities -
+            Kauri
+          </title>
           <meta
             name="description"
             content="Discover the best collections of blockchain related articles, tutorials and how-to guides"
@@ -49,7 +52,7 @@ class Communities extends Component<IProps> {
             rel="canonical"
             href={`https://${this.props.hostName}/collections`}
           />
-        </Helmet>
+        </Head>
         {searchCommunities ? (
           <Masonry>
             {searchCommunities &&
@@ -73,7 +76,7 @@ class Communities extends Component<IProps> {
                           String(
                             community &&
                               community.approvedId &&
-                              community.approvedId.map(
+                              community.approvedId.filter(
                                 resource =>
                                   resource && resource.type === "COLLECTION"
                               ).length
@@ -85,7 +88,7 @@ class Communities extends Component<IProps> {
                           String(
                             community &&
                               community.approvedId &&
-                              community.approvedId.map(
+                              community.approvedId.filter(
                                 resource =>
                                   resource && resource.type === "ARTICLE"
                               ).length

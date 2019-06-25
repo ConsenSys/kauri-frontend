@@ -101,7 +101,7 @@ class SubmitArticleFormText extends React.Component<
       rules: [
         {
           message:
-            "Empty articles cannot be saved or published. Start writing 😘",
+            "Empty articles cannot be saved or published. Start writing!",
           required: true,
           whitespace: true,
         },

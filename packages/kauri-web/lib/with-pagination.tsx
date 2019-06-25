@@ -161,10 +161,10 @@ const withPagination = (
       const setChildRef = (childRef: HTMLElement) => (this.childRef = childRef);
 
       return (
-        <div>
+        <React.Fragment>
           <Paginated {...this.props} setRef={setChildRef} />
           {this.state.showLoading && <Loading />}
-        </div>
+        </React.Fragment>
       );
     }
   }

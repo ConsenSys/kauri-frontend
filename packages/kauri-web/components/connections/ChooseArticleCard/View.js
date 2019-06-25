@@ -66,7 +66,7 @@ const ArticlesContent = props => {
               userAvatar={article.owner && article.owner.avatar}
               userId={article.owner && article.owner.id}
               imageURL={article.attributes && article.attributes.background}
-              cardHeight={420}
+              cardHeight={310}
               isLoggedIn={!!userId}
               linkComponent={children => children}
               tags={article.tags}

@@ -152,7 +152,7 @@ export const communityCreatedEpic: Epic<Actions, IReduxState, IDependencies> = (
             ? Observable.throw(new Error("Submission error"))
             : Observable.of(
                 showNotificationAction({
-                  description: `Sidechain transaction is mined! You can start adding articles and collections now!`,
+                  description: `Your community has been created! You can start adding articles and collections now!`,
                   message: "Community Created",
                   notificationType: "success",
                 })
@@ -182,102 +182,114 @@ export const communityCreatedEpic: Epic<Actions, IReduxState, IDependencies> = (
 
 export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
-  _,
+  { getState },
   { apolloClient, apolloSubscriber, personalSign }
 ) =>
   action$
     .ofType(CREATE_COMMUNITY)
     .switchMap(actions =>
-      Observable.fromPromise(
-        apolloClient.query<
-          prepareCreateCommunity,
-          prepareCreateCommunityVariables
-        >({
-          query: prepareCreateCommunityQuery,
-          variables: (actions as IPrepareCreateCommunityAction).payload,
-        })
-      )
-        .do(console.log)
-        .switchMap<ApolloQueryResult<prepareCreateCommunity>, any>(
-          ({
-            data: { prepareCreateCommunity: prepareCreateCommunityResult },
-          }) =>
-            Observable.fromPromise<string>(
-              prepareCreateCommunityResult &&
-                personalSign(prepareCreateCommunityResult.messageHash)
-            )
-              .mergeMap(signature =>
-                apolloClient.mutate<createCommunity, createCommunityVariables>({
-                  mutation: createCommunityMutation,
-                  variables: {
-                    ...(actions as ICreateCommunityAction).payload,
-                    invitations:
-                      prepareCreateCommunityResult &&
-                      prepareCreateCommunityResult.attributes.invitations,
-                    signature,
-                  },
-                })
-              )
-              .do(console.log)
-              .mergeMap(({ data: { createCommunity: result } }) =>
-                apolloSubscriber<ICreateCommunityCommandOutput>(result.hash)
-              )
-              .do(console.log)
-              .do(
-                () =>
-                  typeof actions.callback === "function" && actions.callback()
-              )
-              .mergeMap(
-                ({
-                  data: {
-                    output: { id, transactionHash, error },
-                  },
-                }) =>
-                  error
-                    ? Observable.throw(new Error("Submission error"))
-                    : Observable.merge(
-                        Observable.of(
-                          (showNotificationAction as any)({
-                            description: `You can start adding articles and collections to your community page once the transaction is mined!`,
-                            message: "Creating Community",
-                            notificationType: "info",
-                          })
-                        ),
-                        Observable.of(
-                          communityCreatedAction({
-                            transactionHash,
-                          })
-                        ),
-                        Observable.of(
-                          routeChangeAction(
-                            `/community/${id}/community-created`
-                          )
-                        )
-                      )
-              )
-              .do(() => apolloClient.resetStore())
-              .catch(err => {
-                console.error(err);
-                return Observable.of(
-                  showNotificationAction({
-                    description: "Please try again",
-                    message: "Submission error",
-                    notificationType: "error",
-                  })
-                );
-              })
-        )
-        .do(() => apolloClient.resetStore())
-        .catch(err => {
-          console.error(err);
-          return Observable.of(
+      getState().app.user.status !== "EMAIL_VERIFIED"
+        ? Observable.of(
             showNotificationAction({
-              description: "Please try again",
-              message: "Submission error",
+              description: `Sorry but you need to verify your email address then refresh before creating your community!`,
+              message: "Verify your email address",
               notificationType: "error",
             })
-          );
-        })
+          )
+        : Observable.fromPromise(
+            apolloClient.query<
+              prepareCreateCommunity,
+              prepareCreateCommunityVariables
+            >({
+              query: prepareCreateCommunityQuery,
+              variables: (actions as IPrepareCreateCommunityAction).payload,
+            })
+          )
+            .do(console.log)
+            .switchMap<ApolloQueryResult<prepareCreateCommunity>, any>(
+              ({
+                data: { prepareCreateCommunity: prepareCreateCommunityResult },
+              }) =>
+                Observable.fromPromise<string>(
+                  prepareCreateCommunityResult &&
+                    personalSign(prepareCreateCommunityResult.messageHash)
+                )
+                  .mergeMap(signature =>
+                    apolloClient.mutate<
+                      createCommunity,
+                      createCommunityVariables
+                    >({
+                      mutation: createCommunityMutation,
+                      variables: {
+                        ...(actions as ICreateCommunityAction).payload,
+                        invitations:
+                          prepareCreateCommunityResult &&
+                          prepareCreateCommunityResult.attributes.invitations,
+                        signature,
+                      },
+                    })
+                  )
+                  .do(console.log)
+                  .mergeMap(({ data: { createCommunity: result } }) =>
+                    apolloSubscriber<ICreateCommunityCommandOutput>(result.hash)
+                  )
+                  .do(console.log)
+                  .do(
+                    () =>
+                      typeof actions.callback === "function" &&
+                      actions.callback()
+                  )
+                  .mergeMap(
+                    ({
+                      data: {
+                        output: { id, transactionHash, error },
+                      },
+                    }) =>
+                      error
+                        ? Observable.throw(new Error("Submission error"))
+                        : Observable.merge(
+                            Observable.of(
+                              (showNotificationAction as any)({
+                                description: `Your community is being created! Once this is completed (within a few minutes), you will be able to add articles and collections`,
+                                message: "Creating Community",
+                                notificationType: "info",
+                              })
+                            ),
+                            Observable.of(
+                              communityCreatedAction({
+                                transactionHash,
+                              })
+                            ),
+                            Observable.of(
+                              routeChangeAction(
+                                `/community/${id}/community-created`
+                              )
+                            )
+                          )
+                  )
+                  .do(() => apolloClient.resetStore())
+                  .catch(err => {
+                    console.error(err);
+                    return Observable.of(
+                      showNotificationAction({
+                        description: "Please try again",
+                        message: "Submission error",
+                        notificationType: "error",
+                      })
+                    );
+                  })
+            )
+            .do(() => apolloClient.resetStore())
+            .catch(err => {
+              console.error(err);
+              return Observable.of(
+                showNotificationAction({
+                  description: "Please try again",
+                  message: "Submission error",
+                  notificationType: "error",
+                })
+              );
+            })
     )
     .catch(err => {
       console.error(err);
@@ -383,7 +395,7 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                   Observable.merge(
                     Observable.of(
                       showNotificationAction({
-                        description: `woo woo`,
+                        description: `The community's details have been updated!`,
                         message: "Community updated",
                         notificationType: "success",
                       })
@@ -416,7 +428,7 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
             : Observable.merge(
                 Observable.of(
                   showNotificationAction({
-                    description: `woo woo`,
+                    description: `The community's details have been updated!`,
                     message: "Community updated",
                     notificationType: "success",
                   })
@@ -429,7 +441,7 @@ export const updateCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                     }/community-updated`
                   )
                 )
-              )
+              ).do(() => apolloClient.resetStore())
         )
     )
     .catch(err => {

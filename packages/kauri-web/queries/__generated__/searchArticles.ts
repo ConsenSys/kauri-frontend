@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import {
@@ -26,10 +25,10 @@ export interface searchArticles_searchArticles_content_owner_ArticleDTO {
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface searchArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {

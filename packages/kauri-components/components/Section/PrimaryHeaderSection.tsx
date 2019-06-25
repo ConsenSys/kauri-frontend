@@ -20,7 +20,7 @@ const PrimaryHeaderSectionStack = styled<
 >(Stack)`
   background: ${props => props.theme.colors[props.background as string]};
   min-height: 250px;
-  padding: 0px ${props => props.theme.padding};
+  padding: ${props => props.theme.space[3]}px ${props => props.theme.padding};
   ${props => props.backgroundURL && withBackgroundURLCss};
 `;
 

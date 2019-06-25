@@ -1,9 +1,9 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import {
   SearchFilterInput,
+  SearchParameterInput,
   ResourceTypeInput,
   ArticleStatusInput,
 } from "./../../__generated__/globalTypes";
@@ -26,10 +26,10 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_associatedNfts {
@@ -71,10 +71,10 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -190,4 +190,5 @@ export interface searchAutocompleteArticlesVariables {
   size?: number | null;
   query?: string | null;
   filter?: SearchFilterInput | null;
+  parameter?: SearchParameterInput | null;
 }

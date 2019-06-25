@@ -10,7 +10,7 @@ import {
 } from "../../../queries/Article";
 import { getUserDetails, getOwnProfile } from "../../../queries/User";
 import { getCollectionsForUser } from "../../../queries/Collection";
-import { deleteDraftArticleAction } from "../Article/DeleteDraftArticleModule";
+import { deleteDraftArticleAction } from "../ArticleDraft/DeleteDraftArticleModule";
 import {
   closeModalAction,
   openModalAction,
@@ -22,6 +22,7 @@ import {
   rejectArticleTransferAction,
   acceptArticleTransferAction,
 } from "./Manage/TransferModule";
+import { removeMemberAction } from "../Community/Module";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -39,6 +40,7 @@ export default compose(
       openModalAction,
       rejectArticleTransferAction,
       acceptArticleTransferAction,
+      removeMemberAction,
     }
   ),
   graphql(searchPersonalArticles, {

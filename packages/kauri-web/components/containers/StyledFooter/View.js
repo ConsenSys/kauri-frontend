@@ -5,6 +5,8 @@ import Email from "./Email";
 import Logo from "./Logo";
 import ConsenSys from "./ConsenSys";
 
+export const footerHeight = 57;
+
 const NewFooter = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;

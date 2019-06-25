@@ -10,7 +10,7 @@ import Published from "./Published/View";
 import Manage from "./Manage";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor (props: ViewProps) {
+  constructor(props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -24,11 +24,11 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     };
   }
 
-  toggleEditing () {
+  toggleEditing() {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render () {
+  render() {
     const {
       UserQuery,
       ArticlesQuery,
@@ -45,6 +45,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       openModalAction,
       isLoggedIn,
       hostName,
+      removeMemberAction,
     } = this.props;
 
     const isHeaderLoaded =
@@ -129,6 +130,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
                   draftsQuery={DraftsQuery}
                   transfersQuery={PendingTransfersQuery}
                   type="manage"
+                  removeMemberAction={removeMemberAction}
                   routeChangeAction={routeChangeAction}
                   deleteDraftArticleAction={deleteDraftArticleAction}
                   isOwner={UserQuery.getUser.id === currentUser}

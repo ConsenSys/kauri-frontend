@@ -8,6 +8,7 @@ import {
   Actions,
   routeChangeAction,
 } from "../../../lib/Module";
+import analytics from "../../../lib/analytics";
 import {
   curateCommunityResourcesMutation,
   approveResourceMutation,
@@ -22,6 +23,8 @@ import {
   removeMemberMutation,
   changeMemberRoleMutation,
   prepareChangeMemberRoleQuery,
+  resendInvitationMutation,
+  initiateArticleTransferMutation,
 } from "../../../queries/Community";
 import {
   curateCommunityResources,
@@ -77,9 +80,19 @@ import {
   changeMemberRole,
   changeMemberRoleVariables,
 } from "../../../queries/__generated__/changeMemberRole";
+import {
+  resendInvitation,
+  resendInvitationVariables,
+} from "../../../queries/__generated__/resendInvitation";
+import {
+  initiateArticleTransfer,
+  initiateArticleTransferVariables,
+} from "../../../queries/__generated__/initiateArticleTransfer";
 
 import { ISendInvitationCommandOutput } from "../CreateCommunityForm/Module";
 import { closeModalAction } from "../../../../kauri-components/components/Modal/Module";
+import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
+import { finaliseArticleTransfer } from "../../../queries/Article";
 
 interface ICurateCommunityResourcesAction {
   type: "CURATE_COMMUNITY_RESOURCES";
@@ -89,6 +102,11 @@ interface ICurateCommunityResourcesAction {
 interface IRemoveMemberAction {
   type: "REMOVE_MEMBER";
   payload: prepareRemoveMemberVariables;
+}
+
+interface ITransferArticleToCommunityAction {
+  type: "TRANSFER_ARTICLE_TO_COMMUNITY";
+  payload: initiateArticleTransferVariables;
 }
 
 interface IApproveResourceAction {
@@ -127,6 +145,10 @@ interface IMemberRemovedAction {
   type: "MEMBER_REMOVED";
 }
 
+interface IArticleTransferredToCommunityAction {
+  type: "ARTICLE_TRANSFERRED_TO_COMMUNITY";
+}
+
 interface IAcceptCommunityInvitationAction {
   type: "ACCEPT_COMMUNITY_INVITATION";
   payload: prepareAcceptInvitationVariables;
@@ -139,6 +161,15 @@ interface IMemberRoleChangedAction {
 interface IChangeMemberRoleAction {
   type: "CHANGE_MEMBER_ROLE";
   payload: prepareChangeMemberRoleVariables;
+}
+
+interface IResendInvitationAction {
+  type: "RESEND_INVITATION";
+  payload: resendInvitationVariables;
+}
+
+interface IInvitationResentAction {
+  type: "INVITATION_RESENT";
 }
 
 const CURATE_COMMUNITY_RESOURCES = "CURATE_COMMUNITY_RESOURCES";
@@ -154,6 +185,10 @@ const REMOVE_MEMBER = "REMOVE_MEMBER";
 const MEMBER_REMOVED = "MEMBER_REMOVED";
 const CHANGE_MEMBER_ROLE = "CHANGE_MEMBER_ROLE";
 const MEMBER_ROLE_CHANGED = "MEMBER_ROLE_CHANGED";
+const RESEND_INVITATION = "RESEND_INVITATION";
+const INVITATION_RESENT = "INVITATION_RESENT";
+const TRANSFER_ARTICLE_TO_COMMUNITY = "TRANSFER_ARTICLE_TO_COMMUNITY";
+const ARTICLE_TRANSFERRED_TO_COMMUNITY = "ARTICLE_TRANSFERRED_TO_COMMUNITY";
 
 export const invitationRevokedAction = (): IInvitationRevokedAction => ({
   type: INVITATION_REVOKED,
@@ -172,6 +207,17 @@ export const memberRemovedAction = (): IMemberRemovedAction => ({
 
 export const memberRoleChangedAction = (): IMemberRoleChangedAction => ({
   type: MEMBER_ROLE_CHANGED,
+});
+
+export const articleTransferredToCommunityAction = (): IArticleTransferredToCommunityAction => ({
+  type: ARTICLE_TRANSFERRED_TO_COMMUNITY,
+});
+
+export const resendInvitationAction = (
+  payload: resendInvitationVariables
+): IResendInvitationAction => ({
+  payload,
+  type: RESEND_INVITATION,
 });
 
 export const removeMemberAction = (
@@ -202,12 +248,23 @@ export const sendCommunityInvitationAction = (
   type: SEND_COMMUNITY_INVITATION,
 });
 
+export const transferArticleToCommunityAction = (
+  payload: initiateArticleTransferVariables
+): ITransferArticleToCommunityAction => ({
+  payload,
+  type: TRANSFER_ARTICLE_TO_COMMUNITY,
+});
+
 export const invitationSentAction = (): IInvitationSentAction => ({
   type: INVITATION_SENT,
 });
 
 export const invitationAcceptedAction = (): IInvitationAcceptedAction => ({
   type: INVITATION_ACCEPTED,
+});
+
+export const invitationResentAction = (): IInvitationResentAction => ({
+  type: INVITATION_RESENT,
 });
 
 export const acceptCommunityInvitationAction = (
@@ -255,6 +312,7 @@ interface IRemoveResourceCommandOutput {
 
 interface IRemoveMemberCommandOutput {
   hash: string;
+  error?: string;
 }
 
 interface IChangeMemberRoleCommandOutput {
@@ -262,6 +320,15 @@ interface IChangeMemberRoleCommandOutput {
 }
 
 type IApproveResourceCommandOutput = ICurateCommunityResourcesCommandOutput;
+
+type IResendInvitationCommandOutput = IRevokeInvitationCommandOutput;
+
+interface IInitiateArticleTransferCommandOutput {
+  hash: string;
+  version: string;
+  articleAuthor: string;
+  dateCreated: string;
+}
 
 const capitalize = (s: string) =>
   R.compose(
@@ -396,7 +463,7 @@ export const sendCommunityInvitationEpic: Epic<
                 showNotificationAction({
                   description: `The invitation ${payload.invitation &&
                     payload.invitation
-                      .email} for to join the community has been sent!`,
+                      .email} for to join the community has been sent! You can view and manage all moderators from the Manage tab.`,
                   message: "Invitation Sent",
                   notificationType: "success",
                 })
@@ -412,55 +479,112 @@ export const acceptCommunityInvitationEpic: Epic<
   Actions,
   IReduxState,
   IDependencies
-> = (action$, _, { apolloClient, apolloSubscriber, personalSign }) =>
+> = (action$, { getState }, { apolloClient, apolloSubscriber, personalSign }) =>
   action$
     .ofType(ACCEPT_COMMUNITY_INVITATION)
     .switchMap(({ payload }: IAcceptCommunityInvitationAction) =>
-      Observable.fromPromise(
-        apolloClient.query<
-          prepareAcceptInvitation,
-          prepareAcceptInvitationVariables
-        >({
-          query: prepareAcceptInvitationQuery,
-          variables: payload,
-        })
-      ).mergeMap(({ data: { prepareAcceptInvitation: result } }) =>
-        Observable.fromPromise<string>(
-          personalSign(result && result.messageHash)
-        )
-          .mergeMap(signature =>
-            apolloClient.mutate<acceptInvitation, acceptInvitationVariables>({
-              mutation: acceptInvitationMutation,
-              variables: {
-                id: (payload && payload.id) || "",
-                secret: (payload && payload.secret) || "",
-                signature,
-              },
+      getState().app && getState().app.user && getState().app.user.id
+        ? Observable.fromPromise(
+            apolloClient.query<
+              prepareAcceptInvitation,
+              prepareAcceptInvitationVariables
+            >({
+              query: prepareAcceptInvitationQuery,
+              variables: payload,
             })
-          )
-          .mergeMap(
-            ({ data: { acceptInvitation: acceptInvitationResult } }: any) =>
-              apolloSubscriber<IAcceptInvitationCommandOutput>(
-                acceptInvitationResult.hash
-              )
-          )
-          .do(() => apolloClient.resetStore())
-          .mergeMap(() =>
-            Observable.merge(
-              Observable.of(closeModalAction()),
-              Observable.of(
-                showNotificationAction({
-                  description: `You are now a member of the community!`,
-                  message: "Invitation Accepted",
-                  notificationType: "success",
+          ).mergeMap(({ data: { prepareAcceptInvitation: result } }) =>
+            Observable.fromPromise<string>(
+              personalSign(result && result.messageHash)
+            )
+              .mergeMap(signature =>
+                apolloClient.mutate<
+                  acceptInvitation,
+                  acceptInvitationVariables
+                >({
+                  mutation: acceptInvitationMutation,
+                  variables: {
+                    id: (payload && payload.id) || "",
+                    secret: (payload && payload.secret) || "",
+                    signature,
+                  },
                 })
-              ),
-              Observable.of(routeChangeAction(`/community/${payload.id}`)),
-              Observable.of(invitationAcceptedAction())
+              )
+              .mergeMap(
+                ({ data: { acceptInvitation: acceptInvitationResult } }: any) =>
+                  apolloSubscriber<IAcceptInvitationCommandOutput>(
+                    acceptInvitationResult.hash
+                  )
+              )
+              .mergeMap(({ data: { output: { error } } }) =>
+                typeof error === "string" &&
+                error.includes("associated to another member")
+                  ? Observable.merge(
+                      Observable.of(closeModalAction()),
+                      Observable.of(
+                        showNotificationAction({
+                          description:
+                            "This email invite is already associated with another member of the community!",
+                          message: "Submission error",
+                          notificationType: "error",
+                        })
+                      )
+                    )
+                  : Observable.merge(
+                      Observable.of(closeModalAction()),
+                      Observable.of(
+                        showNotificationAction({
+                          description: `You are now a member of the community!`,
+                          message: "Invitation Accepted",
+                          notificationType: "success",
+                        })
+                      ),
+                      Observable.of(
+                        routeChangeAction(`/community/${payload.id}`)
+                      ),
+                      Observable.of(invitationAcceptedAction())
+                    )
+              )
+              .do(() => apolloClient.resetStore())
+              .catch(err => {
+                console.error(err);
+                return Observable.merge(
+                  Observable.of(closeModalAction()),
+                  Observable.of(
+                    showNotificationAction({
+                      description:
+                        "Please try again or you may already be a member of the community!",
+                      message: "Submission error",
+                      notificationType: "error",
+                    })
+                  )
+                );
+              })
+          )
+        : Observable.merge(
+            Observable.of(closeModalAction()),
+            Observable.of(
+              routeChangeAction(
+                `/login?r=/community/${payload.id}/approve?secret=${
+                  payload.secret
+                }`
+              )
             )
           )
-      )
-    );
+    )
+    .catch(err => {
+      console.error(err);
+      return Observable.merge(
+        Observable.of(closeModalAction()),
+        Observable.of(
+          showNotificationAction({
+            description:
+              "Please try again or you may already be a member of the community!",
+            message: "Submission error",
+            notificationType: "error",
+          })
+        )
+      );
+    });
 
 export const revokeInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
@@ -517,7 +641,7 @@ export const revokeInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
 
 export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
-  _,
+  {},
   { apolloClient, apolloSubscriber, personalSign }
 ) =>
   action$.ofType(REMOVE_MEMBER).switchMap(({ payload }: IRemoveMemberAction) =>
@@ -538,23 +662,57 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
             },
           })
         )
-        .mergeMap(({ data: { removeMember: removeMemberResult } }: any) =>
+        .mergeMap(({ data: { removeMember: removeMemberResult } }) =>
           apolloSubscriber<IRemoveMemberCommandOutput>(removeMemberResult.hash)
         )
-        .do(() => apolloClient.resetStore())
-        .mergeMap(() =>
-          Observable.merge(
-            Observable.of(closeModalAction()),
-            Observable.of(
-              showNotificationAction({
-                description: `That user has been successfully removed from the community`,
-                message: "Member removed",
-                notificationType: "success",
-              })
-            ),
-            Observable.of(memberRemovedAction())
-          )
+        .mergeMap(
+          ({
+            data: {
+              output: { error },
+            },
+          }: {
+            data: { output: IRemoveMemberCommandOutput };
+          }) => {
+            if (error) {
+              console.log(error);
+              if (error.includes("cannot be removed")) {
+                return Observable.merge(
+                  Observable.of(closeModalAction()),
+                  Observable.of(
+                    showNotificationAction({
+                      description: `You cannot leave the community`,
+                      message:
+                        "You are the last remaining admin of the community!",
+                      notificationType: "error",
+                    })
+                  )
+                );
+              }
+              return Observable.merge(
+                Observable.of(closeModalAction()),
+                Observable.of(
+                  showNotificationAction({
+                    description: `Please try again`,
+                    message: "Something went wrong",
+                    notificationType: "error",
+                  })
+                )
+              );
+            }
+            return Observable.merge(
+              Observable.of(closeModalAction()),
+              Observable.of(
+                showNotificationAction({
+                  description: `That user has been successfully removed from the community`,
+                  message: "Member removed",
+                  notificationType: "success",
+                })
+              ),
+              Observable.of(memberRemovedAction())
+            );
+          }
         )
+        .do(() => apolloClient.resetStore())
     )
   );
 
@@ -612,6 +770,42 @@ export const changeMemberRoleEpic: Epic<Actions, IReduxState, IDependencies> = (
       )
     );
 
+export const resendInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
+  action$,
+  _,
+  { apolloClient, apolloSubscriber }
+) =>
+  action$
+    .ofType(RESEND_INVITATION)
+    .switchMap(({ payload }: IResendInvitationAction) =>
+      Observable.fromPromise(
+        apolloClient.mutate<resendInvitation, resendInvitationVariables>({
+          mutation: resendInvitationMutation,
+          variables: payload,
+        })
+      )
+        .mergeMap(
+          ({ data: { resendInvitation: resendInvitationResult } }: any) =>
+            apolloSubscriber<IResendInvitationCommandOutput>(
+              resendInvitationResult.hash
+            )
+        )
+        .do(() => apolloClient.resetStore())
+        .mergeMap(() =>
+          Observable.merge(
+            Observable.of(closeModalAction()),
+            Observable.of(
+              showNotificationAction({
+                description: `Another email invitation has been sent to that user to join the community`,
+                message: "Email resent",
+                notificationType: "success",
+              })
+            ),
+            Observable.of(invitationResentAction())
+          )
+        )
+    );
+
 export const removeResourceEpic: Epic<any, IReduxState, IDependencies> = (
   action$,
   _,
@@ -653,4 +847,93 @@ export const removeResourceEpic: Epic<any, IReduxState, IDependencies> = (
               )
         )
         .do(() => apolloClient.resetStore())
+    );
+
+export const transferArticleToCommunityEpic: Epic<
+  any,
+  IReduxState,
+  IDependencies
+> = (action$, _, { apolloClient, apolloSubscriber, personalSign }) =>
+  action$
+    .ofType(TRANSFER_ARTICLE_TO_COMMUNITY)
+    .switchMap(({ payload }: ITransferArticleToCommunityAction) =>
+      Observable.fromPromise(
+        apolloClient.mutate<
+          initiateArticleTransfer,
+          initiateArticleTransferVariables
+        >({
+          mutation: initiateArticleTransferMutation,
+          variables: payload,
+        })
+      )
+        .mergeMap(({ data: { initiateArticleTransfer: { hash } } }) =>
+          apolloSubscriber<IInitiateArticleTransferCommandOutput>(hash)
+        )
+        .switchMap(
+          ({
+            data: {
+              output: { id, version, hash, articleAuthor, dateCreated },
+            },
+          }) => {
+            const signatureToSign = generatePublishArticleHash(
+              id,
+              version,
+              hash,
+              articleAuthor,
+              dateCreated
+            );
+
+            return Observable.fromPromise(personalSign(signatureToSign))
+              .mergeMap(signature =>
+                Observable.fromPromise(
+                  apolloClient.mutate({
+                    mutation: finaliseArticleTransfer,
+                    variables: {
+                      id,
+                      signature,
+                    },
+                  })
+                )
+              )
+              .flatMap(
+                ({
+                  data: {
+                    finaliseArticleTransfer: { hash: resultHash },
+                  },
+                }: {
+                  data: { finaliseArticleTransfer: { hash: string } };
+                }) => apolloSubscriber(resultHash)
+              )
+              .do(() => apolloClient.resetStore())
+              .do(() =>
+                analytics.track("Article Transfer Finalised", {
+                  category: "article_actions",
+                })
+              )
+              .mergeMap(({ data: { output: { error } } }) =>
+                error
+                  ? Observable.merge(
+                      Observable.of(closeModalAction()),
+                      Observable.of(
+                        showNotificationAction({
+                          description: `There was an error transferring the article, please try again.`,
+                          message: "Error",
+                          notificationType: "error",
+                        })
+                      )
+                    )
+                  : Observable.merge(
+                      Observable.of(articleTransferredToCommunityAction()),
+                      Observable.of(closeModalAction()),
+                      Observable.of(
+                        showNotificationAction({
+                          description: `Your selected article was successfully transferred to the community!`,
+                          message: "Article Transferred",
+                          notificationType: "success",
+                        })
+                      )
+                    )
+              );
+          }
+        )
     );

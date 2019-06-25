@@ -26,11 +26,14 @@ export default compose(
   ),
   graphql(getLatestCollections, {
     name: QUERY_NAME,
-    options: () => ({
+    options: ({ scoringMode }: { scoringMode: string }) => ({
       variables: {
         filter: {
           mustNotIncludeUserId: config.testingAccounts,
           type: "COLLECTION",
+        },
+        parameter: {
+          scoringMode,
         },
       },
     }),

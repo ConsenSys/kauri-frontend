@@ -44,7 +44,7 @@ interface IProps {
   userAvatar: string;
   openModalAction: (children?: any) => void;
   closeModalAction: () => void;
-  communities: IOption[];
+  communities: Array<{ community: IOption }>;
 }
 
 interface ISubmitArticleVariables {
@@ -127,13 +127,7 @@ class SubmitArticleForm extends React.Component<IProps> {
     } = this.props;
 
     // Updating article from a community I am in
-    if (
-      Number(R.path(["getArticle", "version"])(data)) >= 1 &&
-      Array.isArray(communities) &&
-      communities
-        .map(({ id }) => id)
-        .includes(R.path<string>(["getArticle", "owner", "id"])(data))
-    ) {
+    if (Number(R.path(["getArticle", "version"])(data)) >= 1) {
       return this.handleSubmit("submit/update")(null);
     }
     // Submitting fresh article and I potentially want to choose a community?
@@ -144,11 +138,11 @@ class SubmitArticleForm extends React.Component<IProps> {
             userId={userId}
             type="Articles"
             closeModalAction={closeModalAction}
-            communities={communities.map(i => {
-              i.type = "COMMUNITY";
-              return i;
-            })}
-            handleSubmit={(e, destination) =>
+            communities={communities.map(({ community }) => ({
+              ...community,
+              type: "COMMUNITY",
+            }))}
+            handleSubmit={(destination, e) =>
               this.handleSubmit("submit/update", undefined, destination)(e)
             }
           />
@@ -401,7 +395,9 @@ class SubmitArticleForm extends React.Component<IProps> {
           openModalAction={this.props.openModalAction}
           closeModalAction={this.props.closeModalAction}
           showNotificationAction={this.props.showNotificationAction}
-          communities={this.props.communities.map(({ id }) => id)}
+          communities={this.props.communities.map(
+            ({ community }) => community.id
+          )}
         />
         <SubmitArticleForm.Header
           {...this.props.form}

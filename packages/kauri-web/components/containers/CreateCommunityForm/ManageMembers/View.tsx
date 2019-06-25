@@ -9,6 +9,7 @@ import {
   revokeInvitationAction as revokeInvitation,
   removeMemberAction as removeMember,
   changeMemberRoleAction as changeMemberRole,
+  resendInvitationAction as resendInvitation,
 } from "../../Community/Module";
 import { prepareChangeMemberRoleVariables } from "../../../../queries/__generated__/prepareChangeMemberRole";
 import { openModalAction as openModal } from "../../../../../kauri-components/components/Modal/Module";
@@ -39,6 +40,7 @@ interface IProps {
   isCommunityAdmin: boolean;
   openModalAction: typeof openModal;
   changeMemberRoleAction: typeof changeMemberRole;
+  resendInvitationAction: typeof resendInvitation;
 }
 
 interface IRole {
@@ -98,6 +100,7 @@ class ManageMembers extends React.Component<IProps, IRole> {
                 props.invitations.length >= 1)) && (
               <InviteMembersPanel
                 id={props.id}
+                resendInvitationAction={props.resendInvitationAction}
                 revokeInvitationAction={props.revokeInvitationAction}
                 invitations={
                   (props.data && props.data.getCommunityInvitations.content) ||
@@ -143,6 +146,7 @@ class ManageMembers extends React.Component<IProps, IRole> {
                 Array.isArray(props.invitations) &&
                 props.invitations.length >= 1)) && (
               <InviteMembersPanel
+                resendInvitationAction={props.resendInvitationAction}
                 id={props.id}
                 revokeInvitationAction={props.revokeInvitationAction}
                 invitations={
@@ -176,6 +180,7 @@ class ManageMembers extends React.Component<IProps, IRole> {
           members={props.members}
         />
         <InviteMembersPanel
+          resendInvitationAction={props.resendInvitationAction}
           id={props.id}
           revokeInvitationAction={props.revokeInvitationAction}
           invitations={
@@ -189,28 +194,5 @@ class ManageMembers extends React.Component<IProps, IRole> {
     );
   }
 }
-// return props.members &&
-//   Array.isArray(props.members) &&
-//   props.members.length >= 1 ? (
-//   <ManageMembersContainer>
-//     <MembersPanel
-//       isCommunityAdmin={props.isCommunityAdmin}
-//       id={props.id}
-//       removeMemberAction={props.removeMemberAction}
-//       openAddMemberModal={() => props.openAddMemberModal()}
-//       members={props.members}
-//     />
-//     <InviteMembersPanel
-//       id={props.id}
-//       revokeInvitationAction={props.revokeInvitationAction}
-//       invitations={
-//         (props.data && props.data.getCommunityInvitations.content) ||
-//         props.invitations
-//       }
-//     />
-//   </ManageMembersContainer>
-// ) : (
-//   <ManageMemberEmptyState handleClick={() => props.openAddMemberModal()} />
-// );
 
 export default ManageMembers;

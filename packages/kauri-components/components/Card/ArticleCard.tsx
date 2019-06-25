@@ -206,7 +206,7 @@ const MoreOptions = styled<{ hasImageURL: boolean }, "div">("div")`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: ${props => (props.hasImageURL ? "180" : "10")}px;
+  top: ${props => (props.hasImageURL ? "135" : "10")}px;
   right: 15px;
   z-index: 5;
 `;
@@ -270,7 +270,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
           maxTags={3}
           color="textPrimary"
           tags={tags}
-          maxChars={40}
+          maxChars={30}
         />
       )}
       {Array.isArray(nfts) && nfts.length > 0 && (
@@ -282,6 +282,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
 
 interface IPublicProfileProps {
   username: string | null;
+  name?: string | null;
   userId: string;
   cardWidth: number;
   userAvatar: string | null;
@@ -294,12 +295,14 @@ const RenderPublicProfile: React.FunctionComponent<IPublicProfileProps> = ({
   cardWidth,
   userAvatar,
   imageURL,
+  name,
 }) => (
   <UserAvatar
     imageURL={imageURL}
     cardType="ARTICLE"
     fullWidth={cardWidth > DEFAULT_CARD_WIDTH}
     username={username}
+    name={name}
     userId={userId}
     avatar={userAvatar}
   />
@@ -351,6 +354,7 @@ interface IProps {
   date: string;
   title: string;
   username: string | null;
+  name?: string | null;
   userId: string;
   userAvatar: string | null;
   imageURL: string | null;
@@ -375,7 +379,7 @@ interface IProps {
   status?: "PUBLISHED" | "DRAFT";
   isLoggedIn: boolean;
   tags?: string[];
-  nfts: Array<Article_associatedNfts | null> | null;
+  nfts?: Array<Article_associatedNfts | null> | null;
   triggerHoverChildrenOnFullCardClick?: boolean;
 }
 
@@ -385,6 +389,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   date,
   title,
   username,
+  name,
   userId,
   userAvatar,
   imageURL,
@@ -397,7 +402,6 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   isLoggedIn,
   hoverChildren,
   tags,
-  nfts,
   destination,
   description,
   triggerHoverChildrenOnFullCardClick = false,
@@ -450,7 +454,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             date={date}
             status={status}
             tags={tags}
-            nfts={nfts}
+            nfts={null}
           />,
           destination === "review"
             ? `/article-review/${id}/v${version}`
@@ -462,6 +466,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             <RenderPublicProfile
               imageURL={imageURL}
               username={username}
+              name={name}
               userId={userId}
               cardWidth={calculateCardWidth({ cardWidth, imageURL })}
               userAvatar={userAvatar}

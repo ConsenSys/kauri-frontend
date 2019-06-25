@@ -4,7 +4,7 @@ import styled from "../../lib/styled-components";
 import React, { useState } from "react";
 
 export interface IOption {
-  id?: string;
+  id: string;
   name: string;
   type: string;
 }
@@ -13,7 +13,10 @@ interface IProps {
   type: string;
   userId: string;
   communities: IOption[];
-  handleSubmit: (e: React.SyntheticEvent<HTMLButtonElement>, destination: IOption) => void;
+  handleSubmit: (
+    destination: IOption,
+    e: React.SyntheticEvent<HTMLButtonElement>
+  ) => void;
   closeModalAction: () => void;
 }
 
@@ -64,9 +67,9 @@ const Content = ({
   return (
     <TooltipContainer>
       {options &&
-        options.map((i, key) => (
-          <Label key={key} onClick={() => setDestination(i)}>
-            Publish to {i.name}
+        options.map((option, key) => (
+          <Label key={key} onClick={() => setDestination(option)}>
+            Publish to {option.name}
           </Label>
         ))}
     </TooltipContainer>
@@ -78,6 +81,7 @@ const PublishingSelector = (props: IProps) => {
     { id: props.userId, name: `My ${props.type}`, type: "USER" },
     ...props.communities,
   ];
+
   const [destination, setDestination] = useState(options[0]);
   return (
     <AlertView
@@ -94,8 +98,8 @@ const PublishingSelector = (props: IProps) => {
       }
       closeModalAction={props.closeModalAction}
       confirmButtonAction={(e: React.SyntheticEvent<HTMLButtonElement>) => {
-        props.handleSubmit(e, destination)
-        props.closeModalAction()
+        props.handleSubmit(destination, e);
+        props.closeModalAction();
       }}
     />
   );

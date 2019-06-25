@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import R from "ramda";
 import styled from "../../../lib/styled-components";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
@@ -98,9 +98,9 @@ class ArticleApproved extends React.Component<IProps> {
 
       return (
         <Container>
-          <Helmet>
+          <Head>
             <title>{`Kauri - Article ${capitalize(type)}`}</title>
-          </Helmet>
+          </Head>
           <Title1 color="white">{capitalize(type)}</Title1>
           <DescriptionContainer>
             <BodyCard color="white">{`The article ${subjectCopy}`}</BodyCard>
@@ -135,13 +135,17 @@ class ArticleApproved extends React.Component<IProps> {
               (article.author && article.author.avatar)
             }
             imageURL={article.attributes && article.attributes.background}
-            cardHeight={420}
+            cardHeight={310}
             isLoggedIn={isLoggedIn}
             linkComponent={(childrenProps, route) => (
               <Link
                 toSlug={route && route.includes("article") && article.title}
                 useAnchorTag={true}
-                href={route}
+                href={
+                  type === "drafted"
+                    ? `/draft/${article.id}/${article.version}`
+                    : route
+                }
               >
                 {childrenProps}
               </Link>

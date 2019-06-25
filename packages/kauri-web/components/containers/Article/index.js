@@ -1,18 +1,14 @@
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { connect } from "react-redux";
 import {
   tipArticleAction,
   approveArticleAction,
   rejectArticleAction,
 } from "./Module";
-import { deleteDraftArticleAction } from "./DeleteDraftArticleModule";
+import { deleteDraftArticleAction } from "../ArticleDraft/DeleteDraftArticleModule";
 import { publishArticleAction } from "../SubmitArticleForm/PublishArticleModule";
 import { getArticle, relatedArticles } from "../../../queries/Article";
-import {
-  toggleModalAction,
-  routeChangeAction,
-  setNavcolorOverrideAction,
-} from "../../../lib/Module";
+import { toggleModalAction, routeChangeAction } from "../../../lib/Module";
 import { addCommentAction } from "../AddCommentForm/Module";
 import withLoading from "../../../lib/with-loading";
 import withApolloError from "../../../lib/with-apollo-error";
@@ -33,6 +29,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 export default compose(
+  withApollo,
   connect(
     mapStateToProps,
     {
@@ -47,7 +44,6 @@ export default compose(
       approveResourceAction,
       openModalAction,
       closeModalAction,
-      setNavcolorOverrideAction,
       deleteDraftArticleAction,
     }
   ),

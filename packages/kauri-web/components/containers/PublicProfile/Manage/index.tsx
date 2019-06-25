@@ -17,11 +17,6 @@ const categories = [
   // "communities",
 ];
 
-const queriesMatch: { [key: string]: string } = {
-  drafts: "draftsQuery",
-  "pending transfers": "transfersQuery",
-};
-
 const ManageContentSection = styled.section`
   display: flex;
   flex-direction: row;
@@ -75,17 +70,7 @@ const Manage: React.FunctionComponent<
             key={category}
             active={category === state.currentCategory}
             category={category}
-            amount={
-              category === "pending transfers"
-                ? (transfers as []).length
-                : category === "communities"
-                ? (communities as []).length
-                : (props[queriesMatch[category]] &&
-                    props[queriesMatch[category]].searchArticles &&
-                    props[queriesMatch[category]].searchArticles
-                      .totalElements) ||
-                  0
-            }
+            amount={null}
             onClick={() => setState({ currentCategory: category })}
           />
         ))}
@@ -97,7 +82,8 @@ const Manage: React.FunctionComponent<
         <Awaiting
           {...props}
           communities={
-            Array.isArray(communities) && communities.map(({ id }) => id)
+            Array.isArray(communities) &&
+            communities.map(({ community: { id } }) => id)
           }
         />
       )}
@@ -105,7 +91,8 @@ const Manage: React.FunctionComponent<
         <Pending
           {...props}
           communities={
-            Array.isArray(communities) && communities.map(({ id }) => id)
+            Array.isArray(communities) &&
+            communities.map(({ community: { id } }) => id)
           }
         />
       )}

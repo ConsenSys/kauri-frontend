@@ -19,7 +19,7 @@ const Container = styled.section`
 const AcceptCommunityInvitationModalContent: React.FunctionComponent = () => (
   <Container>
     <BodyCard>
-      You’ve been invited to join this community as a moderator!
+      You’ve been invited to join this community as a member!
     </BodyCard>
     <BodyCard>
       By accepting, you can add new articles and collections to this community,

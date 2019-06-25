@@ -20,7 +20,7 @@ import setImageUploader from "../../common/ImageUploader";
 import showFormValidationErrors from "../../../lib/show-form-validation-errors";
 import ChooseArticleModal from "./ChooseArticleModal";
 import ChooseCollectionModal from "./ChooseCollectionModal";
-import CreateCollectionOptions from "./CreateCollectionOptions";
+import SectionOptions from "./SectionOptions";
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 import TagSelector from "../../common/TagSelector";
@@ -193,67 +193,66 @@ const renderResourceSection = (
       values
     ) ? (
       <Draggable
+        index={resourceIndex}
+        draggableId={`${R.path(
+          ["sections", index, mappingKey, resourceIndex, "id"],
+          values
+        )}-${R.path(
+          ["sections", index, mappingKey, resourceIndex, "version"],
+          values
+        )}`}
+      >
+        {provided => (
+          <DraggableResourceContainer
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            innerRef={provided.innerRef}
+            id="article-card"
+          >
+            <ArticleCard
+              id={R.path(
+                ["sections", index, mappingKey, resourceIndex, "id"],
+                values
+              )}
+              version={parseInt(
+                R.path(
+                  ["sections", index, mappingKey, resourceIndex, "version"],
+                  values
+                )
+              )}
+            />
+            {provided.placeholder}
+          </DraggableResourceContainer>
+        )}
+      </Draggable>
+    ) : (
+      R.path(["sections", index, mappingKey, resourceIndex], values) && (
+        <Draggable
           index={resourceIndex}
           draggableId={`${R.path(
             ["sections", index, mappingKey, resourceIndex, "id"],
             values
-          )}-${R.path(
-            ["sections", index, mappingKey, resourceIndex, "version"],
-            values
           )}`}
         >
           {provided => (
-          <DraggableResourceContainer
+            <DraggableResourceContainer
               {...provided.draggableProps}
               {...provided.dragHandleProps}
               innerRef={provided.innerRef}
-              id="article-card"
+              id="collection-card"
             >
-              <ArticleCard
-              id={R.path(
+              <CollectionCard
+                id={R.path(
                   ["sections", index, mappingKey, resourceIndex, "id"],
                   values
                 )}
-              version={parseInt(
-                  R.path(
-                    ["sections", index, mappingKey, resourceIndex, "version"],
-                    values
-                  )
-                )}
-              cardHeight={420}
               />
               {provided.placeholder}
             </DraggableResourceContainer>
           )}
         </Draggable>
-      ) : (
-        R.path(["sections", index, mappingKey, resourceIndex], values) && (
-          <Draggable
-            index={resourceIndex}
-            draggableId={`${R.path(
-              ["sections", index, mappingKey, resourceIndex, "id"],
-              values
-            )}`}
-          >
-            {provided => (
-              <DraggableResourceContainer
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                innerRef={provided.innerRef}
-                id="collection-card"
-              >
-                <CollectionCard
-                  id={R.path(
-                    ["sections", index, mappingKey, resourceIndex, "id"],
-                    values
-                  )}
-                />
-                {provided.placeholder}
-              </DraggableResourceContainer>
-            )}
-          </Draggable>
-        )
-      )}
+      )
+    )}
     <TertiaryButton
       color="primaryTextColor"
       icon={<RemoveIcon />}
@@ -536,7 +535,7 @@ export default ({
                       </Droppable>
                     </DragDropContext>
 
-                    <CreateCollectionOptions
+                    <SectionOptions
                       currentSectionIndex={index}
                       previousSectionHasArticles={R.pipe(
                         R.path([

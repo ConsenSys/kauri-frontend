@@ -11,12 +11,15 @@ import PrimaryButton from "../../../../kauri-components/components/Button/Primar
 import AlertView from "../../../../kauri-components/components/Modal/AlertView";
 import { BodyCard } from "../../../../kauri-components/components/Typography";
 import { removeResourceVariables } from "../../../queries/__generated__/removeResource";
+import ArticlesEmptyState from "./EmptyStates/Articles";
+import CollectionsEmptyState from "./EmptyStates/Collections";
 
 const Container = styled.div`
   margin-left: ${props => props.theme.space[3]}px;
 `;
 
 interface IProps {
+  type?: string;
   resources?: any;
   communityId: string | null;
   isMember: boolean;
@@ -24,6 +27,18 @@ interface IProps {
   openModalAction?: (payload: { children: any }) => void;
   removeResourceAction?: (payload: removeResourceVariables) => void;
 }
+
+const RenderEmptyState: React.FunctionComponent<{ type: string }> = ({
+  type,
+}) => {
+  if (type === "articles") {
+    return <ArticlesEmptyState />;
+  }
+  if (type === "collections") {
+    return <CollectionsEmptyState />;
+  }
+  return null;
+};
 
 const RenderResources = (
   isMember: boolean,
@@ -54,7 +69,6 @@ const RenderResources = (
 
           username: "",
         };
-
   if (i.__typename === "ArticleDTO") {
     return (
       <ArticleCard
@@ -68,12 +82,14 @@ const RenderResources = (
         imageURL={i.attributes && i.attributes.background}
         cardHeight={310}
         cardWidth={288}
-        username={owner.username}
-        userId={owner.id}
-        userAvatar={owner.avatar}
+        username={i.author && i.author.username}
+        name={i.author && i.author.name}
+        userId={String(i.author && i.author.id)}
+        userAvatar={i.author && i.author.avatar}
         isLoggedIn={isMember}
         nfts={i.associatedNfts}
-        resourceType={owner.type as "USER" | "COMMUNITY"}
+        // resourceType={owner.type as "USER" | "COMMUNITY"}
+        resourceType="USER"
         hoverChildren={() => (
           <PrimaryButton
             onClick={() =>
@@ -123,7 +139,7 @@ const RenderResources = (
             href={
               destination
                 ? `${route}`
-                : typeof communityId === "string"
+                : destination === "review"
                 ? `${route}?proposed-community-id=${communityId}`
                 : route
             }
@@ -174,7 +190,8 @@ const RenderResources = (
         articleCount={counter ? counter.articles.toString() : "0"}
         collectionCount={counter ? counter.collections.toString() : "0"}
         cardHeight={310}
-        triggerHoverChildrenOnFullCardClick={isMember}
+        canAccessHoverChildren={isMember}
+        resourceType={owner.type || "USER"}
         hoverChildren={() => (
           <PrimaryButton
             onClick={() =>
@@ -224,7 +241,7 @@ const RenderResources = (
             href={
               destination
                 ? `${route}`
-                : typeof communityId === "string"
+                : typeof communityId === "string" && destination === "review"
                 ? `${route}?proposed-community-id=${communityId}`
                 : route
             }
@@ -246,20 +263,29 @@ const DisplayResources = ({
   openModalAction,
   closeModalAction,
   removeResourceAction,
+  type,
 }: IProps) => {
+  if (
+    Array.isArray(resources) &&
+    resources.length === 0 &&
+    typeof type === "string"
+  ) {
+    return <RenderEmptyState type={type} />;
+  }
   return (
     <Masonry>
-      {Array.isArray(resources) &&
-        resources.map(
-          RenderResources(
-            isMember,
-            communityId,
-            undefined,
-            openModalAction,
-            closeModalAction,
-            removeResourceAction
+      {Array.isArray(resources) && resources.length
+        ? resources.map(
+            RenderResources(
+              isMember,
+              communityId,
+              undefined,
+              openModalAction,
+              closeModalAction,
+              removeResourceAction
+            )
           )
-        )}
+        : null}
     </Masonry>
   );
 };
@@ -276,17 +302,18 @@ export const DisplayManagedResources = ({
   return (
     <Container>
       <Masonry withPadding={false}>
-        {Array.isArray(resources) &&
-          resources.map(
-            RenderResources(
-              isMember,
-              communityId,
-              review ? "review" : undefined,
-              openModalAction,
-              closeModalAction,
-              removeResourceAction
+        {Array.isArray(resources) && resources.length
+          ? resources.map(
+              RenderResources(
+                isMember,
+                communityId,
+                review ? "review" : undefined,
+                openModalAction,
+                closeModalAction,
+                removeResourceAction
+              )
             )
-          )}
+          : null}
       </Masonry>
     </Container>
   );

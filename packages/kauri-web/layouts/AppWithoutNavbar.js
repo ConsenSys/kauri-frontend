@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import styled from "styled-components";
 import NetworkBanner from "../components/containers/StyledFooter/NetworkBanner";
 import Modal from "../../kauri-components/components/Modal";
@@ -24,9 +24,9 @@ export default connect(mapStateToProps)(({ children, isModalOpen }) => (
     style={{ overflow: isModalOpen ? "hidden" : "auto" }}
     className="layout"
   >
-    <Helmet>
+    <Head>
       <body className={isModalOpen ? "overflow-hidden" : null} />
-    </Helmet>
+    </Head>
     <Modal />
     <StyledContent style={{ overflow: isModalOpen ? "hidden" : "auto" }}>
       <NetworkBanner />

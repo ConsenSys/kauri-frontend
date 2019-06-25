@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import CollectionCard from "../../../../../kauri-components/components/Card/CollectionCard";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 import { Link } from "../../../../routes";
@@ -47,8 +47,11 @@ class Collections extends Component<IProps> {
 
     return (
       <Fragment>
-        <Helmet>
-          <title>Kauri - Discover Collections</title>
+        <Head>
+          <title>
+            Beginner to Advanced Blockchain & Ethereum Tutorials | Collections -
+            Kauri
+          </title>
           <meta
             name="description"
             content="Discover the best collections of blockchain related articles, tutorials and how-to guides"
@@ -57,7 +60,7 @@ class Collections extends Component<IProps> {
             rel="canonical"
             href={`https://${this.props.hostName}/collections`}
           />
-        </Helmet>
+        </Head>
         {searchAutocomplete ? (
           <Masonry>
             {searchAutocomplete &&
@@ -105,6 +108,32 @@ class Collections extends Component<IProps> {
                   (collectionResource.owner as
                     | searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_CommunityDTO
                     | searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO);
+
+                const owner =
+                  collectionResource &&
+                  collectionResource.owner &&
+                  collectionResource.owner.__typename === "PublicUserDTO"
+                    ? {
+                        avatar: collectionResource.owner.avatar,
+                        id: collectionResource.owner.id || "not_found",
+                        type: "USER",
+                        username: collectionResource.owner.username,
+                      }
+                    : collectionResource &&
+                      collectionResource.owner &&
+                      collectionResource.owner.__typename === "CommunityDTO"
+                    ? {
+                        avatar: collectionResource.owner.avatar,
+                        id: collectionResource.owner.id || "not_found",
+                        type: "COMMUNITY",
+                        username: collectionResource.owner.name,
+                      }
+                    : {
+                        avatar: "",
+                        id: "",
+                        username: "",
+                      };
+
                 return (
                   <CollectionCard
                     key={String(collectionResource && collectionResource.id)}
@@ -146,6 +175,7 @@ class Collections extends Component<IProps> {
                         {childrenProps}
                       </Link>
                     )}
+                    resourceType={owner.type || "USER"}
                   />
                 );
               })}

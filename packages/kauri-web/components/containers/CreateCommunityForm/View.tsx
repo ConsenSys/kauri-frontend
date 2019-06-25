@@ -10,7 +10,7 @@ import {
 } from "../../../lib/Module";
 import { createCommunityAction, updateCommunityAction } from "./Module";
 import { Form, InjectedFormikProps } from "formik";
-import Helmet from "react-helmet";
+import Head from "next/head";
 import { IFormValues } from "./index";
 import { getCommunity } from "../../../queries/__generated__/getCommunity";
 import {
@@ -33,6 +33,7 @@ export interface IProps {
   username: string | null;
   validateForm: () => Promise<any>;
   showNotificationAction: typeof showNotification;
+  isCommunityAdmin: boolean;
 }
 
 const handleBackgroundSetFormField = (setFieldValue: any) => () =>
@@ -57,6 +58,7 @@ const Component: React.SFC<
     props.openModalAction({
       children: (
         <AddMemberModal
+          showNotificationAction={props.showNotificationAction}
           confirmButtonAction={(invitation: any) => {
             props.setFieldValue(
               "invitations",
@@ -80,12 +82,12 @@ const Component: React.SFC<
   return (
     <Section>
       <Form>
-        <Helmet>
+        <Head>
           <link
             rel="stylesheet"
             href="https://transloadit.edgly.net/releases/uppy/v0.24.3/dist/uppy.min.css"
           />
-        </Helmet>
+        </Head>
 
         <Actions
           showNotificationAction={props.showNotificationAction}
@@ -113,12 +115,13 @@ const Component: React.SFC<
           uploadLogo={handleAvatarSetFormField(props.setFieldValue)}
           setFieldValue={props.setFieldValue}
         />
-
         <Content
           {...props}
           openAddMemberModal={openAddMemberModal}
           cancelInvitation={cancelInvitation}
           formInvitations={props.values.invitations}
+          isCommunityAdmin={props.isCommunityAdmin}
+          setFieldValue={props.setFieldValue}
         />
       </Form>
     </Section>

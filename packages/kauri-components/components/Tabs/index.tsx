@@ -17,6 +17,7 @@ const TabContainer = styled.div`
   flex-direction: column;
   overflow-y: auto;
   min-width: ${(props: ITabContainerProps) => props.minWidth};
+  padding-bottom: ${props => props.theme.space[2]}px;
 `;
 
 interface ITabsProps {
@@ -41,7 +42,7 @@ const Tabs = styled<ITabsProps, "div">("div")`
     `padding: 0px calc((100vw - ${props.theme.breakpoints[2]}) / 2)`};
   ${props => props.centerTabs && "justify-content: center"};
   > :not(:last-child) {
-    margin-right: ${props => props.theme && props.theme.space[2]}px;
+    margin-right: ${props => props.theme && props.theme.space[1]}px;
   }
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
     padding: 0px ${props => props.theme.space[1]}px;
@@ -101,6 +102,14 @@ class TabsComponent extends React.Component<IProps, IState> {
     if (this.props.passChangeTabFunction) {
       this.props.passChangeTabFunction(this.changeTab.bind(this));
     }
+    // Context - homepage tab is null for communities if empty and not admin soo
+    if (
+      Array.isArray(this.props.tabs) &&
+      this.props.tabs.length &&
+      !this.props.tabs[0]
+    ) {
+      this.changeTab(1);
+    }
   }
 
   public changeTab(index: number) {
@@ -125,7 +134,7 @@ class TabsComponent extends React.Component<IProps, IState> {
     } = this.props;
 
     return (
-      <TabContainer minWidth={minWidth}>
+      <TabContainer className="tabs" minWidth={minWidth}>
         <Tabs
           dark={dark}
           bg={bg}

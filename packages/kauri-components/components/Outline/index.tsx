@@ -34,6 +34,7 @@ const UserContainer = styled.div`
 const RuntimeProps = t.interface({
   headings: t.array(t.string),
   linkComponent: t.union([t.undefined, t.any]),
+  name: t.union([t.null, t.string]),
   nfts: t.any,
   text: t.string,
   userAvatar: t.union([t.null, t.string]),
@@ -51,6 +52,7 @@ const Container: React.SFC<Props> = props => {
     userId,
     userAvatar,
     username,
+    name,
     nfts,
   } = RuntimeProps.decode(props).getOrElseL(errors => {
     throw new Error(failure(errors).join("\n"));
@@ -76,6 +78,7 @@ const Container: React.SFC<Props> = props => {
               userId={userId}
               avatar={userAvatar}
               username={username}
+              name={name}
             />
           )
         ) : (

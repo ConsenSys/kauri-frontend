@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import ArticleCard from "../../../../../kauri-components/components/Card/ArticleCard";
 import { Link } from "../../../../routes";
 import Loading from "../../../common/Loading";
@@ -34,11 +34,13 @@ class Articles extends Component<IProps> {
 
     const { searchAutocomplete } = this.props.ArticlesQuery;
     const { isLoggedIn, openModalAction } = this.props;
-
     return (
       <Fragment>
-        <Helmet>
-          <title>Kauri - Discover Articles</title>
+        <Head>
+          <title>
+            Beginner to Advanced Blockchain & Ethereum Tutorials | Articles -
+            Kauri
+          </title>
           <meta
             name="description"
             content="Discover the best blockchain related articles, tutorials and how-to guides"
@@ -47,7 +49,7 @@ class Articles extends Component<IProps> {
             rel="canonical"
             href={`https://${this.props.hostName}/articles`}
           />
-        </Helmet>
+        </Head>
         {searchAutocomplete &&
         searchAutocomplete.content &&
         searchAutocomplete.content.length > 0 ? (
@@ -59,7 +61,6 @@ class Articles extends Component<IProps> {
               if (!article) {
                 return <></>;
               }
-              const resourceType = article.resourceIdentifier;
               const owner =
                 R.path<
                   searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO
@@ -95,7 +96,7 @@ class Articles extends Component<IProps> {
                   userAvatar={(owner && owner.avatar) || null}
                   id={article.id || ""}
                   version={article.version || 1}
-                  cardHeight={420}
+                  cardHeight={310}
                   imageURL={
                     article &&
                     article.attributes &&
@@ -118,9 +119,12 @@ class Articles extends Component<IProps> {
                     </Link>
                   )}
                   resourceType={
-                    (typeof resourceType === "string" &&
-                      (resourceType as "USER" | "COMMUNITY")) ||
-                    "USER"
+                    owner &&
+                    owner.resourceIdentifier &&
+                    owner.resourceIdentifier.type &&
+                    owner.resourceIdentifier.type.toLowerCase() === "community"
+                      ? "COMMUNITY"
+                      : "USER"
                   }
                   hoverChildren={() => (
                     <PrimaryButton

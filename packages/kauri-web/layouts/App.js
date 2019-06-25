@@ -1,25 +1,28 @@
 import { setConfig } from "react-hot-loader";
 import React from "react";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import { connect } from "react-redux";
 import styled from "../lib/styled-components";
 import Navbar from "../components/containers/Navbar";
 import StyledFooter from "../components/containers/StyledFooter";
 import Modal from "../../kauri-components/components/Modal";
+import { menuHeaderHeight } from "../components/containers/Navbar/View";
+import { footerHeight } from "../components/containers/StyledFooter/View";
 
 setConfig({
   ignoreSFC: true,
   pureRender: true, // RHL will not change render method
 });
 
-export const menuHeaderHeight = 57;
-export const footerHeight = 57;
-
 const Layout = styled.div``;
 
 const StyledContent = styled.div`
   padding-top: 0px;
-  min-height: calc(100vh - ${menuHeaderHeight}px);
+  min-height: calc(
+    100vh -
+      ${props =>
+        props.headerOffset ? footerHeight : menuHeaderHeight + footerHeight}px
+  );
   background: #f7f7f7;
 `;
 
@@ -48,11 +51,12 @@ export default connect(mapStateToProps)(
     navcolor,
     navcolorOverride,
     isModalOpen,
+    headerOffset,
   }) => (
     <Layout className="layout">
-      <Helmet>
+      <Head>
         <body className={isModalOpen ? "overflow-hidden" : null} />
-      </Helmet>
+      </Head>
       <Modal />
       <StyledHeader navcolor={navcolorOverride || navcolor}>
         <Navbar
@@ -61,7 +65,7 @@ export default connect(mapStateToProps)(
           navcolor={navcolor}
         />
       </StyledHeader>
-      <StyledContent>{children}</StyledContent>
+      <StyledContent headerOffset={headerOffset}>{children}</StyledContent>
       <StyledFooter />
     </Layout>
   )

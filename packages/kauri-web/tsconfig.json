@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "*": ["types/*"] },
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",
@@ -15,7 +17,7 @@
     "noUnusedParameters": true,
     "removeComments": false,
     "preserveConstEnums": true,
-    "sourceMap": true,
+    "sourceMap": true
   },
   "include": [
     "components/**/**.tsx",

@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import styled from "styled-components";
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import { Link } from "../../../routes";
@@ -58,9 +58,9 @@ class ArticleProposed extends React.Component<Props> {
 
     return (
       <Container>
-        <Helmet>
+        <Head>
           <title>{"Kauri - Article Proposed"}</title>
-        </Helmet>
+        </Head>
         <SectionContainer>
           <Title2 color="white">Article Update Submitted</Title2>
           <BodyCard color="white">

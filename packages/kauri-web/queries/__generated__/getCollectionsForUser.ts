@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import {
@@ -19,10 +18,10 @@ export interface getCollectionsForUser_searchCollections_content_owner_ArticleDT
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface getCollectionsForUser_searchCollections_content_owner_PublicUserDTO_resourceIdentifier {
@@ -73,10 +72,10 @@ export interface getCollectionsForUser_searchCollections_content_sections_resour
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface getCollectionsForUser_searchCollections_content_sections_resources_ArticleDTO {

@@ -36,7 +36,7 @@ import {
 import { saveUserDetailsEpic } from "../components/common/EditProfile/Module";
 import modal from "../../kauri-components/components/Modal/Module";
 import { checkpointArticlesEpic } from "../components/containers/CheckpointArticles/Module";
-import { deleteDraftArticleEpic } from "../components/containers/Article/DeleteDraftArticleModule";
+import { deleteDraftArticleEpic } from "../components/containers/ArticleDraft/DeleteDraftArticleModule";
 import { addArticleToCollectionEpic } from "../components/connections/AddToCollection/Module";
 import {
   verifyEmailEpic,
@@ -58,6 +58,8 @@ import {
   removeMemberEpic,
   removeResourceEpic,
   changeMemberRoleEpic,
+  resendInvitationEpic,
+  transferArticleToCommunityEpic,
 } from "../components/containers/Community/Module";
 import {
   rejectArticleTransferEpic,
@@ -119,6 +121,8 @@ const epics = [
   removeMemberEpic,
   removeResourceEpic,
   changeMemberRoleEpic,
+  resendInvitationEpic,
+  transferArticleToCommunityEpic,
 ];
 
 export const rootEpic = combineEpics(...epics);

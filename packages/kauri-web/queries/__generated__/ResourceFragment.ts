@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceTypeInput } from "./../../__generated__/globalTypes";
@@ -15,9 +14,9 @@ export interface ResourceFragment_PublicUserDTO {
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface ResourceFragment_CollectionDTO_owner_ArticleDTO {
@@ -27,10 +26,10 @@ export interface ResourceFragment_CollectionDTO_owner_ArticleDTO {
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface ResourceFragment_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -81,10 +80,10 @@ export interface ResourceFragment_CollectionDTO_sections_resources_CommunityDTO 
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface ResourceFragment_CollectionDTO_sections_resources_ArticleDTO {
@@ -159,10 +158,10 @@ export interface ResourceFragment_ArticleDTO_owner_ArticleDTO {
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "CollectionDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface ResourceFragment_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -247,9 +246,9 @@ export interface ResourceFragment_CommunityDTO_approved_CommunityDTO {
     | "CommunityInvitationDTO"
     | "CommunityMemberDTO"
     | "TemplateDTO"
-    | "CuratedListDTO"
     | "SearchResultDTO"
-    | "UserDTO";
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface ResourceFragment_CommunityDTO_approved_ArticleDTO {

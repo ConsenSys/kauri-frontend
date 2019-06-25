@@ -13,6 +13,7 @@ import {
   revokeInvitationAction,
   removeMemberAction,
   changeMemberRoleAction,
+  resendInvitationAction,
 } from "../../Community/Module";
 
 const mapStateToProps = (
@@ -38,6 +39,7 @@ export default compose(
       closeModalAction,
       openModalAction,
       removeMemberAction,
+      resendInvitationAction,
       revokeInvitationAction,
     }
   ),

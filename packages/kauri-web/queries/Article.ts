@@ -305,7 +305,7 @@ export const addComment = gql`
   }
 `;
 
-export const searchPending = gql`
+export const searchAwaitingApproval = gql`
   query searchArticles($size: Int = 8, $page: Int = 0, $owners: [String]) {
     searchArticles(
       size: $size
@@ -366,7 +366,7 @@ export const searchPending = gql`
   ${CommunityOwner}
 `;
 
-export const searchAwaitingApproval = gql`
+export const searchPending = gql`
   query searchArticles($size: Int = 666, $page: Int = 0, $author: String) {
     searchArticles(
       size: $size
@@ -457,14 +457,14 @@ export const globalSearchApprovedArticles = gql`
     $size: Int = 12
     $query: String
     $filter: SearchFilterInput
+    $parameter: SearchParameterInput
   ) {
     searchAutocomplete(
       page: $page
       size: $size
       query: $query
       filter: $filter
-      dir: "desc"
-      sort: "dateUpdated"
+      parameter: $parameter
     ) {
       totalElements
       totalPages
