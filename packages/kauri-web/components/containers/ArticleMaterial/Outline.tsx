@@ -18,6 +18,7 @@ interface IOutlineItems {
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
+  container: {},
   nested: {
     paddingLeft: theme.spacing(2),
   },
@@ -72,7 +73,7 @@ const Outline = ({ markdown }: IProps) => {
     );
 
   return (
-    <>
+    <div className={classes.container}>
       <ListItem onClick={() => setOpen(!open)}>
         <ListItemText>Table of content</ListItemText>
         {open ? <ExpandLess /> : <ExpandMore />}
@@ -80,7 +81,7 @@ const Outline = ({ markdown }: IProps) => {
       <Collapse in={open} timeout="auto" unmountOnExit={true}>
         <GenerateList classes={classes} mapped={mapped} />
       </Collapse>
-    </>
+    </div>
   );
 };
 

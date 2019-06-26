@@ -8,18 +8,18 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import TTruncate from "react-text-truncate";
-import ButtonBase from "@material-ui/core/ButtonBase";
 import slugify from "slugify";
 import { withRouter } from "next/router";
 import React from "react";
-import Header from "./Header";
 import Outline from "./Outline";
+import Image from "../../../../kauri-components/components/Image";
 
 const Content = styled.div`
   & img {
+    width: max-content;
     max-width: 100%;
     border-radius: 4px;
-    margin: 8px auto;
+    margin: auto;
   }
 
   & p {
@@ -39,6 +39,9 @@ const converter = new ShowDown.Converter();
 
 const styles = (theme: Theme) =>
   createStyles({
+    actionArea: {
+      height: "100%",
+    },
     card: {
       height: 310,
       margin: theme.spacing(2),
@@ -47,9 +50,10 @@ const styles = (theme: Theme) =>
     container: {
       color: "white",
     },
-    item: {
-      padding: theme.spacing(2),
+    image: {
+      marginBottom: theme.spacing(2),
     },
+    item: {},
     media: {
       height: 140,
     },
@@ -78,21 +82,36 @@ const Article = ({
   RelatedArticles: { searchMoreLikeThis },
   router,
 }: IProps) => (
-  <div>
-    <Header attributes={attributes} title={title} />
+  <>
     <Grid container={true} justify="center">
       <Grid className={classes.item} item={true} xs={true}>
-        <Outline markdown={JSON.parse(content).markdown} />
+        Other Stuff
       </Grid>
-      <Grid className={classes.item} item={true} xs={6}>
-        <Content
-          dangerouslySetInnerHTML={{
-            __html: converter.makeHtml(JSON.parse(content).markdown),
-          }}
-        />
+      <Grid className={classes.item} item={true} xs={7}>
+        <Content>
+          <Image
+            className={classes.image}
+            height={160}
+            width="100%"
+            image={attributes.background}
+          />
+          <Typography
+            className={classes.title}
+            color="inherit"
+            variant="h4"
+            component="h1"
+          >
+            {title}
+          </Typography>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: converter.makeHtml(JSON.parse(content).markdown),
+            }}
+          />
+        </Content>
       </Grid>
       <Grid className={classes.item} item={true} xs={true}>
-        Related
+        <Outline markdown={JSON.parse(content).markdown} />
       </Grid>
     </Grid>
     <Grid
@@ -104,57 +123,56 @@ const Article = ({
       {searchMoreLikeThis &&
         searchMoreLikeThis.content &&
         searchMoreLikeThis.content.map((card: any) => (
-          <Card className={classes.card} key={card.resource.id}>
-            <ButtonBase
-              className={classes.cardAction}
-              onClick={() => {
-                router.push(
-                  `/a/${slugify(card.resource.title, {
-                    lower: true,
-                  })}/${card.resource.id}`
-                );
-              }}
-            >
-              <CardActionArea>
-                {card.resource.attributes.background && (
-                  <CardMedia
-                    className={classes.media}
-                    image={card.resource.attributes.background}
-                    title={card.resource.title}
+          <Card
+            onClick={() => {
+              router.push(
+                `/${slugify(card.resource.title, {
+                  lower: true,
+                })}/${card.resource.id}/a`
+              );
+            }}
+            className={classes.card}
+            key={card.resource.id}
+          >
+            <CardActionArea className={classes.actionArea}>
+              {card.resource.attributes.background && (
+                <CardMedia
+                  className={classes.media}
+                  image={card.resource.attributes.background}
+                  title={card.resource.title}
+                />
+              )}
+              <CardContent>
+                <Typography
+                  align="left"
+                  gutterBottom={true}
+                  variant="h6"
+                  component="h3"
+                >
+                  <TTruncate
+                    truncateText="…"
+                    line={2}
+                    text={card.resource.title}
                   />
-                )}
-                <CardContent>
-                  <Typography
-                    align="left"
-                    gutterBottom={true}
-                    variant="h6"
-                    component="h3"
-                  >
-                    <TTruncate
-                      truncateText="…"
-                      line={2}
-                      text={card.resource.title}
-                    />
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                    align="left"
-                  >
-                    <TTruncate
-                      truncateText="…"
-                      line={3}
-                      text={card.resource.description}
-                    />
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </ButtonBase>
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  component="p"
+                  align="left"
+                >
+                  <TTruncate
+                    truncateText="…"
+                    line={3}
+                    text={card.resource.description}
+                  />
+                </Typography>
+              </CardContent>
+            </CardActionArea>
           </Card>
         ))}
     </Grid>
-  </div>
+  </>
 );
 
 export default withStyles(styles)(withRouter(Article));
