@@ -91,6 +91,7 @@ export interface IProps {
 
 const UserAvatarComponent: React.SFC<IProps> = props => (
   <Container
+    key={props.userId}
     hideUsername={props.hideUsername}
     cardType={props.cardType}
     variant={props.variant}
@@ -132,7 +133,10 @@ const UserAvatarComponent: React.SFC<IProps> = props => (
     </Avatar>
     {!props.hideUsername && (
       <H5>
-        {props.name || props.username || props.userId && userIdTrim(props.userId) || "Anonymous"}
+        {props.name ||
+          props.username ||
+          (props.userId && userIdTrim(props.userId)) ||
+          "Anonymous"}
       </H5>
     )}
   </Container>

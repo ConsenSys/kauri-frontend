@@ -352,6 +352,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                               route
                                             ) => (
                                               <Link
+                                                key={route}
                                                 useAnchorTag={true}
                                                 href={route}
                                               >
