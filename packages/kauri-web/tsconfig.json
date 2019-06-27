@@ -1,9 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "*": ["types/*"]
-    },
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",
@@ -20,7 +16,7 @@
     "removeComments": false,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true
@@ -31,7 +27,7 @@
     "lib/*",
     "lib/**/*.ts",
     "components/**/**.ts",
-    "typings/*",
+    "typings",
     "../kauri-components/typings"
   ],
   "exclude": []

@@ -161,7 +161,7 @@ export const homepageContentQuery = gql`
     }
   }
 
-  query homePageContent($populate: Boolean = true) {
+  query homepageContent($populate: Boolean = true) {
     getLatestHomepageDescriptor(populate: $populate) {
       rows {
         main {
