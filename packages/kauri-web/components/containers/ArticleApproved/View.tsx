@@ -142,7 +142,7 @@ class ArticleApproved extends React.Component<IProps> {
                 toSlug={route && route.includes("article") && article.title}
                 useAnchorTag={true}
                 href={
-                  type === "drafted"
+                  type === "drafted" && route.includes("article")
                     ? `/draft/${article.id}/${article.version}`
                     : route
                 }
