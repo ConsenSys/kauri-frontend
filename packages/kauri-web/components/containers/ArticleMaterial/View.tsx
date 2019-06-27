@@ -4,17 +4,17 @@ import ShowDown from "showdown";
 import Typography from "@material-ui/core/Typography";
 // import { withRouter } from "next/router";
 import React from "react";
-import Outline from "./Outline";
+import ArticleOutline from "./ArticleOutline";
 import Image from "../../../../kauri-components/components/Image";
 import Chevron from "@material-ui/icons/ArrowBackIos";
 import {
   Article,
   Article_author,
 } from "../../../queries/Fragments/__generated__/Article";
-import Bookmark from "@material-ui/icons/Bookmark";
+// import Bookmark from "@material-ui/icons/Bookmark";
 import Add from "@material-ui/icons/Add";
 import Share from "@material-ui/icons/Share";
-import MoreVert from "@material-ui/icons/MoreVert";
+// import MoreVert from "@material-ui/icons/MoreVert";
 import moment from "moment";
 import Hidden from "@material-ui/core/Hidden";
 import { ArticleStyles } from "./styles";
@@ -115,17 +115,17 @@ IProps) => {
               />
             </Grid>
             <Grid item={true} className={classes.buttons}>
-              <Bookmark color="primary" />
+              {/* <Bookmark color="primary" /> */}
               <Add color="primary" />
               <Share color="primary" />
-              <MoreVert color="primary" />
+              {/* <MoreVert color="primary" /> */}
             </Grid>
           </Grid>
         </div>
         {attributes.background && (
           <Image height={160} width="100%" image={attributes.background} />
         )}
-        <div className={classes.content}>
+        <div id="content" className={classes.content}>
           <div
             dangerouslySetInnerHTML={{
               __html: converter.makeHtml(JSON.parse(String(content)).markdown),
@@ -135,9 +135,8 @@ IProps) => {
       </Grid>
       <Hidden smDown={true}>
         <Grid item={true} xs={false} sm={2}>
-          <div>
-            {" "}
-            <Outline markdown={JSON.parse(String(content)).markdown} />
+          <div className={classes.floaterRight}>
+            <ArticleOutline />
           </div>
         </Grid>
       </Hidden>

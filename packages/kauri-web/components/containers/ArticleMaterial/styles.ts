@@ -41,14 +41,25 @@ export const ArticleStyles = makeStyles((theme: Theme) => {
       display: "flex",
       justifyContent: "center",
     },
-    // floaterLeft: {
-    //   alignItems: "center",
-    //   display: "flex",
-    //   flexDirection: "column",
-    //   justifyContent: "center",
-    //   paddingTop: theme.spacing(5),
-    //   position: "fixed",
-    // },
+    floaterLeft: {
+      alignItems: "center",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      paddingTop: theme.spacing(5),
+      position: "fixed",
+    },
+    floaterRight: {
+      alignItems: "center",
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      justifyContent: "flex-start",
+      overflowY: "scroll",
+      paddingBottom: theme.spacing(20),
+      paddingTop: theme.spacing(2),
+      position: "fixed",
+    },
     header: {
       background: theme.palette.common.white,
       padding: theme.spacing(3),
@@ -58,3 +69,20 @@ export const ArticleStyles = makeStyles((theme: Theme) => {
     },
   };
 });
+
+export const OutlineStyles = makeStyles((theme: Theme) => ({
+  H2: {
+    cursor: "pointer",
+    marginLeft: 0,
+    transition: "all 0.3s",
+  },
+  H3: {
+    cursor: "pointer",
+    marginLeft: theme.spacing(2),
+    transition: "all 0.3s",
+  },
+  active: {
+    borderLeft: `4px solid ${theme.palette.primary.main}`,
+    paddingLeft: theme.spacing(2),
+  },
+}));
