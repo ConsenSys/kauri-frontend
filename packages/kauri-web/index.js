@@ -1,6 +1,3 @@
-require("@babel/register")({
-  extensions: [".js", ".jsx", ".ts", ".tsx"],
-});
 const express = require("express");
 const compression = require("compression");
 const next = require("next");
