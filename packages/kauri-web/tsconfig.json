@@ -1,18 +1,13 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "*": [
-        "types/*"
-      ]
+      "*": ["types/*"]
     },
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "lib": ["dom", "es2017"],
     "moduleResolution": "node",
     "allowJs": false,
     "noEmit": true,
@@ -31,6 +26,7 @@
     "isolatedModules": true
   },
   "include": [
+    "queries/*",
     "components/**/**.tsx",
     "lib/*",
     "lib/**/*.ts",

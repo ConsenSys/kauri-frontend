@@ -14,6 +14,12 @@ export interface Community_creator {
   name: string | null;
 }
 
+export interface Community_homepage_resourcesId {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceTypeInput | null;
+}
+
 export interface Community_homepage_resources_PublicUserDTO {
   __typename: "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
 }
@@ -174,6 +180,7 @@ export interface Community_homepage {
   __typename: "SectionDTO";
   name: string | null;
   description: string | null;
+  resourcesId: (Community_homepage_resourcesId | null)[] | null;
   resources: (Community_homepage_resources | null)[] | null;
 }
 
