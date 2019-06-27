@@ -9,8 +9,8 @@ const withCss = require("@zeit/next-css");
 const withLess = require("@zeit/next-less");
 const withSourceMaps = require("@zeit/next-source-maps");
 const withTM = require("next-transpile-modules");
-const withTypescript = require("./lib/with-typescript");
-const { join, resolve } = require("path");
+// const withTypescript = require("./lib/with-typescript");
+const { resolve } = require("path");
 global.process.env = Object.assign(process.env, config);
 
 const processedConfig = Object.keys(config).reduce((current, next, i) => {
@@ -21,7 +21,7 @@ const processedConfig = Object.keys(config).reduce((current, next, i) => {
 console.log(processedConfig);
 
 const nextPlugins = [
-  [withTypescript, { transpileModules: ["../kauri-components"] }],
+  // [withTypescript, { transpileModules: ["../kauri-components"] }],
   [withTM, { transpileModules: ["../kauri-components"] }],
   withSourceMaps,
   withLess,
