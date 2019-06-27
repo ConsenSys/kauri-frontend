@@ -12,6 +12,9 @@ const theme = createMuiTheme({
       default: "#f5f5f5",
       main: "#efefef",
     },
+    primary: {
+      main: "#0BA986",
+    },
     contrastThreshold: 3,
     tonalOffset: 0.2,
   },

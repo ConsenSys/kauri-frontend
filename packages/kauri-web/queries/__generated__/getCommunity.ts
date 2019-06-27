@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import {
@@ -18,6 +19,12 @@ export interface getCommunity_getCommunity_creator {
   id: string | null;
   username: string | null;
   name: string | null;
+}
+
+export interface getCommunity_getCommunity_homepage_resourcesId {
+  __typename: "ResourceIdentifier";
+  id: string | null;
+  type: ResourceTypeInput | null;
 }
 
 export interface getCommunity_getCommunity_homepage_resources_PublicUserDTO {
@@ -220,6 +227,7 @@ export interface getCommunity_getCommunity_homepage {
   __typename: "SectionDTO";
   name: string | null;
   description: string | null;
+  resourcesId: (getCommunity_getCommunity_homepage_resourcesId | null)[] | null;
   resources: (getCommunity_getCommunity_homepage_resources | null)[] | null;
 }
 

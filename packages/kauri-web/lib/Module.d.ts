@@ -93,4 +93,7 @@ interface IReduxState {
       status: string; // [NOT_REGISTERED|CREATED]EMAIL_VERIFIED]
     };
   };
+  modal: {
+    isModalOpen: boolean;
+  };
 }

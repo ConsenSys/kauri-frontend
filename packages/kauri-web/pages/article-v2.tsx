@@ -1,7 +1,7 @@
 import React from "react";
 import { withApollo, compose } from "react-apollo";
 import withData from "../lib/with-data";
-import App from "../layouts/App";
+import App from "../layouts/MaterialLayout";
 import Article from "../components/containers/ArticleMaterial";
 import { withRouter } from "next/router";
 
@@ -12,7 +12,7 @@ interface IProps extends React.Component {
 class MaterialArticle extends React.Component<IProps> {
   render() {
     return (
-      <App url={this.props.router} navcolor="transparent">
+      <App>
         <Article
           id={this.props.router.query.article_id}
           version={this.props.router.query.article_version}

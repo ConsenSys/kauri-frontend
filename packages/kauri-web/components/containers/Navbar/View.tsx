@@ -508,6 +508,11 @@ const useStyles = makeStyles((theme: Theme) => {
     menuButton: {
       marginRight: theme.spacing(1),
     },
+    navbar: {
+      margin: "auto",
+      maxWidth: 1232,
+      width: "100%",
+    },
     searchClass: {
       alignItems: "center",
       backgroundColor: theme.palette.background.default,
@@ -548,8 +553,7 @@ const useStyles = makeStyles((theme: Theme) => {
     },
   };
 });
-
-function PrimarySearchAppBar() {
+const PrimarySearchAppBar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<
     HTMLLIElement | HTMLButtonElement | null
@@ -657,8 +661,8 @@ function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="fixed" color="inherit">
-        <Toolbar>
+      <AppBar elevation={1} position="fixed" color="inherit">
+        <Toolbar className={classes.navbar}>
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -722,6 +726,6 @@ function PrimarySearchAppBar() {
       {renderDiscover}
     </div>
   );
-}
+};
 
 export default PrimarySearchAppBar;

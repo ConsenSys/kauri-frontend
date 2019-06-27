@@ -1,178 +1,149 @@
 import Grid from "@material-ui/core/Grid";
-import { withStyles, Theme, createStyles } from "@material-ui/core/styles";
+import Avatar from "@material-ui/core/Avatar";
 import ShowDown from "showdown";
-import styled from "styled-components";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import TTruncate from "react-text-truncate";
-import slugify from "slugify";
-import { withRouter } from "next/router";
+// import { withRouter } from "next/router";
 import React from "react";
 import Outline from "./Outline";
 import Image from "../../../../kauri-components/components/Image";
-
-const Content = styled.div`
-  & img {
-    width: max-content;
-    max-width: 100%;
-    border-radius: 4px;
-    margin: auto;
-  }
-
-  & p {
-    display: flex;
-    flex-direction: column;
-  }
-
-  pre {
-    color: white;
-    background: black;
-    border-radius: 4px;
-    padding: 8px;
-  }
-`;
+import Chevron from "@material-ui/icons/ArrowBackIos";
+import {
+  Article,
+  Article_author,
+} from "../../../queries/Fragments/__generated__/Article";
+import Bookmark from "@material-ui/icons/Bookmark";
+import Add from "@material-ui/icons/Add";
+import Share from "@material-ui/icons/Share";
+import MoreVert from "@material-ui/icons/MoreVert";
+import moment from "moment";
+import Hidden from "@material-ui/core/Hidden";
+import { ArticleStyles } from "./styles";
 
 const converter = new ShowDown.Converter();
-
-const styles = (theme: Theme) =>
-  createStyles({
-    actionArea: {
-      height: "100%",
-    },
-    card: {
-      height: 310,
-      margin: theme.spacing(2),
-      maxWidth: 288,
-    },
-    container: {
-      color: "white",
-    },
-    image: {
-      marginBottom: theme.spacing(2),
-    },
-    item: {},
-    media: {
-      height: 140,
-    },
-    paper: {
-      color: theme.palette.text.secondary,
-      padding: theme.spacing(2),
-    },
-    root: {
-      flexGrow: 1,
-    },
-  });
 
 interface IProps {
   id: string;
   classes: any;
-  data: any;
+  data: {
+    getArticle: Article;
+  };
   RelatedArticles: any;
   router: any;
 }
 
-const Article = ({
+const AvatarComp = ({
+  author: { username, name, avatar, id },
+  datePublished,
   classes,
-  data: {
-    getArticle: { content, attributes, title },
-  },
-  RelatedArticles: { searchMoreLikeThis },
-  router,
-}: IProps) => (
-  <>
-    <Grid container={true} justify="center">
-      <Grid className={classes.item} item={true} xs={true}>
-        Other Stuff
-      </Grid>
-      <Grid className={classes.item} item={true} xs={7}>
-        <Content>
-          <Image
-            className={classes.image}
-            height={160}
-            width="100%"
-            image={attributes.background}
+}: {
+  author: Article_author;
+  datePublished: string;
+  classes: Record<string, string>;
+}) => {
+  return (
+    <Grid container={true}>
+      <Grid item={true} className={classes.authorAvatar}>
+        {avatar ? (
+          <Avatar
+            alt={name ? name : username ? username : id ? id : "Anonymous"}
+            src={avatar}
           />
-          <Typography
-            className={classes.title}
-            color="inherit"
-            variant="h4"
-            component="h1"
-          >
-            {title}
-          </Typography>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: converter.makeHtml(JSON.parse(content).markdown),
-            }}
-          />
-        </Content>
+        ) : (
+          <Avatar>{!avatar && username && username.charAt(0)}</Avatar>
+        )}
       </Grid>
-      <Grid className={classes.item} item={true} xs={true}>
-        <Outline markdown={JSON.parse(content).markdown} />
+      <Grid>
+        <Typography variant="body2">
+          {name ? name : username ? username : id ? id : "Anonymous"}
+        </Typography>
+        <Typography variant="body2">
+          Last Updated {moment(datePublished).fromNow()}
+        </Typography>
       </Grid>
     </Grid>
+  );
+};
+
+const ArticleComp = ({
+  data: {
+    getArticle: {
+      author,
+      content,
+      attributes,
+      title,
+      voteResult,
+      datePublished,
+    },
+  },
+}: // RelatedArticles: { searchMoreLikeThis }
+IProps) => {
+  const classes = ArticleStyles();
+  return (
     <Grid
-      direction="row"
+      className={classes.root}
       container={true}
       justify="center"
-      alignItems="flex-start"
+      spacing={3}
     >
-      {searchMoreLikeThis &&
-        searchMoreLikeThis.content &&
-        searchMoreLikeThis.content.map((card: any) => (
-          <Card
-            onClick={() => {
-              router.push(
-                `/${slugify(card.resource.title, {
-                  lower: true,
-                })}/${card.resource.id}/a`
-              );
-            }}
-            className={classes.card}
-            key={card.resource.id}
+      <Hidden smDown={true}>
+        <Grid item={true} sm={2} className={classes.floaterContainer}>
+          <div className={classes.floaterLeft}>
+            <Chevron color="primary" className={classes.chevronUp} />
+            <Typography variant="h6">
+              {voteResult && voteResult.count}
+            </Typography>
+            <Typography variant="caption">Up Votes</Typography>
+            <Chevron color="primary" className={classes.chevronDown} />
+          </div>
+        </Grid>
+      </Hidden>
+      <Grid className={classes.centralColumn} item={true} xs={12} md={8}>
+        <div className={classes.header}>
+          <Typography color="inherit" variant="h4" component="h1">
+            {title}
+          </Typography>
+          <Grid
+            className={classes.controls}
+            container={true}
+            justify="space-between"
           >
-            <CardActionArea className={classes.actionArea}>
-              {card.resource.attributes.background && (
-                <CardMedia
-                  className={classes.media}
-                  image={card.resource.attributes.background}
-                  title={card.resource.title}
-                />
-              )}
-              <CardContent>
-                <Typography
-                  align="left"
-                  gutterBottom={true}
-                  variant="h6"
-                  component="h3"
-                >
-                  <TTruncate
-                    truncateText="…"
-                    line={2}
-                    text={card.resource.title}
-                  />
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  component="p"
-                  align="left"
-                >
-                  <TTruncate
-                    truncateText="…"
-                    line={3}
-                    text={card.resource.description}
-                  />
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        ))}
+            <Grid item={true}>
+              <AvatarComp
+                author={author as Article_author}
+                datePublished={datePublished}
+                classes={classes}
+              />
+            </Grid>
+            <Grid item={true} className={classes.buttons}>
+              <Bookmark color="primary" />
+              <Add color="primary" />
+              <Share color="primary" />
+              <MoreVert color="primary" />
+            </Grid>
+          </Grid>
+        </div>
+        {attributes.background && (
+          <Image height={160} width="100%" image={attributes.background} />
+        )}
+        <div className={classes.content}>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: converter.makeHtml(JSON.parse(String(content)).markdown),
+            }}
+          />
+        </div>
+      </Grid>
+      <Hidden smDown={true}>
+        <Grid item={true} xs={false} sm={2}>
+          <div>
+            {" "}
+            <Outline markdown={JSON.parse(String(content)).markdown} />
+          </div>
+        </Grid>
+      </Hidden>
     </Grid>
-  </>
-);
+  );
+};
 
-export default withStyles(styles)(withRouter(Article));
+// export default withRouter(Article);
+export default ArticleComp;

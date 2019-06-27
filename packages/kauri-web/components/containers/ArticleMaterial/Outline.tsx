@@ -50,7 +50,7 @@ const Outline = ({ markdown }: IProps) => {
 
       return {
         children: [],
-        content: content.trim(),
+        content: content && content.trim(),
         level: hashes.length,
       };
     })
@@ -75,7 +75,7 @@ const Outline = ({ markdown }: IProps) => {
   return (
     <div className={classes.container}>
       <ListItem onClick={() => setOpen(!open)}>
-        <ListItemText>Table of content</ListItemText>
+        <ListItemText>Contents</ListItemText>
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit={true}>
