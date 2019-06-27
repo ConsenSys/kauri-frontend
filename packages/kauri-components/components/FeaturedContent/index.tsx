@@ -3,7 +3,6 @@ import styled from "../../lib/styled-components";
 import ResourceRow from "../SearchResults/ResourceRowWithImage"; // IProps as ResourceRowProps,
 import { Title2 } from "../Typography";
 import { RenderCardContent } from "../CuratedLists";
-import { HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_content_resource } from "../../../kauri-web/queries/__generated__/HomePagev2";
 import theme from "../../lib/theme-config";
 
 const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
@@ -126,86 +125,78 @@ const RenderDesktopFeaturedContent: React.FunctionComponent<
   IProps & { Link: React.FunctionComponent<any> }
 > = ({ content, Link }) => (
   <DesktopResourceContainer>
-    {content.map(
-      ({
-        resource,
-      }: {
-        resource: HomePageV2_getLatestHomepageDescriptor_rows_main_Featured_content_resource;
-      }) => {
-        switch (resource.__typename) {
-          case "ArticleDTO": {
-            return (
-              <ResourceRow
-                resourceType={resource.__typename.split("DTO")[0].toLowerCase()}
-                key={String(resource.id)}
-                id={String(resource.id)}
-                version={Number(resource.version)}
-                title={String(resource.title)}
-                description={String(resource.description)}
-                tags={
-                  (resource.tags &&
-                    resource.tags.map(tag => (tag ? tag : ""))) ||
-                  []
-                }
-                username={
-                  (resource.owner as any).username ||
-                  (resource.owner as any).name
-                }
-                userId={(resource.owner as any).id}
-                userAvatar={(resource.owner as any).avatar}
-                date={resource.datePublished}
-                ownerType={"USER"}
-                linkComponent={(children, route) => (
-                  <Link useAnchorTag={true} href={route}>
-                    {children}
-                  </Link>
-                )}
-                imageURL={
-                  resource &&
-                  resource.attributes &&
-                  resource.attributes.background
-                }
-              />
-            );
-          }
+    {content.map(({ resource }: { resource: any }) => {
+      switch (resource.__typename) {
+        case "ArticleDTO": {
+          return (
+            <ResourceRow
+              resourceType={resource.__typename.split("DTO")[0].toLowerCase()}
+              key={String(resource.id)}
+              id={String(resource.id)}
+              version={Number(resource.version)}
+              title={String(resource.title)}
+              description={String(resource.description)}
+              tags={
+                (resource.tags &&
+                  resource.tags.map((tag: string) => (tag ? tag : ""))) ||
+                []
+              }
+              username={
+                (resource.owner as any).username || (resource.owner as any).name
+              }
+              userId={(resource.owner as any).id}
+              userAvatar={(resource.owner as any).avatar}
+              date={resource.datePublished}
+              ownerType={"USER"}
+              linkComponent={(children, route) => (
+                <Link useAnchorTag={true} href={route}>
+                  {children}
+                </Link>
+              )}
+              imageURL={
+                resource &&
+                resource.attributes &&
+                resource.attributes.background
+              }
+            />
+          );
+        }
 
-          case "CollectionDTO": {
-            return (
-              <ResourceRow
-                resourceType={resource.__typename.split("DTO")[0].toLowerCase()}
-                key={String(resource.id)}
-                id={String(resource.id)}
-                title={String(resource.name)}
-                description={String(resource.description)}
-                tags={
-                  (resource.tags &&
-                    resource.tags.map(tag => (tag ? tag : ""))) ||
-                  []
-                }
-                username={
-                  (resource.owner as any).username ||
-                  (resource.owner as any).name
-                }
-                userId={(resource.owner as any).id}
-                userAvatar={(resource.owner as any).avatar}
-                date={resource.dateUpdated}
-                ownerType={"USER"}
-                linkComponent={(children, route) => (
-                  <Link useAnchorTag={true} href={route}>
-                    {children}
-                  </Link>
-                )}
-                imageURL={resource.background}
-              />
-            );
-          }
+        case "CollectionDTO": {
+          return (
+            <ResourceRow
+              resourceType={resource.__typename.split("DTO")[0].toLowerCase()}
+              key={String(resource.id)}
+              id={String(resource.id)}
+              title={String(resource.name)}
+              description={String(resource.description)}
+              tags={
+                (resource.tags &&
+                  resource.tags.map((tag: string) => (tag ? tag : ""))) ||
+                []
+              }
+              username={
+                (resource.owner as any).username || (resource.owner as any).name
+              }
+              userId={(resource.owner as any).id}
+              userAvatar={(resource.owner as any).avatar}
+              date={resource.dateUpdated}
+              ownerType={"USER"}
+              linkComponent={(children, route) => (
+                <Link useAnchorTag={true} href={route}>
+                  {children}
+                </Link>
+              )}
+              imageURL={resource.background}
+            />
+          );
+        }
 
-          default: {
-            return null;
-          }
+        default: {
+          return null;
         }
       }
-    )}
+    })}
   </DesktopResourceContainer>
 );
 

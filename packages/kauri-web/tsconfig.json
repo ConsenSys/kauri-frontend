@@ -20,7 +20,7 @@
     "removeComments": false,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "forceConsistentCasingInFileNames": false,
+    "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true
