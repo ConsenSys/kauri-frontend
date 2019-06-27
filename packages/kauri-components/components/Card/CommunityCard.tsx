@@ -23,6 +23,7 @@ const Container = styled<{ cardHeight: number | null }, "section">("section")`
 
 const Image = styled.img`
   width: 70px;
+  border-radius: 4px;
 `;
 
 const ImageContainer = styled.div`
