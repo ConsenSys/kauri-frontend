@@ -22,7 +22,7 @@
     "isolatedModules": true
   },
   "include": [
-    "queries/__generated__",
+    "queries/*.ts",
     "components/**/**.tsx",
     "lib/*",
     "lib/**/*.ts",
@@ -30,5 +30,5 @@
     "typings",
     "../kauri-components/typings"
   ],
-  "exclude": []
+  "exclude": ["node_modules", "dist", ".next", "out", "next.config.js"]
 }
