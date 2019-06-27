@@ -16,7 +16,7 @@
     "removeComments": false,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "forceConsistentCasingInFileNames": false,
+    "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true
@@ -28,8 +28,8 @@
     "lib/*",
     "lib/**/*.ts",
     "components/**/**.ts",
-    "typings",
-    "../kauri-components/typings"
+    "types",
+    "../kauri-components/types"
   ],
   "exclude": ["node_modules", "dist", ".next", "out", "next.config.js"]
 }

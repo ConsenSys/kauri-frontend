@@ -97,6 +97,14 @@ const nextConfig = {
     }
     if (process.env.NODE_ENV === "production") {
       // Do production stuff
+
+      // Remove tscheck for builds because next.js sucks
+      config.plugins = config.plugins.filter(plugin => {
+        if (plugin.constructor.name === "ForkTsCheckerWebpackPlugin") {
+          return false;
+        }
+        return true;
+      });
     } else {
       // Do development stuff
     }
