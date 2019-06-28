@@ -1,12 +1,12 @@
 import Grid from "@material-ui/core/Grid";
-import Avatar from "@material-ui/core/Avatar";
 import ShowDown from "showdown";
 import Typography from "@material-ui/core/Typography";
 // import { withRouter } from "next/router";
 import React from "react";
-import ArticleOutline from "./ArticleOutline";
+import ArticleOutline from "./components/ArticleOutline";
 import Image from "../../../../kauri-components/components/Image";
-import Chevron from "@material-ui/icons/ArrowBackIos";
+import ArticleAvatar from "./components/ArticleAvatar";
+
 import {
   Article,
   Article_author,
@@ -15,9 +15,9 @@ import {
 import Add from "@material-ui/icons/Add";
 import Share from "@material-ui/icons/Share";
 // import MoreVert from "@material-ui/icons/MoreVert";
-import moment from "moment";
 import Hidden from "@material-ui/core/Hidden";
 import { ArticleStyles } from "./styles";
+import VoteWidget from "./components/VoteWidget";
 
 const converter = new ShowDown.Converter();
 
@@ -29,44 +29,14 @@ interface IProps {
   };
   RelatedArticles: any;
   router: any;
+  voteAction: any;
 }
 
-const AvatarComp = ({
-  author: { username, name, avatar, id },
-  datePublished,
-  classes,
-}: {
-  author: Article_author;
-  datePublished: string;
-  classes: Record<string, string>;
-}) => {
-  return (
-    <Grid container={true}>
-      <Grid item={true} className={classes.authorAvatar}>
-        {avatar ? (
-          <Avatar
-            alt={name ? name : username ? username : id ? id : "Anonymous"}
-            src={avatar}
-          />
-        ) : (
-          <Avatar>{!avatar && username && username.charAt(0)}</Avatar>
-        )}
-      </Grid>
-      <Grid>
-        <Typography variant="body2">
-          {name ? name : username ? username : id ? id : "Anonymous"}
-        </Typography>
-        <Typography variant="body2">
-          Last Updated {moment(datePublished).fromNow()}
-        </Typography>
-      </Grid>
-    </Grid>
-  );
-};
-
 const ArticleComp = ({
+  voteAction,
   data: {
     getArticle: {
+      id,
       author,
       content,
       attributes,
@@ -88,12 +58,11 @@ IProps) => {
       <Hidden smDown={true}>
         <Grid item={true} sm={2} className={classes.floaterContainer}>
           <div className={classes.floaterLeft}>
-            <Chevron color="primary" className={classes.chevronUp} />
-            <Typography variant="h6">
-              {voteResult && voteResult.count}
-            </Typography>
-            <Typography variant="caption">Up Votes</Typography>
-            <Chevron color="primary" className={classes.chevronDown} />
+            <VoteWidget
+              id={String(id)}
+              voteAction={voteAction}
+              voteResult={voteResult}
+            />
           </div>
         </Grid>
       </Hidden>
@@ -108,7 +77,7 @@ IProps) => {
             justify="space-between"
           >
             <Grid item={true}>
-              <AvatarComp
+              <ArticleAvatar
                 author={author as Article_author}
                 datePublished={datePublished}
                 classes={classes}

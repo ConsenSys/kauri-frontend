@@ -1,9 +1,33 @@
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { OutlineStyles } from "./styles";
+
 import { Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { Theme, makeStyles } from "@material-ui/core/styles";
+export const OutlineStyles = makeStyles((theme: Theme) => ({
+  H2: {
+    borderLeft: `4px solid transparent`,
+    cursor: "pointer",
+    marginLeft: 0,
+    paddingLeft: theme.spacing(1),
+    transition: "all 0.3s",
+  },
+  H3: {
+    borderLeft: `4px solid transparent`,
+    cursor: "pointer",
+    marginLeft: 0,
+    paddingLeft: theme.spacing(3),
+    transition: "all 0.3s",
+  },
+  active: {
+    borderLeft: `4px solid ${theme.palette.primary.main} !important`,
+  },
+  list: {},
+  listItem: {
+    padding: theme.spacing(0),
+  },
+}));
 
 const ArticleOutline = () => {
   const elements = Array.from(document.querySelectorAll("h2,h3"));
@@ -30,11 +54,11 @@ const ArticleOutline = () => {
   };
 
   return (
-    <List dense={true}>
+    <List className={classes.list} dense={true}>
       <Typography variant="h6">Contents</Typography>
       {titles.map((element, index) => {
         return (
-          <ListItem key={index}>
+          <ListItem className={classes.listItem} key={index}>
             <ListItemText
               onClick={() => {
                 window.scrollTo(0, element.offsetTop);

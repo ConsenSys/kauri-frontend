@@ -12,12 +12,6 @@ export const ArticleStyles = makeStyles((theme: Theme) => {
     centralColumn: {
       minHeight: "100%",
     },
-    chevronDown: {
-      transform: "rotate(-90deg)",
-    },
-    chevronUp: {
-      transform: "rotate(90deg)",
-    },
     content: {
       "& img": {
         borderRadius: 4,
@@ -56,8 +50,7 @@ export const ArticleStyles = makeStyles((theme: Theme) => {
       height: "100%",
       justifyContent: "flex-start",
       overflowY: "scroll",
-      paddingBottom: theme.spacing(20),
-      paddingTop: theme.spacing(2),
+      padding: theme.spacing(2, 2, 20, 2),
       position: "fixed",
     },
     header: {
@@ -69,20 +62,3 @@ export const ArticleStyles = makeStyles((theme: Theme) => {
     },
   };
 });
-
-export const OutlineStyles = makeStyles((theme: Theme) => ({
-  H2: {
-    cursor: "pointer",
-    marginLeft: 0,
-    transition: "all 0.3s",
-  },
-  H3: {
-    cursor: "pointer",
-    marginLeft: theme.spacing(2),
-    transition: "all 0.3s",
-  },
-  active: {
-    borderLeft: `4px solid ${theme.palette.primary.main}`,
-    paddingLeft: theme.spacing(2),
-  },
-}));
