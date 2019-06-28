@@ -65,13 +65,12 @@ export interface IProps {
   ) => React.ReactElement<any>;
   ownerType: string; // "USER" | "COMMUNITY" | "COLLECTION";
   resourceType: string; // "article" | "community" | "collection"
-  key?: string;
 }
 
 const ResourceRowWithImage: React.SFC<IProps> = props => {
   const slug = slugify(props.title, { lower: true })
   return (
-    <ResourceRow key={props.key}>
+    <ResourceRow key={props.id}>
       {props.imageURL &&
         props.linkComponent(
           <Image

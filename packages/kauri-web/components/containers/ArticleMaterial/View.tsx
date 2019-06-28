@@ -18,6 +18,7 @@ import Share from "@material-ui/icons/Share";
 import Hidden from "@material-ui/core/Hidden";
 import { ArticleStyles } from "./styles";
 import VoteWidget from "./components/VoteWidget";
+import slugify from "slugify";
 
 const converter = new ShowDown.Converter();
 
@@ -30,10 +31,14 @@ interface IProps {
   RelatedArticles: any;
   router: any;
   voteAction: any;
+  routeChangeAction: (route: string) => void;
+  userId: string;
 }
 
 const ArticleComp = ({
   voteAction,
+  routeChangeAction,
+  userId,
   data: {
     getArticle: {
       id,
@@ -59,9 +64,15 @@ IProps) => {
         <Grid item={true} sm={2} className={classes.floaterContainer}>
           <div className={classes.floaterLeft}>
             <VoteWidget
+              isLoggedIn={!!userId}
               id={String(id)}
               voteAction={voteAction}
               voteResult={voteResult}
+              loginFirstToVote={() =>
+                routeChangeAction(
+                  `/login?r=/${slugify(String(title), { lower: true })}/${id}/a`
+                )
+              }
             />
           </div>
         </Grid>

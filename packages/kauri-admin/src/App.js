@@ -1,12 +1,11 @@
 // @flow
-import { hot } from "react-hot-loader";
-import React, { Component } from "react";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Main from "./components/Main";
-import Configuration from "./components/Configuration";
-import { ThemeProvider } from "styled-components";
-import theme from "../../kauri-components/lib/theme-config";
+import React, { Component } from 'react';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Main from './components/Main';
+import Configuration from './components/Configuration';
+import { ThemeProvider } from 'styled-components';
+import theme from '../../kauri-components/lib/theme-config';
 
 class App extends Component {
   constructor(props) {
@@ -15,7 +14,7 @@ class App extends Component {
     this.state = {
       config: new Configuration(),
       updateLoadingFlag: this.updateLoadingFlag.bind(this),
-      loading: false,
+      loading: false
     };
   }
 
@@ -36,4 +35,4 @@ class App extends Component {
   }
 }
 
-export default hot(module)(App);
+export default App;

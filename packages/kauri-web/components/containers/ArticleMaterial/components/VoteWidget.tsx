@@ -14,17 +14,18 @@ export const VoteWidgetStyles = makeStyles((theme: Theme) => ({
     transform: "rotate(90deg)",
   },
   container: {
-    '& .active': {
+    "&.active": {
       cursor: "pointer",
     },
     "&:hover": {
-      '& .active': {
+      "&.active": {
         boxShadow: "0px 0px 4px rgba(0,0,0,0.2)",
-      }
+      },
     },
     alignItems: "center",
     borderRadius: "50%",
     display: "flex",
+    margin: theme.spacing(1),
     padding: theme.spacing(1),
     position: "relative",
     transition: "0.3s",
@@ -35,45 +36,72 @@ interface IProps {
   voteAction: any;
   voteResult: any;
   id: string;
+  loginFirstToVote: () => void;
+  isLoggedIn: boolean;
 }
 
-const VoteWidget = ({ id, voteResult, voteAction }: IProps) => {
+const VoteWidget = ({
+  id,
+  voteResult,
+  voteAction,
+  loginFirstToVote,
+  isLoggedIn,
+}: IProps) => {
   const classes = VoteWidgetStyles();
   return (
     <>
-      <div className={`${classes.container} ${voteResult.hasVoted ? 'active' : ''}`}>
+      {console.log(voteResult)}
+      <div
+        className={`${classes.container} ${
+          voteResult.hasVoted ? "" : "active"
+        }`}
+      >
         <Chevron
           onClick={() =>
-            !voteResult.hasVoted && voteAction({
-              resourceId: {
-                id,
-                type: "ARTICLE",
-              },
-              value: 1,
-            })
+            !voteResult.hasVoted
+              ? isLoggedIn
+                ? voteAction({
+                    resourceId: {
+                      id,
+                      type: "ARTICLE",
+                    },
+                    value: 1,
+                  })
+                : loginFirstToVote()
+              : null
           }
-          color={voteResult.hasVoted ? "disabled": "primary"}
+          color={voteResult.hasVoted ? "disabled" : "primary"}
           className={classes.chevronUp}
         />
       </div>
       <Typography variant="h6">{voteResult && voteResult.count}</Typography>
       <Typography variant="caption">Up Votes</Typography>
-      <div className={`${classes.container} ${voteResult.hasVoted ? 'active' : ''}`}>
+      <div
+        className={`${classes.container} ${
+          voteResult.hasVoted ? "" : "active"
+        }`}
+      >
         <Chevron
           onClick={() =>
-            !voteResult.hasVoted && voteAction({
-              resourceId: {
-                id,
-                type: "ARTICLE",
-              },
-              value: -1,
-            })
+            !voteResult.hasVoted
+              ? isLoggedIn
+                ? voteAction({
+                    resourceId: {
+                      id,
+                      type: "ARTICLE",
+                    },
+                    value: -1,
+                  })
+                : loginFirstToVote()
+              : null
           }
-          color={voteResult.hasVoted ? "disabled": "primary"}
+          color={voteResult.hasVoted ? "disabled" : "primary"}
           className={classes.chevronDown}
         />
       </div>
-      {voteResult.hasVoted && <Typography variant="caption">You have already voted</Typography>}
+      {voteResult.hasVoted && (
+        <Typography variant="caption">You have already voted</Typography>
+      )}
     </>
   );
 };

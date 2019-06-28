@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 import { Collection, CommunityOwner, UserOwner } from "./Fragments";
 
-export const HomePageV2Query = gql`
+export const homepageContentQuery = gql`
   fragment ResourceFragment on AbstractResourceDTO {
     ... on CollectionDTO {
       ...Collection
@@ -161,7 +161,7 @@ export const HomePageV2Query = gql`
     }
   }
 
-  query HomePageV2($populate: Boolean = true) {
+  query homepageContent($populate: Boolean = true) {
     getLatestHomepageDescriptor(populate: $populate) {
       rows {
         main {

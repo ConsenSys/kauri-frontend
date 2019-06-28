@@ -59,7 +59,7 @@ const ArticleOutline = () => {
       {titles.map((element, index) => {
         return (
           <ListItem className={classes.listItem} key={index}>
-            <ListItemText
+            <Typography variant="caption"
               onClick={() => {
                 window.scrollTo(0, element.offsetTop);
               }}
@@ -68,7 +68,7 @@ const ArticleOutline = () => {
               }`}
             >
               {element.title}
-            </ListItemText>
+            </Typography>
           </ListItem>
         );
       })}

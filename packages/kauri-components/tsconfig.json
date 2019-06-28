@@ -21,8 +21,9 @@
     "js-stories",
     "components",
     "../kauri-web/lib/theme-config.ts",
-    "../kauri-web/typings",
+    "../kauri-web/types",
     "lib",
-    "typings"
-  ]
+    "types"
+  ],
+  "exclude": ["node_modules", "dist", ".next", "out", "next.config.js"]
 }

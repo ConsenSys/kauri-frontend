@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { HomePageV2Query as query } from "../../../queries/Homepage";
+import { homepageContentQuery as query } from "../../../queries/Homepage";
 import {
-  HomePageV2,
-  HomePageV2Variables,
-} from "../../../queries/__generated__/HomePageV2";
+  homepageContent,
+  homepageContentVariables,
+} from "../../../queries/__generated__/homepageContent";
 import { Query } from "react-apollo";
 import Loading from "../../common/Loading";
 import { ErrorMessage } from "../../../lib/with-apollo-error";
@@ -77,9 +77,12 @@ interface IProps {
   showNotificationAction: (payload: IShowNotificationPayload) => void;
 }
 
-const HomePageV2Component: React.FunctionComponent<IProps> = props => {
+const HomePageComponent: React.FunctionComponent<IProps> = props => {
   return (
-    <Query<HomePageV2, HomePageV2Variables> query={query} variables={{}}>
+    <Query<homepageContent, homepageContentVariables>
+      query={query}
+      variables={{}}
+    >
       {({ loading, error, data }) => {
         if (loading) {
           return <Loading />;
@@ -148,9 +151,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                       (category, categoryIndex) =>
                                         category && (
                                           <CuratedCategory
-                                            key={`${
-                                              category.name
-                                            }-${categoryIndex}`}
+                                            key={`${category.name}-${categoryIndex}`}
                                             background={category.image}
                                             linkComponent={children => (
                                               <Link
@@ -352,6 +353,7 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
                                               route
                                             ) => (
                                               <Link
+                                                key={route}
                                                 useAnchorTag={true}
                                                 href={route}
                                               >
@@ -390,4 +392,4 @@ const HomePageV2Component: React.FunctionComponent<IProps> = props => {
   );
 };
 
-export default HomePageV2Component;
+export default HomePageComponent;

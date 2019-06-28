@@ -1,4 +1,3 @@
-import { setConfig } from "react-hot-loader";
 import React from "react";
 import Head from "next/head";
 import { connect } from "react-redux";
@@ -8,11 +7,6 @@ import StyledFooter from "../components/containers/StyledFooter";
 import Modal from "../../kauri-components/components/Modal";
 import { menuHeaderHeight } from "../components/containers/Navbar/View";
 import { footerHeight } from "../components/containers/StyledFooter/View";
-
-setConfig({
-  ignoreSFC: true,
-  pureRender: true, // RHL will not change render method
-});
 
 const Layout = styled.div``;
 
