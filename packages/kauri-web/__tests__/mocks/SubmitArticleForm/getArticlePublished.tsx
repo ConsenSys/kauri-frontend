@@ -1,10 +1,9 @@
 /* tslint:disable */
-import { MockedProvider } from "react-apollo/test-utils";
-
 import { getArticle } from "../../../queries/Article";
+import ApolloMockedProvider from "../../lib/mock-apollo-provider";
 
 // @ts-ignore
-const result = {
+export const mockResult = {
   data: {
     getArticle: {
       associatedNfts: null,
@@ -75,22 +74,24 @@ const result = {
   dataPresent: true,
 };
 
+export const mockVariables = {
+  id: "2cfdfa427d324b57b2afd034f3cfb145",
+  published: true,
+  version: 1,
+};
+
 const mocks = [
   {
     request: {
       query: getArticle,
-      variables: {
-        id: "2cfdfa427d324b57b2afd034f3cfb145",
-        published: true,
-        version: 1,
-      },
+      variables: mockVariables,
     },
-    result,
+    result: mockResult,
   },
 ];
 
-const renderWithQuery = children => (
-  <MockedProvider mocks={mocks}>{children}</MockedProvider>
+const RenderWithQuery = ({ children }) => (
+  <ApolloMockedProvider mocks={mocks}>{children}</ApolloMockedProvider>
 );
 
-export default renderWithQuery;
+export default RenderWithQuery;

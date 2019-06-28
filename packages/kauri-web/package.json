@@ -197,6 +197,7 @@
     "tslint-react": "^3.6.0",
     "typescript": "latest",
     "typescript-styled-plugin": "latest",
+    "waait": "^1.0.5",
     "web3-provider-engine": "8.4.0",
     "webdriverio": "^4.13.1",
     "webpack": "^4.26.0",
