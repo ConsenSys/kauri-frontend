@@ -6,6 +6,7 @@ import RenderWithQuery, {
 import { Query } from "react-apollo";
 import { getArticle } from "../../queries/Article";
 import wait from "waait";
+import mockInitialState from "../lib/mock-redux-initial-state";
 
 const Dog = () => (
   <Query<typeof mockResult["data"], typeof mockVariables>
@@ -27,18 +28,17 @@ const Dog = () => (
 
 describe("First test", () => {
   it("should not lie", async () => {
-    const initialState = { hello: "world" };
     const { getByTestId, store } = render(
       <RenderWithQuery>
         <Dog />
       </RenderWithQuery>,
-      { initialState }
+      { initialState: mockInitialState }
     );
 
     await wait(0);
 
     const state = store.getState();
-    expect(state.hello).toBe("world");
+    expect(state.app.hostName).toBe("api.dev.kauri.io");
     expect(getByTestId("hello world")).toHaveTextContent(
       mockResult.data.getArticle.author.id
     );
