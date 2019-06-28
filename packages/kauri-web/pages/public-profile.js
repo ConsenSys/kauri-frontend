@@ -2,7 +2,7 @@ import React from "react";
 import { compose } from "react-apollo";
 import { connect } from "react-redux";
 import withData from "../lib/with-data";
-import App from "../layouts/App";
+import App from "../layouts/MaterialLayout";
 import { routeChangeAction } from "../lib/Module";
 import PublicProfile from "../components/containers/PublicProfile";
 import { withRouter } from "next/router";

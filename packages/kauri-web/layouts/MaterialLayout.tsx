@@ -13,14 +13,17 @@ const mapStateToProps = (state: IReduxState) => ({
 });
 
 const useStyles = makeStyles((theme: Theme) => ({
+  constrained : {
+    maxWidth: 1280,
+  },
   item: {
     width: "100%",
   },
   root: {
-    display: "flex",
+    display: 'flex',
+    flexDirection: 'column',
     marginLeft: "auto",
     marginRight: "auto",
-    maxWidth: 1232,
     minHeight: `calc(100vh - ${footerHeight}px)`,
     overflow: "hidden",
     [theme.breakpoints.down("sm")]: {
@@ -32,10 +35,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface IProps {
   isModalOpen: boolean;
+  maxWidthConstrained?: boolean;
   children: any;
 }
 
-const Layout = ({ isModalOpen, children }: IProps) => {
+const Layout = ({ isModalOpen, children, maxWidthConstrained }: IProps) => {
   const classes = useStyles({});
   return (
     <Grid container={true}>
@@ -47,7 +51,7 @@ const Layout = ({ isModalOpen, children }: IProps) => {
         <Navbar />
       </Grid>
       <Grid item={true} className={classes.item}>
-        <div className={classes.root}>{children}</div>
+        <div className={`${classes.root} ${maxWidthConstrained ? classes.constrained : ''}`}>{children}</div>
       </Grid>
       <StyledFooter />
     </Grid>

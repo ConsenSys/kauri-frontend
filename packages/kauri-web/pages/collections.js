@@ -3,7 +3,7 @@ import { withApollo, compose } from "react-apollo";
 import { connect } from "react-redux";
 import withData from "../lib/with-data";
 import { routeChangeAction } from "../lib/Module";
-import App from "../layouts/App";
+import App from "../layouts/MaterialLayout";
 import Collections from "../components/containers/Discover/Collections";
 import { withRouter } from "next/router";
 

@@ -2,7 +2,7 @@ import React from "react";
 import { withApollo, compose } from "react-apollo";
 import withData from "../lib/with-data";
 import { withRouter } from "next/router";
-import App from "../layouts/App";
+import App from "../layouts/MaterialLayout";
 import ArticleApproved from "../components/containers/ArticleApproved";
 
 interface IProps {
@@ -17,7 +17,7 @@ interface IProps {
 class ArticleApprovedPage extends React.Component<IProps> {
   render() {
     return (
-      <App confirmationPage={true}>
+      <App>
         <ArticleApproved
           type="draft deleted"
           article_id={this.props.router.query.article_id}

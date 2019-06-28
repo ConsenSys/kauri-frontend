@@ -1,7 +1,7 @@
 import React from "react";
 import { withApollo, compose } from "react-apollo";
 import withData from "../lib/with-data";
-import App from "../layouts/App";
+import App from "../layouts/MaterialLayout";
 import ArticleApproved from "../components/containers/ArticleApproved";
 import theme from "../lib/theme-config";
 import { withRouter } from "next/router";

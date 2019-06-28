@@ -25,7 +25,7 @@ export const OutlineStyles = makeStyles((theme: Theme) => ({
   },
   list: {},
   listItem: {
-    padding: theme.spacing(0),
+    padding: theme.spacing(1),
   },
 }));
 
@@ -33,7 +33,6 @@ const ArticleOutline = () => {
   const elements = Array.from(document.querySelectorAll("h2,h3"));
   const [titles] = useState(
     elements.map((element: Element) => ({
-      active: false,
       offsetTop: element.getBoundingClientRect().top - 80,
       tagName: element.tagName as "H2" | "H3",
       title: element.textContent,

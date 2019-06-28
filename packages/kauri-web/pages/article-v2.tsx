@@ -12,7 +12,7 @@ interface IProps extends React.Component {
 class MaterialArticle extends React.Component<IProps> {
   render() {
     return (
-      <App>
+      <App maxWidthConstrained={true}>
         <Article
           id={this.props.router.query.article_id}
           version={this.props.router.query.article_version}

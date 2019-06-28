@@ -1,7 +1,7 @@
 import React from "react";
 import { withApollo, compose } from "react-apollo";
 import withData from "../lib/with-data";
-import App from "../layouts/App";
+../layouts/MaterialLayout";
 import ArticleApproved from "../components/containers/ArticleApproved";
 import { withRouter } from "next/router";
 class ArticleApprovedPage extends React.Component {
