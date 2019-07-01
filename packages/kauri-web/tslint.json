@@ -17,7 +17,8 @@
     "no-var-requires": false,
     "jsx-no-lambda": false,
     "no-console": false,
-    "no-namespace": false
+    "no-namespace": false,
+    "no-implicit-dependencies": [true, "dev"]
   },
   "rulesDirectory": []
 }

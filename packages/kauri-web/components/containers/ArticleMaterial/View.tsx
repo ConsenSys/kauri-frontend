@@ -32,11 +32,13 @@ interface IProps {
   userId: string;
   openModalAction: (children: any) => void;
   // closeModalAction: () => void;
+  hostName: string;
 }
 
 const ArticleComp = ({
   openModalAction,
   // closeModalAction,
+  hostName,
   voteAction,
   routeChangeAction,
   userId,
@@ -103,6 +105,7 @@ IProps) => {
               openModalAction={openModalAction}
               routeChangeAction={routeChangeAction}
               title={String(title)}
+              hostName={hostName}
             />
           </Grid>
         </div>

@@ -70,7 +70,7 @@ interface IProps {
   handleClick?: () => void;
   onClick?:void | (() => void);
   disabled?: boolean;
-  type?: string;
+  type?: "button" | "submit" | "reset";
   bg?: string;
   bgHover?: string;
   fontWeight?: number;

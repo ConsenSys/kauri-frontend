@@ -5,9 +5,12 @@ import Add from "@material-ui/icons/Add";
 import Share from "@material-ui/icons/Share";
 // import MoreVert from "@material-ui/icons/MoreVert";
 import slugify from "slugify";
-import { makeStyles } from "@material-ui/core/styles";
+import { Theme, makeStyles } from "@material-ui/core/styles";
+import Popover from "@material-ui/core/Popover";
+import { useState } from "react";
+import { ShareButtons } from "../../../../../kauri-components/components/Tooltip/ShareButtons";
 
-export const ArticleActionStyles = makeStyles(() => ({
+export const ArticleActionStyles = makeStyles((theme: Theme) => ({
   buttons: {
     alignItems: "center",
     display: "flex",
@@ -19,6 +22,9 @@ export const ArticleActionStyles = makeStyles(() => ({
     },
     transition: "all 0.3s",
   },
+  typography: {
+    padding: theme.spacing(2),
+  },
 }));
 
 interface IProps {
@@ -27,6 +33,7 @@ interface IProps {
   id: string;
   version: number;
   title: string;
+  hostName: string;
   routeChangeAction: (route: string) => void;
 }
 
@@ -37,8 +44,20 @@ export default ({
   version,
   routeChangeAction,
   title,
+  hostName,
 }: IProps) => {
   const classes = ArticleActionStyles();
+  const [anchorEl, setAnchorEl] = useState<SVGSVGElement | null>(null);
+  const handleClick = (event: React.MouseEvent<SVGSVGElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
   return (
     <Grid item={true} className={classes.buttons}>
       {/* <Bookmark color="primary" /> */}
@@ -60,7 +79,34 @@ export default ({
               )
         }
       />
-      <Share className={classes.hover} color="primary" />
+      <Share
+        aria-describedby={id}
+        onClick={handleClick}
+        className={classes.hover}
+        color="primary"
+      />
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          horizontal: "center",
+          vertical: "bottom",
+        }}
+        transformOrigin={{
+          horizontal: "center",
+          vertical: "top",
+        }}
+      >
+        <ShareButtons
+          horizontal={true}
+          url={`${hostName}/${slugify(title, {
+            lower: true,
+          })}/${id}/a?utm_campaign=read`}
+          title={title}
+        />
+      </Popover>
       {/* <MoreVert color="primary" /> */}
     </Grid>
   );

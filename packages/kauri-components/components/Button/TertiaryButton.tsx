@@ -46,7 +46,7 @@ interface IProps {
   handleClick?: () => void;
   onClick?: () => void;
   disabled?: boolean;
-  type?: string;
+  type?: "button" | "submit" | "reset";
   fontWeight?: number;
   fontSize?: number;
   space?: number;

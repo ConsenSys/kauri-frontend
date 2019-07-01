@@ -95,15 +95,21 @@ export default compose(
           R.path<
             [{ resourcesId: [{ id: string; version: number; type: string }] }]
           >(["homepage"]),
+          // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/25581
+          // @ts-ignore
           R.defaultTo([]),
-          R.map(section => ({
-            ...section,
-            resources: R.map(({ id, version, type }) => ({
-              id,
-              type: type.toUpperCase(),
-              version,
-            }))(section.resourcesId),
-          })),
+          R.map(
+            (section: {
+              resourcesId: [{ id: string; version: number; type: string }];
+            }) => ({
+              ...section,
+              resources: R.map(({ id, version, type }) => ({
+                id,
+                type: type.toUpperCase(),
+                version,
+              }))(section.resourcesId),
+            })
+          ),
           R.map(section => R.dissocPath(["resources"])(section)),
           R.map(section => R.dissocPath(["__typename"])(section))
         );
@@ -128,8 +134,12 @@ export default compose(
       const homepage = R.path(["getCommunity", "homepage"])(data)
         ? R.pipe(
             R.path<[any]>(["getCommunity", "homepage"]),
+            // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/25581
+            // @ts-ignore
             R.defaultTo([]),
             R.map(section => ({
+              // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/25581
+              // @ts-ignore
               ...section,
               resourcesId: R.map(({ id: resourceId, version, __typename }) => ({
                 id: resourceId,

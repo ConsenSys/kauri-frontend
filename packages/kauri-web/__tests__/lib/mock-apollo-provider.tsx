@@ -29,6 +29,7 @@ const ApolloMockedProvider: React.FunctionComponent<{ mocks: any }> = ({
   mocks,
   children,
 }) => (
+  // @ts-ignore
   <MockedProvider cache={cache.restore({})} mocks={mocks}>
     {children}
   </MockedProvider>
