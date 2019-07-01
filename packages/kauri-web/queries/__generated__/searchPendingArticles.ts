@@ -2,7 +2,11 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { ArticleFilterInput, ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
+import {
+  ArticleFilterInput,
+  ResourceTypeInput,
+  ArticleStatusInput,
+} from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchPendingArticles
@@ -41,7 +45,16 @@ export interface searchPendingArticles_searchArticles_content_author {
 }
 
 export interface searchPendingArticles_searchArticles_content_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface searchPendingArticles_searchArticles_content_owner_PublicUserDTO_resourceIdentifier {
@@ -73,7 +86,10 @@ export interface searchPendingArticles_searchArticles_content_owner_CommunityDTO
   resourceIdentifier: searchPendingArticles_searchArticles_content_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type searchPendingArticles_searchArticles_content_owner = searchPendingArticles_searchArticles_content_owner_ArticleDTO | searchPendingArticles_searchArticles_content_owner_PublicUserDTO | searchPendingArticles_searchArticles_content_owner_CommunityDTO;
+export type searchPendingArticles_searchArticles_content_owner =
+  | searchPendingArticles_searchArticles_content_owner_ArticleDTO
+  | searchPendingArticles_searchArticles_content_owner_PublicUserDTO
+  | searchPendingArticles_searchArticles_content_owner_CommunityDTO;
 
 export interface searchPendingArticles_searchArticles_content_comments_content_author {
   __typename: "PublicUserDTO";
@@ -92,14 +108,18 @@ export interface searchPendingArticles_searchArticles_content_comments_content {
 
 export interface searchPendingArticles_searchArticles_content_comments {
   __typename: "ResponsePage_CommentDTO";
-  content: (searchPendingArticles_searchArticles_content_comments_content | null)[] | null;
+  content:
+    | (searchPendingArticles_searchArticles_content_comments_content | null)[]
+    | null;
   totalPages: number;
   totalElements: any;
 }
 
 export interface searchPendingArticles_searchArticles_content {
   __typename: "ArticleDTO";
-  associatedNfts: (searchPendingArticles_searchArticles_content_associatedNfts | null)[] | null;
+  associatedNfts:
+    | (searchPendingArticles_searchArticles_content_associatedNfts | null)[]
+    | null;
   resourceIdentifier: searchPendingArticles_searchArticles_content_resourceIdentifier | null;
   description: string | null;
   id: string | null;

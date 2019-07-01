@@ -18,8 +18,9 @@ const Container = styled.div`
   flex-direction: ${(props: IContainerProps) =>
     props.horizontal ? "row" : "column"};
   align-items: center;
+  padding: 8px;
   & > * {
-    margin-right: 6px;
+    margin: 8px;
     cursor: pointer;
   }
 `;

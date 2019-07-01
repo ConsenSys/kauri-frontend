@@ -9,11 +9,28 @@ import { ResourceTypeInput } from "./../../__generated__/globalTypes";
 // ====================================================
 
 export interface ResourceFragment_PublicUserDTO {
-  __typename: "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
+  __typename:
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "SearchResultDTO"
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface ResourceFragment_CollectionDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface ResourceFragment_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -45,7 +62,10 @@ export interface ResourceFragment_CollectionDTO_owner_CommunityDTO {
   resourceIdentifier: ResourceFragment_CollectionDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type ResourceFragment_CollectionDTO_owner = ResourceFragment_CollectionDTO_owner_ArticleDTO | ResourceFragment_CollectionDTO_owner_PublicUserDTO | ResourceFragment_CollectionDTO_owner_CommunityDTO;
+export type ResourceFragment_CollectionDTO_owner =
+  | ResourceFragment_CollectionDTO_owner_ArticleDTO
+  | ResourceFragment_CollectionDTO_owner_PublicUserDTO
+  | ResourceFragment_CollectionDTO_owner_CommunityDTO;
 
 export interface ResourceFragment_CollectionDTO_sections_resourcesId {
   __typename: "ResourceIdentifier";
@@ -54,7 +74,17 @@ export interface ResourceFragment_CollectionDTO_sections_resourcesId {
 }
 
 export interface ResourceFragment_CollectionDTO_sections_resources_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface ResourceFragment_CollectionDTO_sections_resources_ArticleDTO {
@@ -63,15 +93,21 @@ export interface ResourceFragment_CollectionDTO_sections_resources_ArticleDTO {
   version: number | null;
 }
 
-export type ResourceFragment_CollectionDTO_sections_resources = ResourceFragment_CollectionDTO_sections_resources_CommunityDTO | ResourceFragment_CollectionDTO_sections_resources_ArticleDTO;
+export type ResourceFragment_CollectionDTO_sections_resources =
+  | ResourceFragment_CollectionDTO_sections_resources_CommunityDTO
+  | ResourceFragment_CollectionDTO_sections_resources_ArticleDTO;
 
 export interface ResourceFragment_CollectionDTO_sections {
   __typename: "SectionDTO";
   id: string | null;
   name: string | null;
   description: string | null;
-  resourcesId: (ResourceFragment_CollectionDTO_sections_resourcesId | null)[] | null;
-  resources: (ResourceFragment_CollectionDTO_sections_resources | null)[] | null;
+  resourcesId:
+    | (ResourceFragment_CollectionDTO_sections_resourcesId | null)[]
+    | null;
+  resources:
+    | (ResourceFragment_CollectionDTO_sections_resources | null)[]
+    | null;
 }
 
 export interface ResourceFragment_CollectionDTO_resourceIdentifier {
@@ -117,7 +153,16 @@ export interface ResourceFragment_ArticleDTO_author {
 }
 
 export interface ResourceFragment_ArticleDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
+  __typename:
+    | "ArticleDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "CollectionDTO"
+    | "SearchResultDTO"
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface ResourceFragment_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -149,7 +194,10 @@ export interface ResourceFragment_ArticleDTO_owner_CommunityDTO {
   resourceIdentifier: ResourceFragment_ArticleDTO_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type ResourceFragment_ArticleDTO_owner = ResourceFragment_ArticleDTO_owner_ArticleDTO | ResourceFragment_ArticleDTO_owner_PublicUserDTO | ResourceFragment_ArticleDTO_owner_CommunityDTO;
+export type ResourceFragment_ArticleDTO_owner =
+  | ResourceFragment_ArticleDTO_owner_ArticleDTO
+  | ResourceFragment_ArticleDTO_owner_PublicUserDTO
+  | ResourceFragment_ArticleDTO_owner_CommunityDTO;
 
 export interface ResourceFragment_ArticleDTO {
   __typename: "ArticleDTO";
@@ -192,7 +240,16 @@ export interface ResourceFragment_CommunityDTO_pendingId {
 }
 
 export interface ResourceFragment_CommunityDTO_approved_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
+  __typename:
+    | "CommunityDTO"
+    | "PublicUserDTO"
+    | "CommentDTO"
+    | "CommunityInvitationDTO"
+    | "CommunityMemberDTO"
+    | "TemplateDTO"
+    | "SearchResultDTO"
+    | "UserDTO"
+    | "CuratedListDTO";
 }
 
 export interface ResourceFragment_CommunityDTO_approved_ArticleDTO {
@@ -206,7 +263,10 @@ export interface ResourceFragment_CommunityDTO_approved_CollectionDTO {
   id: string | null;
 }
 
-export type ResourceFragment_CommunityDTO_approved = ResourceFragment_CommunityDTO_approved_CommunityDTO | ResourceFragment_CommunityDTO_approved_ArticleDTO | ResourceFragment_CommunityDTO_approved_CollectionDTO;
+export type ResourceFragment_CommunityDTO_approved =
+  | ResourceFragment_CommunityDTO_approved_CommunityDTO
+  | ResourceFragment_CommunityDTO_approved_ArticleDTO
+  | ResourceFragment_CommunityDTO_approved_CollectionDTO;
 
 export interface ResourceFragment_CommunityDTO {
   __typename: "CommunityDTO";
@@ -227,4 +287,8 @@ export interface ResourceFragment_CommunityDTO {
   approved: (ResourceFragment_CommunityDTO_approved | null)[] | null;
 }
 
-export type ResourceFragment = ResourceFragment_PublicUserDTO | ResourceFragment_CollectionDTO | ResourceFragment_ArticleDTO | ResourceFragment_CommunityDTO;
+export type ResourceFragment =
+  | ResourceFragment_PublicUserDTO
+  | ResourceFragment_CollectionDTO
+  | ResourceFragment_ArticleDTO
+  | ResourceFragment_CommunityDTO;
