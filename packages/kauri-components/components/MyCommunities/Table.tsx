@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Label } from "../Typography";
 import { Link } from "../../../kauri-web/routes";
-import R from "ramda";
 import { ICommunity } from "./index";
 
 interface ICell {
@@ -56,46 +55,51 @@ export const Line = styled.div`
   background: ${props => props.theme.colors.disabledBackgroundColor};
 `;
 
-const Table: React.FunctionComponent<IProps> = props => (
-  <Container>
-    <Line />
-    {props.data &&
-      props.data.map(({ community }) => (
-        <Row key={community.id}>
-          <Cell flex={0}>
-            <Label>
-              {R.pipe(
-                R.find<{ id: string; role: string }>(
-                  member => member.id === props.userId
-                ),
-                R.path(["role"])
-              )(community.members)}
-            </Label>
-          </Cell>
-          <Cell flex={4}>
-            <Label>{community.name}</Label>
-          </Cell>
-          <Cell flex={0} hoverable={true}>
-            <Label
-              onClick={() =>
-                props.removeMemberAction({
-                  account: props.userId,
-                  id: community.id,
-                })
-              }
-              hoverColor={"hoverTextColor"}
-            >
-              Leave Community
-            </Label>
-          </Cell>
-          <Cell flex={0} hoverable={true}>
-            <Link href={`/community/${community.id}`}>
-              <Label>View Community</Label>
-            </Link>
-          </Cell>
-        </Row>
-      ))}
-  </Container>
-);
+const Table: React.FunctionComponent<IProps> = props => {
+  return (
+    <Container>
+      <Line />
+      {props.data &&
+        props.data.map(({ community }) => {
+          const currentCommunityUser = community.members.find(
+            ({ id }) => id === props.userId
+          );
+          let currentCommunityUserRole = "";
+          if (community.members && currentCommunityUser) {
+            currentCommunityUserRole = currentCommunityUser.role;
+          }
+
+          return (
+            <Row key={community.id}>
+              <Cell flex={0}>
+                <Label>{currentCommunityUserRole}</Label>
+              </Cell>
+              <Cell flex={4}>
+                <Label>{community.name}</Label>
+              </Cell>
+              <Cell flex={0} hoverable={true}>
+                <Label
+                  onClick={() =>
+                    props.removeMemberAction({
+                      account: props.userId,
+                      id: community.id,
+                    })
+                  }
+                  hoverColor={"hoverTextColor"}
+                >
+                  Leave Community
+                </Label>
+              </Cell>
+              <Cell flex={0} hoverable={true}>
+                <Link href={`/community/${community.id}`}>
+                  <Label>View Community</Label>
+                </Link>
+              </Cell>
+            </Row>
+          );
+        })}
+    </Container>
+  );
+};
 
 export default Table;

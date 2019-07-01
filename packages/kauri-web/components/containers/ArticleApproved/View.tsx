@@ -65,7 +65,7 @@ const ArticleApprovedActionButtons = styled.div`
 class ArticleApproved extends React.Component<IProps> {
   render() {
     const { data, routeChangeAction, type, isLoggedIn, hostName } = this.props;
-    const subjectCopy = R.cond([
+    const subjectCopy = R.cond<string, string>([
       [
         R.equals("updated"),
         R.always(

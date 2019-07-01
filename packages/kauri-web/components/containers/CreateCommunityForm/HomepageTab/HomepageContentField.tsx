@@ -79,30 +79,32 @@ const renderResourceSection = (
           values
         )}`}
       >
-        {provided => (
-          <DraggableResourceContainer
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            innerRef={provided.innerRef}
-            id="article-card"
-          >
-            <ArticleCard
-              isLoggedIn={true}
-              id={R.path(
-                ["homepage", index, mappingKey, resourceIndex, "id"],
-                values
-              )}
-              version={parseInt(
-                R.path<string>(
-                  ["homepage", index, mappingKey, resourceIndex, "version"],
+        {(provided): any => {
+          return (
+            <DraggableResourceContainer
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              innerRef={provided.innerRef}
+              id="article-card"
+            >
+              <ArticleCard
+                isLoggedIn={true}
+                id={R.path(
+                  ["homepage", index, mappingKey, resourceIndex, "id"],
                   values
-                ) || "",
-                2
-              )}
-            />
-            {provided.placeholder}
-          </DraggableResourceContainer>
-        )}
+                )}
+                version={parseInt(
+                  R.path<string>(
+                    ["homepage", index, mappingKey, resourceIndex, "version"],
+                    values
+                  ) || "",
+                  2
+                )}
+              />
+              {provided.placeholder}
+            </DraggableResourceContainer>
+          );
+        }}
       </Draggable>
     ) : (
       R.path(["homepage", index, mappingKey, resourceIndex], values) && (
@@ -113,7 +115,7 @@ const renderResourceSection = (
             values
           )}`}
         >
-          {provided => (
+          {(provided): any => (
             <DraggableResourceContainer
               {...provided.draggableProps}
               {...provided.dragHandleProps}
@@ -269,7 +271,7 @@ const HomepageContentField: React.FunctionComponent<IProps> = ({
                       direction={"horizontal"}
                       droppableId={(section && section.id) || "0"}
                     >
-                      {provided => (
+                      {(provided): any => (
                         <CardContentSection
                           {...provided.droppableProps}
                           innerRef={provided.innerRef}
@@ -345,6 +347,8 @@ const HomepageContentField: React.FunctionComponent<IProps> = ({
                                       version: number;
                                     }>
                                   >(["homepage", index, "resourcesId"]),
+                                  // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/25581
+                                  // @ts-ignore
                                   R.defaultTo([]),
                                   // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/25581
                                   // @ts-ignore
@@ -397,6 +401,8 @@ const HomepageContentField: React.FunctionComponent<IProps> = ({
                             }
                             chosenCollections={R.pipe(
                               R.path(["homepage", index, "resourcesId"]),
+                              // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/25581
+                              // @ts-ignore
                               R.defaultTo([]),
                               // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/25581
                               // @ts-ignore
@@ -421,6 +427,8 @@ const HomepageContentField: React.FunctionComponent<IProps> = ({
                                 `homepage[${index}].resourcesId`,
                                 R.pipe(
                                   R.path(["homepage", index, "resourcesId"]),
+                                  // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/25581
+                                  // @ts-ignore
                                   R.defaultTo([]),
                                   // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/25581
                                   // @ts-ignore

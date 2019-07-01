@@ -195,7 +195,7 @@
     "tslint-config-prettier": "^1.15.0",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-react": "^3.6.0",
-    "typescript": "latest",
+    "typescript": "3.5.2",
     "typescript-styled-plugin": "latest",
     "waait": "^1.0.5",
     "web3-provider-engine": "8.4.0",
