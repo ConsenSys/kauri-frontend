@@ -4,7 +4,9 @@ import Stack, { IStackStyledProps } from "stack-styled";
 import { BackgroundProps } from "styled-system";
 import theme from "../../lib/theme-config";
 
-const ContentSectionStack = styled<BackgroundProps & IStackStyledProps>(Stack)`
+const ContentSectionStack = styled<BackgroundProps & IStackStyledProps>(
+  props => <Stack {...props} />
+)`
   background: ${props => props.theme.colors[props.background as string]};
   min-height: calc(100vh - 220px);
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
