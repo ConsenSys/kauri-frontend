@@ -82,7 +82,7 @@ export interface ICommunity {
 
 export type ICommunities = ICommunity[];
 
-interface IReduxState {
+export interface IReduxState {
   app: {
     hostName: string;
     user: {
