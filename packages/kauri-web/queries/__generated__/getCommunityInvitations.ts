@@ -2,11 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import {
-  DirectionInput,
-  CommunityInvitationStatusInput,
-  CommunityPermissionInput,
-} from "./../../__generated__/globalTypes";
+import { DirectionInput, CommunityInvitationStatusInput, CommunityPermissionInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCommunityInvitations
@@ -28,9 +24,7 @@ export interface getCommunityInvitations_getCommunityInvitations {
   __typename: "ResponsePage_CommunityInvitationDTO";
   totalElements: any;
   totalPages: number;
-  content:
-    | (getCommunityInvitations_getCommunityInvitations_content | null)[]
-    | null;
+  content: (getCommunityInvitations_getCommunityInvitations_content | null)[] | null;
 }
 
 export interface getCommunityInvitations {

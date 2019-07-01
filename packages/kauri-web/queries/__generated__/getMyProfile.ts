@@ -2,10 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import {
-  UserStatusInput,
-  CommunityPermissionInput,
-} from "./../../__generated__/globalTypes";
+import { UserStatusInput, CommunityPermissionInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getMyProfile
@@ -21,9 +18,7 @@ export interface getMyProfile_getMyProfile_communities_community {
   __typename: "CommunityDTO";
   id: string | null;
   name: string | null;
-  members:
-    | (getMyProfile_getMyProfile_communities_community_members | null)[]
-    | null;
+  members: (getMyProfile_getMyProfile_communities_community_members | null)[] | null;
 }
 
 export interface getMyProfile_getMyProfile_communities {

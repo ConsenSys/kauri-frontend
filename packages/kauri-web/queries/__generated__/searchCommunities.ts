@@ -2,12 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import {
-  CommunityFilterInput,
-  DirectionInput,
-  CommunityStatusInput,
-  ResourceTypeInput,
-} from "./../../__generated__/globalTypes";
+import { CommunityFilterInput, DirectionInput, CommunityStatusInput, ResourceTypeInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchCommunities
@@ -31,9 +26,7 @@ export interface searchCommunities_searchCommunities_content {
   avatar: string | null;
   tags: (string | null)[] | null;
   social: any | null;
-  approvedId:
-    | (searchCommunities_searchCommunities_content_approvedId | null)[]
-    | null;
+  approvedId: (searchCommunities_searchCommunities_content_approvedId | null)[] | null;
 }
 
 export interface searchCommunities_searchCommunities {

@@ -6,15 +6,12 @@ import React from "react";
 import ArticleOutline from "./components/ArticleOutline";
 import Image from "../../../../kauri-components/components/Image";
 import ArticleAvatar from "./components/ArticleAvatar";
+import ArticleActions from "./components/ArticleActions";
 
 import {
   Article,
   Article_author,
 } from "../../../queries/Fragments/__generated__/Article";
-// import Bookmark from "@material-ui/icons/Bookmark";
-import Add from "@material-ui/icons/Add";
-import Share from "@material-ui/icons/Share";
-// import MoreVert from "@material-ui/icons/MoreVert";
 import Hidden from "@material-ui/core/Hidden";
 import { ArticleStyles } from "./styles";
 import VoteWidget from "./components/VoteWidget";
@@ -33,9 +30,13 @@ interface IProps {
   voteAction: any;
   routeChangeAction: (route: string) => void;
   userId: string;
+  openModalAction: (children: any) => void;
+  // closeModalAction: () => void;
 }
 
 const ArticleComp = ({
+  openModalAction,
+  // closeModalAction,
   voteAction,
   routeChangeAction,
   userId,
@@ -48,6 +49,7 @@ const ArticleComp = ({
       title,
       voteResult,
       datePublished,
+      version,
     },
   },
 }: // RelatedArticles: { searchMoreLikeThis }
@@ -94,12 +96,14 @@ IProps) => {
                 classes={classes}
               />
             </Grid>
-            <Grid item={true} className={classes.buttons}>
-              {/* <Bookmark color="primary" /> */}
-              <Add color="primary" />
-              <Share color="primary" />
-              {/* <MoreVert color="primary" /> */}
-            </Grid>
+            <ArticleActions
+              userId={userId}
+              id={String(id)}
+              version={Number(version)}
+              openModalAction={openModalAction}
+              routeChangeAction={routeChangeAction}
+              title={String(title)}
+            />
           </Grid>
         </div>
         {attributes.background && (

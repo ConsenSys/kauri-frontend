@@ -2,12 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import {
-  ResourceIdentifierInput,
-  SearchFilterInput,
-  ResourceTypeInput,
-  ArticleStatusInput,
-} from "./../../__generated__/globalTypes";
+import { ResourceIdentifierInput, SearchFilterInput, ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: relatedArticles
@@ -20,15 +15,7 @@ export interface relatedArticles_searchMoreLikeThis_content_resourceIdentifier {
 }
 
 export interface relatedArticles_searchMoreLikeThis_content_resource_PublicUserDTO {
-  __typename:
-    | "PublicUserDTO"
-    | "CommentDTO"
-    | "CommunityInvitationDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "SearchResultDTO"
-    | "UserDTO"
-    | "CuratedListDTO";
+  __typename: "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
 }
 
 export interface relatedArticles_searchMoreLikeThis_content_resource_ArticleDTO_voteResult {
@@ -83,11 +70,7 @@ export interface relatedArticles_searchMoreLikeThis_content_resource_CommunityDT
   social: any | null;
 }
 
-export type relatedArticles_searchMoreLikeThis_content_resource =
-  | relatedArticles_searchMoreLikeThis_content_resource_PublicUserDTO
-  | relatedArticles_searchMoreLikeThis_content_resource_ArticleDTO
-  | relatedArticles_searchMoreLikeThis_content_resource_CollectionDTO
-  | relatedArticles_searchMoreLikeThis_content_resource_CommunityDTO;
+export type relatedArticles_searchMoreLikeThis_content_resource = relatedArticles_searchMoreLikeThis_content_resource_PublicUserDTO | relatedArticles_searchMoreLikeThis_content_resource_ArticleDTO | relatedArticles_searchMoreLikeThis_content_resource_CollectionDTO | relatedArticles_searchMoreLikeThis_content_resource_CommunityDTO;
 
 export interface relatedArticles_searchMoreLikeThis_content {
   __typename: "SearchResultDTO";

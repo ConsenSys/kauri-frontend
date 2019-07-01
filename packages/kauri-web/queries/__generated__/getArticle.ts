@@ -2,10 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import {
-  ArticleStatusInput,
-  ResourceTypeInput,
-} from "./../../__generated__/globalTypes";
+import { ArticleStatusInput, ResourceTypeInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getArticle

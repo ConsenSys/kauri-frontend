@@ -2,10 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import {
-  ResourceTypeInput,
-  ArticleStatusInput,
-} from "./../../../__generated__/globalTypes";
+import { ResourceTypeInput, ArticleStatusInput } from "./../../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL fragment: Article
@@ -44,16 +41,7 @@ export interface Article_author {
 }
 
 export interface Article_owner_ArticleDTO {
-  __typename:
-    | "ArticleDTO"
-    | "CommentDTO"
-    | "CommunityInvitationDTO"
-    | "CommunityMemberDTO"
-    | "TemplateDTO"
-    | "CollectionDTO"
-    | "SearchResultDTO"
-    | "UserDTO"
-    | "CuratedListDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
 }
 
 export interface Article_owner_PublicUserDTO_resourceIdentifier {
@@ -85,10 +73,7 @@ export interface Article_owner_CommunityDTO {
   resourceIdentifier: Article_owner_CommunityDTO_resourceIdentifier | null;
 }
 
-export type Article_owner =
-  | Article_owner_ArticleDTO
-  | Article_owner_PublicUserDTO
-  | Article_owner_CommunityDTO;
+export type Article_owner = Article_owner_ArticleDTO | Article_owner_PublicUserDTO | Article_owner_CommunityDTO;
 
 export interface Article_comments_content_author {
   __typename: "PublicUserDTO";
