@@ -18,7 +18,7 @@
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": false,
     "isolatedModules": true
   },
   "include": [

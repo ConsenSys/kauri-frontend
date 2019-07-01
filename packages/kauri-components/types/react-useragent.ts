@@ -1,3 +1,4 @@
+// @ts-ignore
 declare module "@quentin-sommer/react-useragent" {
   import * as React from "react";
 

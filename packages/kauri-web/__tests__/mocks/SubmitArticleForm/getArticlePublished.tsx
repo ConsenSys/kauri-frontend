@@ -90,7 +90,7 @@ const mocks = [
   },
 ];
 
-const RenderWithQuery = ({ children }) => (
+const RenderWithQuery: React.FunctionComponent = ({ children }) => (
   <ApolloMockedProvider mocks={mocks}>{children}</ApolloMockedProvider>
 );
 

@@ -16,16 +16,17 @@ interface IReduxTestState<InitialStateType> {
 }
 
 const customRender = <InitialStateType extends {}>(
-  ui,
+  ui: React.ReactElement<any>,
   options?: Omit<RenderOptions, "queries"> &
     IReduxTestState<InitialStateType & IReduxState>
 ) => {
   const store = createStore<InitialStateType>(
+    // @ts-ignore
     () => options && options.initialState,
     options && options.initialState
   );
 
-  const AllTheProviders = ({ children }) => {
+  const AllTheProviders: React.FunctionComponent = ({ children }) => {
     return (
       <ThemeProvider theme={themeConfig}>
         <Provider store={store}>{children}</Provider>

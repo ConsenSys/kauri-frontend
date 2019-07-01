@@ -25,7 +25,10 @@ const cache = new InMemoryCache({
   fragmentMatcher,
 });
 
-const ApolloMockedProvider = ({ mocks, children }) => (
+const ApolloMockedProvider: React.FunctionComponent<{ mocks: any }> = ({
+  mocks,
+  children,
+}) => (
   <MockedProvider cache={cache.restore({})} mocks={mocks}>
     {children}
   </MockedProvider>
