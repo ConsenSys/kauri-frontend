@@ -50,7 +50,6 @@ const VoteWidget = ({
   const classes = VoteWidgetStyles();
   return (
     <>
-      {console.log(voteResult)}
       <div
         className={`${classes.container} ${
           voteResult.hasVoted ? "" : "active"

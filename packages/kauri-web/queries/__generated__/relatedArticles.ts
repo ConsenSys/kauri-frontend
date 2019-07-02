@@ -31,6 +31,14 @@ export interface relatedArticles_searchMoreLikeThis_content_resource_PublicUserD
     | "CuratedListDTO";
 }
 
+export interface relatedArticles_searchMoreLikeThis_content_resource_ArticleDTO_author {
+  __typename: "PublicUserDTO";
+  name: string | null;
+  username: string | null;
+  id: string | null;
+  avatar: string | null;
+}
+
 export interface relatedArticles_searchMoreLikeThis_content_resource_ArticleDTO_voteResult {
   __typename: "VoteResultDTO";
   sum: number | null;
@@ -42,7 +50,7 @@ export interface relatedArticles_searchMoreLikeThis_content_resource_ArticleDTO 
   version: number | null;
   title: string | null;
   description: string | null;
-  authorId: string | null;
+  author: relatedArticles_searchMoreLikeThis_content_resource_ArticleDTO_author | null;
   dateCreated: any | null;
   datePublished: any | null;
   status: ArticleStatusInput | null;

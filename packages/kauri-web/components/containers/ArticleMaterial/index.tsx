@@ -48,7 +48,7 @@ export default compose(
           id,
           type: "ARTICLE",
         },
-        size: 3,
+        size: 2,
       },
     }),
   }),

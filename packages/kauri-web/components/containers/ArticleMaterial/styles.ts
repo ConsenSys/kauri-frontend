@@ -9,9 +9,8 @@ export const ArticleStyles = makeStyles((theme: Theme) => {
       alignItems: "center",
       display: "flex",
     },
-    centralColumn: {
-      minHeight: "100%",
-    },
+    card: {},
+    centralColumn: {},
     content: {
       "& img": {
         borderRadius: 4,
@@ -20,7 +19,6 @@ export const ArticleStyles = makeStyles((theme: Theme) => {
         maxWidth: "100%",
       },
       background: theme.palette.common.white,
-      minHeight: "100%",
       padding: theme.spacing(3),
     },
     controls: {
@@ -57,6 +55,7 @@ export const ArticleStyles = makeStyles((theme: Theme) => {
       background: theme.palette.common.white,
       padding: theme.spacing(3),
     },
+    recommended: {},
     root: {
       minHeight: "100%",
     },

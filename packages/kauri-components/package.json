@@ -20,6 +20,7 @@
   "esy": {},
   "corejs": "2",
   "dependencies": {
+    "@material-ui/core": "^4.1.3",
     "@quentin-sommer/react-useragent": "^2.0.0",
     "@storybook/addon-knobs": "4.1.6",
     "@storybook/addons": "4.1.6",

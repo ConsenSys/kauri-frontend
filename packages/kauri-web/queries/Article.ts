@@ -512,7 +512,12 @@ export const relatedArticles = gql`
             version
             title
             description
-            authorId
+            author {
+              name
+              username
+              id
+              avatar
+            }
             dateCreated
             datePublished
             status
