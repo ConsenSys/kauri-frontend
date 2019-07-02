@@ -196,10 +196,10 @@ class SubmitArticleFormComponent extends React.Component<
                 children: (
                   <ProposeUpdateModal
                     closeModalAction={() => closeModalAction()}
-                    confirmModal={(submissionType, updateComment) =>
-                      this.props.handleSubmit({
-                        target: { value: updateComment },
-                      } as any)
+                    confirmModal={updateComment =>
+                      this.props.publishArticleAction({
+                        updateComment,
+                      })
                     }
                     showNotificationAction={showNotificationAction}
                   />
