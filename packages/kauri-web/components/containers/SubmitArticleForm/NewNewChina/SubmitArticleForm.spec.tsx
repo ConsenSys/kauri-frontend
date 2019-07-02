@@ -19,6 +19,98 @@ import { OPEN_MODAL } from "../../../../../kauri-components/components/Modal/Mod
 afterEach(cleanup);
 
 describe("SubmitArticleForm", () => {
+  it.only("fresh -> draft", async () => {
+    const mockHandleSubmit = jest.fn();
+
+    const { getByTestId, store, debug } = render(
+      <RenderFreshWithQuery>
+        <SubmitArticleForm
+          id={freshVariables.id}
+          version={freshVariables.version}
+          onSubmit={mockHandleSubmit}
+        />
+      </RenderFreshWithQuery>,
+      { initialState: mockInitialState }
+    );
+
+    await wait(0);
+
+    const state = store.getState();
+    expect(state.app.hostName).toBe("api.dev.kauri.io");
+    await wait(0);
+
+    const inputTitle = getByTestId(prefixTestId("title"));
+    const draftButton = getByTestId(prefixTestId("draft"));
+    const inputTag = getByTestId(prefixTestId("tag-input"));
+
+    expect(inputTitle).toHaveValue("");
+
+    const newTitle = "new title";
+    fireEvent.change(inputTitle, {
+      target: { value: newTitle },
+    });
+
+    expect(inputTitle).toHaveValue(newTitle);
+    expect(draftButton).toHaveTextContent("Save Draft");
+    expect(inputTag).toHaveValue("");
+
+    fireEvent.change(inputTag, {
+      target: {
+        value: "hello",
+      },
+    });
+
+    await wait(0);
+    expect(inputTag).toHaveValue("hello");
+
+    fireEvent.click(draftButton);
+
+    expect(
+      store.getActions().find(({ type }) => type === DRAFT_ARTICLE)
+    ).toBeTruthy();
+  });
+
+  it("fresh -> published, personal", async () => {
+    const mockHandleSubmit = jest.fn();
+
+    const { getByTestId, store } = render(
+      <RenderFreshWithQuery>
+        <SubmitArticleForm
+          id={freshVariables.id}
+          version={freshVariables.version}
+          onSubmit={mockHandleSubmit}
+        />
+      </RenderFreshWithQuery>,
+      { initialState: mockInitialState }
+    );
+
+    await wait(0);
+
+    const state = store.getState();
+    expect(state.app.hostName).toBe("api.dev.kauri.io");
+
+    const inputTitle = getByTestId(prefixTestId("title"));
+    const publishButton = getByTestId(prefixTestId("publish"));
+
+    expect(inputTitle).toHaveValue("");
+
+    const newTitle = "new title";
+    fireEvent.change(inputTitle, {
+      target: { value: newTitle },
+    });
+
+    expect(inputTitle).toHaveValue(newTitle);
+    expect(publishButton).toHaveTextContent("Publish Article");
+
+    fireEvent.click(publishButton);
+
+    await wait(0);
+
+    expect(
+      store.getActions().find(({ type }) => type === SELECT_DESTINATION)
+    ).toBeTruthy();
+  });
+
   it("published, not owner -> propose", async () => {
     const mockHandleSubmit = jest.fn();
 
@@ -144,88 +236,6 @@ describe("SubmitArticleForm", () => {
 
     expect(
       store.getActions().find(({ type }) => type === DRAFT_ARTICLE)
-    ).toBeTruthy();
-  });
-
-  it("fresh -> draft", async () => {
-    const mockHandleSubmit = jest.fn();
-
-    const { getByTestId, store } = render(
-      <RenderFreshWithQuery>
-        <SubmitArticleForm
-          id={freshVariables.id}
-          version={freshVariables.version}
-          onSubmit={mockHandleSubmit}
-        />
-      </RenderFreshWithQuery>,
-      { initialState: mockInitialState }
-    );
-
-    await wait(0);
-
-    const state = store.getState();
-    expect(state.app.hostName).toBe("api.dev.kauri.io");
-
-    const inputTitle = getByTestId(prefixTestId("title"));
-    const draftButton = getByTestId(prefixTestId("draft"));
-
-    expect(inputTitle).toHaveValue("");
-
-    const newTitle = "new title";
-    fireEvent.change(inputTitle, {
-      target: { value: newTitle },
-    });
-
-    expect(inputTitle).toHaveValue(newTitle);
-    expect(draftButton).toHaveTextContent("Save Draft");
-
-    fireEvent.click(draftButton);
-
-    await wait(0);
-
-    expect(
-      store.getActions().find(({ type }) => type === DRAFT_ARTICLE)
-    ).toBeTruthy();
-  });
-
-  it("fresh -> published, personal", async () => {
-    const mockHandleSubmit = jest.fn();
-
-    const { getByTestId, store } = render(
-      <RenderFreshWithQuery>
-        <SubmitArticleForm
-          id={freshVariables.id}
-          version={freshVariables.version}
-          onSubmit={mockHandleSubmit}
-        />
-      </RenderFreshWithQuery>,
-      { initialState: mockInitialState }
-    );
-
-    await wait(0);
-
-    const state = store.getState();
-    expect(state.app.hostName).toBe("api.dev.kauri.io");
-
-    const inputTitle = getByTestId(prefixTestId("title"));
-    const publishButton = getByTestId(prefixTestId("publish"));
-
-    expect(inputTitle).toHaveValue("");
-
-    const newTitle = "new title";
-    fireEvent.change(inputTitle, {
-      target: { value: newTitle },
-    });
-
-    expect(inputTitle).toHaveValue(newTitle);
-    expect(publishButton).toHaveTextContent("Publish Article");
-
-    fireEvent.click(publishButton);
-
-    await wait(0);
-
-    expect(
-      store.getActions().find(({ type }) => type === SELECT_DESTINATION)
     ).toBeTruthy();
   });
 });

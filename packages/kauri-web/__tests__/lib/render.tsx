@@ -5,10 +5,10 @@ import { render, RenderOptions } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/styled-components";
 import themeConfig from "../../lib/theme-config";
 import ReactGA from "react-ga";
-
-import "jest-dom/extend-expect";
-
 import { IReduxState } from "../../lib/Module";
+
+import "../../lib/rxjs-used-operators";
+import "jest-dom/extend-expect";
 
 ReactGA.initialize("UA-XXXX-XX", {
   testMode: true,

@@ -22,6 +22,7 @@ interface IProps {
   getFieldDecorator: any;
   tags: string[];
   updateTags?: (tags: string[]) => void;
+  prefixTestId?: (node: string) => string;
 }
 
 class TagSelectorContainer extends React.Component<IProps, IState> {
@@ -111,6 +112,7 @@ class TagSelectorContainer extends React.Component<IProps, IState> {
           )
         ) : (
           <TagSelector
+            prefixTestId={this.props.prefixTestId}
             tags={this.state.tags}
             fetchMatches={this.fetchMatches}
             onChange={this.updateTags}

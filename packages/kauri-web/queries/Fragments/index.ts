@@ -34,13 +34,6 @@ export const CommunityOwner = gql`
 
 export const Article = gql`
   fragment Article on ArticleDTO {
-    associatedNfts {
-      tokenType
-      contractAddress
-      name
-      image
-      externalUrl
-    }
     resourceIdentifier {
       id
       type

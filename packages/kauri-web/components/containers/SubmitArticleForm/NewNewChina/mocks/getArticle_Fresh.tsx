@@ -1,11 +1,13 @@
 /* tslint:disable */
 import { getArticle } from "../../../../../queries/Article";
 import ApolloMockedProvider from "../../../../../__tests__/lib/mock-apollo-provider";
+import { searchTags } from "../../../../../queries/Tag";
 
 // @ts-ignore
 export const mockResult = {
   data: {
     getArticle: null,
+    searchTags: { content: [{ tag: "hello", count: 0, score: 0 }] },
   },
   dataPresent: true,
 };
@@ -21,6 +23,13 @@ const mocks = [
     request: {
       query: getArticle,
       variables: mockVariables,
+    },
+    result: mockResult,
+  },
+  {
+    request: {
+      query: searchTags,
+      variables: { query: "hello", page: 0, size: 10 },
     },
     result: mockResult,
   },

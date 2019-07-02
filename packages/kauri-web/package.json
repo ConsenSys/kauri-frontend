@@ -85,7 +85,7 @@
     "prop-types": "15.7.2",
     "ramda": "^0.25.0",
     "react": "16.8.6",
-    "react-apollo": "^2.5.3",
+    "react-apollo": "2.5.2",
     "react-beautiful-dnd": "^10.0.4",
     "react-diff-viewer": "^1.0.4",
     "react-dom": "16.8.6",

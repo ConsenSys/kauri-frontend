@@ -22,6 +22,7 @@ import PrimaryButtonComponent from "../../../../../kauri-components/components/B
 import R from "ramda";
 import ProposeUpdateModal from "../ProposeUpdateModal";
 import SecondaryButtonComponent from "../../../../../kauri-components/components/Button/SecondaryButton";
+import TagSelector from "../../../common/TagSelector";
 
 export interface IProps {
   router: any;
@@ -152,9 +153,23 @@ class SubmitArticleFormComponent extends React.Component<
               data-testid={prefixTestId("title")}
               fontSize={7}
               fontWeight={500}
-              placeHolder={"title"}
+              placeHolder={"Add Article Title"}
             />
           )}
+        />
+        <Field
+          name="tags"
+          render={({ field }: FieldProps<IFormValues>) => {
+            return (
+              <TagSelector
+                prefixTestId={prefixTestId}
+                tags={field.value}
+                updateTags={(tags: string[]) =>
+                  this.props.setFieldValue("tags", tags)
+                }
+              />
+            );
+          }}
         />
         <SecondaryButtonComponent
           data-testid={prefixTestId("draft")}

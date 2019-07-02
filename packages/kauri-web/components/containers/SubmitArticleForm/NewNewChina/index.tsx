@@ -85,7 +85,7 @@ export default compose(
       }
     },
     mapPropsToValues: ({ data, id }) => {
-      if (id && data) {
+      if (data) {
         const { getArticle: getArticleData } = data;
         if (getArticleData) {
           return getArticleData;
