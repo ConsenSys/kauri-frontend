@@ -68,7 +68,7 @@ const PrimaryButton = styled<
 interface IProps {
   icon?: React.ReactElement<any>;
   handleClick?: () => void;
-  onClick?:void | (() => void);
+  onClick?: void | (() => void);
   disabled?: boolean;
   type?: string;
   bg?: string;
@@ -80,41 +80,46 @@ interface IProps {
   text?: string;
   width?: string;
   className?: string;
+  "data-testid"?: string;
 }
 
-const PrimaryButtonComponent: React.SFC<IProps> = ({
-  bg = "primary",
-  bgHover,
-  fontWeight = 700,
-  fontSize = 0,
-  space = 2,
-  color = "white",
-  type = "submit",
-  onClick,
-  handleClick,
-  text = "",
-  children,
-  icon,
-  disabled,
-  width,
-  className,
-}) => (
-  <PrimaryButton
-    type={type}
-    disabled={disabled}
-    mr={space}
-    onClick={onClick || handleClick}
-    bg={bg}
-    bgHover={bgHover}
-    color={color}
-    fontSize={fontSize}
-    fontWeight={fontWeight}
-    width={width}
-    className={className}
-  >
-    {icon}
-    {text || children}
-  </PrimaryButton>
-);
+const PrimaryButtonComponent: React.SFC<IProps> = props => {
+  const {
+    bg = "primary",
+    bgHover,
+    fontWeight = 700,
+    fontSize = 0,
+    space = 2,
+    color = "white",
+    type = "submit",
+    onClick,
+    handleClick,
+    text = "",
+    children,
+    icon,
+    disabled,
+    width,
+    className,
+  } = props;
+  return (
+    <PrimaryButton
+      data-testid={props["data-testid"]}
+      type={type}
+      disabled={disabled}
+      mr={space}
+      onClick={onClick || handleClick}
+      bg={bg}
+      bgHover={bgHover}
+      color={color}
+      fontSize={fontSize}
+      fontWeight={fontWeight}
+      width={width}
+      className={className}
+    >
+      {icon}
+      {text || children}
+    </PrimaryButton>
+  );
+};
 
 export default PrimaryButtonComponent;

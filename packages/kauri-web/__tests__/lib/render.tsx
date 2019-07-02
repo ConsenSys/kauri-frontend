@@ -1,18 +1,24 @@
 import React from "react";
-import { createStore, Store } from "redux";
+import createMockStore, { MockStore } from "redux-mock-store";
 import { Provider } from "react-redux";
 import { render, RenderOptions } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/styled-components";
 import themeConfig from "../../lib/theme-config";
+import ReactGA from "react-ga";
 
 import "jest-dom/extend-expect";
+
 import { IReduxState } from "../../lib/Module";
+
+ReactGA.initialize("UA-XXXX-XX", {
+  testMode: true,
+});
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 interface IReduxTestState<InitialStateType> {
   initialState?: InitialStateType;
-  store?: Store<InitialStateType>;
+  store?: MockStore<InitialStateType>;
 }
 
 const customRender = <InitialStateType extends {}>(
@@ -20,9 +26,7 @@ const customRender = <InitialStateType extends {}>(
   options?: Omit<RenderOptions, "queries"> &
     IReduxTestState<InitialStateType & IReduxState>
 ) => {
-  const store = createStore<InitialStateType>(
-    // @ts-ignore
-    () => options && options.initialState,
+  const store = createMockStore<InitialStateType>()(
     options && options.initialState
   );
 

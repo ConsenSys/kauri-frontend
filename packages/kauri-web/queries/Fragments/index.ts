@@ -263,4 +263,6 @@ export const Community = gql`
   }
   ${Article}
   ${Collection}
+  ${UserOwner}
+  ${CommunityOwner}
 `;

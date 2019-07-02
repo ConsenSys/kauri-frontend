@@ -46,40 +46,45 @@ interface IProps {
   bg?: string;
   border?: string;
   borderHover?: string;
+  "data-testid"?: string;
 }
 
-const SecondaryButtonComponent: React.SFC<IProps> = ({
-  width,
-  border = "white",
-  borderHover = "primary",
-  bg = "transparent",
-  fontWeight = 700,
-  fontSize = 0,
-  color = "white",
-  space = 2,
-  onClick,
-  handleClick,
-  text = "",
-  children,
-  icon,
-  disabled,
-}) => (
-  <SecondaryButton
-    type="button"
-    width={width}
-    disabled={disabled}
-    onClick={onClick || handleClick}
-    border={border}
-    borderHover={borderHover}
-    mr={space}
-    bg={bg}
-    color={color}
-    fontSize={fontSize}
-    fontWeight={fontWeight}
-  >
-    {icon}
-    {text || children}
-  </SecondaryButton>
-);
+const SecondaryButtonComponent: React.SFC<IProps> = props => {
+  const {
+    width,
+    border = "white",
+    borderHover = "primary",
+    bg = "transparent",
+    fontWeight = 700,
+    fontSize = 0,
+    color = "white",
+    space = 2,
+    onClick,
+    handleClick,
+    text = "",
+    children,
+    icon,
+    disabled,
+  } = props;
+  return (
+    <SecondaryButton
+      type="button"
+      width={width}
+      disabled={disabled}
+      onClick={onClick || handleClick}
+      border={border}
+      borderHover={borderHover}
+      mr={space}
+      bg={bg}
+      color={color}
+      fontSize={fontSize}
+      fontWeight={fontWeight}
+      data-testid={props["data-testid"]}
+    >
+      {icon}
+      {text || children}
+    </SecondaryButton>
+  );
+};
 
 export default SecondaryButtonComponent;

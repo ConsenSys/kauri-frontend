@@ -32,9 +32,10 @@ const InputComp = styled<IInputProps, "input">("input")`
 `;
 
 interface IUnderline {
-    fontSize: number;
-    textAlign?: string;
+  fontSize: number;
+  textAlign?: string;
 }
+
 const Underline = styled<IUnderline, "span">("span")`
   user-select: none;
   border-top: 2px solid ${props => props.theme.primaryColor};
@@ -48,6 +49,7 @@ const Underline = styled<IUnderline, "span">("span")`
   font-size: ${props => props.theme.fontSizes[props.fontSize]}px;
   margin-left: 2px;
 `;
+
 interface IWrapperProps {
   textAlign?: string;
   fontSize?: number;
@@ -63,6 +65,7 @@ interface IWrapperProps {
   onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   enterFocus?: () => void;
   exitFocus?: () => void;
+  "data-testid"?: string;
 }
 const Wrapper = styled<IWrapperProps, "div">("div")`
   display: flex;
@@ -91,8 +94,8 @@ class Input extends React.Component<IWrapperProps, IInputState> {
     this.setState({ focused: true });
     if (this.props.enterFocus) {
       this.props.enterFocus();
-  }
     }
+  }
 
   public exitFocus() {
     this.setState({ focused: false });
@@ -107,8 +110,8 @@ class Input extends React.Component<IWrapperProps, IInputState> {
       this.props.handleChange(e);
     } else if (this.props.onChange) {
       this.props.onChange(e);
-  }
     }
+  }
 
   public handleKey(e: React.KeyboardEvent<HTMLInputElement>) {
     if (this.props.onKeyUp) {
@@ -138,6 +141,7 @@ class Input extends React.Component<IWrapperProps, IInputState> {
     return (
       <Wrapper textAlign={textAlign}>
         <InputComp
+          data-testid={this.props["data-testid"]}
           onKeyPress={onKeyPress}
           value={this.state.value || ""}
           onChange={this.handleChange}

@@ -13,8 +13,8 @@ interface IOpenModalAction {
   payload: IOpenModalPayload;
 }
 
-const CLOSE_MODAL = "CLOSE_MODAL";
-const OPEN_MODAL = "OPEN_MODAL";
+export const CLOSE_MODAL = "CLOSE_MODAL";
+export const OPEN_MODAL = "OPEN_MODAL";
 
 export const closeModalAction = (): ICloseModalAction => ({
   type: CLOSE_MODAL,

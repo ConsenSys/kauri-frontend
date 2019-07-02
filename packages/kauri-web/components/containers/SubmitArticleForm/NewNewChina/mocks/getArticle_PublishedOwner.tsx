@@ -1,6 +1,6 @@
 /* tslint:disable */
-import { getArticle } from "../../../queries/Article";
-import ApolloMockedProvider from "../../lib/mock-apollo-provider";
+import { getArticle } from "../../../../../queries/Article";
+import ApolloMockedProvider from "../../../../../__tests__/lib/mock-apollo-provider";
 
 // @ts-ignore
 export const mockResult = {
@@ -49,7 +49,7 @@ export const mockResult = {
         __typename: "PublicUserDTO",
       },
       owner: {
-        id: "9b66e2c73ee59c11ac25ef2730ab589c5416e81a",
+        id: "1234567890",
         name: "Chris Ward",
         username: "ChrisChinchilla",
         avatar:

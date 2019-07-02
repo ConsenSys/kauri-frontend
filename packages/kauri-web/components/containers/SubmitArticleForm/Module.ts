@@ -60,13 +60,20 @@ export interface IDraftArticleActionPayload {
   attributes?: IAttributesPayload;
 }
 
+export interface ISelectDestinationPayload {
+  id: string;
+  version?: string;
+}
+
 const SUBMIT_ARTICLE = "SUBMIT_ARTICLE";
 
-const EDIT_ARTICLE = "EDIT_ARTICLE";
+export const EDIT_ARTICLE = "EDIT_ARTICLE";
 
 const SUBMIT_ARTICLE_VERSION = "SUBMIT_ARTICLE_VERSION";
 
-const DRAFT_ARTICLE = "DRAFT_ARTICLE";
+export const DRAFT_ARTICLE = "DRAFT_ARTICLE";
+
+export const SELECT_DESTINATION = "SELECT_DESTINATION";
 
 export interface IEditArticlePayload {
   id: string;
@@ -98,6 +105,11 @@ export interface IDraftArticleAction {
   payload: IDraftArticleActionPayload;
 }
 
+export interface ISelectDestinationAction {
+  type: string;
+  payload: ISelectDestinationPayload;
+}
+
 export const submitArticleAction = (
   payload: ISubmitArticlePayload
 ): ISubmitArticleAction => ({
@@ -124,6 +136,13 @@ export const draftArticleAction = (
 ): IDraftArticleAction => ({
   payload,
   type: DRAFT_ARTICLE,
+});
+
+export const selectDestinationAction = (
+  payload: ISelectDestinationPayload
+): ISelectDestinationAction => ({
+  payload,
+  type: SELECT_DESTINATION,
 });
 
 export const submitArticleEpic: Epic<any, {}, IDependencies> = (
