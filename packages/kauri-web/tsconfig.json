@@ -3,7 +3,10 @@
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",
-    "lib": ["dom", "es2017"],
+    "lib": [
+      "dom",
+      "es2017"
+    ],
     "moduleResolution": "node",
     "allowJs": false,
     "noEmit": true,
@@ -18,7 +21,7 @@
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "resolveJsonModule": false,
+    "resolveJsonModule": true,
     "isolatedModules": true
   },
   "include": [
@@ -31,5 +34,11 @@
     "types",
     "../kauri-components/types"
   ],
-  "exclude": ["node_modules", "dist", ".next", "out", "next.config.js"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".next",
+    "out",
+    "next.config.js"
+  ]
 }

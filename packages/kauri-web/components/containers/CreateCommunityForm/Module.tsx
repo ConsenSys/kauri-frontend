@@ -158,6 +158,7 @@ export const communityCreatedEpic: Epic<Actions, IReduxState, IDependencies> = (
                 })
               )
         )
+        .do(() => window.location.reload())
         .catch(err => {
           console.error(err);
           return Observable.of(
