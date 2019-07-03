@@ -33,17 +33,17 @@ reactMdeCommands[1][3] = uploadImageCommand;
 reactMdeCommands[1][5] = youtubeCommand;
 reactMdeCommands[2][4] = advancedModalCommand;
 
-Showdown.extension("highlightjs", function() {
+Showdown.extension("highlightjs", function () {
   return [
     {
       type: "output",
       regex: new RegExp("<code>", "g"),
-      replace: '<code class="hljs">',
+      replace: "<code class=\"hljs\">",
     },
     {
       type: "output",
       regex: new RegExp("<code \\b[^>]*>", "g"),
-      replace: '<code class="hljs">',
+      replace: "<code class=\"hljs\">",
     },
   ];
 });
@@ -66,7 +66,7 @@ export class SharedEditor extends React.Component<*> {
       "Do you want to leave this site? Changes you made may not be saved";
   };
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     if (document.querySelector(".mde-preview")) {
       R.map(block => hljs.highlightBlock(block))(
         document.querySelectorAll("pre code")
@@ -74,7 +74,7 @@ export class SharedEditor extends React.Component<*> {
     }
   }
 
-  async componentDidMount() {
+  async componentDidMount () {
     if (this.props.editorState) {
       const converter = new Showdown.Converter({
         tables: true,
@@ -103,11 +103,11 @@ export class SharedEditor extends React.Component<*> {
     window.getFieldsValue = this.props.getFieldsValue;
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     window.removeEventListener("beforeunload", this.handleCloseBrowserTab);
   }
 
-  render() {
+  render () {
     const { editorState, handleChange, readOnly } = this.props;
 
     return (
@@ -119,6 +119,7 @@ export class SharedEditor extends React.Component<*> {
           />
         </Head>
         <ReactMde
+          data-testid={"markdown-editor"}
           commands={this.commands}
           editorKey="foobaz"
           layout="tabbed"

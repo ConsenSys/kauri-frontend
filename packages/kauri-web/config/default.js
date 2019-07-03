@@ -31,6 +31,9 @@ const uppyConfig = {
 const getApiURL = (hostName = process.env.monolithExternalApi) => {
   // localhost or mobile
   // console.log(hostName);
+  if (process.env.NODE_ENV === "test") {
+    return "api.dev2.kauri.io";
+  }
   if (
     (hostName && hostName.includes("192")) ||
     (hostName && hostName.includes("localhost"))

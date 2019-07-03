@@ -19,10 +19,10 @@ import { OPEN_MODAL } from "../../../../../kauri-components/components/Modal/Mod
 afterEach(cleanup);
 
 describe("SubmitArticleForm", () => {
-  it.only("fresh -> draft", async () => {
+  it.only("fresh", async () => {
     const mockHandleSubmit = jest.fn();
 
-    const { getByTestId, store, debug } = render(
+    const { getByTestId } = render(
       <RenderFreshWithQuery>
         <SubmitArticleForm
           id={freshVariables.id}
@@ -35,39 +35,13 @@ describe("SubmitArticleForm", () => {
 
     await wait(0);
 
-    const state = store.getState();
-    expect(state.app.hostName).toBe("api.dev.kauri.io");
-    await wait(0);
-
     const inputTitle = getByTestId(prefixTestId("title"));
-    const draftButton = getByTestId(prefixTestId("draft"));
-    const inputTag = getByTestId(prefixTestId("tag-input"));
+    const publishButton = getByTestId(prefixTestId("publish"));
+    const tagInput = getByTestId(prefixTestId("tag-input"));
 
     expect(inputTitle).toHaveValue("");
-
-    const newTitle = "new title";
-    fireEvent.change(inputTitle, {
-      target: { value: newTitle },
-    });
-
-    expect(inputTitle).toHaveValue(newTitle);
-    expect(draftButton).toHaveTextContent("Save Draft");
-    expect(inputTag).toHaveValue("");
-
-    fireEvent.change(inputTag, {
-      target: {
-        value: "hello",
-      },
-    });
-
-    await wait(0);
-    expect(inputTag).toHaveValue("hello");
-
-    fireEvent.click(draftButton);
-
-    expect(
-      store.getActions().find(({ type }) => type === DRAFT_ARTICLE)
-    ).toBeTruthy();
+    expect(publishButton).toHaveTextContent("Publish Article");
+    expect(tagInput).toHaveValue("");
   });
 
   it("fresh -> published, personal", async () => {

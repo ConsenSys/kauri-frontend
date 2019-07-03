@@ -23,6 +23,7 @@ import R from "ramda";
 import ProposeUpdateModal from "../ProposeUpdateModal";
 import SecondaryButtonComponent from "../../../../../kauri-components/components/Button/SecondaryButton";
 import TagSelector from "../../../common/TagSelector";
+import SubmitArticleFormContent from "../SubmitArticleFormContent";
 
 export interface IProps {
   router: any;
@@ -167,6 +168,26 @@ class SubmitArticleFormComponent extends React.Component<
                 updateTags={(tags: string[]) =>
                   this.props.setFieldValue("tags", tags)
                 }
+              />
+            );
+          }}
+        />
+        <Field
+          name="content"
+          render={({ field }: FieldProps<IFormValues>) => {
+            return (
+              <SubmitArticleFormContent
+                getFieldError={() => {}}
+                text={field.value}
+                getFieldsValue={() => {}}
+                setFieldsValue={({ text }) =>
+                  this.props.setFieldValue("text", text)
+                }
+                getFieldDecorator={test => {
+                  return children => children;
+                }}
+                id={R.path<string>(["data", "getArticle", "id"])(this.props)}
+                text={field.value}
               />
             );
           }}
