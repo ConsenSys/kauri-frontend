@@ -544,6 +544,7 @@ export const acceptCommunityInvitationEpic: Epic<
                       ),
                       Observable.of(invitationAcceptedAction())
                     )
+                      .do(() => window.location.reload())
               )
               .catch(err => {
                 console.error(err);
