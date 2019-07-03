@@ -51,32 +51,37 @@ interface IProps {
   fontSize?: number;
   space?: number;
   color?: string;
+  "data-testid"?: string;
 }
 
-const TertiaryButtonComponent: React.SFC<IProps> = ({
-  type = "button",
-  fontWeight = 700,
-  fontSize = 0,
-  space = 1,
-  color = "white",
-  disabled = false,
-  handleClick,
-  onClick,
-  icon,
-  children,
-}) => (
-  <TertiaryButton
-    type={type}
-    disabled={disabled}
-    onClick={handleClick || onClick}
-    mr={space}
-    color={color}
-    fontSize={fontSize}
-    fontWeight={fontWeight}
-  >
-    {icon}
-    {children}
-  </TertiaryButton>
-);
+const TertiaryButtonComponent: React.SFC<IProps> = props => {
+  const {
+    type = "button",
+    fontWeight = 700,
+    fontSize = 0,
+    space = 1,
+    color = "white",
+    disabled = false,
+    handleClick,
+    onClick,
+    icon,
+    children,
+  } = props;
+  return (
+    <TertiaryButton
+      type={type}
+      disabled={disabled}
+      onClick={handleClick || onClick}
+      mr={space}
+      color={color}
+      fontSize={fontSize}
+      fontWeight={fontWeight}
+      data-testid={props["data-testid"]}
+    >
+      {icon}
+      {children}
+    </TertiaryButton>
+  );
+};
 
 export default TertiaryButtonComponent;

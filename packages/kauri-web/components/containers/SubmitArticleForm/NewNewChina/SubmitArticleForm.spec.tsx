@@ -38,10 +38,14 @@ describe("SubmitArticleForm", () => {
     const inputTitle = getByTestId(prefixTestId("title"));
     const publishButton = getByTestId(prefixTestId("publish"));
     const tagInput = getByTestId(prefixTestId("tag-input"));
+    const uploadBackgroundButton = getByTestId(
+      prefixTestId("upload-background")
+    );
 
+    expect(uploadBackgroundButton).toHaveTextContent("Upload Background");
     expect(inputTitle).toHaveValue("");
-    expect(publishButton).toHaveTextContent("Publish Article");
     expect(tagInput).toHaveValue("");
+    expect(publishButton).toHaveTextContent("Publish Article");
   });
 
   it("fresh -> published, personal", async () => {

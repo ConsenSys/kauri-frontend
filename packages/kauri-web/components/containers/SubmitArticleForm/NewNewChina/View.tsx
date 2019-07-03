@@ -24,6 +24,12 @@ import ProposeUpdateModal from "../ProposeUpdateModal";
 import SecondaryButtonComponent from "../../../../../kauri-components/components/Button/SecondaryButton";
 import TagSelector from "../../../common/TagSelector";
 import SubmitArticleFormContent from "../SubmitArticleFormContent";
+import TertiaryButtonComponent from "../../../../../kauri-components/components/Button/TertiaryButton";
+import TriggerImageUploader from "../../../common/ImageUploader";
+
+const UploadIcon: React.FunctionComponent = () => (
+  <img src="https://png.icons8.com/color/50/000000/upload.png" />
+);
 
 export interface IProps {
   router: any;
@@ -192,6 +198,19 @@ class SubmitArticleFormComponent extends React.Component<
             );
           }}
         />
+        <TertiaryButtonComponent
+          data-testid={prefixTestId("upload-background")}
+          icon={<UploadIcon />}
+          handleClick={() =>
+            TriggerImageUploader(
+              ({ attributes: { background } }) =>
+                this.props.setFieldValue("attributes.background", background),
+              "attributes"
+            )
+          }
+        >
+          Upload Background
+        </TertiaryButtonComponent>
         <SecondaryButtonComponent
           data-testid={prefixTestId("draft")}
           onClick={() => {
