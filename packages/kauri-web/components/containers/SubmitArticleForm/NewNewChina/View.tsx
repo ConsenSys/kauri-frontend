@@ -147,7 +147,11 @@ class SubmitArticleFormComponent extends React.Component<
     const ownerId = R.path(["data", "getArticle", "owner", "id"])(
       this.props
     ) as any;
-    const ownsArticle = isOwner(ownerId, userId, communities as any);
+    const ownsArticle = isOwner(
+      ownerId,
+      userId,
+      communities.map(({ community }) => community.id)
+    );
 
     return (
       <Form data-testid={prefixTestId("form")}>

@@ -10,6 +10,10 @@ import RenderPublishedOwnerWithQuery, {
 import RenderFreshWithQuery, {
   mockVariables as freshVariables,
 } from "./mocks/getArticle_Fresh";
+import RenderPublishedCommunityOwnerWithQuery, {
+  mockVariables as publishedCommunityOwnerVariables,
+  mockResult as publishedCommunityOwnerResult,
+} from "./mocks/getArticle_PublishedOwner";
 import mockInitialState from "../../../../__tests__/lib/mock-redux-initial-state";
 import SubmitArticleForm, { prefixTestId } from "./index";
 import wait from "waait";
@@ -19,7 +23,7 @@ import { OPEN_MODAL } from "../../../../../kauri-components/components/Modal/Mod
 afterEach(cleanup);
 
 describe("SubmitArticleForm", () => {
-  it.only("fresh", async () => {
+  it("fresh", async () => {
     const mockHandleSubmit = jest.fn();
 
     const { getByTestId } = render(
@@ -214,6 +218,50 @@ describe("SubmitArticleForm", () => {
 
     expect(
       store.getActions().find(({ type }) => type === DRAFT_ARTICLE)
+    ).toBeTruthy();
+  });
+
+  it.only("published, community owner, is in community", async () => {
+    const mockHandleSubmit = jest.fn();
+
+    const { getByTestId, store } = render(
+      <RenderPublishedCommunityOwnerWithQuery>
+        <SubmitArticleForm
+          id={publishedNotOwnerVariables.id}
+          version={publishedNotOwnerVariables.version}
+          onSubmit={mockHandleSubmit}
+        />
+      </RenderPublishedCommunityOwnerWithQuery>,
+      { initialState: mockInitialState }
+    );
+
+    await wait(0);
+
+    const state = store.getState();
+    expect(state.app.hostName).toBe("api.dev.kauri.io");
+
+    const inputTitle = getByTestId(prefixTestId("title"));
+    const updateButton = getByTestId(prefixTestId("update"));
+
+    const newTitle = "new title";
+
+    expect(inputTitle).toHaveValue(
+      publishedNotOwnerResult.data.getArticle.title
+    );
+
+    fireEvent.change(inputTitle, {
+      target: { value: newTitle },
+    });
+
+    expect(inputTitle).toHaveValue(newTitle);
+    expect(updateButton).toHaveTextContent("Update Article");
+
+    fireEvent.click(updateButton);
+
+    await wait(0);
+
+    expect(
+      store.getActions().find(({ type }) => type === EDIT_ARTICLE)
     ).toBeTruthy();
   });
 });
