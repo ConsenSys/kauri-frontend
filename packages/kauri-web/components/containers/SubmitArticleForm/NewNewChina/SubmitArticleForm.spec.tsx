@@ -10,10 +10,7 @@ import RenderPublishedOwnerWithQuery, {
 import RenderFreshWithQuery, {
   mockVariables as freshVariables,
 } from "./mocks/getArticle_Fresh";
-import RenderPublishedCommunityOwnerWithQuery, {
-  mockVariables as publishedCommunityOwnerVariables,
-  mockResult as publishedCommunityOwnerResult,
-} from "./mocks/getArticle_PublishedOwner";
+import RenderPublishedCommunityOwnerWithQuery from "./mocks/getArticle_PublishedCommunityOwner";
 import mockInitialState from "../../../../__tests__/lib/mock-redux-initial-state";
 import SubmitArticleForm, { prefixTestId } from "./index";
 import wait from "waait";
@@ -42,6 +39,7 @@ describe("SubmitArticleForm", () => {
     const inputTitle = getByTestId(prefixTestId("title"));
     const publishButton = getByTestId(prefixTestId("publish"));
     const tagInput = getByTestId(prefixTestId("tag-input"));
+    const backgroundHeader = getByTestId(prefixTestId("background"));
     const uploadBackgroundButton = getByTestId(
       prefixTestId("upload-background")
     );
@@ -50,6 +48,7 @@ describe("SubmitArticleForm", () => {
     expect(inputTitle).toHaveValue("");
     expect(tagInput).toHaveValue("");
     expect(publishButton).toHaveTextContent("Publish Article");
+    expect(backgroundHeader).toBeVisible();
   });
 
   it("fresh -> published, personal", async () => {
@@ -221,7 +220,7 @@ describe("SubmitArticleForm", () => {
     ).toBeTruthy();
   });
 
-  it.only("published, community owner, is in community", async () => {
+  it("published, community owner, is in community", async () => {
     const mockHandleSubmit = jest.fn();
 
     const { getByTestId, store } = render(

@@ -515,6 +515,7 @@ export const acceptCommunityInvitationEpic: Epic<
                     acceptInvitationResult.hash
                   )
               )
+              .do(() => apolloClient.resetStore())
               .mergeMap(({ data: { output: { error } } }) =>
                 typeof error === "string" &&
                 error.includes("associated to another member")
@@ -544,7 +545,6 @@ export const acceptCommunityInvitationEpic: Epic<
                       Observable.of(invitationAcceptedAction())
                     )
               )
-              .do(() => apolloClient.resetStore())
               .catch(err => {
                 console.error(err);
                 return Observable.merge(

@@ -2,15 +2,15 @@ import React from "react";
 import { compose } from "react-apollo";
 import withData from "../lib/with-data";
 import AppWithoutNavbar from "../layouts/AppWithoutNavbar";
-import SubmitArticle from "../components/containers/SubmitArticleForm";
+import SubmitArticle from "../components/containers/SubmitArticleForm/NewNewChina";
 import { withRouter } from "next/router";
 
 class ViewArticle extends React.Component {
-  static async getInitialProps(context, apolloClient) {
+  static async getInitialProps (context, apolloClient) {
     return {};
   }
 
-  render() {
+  render () {
     return (
       <AppWithoutNavbar url={this.props.router}>
         <SubmitArticle

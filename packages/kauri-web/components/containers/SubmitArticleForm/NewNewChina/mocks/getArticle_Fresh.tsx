@@ -7,7 +7,7 @@ import { searchTags } from "../../../../../queries/Tag";
 export const mockResult = {
   data: {
     getArticle: null,
-    searchTags: { content: [{ tag: "hello", count: 0, score: 0 }] },
+    searchTags: { content: [{ tag: "", count: 0, score: 0 }] },
   },
   dataPresent: true,
 };
@@ -29,7 +29,7 @@ const mocks = [
   {
     request: {
       query: searchTags,
-      variables: { query: "hello", page: 0, size: 10 },
+      variables: { query: "", page: 0, size: 10 },
     },
     result: mockResult,
   },

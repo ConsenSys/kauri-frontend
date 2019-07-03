@@ -26,6 +26,7 @@ import TagSelector from "../../../common/TagSelector";
 import SubmitArticleFormContent from "../SubmitArticleFormContent";
 import TertiaryButtonComponent from "../../../../../kauri-components/components/Button/TertiaryButton";
 import TriggerImageUploader from "../../../common/ImageUploader";
+import { CreateRequestSecondaryHeader as SubmitArticleFormHeader } from "../../../common/Legacy/CreateRequestSecondaryHeader";
 
 const UploadIcon: React.FunctionComponent = () => (
   <img src="https://png.icons8.com/color/50/000000/upload.png" />
@@ -66,6 +67,12 @@ const isOwner = (
 ) =>
   (Array.isArray(communities) && communities.includes(ownerId)) ||
   ownerId === userId;
+
+const backgroundCss = (backgroundURL: string | undefined | null) => {
+  return backgroundURL
+    ? `background-image: url(${backgroundURL}); background-size: cover; background-position: center center;`
+    : "background: #1E2428;";
+};
 
 class SubmitArticleFormComponent extends React.Component<
   InjectedFormikProps<IProps, IFormValues>
@@ -147,6 +154,11 @@ class SubmitArticleFormComponent extends React.Component<
     const ownerId = R.path(["data", "getArticle", "owner", "id"])(
       this.props
     ) as any;
+    const backgroundURL = R.path<string>([
+      "values",
+      "attributes",
+      "background",
+    ])(this.props);
     const ownsArticle = isOwner(
       ownerId,
       userId,
@@ -155,19 +167,25 @@ class SubmitArticleFormComponent extends React.Component<
 
     return (
       <Form data-testid={prefixTestId("form")}>
-        <Field
-          type="text"
-          name="title"
-          render={({ field }: FieldProps<IFormValues>) => (
-            <Input
-              {...field}
-              data-testid={prefixTestId("title")}
-              fontSize={7}
-              fontWeight={500}
-              placeHolder={"Add Article Title"}
-            />
-          )}
-        />
+        <SubmitArticleFormHeader
+          bg={backgroundCss(backgroundURL)}
+          type="article"
+          data-testid={prefixTestId("background")}
+        >
+          <Field
+            type="text"
+            name="title"
+            render={({ field }: FieldProps<IFormValues>) => (
+              <Input
+                {...field}
+                data-testid={prefixTestId("title")}
+                fontSize={7}
+                fontWeight={500}
+                placeHolder={"Add Article Title"}
+              />
+            )}
+          />
+        </SubmitArticleFormHeader>{" "}
         <Field
           name="tags"
           render={({ field }: FieldProps<IFormValues>) => {
@@ -191,7 +209,8 @@ class SubmitArticleFormComponent extends React.Component<
                 text={field.value}
                 getFieldsValue={() => {}}
                 setFieldsValue={({ text }) =>
-                  this.props.setFieldValue("text", text)
+                  // TODO: text = JSON.stringify({ markdown: text }); on submit
+                  this.props.setFieldValue("content", text)
                 }
                 getFieldDecorator={test => {
                   return children => children;

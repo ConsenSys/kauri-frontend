@@ -6,7 +6,7 @@ import { searchTags } from "../../../../../queries/Tag";
 // @ts-ignore
 export const mockResult = {
   data: {
-    searchTags: { content: [{ tag: "hello world", count: 0, score: 0 }] },
+    searchTags: { content: [{ tag: "", count: 0, score: 0 }] },
     getArticle: {
       associatedNfts: null,
       resourceIdentifier: {

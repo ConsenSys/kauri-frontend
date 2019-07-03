@@ -1,6 +1,7 @@
 /* tslint:disable */
 import { getArticle } from "../../../../../queries/Article";
 import ApolloMockedProvider from "../../../../../__tests__/lib/mock-apollo-provider";
+import { searchTags } from "../../../../../queries/Tag";
 
 // @ts-ignore
 export const mockResult = {
@@ -70,7 +71,7 @@ export const mockResult = {
       updateComment: null,
       __typename: "ArticleDTO",
     },
-    searchTags: { content: [{ tag: "hello", count: 0, score: 0 }] },
+    searchTags: { content: [{ tag: "", count: 0, score: 0 }] },
   },
   dataPresent: true,
 };
@@ -86,6 +87,13 @@ const mocks = [
     request: {
       query: getArticle,
       variables: mockVariables,
+    },
+    result: mockResult,
+  },
+  {
+    request: {
+      query: searchTags,
+      variables: { query: "", page: 0, size: 10 },
     },
     result: mockResult,
   },
