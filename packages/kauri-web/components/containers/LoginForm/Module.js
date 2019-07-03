@@ -107,6 +107,7 @@ export const registerEpic = (
               console.log(token);
               console.log(window.web3.eth.accounts[0]);
               document.cookie = cookie.serialize("TOKEN", token, {
+                path: "/",
                 maxAge: 30 * 24 * 60 * 60, // 30 days,
                 domain:
                   window && window.location.hostname.includes("localhost")
@@ -117,6 +118,7 @@ export const registerEpic = (
                 "USER_ID",
                 window.web3.eth.accounts[0],
                 {
+                  path: "/",
                   maxAge: 30 * 24 * 60 * 60, // 30 days
                   domain:
                     window && window.location.hostname.includes("localhost")
@@ -140,7 +142,7 @@ export const registerEpic = (
             .do(() =>
               window.localStorage.setItem("login-tracking-pending", true)
             )
-            .delay(5000)
+            .delay(500)
             .do(() => {
               window.location = "/edit-profile" + window.location.search;
             })
