@@ -707,6 +707,9 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
           apolloSubscriber<IRemoveMemberCommandOutput>(removeMemberResult.hash)
         )
         .do(() => apolloClient.resetStore())
+        .do(() => {
+          window.location.reload();
+        })
         .mergeMap(
           ({
             data: {
@@ -755,6 +758,9 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
           }
         )
         .do(() => apolloClient.resetStore())
+        .do(() => {
+          window.location.reload();
+        })
     )
   );
 
