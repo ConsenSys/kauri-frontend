@@ -35,7 +35,7 @@ import {
   prepareSendInvitationQuery,
   sendInvitationMutation,
 } from "../../../queries/Community";
-import { ApolloQueryResult } from "apollo-client";
+import ApolloClient, { ApolloQueryResult } from "apollo-client";
 import { CommunityPermissionInput } from "../../../__generated__/globalTypes";
 
 export interface ICreateCommunityAction extends IAction {
@@ -138,7 +138,7 @@ type IUpdateCommunityCommandOutput = ICreateCommunityCommandOutput;
 export const communityCreatedEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
   _,
-  { apolloSubscriber }
+  { apolloSubscriber, apolloClient }
 ) =>
   action$
     .ofType(COMMUNITY_CREATED)
@@ -146,7 +146,7 @@ export const communityCreatedEpic: Epic<Actions, IReduxState, IDependencies> = (
       Observable.fromPromise(
         apolloSubscriber(action.payload.transactionHash, "GroupCreated")
       )
-        .do(console.log)
+        .do(() => apolloClient.resetStore())
         .mergeMap(({ data: { output: { error } } }) =>
           error
             ? Observable.throw(new Error("Submission error"))
@@ -240,6 +240,7 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                       typeof actions.callback === "function" &&
                       actions.callback()
                   )
+                  .do(() => apolloClient.resetStore())
                   .mergeMap(
                     ({
                       data: {
@@ -268,7 +269,6 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                             )
                           )
                   )
-                  .do(() => apolloClient.resetStore())
                   .catch(err => {
                     console.error(err);
                     return Observable.of(
