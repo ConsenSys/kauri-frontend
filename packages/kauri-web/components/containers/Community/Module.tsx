@@ -434,45 +434,71 @@ export const sendCommunityInvitationEpic: Epic<
           query: prepareSendInvitationQuery,
           variables: payload,
         })
-      ).mergeMap(({ data: { prepareSendInvitation: result } }) =>
-        Observable.fromPromise(personalSign(result && result.messageHash))
-          .mergeMap(signedSignature =>
-            apolloClient.mutate<sendInvitation, sendInvitationVariables>({
-              mutation: sendInvitationMutation,
-              variables: {
-                id: payload.id,
-                invitation: {
-                  email: payload.invitation && payload.invitation.email,
-                  role: payload.invitation && payload.invitation.role,
-                  secret: result && result.attributes.secret,
-                },
-                signature:
-                  typeof signedSignature === "string" ? signedSignature : "",
-              },
-            })
-          )
-          .mergeMap(({ data: { sendInvitation: sendInvitationResult } }: any) =>
-            apolloSubscriber<ISendInvitationCommandOutput>(
-              sendInvitationResult.hash
-            )
-          )
-          .do(() => apolloClient.resetStore())
-          .mergeMap(() =>
-            Observable.merge(
-              Observable.of(
-                showNotificationAction({
-                  description: `The invitation ${payload.invitation &&
-                    payload.invitation
-                      .email} for to join the community has been sent! You can view and manage all moderators from the Manage tab.`,
-                  message: "Invitation Sent",
-                  notificationType: "success",
-                })
-              ),
-              Observable.of(invitationSentAction()),
-              Observable.of(closeModalAction())
-            )
-          )
       )
+        .mergeMap(({ data: { prepareSendInvitation: result } }) =>
+          Observable.fromPromise(personalSign(result && result.messageHash))
+            .mergeMap(signedSignature =>
+              apolloClient.mutate<sendInvitation, sendInvitationVariables>({
+                mutation: sendInvitationMutation,
+                variables: {
+                  id: payload.id,
+                  invitation: {
+                    email: payload.invitation && payload.invitation.email,
+                    role: payload.invitation && payload.invitation.role,
+                    secret: result && result.attributes.secret,
+                  },
+                  signature:
+                    typeof signedSignature === "string" ? signedSignature : "",
+                },
+              })
+            )
+            .mergeMap(
+              ({ data: { sendInvitation: sendInvitationResult } }: any) =>
+                apolloSubscriber<ISendInvitationCommandOutput>(
+                  sendInvitationResult.hash
+                )
+            )
+            .do(() => apolloClient.resetStore())
+            .mergeMap(({ data: { output: { error } } }) =>
+              typeof error === "string"
+                ? Observable.merge(
+                    Observable.of(closeModalAction()),
+                    Observable.of(
+                      showNotificationAction({
+                        description: `Please try again`,
+                        message: "Something went wrong",
+                        notificationType: "error",
+                      })
+                    )
+                  )
+                : Observable.merge(
+                    Observable.of(
+                      showNotificationAction({
+                        description: `The invitation ${payload.invitation &&
+                          payload.invitation
+                            .email} for to join the community has been sent! You can view and manage all moderators from the Manage tab.`,
+                        message: "Invitation Sent",
+                        notificationType: "success",
+                      })
+                    ),
+                    Observable.of(invitationSentAction()),
+                    Observable.of(closeModalAction())
+                  )
+            )
+        )
+        .catch(err => {
+          console.error(err);
+          return Observable.merge(
+            Observable.of(closeModalAction()),
+            Observable.of(
+              showNotificationAction({
+                description: `Please try again`,
+                message: "Something went wrong",
+                notificationType: "error",
+              })
+            )
+          );
+        })
     );
 
 export const acceptCommunityInvitationEpic: Epic<
@@ -530,7 +556,7 @@ export const acceptCommunityInvitationEpic: Epic<
                         })
                       )
                     )
-                  : Observable.merge(
+                  : Observable.merge<any>(
                       Observable.of(closeModalAction()),
                       Observable.of(
                         showNotificationAction({
@@ -539,12 +565,10 @@ export const acceptCommunityInvitationEpic: Epic<
                           notificationType: "success",
                         })
                       ),
-                      Observable.of(
-                        routeChangeAction(`/community/${payload.id}`)
-                      ),
                       Observable.of(invitationAcceptedAction())
-                    )
-                      .do(() => window.location.reload())
+                    ).do(() => {
+                      window.location.href = `/community/${payload.id}`;
+                    })
               )
               .catch(err => {
                 console.error(err);
@@ -666,6 +690,7 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
         .mergeMap(({ data: { removeMember: removeMemberResult } }) =>
           apolloSubscriber<IRemoveMemberCommandOutput>(removeMemberResult.hash)
         )
+        .do(() => apolloClient.resetStore())
         .mergeMap(
           ({
             data: {

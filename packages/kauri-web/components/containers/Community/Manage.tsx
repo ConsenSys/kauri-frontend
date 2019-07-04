@@ -38,6 +38,7 @@ interface IProps {
   openAddMemberModal: () => void;
   pageType?: string; // CreateCommunityForm
   formInvitations?: IInvitation[] | null | undefined;
+  isCommunityAdmin: boolean;
 }
 
 const Manage: React.FunctionComponent<IProps> = ({
@@ -49,6 +50,7 @@ const Manage: React.FunctionComponent<IProps> = ({
   pageType,
   cancelInvitation,
   formInvitations,
+  isCommunityAdmin,
 }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const pendingArticles =
@@ -59,12 +61,14 @@ const Manage: React.FunctionComponent<IProps> = ({
   return (
     <Container>
       <Column>
-        <ResourceCategory
-          active={tabIndex === 0}
-          category="Manage Members"
-          amount={members ? members.length : 0}
-          onClick={() => setTabIndex(0)}
-        />
+        {isCommunityAdmin && (
+          <ResourceCategory
+            active={tabIndex === 0}
+            category="Manage Members"
+            amount={members ? members.length : 0}
+            onClick={() => setTabIndex(0)}
+          />
+        )}
         {pageType !== "CreateCommunityForm" && (
           <ResourceCategory
             active={tabIndex === 1}
@@ -91,7 +95,7 @@ const Manage: React.FunctionComponent<IProps> = ({
         )}
       </Column>
       <Column>
-        {tabIndex === 0 && (
+        {tabIndex === 0 && isCommunityAdmin && (
           <ManageMembers
             id={communityId}
             openAddMemberModal={openAddMemberModal}

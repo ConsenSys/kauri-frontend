@@ -71,6 +71,7 @@ const InviteMemberContainer = styled.section`
   padding: ${props => props.theme.space[3]}px ${props => props.theme.space[2]}px;
   padding-bottom: ${props => props.theme.space[2]}px;
   > :first-child {
+    width: 100px;
     margin-right: ${props => props.theme.space[4]}px;
   }
 `;
@@ -112,7 +113,7 @@ const InvitationRow: React.FunctionComponent<{
     <Label>{String(invitation.status).replace("_", " ")}</Label>
     <InviteMemberContent>
       <BodyCard>{String(invitation.recipientEmail)}</BodyCard>
-      {invitation.status === "PENDING" && (
+      {(invitation.status === "PENDING" || invitation.status === "EXPIRED") && (
         <Label
           color="primary"
           hoverColor="hoverTextColor"

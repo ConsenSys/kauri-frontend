@@ -61,12 +61,13 @@ const Table: React.FunctionComponent<IProps> = props => {
       <Line />
       {props.data &&
         props.data.map(({ community }) => {
-          const currentCommunityUser = community.members.find(
+          let currentCommunityUserRole = "ADMIN";
+
+          const currentUserCommunityMemberDetails = community.members.find(
             ({ id }) => id === props.userId
           );
-          let currentCommunityUserRole = "";
-          if (community.members && currentCommunityUser) {
-            currentCommunityUserRole = currentCommunityUser.role;
+          if (currentUserCommunityMemberDetails) {
+            currentCommunityUserRole = currentUserCommunityMemberDetails.role;
           }
 
           return (

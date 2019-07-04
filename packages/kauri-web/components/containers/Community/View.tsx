@@ -239,6 +239,7 @@ class CommunityConnection extends React.Component<IProps> {
               <EmptyCollections />
             ),
             <Manage
+              isCommunityAdmin={isCommunityAdmin}
               openAddMemberModal={openAddMemberModal}
               communityId={String(getCommunity.id)}
               key="manage"

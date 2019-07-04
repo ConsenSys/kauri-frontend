@@ -78,13 +78,11 @@ const MemberContainer = styled.section`
   flex-direction: row;
   padding: ${props => props.theme.space[2]}px ${props => props.theme.space[2]}px;
   > :first-child {
+    width: 100px;
     margin-right: ${props => props.theme.space[4]}px;
   }
   > :nth-child(2) {
     margin-right: auto;
-  }
-  > :last-child {
-    margin-left: ${props => props.theme.space[3]}px;
   }
 `;
 
