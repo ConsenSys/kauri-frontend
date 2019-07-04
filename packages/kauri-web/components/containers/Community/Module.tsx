@@ -542,34 +542,50 @@ export const acceptCommunityInvitationEpic: Epic<
                   )
               )
               .do(() => apolloClient.resetStore())
-              .mergeMap(({ data: { output: { error } } }) =>
-                typeof error === "string" &&
-                error.includes("associated to another member")
-                  ? Observable.merge(
-                      Observable.of(closeModalAction()),
-                      Observable.of(
-                        showNotificationAction({
-                          description:
-                            "This email invite is already associated with another member of the community!",
-                          message: "Submission error",
-                          notificationType: "error",
-                        })
-                      )
+              .mergeMap(({ data: { output: { error } } }) => {
+                if (
+                  typeof error === "string" &&
+                  error.includes("associated to another member")
+                ) {
+                  return Observable.merge(
+                    Observable.of(closeModalAction()),
+                    Observable.of(
+                      showNotificationAction({
+                        description:
+                          "This email invite is already associated with another member of the community!",
+                        message: "Submission error",
+                        notificationType: "error",
+                      })
                     )
-                  : Observable.merge<any>(
-                      Observable.of(closeModalAction()),
-                      Observable.of(
-                        showNotificationAction({
-                          description: `You are now a member of the community!`,
-                          message: "Invitation Accepted",
-                          notificationType: "success",
-                        })
-                      ),
-                      Observable.of(invitationAcceptedAction())
-                    ).do(() => {
-                      window.location.href = `/community/${payload.id}`;
+                  );
+                }
+                if (typeof error === "string") {
+                  return Observable.merge(
+                    Observable.of(closeModalAction()),
+                    Observable.of(
+                      showNotificationAction({
+                        description:
+                          "Please try again, your invitation may have expired!",
+                        message: "Something went wrong",
+                        notificationType: "error",
+                      })
+                    )
+                  );
+                }
+                return Observable.merge<any>(
+                  Observable.of(closeModalAction()),
+                  Observable.of(
+                    showNotificationAction({
+                      description: `You are now a member of the community!`,
+                      message: "Invitation Accepted",
+                      notificationType: "success",
                     })
-              )
+                  ),
+                  Observable.of(invitationAcceptedAction())
+                ).do(() => {
+                  window.location.href = `/community/${payload.id}`;
+                });
+              })
               .catch(err => {
                 console.error(err);
                 return Observable.merge(
@@ -793,6 +809,7 @@ export const changeMemberRoleEpic: Epic<Actions, IReduxState, IDependencies> = (
               Observable.of(memberRoleChangedAction())
             )
           )
+          .do(() => window.location.reload())
       )
     );
 
