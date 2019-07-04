@@ -27,6 +27,7 @@ import {
   transferArticleToCommunityAction as transferArticleToCommunity,
 } from "./Module";
 import AddMemberButtonComponent from "../../../../kauri-components/components/Button/AddMemberButton";
+import { Link } from "../../../routes";
 
 const TooltipContainer = styled.section`
   display: flex;
@@ -463,21 +464,27 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
                       <Row>
                         {members.map(i =>
                           i ? (
-                            <UserAvatar
-                              key={String(i.id)}
-                              userId={String(i.id)}
-                              username={i.name || null}
-                              borderRadius="4px"
-                              height={30}
-                              width={30}
-                              avatar={i.avatar || null}
-                              variant="white"
-                              hideUsername={true}
+                            <Link
+                              fullWidth={false}
+                              useAnchorTag={true}
+                              href={`/public-profile/${i.id}`}
                             >
-                              {i.avatar
-                                ? ""
-                                : (name || id).substring(0, 1).toUpperCase()}
-                            </UserAvatar>
+                              <UserAvatar
+                                key={String(i.id)}
+                                userId={String(i.id)}
+                                username={i.name || null}
+                                borderRadius="4px"
+                                height={30}
+                                width={30}
+                                avatar={i.avatar || null}
+                                variant="white"
+                                hideUsername={true}
+                              >
+                                {i.avatar
+                                  ? ""
+                                  : (name || id).substring(0, 1).toUpperCase()}
+                              </UserAvatar>
+                            </Link>
                           ) : null
                         )}
                         {isCommunityAdmin && (
