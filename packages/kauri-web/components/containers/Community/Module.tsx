@@ -593,7 +593,7 @@ export const acceptCommunityInvitationEpic: Epic<
                   Observable.of(
                     showNotificationAction({
                       description:
-                        "Please try again or you may already be a member of the community!",
+                        "Please try again, you may already be a member of the community or your invitation may have expired!",
                       message: "Submission error",
                       notificationType: "error",
                     })
