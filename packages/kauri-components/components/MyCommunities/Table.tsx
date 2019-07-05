@@ -60,30 +60,22 @@ const Table: React.FunctionComponent<IProps> = props => {
     <Container>
       <Line />
       {props.data &&
-        props.data.map(({ community }) => {
-          let currentCommunityUserRole = "ADMIN";
-
-          const currentUserCommunityMemberDetails = community.members.find(
-            ({ id }) => id === props.userId
-          );
-          if (currentUserCommunityMemberDetails) {
-            currentCommunityUserRole = currentUserCommunityMemberDetails.role;
-          }
-
+        props.data.map(community => {
+          const nestedCommunity = community.community;
           return (
-            <Row key={community.id}>
+            <Row key={nestedCommunity.id}>
               <Cell flex={0}>
-                <Label>{currentCommunityUserRole}</Label>
+                <Label>{community.role}</Label>
               </Cell>
               <Cell flex={4}>
-                <Label>{community.name}</Label>
+                <Label>{nestedCommunity.name}</Label>
               </Cell>
               <Cell flex={0} hoverable={true}>
                 <Label
                   onClick={() =>
                     props.removeMemberAction({
                       account: props.userId,
-                      id: community.id,
+                      id: nestedCommunity.id,
                     })
                   }
                   hoverColor={"hoverTextColor"}
@@ -92,7 +84,7 @@ const Table: React.FunctionComponent<IProps> = props => {
                 </Label>
               </Cell>
               <Cell flex={0} hoverable={true}>
-                <Link href={`/community/${community.id}`}>
+                <Link href={`/community/${nestedCommunity.id}`}>
                   <Label>View Community</Label>
                 </Link>
               </Cell>
