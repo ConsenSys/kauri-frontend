@@ -8,6 +8,7 @@ import {
 import {
   revokeInvitationAction as revokeInvitation,
   resendInvitationAction as resendInvitation,
+  sendCommunityInvitationAction as sendCommunityInvitation,
 } from "../../Community/Module";
 
 const Header = styled.div`
@@ -108,7 +109,13 @@ const InvitationRow: React.FunctionComponent<{
   invitation: IInvitation;
   revokeInvitationAction: any;
   resendInvitationAction: () => void;
-}> = ({ invitation, revokeInvitationAction, resendInvitationAction }) => (
+  sendCommunityInvitationAction: () => void;
+}> = ({
+  invitation,
+  revokeInvitationAction,
+  resendInvitationAction,
+  sendCommunityInvitationAction,
+}) => (
   <InviteMemberContainer>
     <Label>{String(invitation.status).replace("_", " ")}</Label>
     <InviteMemberContent>
@@ -117,7 +124,14 @@ const InvitationRow: React.FunctionComponent<{
         <Label
           color="primary"
           hoverColor="hoverTextColor"
-          onClick={() => resendInvitationAction()}
+          onClick={() => {
+            if (invitation.status === "PENDING") {
+              resendInvitationAction();
+            }
+            if (invitation.status === "EXPIRED") {
+              sendCommunityInvitationAction();
+            }
+          }}
         >
           RESEND
         </Label>
@@ -133,6 +147,7 @@ interface IProps {
   invitations: Array<IInvitation | null> | null;
   revokeInvitationAction: typeof revokeInvitation;
   resendInvitationAction: typeof resendInvitation;
+  sendCommunityInvitationAction: typeof sendCommunityInvitation;
   id: string | null;
 }
 
@@ -165,6 +180,16 @@ const InvitationsPanel: React.SFC<IProps> = props => {
                 props.invitations && (
                   <Fragment>
                     <InvitationRow
+                      sendCommunityInvitationAction={() =>
+                        props.sendCommunityInvitationAction &&
+                        props.sendCommunityInvitationAction({
+                          id: props.id,
+                          invitation: {
+                            email: invitation.recipientEmail,
+                            role: invitation.recipientRole as any,
+                          },
+                        })
+                      }
                       resendInvitationAction={() =>
                         props.resendInvitationAction &&
                         props.resendInvitationAction({

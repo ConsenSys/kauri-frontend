@@ -14,6 +14,7 @@ import {
   removeMemberAction,
   changeMemberRoleAction,
   resendInvitationAction,
+  sendCommunityInvitationAction,
 } from "../../Community/Module";
 
 const mapStateToProps = (
@@ -41,6 +42,7 @@ export default compose(
       removeMemberAction,
       resendInvitationAction,
       revokeInvitationAction,
+      sendCommunityInvitationAction,
     }
   ),
   graphql(getCommunityInvitationsQuery, {
