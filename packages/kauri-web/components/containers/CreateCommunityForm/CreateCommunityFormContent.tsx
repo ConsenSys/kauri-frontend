@@ -79,6 +79,7 @@ const Component: React.SFC<IProps> = props => (
         <ArticlesContentSectionEmptyState key="articles" />,
         <CollectionsContentSectionEmptyState key="collections" />,
         <Manage
+          isCommunityAdmin={props.isCommunityAdmin}
           pageType={"CreateCommunityForm"}
           openAddMemberModal={props.openAddMemberModal}
           members={

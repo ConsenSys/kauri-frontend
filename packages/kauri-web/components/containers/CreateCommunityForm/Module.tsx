@@ -35,7 +35,7 @@ import {
   prepareSendInvitationQuery,
   sendInvitationMutation,
 } from "../../../queries/Community";
-import ApolloClient, { ApolloQueryResult } from "apollo-client";
+import { ApolloQueryResult } from "apollo-client";
 import { CommunityPermissionInput } from "../../../__generated__/globalTypes";
 
 export interface ICreateCommunityAction extends IAction {

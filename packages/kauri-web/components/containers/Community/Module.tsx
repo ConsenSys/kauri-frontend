@@ -459,32 +459,46 @@ export const sendCommunityInvitationEpic: Epic<
                 )
             )
             .do(() => apolloClient.resetStore())
-            .mergeMap(({ data: { output: { error } } }) =>
-              typeof error === "string"
-                ? Observable.merge(
+            .mergeMap(({ data: { output: { error } } }) => {
+              if (typeof error === "string") {
+                if (error.includes("already associated")) {
+                  return Observable.merge(
                     Observable.of(closeModalAction()),
                     Observable.of(
                       showNotificationAction({
-                        description: `Please try again`,
-                        message: "Something went wrong",
+                        description: `Invalid email, please try again`,
+                        message:
+                          "This email address is already a member of the community or has a pending invitation.",
                         notificationType: "error",
                       })
                     )
+                  );
+                }
+                return Observable.merge(
+                  Observable.of(closeModalAction()),
+                  Observable.of(
+                    showNotificationAction({
+                      description: `Please try again`,
+                      message: "Something went wrong",
+                      notificationType: "error",
+                    })
                   )
-                : Observable.merge(
-                    Observable.of(
-                      showNotificationAction({
-                        description: `The invitation ${payload.invitation &&
-                          payload.invitation
-                            .email} for to join the community has been sent! You can view and manage all moderators from the Manage tab.`,
-                        message: "Invitation Sent",
-                        notificationType: "success",
-                      })
-                    ),
-                    Observable.of(invitationSentAction()),
-                    Observable.of(closeModalAction())
-                  )
-            )
+                );
+              }
+              return Observable.merge(
+                Observable.of(
+                  showNotificationAction({
+                    description: `The invitation ${payload.invitation &&
+                      payload.invitation
+                        .email} for to join the community has been sent! You can view and manage all moderators from the Manage tab.`,
+                    message: "Invitation Sent",
+                    notificationType: "success",
+                  })
+                ),
+                Observable.of(invitationSentAction()),
+                Observable.of(closeModalAction())
+              );
+            })
         )
         .catch(err => {
           console.error(err);

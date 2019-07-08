@@ -102,6 +102,9 @@ class ManageMembers extends React.Component<IProps, IRole> {
                 props.invitations.length >= 1)) && (
               <InviteMembersPanel
                 id={props.id}
+                sendCommunityInvitationAction={
+                  props.sendCommunityInvitationAction
+                }
                 resendInvitationAction={props.resendInvitationAction}
                 revokeInvitationAction={props.revokeInvitationAction}
                 invitations={
@@ -148,6 +151,9 @@ class ManageMembers extends React.Component<IProps, IRole> {
                 Array.isArray(props.invitations) &&
                 props.invitations.length >= 1)) && (
               <InviteMembersPanel
+                sendCommunityInvitationAction={
+                  props.sendCommunityInvitationAction
+                }
                 resendInvitationAction={props.resendInvitationAction}
                 id={props.id}
                 revokeInvitationAction={props.revokeInvitationAction}
