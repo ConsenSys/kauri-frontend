@@ -48,6 +48,7 @@ export default compose(
   graphql(getCommunityInvitationsQuery, {
     options: ({ id }: { id: string | null }) => ({
       variables: {
+        filter: { deduplicateByEmail: true },
         id,
       },
     }),

@@ -326,6 +326,7 @@ export const getCommunityInvitationsQuery = gql`
     $size: Int = 500
     $sort: String
     $dir: DirectionInput
+    $filter: CommunityInvitationFilterInput
   ) {
     getCommunityInvitations(
       id: $id
@@ -333,6 +334,7 @@ export const getCommunityInvitationsQuery = gql`
       size: $size
       sort: $sort
       dir: $dir
+      filter: $filter
     ) {
       totalElements
       totalPages
