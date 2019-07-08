@@ -294,7 +294,7 @@ interface ICurateCommunityResourcesCommandOutput {
 }
 
 interface IAcceptInvitationCommandOutput {
-  hash: string;
+  transactionHash: string;
 }
 
 interface IRevokeInvitationCommandOutput {
@@ -466,9 +466,22 @@ export const sendCommunityInvitationEpic: Epic<
                     Observable.of(closeModalAction()),
                     Observable.of(
                       showNotificationAction({
-                        description: `Invalid email, please try again`,
-                        message:
+                        description:
                           "This email address is already a member of the community or has a pending invitation.",
+                        message: `Invalid email, please try again`,
+                        notificationType: "error",
+                      })
+                    )
+                  );
+                }
+                if (error.includes("signature")) {
+                  return Observable.merge(
+                    Observable.of(closeModalAction()),
+                    Observable.of(
+                      showNotificationAction({
+                        description:
+                          "Please switch to correct logged in account and try again",
+                        message: `Invalid web3 account`,
                         notificationType: "error",
                       })
                     )
@@ -502,6 +515,22 @@ export const sendCommunityInvitationEpic: Epic<
         )
         .catch(err => {
           console.error(err);
+          if (
+            err &&
+            err.message &&
+            err.message.includes("already associated")
+          ) {
+            return Observable.merge(
+              Observable.of(closeModalAction()),
+              Observable.of(
+                showNotificationAction({
+                  description: `This email address is already a member of the community or has a pending invitation.`,
+                  message: `Invalid email, please try again`,
+                  notificationType: "error",
+                })
+              )
+            );
+          }
           return Observable.merge(
             Observable.of(closeModalAction()),
             Observable.of(
@@ -555,7 +584,6 @@ export const acceptCommunityInvitationEpic: Epic<
                     acceptInvitationResult.hash
                   )
               )
-              .do(() => apolloClient.resetStore())
               .mergeMap(({ data: { output: { error } } }) => {
                 if (
                   typeof error === "string" &&
@@ -597,7 +625,9 @@ export const acceptCommunityInvitationEpic: Epic<
                   ),
                   Observable.of(invitationAcceptedAction())
                 ).do(() => {
-                  window.location.href = `/community/${payload.id}`;
+                  setTimeout(() => {
+                    window.location.href = `/community/${payload.id}`;
+                  }, 2000);
                 });
               })
               .catch(err => {
@@ -721,9 +751,6 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
           apolloSubscriber<IRemoveMemberCommandOutput>(removeMemberResult.hash)
         )
         .do(() => apolloClient.resetStore())
-        .do(() => {
-          window.location.reload();
-        })
         .mergeMap(
           ({
             data: {
@@ -768,12 +795,18 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
                 })
               ),
               Observable.of(memberRemovedAction())
-            );
+            ).do(() => {
+              setTimeout(() => {
+                window.location.reload();
+              }, 2000);
+            });
           }
         )
         .do(() => apolloClient.resetStore())
         .do(() => {
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         })
     )
   );
@@ -829,7 +862,11 @@ export const changeMemberRoleEpic: Epic<Actions, IReduxState, IDependencies> = (
               Observable.of(memberRoleChangedAction())
             )
           )
-          .do(() => window.location.reload())
+          .do(() => {
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          })
       )
     );
 
