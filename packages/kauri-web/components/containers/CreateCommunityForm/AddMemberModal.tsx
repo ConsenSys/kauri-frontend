@@ -11,6 +11,7 @@ interface IProps {
     closeModalAction: () => void
   ) => void;
   showNotificationAction: typeof showNotification;
+  currentMemberAndInvitationEmails: string[];
 }
 
 export interface IRole {
