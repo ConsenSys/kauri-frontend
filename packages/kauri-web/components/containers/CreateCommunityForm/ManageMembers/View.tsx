@@ -67,6 +67,7 @@ class ManageMembers extends React.Component<IProps, IRole> {
           }}
           content={
             <ChangeMemberRoleModalContent
+              currentMemberRole={String(payload.role)}
               handleMemberRoleChange={(role: string) => this.setState({ role })}
             />
           }

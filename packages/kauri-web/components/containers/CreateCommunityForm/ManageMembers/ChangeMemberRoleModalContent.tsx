@@ -16,6 +16,7 @@ export const ChangeMemberRoleModalContainer = styled.section`
 
 interface IProps {
   handleMemberRoleChange: (role: string) => void;
+  currentMemberRole: string;
 }
 
 const ChangeMemberRoleModalContent: React.FunctionComponent<IProps> = props => {
@@ -34,7 +35,7 @@ const ChangeMemberRoleModalContent: React.FunctionComponent<IProps> = props => {
     <ChangeMemberRoleModalContainer>
       <Select value={chosenRole} placeHolder={"Choose Role"}>
         <ChooseRoleOptions
-          roles={roles}
+          roles={roles.filter(role => role.value !== props.currentMemberRole)}
           handleRoleChange={(role: string) => {
             props.handleMemberRoleChange(role);
             setRole({ role });

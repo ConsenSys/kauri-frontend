@@ -10,6 +10,8 @@ import PrimaryButtonComponent from "../../../../../kauri-components/components/B
 import { removeMemberAction as removeMember } from "../../Community/Module";
 import theme from "../../../../../kauri-components/lib/theme-config";
 import { prepareChangeMemberRoleVariables } from "../../../../queries/__generated__/prepareChangeMemberRole";
+import { roles } from "../AddMemberModal";
+import R from "ramda";
 
 const Header = styled.div`
   padding-top: ${props => props.theme.space[2]}px;
@@ -118,9 +120,16 @@ const MemberRow: React.FunctionComponent<IMemberRowProps> = ({
   userId,
   openChangeMemberRoleModal,
 }) => {
+  const correctRoleLabel = R.path<string>([
+    roles.findIndex(
+      role => role.value === String(member.role).replace("_", " ")
+    ),
+    "label",
+  ])(roles);
+
   return (
     <MemberContainer>
-      <Label>{String(member.role).replace("_", " ")}</Label>
+      <Label>{correctRoleLabel}</Label>
       <MemberContent>
         <BodyCard>
           {String(member.username || member.name || member.id)}
@@ -185,6 +194,7 @@ const MembersPanel: React.SFC<IProps> = props => {
                       props.openChangeMemberRoleModal({
                         account: member.id,
                         id: props.id,
+                        role: member.role,
                       })
                     }
                     userId={props.userId}
