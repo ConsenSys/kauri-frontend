@@ -1,12 +1,11 @@
+// @flow
 import React from "react";
 import styled from "../../../lib/styled-components";
 import Head from "next/head";
-import { menuHeaderHeight } from "../Navbar/View";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import {
   Title2,
   BodyArticle,
-  CTA,
 } from "../../../../kauri-components/components/Typography";
 
 import type { RegisterActionPayload } from "./Module";
@@ -70,7 +69,7 @@ const Web3Unavailable = () => (
     <style
       type="text/css"
       dangerouslySetInnerHTML={{
-        __html: `	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }`,
+        __html: "	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }",
       }}
     />
     <div id="mc_embed_signup">
@@ -140,7 +139,7 @@ const Web3Unavailable = () => (
     <script
       type="text/javascript"
       dangerouslySetInnerHTML={{
-        __html: `(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';}(jQuery));var $mcj = jQuery.noConflict(true);`,
+        __html: "(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';}(jQuery));var $mcj = jQuery.noConflict(true);",
       }}
     />
   </LoginContainer>
@@ -157,7 +156,7 @@ class LoginForm extends React.Component<{
     }
   };
 
-  render() {
+  render () {
     const { isSubmitting } = this.props;
 
     return (
@@ -186,7 +185,7 @@ type Props = {
 };
 
 class LoginFormContainer extends React.Component<Props> {
-  render() {
+  render () {
     if (global.window && !global.window.web3) {
       return <Web3Unavailable />;
     } else if (global.window && global.window.web3) {
