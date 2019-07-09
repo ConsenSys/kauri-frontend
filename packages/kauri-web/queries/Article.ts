@@ -579,7 +579,7 @@ export const acceptArticleTransfer = gql`
   }
 `;
 
-export const finaliseArticleTransfer = gql`
+export const finaliseArticleTransferMutation = gql`
   mutation finaliseArticleTransfer($id: String, $signature: String) {
     finaliseArticleTransfer(id: $id, signature: $signature) {
       hash

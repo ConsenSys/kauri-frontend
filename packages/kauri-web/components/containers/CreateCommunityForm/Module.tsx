@@ -119,6 +119,7 @@ export const updateCommunityAction = (
 
 interface ICreateCommunityCommandOutput {
   id: string;
+  transactionHash: string;
   error: string | undefined;
 }
 
@@ -129,8 +130,13 @@ export interface IPrepareSendInvitationQueryResult {
   };
 }
 
+export interface ICommunityCreatedCommandOutput {
+  error: string | undefined;
+}
+
 export interface ISendInvitationCommandOutput {
   hash: string;
+  error: string | undefined;
 }
 
 type IUpdateCommunityCommandOutput = ICreateCommunityCommandOutput;
@@ -138,15 +144,17 @@ type IUpdateCommunityCommandOutput = ICreateCommunityCommandOutput;
 export const communityCreatedEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
   _,
-  { apolloSubscriber, apolloClient }
+  { apolloSubscriber }
 ) =>
   action$
     .ofType(COMMUNITY_CREATED)
     .switchMap((action: ICommunityCreatedAction) =>
       Observable.fromPromise(
-        apolloSubscriber(action.payload.transactionHash, "GroupCreated")
+        apolloSubscriber<ICommunityCreatedCommandOutput>(
+          action.payload.transactionHash,
+          "MemberAdded"
+        )
       )
-        .do(() => apolloClient.resetStore())
         .mergeMap(({ data: { output: { error } } }) =>
           error
             ? Observable.throw(new Error("Submission error"))
@@ -159,9 +167,7 @@ export const communityCreatedEpic: Epic<Actions, IReduxState, IDependencies> = (
               )
         )
         .do(() => {
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          window.location.reload();
         })
         .catch(err => {
           console.error(err);

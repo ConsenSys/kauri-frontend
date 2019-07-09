@@ -36,17 +36,17 @@ export interface IDependencies {
   apolloSubscriber: <T>(
     hash: string,
     filterName?: string
-  ) => Promise<{ data: { output: T | any } }>;
+  ) => Promise<{ data: { output: T } }>;
   apolloChildHashesSubscriber: <T>(
     childHashes: string[]
-  ) => Array<Promise<{ data: { output: T | any } }>>;
+  ) => Array<Promise<{ data: { output: T } }>>;
   smartContracts: any;
   web3: any;
   fetch: any;
   web3PersonalSign: any;
   getGasPrice: any;
   driverJS: any;
-  personalSign: any;
+  personalSign: (message: string) => Promise<string>;
 }
 
 export interface IAction {

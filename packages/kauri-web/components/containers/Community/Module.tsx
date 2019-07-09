@@ -92,7 +92,11 @@ import {
 import { ISendInvitationCommandOutput } from "../CreateCommunityForm/Module";
 import { closeModalAction } from "../../../../kauri-components/components/Modal/Module";
 import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
-import { finaliseArticleTransfer } from "../../../queries/Article";
+import { finaliseArticleTransferMutation } from "../../../queries/Article";
+import {
+  finaliseArticleTransferVariables,
+  finaliseArticleTransfer,
+} from "../../../queries/__generated__/finaliseArticleTransfer";
 
 interface ICurateCommunityResourcesAction {
   type: "CURATE_COMMUNITY_RESOURCES";
@@ -295,10 +299,11 @@ interface ICurateCommunityResourcesCommandOutput {
 
 interface IAcceptInvitationCommandOutput {
   transactionHash: string;
+  error: string | undefined;
 }
 
 interface IRevokeInvitationCommandOutput {
-  hash: string;
+  transactionHash: string;
 }
 
 interface ICurateCommunityResourcesCommandOutput {
@@ -308,10 +313,11 @@ interface ICurateCommunityResourcesCommandOutput {
 
 interface IRemoveResourceCommandOutput {
   hash: string;
+  error: string | undefined;
 }
 
 interface IRemoveMemberCommandOutput {
-  hash: string;
+  transactionHash: string;
   error?: string;
 }
 
@@ -319,13 +325,18 @@ interface IChangeMemberRoleCommandOutput {
   transactionHash: string;
 }
 
+interface ITransferArticleCommandOutput {
+  error: string | undefined;
+}
+
 type IApproveResourceCommandOutput = ICurateCommunityResourcesCommandOutput;
 
 type IResendInvitationCommandOutput = IRevokeInvitationCommandOutput;
 
 interface IInitiateArticleTransferCommandOutput {
+  id: string;
   hash: string;
-  version: string;
+  version: number;
   articleAuthor: string;
   dateCreated: string;
 }
@@ -562,8 +573,8 @@ export const acceptCommunityInvitationEpic: Epic<
               variables: payload,
             })
           ).mergeMap(({ data: { prepareAcceptInvitation: result } }) =>
-            Observable.fromPromise<string>(
-              personalSign(result && result.messageHash)
+            Observable.fromPromise(
+              personalSign(String(result && result.messageHash))
             )
               .mergeMap(signature =>
                 apolloClient.mutate<
@@ -579,7 +590,7 @@ export const acceptCommunityInvitationEpic: Epic<
                 })
               )
               .mergeMap(
-                ({ data: { acceptInvitation: acceptInvitationResult } }: any) =>
+                ({ data: { acceptInvitation: acceptInvitationResult } }) =>
                   apolloSubscriber<IAcceptInvitationCommandOutput>(
                     acceptInvitationResult.hash
                   )
@@ -703,8 +714,8 @@ export const revokeInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
           variables: payload,
         })
       ).mergeMap(({ data: { prepareRevokeInvitation: result } }) =>
-        Observable.fromPromise<string>(
-          personalSign(result && result.messageHash)
+        Observable.fromPromise(
+          personalSign(String(result && result.messageHash))
         )
           .mergeMap(signature =>
             apolloClient.mutate<revokeInvitation, revokeInvitationVariables>({
@@ -716,11 +727,16 @@ export const revokeInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
               },
             })
           )
-          .mergeMap(
-            ({ data: { revokeInvitation: revokeInvitationResult } }: any) =>
-              apolloSubscriber<IRevokeInvitationCommandOutput>(
-                revokeInvitationResult.hash
-              )
+          .mergeMap(({ data: { revokeInvitation: revokeInvitationResult } }) =>
+            apolloSubscriber<IRevokeInvitationCommandOutput>(
+              revokeInvitationResult.hash
+            )
+          )
+          .mergeMap(({ data: { output: { transactionHash } } }) =>
+            apolloSubscriber<IRevokeInvitationCommandOutput>(
+              transactionHash,
+              "InvitationRevoked"
+            )
           )
           .do(() => apolloClient.resetStore())
           .mergeMap(() =>
@@ -751,7 +767,9 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
         variables: payload,
       })
     ).mergeMap(({ data: { prepareRemoveMember: result } }) =>
-      Observable.fromPromise<string>(personalSign(result && result.messageHash))
+      Observable.fromPromise<string>(
+        personalSign(String(result && result.messageHash))
+      )
         .mergeMap(signature =>
           apolloClient.mutate<removeMember, removeMemberVariables>({
             mutation: removeMemberMutation,
@@ -765,36 +783,17 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
         .mergeMap(({ data: { removeMember: removeMemberResult } }) =>
           apolloSubscriber<IRemoveMemberCommandOutput>(removeMemberResult.hash)
         )
-        .do(() => apolloClient.resetStore())
-        .mergeMap(
-          ({
-            data: {
-              output: { error },
-            },
-          }: {
-            data: { output: IRemoveMemberCommandOutput };
-          }) => {
-            if (error) {
-              console.log(error);
-              if (error.includes("cannot be removed")) {
-                return Observable.merge(
-                  Observable.of(closeModalAction()),
-                  Observable.of(
-                    showNotificationAction({
-                      description: `You cannot leave the community`,
-                      message:
-                        "You are the last remaining admin of the community!",
-                      notificationType: "error",
-                    })
-                  )
-                );
-              }
+        .mergeMap(({ data: { output: { error, transactionHash } } }) => {
+          if (error) {
+            console.log(error);
+            if (error.includes("cannot be removed")) {
               return Observable.merge(
                 Observable.of(closeModalAction()),
                 Observable.of(
                   showNotificationAction({
-                    description: `Please try again`,
-                    message: "Something went wrong",
+                    description: `You cannot leave the community`,
+                    message:
+                      "You are the last remaining admin of the community!",
                     notificationType: "error",
                   })
                 )
@@ -804,24 +803,32 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
               Observable.of(closeModalAction()),
               Observable.of(
                 showNotificationAction({
-                  description: `That user has been successfully removed from the community`,
-                  message: "Member removed",
-                  notificationType: "success",
+                  description: `Please try again`,
+                  message: "Something went wrong",
+                  notificationType: "error",
                 })
-              ),
-              Observable.of(memberRemovedAction())
-            ).do(() => {
-              setTimeout(() => {
-                window.location.reload();
-              }, 2000);
-            });
+              )
+            );
           }
-        )
-        .do(() => apolloClient.resetStore())
-        .do(() => {
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          return Observable.merge(
+            Observable.of(closeModalAction()),
+            Observable.of(
+              showNotificationAction({
+                description: `That user has been successfully removed from the community`,
+                message: "Member removed",
+                notificationType: "success",
+              })
+            ),
+            Observable.of(memberRemovedAction())
+          )
+            .take(1)
+            .mergeMap<any, any>(() =>
+              apolloSubscriber<IRemoveMemberCommandOutput>(
+                transactionHash,
+                "MemberRemoved"
+              )
+            )
+            .do(() => apolloClient.resetStore());
         })
     )
   );
@@ -1001,8 +1008,11 @@ export const transferArticleToCommunityEpic: Epic<
             return Observable.fromPromise(personalSign(signatureToSign))
               .mergeMap(signature =>
                 Observable.fromPromise(
-                  apolloClient.mutate({
-                    mutation: finaliseArticleTransfer,
+                  apolloClient.mutate<
+                    finaliseArticleTransfer,
+                    finaliseArticleTransferVariables
+                  >({
+                    mutation: finaliseArticleTransferMutation,
                     variables: {
                       id,
                       signature,
@@ -1015,9 +1025,8 @@ export const transferArticleToCommunityEpic: Epic<
                   data: {
                     finaliseArticleTransfer: { hash: resultHash },
                   },
-                }: {
-                  data: { finaliseArticleTransfer: { hash: string } };
-                }) => apolloSubscriber(resultHash)
+                }) =>
+                  apolloSubscriber<ITransferArticleCommandOutput>(resultHash)
               )
               .do(() => apolloClient.resetStore())
               .do(() =>
