@@ -6,7 +6,9 @@ import Drafts from "../Drafts/View";
 import Awaiting from "../Awaiting/View";
 import Pending from "../Pending/View";
 import Transfers from "../../../../../kauri-components/components/Transfers";
+import MyCommunities from "../../../../../kauri-components/components/MyCommunities";
 import styled from "../../../../lib/styled-components";
+import R from "ramda";
 
 const categories = [
   "drafts",
@@ -14,13 +16,6 @@ const categories = [
   "submitted updates",
   // "communities",
 ];
-
-const queriesMatch: { [key: string]: string } = {
-  "awaiting approval": "approvalsQuery",
-  drafts: "draftsQuery",
-  "pending transfers": "transfersQuery",
-  "submitted updates": "pendingQuery",
-};
 
 const ManageContentSection = styled.section`
   display: flex;
@@ -45,12 +40,26 @@ const Manage: React.FunctionComponent<
     currentCategory: "drafts",
   });
 
+  const communities = R.path(
+    ["ownProfile", "getMyProfile", "communities"],
+    props
+  );
+  const transfers = R.path(
+    ["transfersQuery", "getArticleTransfers", "content"],
+    props
+  );
+
   if (
-    props.transfersQuery.getArticleTransfers &&
-    props.transfersQuery.getArticleTransfers.content.length > 0 &&
+    (transfers as []).length > 0 &&
     categories.indexOf("pending transfers") === -1
   ) {
     categories.push("pending transfers");
+  }
+  if (
+    (communities as []).length > 0 &&
+    categories.indexOf("communities") === -1
+  ) {
+    categories.push("communities");
   }
 
   return (
@@ -61,12 +70,7 @@ const Manage: React.FunctionComponent<
             key={category}
             active={category === state.currentCategory}
             category={category}
-            amount={
-              props[queriesMatch[category]].getArticleTransfers
-                ? props[queriesMatch[category]].getArticleTransfers
-                    .totalElements
-                : props[queriesMatch[category]].searchArticles.totalElements
-            }
+            amount={null}
             onClick={() => setState({ currentCategory: category })}
           />
         ))}
@@ -75,16 +79,28 @@ const Manage: React.FunctionComponent<
         <Drafts {...props} data={props.draftsQuery} />
       )}
       {state.currentCategory === "awaiting approval" && (
-        <Awaiting {...props} data={props.approvalsQuery} />
+        <Awaiting
+          {...props}
+          communities={
+            Array.isArray(communities) &&
+            communities.map(({ community: { id } }) => id)
+          }
+        />
       )}
       {state.currentCategory === "submitted updates" && (
-        <Pending {...props} data={props.pendingQuery} />
+        <Pending
+          {...props}
+          communities={
+            Array.isArray(communities) &&
+            communities.map(({ community: { id } }) => id)
+          }
+        />
       )}
       {state.currentCategory === "pending transfers" && (
-        <Transfers
-          {...props}
-          data={props.transfersQuery.getArticleTransfers.content}
-        />
+        <Transfers {...props} data={transfers} />
+      )}
+      {state.currentCategory === "communities" && (
+        <MyCommunities {...props} data={communities} />
       )}
     </ManageContentSection>
   );

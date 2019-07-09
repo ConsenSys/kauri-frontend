@@ -36,6 +36,7 @@ storiesOf("CollectionCard", module)
   .addDecorator(story => <Container>{story()}</Container>)
   .add("Default height of 310, two line title, no image", () => (
     <CollectionCard
+      resourceType="USER"
       imageURL={null}
       date={"5 DAYS AGO"}
       name={
@@ -90,6 +91,7 @@ storiesOf("CollectionCard", module)
       userAvatar={null}
       articleCount={"5"}
       collectionCount={"3"}
+      resourceType="USER"
     />
   ))
   .add(
@@ -123,6 +125,7 @@ storiesOf("CollectionCard", module)
         articleCount={"5"}
         collectionCount={"3"}
         isChosenCollection={true}
+        resourceType="USER"
       />
     )
   );

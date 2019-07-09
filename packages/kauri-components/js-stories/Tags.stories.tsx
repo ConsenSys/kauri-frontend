@@ -48,4 +48,12 @@ storiesOf("Tags", module)
       tags={["Ethereun", "Web3"]}
       maxTags={5}
     />
+  ))
+  .add("Tags - Related Articles", () => (
+    <TagList
+      resourceType={"relatedArticles"}
+      color="textPrimary"
+      tags={["Ethereun", "Web3"]}
+      maxTags={5}
+    />
   ));

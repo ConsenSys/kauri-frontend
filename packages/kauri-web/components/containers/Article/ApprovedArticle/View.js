@@ -29,6 +29,7 @@ type Props =
       address?: string,
       data: { getArticle: ArticleDTO },
       openModalAction: ({ children: React.ReactNode }) => void,
+      proposedCommunityId?: string,
     }
   | any;
 
@@ -39,13 +40,13 @@ class ApprovedArticle extends React.Component<Props, State> {
   static Footer = Footer;
   static Comments = Comments;
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
   }
 
-  componentDidMount () {
+  componentDidMount() {
     R.map(block => hljs.highlightBlock(block))(
       document.querySelectorAll("pre code")
     );
@@ -54,7 +55,7 @@ class ApprovedArticle extends React.Component<Props, State> {
     });
   }
 
-  render () {
+  render() {
     const props = this.props;
     if (!props.data.getArticle) return;
     const { associatedNfts } = props.data.getArticle;
@@ -86,8 +87,8 @@ class ApprovedArticle extends React.Component<Props, State> {
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)
               : R.path(["data", "getArticle", "owner"])(props)
-                ? R.path(["data", "getArticle", "owner", "username"])(props)
-                : R.path(["data", "getArticle", "author", "username"])(props)
+              ? R.path(["data", "getArticle", "owner", "username"])(props)
+              : R.path(["data", "getArticle", "author", "username"])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -108,6 +109,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           status={props.data.getArticle && props.data.getArticle.status}
           id={props.data.getArticle && props.data.getArticle.id}
           version={props.data.getArticle && props.data.getArticle.version}
+          owner={props.data.getArticle.owner}
           ownerId={
             props.data.getArticle &&
             props.data.getArticle.owner &&
@@ -118,8 +120,8 @@ class ApprovedArticle extends React.Component<Props, State> {
             isCommunityOwned
               ? R.path(["data", "getArticle", "owner", "name"])(props)
               : R.path(["data", "getArticle", "owner"])(props)
-                ? R.path(["data", "getArticle", "owner", "username"])(props)
-                : R.path(["data", "getArticle", "author", "username"])(props)
+              ? R.path(["data", "getArticle", "owner", "username"])(props)
+              : R.path(["data", "getArticle", "author", "username"])(props)
           }
           userAvatar={
             props.data.getArticle && props.data.getArticle.owner
@@ -208,6 +210,7 @@ class ApprovedArticle extends React.Component<Props, State> {
             "content",
           ])(props)}
           routeChangeAction={props.routeChangeAction}
+          proposedCommunityId={props.proposedCommunityId}
         />
         <ApprovedArticle.Comments
           id={props.data.getArticle && props.data.getArticle.id}

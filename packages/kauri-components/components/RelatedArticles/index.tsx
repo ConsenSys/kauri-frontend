@@ -14,7 +14,7 @@ interface IProps {
   linkComponent: (
     children: React.ReactElement<any>,
     route: string,
-    key: number,
+    key: number
   ) => React.ReactElement<any>;
 }
 
@@ -42,7 +42,12 @@ const Related = (props: IProps) =>
           <Article>
             <H3>{i.name}</H3>
             {i.tags && i.tags.length > 0 && (
-              <TagList maxTags={3} color="textPrimary" tags={i.tags} />
+              <TagList
+                resourceType={"relatedArticles"}
+                maxTags={3}
+                color="textPrimary"
+                tags={i.tags}
+              />
             )}
           </Article>,
           `/article/${i.resourceIdentifier.id}`,

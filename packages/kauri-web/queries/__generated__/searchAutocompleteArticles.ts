@@ -1,8 +1,7 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { SearchFilterInput, ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
+import { SearchFilterInput, SearchParameterInput, ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchAutocompleteArticles
@@ -15,7 +14,7 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resourceI
 }
 
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "CommunityDTO" | "PublicUserDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
 }
 
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_associatedNfts {
@@ -51,7 +50,7 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
 }
 
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
 }
 
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -156,4 +155,5 @@ export interface searchAutocompleteArticlesVariables {
   size?: number | null;
   query?: string | null;
   filter?: SearchFilterInput | null;
+  parameter?: SearchParameterInput | null;
 }

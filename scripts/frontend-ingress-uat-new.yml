@@ -22,3 +22,11 @@ spec:
               serviceName: frontend
               servicePort: 80
             path: /
+          - backend:
+              serviceName: monolith
+              servicePort: 8081
+            path: /sitemap
+          - backend:
+              serviceName: monolith
+              servicePort: 8081
+            path: /feed

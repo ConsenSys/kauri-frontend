@@ -3,7 +3,10 @@
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",
-    "lib": ["dom", "es2017"],
+    "lib": [
+      "dom",
+      "es2017"
+    ],
     "moduleResolution": "node",
     "allowJs": false,
     "noEmit": true,
@@ -16,14 +19,26 @@
     "removeComments": false,
     "preserveConstEnums": true,
     "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "include": [
+    "queries/*.ts",
+    "queries/__generated__/*.ts",
     "components/**/**.tsx",
     "lib/*",
     "lib/**/*.ts",
     "components/**/**.ts",
-    "typings/*",
-    "../kauri-components/typings"
+    "types",
+    "../kauri-components/types"
   ],
-  "exclude": []
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".next",
+    "out",
+    "next.config.js"
+  ]
 }

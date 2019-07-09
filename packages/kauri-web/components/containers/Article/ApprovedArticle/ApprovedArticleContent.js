@@ -137,27 +137,32 @@ export default ({
   authorId,
   userAvatar,
   routeChangeAction,
+  approveResourceAction,
   id,
   version,
   subject,
   status,
   address,
   hostName,
+  owner,
   resourceType,
   openModalAction,
   closeModalAction,
   deleteDraftArticleAction,
   nfts,
   relatedArticles,
+  proposedCommunityId,
 }: {
   author: {
     id: string,
     avatar: string | null,
     username: string | null,
+    name: string | null,
   },
   text?: string,
   username?: ?string,
   userAvatar?: ?string,
+  owner: any,
   ownerId?: ?string,
   authorId: string,
   routeChangeAction: string => void,
@@ -168,10 +173,15 @@ export default ({
   address?: string,
   hostName: string,
   nfts: INFT[],
+  approveResourceAction: (payload: {
+    id: string,
+    resource: { id: string, type: string, version: number },
+  }) => void,
   relatedArticles: ArticleDTO[],
   resourceType: "USER" | "COMMUNITY",
   openModalAction: ({ children: React.ReactNode }) => void,
   closeModalAction: () => void,
+  proposedCommunityId?: string,
   deleteDraftArticleAction: ({ id: string, version: number }) => void,
 }) => {
   let editorState =
@@ -214,6 +224,7 @@ export default ({
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type="outline">
         <Outline
+          name={author.name}
           nfts={nfts}
           linkComponent={children => (
             <Link
@@ -228,13 +239,14 @@ export default ({
             </Link>
           )}
           headings={outlineHeadings || []}
-          username={username}
+          username={author.username}
           userId={
-            (ownerId && userIdTrim(ownerId)) ||
-            (authorId && userIdTrim(authorId))
+            // (ownerId && userIdTrim(ownerId)) ||
+            authorId && userIdTrim(authorId)
           }
-          userAvatar={userAvatar}
-          text={ownerId ? "OWNER" : "AUTHOR"}
+          userAvatar={author.avatar}
+          // text={ownerId ? "OWNER" : "AUTHOR"}
+          text="AUTHOR"
           routeChangeAction={routeChangeAction}
         />
         {ownerId !== authorId &&
@@ -246,6 +258,7 @@ export default ({
                   userId={author.id}
                   avatar={author.avatar}
                   username={author.username}
+                  name={author.name}
                 />
               </Link>
               <Divider />
@@ -285,6 +298,20 @@ export default ({
           >
             {`Update ${status === "DRAFT" ? "draft" : "article"}`}
           </TertiaryButton>
+          {typeof proposedCommunityId === "string" && (
+            <TertiaryButton
+              color={"textPrimary"}
+              icon={<UpdateArticleSvgIcon />}
+              handleClick={() =>
+                approveResourceAction({
+                  id: proposedCommunityId,
+                  resource: { type: "ARTICLE", id, version },
+                })
+              }
+            >
+              Approve community proposed article
+            </TertiaryButton>
+          )}
           {status === "DRAFT" && userId === authorId && (
             <TertiaryButton
               color={"textPrimary"}

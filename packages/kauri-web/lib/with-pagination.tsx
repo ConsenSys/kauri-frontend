@@ -9,6 +9,7 @@ interface IState {
 }
 
 type PaginationDataQuery =
+  | "getCommunityContent"
   | "searchCommunities"
   | "searchAutocompleteCollections"
   | "searchArticles"
@@ -161,7 +162,7 @@ const withPagination = (
 
       return (
         <React.Fragment>
-          <Paginated setRef={setChildRef} {...this.props} />
+          <Paginated {...this.props} setRef={setChildRef} />
           {this.state.showLoading && <Loading />}
         </React.Fragment>
       );

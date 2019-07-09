@@ -18,7 +18,7 @@ export const apolloChildHashesSubscriber = childHashes =>
   );
 
 export default (hash, filterName) => {
-  let count = 0;
+  // let count = 0;
   return new Promise((resolve, reject) =>
     filterName
       ? apolloClient()
@@ -28,9 +28,9 @@ export default (hash, filterName) => {
         })
         .subscribe({
           next: data => {
-            if (!count) {
-              count = count + 1;
-            }
+            // if (!count) {
+            //   count = count + 1;
+            // }
             resolve(data);
           },
           error: err => reject(err),

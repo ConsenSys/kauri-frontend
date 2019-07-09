@@ -17,6 +17,6 @@ RUN yarn install
 
 WORKDIR /usr/src/app/packages/kauri-web
 RUN yarn install
-RUN npm run build
+RUN yarn build
 
 CMD "npm" "run" "start"

@@ -34,7 +34,6 @@ class Articles extends Component<IProps> {
 
     const { searchAutocomplete } = this.props.ArticlesQuery;
     const { isLoggedIn, openModalAction } = this.props;
-
     return (
       <Fragment>
         <Head>
@@ -62,7 +61,6 @@ class Articles extends Component<IProps> {
               if (!article) {
                 return <></>;
               }
-              const resourceType = article.resourceIdentifier;
               const owner =
                 R.path<
                   searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO
@@ -98,7 +96,7 @@ class Articles extends Component<IProps> {
                   userAvatar={(owner && owner.avatar) || null}
                   id={article.id || ""}
                   version={article.version || 1}
-                  cardHeight={420}
+                  cardHeight={310}
                   imageURL={
                     article &&
                     article.attributes &&
@@ -120,9 +118,12 @@ class Articles extends Component<IProps> {
                     </Link>
                   )}
                   resourceType={
-                    (typeof resourceType === "string" &&
-                      (resourceType as "USER" | "COMMUNITY")) ||
-                    "USER"
+                    owner &&
+                    owner.resourceIdentifier &&
+                    owner.resourceIdentifier.type &&
+                    owner.resourceIdentifier.type.toLowerCase() === "community"
+                      ? "COMMUNITY"
+                      : "USER"
                   }
                   hoverChildren={() => (
                     <PrimaryButton

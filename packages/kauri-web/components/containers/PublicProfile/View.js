@@ -10,7 +10,7 @@ import Published from "./Published/View";
 import Manage from "./Manage";
 
 class PublicProfile extends Component<ViewProps, ViewState> {
-  constructor(props: ViewProps) {
+  constructor (props: ViewProps) {
     super(props);
     this.state = {
       isEditing: false,
@@ -24,18 +24,17 @@ class PublicProfile extends Component<ViewProps, ViewState> {
     };
   }
 
-  toggleEditing() {
+  toggleEditing () {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  render() {
+  render () {
     const {
-      PendingQuery,
       UserQuery,
       ArticlesQuery,
       CollectionQuery,
       DraftsQuery,
-      ApprovalsQuery,
+      OwnProfileQuery,
       PendingTransfersQuery,
       routeChangeAction,
       currentUser,
@@ -46,6 +45,7 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       openModalAction,
       isLoggedIn,
       hostName,
+      removeMemberAction,
     } = this.props;
 
     const isHeaderLoaded =
@@ -53,13 +53,11 @@ class PublicProfile extends Component<ViewProps, ViewState> {
       typeof ArticlesQuery.searchArticles === "object" &&
       typeof CollectionQuery.searchCollections === "object";
 
-    const areListsLoaded =
-      typeof DraftsQuery.searchArticles === "object" &&
-      typeof PendingQuery.searchArticles === "object" &&
-      typeof ApprovalsQuery.searchArticles === "object";
+    const areListsLoaded = typeof DraftsQuery.searchArticles === "object";
 
     const isEditing = this.state.isEditing;
     const isOwner = UserQuery.getUser && UserQuery.getUser.id === currentUser;
+
     return (
       <React.Fragment>
         {!isHeaderLoaded ? (
@@ -127,11 +125,12 @@ class PublicProfile extends Component<ViewProps, ViewState> {
               />,
               isOwner && (
                 <Manage
-                  approvalsQuery={ApprovalsQuery}
+                  userId={this.props.userId}
+                  ownProfile={OwnProfileQuery}
                   draftsQuery={DraftsQuery}
-                  pendingQuery={PendingQuery}
                   transfersQuery={PendingTransfersQuery}
                   type="manage"
+                  removeMemberAction={removeMemberAction}
                   routeChangeAction={routeChangeAction}
                   deleteDraftArticleAction={deleteDraftArticleAction}
                   isOwner={UserQuery.getUser.id === currentUser}

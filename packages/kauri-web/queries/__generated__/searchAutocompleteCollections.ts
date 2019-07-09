@@ -1,8 +1,7 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { SearchFilterInput, ResourceTypeInput } from "./../../__generated__/globalTypes";
+import { SearchFilterInput, SearchParameterInput, ResourceTypeInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: searchAutocompleteCollections
@@ -15,11 +14,11 @@ export interface searchAutocompleteCollections_searchAutocomplete_content_resour
 }
 
 export interface searchAutocompleteCollections_searchAutocomplete_content_resource_CommunityDTO {
-  __typename: "CommunityDTO" | "PublicUserDTO" | "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "CommunityDTO" | "PublicUserDTO" | "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
 }
 
 export interface searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_ArticleDTO {
-  __typename: "ArticleDTO" | "CommentDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CuratedListDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO";
+  __typename: "ArticleDTO" | "CommentDTO" | "CommunityInvitationDTO" | "CommunityMemberDTO" | "TemplateDTO" | "CollectionDTO" | "SearchResultDTO" | "UserDTO" | "CuratedListDTO";
 }
 
 export interface searchAutocompleteCollections_searchAutocomplete_content_resource_CollectionDTO_owner_PublicUserDTO_resourceIdentifier {
@@ -111,4 +110,5 @@ export interface searchAutocompleteCollectionsVariables {
   size?: number | null;
   query?: string | null;
   filter?: SearchFilterInput | null;
+  parameter?: SearchParameterInput | null;
 }

@@ -17,7 +17,7 @@ interface IProps {
   children: React.ReactElement<any>;
 }
 
-export default ({ children }: IProps) => (
+const AddOptions: React.FunctionComponent<IProps> = ({ children }) => (
   <Tooltip
     html={children}
     position="bottom"
@@ -30,3 +30,5 @@ export default ({ children }: IProps) => (
     </AddButton>
   </Tooltip>
 );
+
+export default AddOptions;

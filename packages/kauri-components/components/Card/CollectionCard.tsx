@@ -46,6 +46,34 @@ const Container = styled.div`
   flex: 1;
 `;
 
+const MoreOptionsIcon: React.FunctionComponent<{}> = () => (
+  <svg
+    width="23"
+    height="5"
+    viewBox="0 0 23 5"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g opacity="0.6">
+      <circle cx="20.5" cy="2.5" r="2.5" fill="#1E2428" />
+      <circle cx="11.5" cy="2.5" r="2.5" fill="#1E2428" />
+      <circle cx="2.5" cy="2.5" r="2.5" fill="#1E2428" />
+    </g>
+  </svg>
+);
+
+const MoreOptions = styled<{ hasImageURL: boolean }, "div">("div")`
+  display: flex;
+  height: 20px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: ${props => (props.hasImageURL ? "135" : "10")}px;
+  right: 15px;
+  z-index: 5;
+`;
+
 const Mask = styled.div`
   display: flex;
   flex-direction: column;
@@ -247,6 +275,7 @@ interface IActualContentProps {
   userId: string;
   userAvatar: string | null;
   date: string;
+  resourceType: string;
 }
 
 const RenderActualContent: React.SFC<IActualContentProps> = ({
@@ -261,6 +290,7 @@ const RenderActualContent: React.SFC<IActualContentProps> = ({
   userId,
   userAvatar,
   date,
+  resourceType,
 }) => (
   <React.Fragment>
     {linkComponent(
@@ -283,7 +313,9 @@ const RenderActualContent: React.SFC<IActualContentProps> = ({
         imageURL={imageURL}
         userAvatar={userAvatar}
       />,
-      `/public-profile/${userId}`
+      resourceType === "COMMUNITY"
+        ? `/community/${userId}`
+        : `/public-profile/${userId}`
     )}
     <Date status="PUBLISHED" date={date} />
   </React.Fragment>
@@ -304,6 +336,7 @@ interface ICardContentProps {
   userId: string;
   userAvatar: string | null;
   date: string;
+  resourceType: string;
 }
 
 const RenderCardContent: React.SFC<ICardContentProps> = ({
@@ -318,6 +351,7 @@ const RenderCardContent: React.SFC<ICardContentProps> = ({
   userId,
   userAvatar,
   date,
+  resourceType,
 }) =>
   typeof imageURL === "string" ? (
     <Mask>
@@ -333,6 +367,7 @@ const RenderCardContent: React.SFC<ICardContentProps> = ({
         userAvatar={userAvatar}
         userId={userId}
         username={username}
+        resourceType={resourceType}
       />
     </Mask>
   ) : (
@@ -349,6 +384,7 @@ const RenderCardContent: React.SFC<ICardContentProps> = ({
         userAvatar={userAvatar}
         userId={userId}
         username={username}
+        resourceType={resourceType}
       />
     </React.Fragment>
   );
@@ -366,7 +402,7 @@ const calculateCardHeight = R.cond([
       typeof imageURL !== "string" &&
       cardHeight === DEFAULT_CARD_HEIGHT &&
       cardWidth > DEFAULT_CARD_WIDTH,
-    R.always(420),
+    R.always(310),
   ],
   [
     ({ cardHeight, imageURL }) =>
@@ -467,6 +503,7 @@ interface IContentProps {
   userId: string;
   userAvatar: string | null;
   date: string;
+  resourceType: string;
 }
 
 const RenderContent: React.SFC<IContentProps> = ({
@@ -481,6 +518,7 @@ const RenderContent: React.SFC<IContentProps> = ({
   userId,
   userAvatar,
   date,
+  resourceType,
 }) => (
   <React.Fragment>
     <Content>
@@ -507,6 +545,7 @@ const RenderContent: React.SFC<IContentProps> = ({
         userAvatar={userAvatar}
         userId={userId}
         username={username}
+        resourceType={resourceType}
       />
     </Content>
   </React.Fragment>
@@ -530,6 +569,8 @@ interface IProps {
     route: string
   ) => React.ReactElement<any>;
   isChosenCollection?: boolean;
+  isLoggedIn?: boolean;
+  canAccessHoverChildren?: boolean;
   triggerHoverChildrenOnFullCardClick?: boolean;
   hoverChildren?:
     | null
@@ -540,6 +581,7 @@ interface IProps {
           toggleDispatch: () => void;
         }
       ) => React.ReactElement<any>);
+  resourceType: string; // USER | COMMUNITY
 }
 
 interface IRenderFooterProps {
@@ -595,6 +637,8 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
   articleCount,
   collectionCount,
   triggerHoverChildrenOnFullCardClick = false,
+  canAccessHoverChildren,
+  resourceType,
 }) => {
   const [{ toggledOn }, dispatch] = React.useReducer<
     IToggleState,
@@ -624,6 +668,14 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
           triggerHoverChildrenOnFullCardClick && showDispatch(dispatch)()
         }
       >
+        {!!hoverChildren && canAccessHoverChildren && (
+          <MoreOptions
+            hasImageURL={!!imageURL}
+            onClick={toggleDispatch(dispatch)}
+          >
+            <MoreOptionsIcon />
+          </MoreOptions>
+        )}
         <RenderContent
           cardHeight={cardHeight}
           cardWidth={cardWidth}
@@ -636,8 +688,12 @@ const CollectionCard: React.FunctionComponent<IProps> = ({
           userAvatar={userAvatar}
           userId={userId}
           username={username}
+          resourceType={resourceType}
         />
-        {typeof imageURL !== "string" && <Divider />}
+        {typeof imageURL !== "string" &&
+        (Number(articleCount) || Number(collectionCount)) ? (
+          <Divider />
+        ) : null}
         <RenderFooter
           id={id}
           imageURL={imageURL}

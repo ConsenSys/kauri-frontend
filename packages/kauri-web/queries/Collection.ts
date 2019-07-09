@@ -1,44 +1,5 @@
 import gql from "graphql-tag";
-import { Article } from "./Article";
-import { UserOwner } from "./User";
-import { CommunityOwner } from "./Community";
-
-export const Collection = gql`
-  fragment Collection on CollectionDTO {
-    id
-    name
-    description
-    tags
-    background
-    dateUpdated
-    owner {
-      ...UserOwner
-      ...CommunityOwner
-    }
-    sections {
-      id
-      name
-      description
-      resourcesId {
-        id
-        type
-      }
-      resources {
-        ... on ArticleDTO {
-          id
-          version
-        }
-      }
-    }
-    resourceIdentifier {
-      type
-      id
-    }
-  }
-
-  ${UserOwner}
-  ${CommunityOwner}
-`;
+import { CommunityOwner, UserOwner, Article, Collection } from "./Fragments";
 
 export const globalCollectionDetails = gql`
   query getCollection($id: String) {
@@ -87,12 +48,14 @@ export const createCollection = gql`
     $description: String
     $background: String
     $tags: [String]
+    $owner: ResourceIdentifierInput
   ) {
     createCollection(
       name: $name
       description: $description
       background: $background
       tags: $tags
+      owner: $owner
     ) {
       hash
     }
@@ -133,12 +96,14 @@ export const getLatestCollections = gql`
     $size: Int = 12
     $query: String
     $filter: SearchFilterInput
+    $parameter: SearchParameterInput
   ) {
     searchAutocomplete(
       page: $page
       size: $size
       query: $query
       filter: $filter
+      parameter: $parameter
     ) {
       totalElements
       totalPages

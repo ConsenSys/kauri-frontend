@@ -18,6 +18,8 @@ import {
 import { TagList } from "../Tags";
 import Image from "../Image";
 import Date from "../HoverDateLabel";
+import { Article_associatedNfts } from "../../../kauri-web/queries/Fragments/__generated__/Article";
+
 
 const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
@@ -113,7 +115,7 @@ const MoreOptions = styled<{ hasImageURL: boolean }, "div">("div")`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: ${props => (props.hasImageURL ? "145" : "10")}px;
+  top: ${props => (props.hasImageURL ? "135" : "10")}px;
   right: 15px;
   z-index: 5;
 `;
@@ -169,6 +171,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
           maxChars={25}
           color="textPrimary"
           tags={tags}
+          maxChars={30}
         />
       )}
     </Content>
@@ -177,6 +180,7 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
 
 interface IPublicProfileProps {
   username: string | null;
+  name?: string | null;
   userId: string;
   cardWidth: number;
   userAvatar: string | null;
@@ -189,12 +193,14 @@ const RenderPublicProfile: React.FunctionComponent<IPublicProfileProps> = ({
   cardWidth,
   userAvatar,
   imageURL,
+  name,
 }) => (
   <UserAvatar
     imageURL={imageURL}
     cardType="ARTICLE"
     fullWidth={cardWidth > DEFAULT_CARD_WIDTH}
     username={username}
+    name={name}
     userId={userId}
     avatar={userAvatar}
   />
@@ -246,12 +252,13 @@ interface IProps {
   date: string;
   title: string;
   username: string | null;
+  name?: string | null;
   userId: string;
   userAvatar: string | null;
   imageURL: string | null;
   cardHeight: number;
   cardWidth?: number;
-  destination?: "review";
+  destination?: "review" | null;
   linkComponent: (
     childrenProps: React.ReactElement<any>,
     route: string
@@ -270,6 +277,7 @@ interface IProps {
   status?: "PUBLISHED" | "DRAFT";
   isLoggedIn: boolean;
   tags?: string[];
+  nfts?: Array<Article_associatedNfts | null> | null;
   triggerHoverChildrenOnFullCardClick?: boolean;
 }
 
@@ -279,6 +287,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
   date,
   title,
   username,
+  name,
   userId,
   userAvatar,
   imageURL,
@@ -339,6 +348,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             date={date}
             status={status}
             tags={tags}
+            nfts={null}
           />,
           destination === "review"
             ? `/article-review/${id}/v${version}`
@@ -350,6 +360,7 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             <RenderPublicProfile
               imageURL={imageURL}
               username={username}
+              name={name}
               userId={userId}
               cardWidth={288}
               userAvatar={userAvatar}

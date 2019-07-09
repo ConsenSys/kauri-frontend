@@ -1,4 +1,5 @@
 // @flow
+import React from "react";
 import { connect } from "react-redux";
 import { compose } from "recompose";
 import { withFormik } from "formik";
@@ -15,6 +16,7 @@ import {
   composeCollectionAction,
 } from "./Module";
 import R from "ramda";
+import PublishingSelector from "../../common/PublishingSelector";
 
 export type FormState = {
   name: string,
@@ -35,6 +37,7 @@ const getCollectionField = (field, data) =>
 export default compose(
   connect(
     state => ({
+      communities: state.app.user && state.app.user.communities,
       userId: state.app && state.app.user && state.app.user.id,
       username: state.app && state.app.user && state.app.user.username,
       userAvatar: state.app && state.app.user && state.app.user.avatar,
@@ -55,25 +58,25 @@ export default compose(
         // Prefill article in section 1 and create first collection
         typeof query === "object" && typeof query.articleId === "string"
           ? [
-            {
-              name: "",
-              description: undefined,
-              resourcesId: [
-                {
-                  type: "ARTICLE",
-                  id: query.articleId,
-                  version: query.version,
-                },
-              ],
-            },
-          ] // Updating a collection, prefill data
+              {
+                name: "",
+                description: undefined,
+                resourcesId: [
+                  {
+                    type: "ARTICLE",
+                    id: query.articleId,
+                    version: query.version,
+                  },
+                ],
+              },
+            ] // Updating a collection, prefill data
           : R.path(["getCollection", "sections"])(data)
-            ? R.pipe(
+          ? R.pipe(
               R.path(["getCollection", "sections"]),
               R.map(section => ({
                 ...section,
                 resourcesId: R.map(({ id, version, __typename }) => ({
-                  type: __typename.split("DTO")[0],
+                  type: __typename.split("DTO")[0].toUpperCase(),
                   id,
                   version,
                 }))(section.resources),
@@ -81,7 +84,7 @@ export default compose(
               R.map(section => R.dissocPath(["resources"])(section)),
               R.map(section => R.dissocPath(["__typename"])(section))
             )(data)
-            : [emptySection];
+          : [emptySection];
       // Empty section, fresh collection
 
       return {
@@ -110,45 +113,64 @@ export default compose(
       values: FormState,
       { props, setErrors, resetForm, setSubmitting }
     ) => {
-      const logIfDevelopment = value =>
-        process.env.NODE_ENV === "development" && console.log(value);
-      logIfDevelopment(values);
-      logIfDevelopment(props);
-
-      if (props.data) {
-        // BACKEND FIX sections.resources -> sections.resourcesId :(
-        const reassignResourcesToResourcesId = R.pipe(
-          R.path(["sections"]),
-          R.map(section => ({
-            ...section,
-            resourcesId: R.map(({ id, version, type }) => ({
-              type: type.toUpperCase(),
-              id,
-              version,
-            }))(section.resourcesId),
-          })),
-          R.map(section => R.dissocPath(["resources"])(section)),
-          R.map(section => R.dissocPath(["__typename"])(section))
-        );
-
-        logIfDevelopment(reassignResourcesToResourcesId(values));
-
-        const payload = {
-          ...values,
-          sections: reassignResourcesToResourcesId(values),
-          id: props.data.variables.id,
-          updating: true,
-        };
-
-        logIfDevelopment(payload);
-
-        props.editCollectionAction(payload, () => {
-          setSubmitting(false);
+      if (props.communities && !props.data) {
+        props.openModalAction({
+          children: (
+            <PublishingSelector
+              userId={props.userId}
+              type="Collections"
+              closeModalAction={() => {
+                props.closeModalAction();
+                setSubmitting(false);
+              }}
+              communities={props.communities.map(({ community }) => ({
+                ...community,
+                type: "COMMUNITY",
+              }))}
+              handleSubmit={destination => {
+                values.destination = destination;
+                props.createCollectionAction(values, () => {
+                  props.closeModalAction();
+                  setSubmitting(false);
+                });
+              }}
+            />
+          ),
         });
       } else {
-        props.createCollectionAction(values, () => {
-          setSubmitting(false);
-        });
+        if (props.data) {
+          // BACKEND FIX sections.resources -> sections.resourcesId :(
+          const reassignResourcesToResourcesId = R.pipe(
+            R.path(["sections"]),
+            R.map(section => ({
+              ...section,
+              resourcesId: R.map(({ id, version, type }) => ({
+                type: type.toUpperCase(),
+                id,
+                version,
+              }))(section.resourcesId),
+            })),
+            R.map(section => R.dissocPath(["resources"])(section)),
+            R.map(section => R.dissocPath(["__typename"])(section))
+          );
+
+          const payload = {
+            ...values,
+            sections: reassignResourcesToResourcesId(values),
+            id: props.data.variables.id,
+            updating: true,
+          };
+
+          props.editCollectionAction(payload, () => {
+            setSubmitting(false);
+          });
+          console.log("Editing");
+        } else {
+          props.createCollectionAction(values, () => {
+            setSubmitting(false);
+          });
+          console.log("Creating");
+        }
       }
     },
   })

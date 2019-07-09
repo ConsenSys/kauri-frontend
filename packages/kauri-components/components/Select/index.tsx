@@ -2,6 +2,37 @@ import * as React from "react";
 import { Tooltip } from "react-tippy";
 import styled from "../../lib/styled-components";
 import { Label } from "../Typography";
+import theme from "../../lib/theme-config";
+
+export const TooltipContainer = styled.div`
+  display: flex;
+  width: 300px;
+  padding: ${theme.space[2]}px;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+  border-radius: 4px;
+  > div:not(:last-child) {
+    margin-bottom: ${theme.space[2]}px;
+  }
+  > * {
+    cursor: pointer;
+  }
+`;
+
+export const TooltipArrowAtTop = styled.div`
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 4px;
+  position: absolute;
+  z-index: -1;
+  top: -3%;
+  width: 14px;
+  height: 14px;
+  background: white;
+  transform: rotate(45deg);
+  border-radius: 2px;
+`;
 
 const DownArrowIcon = () => (
   <svg
@@ -96,7 +127,7 @@ const Select = styled.div`
 interface IProps {
   placeHolder: string;
   children: React.ReactElement<any>;
-  value: string | null;
+  value: string | null | undefined;
 }
 
 export default ({ children, placeHolder, value }: IProps) => {

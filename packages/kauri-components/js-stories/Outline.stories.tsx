@@ -4,6 +4,7 @@ import Outline from "../components/Outline";
 
 storiesOf("Outline Headings", module).add("Headings", () => (
   <Outline
+    name={null}
     nfts={null}
     headings={["Intro", "Turning Web3.js functions into JavaScript promises"]}
     username={"rej156"}

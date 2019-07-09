@@ -40,7 +40,10 @@ class Communities extends Component<IProps> {
     return (
       <Fragment>
         <Head>
-          <title>Kauri - Discover Communities</title>
+          <title>
+            Beginner to Advanced Blockchain & Ethereum Tutorials | Communities -
+            Kauri
+          </title>
           <meta
             name="description"
             content="Discover the best collections of blockchain related articles, tutorials and how-to guides"
@@ -59,27 +62,40 @@ class Communities extends Component<IProps> {
                   community && (
                     <CommunityCard
                       key={index}
-                      communityLogo={community.avatar}
-                      communityName={String(community.name)}
-                      communityDescription={
+                      logo={community.avatar}
+                      imageURL={community.avatar}
+                      name={String(community.name)}
+                      description={
                         community.description
                           ? community.description.split(".")[0]
                           : ""
                       }
                       cardHeight={310}
-                      articles={
+                      collectionCount={
                         (Array.isArray(community.approvedId) &&
                           String(
                             community &&
                               community.approvedId &&
-                              community.approvedId.map(
+                              community.approvedId.filter(
+                                resource =>
+                                  resource && resource.type === "COLLECTION"
+                              ).length
+                          )) ||
+                        "0"
+                      }
+                      articleCount={
+                        (Array.isArray(community.approvedId) &&
+                          String(
+                            community &&
+                              community.approvedId &&
+                              community.approvedId.filter(
                                 resource =>
                                   resource && resource.type === "ARTICLE"
                               ).length
                           )) ||
                         "0"
                       }
-                      tags={community.tags}
+                      // tags={community.tags}
                       linkComponent={(
                         childrenProps: React.ReactElement<any>
                       ) => (

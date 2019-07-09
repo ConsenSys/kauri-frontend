@@ -8,9 +8,9 @@ import {
   searchAwaitingApproval,
   getArticleTransfers,
 } from "../../../queries/Article";
-import { getUserDetails } from "../../../queries/User";
+import { getUserDetails, getOwnProfile } from "../../../queries/User";
 import { getCollectionsForUser } from "../../../queries/Collection";
-import { deleteDraftArticleAction } from "../Article/DeleteDraftArticleModule";
+import { deleteDraftArticleAction } from "../ArticleDraft/DeleteDraftArticleModule";
 import {
   closeModalAction,
   openModalAction,
@@ -22,6 +22,7 @@ import {
   rejectArticleTransferAction,
   acceptArticleTransferAction,
 } from "./Manage/TransferModule";
+import { removeMemberAction } from "../Community/Module";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -39,6 +40,7 @@ export default compose(
       openModalAction,
       rejectArticleTransferAction,
       acceptArticleTransferAction,
+      removeMemberAction,
     }
   ),
   graphql(searchPersonalArticles, {
@@ -53,6 +55,16 @@ export default compose(
   }),
   graphql(getUserDetails, {
     name: "UserQuery",
+    options: ({ userId }) => ({
+      fetchPolicy: "cache-and-network",
+      variables: {
+        userId,
+        page: 0,
+      },
+    }),
+  }),
+  graphql(getOwnProfile, {
+    name: "OwnProfileQuery",
     options: ({ userId }) => ({
       fetchPolicy: "cache-and-network",
       variables: {
@@ -77,26 +89,6 @@ export default compose(
   }),
   graphql(searchPersonalDrafts, {
     name: "DraftsQuery",
-    options: ({ userId }) => ({
-      fetchPolicy: "cache-and-network",
-      variables: {
-        page: 0,
-        userId,
-      },
-    }),
-  }),
-  graphql(searchPending, {
-    name: "PendingQuery",
-    options: ({ userId }) => ({
-      fetchPolicy: "cache-and-network",
-      variables: {
-        page: 0,
-        userId,
-      },
-    }),
-  }),
-  graphql(searchAwaitingApproval, {
-    name: "ApprovalsQuery",
     options: ({ userId }) => ({
       fetchPolicy: "cache-and-network",
       variables: {

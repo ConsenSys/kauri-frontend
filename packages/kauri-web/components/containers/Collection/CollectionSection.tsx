@@ -13,11 +13,11 @@ import {
   Article,
   Article_owner_PublicUserDTO,
   Article_owner_CommunityDTO,
-} from "../../../queries/__generated__/Article";
+} from "../../../queries/Fragments/__generated__/Article";
 import {
   Collection,
   Collection_owner_PublicUserDTO,
-} from "../../../queries/__generated__/Collection";
+} from "../../../queries/Fragments/__generated__/Collection";
 import CollectionCard from "../../../../kauri-components/components/Card/CollectionCard";
 
 const Container = styled.section`
@@ -57,7 +57,7 @@ interface IProps {
   openModalAction: any;
 }
 
-const Component: React.SFC<IProps> = props => {
+const CollectionSection: React.SFC<IProps> = props => {
   const {
     name,
     description,
@@ -126,7 +126,7 @@ const Component: React.SFC<IProps> = props => {
                     </Link>
                   )}
                   resourceType={"USER"}
-                  cardHeight={420}
+                  cardHeight={310}
                   isLoggedIn={isLoggedIn}
                   hoverChildren={
                     isOwnedByCurrentUser
@@ -184,6 +184,30 @@ const Component: React.SFC<IProps> = props => {
                   return current;
                 }, 0);
 
+              const ownerResource =
+                collection.owner &&
+                collection.owner.__typename === "PublicUserDTO"
+                  ? {
+                      avatar: collection.owner.avatar,
+                      id: collection.owner.id || "not_found",
+                      type: "USER",
+                      username: collection.owner.username,
+                    }
+                  : collection.owner &&
+                    collection.owner.__typename === "CommunityDTO"
+                  ? {
+                      avatar: collection.owner.avatar,
+                      id: collection.owner.id || "not_found",
+                      type: "COMMUNITY",
+                      username: collection.owner.name,
+                    }
+                  : {
+                      avatar: "",
+                      id: "",
+
+                      username: "",
+                    };
+
               return (
                 <CollectionCard
                   key={String(collection.id)}
@@ -226,6 +250,7 @@ const Component: React.SFC<IProps> = props => {
                     </Link>
                   )}
                   cardHeight={310}
+                  resourceType={ownerResource.type || "USER"}
                 />
               );
             }
@@ -238,4 +263,4 @@ const Component: React.SFC<IProps> = props => {
   return <Empty />;
 };
 
-export default Component;
+export default CollectionSection;

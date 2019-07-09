@@ -36,19 +36,31 @@ import {
 import { saveUserDetailsEpic } from "../components/common/EditProfile/Module";
 import modal from "../../kauri-components/components/Modal/Module";
 import { checkpointArticlesEpic } from "../components/containers/CheckpointArticles/Module";
-import { deleteDraftArticleEpic } from "../components/containers/Article/DeleteDraftArticleModule";
+import { deleteDraftArticleEpic } from "../components/containers/ArticleDraft/DeleteDraftArticleModule";
 import { addArticleToCollectionEpic } from "../components/connections/AddToCollection/Module";
 import {
   verifyEmailEpic,
   resendEmailVerificationEpic,
-  emailSubscribeEpic
+  emailSubscribeEpic,
 } from "../components/containers/EmailVerification/Module";
 import { voteEpic } from "../components/containers/Article/ApprovedArticle/VoteModule";
 import {
   createCommunityEpic,
+  communityCreatedEpic,
   updateCommunityEpic,
 } from "../components/containers/CreateCommunityForm/Module";
-
+import {
+  curateCommunityResourcesEpic,
+  approveResourceEpic,
+  sendCommunityInvitationEpic,
+  acceptCommunityInvitationEpic,
+  revokeInvitationEpic,
+  removeMemberEpic,
+  removeResourceEpic,
+  changeMemberRoleEpic,
+  resendInvitationEpic,
+  transferArticleToCommunityEpic,
+} from "../components/containers/Community/Module";
 import {
   rejectArticleTransferEpic,
   acceptArticleTransferEpic,
@@ -96,10 +108,21 @@ const epics = [
   emailSubscribeEpic,
   voteEpic,
   createCommunityEpic,
+  communityCreatedEpic,
   updateCommunityEpic,
   rejectArticleTransferEpic,
   acceptArticleTransferEpic,
   finaliseArticleTransferEpic,
+  curateCommunityResourcesEpic,
+  approveResourceEpic,
+  sendCommunityInvitationEpic,
+  acceptCommunityInvitationEpic,
+  revokeInvitationEpic,
+  removeMemberEpic,
+  removeResourceEpic,
+  changeMemberRoleEpic,
+  resendInvitationEpic,
+  transferArticleToCommunityEpic,
 ];
 
 export const rootEpic = combineEpics(...epics);

@@ -6,6 +6,7 @@ import { Label } from "../../../../kauri-components/components/Typography";
 import ScrollIndicator from "../../../../kauri-components/components/ScrollIndicator";
 import Loading from "../../common/Loading";
 import theme from "../../../../kauri-components/lib/theme-config";
+import { ICommunities } from "../../../lib/Module";
 
 const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
@@ -30,6 +31,7 @@ interface IProps {
   userId: string;
   id: string;
   version: string;
+  communities: ICommunities;
   CurrentArticle: any;
   ProposedUpdate: any;
   routeChangeAction: (route: string) => void;
@@ -57,7 +59,7 @@ interface IProps {
 
 class ArticleReviewView extends React.Component<IProps, {}> {
   render() {
-    const { CurrentArticle, ProposedUpdate } = this.props;
+    const { CurrentArticle, ProposedUpdate, communities } = this.props;
     if (!CurrentArticle.getArticle || !ProposedUpdate.getArticle) {
       return <Loading />;
     }
@@ -112,6 +114,7 @@ class ArticleReviewView extends React.Component<IProps, {}> {
           contentHash={proposed.contentHash}
           author={proposed.author}
           owner={current.owner}
+          communities={communities}
           currentUser={this.props.userId}
           status={proposed.status}
         />

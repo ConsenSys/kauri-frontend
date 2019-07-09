@@ -4,7 +4,9 @@ import Stack, { IStackStyledProps } from "stack-styled";
 import { BackgroundProps } from "styled-system";
 import theme from "../../lib/theme-config";
 
-const ActionsSectionStack = styled<BackgroundProps & IStackStyledProps>(Stack)`
+const ActionsSectionStack = styled<BackgroundProps & IStackStyledProps>(
+  props => <Stack {...props} />
+)`
   background: ${props => props.theme.colors[props.background as string]};
   width: 100%;
   padding: 15px ${props => props.theme.padding};

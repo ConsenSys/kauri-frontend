@@ -84,6 +84,27 @@ class CollectionCreated extends React.Component<Props> {
         return current;
       }, 0);
 
+    const ownerResource =
+      owner && owner.__typename === "PublicUserDTO"
+        ? {
+            avatar: owner.avatar,
+            id: owner.id || "not_found",
+            type: "USER",
+            username: owner.username,
+          }
+        : owner && owner.__typename === "CommunityDTO"
+        ? {
+            avatar: owner.avatar,
+            id: owner.id || "not_found",
+            type: "COMMUNITY",
+            username: owner.name,
+          }
+        : {
+            avatar: "",
+            id: "",
+            username: "",
+          };
+
     return (
       <Container>
         <Head>
@@ -102,6 +123,7 @@ class CollectionCreated extends React.Component<Props> {
           imageURL={background}
           articleCount={articleCount}
           collectionCount={collectionCount}
+          resourceType={ownerResource.type || "USER"}
           linkComponent={(childrenProps, route) => (
             <Link
               toSlug={route && route.includes("collection") && name}

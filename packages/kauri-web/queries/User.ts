@@ -1,26 +1,6 @@
 // @flow
 import gql from "graphql-tag";
 
-export const User = gql`
-  fragment User on PublicUserDTO {
-    id
-    name
-  }
-`;
-
-export const UserOwner = gql`
-  fragment UserOwner on PublicUserDTO {
-    id
-    name
-    username
-    avatar
-    resourceIdentifier {
-      id
-      type
-    }
-  }
-`;
-
 export const getUserDetails = gql`
   query getUser($userId: String) {
     getUser(id: $userId) {
@@ -47,6 +27,17 @@ export const getOwnProfile = gql`
       avatar
       social
       status
+      communities {
+        role
+        community {
+          id
+          name
+          members {
+            id
+            role
+          }
+        }
+      }
       subscriptions
       dateCreated
     }

@@ -21,6 +21,7 @@ routes
     "article-drafted",
     "/article/:article_id/v:article_version/article-drafted"
   )
+  .add("draft", "/draft/:id/:version/:slug")
   .add(
     "article-draft-deleted",
     "/article/:article_id/v:article_version/article-draft-deleted"
@@ -52,6 +53,14 @@ routes
   .add("collection", "/collection/:collection_id")
   .add("community", "/community/:communityId")
   .add(
+    "update-community",
+    "/community/:id/update-community",
+    "create-community"
+  )
+  .add("community-created", "/community/:id/community-created")
+  .add("community-updated", "/community/:id/community-updated")
+  .add("community-with-slug", "/community/:communityId/:slug", "community")
+  .add(
     "update-collection",
     "/collection/:id/update-collection",
     "update-collection"
@@ -72,7 +81,7 @@ routes
   .add("article-review", "/article-review/:id/v:version", "article-review")
   .add("create-community", "/create-community")
   .add(
-    "update-community",
-    "/community/:id/update-community",
-    "create-community"
+    "accept-community-invite",
+    "/community/:communityId/approve", // ?secret=xyz
+    "community"
   );

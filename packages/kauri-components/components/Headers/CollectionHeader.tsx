@@ -66,6 +66,7 @@ const changeRoute = (
 ) => () => routeChangeAction(`/collection/${id}/update-collection`);
 
 interface IProps {
+  proposedCommunityId?: string | null;
   collectionCount: number;
   articleCount: number;
   description: string;
@@ -81,6 +82,8 @@ interface IProps {
   userAvatar: string | null;
   userId: string;
   username: string | null;
+  approveResourceAction?: any;
+  isMemberOfCommunityOwner: boolean;
 }
 
 const Container: React.SFC<IProps> = props => {
@@ -100,6 +103,9 @@ const Container: React.SFC<IProps> = props => {
     routeChangeAction,
     imageURL,
     tags,
+    proposedCommunityId,
+    approveResourceAction,
+    isMemberOfCommunityOwner,
   } = props;
   return (
     <CollectionHeaderSection>
@@ -107,7 +113,14 @@ const Container: React.SFC<IProps> = props => {
         <Label>Collection Updated {moment(updated).fromNow()}</Label>
         <Title1 color="white">{name}</Title1>
         <PageDescription color="white">{description}</PageDescription>
-        {tags && <TagList routeChangeAction={routeChangeAction} color={"white"} maxTags={5} tags={tags} />}
+        {tags && (
+          <TagList
+            routeChangeAction={routeChangeAction}
+            color={"white"}
+            maxTags={5}
+            tags={tags}
+          />
+        )}
         <ShareArticle color={"white"} url={url} title={name} />
       </LeftSide>
       <RightSide>
@@ -149,11 +162,24 @@ const Container: React.SFC<IProps> = props => {
             userId={ownerId}
           />
         )}
-        {userId === ownerId ? (
+        {userId === ownerId || isMemberOfCommunityOwner ? (
           <PrimaryButton onClick={changeRoute(routeChangeAction, id)}>
             Update Collection
           </PrimaryButton>
         ) : null}
+        {proposedCommunityId && (
+          <PrimaryButton
+            onClick={() =>
+              approveResourceAction &&
+              approveResourceAction({
+                id: proposedCommunityId,
+                resource: { type: "COLLECTION", id } as any,
+              })
+            }
+          >
+            Approve community proposed collection
+          </PrimaryButton>
+        )}
       </RightSide>
     </CollectionHeaderSection>
   );

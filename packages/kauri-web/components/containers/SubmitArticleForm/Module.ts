@@ -10,8 +10,10 @@ import {
   showNotificationAction,
   routeChangeAction,
   IDependencies,
+  IReduxState,
 } from "../../../lib/Module";
 import { publishArticleAction, IOwnerPayload } from "./PublishArticleModule";
+import { IOption } from "../../common/PublishingSelector";
 import analytics from "../../../lib/analytics";
 
 interface IGetArticleResult {
@@ -37,6 +39,7 @@ export interface ISubmitArticlePayload {
   text: string;
   attributes?: IAttributesPayload;
   selfPublish?: boolean;
+  destination?: IOption;
 }
 
 export interface ISubmitArticleVersionPayload {
@@ -131,7 +134,9 @@ export const submitArticleEpic: Epic<any, {}, IDependencies> = (
   action$
     .ofType(SUBMIT_ARTICLE)
     .switchMap(
-      ({ payload: { text, subject, tags, attributes, selfPublish } }) =>
+      ({
+        payload: { text, subject, tags, attributes, selfPublish, destination },
+      }) =>
         Observable.fromPromise(
           apolloClient.mutate({
             mutation: submitNewArticle,
@@ -168,7 +173,10 @@ export const submitArticleEpic: Epic<any, {}, IDependencies> = (
                     contributor: getArticle.authorId,
                     dateCreated: getArticle.dateCreated,
                     id: getArticle.id,
-                    owner: getArticle.owner,
+                    owner:
+                      destination && destination.__typename === "CommunityDTO"
+                        ? { type: "COMMUNITY", id: destination.id }
+                        : getArticle.owner,
                     version: getArticle.version,
                   })
                 )
@@ -202,9 +210,9 @@ export const submitArticleEpic: Epic<any, {}, IDependencies> = (
           })
     );
 
-export const submitArticleVersionEpic: Epic<any, {}, IDependencies> = (
+export const submitArticleVersionEpic: Epic<any, IReduxState, IDependencies> = (
   action$,
-  _,
+  { getState },
   { apolloClient, apolloSubscriber }: IDependencies
 ) =>
   action$
@@ -276,7 +284,12 @@ export const submitArticleVersionEpic: Epic<any, {}, IDependencies> = (
                       }/article-${
                         typeof selfPublish === "undefined"
                           ? "drafted"
-                          : getArticle.owner.id === getArticle.authorId
+                          : getArticle.owner.id === getArticle.authorId ||
+                            getState()
+                              .app.user.communities.map(
+                                ({ community }) => community.id
+                              )
+                              .includes(getArticle.owner.id)
                           ? "published"
                           : "proposed"
                       }`
@@ -287,13 +300,23 @@ export const submitArticleVersionEpic: Epic<any, {}, IDependencies> = (
                       description:
                         typeof selfPublish === "undefined"
                           ? "Your article has now been drafted to be updated or published in the future"
-                          : getArticle.owner.id === getArticle.authorId
+                          : getArticle.owner.id === getArticle.authorId ||
+                            getState()
+                              .app.user.communities.map(
+                                ({ community }) => community.id
+                              )
+                              .includes(getArticle.owner.id)
                           ? "Your personal article has now been published!"
                           : "Waiting for it to be reviewed!",
                       message: `Article ${
                         typeof selfPublish === "undefined"
                           ? "drafted"
-                          : getArticle.owner.id === getArticle.authorId
+                          : getArticle.owner.id === getArticle.authorId ||
+                            getState()
+                              .app.user.communities.map(
+                                ({ community }) => community.id
+                              )
+                              .includes(getArticle.owner.id)
                           ? "published"
                           : "proposed"
                       }`,

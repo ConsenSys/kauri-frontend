@@ -20,7 +20,7 @@ import setImageUploader from "../../common/ImageUploader";
 import showFormValidationErrors from "../../../lib/show-form-validation-errors";
 import ChooseArticleModal from "./ChooseArticleModal";
 import ChooseCollectionModal from "./ChooseCollectionModal";
-import CreateCollectionOptions from "./CreateCollectionOptions";
+import SectionOptions from "./SectionOptions";
 // import AddTagButton from '../../../../kauri-components/components/Button/AddTagButton'
 // import AddMemberButton from '../../../../kauri-components/components/Button/AddMemberButton'
 import TagSelector from "../../common/TagSelector";
@@ -220,7 +220,6 @@ const renderResourceSection = (
                     values
                   )
                 )}
-              cardHeight={420}
               />
               {provided.placeholder}
             </DraggableResourceContainer>
@@ -536,7 +535,7 @@ export default ({
                       </Droppable>
                     </DragDropContext>
 
-                    <CreateCollectionOptions
+                    <SectionOptions
                       currentSectionIndex={index}
                       previousSectionHasArticles={R.pipe(
                         R.path([
