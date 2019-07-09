@@ -584,7 +584,7 @@ export const acceptCommunityInvitationEpic: Epic<
                     acceptInvitationResult.hash
                   )
               )
-              .mergeMap(({ data: { output: { error } } }) => {
+              .mergeMap(({ data: { output: { error, transactionHash } } }) => {
                 if (
                   typeof error === "string" &&
                   error.includes("associated to another member")
@@ -624,11 +624,26 @@ export const acceptCommunityInvitationEpic: Epic<
                     })
                   ),
                   Observable.of(invitationAcceptedAction())
-                ).do(() => {
-                  setTimeout(() => {
+                )
+                  .take(1)
+                  .mergeMap<
+                    any,
+                    { data: { output: IAcceptInvitationCommandOutput } }
+                  >(() => apolloSubscriber(transactionHash, "AcceptCommitted"))
+                  .mergeMap<
+                    { data: { output: IAcceptInvitationCommandOutput } },
+                    any
+                  >(
+                    ({
+                      data: {
+                        output: { transactionHash: committedTransactionHash },
+                      },
+                    }) =>
+                      apolloSubscriber(committedTransactionHash, "MemberAdded")
+                  )
+                  .do(() => {
                     window.location.href = `/community/${payload.id}`;
-                  }, 2000);
-                });
+                  });
               })
               .catch(err => {
                 console.error(err);
