@@ -316,7 +316,7 @@ interface IRemoveMemberCommandOutput {
 }
 
 interface IChangeMemberRoleCommandOutput {
-  hash: string;
+  transactionHash: string;
 }
 
 type IApproveResourceCommandOutput = ICurateCommunityResourcesCommandOutput;
@@ -857,11 +857,16 @@ export const changeMemberRoleEpic: Epic<Actions, IReduxState, IDependencies> = (
               },
             })
           )
-          .mergeMap(
-            ({ data: { changeMemberRole: changeMemberRoleResult } }: any) =>
-              apolloSubscriber<IChangeMemberRoleCommandOutput>(
-                changeMemberRoleResult.hash
-              )
+          .mergeMap(({ data: { changeMemberRole: changeMemberRoleResult } }) =>
+            apolloSubscriber<IChangeMemberRoleCommandOutput>(
+              changeMemberRoleResult.hash
+            )
+          )
+          .mergeMap(({ data: { output: { transactionHash } } }) =>
+            apolloSubscriber<IChangeMemberRoleCommandOutput>(
+              transactionHash,
+              "MemberRoleChanged"
+            )
           )
           .do(() => apolloClient.resetStore())
           .mergeMap(() =>
@@ -877,11 +882,6 @@ export const changeMemberRoleEpic: Epic<Actions, IReduxState, IDependencies> = (
               Observable.of(memberRoleChangedAction())
             )
           )
-          .do(() => {
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
-          })
       )
     );
 
