@@ -141,7 +141,14 @@ class CollectionPage extends Component<Props> {
             content={`${description && description.substring(0, 100)}...`}
           />
           <meta property="og:type" content="article" />
-          <meta property="og:image" content={bg} />
+          <meta
+            property="og:image"
+            content={
+              background
+                ? background
+                : "https://kauri.io/static/images/logo.png"
+            }
+          />
           <meta name="twitter:card" content="summary" />
           <meta
             name="twitter:site"
@@ -162,9 +169,9 @@ class CollectionPage extends Component<Props> {
           <Image
             height="100%"
             width="100%"
-            overlay={{ opacity: 0.5 }}
+            overlay={{ opacity: 0.8 }}
             asBackground
-            image={bg}
+            image={background}
           />
           <CollectionHeader
             isMemberOfCommunityOwner={isMemberOfCommunityOwner}

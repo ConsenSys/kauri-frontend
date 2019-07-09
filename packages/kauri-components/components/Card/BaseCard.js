@@ -7,7 +7,7 @@ const withoutImageURLPaddingCss = css`
 `;
 
 const chosenArticleCss = css`
-  border: 2px solid ${props => props.theme.colors.primary};
+  box-shadow: 0px 0px 0px 2px ${props => props.theme.colors.primary};
 `;
 
 const BaseCard = styled.div`

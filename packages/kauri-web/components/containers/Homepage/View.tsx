@@ -23,7 +23,6 @@ import CuratedCategory, {
 import { Link } from "../../../routes";
 import { IShowNotificationPayload } from "../../../lib/Module";
 import Head from "next/head";
-
 // import mockData from "./mock";
 
 const HomePageSection = styled.section`
@@ -120,6 +119,7 @@ const HomePageComponent: React.FunctionComponent<IProps> = props => {
                     "Learn Blockchain and Ethereum with Kauri, Articles, Tutorials, Guides, Documentation and Best Practices. Focused on Getting Started, Scaling, Privacy, Storage, Defi, Gaming, UX and much more."
                   }
                 />
+                <link rel="canonical" href={`https://kauri.io`} />
               </Head>
 
               {!props.isLoggedIn && (

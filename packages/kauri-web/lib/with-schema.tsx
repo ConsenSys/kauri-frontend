@@ -113,7 +113,7 @@ const withSchema = (WrappedComponent: React.ComponentClass) => {
                 (attributes &&
                   attributes.background &&
                   attributes.background) ||
-                "/static/images/logo.svg"
+                "https://kauri.io/static/images/logo.png"
               }
             />
             <meta name="twitter:card" content="summary" />
@@ -135,7 +135,7 @@ const withSchema = (WrappedComponent: React.ComponentClass) => {
                 (attributes &&
                   attributes.background &&
                   attributes.background) ||
-                "/static/images/logo.svg"
+                "https://kauri.io/static/images/logo.png"
               }
             />
           </Head>

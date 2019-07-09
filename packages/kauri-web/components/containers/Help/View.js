@@ -1,28 +1,44 @@
 // @flow
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import { TopicsHeader as CategoryHeader } from '../Topics/TopicsHeader'
-import CategoryTab from '../TopicHome/CategoryTab/View'
+import React, { Component } from "react";
+import styled from "styled-components";
+import Head from "next/head";
+import { TopicsHeader as CategoryHeader } from "../Topics/TopicsHeader";
+import CategoryTab from "../TopicHome/CategoryTab/View";
 
 type Props = {
   category: string,
   defaultTab?: string,
   data: { searchArticles?: ?{ totalElements: number } },
   routeChangeAction: string => void,
-}
+};
 
-type State = {}
+type State = {};
 
 class Help extends Component<Props, State> {
-  render () {
+  render() {
     const {
       category,
       data: { searchArticles },
       routeChangeAction,
-    } = this.props
+    } = this.props;
 
     return (
       <section>
+        <Head>
+          <title>
+            Beginner to Advanced Blockchain & Ethereum Tutorials | Help - Kauri
+          </title>
+          <meta
+            name="description"
+            content="Discover the best blockchain related articles, tutorials and how-to guides"
+          />
+          <link
+            rel="canonical"
+            href={`https://${this.props.hostName}/community/${
+              process.env.KauriCommunityId
+            }`}
+          />
+        </Head>
         <CategoryTab.Container chosenCategory={category} categoryTab>
           <CategoryHeader.Indicators>
             <CategoryTab.IndicatorContainer>
@@ -35,10 +51,14 @@ class Help extends Component<Props, State> {
         </CategoryTab.Container>
         <CategoryTab.NewArticlesContainer>
           <CategoryTab.NewArticles>
-            {typeof this.props.data.searchArticles === 'object' ? (
+            {typeof this.props.data.searchArticles === "object" ? (
               this.props.data.searchArticles.content.length > 0 ? (
                 this.props.data.searchArticles.content.map(article => (
-                  <CategoryTab.NewArticle key={article.article_id} {...article} routeChangeAction={routeChangeAction} />
+                  <CategoryTab.NewArticle
+                    key={article.article_id}
+                    {...article}
+                    routeChangeAction={routeChangeAction}
+                  />
                 ))
               ) : (
                 <p>No articles written.</p>
@@ -49,8 +69,8 @@ class Help extends Component<Props, State> {
           </CategoryTab.NewArticles>
         </CategoryTab.NewArticlesContainer>
       </section>
-    )
+    );
   }
 }
 
-export default Help
+export default Help;

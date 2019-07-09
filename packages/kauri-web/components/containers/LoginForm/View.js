@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "../../../lib/styled-components";
 import Head from "next/head";
+import { menuHeaderHeight } from "../Navbar/View";
 import PrimaryButton from "../../../../kauri-components/components/Button/PrimaryButton";
 import {
   Title2,

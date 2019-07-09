@@ -135,7 +135,7 @@ const ProfileHeader = ({
       />
       <meta property="og:description" content={`${title}`} />
       <meta property="og:type" content="public profile" />
-      <meta property="og:image" content={avatar} />
+      {avatar && <meta property="og:image" content={avatar} />}
       <meta name="twitter:card" content="summary" />
       <meta
         name="twitter:site"
@@ -144,7 +144,10 @@ const ProfileHeader = ({
       <meta name="twitter:title" content={name} />
       <meta name="twitter:description" content={title} />
       <meta name="twitter:creator" content="@kauri_io" />
-      <meta name="twitter:image" content={avatar} />
+      <meta
+        name="twitter:image"
+        content={avatar ? avatar : "https://kauri.io/static/images/logo.png"}
+      />
     </Head>
     {avatar ? (
       <UserAvatar

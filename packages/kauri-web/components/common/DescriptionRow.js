@@ -16,7 +16,7 @@ type Props = {
   requestPage?: boolean,
   recentRequest?: boolean,
   openRequest?: boolean,
-  type?: "article card" | "resource row",
+  type?: "article card" | "resource row" | "article comment",
   cardHeight?: number,
   imageURL?: string,
 };
@@ -538,6 +538,12 @@ const resourceRowCss = css`
   }
 `;
 
+const articleCommentCss = css`
+  > .DescriptionRow-markdown--fullText {
+    min-height: unset;
+  }
+`;
+
 const MaxThreeLines = styled.div`
   font-size: 17px;
   letter-spacing: -0.1px;
@@ -545,6 +551,8 @@ const MaxThreeLines = styled.div`
   ${props => !props.fullText && hideAtomicBlock};
   ${props => props.type === "article card" && articleCardCss};
   ${props => props.type === "resource row" && resourceRowCss};
+  ${props =>
+   props.fullText && props.type === "article comment" && articleCommentCss};
 `;
 
 export const options = {

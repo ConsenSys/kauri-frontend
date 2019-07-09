@@ -104,7 +104,6 @@ const CollectionSection: React.SFC<IProps> = props => {
                       : "Anonymous"
                   }
                   userAvatar={(owner && owner.avatar) || null}
-                  nfts={article.associatedNfts}
                   tags={article.tags as string[]}
                   imageURL={
                     (article.attributes &&

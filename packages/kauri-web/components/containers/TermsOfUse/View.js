@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { ActionBadge } from "../../common/ActionBadge";
 import GreenArrow from "../../common/GreenArrow";
+import Head from "next/head";
 
 const ActionsHeader = styled.section`
   display: flex;
@@ -48,6 +49,17 @@ class TermsOfUse extends Component<Props, State> {
 
     return (
       <section>
+        <Head>
+          <title>
+            Beginner to Advanced Blockchain & Ethereum Tutorials | Terms Of Use
+            - Kauri
+          </title>
+          <meta
+            name="description"
+            content="Discover the best blockchain related articles, tutorials and how-to guides"
+          />
+          <link rel="canonical" href={`https://kauri.io/terms-of-use`} />
+        </Head>
         <ActionsHeader>
           <ActionBadge onClick={() => routeChangeAction("back")}>
             <GreenArrow direction="left" />
@@ -129,9 +141,10 @@ class TermsOfUse extends Component<Props, State> {
                   information you submit is truthful and accurate; <b>(b)</b>{" "}
                   you will maintain the accuracy of such information. You may
                   delete your Account at any time, for any reason, by contacting
-                  the kauri team at <a href="info@kauri.io">info@kauri.io</a>.
-                  Company may suspend or terminate your access to the Site in
-                  accordance with Section 12.
+                  the kauri team at{" "}
+                  <a href="mailto:info@kauri.io">info@kauri.io</a>. Company may
+                  suspend or terminate your access to the Site in accordance
+                  with Section 12.
                   <p>
                     Note: If your account is deleted by your choice or
                     otherwise, your contributions to Kauri will persist.
@@ -555,7 +568,7 @@ class TermsOfUse extends Component<Props, State> {
               public/private key cryptography, native cryptographic tokens, like
               Ether (ETH) and Bitcoin (BTC), smart contract based tokens such as
               those that follow the Ethereum Token Standard (
-              <a href="(https://github.com/ethereum/EIPs/issues/20)">
+              <a href="https://github.com/ethereum/EIPs/issues/20">
                 https://github.com/ethereum/EIPs/issues/20
               </a>
               ), and blockchain-based software systems.
