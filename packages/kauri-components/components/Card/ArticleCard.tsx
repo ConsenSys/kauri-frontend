@@ -20,7 +20,6 @@ import Image from "../Image";
 import Date from "../HoverDateLabel";
 import { Article_associatedNfts } from "../../../kauri-web/queries/Fragments/__generated__/Article";
 
-
 const DEFAULT_CARD_WIDTH = theme.DEFAULT_CARD_WIDTH;
 
 const withImageURLPaddingCss = css`
@@ -168,7 +167,6 @@ const RenderCardContent: React.FunctionComponent<ICardContentProps> = ({
           className="taglist"
           resourceType="card"
           maxTags={3}
-          maxChars={25}
           color="textPrimary"
           tags={tags}
           maxChars={30}
@@ -348,7 +346,6 @@ const ArticleCard: React.FunctionComponent<IProps> = ({
             date={date}
             status={status}
             tags={tags}
-            nfts={null}
           />,
           destination === "review"
             ? `/article-review/${id}/v${version}`

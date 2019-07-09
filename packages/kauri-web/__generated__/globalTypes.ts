@@ -72,51 +72,51 @@ export enum UserStatusInput {
 }
 
 export interface ArticleFilterInput {
-  fullText?: string | null;
+  versionGreaterThan?: number | null;
+  authorIdEquals?: string | null;
+  dateCreatedGreaterThan?: any | null;
   statusIn?: (ArticleStatusInput | null)[] | null;
   versionIn?: (number | null)[] | null;
+  dateCreatedLessThan?: any | null;
+  idEquals?: string | null;
   ownerIdEquals?: string | null;
   containsTag?: string | null;
-  latestVersion?: boolean | null;
-  dateCreatedLessThan?: any | null;
-  dateCreatedGreaterThan?: any | null;
-  ownerIdIn?: (string | null)[] | null;
-  versionGreaterThan?: number | null;
-  idEquals?: string | null;
   checkpointEquals?: string | null;
-  authorIdEquals?: string | null;
+  fullText?: string | null;
+  ownerIdIn?: (string | null)[] | null;
+  latestVersion?: boolean | null;
 }
 
 export interface CollectionFilterInput {
-  dateCreatedGreaterThan?: any | null;
-  fullText?: string | null;
-  containingArticleId?: string | null;
-  resourcesCountGreaterThan?: number | null;
-  dateUpdatedGreaterThan?: any | null;
-  dateCreatedLessThan?: any | null;
   dateUpdatedLessThan?: any | null;
-  descriptionContains?: string | null;
   ownerIdEquals?: string | null;
+  resourcesCountGreaterThan?: number | null;
+  fullText?: string | null;
+  dateCreatedGreaterThan?: any | null;
   nameContains?: string | null;
+  containingArticleId?: string | null;
+  dateCreatedLessThan?: any | null;
+  descriptionContains?: string | null;
+  dateUpdatedGreaterThan?: any | null;
 }
 
 export interface CommunityFilterInput {
-  statusIn?: (CommunityStatusInput | null)[] | null;
   dateUpdatedLessThan?: any | null;
-  nameContains?: string | null;
-  membersIncludes?: string | null;
-  dateCreatedGreaterThan?: any | null;
-  dateCreatedLessThan?: any | null;
-  nameContain?: string | null;
   fullText?: string | null;
+  membersIncludes?: string | null;
+  dateCreatedLessThan?: any | null;
   dateUpdatedGreaterThan?: any | null;
+  nameContains?: string | null;
+  statusIn?: (CommunityStatusInput | null)[] | null;
+  nameContain?: string | null;
+  dateCreatedGreaterThan?: any | null;
 }
 
 export interface CommunityInvitationFilterInput {
-  communityIdEquals?: string | null;
-  statusIn?: (CommunityStatusInput | null)[] | null;
   dateAddedLessThan?: any | null;
   dateAddedGreaterThan?: any | null;
+  communityIdEquals?: string | null;
+  statusIn?: (CommunityInvitationStatusInput | null)[] | null;
   deduplicateByEmail?: boolean | null;
 }
 
@@ -126,8 +126,8 @@ export interface CommunityResourceFilterInput {
 }
 
 export interface InvitationInput {
-  secret?: string | null;
   email?: string | null;
+  secret?: string | null;
   role?: CommunityPermissionInput | null;
 }
 
@@ -138,30 +138,30 @@ export interface ResourceIdentifierInput {
 }
 
 export interface SearchFilterInput {
-  mustIncludeUserId?: (string | null)[] | null;
-  dateCreatedLessThan?: any | null;
-  types?: (ResourceTypeInput | null)[] | null;
-  dateUpdatedLessThan?: any | null;
   mustNotContainTag?: (string | null)[] | null;
-  type?: ResourceTypeInput | null;
-  mustContainTag?: (string | null)[] | null;
-  dateUpdatedGreaterThan?: any | null;
   dateCreatedGreaterThan?: any | null;
+  dateUpdatedGreaterThan?: any | null;
+  mustIncludeUserId?: (string | null)[] | null;
+  types?: (ResourceTypeInput | null)[] | null;
   mustNotIncludeUserId?: (string | null)[] | null;
+  dateUpdatedLessThan?: any | null;
+  mustContainTag?: (string | null)[] | null;
+  dateCreatedLessThan?: any | null;
+  type?: ResourceTypeInput | null;
 }
 
 export interface SearchParameterInput {
+  highlightEnable?: boolean | null;
   highlightPreTag?: string | null;
   scoringMode?: ScoringModeInput | null;
   highlightPostTag?: string | null;
-  highlightEnable?: boolean | null;
 }
 
 export interface SectionDTOInput {
-  name?: string | null;
-  resourcesId?: (ResourceIdentifierInput | null)[] | null;
-  id?: string | null;
   description?: string | null;
+  resourcesId?: (ResourceIdentifierInput | null)[] | null;
+  name?: string | null;
+  id?: string | null;
 }
 
 //==============================================================
