@@ -146,7 +146,7 @@ export const acceptArticleTransferEpic: Epic<
         )
     );
 
-interface IFinaliseArticleTransferQueryPayload {
+interface IFinaliseArticleTransferPayload {
   id: string;
   contentHash: string;
   contributor: string;
@@ -156,19 +156,19 @@ interface IFinaliseArticleTransferQueryPayload {
 
 const FINALISE_ARTICLE_TRANSFER = "FINALISE_ARTICLE_TRANSFER";
 
-export interface IFinaliseArticleTransferQueryAction {
+export interface IFinaliseArticleTransferAction {
   type: string;
-  payload: IFinaliseArticleTransferQueryPayload;
+  payload: IFinaliseArticleTransferPayload;
 }
 
-export const finaliseArticleTransferQueryAction = (
-  payload: IFinaliseArticleTransferQueryPayload
-): IFinaliseArticleTransferQueryAction => ({
+export const finaliseArticleTransferAction = (
+  payload: IFinaliseArticleTransferPayload
+): IFinaliseArticleTransferAction => ({
   payload,
   type: FINALISE_ARTICLE_TRANSFER,
 });
 
-export const finaliseArticleTransferQueryEpic: Epic<
+export const finaliseArticleTransferEpic: Epic<
   any,
   IReduxState,
   IDependencies
@@ -178,7 +178,7 @@ export const finaliseArticleTransferQueryEpic: Epic<
     .switchMap(
       ({
         payload: { id, version, contentHash, contributor, dateCreated },
-      }: IFinaliseArticleTransferQueryAction) => {
+      }: IFinaliseArticleTransferAction) => {
         const signatureToSign = generatePublishArticleHash(
           id,
           version,
