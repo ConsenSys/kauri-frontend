@@ -8,7 +8,7 @@ import {
 import {
   rejectArticleTransfer,
   acceptArticleTransfer,
-  finaliseArticleTransfer,
+  finaliseArticleTransferMutation,
 } from "../../../../queries/Article";
 import analytics from "../../../../lib/analytics";
 import generatePublishArticleHash from "../../../../lib/generate-publish-article-hash";
@@ -135,7 +135,7 @@ export const acceptArticleTransferEpic: Epic<
             },
           }) =>
             Observable.of(
-              finaliseArticleTransferAction({
+              finaliseArticleTransferQueryAction({
                 contentHash: hash,
                 contributor: articleAuthor,
                 dateCreated,
@@ -146,7 +146,7 @@ export const acceptArticleTransferEpic: Epic<
         )
     );
 
-interface IFinaliseArticleTransferPayload {
+interface IFinaliseArticleTransferQueryPayload {
   id: string;
   contentHash: string;
   contributor: string;
@@ -156,19 +156,19 @@ interface IFinaliseArticleTransferPayload {
 
 const FINALISE_ARTICLE_TRANSFER = "FINALISE_ARTICLE_TRANSFER";
 
-export interface IFinaliseArticleTransferAction {
+export interface IFinaliseArticleTransferQueryAction {
   type: string;
-  payload: IFinaliseArticleTransferPayload;
+  payload: IFinaliseArticleTransferQueryPayload;
 }
 
-export const finaliseArticleTransferAction = (
-  payload: IFinaliseArticleTransferPayload
-): IFinaliseArticleTransferAction => ({
+export const finaliseArticleTransferQueryAction = (
+  payload: IFinaliseArticleTransferQueryPayload
+): IFinaliseArticleTransferQueryAction => ({
   payload,
   type: FINALISE_ARTICLE_TRANSFER,
 });
 
-export const finaliseArticleTransferEpic: Epic<
+export const finaliseArticleTransferQueryEpic: Epic<
   any,
   IReduxState,
   IDependencies
@@ -178,7 +178,7 @@ export const finaliseArticleTransferEpic: Epic<
     .switchMap(
       ({
         payload: { id, version, contentHash, contributor, dateCreated },
-      }: IFinaliseArticleTransferAction) => {
+      }: IFinaliseArticleTransferQueryAction) => {
         const signatureToSign = generatePublishArticleHash(
           id,
           version,
@@ -190,7 +190,7 @@ export const finaliseArticleTransferEpic: Epic<
           .mergeMap(signature =>
             Observable.fromPromise(
               apolloClient.mutate({
-                mutation: finaliseArticleTransfer,
+                mutation: finaliseArticleTransferMutation,
                 variables: {
                   id,
                   signature,
