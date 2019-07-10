@@ -222,8 +222,12 @@ export const createCommunityEpic: Epic<Actions, IReduxState, IDependencies> = (
                 data: { prepareCreateCommunity: prepareCreateCommunityResult },
               }) =>
                 Observable.fromPromise<string>(
-                  prepareCreateCommunityResult &&
-                    personalSign(prepareCreateCommunityResult.messageHash)
+                  personalSign(
+                    String(
+                      prepareCreateCommunityResult &&
+                        prepareCreateCommunityResult.messageHash
+                    )
+                  )
                 )
                   .mergeMap(signature =>
                     apolloClient.mutate<

@@ -447,7 +447,9 @@ export const sendCommunityInvitationEpic: Epic<
         })
       )
         .mergeMap(({ data: { prepareSendInvitation: result } }) =>
-          Observable.fromPromise(personalSign(result && result.messageHash))
+          Observable.fromPromise(
+            personalSign(String(result && result.messageHash))
+          )
             .mergeMap(signedSignature =>
               apolloClient.mutate<sendInvitation, sendInvitationVariables>({
                 mutation: sendInvitationMutation,
@@ -850,8 +852,8 @@ export const changeMemberRoleEpic: Epic<Actions, IReduxState, IDependencies> = (
           variables: payload,
         })
       ).mergeMap(({ data: { prepareChangeMemberRole: result } }) =>
-        Observable.fromPromise<string>(
-          personalSign(result && result.messageHash)
+        Observable.fromPromise(
+          personalSign(String(result && result.messageHash))
         )
           .mergeMap(signature =>
             apolloClient.mutate<changeMemberRole, changeMemberRoleVariables>({
