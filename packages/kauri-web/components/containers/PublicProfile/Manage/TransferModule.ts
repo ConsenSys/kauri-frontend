@@ -135,7 +135,7 @@ export const acceptArticleTransferEpic: Epic<
             },
           }) =>
             Observable.of(
-              finaliseArticleTransferQueryAction({
+              finaliseArticleTransferAction({
                 contentHash: hash,
                 contributor: articleAuthor,
                 dateCreated,

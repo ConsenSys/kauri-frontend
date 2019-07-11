@@ -837,7 +837,9 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
                 Observable.of(memberRemovedAction())
               );
             })
-            .do(() => apolloClient.resetStore());
+            .do(() => {
+              window.location.reload();
+            });
         })
     )
   );
