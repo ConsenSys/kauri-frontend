@@ -107,6 +107,7 @@ interface IProps {
   allOtherChosenArticles: Array<{ id: string; version: string }>;
   searchPublishedArticles: any;
   searchPersonalPublishedArticles: any;
+  hideAllArticlesTab?: boolean;
 }
 
 interface IState {
@@ -168,7 +169,7 @@ class ChooseArticleModal extends React.Component<IProps, IState> {
   };
 
   render() {
-    const { closeModalAction, confirmModal } = this.props;
+    const { closeModalAction, confirmModal, hideAllArticlesTab } = this.props;
 
     return (
       <ContentContainer>
@@ -207,6 +208,7 @@ class ChooseArticleModal extends React.Component<IProps, IState> {
           passChangeTabFunction={(changeTab: any) =>
             this.setState({ ...this.state, changeTab })
           }
+          hideAllArticlesTab={hideAllArticlesTab}
         />
       </ContentContainer>
     );

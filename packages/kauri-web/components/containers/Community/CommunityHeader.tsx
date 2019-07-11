@@ -372,6 +372,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
       children: (
         <ChooseArticleModal
           limit={1}
+          hideAllArticlesTab={true}
           allOtherChosenArticles={articles || []}
           chosenArticles={[]}
           closeModalAction={closeModalAction}

@@ -143,7 +143,7 @@ const ChooseArticleCardComponent = props => {
         {
           name: "My articles",
         },
-        {
+        !props.hideAllArticlesTab && {
           name: "All articles",
         },
       ]}
