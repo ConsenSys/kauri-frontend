@@ -561,7 +561,11 @@ export const acceptCommunityInvitationEpic: Epic<
   Actions,
   IReduxState,
   IDependencies
-> = (action$, { getState }, { apolloClient, apolloSubscriber, personalSign }) =>
+> = (
+  action$,
+  { getState, dispatch },
+  { apolloClient, apolloSubscriber, personalSign }
+) =>
   action$
     .ofType(ACCEPT_COMMUNITY_INVITATION)
     .switchMap(({ payload }: IAcceptCommunityInvitationAction) =>
@@ -627,32 +631,43 @@ export const acceptCommunityInvitationEpic: Epic<
                     )
                   );
                 }
-                return Observable.merge<any>(
-                  Observable.of(closeModalAction()),
-                  Observable.of(
-                    showNotificationAction({
-                      description: `You are now a member of the community!`,
-                      message: "Invitation Accepted",
-                      notificationType: "success",
-                    })
-                  ),
-                  Observable.of(invitationAcceptedAction())
+
+                //
+                dispatch(
+                  showNotificationAction({
+                    description: "This usually takes about 10 seconds!",
+                    message: "Invitation acceptance in progress",
+                    notificationType: "success",
+                  })
+                );
+                dispatch(closeModalAction());
+
+                return Observable.fromPromise(
+                  apolloSubscriber<IAcceptInvitationCommandOutput>(
+                    transactionHash,
+                    "AcceptCommitted"
+                  )
                 )
-                  .take(1)
-                  .mergeMap<
-                    any,
-                    { data: { output: IAcceptInvitationCommandOutput } }
-                  >(() => apolloSubscriber(transactionHash, "AcceptCommitted"))
-                  .mergeMap<
-                    { data: { output: IAcceptInvitationCommandOutput } },
-                    any
-                  >(
+                  .mergeMap(
                     ({
                       data: {
                         output: { transactionHash: committedTransactionHash },
                       },
                     }) =>
                       apolloSubscriber(committedTransactionHash, "MemberAdded")
+                  )
+                  .mergeMap<any, any>(() =>
+                    Observable.merge(
+                      Observable.of(closeModalAction()),
+                      Observable.of(
+                        showNotificationAction({
+                          description: `You are now a member of the community!`,
+                          message: "Invitation Accepted",
+                          notificationType: "success",
+                        })
+                      ),
+                      Observable.of(invitationAcceptedAction())
+                    )
                   )
                   .do(() => {
                     window.location.href = `/community/${payload.id}`;
