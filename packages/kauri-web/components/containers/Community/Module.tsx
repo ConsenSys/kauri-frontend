@@ -759,7 +759,7 @@ export const revokeInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
 
 export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
-  {},
+  { getState },
   { apolloClient, apolloSubscriber, personalSign }
 ) =>
   action$.ofType(REMOVE_MEMBER).switchMap(({ payload }: IRemoveMemberAction) =>
@@ -812,24 +812,31 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
               )
             );
           }
-          return Observable.merge(
-            Observable.of(closeModalAction()),
-            Observable.of(
-              showNotificationAction({
-                description: `That user has been successfully removed from the community`,
-                message: "Member removed",
-                notificationType: "success",
-              })
-            ),
-            Observable.of(memberRemovedAction())
-          )
-            .take(1)
-            .mergeMap<any, any>(() =>
-              apolloSubscriber<IRemoveMemberCommandOutput>(
-                transactionHash,
-                "MemberRemoved"
-              )
+          return Observable.fromPromise(
+            apolloSubscriber<IRemoveMemberCommandOutput>(
+              transactionHash,
+              "MemberRemoved"
             )
+          )
+            .mergeMap(() => {
+              const isCurrentUser = getState().app.user.id === payload.account;
+
+              return Observable.merge(
+                Observable.of(closeModalAction()),
+                Observable.of(
+                  showNotificationAction({
+                    description: isCurrentUser
+                      ? `You have successfully left the community`
+                      : `That user has been successfully removed from the community`,
+                    message: isCurrentUser
+                      ? "Left Community"
+                      : "Member removed",
+                    notificationType: "success",
+                  })
+                ),
+                Observable.of(memberRemovedAction())
+              );
+            })
             .do(() => apolloClient.resetStore());
         })
     )
