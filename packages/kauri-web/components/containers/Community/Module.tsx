@@ -759,7 +759,7 @@ export const revokeInvitationEpic: Epic<Actions, IReduxState, IDependencies> = (
 
 export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
   action$,
-  { getState },
+  { getState, dispatch },
   { apolloClient, apolloSubscriber, personalSign }
 ) =>
   action$.ofType(REMOVE_MEMBER).switchMap(({ payload }: IRemoveMemberAction) =>
@@ -812,6 +812,16 @@ export const removeMemberEpic: Epic<Actions, IReduxState, IDependencies> = (
               )
             );
           }
+
+          //
+          dispatch(
+            showNotificationAction({
+              description: "This usually takes about 10 seconds",
+              message: "Member removal in progress",
+              notificationType: "success",
+            })
+          );
+
           return Observable.fromPromise(
             apolloSubscriber<IRemoveMemberCommandOutput>(
               transactionHash,
