@@ -157,7 +157,6 @@ class LoginForm extends React.Component<{
   };
 
   render () {
-    const { isSubmitting } = this.props;
 
     return (
       <LoginContainer>
@@ -167,7 +166,6 @@ class LoginForm extends React.Component<{
           Wallet)
         </BodyArticle>
         <PrimaryButton
-          disabled={isSubmitting}
           type="submit"
           onClick={() => this.props.handleSubmit()}
         >
