@@ -63,6 +63,9 @@ export const PullRight = styled.div`
   align-items: center;
   margin-top: ${props => props.theme.space[2]}px;
   z-index: 9;
+  & > button {
+    margin-left: ${props => props.theme.space[2]}px;
+  }
 `;
 
 interface IProps {
@@ -142,15 +145,6 @@ export default ({
 
   return (
     <HeaderContainer>
-      {attributes && attributes.background && (
-        <Image
-          asBackground={true}
-          height="100%"
-          width="100%"
-          overlay={attributes.background && { opacity: 0.8 }}
-          image={attributes.background}
-        />
-      )}
       <InfoContainer>
         <Label color="white">
           {`CREATED ${moment(datePublished || dateCreated).format(
@@ -167,24 +161,35 @@ export default ({
           />
         )}
       </InfoContainer>
-      <SecondaryButton
-        onClick={() =>
-          userId
-            ? routeChangeAction(`/article/${id}/v${version}/update-article`)
-            : routeChangeAction(
-                `/login?r=/article/${id}/v${version}/update-article`
-              )
-        }
-        text="Update Draft"
-      />
-      <PrimaryButton
-        onClick={() =>
-          communities && communities.length > 0
-            ? showSelector()
-            : publishArticle(owner)
-        }
-        text="Publish Article"
-      />
+      <PullRight>
+        <SecondaryButton
+          onClick={() =>
+            userId
+              ? routeChangeAction(`/article/${id}/v${version}/update-article`)
+              : routeChangeAction(
+                  `/login?r=/article/${id}/v${version}/update-article`
+                )
+          }
+          text="Update Draft"
+        />
+        <PrimaryButton
+          onClick={() =>
+            communities && communities.length > 0
+              ? showSelector()
+              : publishArticle(owner)
+          }
+          text="Publish Article"
+        />
+      </PullRight>
+      {attributes && attributes.background && (
+        <Image
+          asBackground={true}
+          height="100%"
+          width="100%"
+          overlay={attributes.background && { opacity: 0.8 }}
+          image={attributes.background}
+        />
+      )}
     </HeaderContainer>
   );
 };
