@@ -41,11 +41,11 @@ export const mockResult = {
         __typename: "VoteResultDTO",
       },
       author: {
+        avatar:
+        "https://api.beta.kauri.io:443/ipfs/Qmf3VwAmcivMAFzRoDJgzJ3hgrjAEKvDh3i7Lm8zAoQnw3",
         id: "9b66e2c73ee59c11ac25ef2730ab589c5416e81a",
         name: "Chris Ward",
         username: "ChrisChinchilla",
-        avatar:
-          "https://api.beta.kauri.io:443/ipfs/Qmf3VwAmcivMAFzRoDJgzJ3hgrjAEKvDh3i7Lm8zAoQnw3",
         __typename: "PublicUserDTO",
       },
       owner: {
