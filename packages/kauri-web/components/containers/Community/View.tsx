@@ -29,6 +29,7 @@ import {
   showNotificationAction as showNotification,
 } from "../../../lib/Module";
 import { openModalAction as openModal } from "../../../../kauri-components/components/Modal/Module";
+import Head from "next/head";
 
 interface IProps {
   client: ApolloClient<{}>;
@@ -149,8 +150,34 @@ class CommunityConnection extends React.Component<IProps> {
       "resources",
     ])(homepage);
 
+    const background = String(
+      getCommunity.attributes && getCommunity.attributes.background
+    );
+
     return (
       <>
+        <Head>
+          <title>{`${String(getCommunity.name)} - Kauri`}</title>
+          {background && (
+            <meta
+              name="image"
+              content={
+                background ||
+                "https://api.kauri.io:443/ipfs/QmRVCyQ3ng5AWGmjodzXcxg1LK9CRvePmd6ciDXY1mLofY"
+              }
+            />
+          )}
+          <meta property="og:url" content="https://kauri.io" />
+          <link rel="canonical" href={`https://kauri.io`} />
+          <meta
+            property="og:image"
+            content={
+              background ||
+              "https://api.kauri.io:443/ipfs/QmRVCyQ3ng5AWGmjodzXcxg1LK9CRvePmd6ciDXY1mLofY"
+            }
+          />
+          <meta name="description" content={String(getCommunity.description)} />
+        </Head>
         <CommunityHeader
           transferArticleToCommunityAction={transferArticleToCommunityAction}
           secret={secret}
@@ -160,9 +187,7 @@ class CommunityConnection extends React.Component<IProps> {
           name={getCommunity.name}
           website={getCommunity.website}
           description={getCommunity.description}
-          background={String(
-            getCommunity.attributes && getCommunity.attributes.background
-          )}
+          background={background}
           social={getCommunity.social}
           articles={
             getCommunity.approved &&
