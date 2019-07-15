@@ -1,4 +1,3 @@
-import { setConfig } from "react-hot-loader";
 import React from "react";
 import Head from "next/head";
 import { connect } from "react-redux";
@@ -6,20 +5,18 @@ import styled from "../lib/styled-components";
 import Navbar from "../components/containers/Navbar";
 import StyledFooter from "../components/containers/StyledFooter";
 import Modal from "../../kauri-components/components/Modal";
-
-setConfig({
-  ignoreSFC: true,
-  pureRender: true, // RHL will not change render method
-});
-
-export const menuHeaderHeight = 76;
-export const footerHeight = 57;
+import { menuHeaderHeight } from "../components/containers/Navbar/View";
+import { footerHeight } from "../components/containers/StyledFooter/View";
 
 const Layout = styled.div``;
 
 const StyledContent = styled.div`
   padding-top: 0px;
-  min-height: calc(100vh - ${menuHeaderHeight + footerHeight}px);
+  min-height: calc(
+    100vh -
+      ${props =>
+    props.headerOffset ? footerHeight : menuHeaderHeight + footerHeight}px
+  );
   background: #f7f7f7;
 `;
 
@@ -48,6 +45,7 @@ export default connect(mapStateToProps)(
     navcolor,
     navcolorOverride,
     isModalOpen,
+    headerOffset,
   }) => (
     <Layout className="layout">
       <Head>
@@ -61,7 +59,7 @@ export default connect(mapStateToProps)(
           navcolor={navcolor}
         />
       </StyledHeader>
-      <StyledContent>{children}</StyledContent>
+      <StyledContent headerOffset={headerOffset}>{children}</StyledContent>
       <StyledFooter />
     </Layout>
   )

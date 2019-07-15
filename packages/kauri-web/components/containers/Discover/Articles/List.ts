@@ -31,13 +31,16 @@ export default compose(
   ),
   graphql(globalSearchApprovedArticles, {
     name: QUERY_NAME,
-    options: () => ({
+    options: ({ scoringMode }: { scoringMode: string }) => ({
       fetchPolicy: "network-only",
       variables: {
         filter: {
           mustNotContainTag: ["ethdenver-2019-submission"],
           mustNotIncludeUserId: config.testingAccounts,
           type: "ARTICLE",
+        },
+        parameter: {
+          scoringMode,
         },
       },
     }),

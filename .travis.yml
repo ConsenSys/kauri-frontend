@@ -48,14 +48,39 @@ jobs:
     #     - touch secret.env
     #     - echo "DEV_SEED_WORDS=${DEV_SEED_WORDS}" > secret.env
     #     - docker run --env-file=secret.env --rm flow-frontend-boilerplate:unit-tests
-    - stage: chromaticqa-no-auto-accept-changes
+    - stage: chromaticqa-no-auto-accept-changes-dev
       if: '((NOT branch = master) AND (branch = development) AND (type IN (pull_request)))'
       script:
         - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components
           .
         - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components
+    - stage: component-specs-dev
+      if: '((NOT branch = master) AND (branch = development) AND (type IN (pull_request)))'
+      script:
+        - docker build -t flow-frontend-boilerplate:kauri-component-specs -f Dockerfile-component-specs
+          .
+        - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-component-specs
+    - stage: chromaticqa-no-auto-accept-changes-dev2
+      if: '((NOT branch = master) AND (branch = dev2) AND (type IN (pull_request)))'
+      script:
+        - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components
+          .
+        - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components
+    - stage: component-specs-dev2
+      if: '((NOT branch = master) AND (branch = dev2) AND (type IN (pull_request)))'
+      script:
+        - docker build -t flow-frontend-boilerplate:kauri-component-specs -f Dockerfile-component-specs
+          .
+        - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-component-specs
     - stage: chromaticqa-auto-accept-changes
       if: '((branch = master) OR (branch = development) AND (NOT type IN (pull_request)))'
+      script:
+        - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components
+          .
+        - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components npm
+          run test:chromatic-auto-accept-changes
+    - stage: chromaticqa-auto-accept-changes-dev2
+      if: '((branch = master) OR (branch = dev2) AND (NOT type IN (pull_request)))'
       script:
         - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components
           .
@@ -116,17 +141,17 @@ jobs:
         - git add .
         - git commit -m "Travis build $TRAVIS_BUILD_NUMBER updating version after tag"
         - git push origin development
-        # - cd ../..
-        # - git checkout dev2
-        # - git checkout master
-        # - git merge -s ours dev2
-        # - git checkout dev2
-        # - git merge master
-        # - cd packages/kauri-web
-        # - npm version $NEW_DEV_VERSION --no-git-tag-version
-        # - git add .
-        # - git commit -m "Travis build $TRAVIS_BUILD_NUMBER updating version after tag"
-        # - git push origin dev2
+        - cd ../..
+        - git checkout dev2
+        - git checkout master
+        - git merge -s ours dev2
+        - git checkout dev2
+        - git merge master
+        - cd packages/kauri-web
+        - npm version $NEW_DEV_VERSION --no-git-tag-version
+        - git add .
+        - git commit -m "Travis build $TRAVIS_BUILD_NUMBER updating version after tag"
+        - git push origin dev2
     - stage: deploy-uat
       if: '(NOT type IN (pull_request) AND (branch = master))'
       install:

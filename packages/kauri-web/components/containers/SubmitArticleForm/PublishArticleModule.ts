@@ -4,7 +4,11 @@ import gql from "graphql-tag";
 import { ApolloClient, ApolloQueryResult } from "apollo-client";
 import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
-import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
+import {
+  showNotificationAction,
+  routeChangeAction,
+  IReduxState,
+} from "../../../lib/Module";
 import { publishArticle } from "./__generated__/publishArticle";
 import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
 import analytics from "../../../lib/analytics";
@@ -84,9 +88,9 @@ const CommandOutput = t.interface({
   hash: t.string,
 });
 
-export const publishArticleEpic: Epic<any, {}, IDependencies> = (
+export const publishArticleEpic: Epic<any, IReduxState, IDependencies> = (
   action$,
-  _,
+  { getState },
   { apolloClient, apolloSubscriber, personalSign }
 ) =>
   action$
@@ -111,7 +115,18 @@ export const publishArticleEpic: Epic<any, {}, IDependencies> = (
           dateCreated
         );
 
-        const articleOwner = owner ? { id: owner.id, type: "USER" } : null;
+        const articleOwner = owner
+          ? {
+              id: owner.id,
+              type: owner.type === "COMMUNITY" ? "COMMUNITY" : "USER",
+            }
+          : null;
+
+        const canPublish =
+          !articleOwner ||
+          (articleOwner && articleOwner.id === contributor) ||
+          getState().app.user.communities.map(({ community }) => community.id)
+            .length > 0;
 
         return Observable.fromPromise(personalSign(signatureToSign))
           .mergeMap(signature =>
@@ -138,9 +153,7 @@ export const publishArticleEpic: Epic<any, {}, IDependencies> = (
           .do(() => apolloClient.resetStore())
           .do(() => {
             analytics.track(
-              !owner || (owner && owner.id === contributor)
-                ? "Publish Article"
-                : "Propose Article Update",
+              canPublish ? "Publish Article" : "Propose Article Update",
               {
                 category: "article_actions",
               }
@@ -150,15 +163,23 @@ export const publishArticleEpic: Epic<any, {}, IDependencies> = (
             Observable.merge(
               Observable.of(
                 showNotificationAction({
-                  description: `Your draft article has been submitted for review or published if it's a personal article!`,
-                  message: "Article submitted",
+                  description: canPublish
+                    ? `Your article has been published.`
+                    : `Your article has been submitted for review.`,
+                  message: canPublish
+                    ? "Article Published"
+                    : "Article submitted",
                   notificationType: "success",
                 })
               ),
               Observable.of(
                 routeChangeAction(
                   `/article/${id}/v${version}/${
-                    !owner || (owner && owner.id === contributor)
+                    !owner ||
+                    (owner && owner.id === contributor) ||
+                    getState()
+                      .app.user.communities.map(({ community }) => community.id)
+                      .includes(owner.id)
                       ? "article-published"
                       : "article-proposed"
                   }`

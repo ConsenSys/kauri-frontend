@@ -1,75 +1,5 @@
 import gql from "graphql-tag";
-import { UserOwner } from "./User";
-import { CommunityOwner } from "./Community";
-
-export const Article = gql`
-  fragment Article on ArticleDTO {
-    associatedNfts {
-      tokenType
-      contractAddress
-      name
-      image
-      externalUrl
-    }
-    resourceIdentifier {
-      id
-      type
-    }
-    description
-    id
-    version
-    title
-    content
-    description
-    authorId
-    dateCreated
-    datePublished
-    status
-    attributes
-    contentHash
-    checkpoint
-    tags
-    voteResult {
-      sum
-      count
-      hasVoted
-      quantity
-    }
-    author {
-      id
-      name
-      username
-      avatar
-    }
-    owner {
-      ...UserOwner
-      ...CommunityOwner
-    }
-    comments {
-      content {
-        author {
-          id
-          name
-          username
-          avatar
-        }
-        posted
-        body
-      }
-      totalPages
-      totalElements
-    }
-    resourceIdentifier {
-      id
-      type
-      version
-    }
-    updateComment
-  }
-
-  ${UserOwner}
-  ${CommunityOwner}
-`;
+import { CommunityOwner, UserOwner, Article } from "./Fragments";
 
 export const submitArticle = gql`
   mutation submitArticle(
@@ -232,6 +162,7 @@ export const searchPendingArticles = gql`
       totalElements
     }
   }
+  ${Article}
 `;
 
 export const getTotalArticlesCount = gql`
@@ -374,14 +305,14 @@ export const addComment = gql`
   }
 `;
 
-export const searchPending = gql`
-  query searchArticles($userId: String, $size: Int = 8, $page: Int = 0) {
+export const searchAwaitingApproval = gql`
+  query searchArticles($size: Int = 8, $page: Int = 0, $owners: [String]) {
     searchArticles(
       size: $size
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { authorIdEquals: $userId, statusIn: [PENDING] }
+      filter: { ownerIdIn: $owners, statusIn: [PENDING] }
     ) {
       totalElements
       isLast
@@ -435,14 +366,14 @@ export const searchPending = gql`
   ${CommunityOwner}
 `;
 
-export const searchAwaitingApproval = gql`
-  query searchArticles($userId: String, $size: Int = 666, $page: Int = 0) {
+export const searchPending = gql`
+  query searchArticles($size: Int = 666, $page: Int = 0, $author: String) {
     searchArticles(
       size: $size
       page: $page
       sort: "dateCreated"
       dir: DESC
-      filter: { ownerIdEquals: $userId, statusIn: [PENDING] }
+      filter: { authorIdEquals: $author, statusIn: [PENDING] }
     ) {
       totalElements
       isLast
@@ -526,14 +457,14 @@ export const globalSearchApprovedArticles = gql`
     $size: Int = 12
     $query: String
     $filter: SearchFilterInput
+    $parameter: SearchParameterInput
   ) {
     searchAutocomplete(
       page: $page
       size: $size
       query: $query
       filter: $filter
-      dir: "desc"
-      sort: "dateUpdated"
+      parameter: $parameter
     ) {
       totalElements
       totalPages
@@ -648,7 +579,7 @@ export const acceptArticleTransfer = gql`
   }
 `;
 
-export const finaliseArticleTransfer = gql`
+export const finaliseArticleTransferMutation = gql`
   mutation finaliseArticleTransfer($id: String, $signature: String) {
     finaliseArticleTransfer(id: $id, signature: $signature) {
       hash

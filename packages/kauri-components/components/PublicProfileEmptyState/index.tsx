@@ -47,7 +47,7 @@ interface IProps {
   learnMoreLinkComponent?: (
     childrenProps: React.ReactElement<any>
   ) => React.ReactElement<any>;
-  iconSrc: string;
+  iconSrc: string | null;
   primaryButton?: React.ReactElement<any>;
   secondaryButton?: React.ReactElement<any>;
   moveIconLeftBecauseCSS?: boolean;
@@ -63,7 +63,7 @@ export const PublicProfileEmptyState: React.FunctionComponent<IProps> = ({
   moveIconLeftBecauseCSS,
 }) => (
   <Container moveIconLeftBecauseCSS={moveIconLeftBecauseCSS}>
-    <Icon src={iconSrc} />
+    {typeof iconSrc === "string" && <Icon src={iconSrc} />}
     <Title2>{title}</Title2>
     {typeof description === "string" ? (
       <BodyCard>{description}</BodyCard>

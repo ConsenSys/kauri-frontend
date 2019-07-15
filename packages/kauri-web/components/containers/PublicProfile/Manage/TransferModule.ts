@@ -8,7 +8,7 @@ import {
 import {
   rejectArticleTransfer,
   acceptArticleTransfer,
-  finaliseArticleTransfer,
+  finaliseArticleTransferMutation,
 } from "../../../../queries/Article";
 import analytics from "../../../../lib/analytics";
 import generatePublishArticleHash from "../../../../lib/generate-publish-article-hash";
@@ -156,7 +156,7 @@ interface IFinaliseArticleTransferPayload {
 
 const FINALISE_ARTICLE_TRANSFER = "FINALISE_ARTICLE_TRANSFER";
 
-interface IFinaliseArticleTransferAction {
+export interface IFinaliseArticleTransferAction {
   type: string;
   payload: IFinaliseArticleTransferPayload;
 }
@@ -190,7 +190,7 @@ export const finaliseArticleTransferEpic: Epic<
           .mergeMap(signature =>
             Observable.fromPromise(
               apolloClient.mutate({
-                mutation: finaliseArticleTransfer,
+                mutation: finaliseArticleTransferMutation,
                 variables: {
                   id,
                   signature,
@@ -208,17 +208,19 @@ export const finaliseArticleTransferEpic: Epic<
             }) => apolloSubscriber(hash)
           )
           .do(() => apolloClient.resetStore())
-          .do(() => analytics.track("Article Transfer Accepted", {
-            category: "article_actions",
-          }))
+          .do(() =>
+            analytics.track("Article Transfer Accepted", {
+              category: "article_actions",
+            })
+          )
           .mergeMap(() =>
-              Observable.of(
-                showNotificationAction({
-                  description: `You successfully approved the ownership of the article!`,
-                  message: "Article Transfer Accepted!",
-                  notificationType: "success",
-                })
-              )
+            Observable.of(
+              showNotificationAction({
+                description: `You successfully approved the ownership of the article!`,
+                message: "Article Transfer Accepted!",
+                notificationType: "success",
+              })
+            )
           );
       }
     );

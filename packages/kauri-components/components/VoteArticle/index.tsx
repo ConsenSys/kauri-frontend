@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "../../lib/styled-components";
-import { Article_voteResult } from "../../../kauri-web/queries/__generated__/Article";
+import { Article_voteResult } from "../../../kauri-web/queries/Fragments/__generated__/Article";
 import { Label } from "../Typography";
 import TertiaryButtonComponent from "../Button/TertiaryButton";
 

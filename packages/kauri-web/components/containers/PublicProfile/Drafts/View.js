@@ -58,14 +58,13 @@ const Articles = ({
             }
             id={article.id}
             version={article.version}
-            cardHeight={420}
             imageURL={article.attributes && article.attributes.background}
             nfts={article.associatedNfts}
             linkComponent={(childrenProps, route) => (
               <Link
                 toSlug={route && route.includes("article") && article.title}
                 useAnchorTag
-                href={route}
+                href={`/draft/${article.id}/${article.version}`}
               >
                 {childrenProps}
               </Link>

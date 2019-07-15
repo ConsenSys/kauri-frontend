@@ -5,7 +5,7 @@ const articleHeaderCss = css`
 `;
 
 export const CreateRequestSecondaryHeader = styled<
-  { type: string; bg: string },
+  { type: string; bg?: string },
   "div"
 >("div")`
   position: relative;

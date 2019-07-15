@@ -4,7 +4,7 @@ FROM gcr.io/kauri-197812/kauri-contract-abis:latest-dev
 ENV GETH_BLOCKCHAIN=rinkeby.infura.io
 ENV MONOLITH_EXTERNAL_API=api.dev.kauri.io
 ENV MONOLITH_API=monolith.dev:8081
-ENV KAURI_COMMUNITY_ID="3e174cdcf9744ee3898f6a3badc3288b"
+ENV KAURI_COMMUNITY_ID="5d285af6209bf00001308635"
 ENV MIXPANEL_TOKEN="627c5ccb5bf7da1d079aef2efaa807c2"
 EXPOSE 3000
 
@@ -17,6 +17,6 @@ RUN yarn install
 
 WORKDIR /usr/src/app/packages/kauri-web
 RUN yarn install
-RUN npm run build
+RUN yarn build
 
 CMD "npm" "run" "start"

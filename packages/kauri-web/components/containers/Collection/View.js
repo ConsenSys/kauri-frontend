@@ -9,15 +9,30 @@ import CollectionSection from "./CollectionSection";
 import ScrollToTopOnMount from "../../../../kauri-components/components/ScrollToTopOnMount";
 import { Link } from "../../../routes";
 import Image from "../../../../kauri-components/components/Image";
+import { recordView } from "../../../queries/Utils";
+
+type ICommunity = {
+  role: string,
+  community: {
+    id: string,
+    name: string,
+    members: Array<{
+      id: string,
+      role: string,
+    }>,
+  },
+};
 
 type Props = {
   data: {
     getCollection?: CollectionDTO,
   },
+  proposedCommunityId?: string,
   openModalAction: any,
   routeChangeAction: string => void,
   hostName: string,
   userId?: string,
+  communities?: ICommunity[],
 };
 
 export const Overlay = styled.div`
@@ -52,7 +67,20 @@ const HeaderContainer = styled(ContentContainer)`
   }
 `;
 
-class CollectionPage extends Component<Props, {}> {
+class CollectionPage extends Component<Props> {
+  componentDidMount() {
+    this.props.client.mutate({
+      fetchPolicy: "no-cache",
+      mutation: recordView,
+      variables: {
+        resourceId: {
+          type: "COLLECTION",
+          id: this.props.data.getCollection.id,
+        },
+      },
+    });
+  }
+
   render() {
     if (!this.props.data || !this.props.data.getCollection) return null;
 
@@ -67,6 +95,7 @@ class CollectionPage extends Component<Props, {}> {
       sections,
     } = this.props.data.getCollection;
     const { userId, routeChangeAction, hostName, openModalAction } = this.props;
+    const bg = background && background;
     const url = `https://${hostName.replace(/api\./g, "")}/collection/${
       this.props.id
     }/${slugify(name, {
@@ -80,6 +109,15 @@ class CollectionPage extends Component<Props, {}> {
       "resourceIdentifier",
       "type",
     ])(this.props);
+
+    const isMemberOfCommunityOwner = Boolean(
+      resourceType === "COMMUNITY" &&
+        Array.isArray(this.props.communities) &&
+        this.props.communities.find(
+          ({ community }) =>
+            community.id === this.props.data.getCollection.owner.id
+        )
+    );
 
     return (
       <>
@@ -124,14 +162,7 @@ class CollectionPage extends Component<Props, {}> {
             content={`${description && description.substring(0, 100)}...`}
           />
           <meta name="twitter:creator" content="@kauri_io" />
-          <meta
-            name="twitter:image"
-            content={
-              background
-                ? background
-                : "https://kauri.io/static/images/logo.png"
-            }
-          />
+          <meta name="twitter:image" content={bg} />
         </Head>
         <ScrollToTopOnMount />
         <HeaderContainer>
@@ -143,10 +174,13 @@ class CollectionPage extends Component<Props, {}> {
             image={background}
           />
           <CollectionHeader
-            imageURL={typeof background === "string" ? background : null}
+            isMemberOfCommunityOwner={isMemberOfCommunityOwner}
+            imageURL={typeof bg === "string" ? bg : null}
             id={id}
             name={name}
             description={description || ""}
+            approveArticleAction={this.props.approveArticleAction}
+            proposedCommunityId={this.props.proposedCommunityId}
             articleCount={sections
               .map(({ resources }) => resources)
               .reduce((current, next) => {
@@ -170,7 +204,12 @@ class CollectionPage extends Component<Props, {}> {
                 return current;
               }, 0)}
             updated={dateCreated}
-            username={owner && owner.username}
+            username={
+              owner &&
+              (owner.__typename === "CommunityDTO"
+                ? owner.name
+                : owner.username)
+            }
             ownerId={owner.id}
             userId={userId || ""}
             userAvatar={owner && owner.avatar}

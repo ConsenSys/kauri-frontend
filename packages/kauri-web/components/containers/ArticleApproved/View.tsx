@@ -12,7 +12,8 @@ import {
 import {
   Article,
   Article_owner_PublicUserDTO,
-} from "../../../queries/__generated__/Article";
+  Article_owner_CommunityDTO,
+} from "../../../queries/Fragments/__generated__/Article";
 
 import { ShareButtons } from "../../../../kauri-components/components/Tooltip/ShareButtons";
 
@@ -64,7 +65,7 @@ const ArticleApprovedActionButtons = styled.div`
 class ArticleApproved extends React.Component<IProps> {
   render() {
     const { data, routeChangeAction, type, isLoggedIn, hostName } = this.props;
-    const subjectCopy = R.cond([
+    const subjectCopy = R.cond<string, string>([
       [
         R.equals("updated"),
         R.always(
@@ -106,7 +107,12 @@ class ArticleApproved extends React.Component<IProps> {
           </DescriptionContainer>
           <ArticleCard
             key={String(article.id)}
-            resourceType={"USER"}
+            nfts={article.associatedNfts}
+            resourceType={
+              article.owner && article.owner.__typename === "CommunityDTO"
+                ? "COMMUNITY"
+                : "USER"
+            }
             id={String(article.id)}
             version={Number(article.version)}
             date={article.datePublished || article.dateCreated}
@@ -115,6 +121,8 @@ class ArticleApproved extends React.Component<IProps> {
             username={
               (article.owner &&
                 (article.owner as Article_owner_PublicUserDTO).username) ||
+              (article.owner &&
+                (article.owner as Article_owner_CommunityDTO).name) ||
               (article.author && article.author.username)
             }
             userId={R.defaultTo("")(
@@ -127,13 +135,17 @@ class ArticleApproved extends React.Component<IProps> {
               (article.author && article.author.avatar)
             }
             imageURL={article.attributes && article.attributes.background}
-            cardHeight={420}
+            cardHeight={310}
             isLoggedIn={isLoggedIn}
             linkComponent={(childrenProps, route) => (
               <Link
                 toSlug={route && route.includes("article") && article.title}
                 useAnchorTag={true}
-                href={route}
+                href={
+                  type === "drafted" && route.includes("article")
+                    ? `/draft/${article.id}/${article.version}`
+                    : route
+                }
               >
                 {childrenProps}
               </Link>

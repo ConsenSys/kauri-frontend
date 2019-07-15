@@ -169,7 +169,7 @@ const SearchResults = (props: ISearchResults) => (
             `/search-results?q=${props.value}&default_category=${props.type}`
           );
         }}
-        text={`View all ${props.type}`}
+        text={`View all ${props.type === "COMMUNITY" ? "Communities" : `${props.type}s`}`}
       />
     )}
   </ResultsComp>

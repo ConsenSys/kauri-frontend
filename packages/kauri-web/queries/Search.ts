@@ -1,6 +1,5 @@
 import gql from "graphql-tag";
-import { UserOwner } from "./User";
-import { CommunityOwner } from "./Community";
+import { UserOwner,CommunityOwner } from "./Fragments";
 
 export const searchAutocomplete = gql`
   query searchAutocomplete(

@@ -1,10 +1,11 @@
+// @flow
 import React from "react";
 import ApprovedArticle from "./ApprovedArticle/View";
 import R from "ramda";
 import Loading from "../../common/Loading";
 import Head from "next/head";
-
 import type { AddCommentPayload } from "../AddCommentForm/Module";
+import { recordView } from "../../../queries/Utils";
 
 type ArticleProps = {
   id: string,
@@ -18,6 +19,7 @@ type ArticleProps = {
   personalUsername: ?string,
   publishArticleAction: any => void,
   hostName: string,
+  proposedCommunityId?: string,
 };
 
 class Article extends React.Component<ArticleProps> {
@@ -35,7 +37,7 @@ class Article extends React.Component<ArticleProps> {
 
   rejectArticle = cause => {
     const articleData = this.props.data && this.props.data.getArticle;
-    const { id, version, contentHash, author, dateCreated } = articleData;
+    const { id, version } = articleData;
     return this.props.rejectArticleAction({ id, version, cause });
   };
 
@@ -108,10 +110,22 @@ class Article extends React.Component<ArticleProps> {
     }
   };
 
+  componentDidMount() {
+    this.props.client.mutate({
+      fetchPolicy: "no-cache",
+      mutation: recordView,
+      variables: {
+        resourceId: {
+          type: "ARTICLE",
+          id: this.props.id,
+        },
+      },
+    });
+  }
   render() {
-    if (R.path(["data", "getArticle", "status"])(this.props))
+    if (R.path(["data", "getArticle", "status"])(this.props)) {
       return <ApprovedArticle {...this.props} />;
-    else return <Loading />;
+    } else return <Loading />;
   }
 }
 

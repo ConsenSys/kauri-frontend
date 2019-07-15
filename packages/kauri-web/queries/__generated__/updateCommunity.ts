@@ -1,18 +1,19 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
+
+import { SectionDTOInput } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: updateCommunity
 // ====================================================
 
-export interface updateCommunity_createCommunity {
+export interface updateCommunity_editCommunity {
   __typename: "MutationResponse";
   hash: string | null;
 }
 
 export interface updateCommunity {
-  createCommunity: updateCommunity_createCommunity | null;
+  editCommunity: updateCommunity_editCommunity | null;
 }
 
 export interface updateCommunityVariables {
@@ -24,4 +25,5 @@ export interface updateCommunityVariables {
   tags?: (string | null)[] | null;
   social?: any | null;
   attributes?: any | null;
+  homepage?: (SectionDTOInput | null)[] | null;
 }

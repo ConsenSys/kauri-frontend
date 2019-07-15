@@ -2,22 +2,20 @@ import * as React from "react";
 import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter";
 import { H4, ListBulletPoint } from "../Typography";
-import TextTruncate from 'react-text-truncate';
-import analytics from '../../../kauri-web/lib/analytics'
+import TextTruncate from "react-text-truncate";
+import analytics from "../../../kauri-web/lib/analytics";
 
 const handleClick = (heading: string) => (
   event: React.MouseEvent<HTMLElement>
 ) => {
   event.preventDefault();
 
-  const newHeading = heading
-    .replace(/[\W_]+/g,"")
-    .toLowerCase();
+  const newHeading = heading.replace(/[\W_]+/g, "").toLowerCase();
 
-    analytics.track('Clicked Outline', {
-      category: 'article_actions'
-    })
-  
+  analytics.track("Clicked Outline", {
+    category: "article_actions",
+  });
+
   const headerDOMNode = document.getElementById(newHeading);
   if (headerDOMNode) {
     headerDOMNode.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -38,11 +36,7 @@ const Container: React.SFC<Props> = props => {
   return (
     <ListBulletPoint>
       <H4 hoverColor={"hoverTextColor"} onClick={handleClick(heading)}>
-        <TextTruncate
-            line={2}
-            truncateText="…"
-            text={heading}
-        />
+        <TextTruncate line={2} truncateText="…" text={heading} />
       </H4>
     </ListBulletPoint>
   );

@@ -29,7 +29,7 @@ interface IProps {
   maxChars?: number;
   align?: string;
   routeChangeAction?: (route: string) => void;
-  resourceType?: string; // card
+  resourceType?: string; // card, relatedArticles
 }
 
 const firstTagBulletPointCSS = css`
@@ -42,6 +42,11 @@ const firstTagBulletPointCSS = css`
     margin: ${theme.space[1] / 2}px;
     font-weight: ${theme.fontWeight[3]};
   }
+`;
+
+const RelatedArticleTagCSS = css`
+  font-size: ${theme.fontSizes[0]}px;
+  font-weight: ${theme.fontWeight[3]};
 `;
 
 export const StyledTag = styled<
@@ -58,6 +63,7 @@ export const StyledTag = styled<
   &:hover {
     color: ${theme.colors.primary};
   }
+  ${props => props.resourceType === "relatedArticles" && RelatedArticleTagCSS};
   ${props => props.orientation === "vertical" && firstTagBulletPointCSS};
 `;
 
@@ -145,7 +151,11 @@ const TagList = (props: IProps) => {
             <TooltipContainer>
               <TooltipArrow />
               {hiddenTags.map((tag, key) => (
-                <StyledTag color={props.color} key={key}>
+                <StyledTag
+                  resourceType={props.resourceType}
+                  color={props.color}
+                  key={key}
+                >
                   {tag}
                 </StyledTag>
               ))}
@@ -155,7 +165,11 @@ const TagList = (props: IProps) => {
           trigger="mouseenter"
           unmountHTMLWhenHide={true}
         >
-          <StyledTag color={props.color} key="remaining">
+          <StyledTag
+            resourceType={props.resourceType}
+            color={props.color}
+            key="remaining"
+          >
             +{hiddenTags.length}
           </StyledTag>
         </Tooltip>

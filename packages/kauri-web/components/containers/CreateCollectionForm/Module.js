@@ -10,6 +10,8 @@ import { showNotificationAction, routeChangeAction } from "../../../lib/Module";
 import analytics from "../../../lib/analytics";
 
 import type { Dependencies } from "../../../lib/Module";
+import generatePublishArticleHash from "../../../lib/generate-publish-article-hash";
+import { some } from "fp-ts/lib/Option";
 
 export type CreateCollectionPayload = {
   name: string,
@@ -169,7 +171,7 @@ export const createCollectionEpic = (
     .ofType(CREATE_COLLECTION)
     .switchMap(
       ({
-        payload: { name, background, description, sections, tags },
+        payload: { name, background, description, sections, tags, destination },
         callback,
       }: CreateCollectionAction) => {
         return Observable.fromPromise(
@@ -180,6 +182,10 @@ export const createCollectionEpic = (
               background,
               description,
               tags,
+              owner: {
+                type: destination.type,
+                id: destination.id,
+              },
             },
           })
         )

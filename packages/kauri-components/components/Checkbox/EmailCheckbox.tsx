@@ -43,8 +43,8 @@ export const Content: React.SFC<{}> = () => (
   <TooltipContainer>
     <TooltipArrow />
     <span>
-      Keep this checked to receive our newsletter with the latest tutorials and
-      content series
+      Sign up to our newsletter to receive the latest tutorials and content
+      series straight to your inbox
     </span>
   </TooltipContainer>
 );

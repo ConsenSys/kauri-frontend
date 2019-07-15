@@ -8,6 +8,10 @@ import withPagination from "../../../../lib/with-pagination";
 import Masonry from "../../../../../kauri-components/components/Layout/Masonry";
 import PublicProfileEmptyState from "../../../../../kauri-components/components/PublicProfileEmptyState";
 import { BodyCard } from "../../../../../kauri-components/components/Typography";
+import withLoading from "../../../../lib/with-loading";
+import withApolloError from "../../../../lib/with-apollo-error";
+import { searchAwaitingApproval } from "../../../../queries/Article";
+import { graphql, compose } from "react-apollo";
 
 import type { ArticlesProps } from "../types";
 
@@ -60,7 +64,6 @@ const Articles = ({
             }
             id={article.id}
             version={article.version}
-            cardHeight={420}
             imageURL={article.attributes && article.attributes.background}
             nfts={article.associatedNfts}
             destination={"review"}
@@ -94,4 +97,16 @@ const Articles = ({
   );
 };
 
-export default withPagination(Articles, "searchArticles");
+export default compose(
+  graphql(searchAwaitingApproval, {
+    options: ({ userId, communities }) => ({
+      fetchPolicy: "cache-and-network",
+      variables: {
+        page: 0,
+        owners: communities.concat(userId),
+      },
+    }),
+  }),
+  withLoading(),
+  withApolloError()
+)(withPagination(Articles, "searchArticles"));

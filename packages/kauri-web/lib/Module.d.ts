@@ -1,6 +1,7 @@
 import { ApolloClient } from "apollo-client";
 import { IAddArticleToCollectionAction } from "../components/connections/AddToCollection/Module";
 import IVoteAction from "../components/containers/Article/ApprovedArticle/VoteModule";
+import { ICommunityCreatedAction } from "../components/containers/CreateCommunityForm/Module";
 
 type NotificationType = "success" | "info" | "warning" | "error";
 
@@ -34,23 +35,22 @@ export interface IDependencies {
   apolloClient: ApolloClient<{}>;
   apolloSubscriber: <T>(
     hash: string,
-    version?: string,
-    author?: any
-  ) => Promise<{ data: { output: T | any } }>;
+    filterName?: string
+  ) => Promise<{ data: { output: T } }>;
   apolloChildHashesSubscriber: <T>(
     childHashes: string[]
-  ) => Array<Promise<{ data: { output: T | any } }>>;
+  ) => Array<Promise<{ data: { output: T } }>>;
   smartContracts: any;
   web3: any;
   fetch: any;
   web3PersonalSign: any;
   getGasPrice: any;
   driverJS: any;
-  personalSign: any;
+  personalSign: (message: string) => Promise<string>;
 }
 
 export interface IAction {
-  callback: () => void | undefined;
+  callback?: () => void | undefined;
   payload?: {};
   type: string;
 }
@@ -59,6 +59,7 @@ export type Actions =
   | IVoteAction
   | IRouteChangeAction
   | IShowNotificationAction
+  | ICommunityCreatedAction
   | IAddArticleToCollectionAction;
 
 export interface IUser {
@@ -67,9 +68,29 @@ export interface IUser {
   username: string | null;
 }
 
+export interface ICommunity {
+  role: string;
+  community: {
+    id: string;
+    name: string;
+    members: Array<{
+      id: string;
+      role: string;
+    }>;
+  };
+}
+
+export type ICommunities = ICommunity[];
+
 export interface IReduxState {
   app: {
-    user?: IUser;
     hostName: string;
+    user: {
+      id: string;
+      avatar: string;
+      username: string;
+      communities: ICommunity[];
+      status: string; // [NOT_REGISTERED|CREATED]EMAIL_VERIFIED]
+    };
   };
 }

@@ -2,15 +2,17 @@ import * as React from "react";
 import { Title2 } from "../Typography";
 import styled from "../../lib/styled-components";
 import PrimaryButton from "../Button/PrimaryButton";
-import SecondaryButton from "../Button/SecondaryButton";
+import SecondaryButtonComponent from "../Button/SecondaryButton";
 
 interface IProps {
   title: string;
   content: React.ReactElement<any>;
   confirmButtonText?: string;
   closeButtonText?: string;
-  confirmButtonAction: (payload: any) => void;
+  confirmButtonAction: any;
   closeModalAction: () => void;
+  hideCloseButton?: boolean;
+  hideConfirmButton?: boolean;
 }
 
 const Container = styled.div`
@@ -35,13 +37,16 @@ const Footer = styled.div`
   flex-direction: row;
   margin-top: auto;
   align-self: center;
+  justify-content: space-between;
+  width: 100%;
   > :first-child {
     margin-right: ${props => props.theme.space[2]}px;
   }
 `;
 
-const handleConfirmAction = (confirmButtonAction: any) => () =>
+const handleConfirmAction = (confirmButtonAction: any) => () => {
   confirmButtonAction();
+};
 
 const AlertViewComponent: React.FunctionComponent<IProps> = props => (
   <Container>
@@ -50,16 +55,20 @@ const AlertViewComponent: React.FunctionComponent<IProps> = props => (
     </TitleContainer>
     {props.content}
     <Footer>
-      <SecondaryButton
-        color={"textPrimary"}
-        border={"primary"}
-        onClick={handleConfirmAction(props.closeModalAction)}
-      >
-        {props.closeButtonText || "Cancel"}
-      </SecondaryButton>
-      <PrimaryButton onClick={handleConfirmAction(props.confirmButtonAction)}>
-        {props.confirmButtonText || "Confirm"}
-      </PrimaryButton>
+      {!props.hideCloseButton && (
+        <SecondaryButtonComponent
+          color={"textPrimary"}
+          border={"hoverTextColor"}
+          onClick={handleConfirmAction(props.closeModalAction)}
+        >
+          {props.closeButtonText || "Cancel"}
+        </SecondaryButtonComponent>
+      )}
+      {!props.hideConfirmButton && (
+        <PrimaryButton onClick={handleConfirmAction(props.confirmButtonAction)}>
+          {props.confirmButtonText || "Confirm"}
+        </PrimaryButton>
+      )}
     </Footer>
   </Container>
 );
