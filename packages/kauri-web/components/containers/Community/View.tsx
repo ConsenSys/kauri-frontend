@@ -167,8 +167,14 @@ class CommunityConnection extends React.Component<IProps> {
               }
             />
           )}
-          <meta property="og:url" content="https://kauri.io" />
-          <link rel="canonical" href={`https://kauri.io`} />
+          <meta
+            property="og:url"
+            content={`https://kauri.io/community/${getCommunity.id}`}
+          />
+          <link
+            rel="canonical"
+            href={`https://kauri.io/community/${getCommunity.id}`}
+          />
           <meta
             property="og:image"
             content={
