@@ -29,3 +29,7 @@ spec:
               serviceName: monolith
               servicePort: 8081
             path: /feed
+          - backend:
+              serviceName: monolith
+              servicePort: 8081
+            path: /graphql-playground
