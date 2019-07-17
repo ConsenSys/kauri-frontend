@@ -1,46 +1,41 @@
-import Showdown from "showdown";
 import styled from "../../../lib/styled-components";
 import TertiaryButton from "../../../../kauri-components/components/Button/TertiaryButton";
 import { BodyCard } from "../../../../kauri-components/components/Typography";
 import AlertView from "../../../../kauri-components/components/Modal/AlertView";
 import { useEffect } from "react";
 import { hljs } from "../../../lib/hljs";
+import DescriptionRow from "../../common/DescriptionRow";
 
 const ContentContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  flex: 1;
-  align-items: flex-start;
-  @media (max-width: 700px) {
-    padding: ${props => props.theme.space[3]}px;
-    & button {
-      display: none;
-    }
-  }
-  @media (min-width: 700px) {
-    padding: ${props => props.theme.space[4]}px;
-  }
-  @media (min-width: 1280px) {
-    padding: ${props => `${props.theme.space[4]}px ${props.theme.padding}`};
-  }
+  min-height: 70vh;
+  padding: 0px calc((100vw - 1242px) / 2);
+  background: white;
 `;
 
 const Content = styled.div`
-  max-width: 930px;
-  width: 100%;
-  & img {
-    max-width: 100%;
+  width: 74%;
+  @media (max-width: 500px) {
+    width: 100%;
+    padding: 10px;
   }
-
-  & pre {
-    padding: ${props => props.theme.space[1]}px;
-    background: ${props => props.theme.colors.bgPrimary};
-    border-radius: 4px;
-    color: white;
-  }
+  padding-top: 2.5em;
 `;
 
-const converter = new Showdown.Converter();
+const ActionsContainer = styled.div`
+  align-items: inherit;
+  display: flex;
+  width: 26%;
+  padding-left: 30px;
+  flex-direction: column;
+  align-items: inherit;
+  padding-top: 2.5em;
+  position: sticky;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  top: 30px;
+  max-height: 90vh;
+`;
 
 const DeleteDraftArticleSvgIcon = () => (
   <svg
@@ -97,39 +92,39 @@ export default ({
 
   return (
     <ContentContainer>
-      <Content
-        dangerouslySetInnerHTML={{
-          __html: converter.makeHtml(JSON.parse(content).markdown),
-        }}
-      />
-      <TertiaryButton
-        color={"textPrimary"}
-        icon={<DeleteDraftArticleSvgIcon />}
-        handleClick={() =>
-          openModalAction({
-            children: (
-              <AlertView
-                closeModalAction={() => closeModalAction()}
-                confirmButtonAction={() => {
-                  deleteDraftArticleAction({ id, version });
-                  closeModalAction();
-                }}
-                content={
-                  <div>
-                    <BodyCard>
-                      You won't be able to retrieve the draft article after
-                      deleting.
-                    </BodyCard>
-                  </div>
-                }
-                title={"Are you sure?"}
-              />
-            ),
-          })
-        }
-      >
-        Delete Draft Article
-      </TertiaryButton>
+      <Content>
+        <DescriptionRow fullText={true} record={{ text: content }} />
+      </Content>
+      <ActionsContainer>
+        <TertiaryButton
+          color={"textPrimary"}
+          icon={<DeleteDraftArticleSvgIcon />}
+          handleClick={() =>
+            openModalAction({
+              children: (
+                <AlertView
+                  closeModalAction={() => closeModalAction()}
+                  confirmButtonAction={() => {
+                    deleteDraftArticleAction({ id, version });
+                    closeModalAction();
+                  }}
+                  content={
+                    <div>
+                      <BodyCard>
+                        You won't be able to retrieve the draft article after
+                        deleting.
+                      </BodyCard>
+                    </div>
+                  }
+                  title={"Are you sure?"}
+                />
+              ),
+            })
+          }
+        >
+          Delete Draft Article
+        </TertiaryButton>
+      </ActionsContainer>
     </ContentContainer>
   );
 };
