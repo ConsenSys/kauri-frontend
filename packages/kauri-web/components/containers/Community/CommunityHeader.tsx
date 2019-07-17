@@ -466,6 +466,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
                         {members.map(i =>
                           i ? (
                             <Link
+                              key={i.id}
                               fullWidth={false}
                               useAnchorTag={true}
                               href={`/public-profile/${i.id}`}
