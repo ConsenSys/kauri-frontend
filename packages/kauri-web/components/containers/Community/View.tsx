@@ -150,8 +150,8 @@ class CommunityConnection extends React.Component<IProps> {
       "resources",
     ])(homepage);
 
-    const background = String(
-      getCommunity.attributes && getCommunity.attributes.background
+    const background = R.path<string>(["attributes", "background"])(
+      getCommunity
     );
 
     return (
