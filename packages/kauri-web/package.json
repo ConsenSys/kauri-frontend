@@ -1,6 +1,6 @@
 {
   "name": "kauri-web",
-  "version": "1.12.5",
+  "version": "1.12.14",
   "author": {
     "name": "Eric Juta"
   },
@@ -80,7 +80,7 @@
     "mezr": "^0.6.2",
     "mixpanel-browser": "^2.21.0",
     "moment": "2.20.1",
-    "next": "8.1.1-canary.61",
+    "next": "9.0.2",
     "next-routes": "^1.4.2",
     "prop-types": "15.7.2",
     "ramda": "^0.25.0",

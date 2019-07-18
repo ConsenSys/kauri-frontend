@@ -276,7 +276,7 @@ interface IProps {
   members: Array<ICommunityMember | null> | null;
   articleCount: number;
   collectionCount: number;
-  background?: string;
+  background: string | undefined;
   isMember?: boolean;
   isCreator?: boolean;
   isCommunityAdmin?: boolean;
@@ -391,7 +391,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
 
   return (
     <Wrapper>
-      {background && (
+      {typeof background === "string" && background.length > 0 && (
         <Image
           height="100%"
           width="100%"
@@ -466,6 +466,7 @@ const CommunityHeader: React.FunctionComponent<IProps> = ({
                         {members.map(i =>
                           i ? (
                             <Link
+                              key={i.id}
                               fullWidth={false}
                               useAnchorTag={true}
                               href={`/public-profile/${i.id}`}

@@ -16,7 +16,7 @@ const HeaderContainer = styled.div`
   width: 100%;
   position: relative;
   align-items: center;
-  height: 260px;
+  height: inherit;
   margin-top: -76px;
   background: ${props => props.theme.colors.bgPrimary};
   padding: 0 ${props => props.theme.padding};
