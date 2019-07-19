@@ -13,6 +13,10 @@ import {
   searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO,
   searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO,
 } from "../../../../queries/__generated__/searchAutocompleteArticles";
+import {
+  Article_owner_CommunityDTO,
+  Article_owner_PublicUserDTO,
+} from "../../../../queries/Fragments/__generated__/Article";
 
 interface IProps {
   ArticlesQuery: {
@@ -69,6 +73,12 @@ class Articles extends Component<IProps> {
                   searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO
                 >(["owner"])(article);
 
+              const ownerType =
+                owner &&
+                (owner.__typename.split("DTO")[0].toUpperCase() as
+                  | "USER"
+                  | "COMMUNITY");
+
               return (
                 <ArticleCard
                   key={article.id || undefined}
@@ -76,15 +86,14 @@ class Articles extends Component<IProps> {
                   tags={article.tags as string[]}
                   title={article.title || ""}
                   description={article.description || ""}
+                  resourceType={ownerType || "USER"}
                   username={
-                    (owner &&
-                    owner.resourceIdentifier &&
-                    owner.resourceIdentifier.type &&
-                    owner.resourceIdentifier.type.toLowerCase() === "community"
-                      ? owner && owner.name
-                      : owner &&
-                        (owner as searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO)
-                          .username) || null
+                    (article.owner &&
+                      (ownerType === "COMMUNITY"
+                        ? (article.owner as Article_owner_CommunityDTO).name
+                        : (article.owner as Article_owner_PublicUserDTO)
+                            .username)) ||
+                    null
                   }
                   userId={
                     owner
@@ -117,14 +126,6 @@ class Articles extends Component<IProps> {
                       {childrenProps}
                     </Link>
                   )}
-                  resourceType={
-                    owner &&
-                    owner.resourceIdentifier &&
-                    owner.resourceIdentifier.type &&
-                    owner.resourceIdentifier.type.toLowerCase() === "community"
-                      ? "COMMUNITY"
-                      : "USER"
-                  }
                   hoverChildren={() => (
                     <PrimaryButton
                       handleClick={() =>
