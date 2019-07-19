@@ -1,3 +1,4 @@
+import R from "ramda";
 import * as React from "react";
 import { Link } from "../../../routes";
 import styled from "../../../lib/styled-components";
@@ -85,6 +86,12 @@ const CollectionSection: React.SFC<IProps> = props => {
                   | "USER"
                   | "COMMUNITY");
 
+              function getContributorOrOwnerField<T>(field: string) {
+                return R.path<T>(["contributors", "0"])(article)
+                  ? R.path<T>(["contributors", "0", field])(article)
+                  : R.path<T>(["owner", field])(article);
+              }
+
               return (
                 <ArticleCard
                   key={String(article.id)}
@@ -94,22 +101,20 @@ const CollectionSection: React.SFC<IProps> = props => {
                   date={article.datePublished}
                   title={String(article.title)}
                   username={
-                    (owner &&
-                    owner.resourceIdentifier &&
-                    owner.resourceIdentifier.type &&
-                    owner.resourceIdentifier.type.toUpperCase() === "COMMUNITY"
-                      ? owner && owner.name
-                      : owner &&
-                        (owner as Article_owner_PublicUserDTO).username) || null
+                    (getContributorOrOwnerField<string>("username") ||
+                    ownerType === "COMMUNITY"
+                      ? getContributorOrOwnerField<string>("name")
+                      : getContributorOrOwnerField<string>("username")) || null
                   }
-                  userId={
-                    owner
-                      ? typeof owner.id === "string"
-                        ? owner.id
-                        : "Anoymous"
-                      : "Anonymous"
+                  userId={getContributorOrOwnerField<string>("id") || ""}
+                  userAvatar={
+                    getContributorOrOwnerField<string>("avatar") || null
                   }
-                  userAvatar={(owner && owner.avatar) || null}
+                  resourceType={
+                    (R.path<{}>(["contributors", "0"])(article)
+                      ? "USER"
+                      : ownerType) || "USER"
+                  }
                   tags={article.tags as string[]}
                   imageURL={
                     (article.attributes &&
@@ -131,7 +136,6 @@ const CollectionSection: React.SFC<IProps> = props => {
                       {childrenProps}
                     </Link>
                   )}
-                  resourceType={ownerType}
                   cardHeight={310}
                   isLoggedIn={isLoggedIn}
                   hoverChildren={

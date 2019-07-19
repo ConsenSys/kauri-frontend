@@ -75,6 +75,12 @@ export const Article = gql`
       ...UserOwner
       ...CommunityOwner
     }
+    contributors {
+      id
+      name
+      username
+      avatar
+    }
     comments {
       content {
         author {
@@ -186,7 +192,12 @@ export const Community = gql`
             ...UserOwner
             ...CommunityOwner
           }
-
+          contributors {
+            id
+            name
+            username
+            avatar
+          }
           status
           attributes
           voteResult {
