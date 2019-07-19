@@ -75,6 +75,12 @@ export const Article = gql`
       ...UserOwner
       ...CommunityOwner
     }
+    contributors {
+      id
+      name
+      username
+      avatar
+    }
     comments {
       content {
         author {

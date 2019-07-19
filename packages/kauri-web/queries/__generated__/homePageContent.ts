@@ -1,7 +1,8 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { ResourceTypeInput } from "./../../__generated__/globalTypes";
+import { ResourceTypeInput } from "../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: homepageContent

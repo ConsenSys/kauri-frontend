@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
@@ -74,6 +75,14 @@ export interface searchPersonalArticles_searchArticles_content_owner_CommunityDT
 
 export type searchPersonalArticles_searchArticles_content_owner = searchPersonalArticles_searchArticles_content_owner_ArticleDTO | searchPersonalArticles_searchArticles_content_owner_PublicUserDTO | searchPersonalArticles_searchArticles_content_owner_CommunityDTO;
 
+export interface searchPersonalArticles_searchArticles_content_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface searchPersonalArticles_searchArticles_content_comments_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -116,6 +125,7 @@ export interface searchPersonalArticles_searchArticles_content {
   voteResult: searchPersonalArticles_searchArticles_content_voteResult | null;
   author: searchPersonalArticles_searchArticles_content_author | null;
   owner: searchPersonalArticles_searchArticles_content_owner | null;
+  contributors: (searchPersonalArticles_searchArticles_content_contributors | null)[] | null;
   comments: searchPersonalArticles_searchArticles_content_comments | null;
   updateComment: string | null;
 }
