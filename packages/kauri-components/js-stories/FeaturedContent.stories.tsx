@@ -32,7 +32,12 @@ const resource: any = {
   description: "This is the description to my next song",
   id: "1234567890",
   linkComponent: (children: React.ReactElement<any>) => <Link>{children}</Link>,
-  owner: { userAvatar: null, userId: "1234567890", username: "rej156" },
+  owner: {
+    __typename: "UserDTO",
+    userAvatar: null,
+    userId: "1234567890",
+    username: "rej156",
+  },
   ownerType: "USER",
   resourceIdentifier: {
     type: "ARTICLE",
