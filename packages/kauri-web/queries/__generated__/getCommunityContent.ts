@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { CommunityResourceFilterInput, ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
@@ -78,6 +79,14 @@ export interface getCommunityContent_getCommunityContent_content_resource_Articl
 
 export type getCommunityContent_getCommunityContent_content_resource_ArticleDTO_owner = getCommunityContent_getCommunityContent_content_resource_ArticleDTO_owner_ArticleDTO | getCommunityContent_getCommunityContent_content_resource_ArticleDTO_owner_PublicUserDTO | getCommunityContent_getCommunityContent_content_resource_ArticleDTO_owner_CommunityDTO;
 
+export interface getCommunityContent_getCommunityContent_content_resource_ArticleDTO_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface getCommunityContent_getCommunityContent_content_resource_ArticleDTO_comments_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -120,6 +129,7 @@ export interface getCommunityContent_getCommunityContent_content_resource_Articl
   voteResult: getCommunityContent_getCommunityContent_content_resource_ArticleDTO_voteResult | null;
   author: getCommunityContent_getCommunityContent_content_resource_ArticleDTO_author | null;
   owner: getCommunityContent_getCommunityContent_content_resource_ArticleDTO_owner | null;
+  contributors: (getCommunityContent_getCommunityContent_content_resource_ArticleDTO_contributors | null)[] | null;
   comments: getCommunityContent_getCommunityContent_content_resource_ArticleDTO_comments | null;
   updateComment: string | null;
 }

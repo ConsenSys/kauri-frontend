@@ -66,7 +66,7 @@ const TertiaryButtonComponent: React.SFC<IProps> = ({
   children,
 }) => (
   <TertiaryButton
-    type={type}
+    type={type as any}
     disabled={disabled}
     onClick={handleClick || onClick}
     mr={space}

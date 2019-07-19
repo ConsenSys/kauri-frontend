@@ -67,6 +67,10 @@ export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {
   ) {
     case "ARTICLE": {
       const articleCard: ArticleDTO = card;
+      const ownerType = articleCard.owner.__typename
+        .split("DTO")[0]
+        .toUpperCase();
+
       return (
         <ArticleCard
           key={`${articleCard.id}-${articleCard.version}`}
@@ -74,8 +78,14 @@ export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {
           title={articleCard.title}
           description={articleCard.description}
           userId={articleCard.owner && articleCard.owner.id}
-          username={articleCard.owner && articleCard.owner.username}
+          username={
+            articleCard.owner &&
+            (ownerType === "COMMUNITY"
+              ? articleCard.owner.name
+              : articleCard.owner.username)
+          }
           userAvatar={articleCard.owner && articleCard.owner.avatar}
+          resourceType={ownerType}
           id={articleCard.id}
           version={articleCard.version}
           cardHeight={HOMEPAGE_CARD_HEIGHT}

@@ -54,6 +54,10 @@ const ArticlesContent = props => {
             }
           }
 
+          const ownerType =
+            article.owner &&
+            article.owner.__typename.split("DTO")[0].toUpperCase();
+
           return (
             <ArticleCard
               key={article.id + article.version}
@@ -62,10 +66,16 @@ const ArticlesContent = props => {
               description={article.description}
               date={article.datePublished}
               title={article.title}
-              username={article.owner && article.owner.username}
+              username={
+                article.owner &&
+                (ownerType === "COMMUNITY"
+                  ? article.owner.name
+                  : article.owner.username)
+              }
               userAvatar={article.owner && article.owner.avatar}
               userId={article.owner && article.owner.id}
               imageURL={article.attributes && article.attributes.background}
+              resourceType={ownerType}
               cardHeight={310}
               isLoggedIn={!!userId}
               linkComponent={children => children}

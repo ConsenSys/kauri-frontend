@@ -33,6 +33,7 @@ const Articles = ({
   isOwner,
 }: ArticlesProps) => {
   const articles = data.searchArticles && data.searchArticles.content;
+
   return articles.length > 0 ? (
     <Fragment>
       {typeof type === "string" && type === "published" && isOwner && (
@@ -46,6 +47,10 @@ const Articles = ({
             changeRoute={routeChangeAction}
             date={article.dateCreated}
             title={article.title}
+            resourceType={
+              article.owner &&
+              article.owner.__typename.split("DTO")[0].toUpperCase()
+            }
             description={article.description}
             userId={
               type !== "toBeApproved" && article.owner
@@ -54,7 +59,11 @@ const Articles = ({
             }
             username={
               type !== "toBeApproved" && article.owner
-                ? article.owner.username
+                ? article.owner &&
+                  article.owner.__typename.split("DTO")[0].toUpperCase() ===
+                    "COMMUNITY"
+                  ? article.owner.name
+                  : article.owner.username
                 : article.author.username
             }
             userAvatar={

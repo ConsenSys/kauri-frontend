@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { DirectionInput, ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
@@ -74,6 +75,14 @@ export interface getArticleTransfers_getArticleTransfers_content_article_owner_C
 
 export type getArticleTransfers_getArticleTransfers_content_article_owner = getArticleTransfers_getArticleTransfers_content_article_owner_ArticleDTO | getArticleTransfers_getArticleTransfers_content_article_owner_PublicUserDTO | getArticleTransfers_getArticleTransfers_content_article_owner_CommunityDTO;
 
+export interface getArticleTransfers_getArticleTransfers_content_article_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface getArticleTransfers_getArticleTransfers_content_article_comments_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -116,6 +125,7 @@ export interface getArticleTransfers_getArticleTransfers_content_article {
   voteResult: getArticleTransfers_getArticleTransfers_content_article_voteResult | null;
   author: getArticleTransfers_getArticleTransfers_content_article_author | null;
   owner: getArticleTransfers_getArticleTransfers_content_article_owner | null;
+  contributors: (getArticleTransfers_getArticleTransfers_content_article_contributors | null)[] | null;
   comments: getArticleTransfers_getArticleTransfers_content_article_comments | null;
   updateComment: string | null;
 }

@@ -134,8 +134,8 @@ export default ({
           )}?utm_campaign=read`}
           title={title}
         />
-        <Label>{ownerId ? "OWNER" : "AUTHOR"}</Label>
-        <Link useAnchorTag route={`/public-profile/${ownerId || authorId}`}>
+        <Label>{"AUTHOR"}</Label>
+        <Link useAnchorTag route={`/public-profile/${authorId}`}>
           <UserAvatar
             variant={"white"}
             fullWidth
@@ -143,10 +143,7 @@ export default ({
               attributes && attributes.background && attributes.background
             }
             username={username}
-            userId={
-              (ownerId && userIdTrim(ownerId)) ||
-              (authorId && userIdTrim(authorId))
-            }
+            userId={authorId && userIdTrim(authorId)}
             avatar={userAvatar}
           />
         </Link>

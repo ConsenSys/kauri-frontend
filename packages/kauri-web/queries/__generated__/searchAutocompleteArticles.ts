@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { SearchFilterInput, SearchParameterInput, ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
@@ -84,6 +85,14 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
 
 export type searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner = searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_ArticleDTO | searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_PublicUserDTO | searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner_CommunityDTO;
 
+export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_comments_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -126,6 +135,7 @@ export interface searchAutocompleteArticles_searchAutocomplete_content_resource_
   voteResult: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_voteResult | null;
   author: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_author | null;
   owner: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_owner | null;
+  contributors: (searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_contributors | null)[] | null;
   comments: searchAutocompleteArticles_searchAutocomplete_content_resource_ArticleDTO_comments | null;
   updateComment: string | null;
 }
