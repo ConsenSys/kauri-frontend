@@ -13,6 +13,10 @@ import { BodyCard } from "../../../../kauri-components/components/Typography";
 import { removeResourceVariables } from "../../../queries/__generated__/removeResource";
 import ArticlesEmptyState from "./EmptyStates/Articles";
 import CollectionsEmptyState from "./EmptyStates/Collections";
+import {
+  Article_owner_CommunityDTO,
+  Article_owner_PublicUserDTO,
+} from "../../../queries/Fragments/__generated__/Article";
 
 const Container = styled.div`
   margin-left: ${props => props.theme.space[3]}px;
@@ -70,6 +74,12 @@ const RenderResources = (
           username: "",
         };
   if (i.__typename === "ArticleDTO") {
+    const ownerType =
+      i.owner &&
+      (i.owner.__typename.split("DTO")[0].toUpperCase() as
+        | "USER"
+        | "COMMUNITY");
+
     return (
       <ArticleCard
         key={String(i.id)}
@@ -82,14 +92,18 @@ const RenderResources = (
         imageURL={i.attributes && i.attributes.background}
         cardHeight={310}
         cardWidth={288}
-        username={i.author && i.author.username}
-        name={i.author && i.author.name}
-        userId={String(i.author && i.author.id)}
-        userAvatar={i.author && i.author.avatar}
+        username={
+          (i.owner &&
+            (ownerType === "COMMUNITY"
+              ? (i.owner as Article_owner_CommunityDTO).name
+              : (i.owner as Article_owner_PublicUserDTO).username)) ||
+          null
+        }
+        userId={String(i.owner && (i.owner as Article_owner_CommunityDTO).id)}
+        userAvatar={i.owner && (i.owner as Article_owner_CommunityDTO).avatar}
         isLoggedIn={isMember}
         nfts={i.associatedNfts}
-        // resourceType={owner.type as "USER" | "COMMUNITY"}
-        resourceType="USER"
+        resourceType={ownerType || "USER"}
         hoverChildren={() => (
           <PrimaryButton
             onClick={() =>

@@ -79,6 +79,12 @@ const CollectionSection: React.SFC<IProps> = props => {
 
             if (resource.__typename === "ArticleDTO") {
               const article = resource;
+              const ownerType =
+                owner &&
+                (owner.__typename.split("DTO")[0].toUpperCase() as
+                  | "USER"
+                  | "COMMUNITY");
+
               return (
                 <ArticleCard
                   key={String(article.id)}
@@ -91,7 +97,7 @@ const CollectionSection: React.SFC<IProps> = props => {
                     (owner &&
                     owner.resourceIdentifier &&
                     owner.resourceIdentifier.type &&
-                    owner.resourceIdentifier.type.toLowerCase() === "community"
+                    owner.resourceIdentifier.type.toUpperCase() === "COMMUNITY"
                       ? owner && owner.name
                       : owner &&
                         (owner as Article_owner_PublicUserDTO).username) || null
@@ -125,7 +131,7 @@ const CollectionSection: React.SFC<IProps> = props => {
                       {childrenProps}
                     </Link>
                   )}
-                  resourceType={"USER"}
+                  resourceType={ownerType}
                   cardHeight={310}
                   isLoggedIn={isLoggedIn}
                   hoverChildren={
