@@ -230,9 +230,7 @@ export default ({
             <Link
               useAnchorTag
               href={
-                resourceType === "COMMUNITY"
-                  ? `/community/${ownerId}`
-                  : `/public-profile/${ownerId || authorId}`
+                `/public-profile/${authorId}`
               }
             >
               {children}
