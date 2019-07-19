@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import R from "ramda";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
 import ChooseArticleContent, {
   Content,
@@ -60,6 +61,12 @@ const ArticlesContent = props => {
             article.owner &&
             article.owner.__typename.split("DTO")[0].toUpperCase();
 
+            function getContributorOrOwnerField (field) {
+              return R.path(["contributors", "0"])(article)
+                ? R.path(["contributors", "0", field])(article)
+                : R.path(["owner", field])(article);
+            }
+
             return (
               <ArticleCard
                 key={article.id + article.version}
@@ -69,14 +76,17 @@ const ArticlesContent = props => {
                 date={article.datePublished}
                 title={article.title}
                 username={
-                  article.owner &&
-                (ownerType === "COMMUNITY"
-                  ? article.owner.name
-                  : article.owner.username)
+                  (getContributorOrOwnerField("username") ||
+                ownerType === "COMMUNITY"
+                    ? getContributorOrOwnerField("name")
+                    : getContributorOrOwnerField("username")) || null
                 }
-                userAvatar={article.owner && article.owner.avatar}
-                userId={article.owner && article.owner.id}
-                resourceType={ownerType}
+                userId={getContributorOrOwnerField("id") || ""}
+                userAvatar={getContributorOrOwnerField("avatar") || null}
+                resourceType={
+                  (R.path(["contributors", "0"])(article) ? "USER" : ownerType) ||
+                "USER"
+                }
                 imageURL={article.attributes && article.attributes.background}
                 cardHeight={310}
                 isLoggedIn={!!userId}

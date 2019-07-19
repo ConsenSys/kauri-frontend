@@ -192,7 +192,12 @@ export const Community = gql`
             ...UserOwner
             ...CommunityOwner
           }
-
+          contributors {
+            id
+            name
+            username
+            avatar
+          }
           status
           attributes
           voteResult {

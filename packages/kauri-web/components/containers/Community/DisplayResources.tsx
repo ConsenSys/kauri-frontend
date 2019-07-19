@@ -1,3 +1,4 @@
+import R from "ramda";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
 import CollectionCard from "../../../../kauri-components/components/Card/CollectionCard";
 import { Link } from "../../../routes";
@@ -13,10 +14,6 @@ import { BodyCard } from "../../../../kauri-components/components/Typography";
 import { removeResourceVariables } from "../../../queries/__generated__/removeResource";
 import ArticlesEmptyState from "./EmptyStates/Articles";
 import CollectionsEmptyState from "./EmptyStates/Collections";
-import {
-  Article_owner_CommunityDTO,
-  Article_owner_PublicUserDTO,
-} from "../../../queries/Fragments/__generated__/Article";
 
 const Container = styled.div`
   margin-left: ${props => props.theme.space[3]}px;
@@ -80,6 +77,12 @@ const RenderResources = (
         | "USER"
         | "COMMUNITY");
 
+    function getContributorOrOwnerField<T>(field: string) {
+      return R.path<T>(["contributors", "0"])(i)
+        ? R.path<T>(["contributors", "0", field])(i)
+        : R.path<T>(["owner", field])(i);
+    }
+
     return (
       <ArticleCard
         key={String(i.id)}
@@ -93,17 +96,18 @@ const RenderResources = (
         cardHeight={310}
         cardWidth={288}
         username={
-          (i.owner &&
-            (ownerType === "COMMUNITY"
-              ? (i.owner as Article_owner_CommunityDTO).name
-              : (i.owner as Article_owner_PublicUserDTO).username)) ||
-          null
+          (getContributorOrOwnerField<string>("username") ||
+          ownerType === "COMMUNITY"
+            ? getContributorOrOwnerField<string>("name")
+            : getContributorOrOwnerField<string>("username")) || null
         }
-        userId={String(i.owner && (i.owner as Article_owner_CommunityDTO).id)}
-        userAvatar={i.owner && (i.owner as Article_owner_CommunityDTO).avatar}
+        userId={getContributorOrOwnerField<string>("id") || ""}
+        userAvatar={getContributorOrOwnerField<string>("avatar") || null}
         isLoggedIn={isMember}
         nfts={i.associatedNfts}
-        resourceType={ownerType || "USER"}
+        resourceType={
+          (R.path<{}>(["contributors", "0"])(i) ? "USER" : ownerType) || "USER"
+        }
         hoverChildren={() => (
           <PrimaryButton
             onClick={() =>

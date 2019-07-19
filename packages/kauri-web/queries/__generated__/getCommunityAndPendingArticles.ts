@@ -691,6 +691,14 @@ export interface getCommunityAndPendingArticles_searchArticles_content_owner_Com
 
 export type getCommunityAndPendingArticles_searchArticles_content_owner = getCommunityAndPendingArticles_searchArticles_content_owner_ArticleDTO | getCommunityAndPendingArticles_searchArticles_content_owner_PublicUserDTO | getCommunityAndPendingArticles_searchArticles_content_owner_CommunityDTO;
 
+export interface getCommunityAndPendingArticles_searchArticles_content_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface getCommunityAndPendingArticles_searchArticles_content_voteResult {
   __typename: "VoteResultDTO";
   sum: number | null;
@@ -734,6 +742,7 @@ export interface getCommunityAndPendingArticles_searchArticles_content {
   datePublished: any | null;
   author: getCommunityAndPendingArticles_searchArticles_content_author | null;
   owner: getCommunityAndPendingArticles_searchArticles_content_owner | null;
+  contributors: (getCommunityAndPendingArticles_searchArticles_content_contributors | null)[] | null;
   status: ArticleStatusInput | null;
   attributes: any | null;
   contentHash: string | null;
