@@ -123,7 +123,9 @@ const UserAvatarComponent: React.SFC<IProps> = props => (
               : "white"
           }
         >
-          {props.username
+          {props.name
+            ? props.name.charAt(0)
+            : props.username
             ? props.username.charAt(0)
             : typeof props.userId === "string"
             ? props.userId.charAt(0)

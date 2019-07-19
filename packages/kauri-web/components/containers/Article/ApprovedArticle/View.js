@@ -84,21 +84,18 @@ class ApprovedArticle extends React.Component<Props, State> {
             props.data.getArticle.owner.id
           }
           username={
-            isCommunityOwned
-              ? R.path(["data", "getArticle", "owner", "name"])(props)
-              : R.path(["data", "getArticle", "owner"])(props)
-                ? R.path(["data", "getArticle", "owner", "username"])(props)
-                : R.path(["data", "getArticle", "author", "username"])(props)
+            R.path(["data", "getArticle", "contributors", "0", "name"])(
+              props
+            ) || R.path(["data", "getArticle", "author", "name"])(props)
           }
           userAvatar={
-            props.data.getArticle && props.data.getArticle.owner
-              ? props.data.getArticle.owner.avatar
-              : props.data.getArticle.author.avatar
+            R.path(["data", "getArticle", "contributors", "0", "avatar"])(
+              props
+            ) || R.path(["data", "getArticle", "author", "avatar"])(props)
           }
           authorId={
-            props.data.getArticle &&
-            props.data.getArticle.author &&
-            props.data.getArticle.author.id
+            R.path(["data", "getArticle", "contributors", "0", "id"])(props) ||
+            R.path(["data", "getArticle", "author", "id"])(props)
           }
           hostName={hostName}
           routeChangeAction={props.routeChangeAction}
@@ -117,26 +114,23 @@ class ApprovedArticle extends React.Component<Props, State> {
           }
           nfts={associatedNfts}
           username={
-            isCommunityOwned
-              ? R.path(["data", "getArticle", "owner", "name"])(props)
-              : R.path(["data", "getArticle", "owner"])(props)
-                ? R.path(["data", "getArticle", "owner", "username"])(props)
-                : R.path(["data", "getArticle", "author", "username"])(props)
+            R.path(["data", "getArticle", "contributors", "0", "name"])(
+              props
+            ) || R.path(["data", "getArticle", "author", "name"])(props)
           }
           userAvatar={
-            props.data.getArticle && props.data.getArticle.owner
-              ? props.data.getArticle.owner.avatar
-              : props.data.getArticle.author.avatar
-          }
-          userId={this.props.userId}
-          author={props.data.getArticle && props.data.getArticle.author}
-          contributors={
-            props.data.getArticle && props.data.getArticle.contributors
+            R.path(["data", "getArticle", "contributors", "0", "avatar"])(
+              props
+            ) || R.path(["data", "getArticle", "author", "avatar"])(props)
           }
           authorId={
-            props.data.getArticle &&
-            props.data.getArticle.author &&
-            props.data.getArticle.author.id
+            R.path(["data", "getArticle", "contributors", "0", "id"])(props) ||
+            R.path(["data", "getArticle", "author", "id"])(props)
+          }
+          userId={this.props.userId}
+          author={
+            R.path(["data", "getArticle", "contributors", "0"])(props) ||
+            R.path(["data", "getArticle", "author"])(props)
           }
           routeChangeAction={props.routeChangeAction}
           address={props.userId}
