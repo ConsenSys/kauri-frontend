@@ -130,7 +130,9 @@ const RenderDesktopFeaturedContent: React.FunctionComponent<
         case "ArticleDTO": {
           return (
             <ResourceRow
-              resourceType={resource.__typename.split("DTO")[0].toLowerCase()}
+              resourceType={resource.owner.__typename
+                .split("DTO")[0]
+                .toLowerCase()}
               key={String(resource.id)}
               id={String(resource.id)}
               version={Number(resource.version)}

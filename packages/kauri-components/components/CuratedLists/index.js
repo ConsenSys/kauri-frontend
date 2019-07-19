@@ -67,7 +67,9 @@ export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {
   ) {
     case "ARTICLE": {
       const articleCard: ArticleDTO = card;
-      const ownerType = articleCard.__typename.split("DTO")[0].toUpperCase();
+      const ownerType = articleCard.owner.__typename
+        .split("DTO")[0]
+        .toUpperCase();
 
       return (
         <ArticleCard
