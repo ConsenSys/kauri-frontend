@@ -194,6 +194,30 @@ const RenderDesktopFeaturedContent: React.FunctionComponent<
           );
         }
 
+        case "CommunityDTO": {
+          return (
+            <ResourceRow
+              key={String(resource.id)}
+              id={String(resource.id)}
+              ownerType={"COMMUNITY"}
+              resourceType={resource.__typename.split("DTO")[0].toLowerCase()}
+              title={`${String(resource.name)} Community`}
+              description={String(resource.description)}
+              userAvatar={resource.avatar}
+              username={resource.name}
+              imageURL={resource.attributes && resource.attributes.background}
+              userId={resource.id}
+              tags={resource.tags}
+              date={resource.dateUpdated}
+              linkComponent={(children, route) => (
+                <Link useAnchorTag={true} href={route}>
+                  {children}
+                </Link>
+              )}
+            />
+          );
+        }
+
         default: {
           return null;
         }

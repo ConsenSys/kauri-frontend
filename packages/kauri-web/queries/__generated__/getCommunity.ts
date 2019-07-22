@@ -74,6 +74,14 @@ export interface getCommunity_getCommunity_homepage_resources_ArticleDTO_owner_C
 
 export type getCommunity_getCommunity_homepage_resources_ArticleDTO_owner = getCommunity_getCommunity_homepage_resources_ArticleDTO_owner_ArticleDTO | getCommunity_getCommunity_homepage_resources_ArticleDTO_owner_PublicUserDTO | getCommunity_getCommunity_homepage_resources_ArticleDTO_owner_CommunityDTO;
 
+export interface getCommunity_getCommunity_homepage_resources_ArticleDTO_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface getCommunity_getCommunity_homepage_resources_ArticleDTO_voteResult {
   __typename: "VoteResultDTO";
   sum: number | null;
@@ -91,6 +99,7 @@ export interface getCommunity_getCommunity_homepage_resources_ArticleDTO {
   datePublished: any | null;
   author: getCommunity_getCommunity_homepage_resources_ArticleDTO_author | null;
   owner: getCommunity_getCommunity_homepage_resources_ArticleDTO_owner | null;
+  contributors: (getCommunity_getCommunity_homepage_resources_ArticleDTO_contributors | null)[] | null;
   status: ArticleStatusInput | null;
   attributes: any | null;
   voteResult: getCommunity_getCommunity_homepage_resources_ArticleDTO_voteResult | null;

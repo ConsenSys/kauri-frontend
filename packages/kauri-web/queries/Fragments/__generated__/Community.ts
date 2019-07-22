@@ -74,6 +74,14 @@ export interface Community_homepage_resources_ArticleDTO_owner_CommunityDTO {
 
 export type Community_homepage_resources_ArticleDTO_owner = Community_homepage_resources_ArticleDTO_owner_ArticleDTO | Community_homepage_resources_ArticleDTO_owner_PublicUserDTO | Community_homepage_resources_ArticleDTO_owner_CommunityDTO;
 
+export interface Community_homepage_resources_ArticleDTO_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface Community_homepage_resources_ArticleDTO_voteResult {
   __typename: "VoteResultDTO";
   sum: number | null;
@@ -91,6 +99,7 @@ export interface Community_homepage_resources_ArticleDTO {
   datePublished: any | null;
   author: Community_homepage_resources_ArticleDTO_author | null;
   owner: Community_homepage_resources_ArticleDTO_owner | null;
+  contributors: (Community_homepage_resources_ArticleDTO_contributors | null)[] | null;
   status: ArticleStatusInput | null;
   attributes: any | null;
   voteResult: Community_homepage_resources_ArticleDTO_voteResult | null;
