@@ -20,27 +20,35 @@ interface IProps {
 const View: React.FunctionComponent<IProps> = ({
   isLoggedIn,
   data: { getArticle: article },
-}) => (
-  <ArticleCard
-    cardHeight={310}
-    resourceType={
-      getArticle.owner &&
-      getArticle.owner.__typename.split("DTO")[0].toLowerCase()
-    }
-    linkComponent={children => children}
-    key={article.id + article.version}
-    id={article.id}
-    version={article.version}
-    description={article.description}
-    date={article.datePublished}
-    title={article.title}
-    username={article.owner && article.owner.username}
-    userAvatar={article.owner && article.owner.avatar}
-    userId={article.owner && article.owner.id}
-    imageURL={article.attributes && article.attributes.background}
-    isLoggedIn={isLoggedIn}
-  />
-);
+}) => {
+  const ownerType =
+    getArticle.owner &&
+    getArticle.owner.__typename.split("DTO")[0].toUpperCase();
+
+  return (
+    <ArticleCard
+      cardHeight={310}
+      resourceType={ownerType}
+      linkComponent={children => children}
+      key={article.id + article.version}
+      id={article.id}
+      version={article.version}
+      description={article.description}
+      date={article.datePublished}
+      title={article.title}
+      username={
+        article.owner &&
+        (ownerType === "COMMUNITY"
+          ? article.owner.name
+          : article.owner.username)
+      }
+      userAvatar={article.owner && article.owner.avatar}
+      userId={article.owner && article.owner.id}
+      imageURL={article.attributes && article.attributes.background}
+      isLoggedIn={isLoggedIn}
+    />
+  );
+};
 
 export default compose(
   connect(

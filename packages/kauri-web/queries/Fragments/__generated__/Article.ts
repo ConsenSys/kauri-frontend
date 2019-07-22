@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceTypeInput, ArticleStatusInput } from "./../../../__generated__/globalTypes";
@@ -74,6 +75,14 @@ export interface Article_owner_CommunityDTO {
 
 export type Article_owner = Article_owner_ArticleDTO | Article_owner_PublicUserDTO | Article_owner_CommunityDTO;
 
+export interface Article_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface Article_comments_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -116,6 +125,7 @@ export interface Article {
   voteResult: Article_voteResult | null;
   author: Article_author | null;
   owner: Article_owner | null;
+  contributors: (Article_contributors | null)[] | null;
   comments: Article_comments | null;
   updateComment: string | null;
 }

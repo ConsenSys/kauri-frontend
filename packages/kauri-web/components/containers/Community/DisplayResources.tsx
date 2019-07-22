@@ -1,3 +1,4 @@
+import R from "ramda";
 import ArticleCard from "../../../../kauri-components/components/Card/ArticleCard";
 import CollectionCard from "../../../../kauri-components/components/Card/CollectionCard";
 import { Link } from "../../../routes";
@@ -70,6 +71,18 @@ const RenderResources = (
           username: "",
         };
   if (i.__typename === "ArticleDTO") {
+    const ownerType =
+      i.owner &&
+      (i.owner.__typename.split("DTO")[0].toUpperCase() as
+        | "USER"
+        | "COMMUNITY");
+
+    function getContributorOrOwnerField<T>(field: string) {
+      return R.path<T>(["contributors", "0"])(i)
+        ? R.path<T>(["contributors", "0", field])(i)
+        : R.path<T>(["owner", field])(i);
+    }
+
     return (
       <ArticleCard
         key={String(i.id)}
@@ -82,14 +95,19 @@ const RenderResources = (
         imageURL={i.attributes && i.attributes.background}
         cardHeight={310}
         cardWidth={288}
-        username={i.author && i.author.username}
-        name={i.author && i.author.name}
-        userId={String(i.author && i.author.id)}
-        userAvatar={i.author && i.author.avatar}
+        username={
+          (getContributorOrOwnerField<string>("username") ||
+          ownerType === "COMMUNITY"
+            ? getContributorOrOwnerField<string>("name")
+            : getContributorOrOwnerField<string>("username")) || null
+        }
+        userId={getContributorOrOwnerField<string>("id") || ""}
+        userAvatar={getContributorOrOwnerField<string>("avatar") || null}
         isLoggedIn={isMember}
         nfts={i.associatedNfts}
-        // resourceType={owner.type as "USER" | "COMMUNITY"}
-        resourceType="USER"
+        resourceType={
+          (R.path<{}>(["contributors", "0"])(i) ? "USER" : ownerType) || "USER"
+        }
         hoverChildren={() => (
           <PrimaryButton
             onClick={() =>

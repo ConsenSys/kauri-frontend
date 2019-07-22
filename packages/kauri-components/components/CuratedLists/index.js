@@ -61,12 +61,15 @@ const Content = styled.div`
 export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {
   switch (
     card &&
-      card.resourceIdentifier &&
-      typeof card.resourceIdentifier.type === "string" &&
-      card.resourceIdentifier.type
+      typeof card.__typename === "string" &&
+      card.__typename.split("DTO")[0].toUpperCase()
   ) {
     case "ARTICLE": {
       const articleCard: ArticleDTO = card;
+      const ownerType = articleCard.owner.__typename
+        .split("DTO")[0]
+        .toUpperCase();
+
       return (
         <ArticleCard
           key={`${articleCard.id}-${articleCard.version}`}
@@ -74,8 +77,14 @@ export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {
           title={articleCard.title}
           description={articleCard.description}
           userId={articleCard.owner && articleCard.owner.id}
-          username={articleCard.owner && articleCard.owner.username}
+          username={
+            articleCard.owner &&
+            (ownerType === "COMMUNITY"
+              ? articleCard.owner.name
+              : articleCard.owner.username)
+          }
           userAvatar={articleCard.owner && articleCard.owner.avatar}
+          resourceType={ownerType}
           id={articleCard.id}
           version={articleCard.version}
           cardHeight={HOMEPAGE_CARD_HEIGHT}
@@ -113,6 +122,7 @@ export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {
       );
     }
     case "COLLECTION": {
+      // console.log(card);
       const collectionCard: CollectionDTO = card;
       const articleCount =
         collectionCard.articleCount ||
@@ -197,14 +207,38 @@ export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {
         />
       );
     }
-    case "TOPIC" || "COMMUNITY": {
+    case "COMMUNITY": {
+      // console.log(card);
       return (
         <CommunityCard
           key={card.id}
-          communityName={card.name || card.id}
-          communityId={card.id}
+          name={card.name}
+          imageURL={card.avatar}
           cardHeight={HOMEPAGE_CARD_HEIGHT}
-          communityLogo={`/static/images/${card.id}/avatar.png`}
+          description={card.description ? card.description.split(".")[0] : ""}
+          logo={card.avatar}
+          collectionCount={
+            (Array.isArray(card.approvedId) &&
+              String(
+                card &&
+                  card.approvedId &&
+                  card.approvedId.filter(
+                    resource => resource && resource.type === "COLLECTION"
+                  ).length
+              )) ||
+            "0"
+          }
+          articleCount={
+            (Array.isArray(card.approvedId) &&
+              String(
+                card &&
+                  card.approvedId &&
+                  card.approvedId.filter(
+                    resource => resource && resource.type === "ARTICLE"
+                  ).length
+              )) ||
+            "0"
+          }
           linkComponent={childrenProps => (
             <Link useAnchorTag route={`/community/${card.id}`}>
               {childrenProps}
@@ -213,8 +247,10 @@ export const RenderCardContent = ({ fromAdmin, Link, onCardClick }) => card => {
         />
       );
     }
-    default:
+    default: {
+      // console.log(card);
       return null;
+    }
   }
 };
 

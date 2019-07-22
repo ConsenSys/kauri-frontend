@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { ResourceTypeInput, ArticleStatusInput } from "./../../__generated__/globalTypes";
@@ -113,6 +114,14 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO_owner
 
 export type getCollection_getCollection_sections_resources_ArticleDTO_owner = getCollection_getCollection_sections_resources_ArticleDTO_owner_ArticleDTO | getCollection_getCollection_sections_resources_ArticleDTO_owner_PublicUserDTO | getCollection_getCollection_sections_resources_ArticleDTO_owner_CommunityDTO;
 
+export interface getCollection_getCollection_sections_resources_ArticleDTO_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface getCollection_getCollection_sections_resources_ArticleDTO_comments_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -155,6 +164,7 @@ export interface getCollection_getCollection_sections_resources_ArticleDTO {
   voteResult: getCollection_getCollection_sections_resources_ArticleDTO_voteResult | null;
   author: getCollection_getCollection_sections_resources_ArticleDTO_author | null;
   owner: getCollection_getCollection_sections_resources_ArticleDTO_owner | null;
+  contributors: (getCollection_getCollection_sections_resources_ArticleDTO_contributors | null)[] | null;
   comments: getCollection_getCollection_sections_resources_ArticleDTO_comments | null;
   updateComment: string | null;
 }
