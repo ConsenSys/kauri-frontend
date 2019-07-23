@@ -223,11 +223,7 @@ class CommunityConnection extends React.Component<IProps> {
         <Tabs
           dark={true}
           tabs={[
-            (Array.isArray(homepage) &&
-              homepage.length &&
-              firstCommunityHomepageSectionResources &&
-              firstCommunityHomepageSectionResources.length) ||
-            isCommunityAdmin
+            (Array.isArray(homepage) && homepage.length > 0) || isCommunityAdmin
               ? { name: "Home" }
               : null,
             { name: `Articles (${articles && articles.length})` },
