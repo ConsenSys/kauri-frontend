@@ -5,11 +5,11 @@ const mockInitialState: IReduxState = {
     hostName: "api.dev.kauri.io",
     user: {
       avatar:
-      "https://pbs.twimg.com/profile_images/1116882135519059969/ju1J_WpA_reasonably_small.jpg",
-      id: "1234567890",
-      username: "rej156",
+        "https://pbs.twimg.com/profile_images/1116882135519059969/ju1J_WpA_reasonably_small.jpg",
       communities: [],
+      id: "1234567890",
       status: "EMAIL_VERIFIED",
+      username: "rej156",
     },
   },
 };
