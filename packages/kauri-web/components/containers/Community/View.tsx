@@ -145,11 +145,6 @@ class CommunityConnection extends React.Component<IProps> {
         ),
       });
 
-    const firstCommunityHomepageSectionResources = R.path<any[]>([
-      0,
-      "resources",
-    ])(homepage);
-
     const background = R.path<string>(["attributes", "background"])(
       getCommunity
     );
@@ -181,6 +176,11 @@ class CommunityConnection extends React.Component<IProps> {
               background ||
               "https://api.kauri.io:443/ipfs/QmRVCyQ3ng5AWGmjodzXcxg1LK9CRvePmd6ciDXY1mLofY"
             }
+          />
+
+          <meta
+            property="og:description"
+            content={String(getCommunity.description)}
           />
           <meta name="description" content={String(getCommunity.description)} />
         </Head>
