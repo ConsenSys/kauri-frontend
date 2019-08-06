@@ -6,7 +6,7 @@ import { ServerStyleSheet } from "styled-components";
 const isProduction = process.env.NODE_ENV !== "development";
 
 export default class MyDocument extends Document {
-  static async getInitialProps ({ renderPage }) {
+  static async getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet();
     const page = renderPage(App => props => <App {...props} />);
     const styleTags = sheet.getStyleElement();
@@ -16,16 +16,16 @@ export default class MyDocument extends Document {
     };
   }
 
-  render () {
+  render() {
     return (
       <html lang="en">
         <Head>
-          {isProduction && process.browser && (
+          {!isProduction && process.browser && (
             <script>
-              {`$(function (h, o, t, j, a, r) {
+              {`${(function(h, o, t, j, a, r) {
                 h.hj =
                   h.hj ||
-                  function () {
+                  function() {
                     (h.hj.q = h.hj.q || []).push(arguments);
                   };
                 h._hjSettings = { hjid: 734967, hjsv: 6 };
