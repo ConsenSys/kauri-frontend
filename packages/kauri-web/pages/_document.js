@@ -3,8 +3,6 @@ import Document, { Head, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 // NOTE: GLOBAL/EXTERNAL CSS/LESS FILES ARE NOW IMPORTED IN WITH-DATA.jS
 
-const config = require("../config").default;
-
 const isProduction = process.env.NODE_ENV !== "development";
 
 export default class MyDocument extends Document {
@@ -24,8 +22,7 @@ export default class MyDocument extends Document {
         <Head>
           {isProduction && process.browser && (
             <script>
-              `$
-              {(function(h, o, t, j, a, r) {
+              {`${(function(h, o, t, j, a, r) {
                 h.hj =
                   h.hj ||
                   function() {
@@ -43,7 +40,7 @@ export default class MyDocument extends Document {
                 "https://static.hotjar.com/c/hotjar-",
                 ".js?sv="
               )}
-              `
+              `}
             </script>
           )}
           <meta charSet="UTF-8" />

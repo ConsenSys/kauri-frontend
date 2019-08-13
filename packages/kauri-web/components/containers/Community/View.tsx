@@ -145,13 +145,8 @@ class CommunityConnection extends React.Component<IProps> {
         ),
       });
 
-    const firstCommunityHomepageSectionResources = R.path<any[]>([
-      0,
-      "resources",
-    ])(homepage);
-
-    const background = String(
-      getCommunity.attributes && getCommunity.attributes.background
+    const background = R.path<string>(["attributes", "background"])(
+      getCommunity
     );
 
     return (
@@ -181,6 +176,11 @@ class CommunityConnection extends React.Component<IProps> {
               background ||
               "https://api.kauri.io:443/ipfs/QmRVCyQ3ng5AWGmjodzXcxg1LK9CRvePmd6ciDXY1mLofY"
             }
+          />
+
+          <meta
+            property="og:description"
+            content={String(getCommunity.description)}
           />
           <meta name="description" content={String(getCommunity.description)} />
         </Head>
@@ -223,11 +223,7 @@ class CommunityConnection extends React.Component<IProps> {
         <Tabs
           dark={true}
           tabs={[
-            (Array.isArray(homepage) &&
-              homepage.length &&
-              firstCommunityHomepageSectionResources &&
-              firstCommunityHomepageSectionResources.length) ||
-            isCommunityAdmin
+            (Array.isArray(homepage) && homepage.length > 0) || isCommunityAdmin
               ? { name: "Home" }
               : null,
             { name: `Articles (${articles && articles.length})` },

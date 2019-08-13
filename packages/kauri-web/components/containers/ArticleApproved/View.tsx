@@ -96,6 +96,10 @@ class ArticleApproved extends React.Component<IProps> {
     if (this.props.data.getArticle) {
       const article = data.getArticle;
 
+      const ownerType = ((article.owner &&
+        article.owner.__typename.split("DTO")[0].toUpperCase()) ||
+        "USER") as "COMMUNITY" | "USER";
+
       return (
         <Container>
           <Head>
@@ -108,11 +112,7 @@ class ArticleApproved extends React.Component<IProps> {
           <ArticleCard
             key={String(article.id)}
             nfts={article.associatedNfts}
-            resourceType={
-              article.owner && article.owner.__typename === "CommunityDTO"
-                ? "COMMUNITY"
-                : "USER"
-            }
+            resourceType={ownerType}
             id={String(article.id)}
             version={Number(article.version)}
             date={article.datePublished || article.dateCreated}

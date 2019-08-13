@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 import { CommunityStatusInput, ResourceTypeInput, ArticleStatusInput, CommunityPermissionInput, UserStatusInput } from "./../../../__generated__/globalTypes";
@@ -73,6 +74,14 @@ export interface Community_homepage_resources_ArticleDTO_owner_CommunityDTO {
 
 export type Community_homepage_resources_ArticleDTO_owner = Community_homepage_resources_ArticleDTO_owner_ArticleDTO | Community_homepage_resources_ArticleDTO_owner_PublicUserDTO | Community_homepage_resources_ArticleDTO_owner_CommunityDTO;
 
+export interface Community_homepage_resources_ArticleDTO_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface Community_homepage_resources_ArticleDTO_voteResult {
   __typename: "VoteResultDTO";
   sum: number | null;
@@ -90,6 +99,7 @@ export interface Community_homepage_resources_ArticleDTO {
   datePublished: any | null;
   author: Community_homepage_resources_ArticleDTO_author | null;
   owner: Community_homepage_resources_ArticleDTO_owner | null;
+  contributors: (Community_homepage_resources_ArticleDTO_contributors | null)[] | null;
   status: ArticleStatusInput | null;
   attributes: any | null;
   voteResult: Community_homepage_resources_ArticleDTO_voteResult | null;
@@ -277,6 +287,14 @@ export interface Community_approved_ArticleDTO_owner_CommunityDTO {
 
 export type Community_approved_ArticleDTO_owner = Community_approved_ArticleDTO_owner_ArticleDTO | Community_approved_ArticleDTO_owner_PublicUserDTO | Community_approved_ArticleDTO_owner_CommunityDTO;
 
+export interface Community_approved_ArticleDTO_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface Community_approved_ArticleDTO_comments_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -319,6 +337,7 @@ export interface Community_approved_ArticleDTO {
   voteResult: Community_approved_ArticleDTO_voteResult | null;
   author: Community_approved_ArticleDTO_author | null;
   owner: Community_approved_ArticleDTO_owner | null;
+  contributors: (Community_approved_ArticleDTO_contributors | null)[] | null;
   comments: Community_approved_ArticleDTO_comments | null;
   updateComment: string | null;
 }
@@ -477,6 +496,14 @@ export interface Community_pending_ArticleDTO_owner_CommunityDTO {
 
 export type Community_pending_ArticleDTO_owner = Community_pending_ArticleDTO_owner_ArticleDTO | Community_pending_ArticleDTO_owner_PublicUserDTO | Community_pending_ArticleDTO_owner_CommunityDTO;
 
+export interface Community_pending_ArticleDTO_contributors {
+  __typename: "PublicUserDTO";
+  id: string | null;
+  name: string | null;
+  username: string | null;
+  avatar: string | null;
+}
+
 export interface Community_pending_ArticleDTO_comments_content_author {
   __typename: "PublicUserDTO";
   id: string | null;
@@ -519,6 +546,7 @@ export interface Community_pending_ArticleDTO {
   voteResult: Community_pending_ArticleDTO_voteResult | null;
   author: Community_pending_ArticleDTO_author | null;
   owner: Community_pending_ArticleDTO_owner | null;
+  contributors: (Community_pending_ArticleDTO_contributors | null)[] | null;
   comments: Community_pending_ArticleDTO_comments | null;
   updateComment: string | null;
 }

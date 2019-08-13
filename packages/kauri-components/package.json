@@ -30,7 +30,7 @@
     "dependency-env": "^0.1.1",
     "io-ts": "^1.4.1",
     "moment": "2.20.1",
-    "next": "8.1.1-canary.61",
+    "next": "9.0.2",
     "prop-types": "15.7.2",
     "ramda": "^0.25.0",
     "random-words": "^1.1.0",

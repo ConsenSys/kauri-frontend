@@ -52,6 +52,12 @@ export const getCommunityAndPendingArticles = gql`
           ...UserOwner
           ...CommunityOwner
         }
+        contributors {
+          id
+          name
+          username
+          avatar
+        }
         status
         attributes
         contentHash
