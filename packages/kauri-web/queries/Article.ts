@@ -196,8 +196,9 @@ export const searchPersonalArticles = gql`
       sort: "dateCreated"
       dir: DESC
       filter: {
-        ownerIdEquals: $userId
+        authorIdEquals: $userId
         statusIn: [PUBLISHED]
+        versionIn: [1]
         latestVersion: true
         fullText: $text
       }
