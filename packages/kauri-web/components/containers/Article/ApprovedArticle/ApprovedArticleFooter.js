@@ -166,7 +166,7 @@ export default ({
         <IPFSContentAttribution>
           {/* (Content)[a href='ipfs content hash'] is (CC-BY-SA 4.0)[a href='actual detail of the license link'] Licensed */}
           <IPFSIcon />
-          <a href={`${apiURL}/ipfs/${content_hash}`}>Content</a>
+          <a href={`https://ipfs.infura.io/ipfs/${content_hash}`}>Content</a>
           <span> is</span>
           <a
             href={
