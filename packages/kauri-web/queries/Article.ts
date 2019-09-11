@@ -198,6 +198,7 @@ export const searchPersonalArticles = gql`
       filter: {
         authorIdEquals: $userId
         statusIn: [PUBLISHED]
+        versionIn: [1]
         latestVersion: true
         fullText: $text
       }
