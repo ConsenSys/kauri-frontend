@@ -69,7 +69,7 @@
     "graphql-tag": "^2.9.2",
     "he": "^1.2.0",
     "helmet": "^3.9.0",
-    "highlight.js": "^9.15.8",
+    "highlight.js": "^10.4.1",
     "highlightjs": "^9.10.0",
     "highlightjs-solidity": "^1.0.6",
     "immutable": "3.8.2",
