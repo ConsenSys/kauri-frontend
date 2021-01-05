@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "autoprefixer": "8.5.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bfj": "5.2.0",
     "browser-websocket": "^2.2.0",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
