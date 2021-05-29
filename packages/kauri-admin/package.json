@@ -65,7 +65,7 @@
     "webpack-dev-server": "latest",
     "webpack-manifest-plugin": "2.0.3",
     "whatwg-fetch": "2.0.4",
-    "ws": "^5.1.0"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "@babel/core": "7.1.2",
